@@ -16,5 +16,3 @@
 #include <string>
 
 // Gameplay stuff
-#include "InputManager.h"
-#include "Unit.h"

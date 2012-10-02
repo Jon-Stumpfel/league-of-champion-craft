@@ -25,6 +25,7 @@ void CAbilityManager::DeleteInstance(void)
 
 bool CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile)
 {
+	return false;
 }
 
 void CAbilityManager::Execute(CAbility* pToUse)

@@ -1,6 +1,7 @@
 #pragma once
 #include "StdAfx.h"
 #include "igamestate.h"
+#include "InputManager.h"
 class CGameplayState :	public IGameState
 	{
 public:

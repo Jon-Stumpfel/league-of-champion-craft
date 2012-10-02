@@ -1,7 +1,7 @@
 #pragma once
 #include "StdAfx.h"
 #include "gameobject.h"
-
+#include "Ability.h"
 class CTile;
 class CUnit : public CGameObject
 {
@@ -30,6 +30,6 @@ public:
 
 	CAbility* GetAbility(int index);
 	
-	void SetPos(int posX, int posY)//
+	void SetPos(int posX, int posY);
 };
 
