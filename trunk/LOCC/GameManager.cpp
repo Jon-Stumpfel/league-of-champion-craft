@@ -58,3 +58,11 @@ void CGameManager::Reset(void)
 void CGameManager::NewGame(void)
 {
 }
+void CGameManager::Update(float fElapsedTime)
+{
+
+}
+void CGameManager::SetNextPlayer(int nPlayerID)
+{
+
+}
