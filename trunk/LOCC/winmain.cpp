@@ -17,8 +17,8 @@
 const TCHAR* g_szWINDOW_CLASS_NAME	= _T("LOCC");			//	Window Class Name.
 
 const TCHAR* g_szWINDOW_TITLE		= _T("League of Champion Craft");		//	Window Title.
-const int	g_nWINDOW_WIDTH			= 1024;							//	Window Width.
-const int	g_nWINDOW_HEIGHT		= 768;							//	Window Height.
+const int	g_nWINDOW_WIDTH			= 800;							//	Window Width.
+const int	g_nWINDOW_HEIGHT		= 600;							//	Window Height.
 
 
 //	Windowed or Full screen depending on project setting
