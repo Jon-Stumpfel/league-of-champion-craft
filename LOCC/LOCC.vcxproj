@@ -80,6 +80,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Cavalry.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameplayState.cpp" />
     <ClCompile Include="Hero.cpp" />
@@ -101,6 +102,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Cavalry.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameplayState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hero.h" />
