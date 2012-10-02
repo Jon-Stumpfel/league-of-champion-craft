@@ -77,6 +77,7 @@
     <ClCompile Include="AbilityManager.cpp" />
     <ClCompile Include="AIManager.cpp" />
     <ClCompile Include="Archer.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Cavalry.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="AbilityManager.h" />
     <ClInclude Include="AIManager.h" />
     <ClInclude Include="Archer.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Cavalry.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameplayState.h" />
