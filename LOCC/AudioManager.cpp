@@ -12,7 +12,6 @@ CAudioManager::CAudioManager(void)
 {
 	int tilesWidth = 10;
 	int tilesHeight = 10;
-	CTile* tiles = new CTile*[tilesWidth]();
 	
 }
 
