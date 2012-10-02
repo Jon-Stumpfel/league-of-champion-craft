@@ -87,6 +87,9 @@
     <ClCompile Include="AbilityManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -147,6 +150,9 @@
       <Filter>Messages</Filter>
     </ClInclude>
     <ClInclude Include="AbilityManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
