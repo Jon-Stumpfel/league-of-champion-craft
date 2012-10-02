@@ -9,4 +9,5 @@ CSwordsman::CSwordsman(void)
 
 CSwordsman::~CSwordsman(void)
 {
+
 }

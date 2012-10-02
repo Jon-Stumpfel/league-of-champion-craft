@@ -2,7 +2,7 @@
 
 #include "StdAfx.h"
 #include "Ability.h"
-
+#include "Unit.h"
 class CAbilityManager
 {
 	static CAbilityManager* GetInstance(void);

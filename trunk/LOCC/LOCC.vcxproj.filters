@@ -70,7 +70,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AbilityManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +120,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbilityManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,8 @@
-#include "StdAfx.h"
-
-
 #pragma once
+
+
+#include "StdAfx.h"
+#include "Unit.h"
 class CAIManager
 {
 	static CAIManager* GetInstance(void);
