@@ -22,6 +22,10 @@ class CGameManager
 	void Reset(void);
 	void NewGame(void);
 
+	void Update(float fElapsedTime);
+
+	void SetNextPlayer(int nPlayerID);
+
 private:
 
 	CGameManager(void);
@@ -38,6 +42,8 @@ private:
 	std::vector<CUnit*> m_vUnits;
 
 	int m_nCurrentLevel;
+	int m_nCurrentPhase;
+
 	int m_nSaveSlot;
 
 	bool m_bNewGame;
