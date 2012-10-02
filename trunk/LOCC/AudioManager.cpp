@@ -4,15 +4,10 @@
 CAudioManager* CAudioManager::s_Instance = nullptr;
 
 
-class CTile
-{
-public : CTile() { }; ~CTile() {}; int posX;
-};
+
 CAudioManager::CAudioManager(void)
 {
-	int tilesWidth = 10;
-	int tilesHeight = 10;
-	
+
 }
 
 
