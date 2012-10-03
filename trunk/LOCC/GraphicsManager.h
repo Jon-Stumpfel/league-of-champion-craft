@@ -5,9 +5,6 @@ class CGraphicsManager
 
 public:
 
-	CGraphicsManager(void);
-	~CGraphicsManager(void);
-
 	int GetID( std::string szGraphicsID );
 	void LoadImage( std::string szFilename );
 
@@ -15,6 +12,16 @@ public:
 
 	void Initialize( void );
 	void Shutdown( void );
+
+private:
+
+	
+	CGraphicsManager(void);
+	~CGraphicsManager(void);
+	CGraphicsManager(const CGraphicsManager&);
+	CGraphicsManager& operator=(const CGraphicsManager&);
+
+	static CGraphicsManager* s_Instance;
 
 };
 

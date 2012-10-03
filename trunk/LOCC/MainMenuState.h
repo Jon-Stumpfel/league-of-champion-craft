@@ -24,6 +24,8 @@ private:
 	CMainMenuState(const CMainMenuState&);
 	CMainMenuState* operator=( CMainMenuState& );
 
+	static CMainMenuState* s_Instance;
+
 	Vec2D m_sCursorPos;
 };
 

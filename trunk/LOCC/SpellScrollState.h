@@ -22,6 +22,8 @@ private:
 	CSpellScrollState(const CSpellScrollState&);
 	CSpellScrollState& operator=(const CSpellScrollState&);
 
+	static CSpellScrollState* s_Instance;
+
 	std::vector< std::pair< std::string, int > > m_vIDs;
 
 };
