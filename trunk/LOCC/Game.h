@@ -1,9 +1,10 @@
+#pragma once
+
 #include "StdAfx.h"
 
-
-#pragma once
 class CGame
 {
+
 public:
 
 	static CGame* GetInstance(void);
@@ -16,6 +17,7 @@ public:
 	void Shutdown(void);
 
 private:
+
 	CGame(void);
 	~CGame(void);
 	CGame(const CGame&);
@@ -26,5 +28,6 @@ private:
 		bool Input(void);
 		void Update(void);
 		void Render(void);
+
 };
 

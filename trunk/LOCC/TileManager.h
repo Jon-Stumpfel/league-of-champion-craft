@@ -3,6 +3,7 @@
 #include "StdAfx.h"
 
 class CTile;
+class CUnit;
 
 class CTileManager
 {

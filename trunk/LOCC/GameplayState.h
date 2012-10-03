@@ -15,9 +15,11 @@ public:
 	virtual void Render(void);
 
 private:
+
 	CGameplayState(void);
 	~CGameplayState(void);
 	CGameplayState(const CGameplayState&);
 	CGameplayState& operator=(const CGameplayState&);
+
 };
 

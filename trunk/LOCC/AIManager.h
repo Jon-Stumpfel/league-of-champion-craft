@@ -1,10 +1,13 @@
 #pragma once
 
-
 #include "StdAfx.h"
 #include "Unit.h"
+
 class CAIManager
 {
+
+private:
+
 	static CAIManager* GetInstance(void);
 	static void DeleteInstance(void);	
 
@@ -12,6 +15,7 @@ class CAIManager
 	void RemoveAllObjects(void);
 	void UpdateAI(float fElapsedTime);
 	void AddObject(CUnit* obj);
+
 private:
 
 	CAIManager(void);
@@ -20,5 +24,6 @@ private:
 	CAIManager& operator=(const CAIManager&);
 
 	static CAIManager* s_Instance;
+
 };
 

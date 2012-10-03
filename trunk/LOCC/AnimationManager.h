@@ -1,10 +1,10 @@
 #pragma once
 
-#include <map>
 #include "Animation.h"
 
 class CAnimationManager
 {
+
 public:
 
 	CAnimationManager(void);
