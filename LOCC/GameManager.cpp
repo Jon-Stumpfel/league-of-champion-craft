@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "GameManager.h"
+#include "Player.h"
 
 CGameManager* CGameManager::s_Instance = nullptr;
 
@@ -28,6 +29,7 @@ CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 {
 	return nullptr;
 }
+
 CPlayer* CGameManager::GetPlayer(int nPlayerID)
 {
 	return nullptr;
@@ -41,9 +43,11 @@ int CGameManager::GetLevel(void)
 {
 	return -1;
 }
+
 void CGameManager::LoadLevel(std::string sFileName)
 {
 }
+
 void CGameManager::LoadLevel(int nLevelNum)
 {
 }

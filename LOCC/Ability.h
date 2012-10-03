@@ -1,10 +1,11 @@
+#pragma once
 #include "StdAfx.h"
 
-
-#pragma once
 class CAbility
 {
+
 private:
+
 	std::string m_strLuaFile;
 	std::string m_strParticleFile;
 
@@ -16,8 +17,11 @@ private:
 
 	bool m_bIsAttack;
 	bool m_bIsMove; // SPECIFICALLY if this is the Move "spell"
+
 public:
+
 	CAbility(void);
 	~CAbility(void);
+
 };
 

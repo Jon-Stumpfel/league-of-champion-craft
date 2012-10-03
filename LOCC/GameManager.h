@@ -1,6 +1,7 @@
 #pragma once
 #include "StdAfx.h"
 #include "Unit.h"
+
 class CPlayer;
 
 class CGameManager

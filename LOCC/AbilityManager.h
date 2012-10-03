@@ -3,8 +3,12 @@
 #include "StdAfx.h"
 #include "Ability.h"
 #include "Unit.h"
+
 class CAbilityManager
 {
+
+private:
+
 	static CAbilityManager* GetInstance(void);
 	static void DeleteInstance(void);	
 
@@ -16,7 +20,9 @@ class CAbilityManager
 
 	void Initialize(void);
 	void Shutdown(void);
+
 private:
+
 	CAbilityManager(void);
 	~CAbilityManager(void);
 	CAbilityManager(const CAbilityManager&);
