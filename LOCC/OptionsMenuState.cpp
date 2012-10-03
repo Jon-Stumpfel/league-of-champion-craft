@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "OptionsMenuState.h"
 
+COptionsMenuState* COptionsMenuState::s_Instance = nullptr;
 
 COptionsMenuState::COptionsMenuState(void)
 {

@@ -24,5 +24,7 @@ private:
 	CHelpMenuState(const CHelpMenuState&);
 	CHelpMenuState* operator=( CHelpMenuState& );
 
+	static CHelpMenuState* s_Instance;
+
 };
 

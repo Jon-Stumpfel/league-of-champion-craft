@@ -3,6 +3,7 @@
 #include "Unit.h"
 #include "Tile.h"
 
+CTileManager* CTileManager::s_Instance = nullptr;
 
 CTileManager::CTileManager(void)
 {
@@ -11,6 +12,14 @@ CTileManager::CTileManager(void)
 
 CTileManager::~CTileManager(void)
 {
+}
+
+CTileManager* CTileManager::GetInstance( void )
+{
+	if( s_Instance == nullptr )
+		s_Instance = new CTileManager;
+
+	return s_Instance;
 }
 
 void CTileManager::LoadSave( std::string sFilename )

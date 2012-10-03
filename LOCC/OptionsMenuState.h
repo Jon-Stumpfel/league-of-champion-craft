@@ -24,6 +24,8 @@ private:
 	COptionsMenuState(const COptionsMenuState&);
 	COptionsMenuState& operator=(const COptionsMenuState&);
 
+	static COptionsMenuState* s_Instance;
+
 	Vec2D m_sCursorPos;
 
 };

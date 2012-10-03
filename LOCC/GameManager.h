@@ -1,11 +1,15 @@
 #pragma once
 #include "StdAfx.h"
 #include "Unit.h"
+#include "ScriptManager.h"
 
 class CPlayer;
 
 class CGameManager
 {
+
+public:
+
 	static CGameManager* GetInstance(void);
 	static void DeleteInstance(void);	
 
@@ -38,13 +42,14 @@ private:
 
 	CPlayer* m_pCurrentPlayer;
 	CPlayer* m_pNextPlayer;
-	std::vector<CPlayer*> m_vPlayers;
 
+	std::vector<CPlayer*> m_vPlayers;
 	std::vector<CUnit*> m_vUnits;
+	std::vector< ScriptMessageData > m_vScriptMessage;
+	std::vector< ScriptSpawnData > m_vScritpSpawns;
 
 	int m_nCurrentLevel;
 	int m_nCurrentPhase;
-
 	int m_nSaveSlot;
 
 	bool m_bNewGame;

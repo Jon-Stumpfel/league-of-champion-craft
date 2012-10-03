@@ -8,9 +8,6 @@ class CObjectManager
 
 public:
 
-	CObjectManager(void);
-	~CObjectManager(void);
-
 	void AddObject( CUnit* pUnit );
 	void RemoveObject( CUnit* pUnit );
 	void RemoveAllObjects( void );
@@ -19,6 +16,13 @@ public:
 	void DeleteInstance( void );
 
 private:
+
+	CObjectManager(void);
+	~CObjectManager(void);
+	CObjectManager(const CObjectManager&);
+	CObjectManager& operator=(const CObjectManager&);
+
+	static CObjectManager* s_Instance;
 
 	std::list< CUnit* > m_pObjectList;
 

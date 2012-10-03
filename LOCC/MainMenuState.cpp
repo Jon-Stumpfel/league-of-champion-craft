@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MainMenuState.h"
 
+CMainMenuState* CMainMenuState::s_Instance = nullptr;
 
 CMainMenuState::CMainMenuState(void)
 {

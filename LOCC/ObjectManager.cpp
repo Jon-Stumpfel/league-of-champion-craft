@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ObjectManager.h"
 
+CObjectManager* CObjectManager::s_Instance = nullptr;
+
 
 CObjectManager::CObjectManager(void)
 {
@@ -28,7 +30,10 @@ void CObjectManager::RemoveAllObjects( void )
 
 CObjectManager* CObjectManager::GetInstance( void )
 {
-	return nullptr;
+	if (s_Instance == nullptr)
+		s_Instance = new CObjectManager();
+
+	return s_Instance;
 }
 
 void CObjectManager::DeleteInstance( void )

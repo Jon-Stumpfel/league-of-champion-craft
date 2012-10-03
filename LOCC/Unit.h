@@ -2,11 +2,13 @@
 #include "StdAfx.h"
 #include "gameobject.h"
 #include "Ability.h"
+
 class CTile;
+
+enum UNIT_TYPE {  }; 
+
 class CUnit : public CGameObject
 {
-	enum UNIT_TYPE { };
-
 	int m_nHP;
 	int m_nAttack;
 	int m_nSpeed;

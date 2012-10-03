@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "HelpMenuState.h"
 
+CHelpMenuState* CHelpMenuState::s_Instance = nullptr;
 
 CHelpMenuState::CHelpMenuState(void)
 {

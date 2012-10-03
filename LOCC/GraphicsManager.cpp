@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "GraphicsManager.h"
 
+CGraphicsManager* CGraphicsManager::s_Instance = nullptr;
+
 
 CGraphicsManager::CGraphicsManager(void)
 {
@@ -23,7 +25,10 @@ void CGraphicsManager::LoadImage( std::string szFilename )
 
 CGraphicsManager* CGraphicsManager::GetInstance( void )
 {
-	return nullptr;
+	if (s_Instance == nullptr)
+		s_Instance = new CGraphicsManager();
+
+	return s_Instance;
 }
 
 void CGraphicsManager::Initialize( void )
