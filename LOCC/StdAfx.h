@@ -18,7 +18,8 @@
 #include <dbghelp.h>	//	Used for Dump File
 #pragma comment(lib, "dbghelp.lib")
 
-#include <LUA\lua.hpp> //Lua 5.1
+#include "lib\lua.hpp" // lua 5.1
+#pragma comment(lib, "lib\\lua5.1.lib")
 #include <vector>
 #include <string>
 using std::vector;
