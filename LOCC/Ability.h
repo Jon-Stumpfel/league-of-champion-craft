@@ -1,6 +1,8 @@
 #pragma once
 #include "StdAfx.h"
 
+class CTile;
+
 class CAbility
 {
 
@@ -8,6 +10,8 @@ private:
 
 	std::string m_strLuaFile;
 	std::string m_strParticleFile;
+
+	std::vector< CTile* > m_vPattern;
 
 	int m_nAPCost;
 	int m_nCooldown;

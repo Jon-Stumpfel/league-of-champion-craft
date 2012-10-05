@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IGameState.h"
-#include "GameObject.h"
 
 
 class CGameOverState : public IGameState

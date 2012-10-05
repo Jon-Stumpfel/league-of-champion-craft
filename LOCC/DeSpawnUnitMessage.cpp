@@ -5,7 +5,7 @@ DeSpawnUnitMessage::DeSpawnUnitMessage(void)
 {
 }
 
-DeSpawnUnitMessage::DeSpawnUnitMessage(Vec2D pos)
+DeSpawnUnitMessage::DeSpawnUnitMessage(Vec2D sPos, int nPlayerID)
 {
 
 }

@@ -26,3 +26,8 @@ using std::vector;
 using std::string;
 
 // Gameplay stuff
+struct Vec2D
+{
+	int nPosX;
+	int nPosY;
+};

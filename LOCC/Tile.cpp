@@ -6,7 +6,7 @@ CTile::CTile(void)
 {
 }
 
-CTile::CTile( TileType eTile, bool bResouceTile )
+CTile::CTile( TILE_TYPE eTile, bool bResouceTile )
 {
 
 }

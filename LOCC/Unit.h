@@ -1,7 +1,7 @@
 #pragma once
 #include "StdAfx.h"
-#include "gameobject.h"
 #include "Ability.h"
+#include "GameObject.h"
 
 class CTile;
 
@@ -25,7 +25,9 @@ class CUnit : public CGameObject
 	UNIT_TYPE m_eType;
 
 	std::vector<CAbility*> m_vAbilities;
+	std::vector< CAbility* > m_vDebuffs;
 	std::vector<CTile*> m_vWaypoints;
+
 public:
 	CUnit(void);
 	~CUnit(void);
