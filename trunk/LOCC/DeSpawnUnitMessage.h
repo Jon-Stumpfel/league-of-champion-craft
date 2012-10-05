@@ -1,18 +1,18 @@
 #pragma once
-#include "basemessage.h"
-struct Vec2D
-{
-	int nPosX;
-	int nPosY;
-};
-class DeSpawnUnitMessage :
-	public BaseMessage
-{
-private:
-	Vec2D pos;
-public:
-	DeSpawnUnitMessage(void);
-	DeSpawnUnitMessage(Vec2D pos);
-	~DeSpawnUnitMessage(void);
-};
+#include "imessage.h"
 
+class DeSpawnUnitMessage : public IMessage
+{
+
+private:
+
+	Vec2D m_sPos;
+	int m_nPlayerID;
+
+public:
+
+	DeSpawnUnitMessage(void);
+	DeSpawnUnitMessage( Vec2D sPos, int nPlayerID );
+	~DeSpawnUnitMessage(void);
+
+};

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "igamestate.h"
-#include "GameObject.h"
 
 class CCreditsState : public IGameState
 {

@@ -1,12 +1,4 @@
-
-
 #pragma once
-
-struct Vec2D
-{
-	int nPosX;
-	int nPosY;
-};
 
 class CGameObject 
 {

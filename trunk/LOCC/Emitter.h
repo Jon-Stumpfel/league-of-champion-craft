@@ -1,6 +1,5 @@
 #pragma once
 
-#include "GameObject.h"
 #include "StdAfx.h"
 
 class CParticle;

@@ -1,15 +1,13 @@
 #pragma once
 
-#include "GameObject.h"
-
-enum TileType { PLAINS, FOREST, MOUNTAINS, FARM, MILL, MINE, WATER };
+enum TILE_TYPE { PLAINS, FOREST, MOUNTAINS, FARM, MILL, MINE, WATER };
 
 class CTile
 {
 public:
 
 	CTile(void);
-	CTile( TileType eTile, bool bResouceTile );
+	CTile( TILE_TYPE eTile, bool bResouceTile );
 	~CTile(void);
 
 private:
