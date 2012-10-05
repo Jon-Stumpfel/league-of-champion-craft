@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F67C17FC-80A5-4FCA-8A99-CB6BCCB026FB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>LOCC</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\include\LUA\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\include\LUA\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="AbilityManager.cpp" />
+    <ClCompile Include="AddResourceMessage.cpp" />
+    <ClCompile Include="AIManager.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="Archer.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="IMessage.cpp" />
+    <ClCompile Include="BitmapFont.cpp" />
+    <ClCompile Include="Castle.cpp" />
+    <ClCompile Include="Cavalry.cpp" />
+    <ClCompile Include="CreditsState.cpp" />
+    <ClCompile Include="DeSpawnUnitMessage.cpp" />
+    <ClCompile Include="Emitter.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameOverState.cpp" />
+    <ClCompile Include="GameplayState.cpp" />
+    <ClCompile Include="GraphicsManager.cpp" />
+    <ClCompile Include="HelpMenuState.cpp" />
+    <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="Iceblock.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="MessageSystem.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="OptionsMenuState.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ScriptManager.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SpawnUnitMessage.cpp" />
+    <ClCompile Include="SpellScrollState.cpp" />
+    <ClCompile Include="StateStack.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Swordsman.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileManager.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="winmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ability.h" />
+    <ClInclude Include="AbilityManager.h" />
+    <ClInclude Include="AddResourceMessage.h" />
+    <ClInclude Include="AIManager.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationManager.h" />
+    <ClInclude Include="Archer.h" />
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="IMessage.h" />
+    <ClInclude Include="BitmapFont.h" />
+    <ClInclude Include="Castle.h" />
+    <ClInclude Include="Cavalry.h" />
+    <ClInclude Include="CreditsState.h" />
+    <ClInclude Include="DeSpawnUnitMessage.h" />
+    <ClInclude Include="Emitter.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameOverState.h" />
+    <ClInclude Include="GameplayState.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GraphicsManager.h" />
+    <ClInclude Include="HelpMenuState.h" />
+    <ClInclude Include="Hero.h" />
+    <ClInclude Include="Iceblock.h" />
+    <ClInclude Include="IGameState.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="MessageSystem.h" />
+    <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="OptionsMenuState.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="ScriptManager.h" />
+    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SpawnUnitMessage.h" />
+    <ClInclude Include="SpellScrollState.h" />
+    <ClInclude Include="StateStack.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Swordsman.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileManager.h" />
+    <ClInclude Include="Unit.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
