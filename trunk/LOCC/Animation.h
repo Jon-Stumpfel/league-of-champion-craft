@@ -11,7 +11,6 @@ public:
 
 	CAnimation(void);
 	~CAnimation(void);
-	void Render( void );
 	void Update( float fElapsedTime );
 	void SetLooping(bool m_bSetByThis) { m_bLooping = m_bSetByThis;}
 	bool GetLooping() {return m_bLooping;}

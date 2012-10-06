@@ -8,7 +8,6 @@ class CAnimationManager
 public:
 
 	void Update( float fElapsedTime );
-	void Render( void );
 	bool Load(const char* strName);
 	static CAnimationManager* GetInstance( void );
 	RECT GetFrame(UnitAnimation STheAnimStruct);
@@ -25,5 +24,6 @@ private:
 	std::vector<CAnimation> m_vSkeletonAnims;
 	std::vector<CAnimation> m_vChampionAnims;
 	std::vector<CAnimation> m_vCastleAnims;
+	std::vector<CAnimation> m_vIceBlockAnims;
 };
 

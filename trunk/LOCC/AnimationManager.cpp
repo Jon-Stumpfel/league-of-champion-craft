@@ -18,11 +18,6 @@ void CAnimationManager::Update( float fElapsedTime )
 
 }
 
-void CAnimationManager::Render( void )
-{
-
-}
-
 CAnimationManager* CAnimationManager::GetInstance( void )
 {
 	if (s_Instance == nullptr)
@@ -42,14 +37,31 @@ bool CAnimationManager::Load(const char* strName)
 	TiXmlElement* Animation = pRoot->FirstChildElement("Animation");
 	while(Animation != nullptr)
 	{
-		CAnimation* tempanim = new CAnimation();
-		const char* tempchar;
+		CAnimation tempanim;
+		std::string tempchar;
 		tempchar = Animation->Attribute("Name");
-		tempanim->SetLooping(Animation->Attribute("IsLooping"));
-		tempanim->SetPath(Animation->Attribute("ImgName"));
-		if(tempchar == "SwordsmanWalking")
+		int temp = 0;
+		Animation->Attribute("IsLooping", &temp);
+		if(temp == 0)
+			tempanim.SetLooping(false);
+		else
+			tempanim.SetLooping(true);
+		tempanim.SetPath(Animation->Attribute("ImgName"));
+		if(tempchar.find("Swordsman"))
 		{
-			return true;
+			m_vSwordsmanAnims.push_back(tempanim);
+		}
+		else if(tempchar.find("Champion"))
+		{
+			m_vChampionAnims.push_back(tempanim);
+		}
+		else if(tempchar.find("Archer"))
+		{
+			m_vArcherAnims.push_back(tempanim);
+		}
+		else if(tempchar.find("Castle"))
+		{
+			m_vCastleAnims.push_back(tempanim);
 		}
 	}
 	return true;
@@ -57,9 +69,33 @@ bool CAnimationManager::Load(const char* strName)
 
 RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 {
+	/*okay, a quick explanation of this cluster-fuckery....
+	so, to render the animations, I set it up so the unit will call this function, sending
+	in a struct called UnitStruct. This stores a few variables that are used to
+	A.) tell this function what animation the unit wants,
+	B.) keep the animation updated, and
+	C.) keep track of the frame it wants.
+	so, this function does this:
+	switch (what unit wants the rect?)
+	{
+		case: THE UNIT WE WANT
+		{
+			switch (what animation does the unit want?)
+			{
+				case: THE ANIM WE WANT
+				{
+					in here, we flip through the unit-specific vector of animations,
+					looking for the correct type.
+					Once we find that, we find the current frame, as determined by the struct,
+					and return the rect.
+				}
+			}
+		}
+	}
+	*/
 	switch (STheAnimStruct.unitType)
 	{
-	case UT_HERO:
+	case UT_CASTLE:
 		{
 			switch (STheAnimStruct.animationType)
 			{
@@ -118,7 +154,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ATTACK_N:
+			case AT_ATTACK_N:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
@@ -129,7 +165,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ATTACK_S:
+			case AT_ATTACK_S:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
@@ -140,7 +176,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ATTACK_E:
+			case AT_ATTACK_E:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
@@ -151,7 +187,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ATTACK_W:
+			case AT_ATTACK_W:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
@@ -162,7 +198,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ABILITY_N:
+			case AT_ABILITY_N:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
@@ -173,7 +209,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ABILITY_S:
+			case AT_ABILITY_S:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
@@ -184,7 +220,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ABILITY_E:
+			case AT_ABILITY_E:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
@@ -195,10 +231,904 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 						}
 					}
 				}
-				case AT_ABILITY_W:
+			case AT_ABILITY_W:
 				{
 					std::vector<CAnimation>::iterator tempiter;
 					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			}
+		}
+	case UT_HERO:
+		{
+			switch (STheAnimStruct.animationType)
+			{
+			case AT_IDLE:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_IDLE)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			}
+		}
+	case UT_ARCHER:
+		{
+			switch (STheAnimStruct.animationType)
+			{
+			case AT_IDLE:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_IDLE)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			}
+		}
+	case UT_SWORDSMAN:
+		{
+			switch (STheAnimStruct.animationType)
+			{
+			case AT_IDLE:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_IDLE)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			}
+		}
+		case UT_CAVALRY:
+		{
+			switch (STheAnimStruct.animationType)
+			{
+			case AT_IDLE:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_IDLE)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			}
+		}
+		case UT_SKELETON:
+		{
+			switch (STheAnimStruct.animationType)
+			{
+			case AT_IDLE:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_IDLE)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			}
+		}
+		case UT_ICEBLOCK:
+		{
+			switch (STheAnimStruct.animationType)
+			{
+			case AT_IDLE:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_IDLE)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_WALK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_WALK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ATTACK_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ATTACK_W)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_N:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_N)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_S:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_S)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_E:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_ABILITY_E)
+						{
+							tempiter->GetFrameVec()[STheAnimStruct.nCurrentFrame]->GetRect();
+						}
+					}
+				}
+			case AT_ABILITY_W:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
