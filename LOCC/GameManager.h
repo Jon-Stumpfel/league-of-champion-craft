@@ -54,6 +54,9 @@ private:
 
 	bool m_bNewGame;
 
+
+	int m_nNewPlayerID;
+
 	
 };
 

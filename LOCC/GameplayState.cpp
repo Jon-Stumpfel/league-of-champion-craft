@@ -2,7 +2,9 @@
 #include "GameplayState.h"
 #include "GameObject.h"
 #include "ObjectManager.h"
+#include "GameManager.h"
 #include "Unit.h"
+#include "Player.h"
 CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -46,6 +48,10 @@ void CGameplayState::Enter(void)
 	CGameObject* pNewArcher = CObjectManager::GetInstance()->CreateObject(ARCHER);
 
 	CObjectManager* pOM = CObjectManager::GetInstance();
+
+	CPlayer* pPlayer = CGameManager::GetInstance()->CreatePlayer(false);
+
+	CGameManager* pGM  = CGameManager::GetInstance();
 
 	CObjectManager::DeleteInstance();
 }
