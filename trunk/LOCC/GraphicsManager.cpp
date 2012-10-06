@@ -19,7 +19,7 @@ int CGraphicsManager::GetID( std::string szGraphicsID )
 	return -1;
 }
 
-void CGraphicsManager::LoadImage( std::string szFilename )
+void CGraphicsManager::LoadImage( std::string szFilename, std::string szReferenceName )
 {
 	
 }
@@ -46,7 +46,6 @@ void CGraphicsManager::Initialize( HWND hWnd, HINSTANCE hInstance,
 	CSGD_Direct3D::GetInstance()->InitDirect3D(hWnd, nScreenWidth, nScreenHeight, bIsWindowed);	
 	CSGD_TextureManager::GetInstance()->InitTextureManager(CSGD_Direct3D::GetInstance()->GetDirect3DDevice(), 
 		CSGD_Direct3D::GetInstance()->GetSprite());
-
 
 }
 
