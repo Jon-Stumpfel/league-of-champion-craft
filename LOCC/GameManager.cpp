@@ -23,7 +23,7 @@ CGameManager* CGameManager::GetInstance(void)
 }
 void CGameManager::DeleteInstance(void)
 {
-
+	
 }
 
 CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
