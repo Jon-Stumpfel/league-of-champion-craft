@@ -9,7 +9,7 @@ public:
 
 	void Update( float fElapsedTime );
 	void Render( void );
-
+	bool Load(const char* strName);
 	static CAnimationManager* GetInstance( void );
 
 private:
@@ -18,7 +18,6 @@ private:
 	~CAnimationManager(void);
 	CAnimationManager(const CAnimationManager&);
 	CAnimationManager& operator=(const CAnimationManager&);
-
 	static CAnimationManager* s_Instance;
 
 	std::map<UnitType, AnimType> AnimMap;
