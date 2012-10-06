@@ -1,7 +1,6 @@
 #pragma once
 
-enum TILE_TYPE		{ PLAINS, FOREST, MOUNTAINS, FARM, MILL, MINE, WATER };
-enum TILE_STATUS	{ FROZEN, RESOURCETILE, OCCUPIED, CAPTURING, CAPTURED, IS_DEAD, ISPASSABLE};
+
 
 class CTile
 {
@@ -26,7 +25,7 @@ public:
 	void GetIfCaputring	(void);
 	bool SetIfCaputring	(bool OnOff);
 
-	
+
 
 private:
 
@@ -34,7 +33,5 @@ private:
 	unsigned char		m_ucStatus;
 	int					m_nPlayerID;
 	Vec2D				m_sPos;
-	unsigned int		m_pixWidth;
-	unsigned int		m_pixHieght;
 };
 
