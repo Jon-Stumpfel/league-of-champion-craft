@@ -28,25 +28,25 @@ CGameObject* CObjectManager::CreateObject(UNIT_TYPE type)
 	CGameObject* pNewObject = nullptr;
 	switch (type)
 	{
-	case CASTLE:
+	case UT_CASTLE:
 		pNewObject = new CCastle();
 		break;
-	case ARCHER:
+	case UT_ARCHER:
 		pNewObject = new CArcher();
 		break;
-	case CAVALRY:
+	case UT_CAVALRY:
 		pNewObject = new CCavalry();
 		break;
-	case HERO:
+	case UT_HERO:
 		pNewObject = new CHero();
 		break;
-	case ICEBLOCK:
+	case UT_ICEBLOCK:
 		pNewObject = new CIceblock();
 		break;
-	case SWORDSMAN:
+	case UT_SWORDSMAN:
 		pNewObject = new CSwordsman();
 		break;
-	case SKELETON:
+	case UT_SKELETON:
 		pNewObject = new CSkeleton();
 		break;
 	default:

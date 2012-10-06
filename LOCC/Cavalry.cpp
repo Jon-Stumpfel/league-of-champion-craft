@@ -2,7 +2,7 @@
 #include "Cavalry.h"
 
 
-CCavalry::CCavalry(void) : CUnit(CAVALRY)
+CCavalry::CCavalry(void) : CUnit(UT_CAVALRY)
 {
 	SetHP(22);
 	SetAttack(6);
@@ -21,4 +21,9 @@ CCavalry::CCavalry(void) : CUnit(CAVALRY)
 
 CCavalry::~CCavalry(void)
 {
+}
+void CCavalry::Render(void)
+{
+	RECT soldierRect = {256, 0, 296, 64};
+	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 0, 255, 255);	
 }

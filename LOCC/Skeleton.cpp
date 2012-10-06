@@ -2,7 +2,7 @@
 #include "Skeleton.h"
 
 
-CSkeleton::CSkeleton(void) : CUnit(SKELETON)
+CSkeleton::CSkeleton(void) : CUnit(UT_SKELETON)
 {
 	SetHP(10);
 	SetAttack(4);
@@ -21,4 +21,11 @@ CSkeleton::CSkeleton(void) : CUnit(SKELETON)
 
 CSkeleton::~CSkeleton(void)
 {
+}
+
+
+void CSkeleton::Render(void)
+{
+	RECT soldierRect = {64, 64, 128, 100};
+	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 255, 255, 255);	
 }

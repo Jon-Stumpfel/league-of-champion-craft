@@ -2,7 +2,7 @@
 #include "Hero.h"
 
 
-CHero::CHero(void) : CUnit(HERO)
+CHero::CHero(void) : CUnit(UT_HERO)
 {
 	SetHP(50);
 	SetAttack(9);
@@ -21,4 +21,10 @@ CHero::CHero(void) : CUnit(HERO)
 
 CHero::~CHero(void)
 {
+}
+
+void CHero::Render(void)
+{
+	RECT soldierRect = {128, 0, 168, 32};
+	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 205, 150, 100);	
 }

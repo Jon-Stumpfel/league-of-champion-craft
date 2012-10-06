@@ -9,6 +9,6 @@ public:
 
 	CSkeleton(void);
 	~CSkeleton(void);
-
+	void Render(void);
 };
 

@@ -2,6 +2,7 @@
 #include "GameplayState.h"
 #include "GameObject.h"
 #include "ObjectManager.h"
+#include "GraphicsManager.h"
 #include "GameManager.h"
 #include "Unit.h"
 #include "Player.h"
@@ -27,25 +28,28 @@ void CGameplayState::Enter(void)
 {
 	// test stuff
 	OutputDebugString(_T("CREATING ARCHER\n"));
-	CGameObject* pArcher = CObjectManager::GetInstance()->CreateObject(ARCHER);
+	CGameObject* pArcher = CObjectManager::GetInstance()->CreateObject(UT_ARCHER);
 	OutputDebugString(_T("CREATING SWORDSMAN\n"));
-	CGameObject* pSwordsman = CObjectManager::GetInstance()->CreateObject(SWORDSMAN);
+	CGameObject* pSwordsman = CObjectManager::GetInstance()->CreateObject(UT_SWORDSMAN);
 
 	OutputDebugString(_T("CREATING HERO\n"));
-	CGameObject* pHero = CObjectManager::GetInstance()->CreateObject(HERO);
+	CGameObject* pHero = CObjectManager::GetInstance()->CreateObject(UT_HERO);
 
 	OutputDebugString(_T("CREATING ICEBLOCK\n"));
-	CGameObject* pIceblock = CObjectManager::GetInstance()->CreateObject(ICEBLOCK);
+	CGameObject* pIceblock = CObjectManager::GetInstance()->CreateObject(UT_ICEBLOCK);
 
 	OutputDebugString(_T("CREATING SKELETON\n"));
-	CGameObject* pSkeleton = CObjectManager::GetInstance()->CreateObject(SKELETON);
+	CGameObject* pSkeleton = CObjectManager::GetInstance()->CreateObject(UT_SKELETON);
 
 	OutputDebugString(_T("CREATING CAVALRY\n"));
-	CGameObject* pCavalry = CObjectManager::GetInstance()->CreateObject(CAVALRY);
-
-	CObjectManager::GetInstance()->RemoveObject(pArcher);
+	CGameObject* pCavalry = CObjectManager::GetInstance()->CreateObject(UT_CAVALRY);
+//	CObjectManager::GetInstance()->RemoveObject(pArcher);
 	OutputDebugString(_T("CREATING NEW ARCHER\n"));
-	CGameObject* pNewArcher = CObjectManager::GetInstance()->CreateObject(ARCHER);
+	CGameObject* pNewArcher = CObjectManager::GetInstance()->CreateObject(UT_ARCHER);
+
+
+	CGameObject* pCastle = CObjectManager::GetInstance()->CreateObject(UT_CASTLE);
+
 
 	CObjectManager* pOM = CObjectManager::GetInstance();
 
@@ -53,7 +57,10 @@ void CGameplayState::Enter(void)
 
 	CGameManager* pGM  = CGameManager::GetInstance();
 
-	CObjectManager::DeleteInstance();
+
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Animations\\footman.png"), _T("swordsman"), DWORD(0000));
+
+	//CObjectManager::DeleteInstance();
 }
 
 void CGameplayState::Exit(void)
@@ -72,4 +79,5 @@ void CGameplayState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(255, 0, 255);
 
+	CObjectManager::GetInstance()->RenderAllObjects();
 }

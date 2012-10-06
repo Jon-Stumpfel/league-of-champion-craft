@@ -2,7 +2,7 @@
 #include "Archer.h"
 
 
-CArcher::CArcher(void) : CUnit(ARCHER)
+CArcher::CArcher(void) : CUnit(UT_ARCHER)
 {
 	SetHP(12);
 	SetAttack(6);
@@ -22,3 +22,10 @@ CArcher::CArcher(void) : CUnit(ARCHER)
 CArcher::~CArcher(void)
 {
 }
+
+void CArcher::Render(void)
+{
+	RECT soldierRect = {200, 200, 260, 260};
+	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 100, 255,100);	
+}
+
