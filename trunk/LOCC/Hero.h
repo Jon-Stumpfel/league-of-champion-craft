@@ -9,6 +9,6 @@ public:
 
 	CHero(void);
 	~CHero(void);
-
+	void Render(void);
 };
 

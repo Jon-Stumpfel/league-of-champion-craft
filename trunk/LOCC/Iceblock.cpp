@@ -2,7 +2,7 @@
 #include "Iceblock.h"
 
 
-CIceblock::CIceblock(void) : CUnit(ICEBLOCK)
+CIceblock::CIceblock(void) : CUnit(UT_ICEBLOCK)
 {
 	SetHP(20);
 	SetAttack(0);
@@ -22,3 +22,10 @@ CIceblock::CIceblock(void) : CUnit(ICEBLOCK)
 CIceblock::~CIceblock(void)
 {
 }
+
+void CIceblock::Render(void)
+{
+	RECT soldierRect = {0 + 64, 384 + 64, 32 + 64, 384+32 + 64};
+	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 0, 255, 0);	
+}
+

@@ -2,7 +2,7 @@
 #include "Castle.h"
 
 
-CCastle::CCastle(void) : CUnit(CASTLE)
+CCastle::CCastle(void) : CUnit(UT_CASTLE)
 {
 	SetHP(500);
 	SetAttack(0);
@@ -25,10 +25,12 @@ CCastle::~CCastle(void)
 
 void CCastle::Render( void )
 {
-
+	RECT soldierRect = {0, 256, 64, 300};
+	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 0, 0, 255);
 }
 
 void CCastle::Update( float fElapsedTime )
 {
 
 }
+

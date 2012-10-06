@@ -2,7 +2,7 @@
 #include "Swordsman.h"
 
 
-CSwordsman::CSwordsman(void) : CUnit(SWORDSMAN)
+CSwordsman::CSwordsman(void) : CUnit(UT_SWORDSMAN)
 {
 	SetHP(20);
 	SetAttack(8);
@@ -22,4 +22,10 @@ CSwordsman::CSwordsman(void) : CUnit(SWORDSMAN)
 CSwordsman::~CSwordsman(void)
 {
 
+}
+
+void CSwordsman::Render(void)
+{
+	RECT soldierRect = {0, 0, 32, 32};
+	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 255, 0, 0);	
 }

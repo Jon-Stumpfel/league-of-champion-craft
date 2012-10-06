@@ -9,6 +9,6 @@ public:
 
 	CCavalry(void);
 	~CCavalry(void);
-
+	void Render(void);
 };
 

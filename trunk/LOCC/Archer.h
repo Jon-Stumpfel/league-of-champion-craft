@@ -9,6 +9,6 @@ public:
 
 	CArcher(void);
 	~CArcher(void);
-
+	void Render(void);
 };
 

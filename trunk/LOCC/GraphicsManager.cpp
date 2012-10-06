@@ -37,7 +37,7 @@ void CGraphicsManager::LoadImage( TSTRING szFilename, TSTRING szReferenceName, D
 	int newID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename.c_str(), colorKey);
 
 	ImageID newImageID;
-	newImageID.first = szFilename;
+	newImageID.first = szReferenceName;
 	newImageID.second = newID;
 
 	m_vImageIDs.push_back(newImageID);

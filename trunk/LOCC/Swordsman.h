@@ -9,6 +9,6 @@ public:
 
 	CSwordsman(void);
 	~CSwordsman(void);
-
+	void Render(void);
 };
 

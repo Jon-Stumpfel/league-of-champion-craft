@@ -9,6 +9,6 @@ public:
 
 	CIceblock(void);
 	~CIceblock(void);
-
+	void Render(void);
 };
 

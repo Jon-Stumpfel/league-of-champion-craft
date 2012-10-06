@@ -3,8 +3,14 @@
 #include "Ability.h"
 #include "GameObject.h"
 
-enum UNIT_TYPE { CASTLE, HERO, ARCHER, SWORDSMAN, CAVALRY, SKELETON, ICEBLOCK }; 
 
+struct UnitAnimation
+{
+	UNIT_TYPE unitType;
+	ANIM_TYPE animationType;
+	int nCurrentFrame;
+	float fCurrentTime;
+};
 class CUnit : public CGameObject
 {
 	int m_nHP;
@@ -28,6 +34,8 @@ class CUnit : public CGameObject
 	std::vector<CAbility*> m_vAbilities;
 	std::vector< CAbility* > m_vDebuffs;
 	std::vector<CTile*> m_vWaypoints;
+
+	UnitAnimation* m_pMyAnimation;
 
 public:
 	CUnit(UNIT_TYPE type);
