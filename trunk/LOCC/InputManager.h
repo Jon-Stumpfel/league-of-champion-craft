@@ -1,9 +1,8 @@
 #pragma once
 
-
-// This will be what the input function hands to the states. 
 enum INPUT_ENUM { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, 
 				  INPUT_ACCEPT, INPUT_CANCEL, INPUT_START };
+
 
 class CInputManager
 {

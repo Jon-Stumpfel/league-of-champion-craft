@@ -12,12 +12,15 @@
 
 #include <tchar.h>
 #include <string>
+#include <sstream>
 
 // Unicode-friendly std strings:
 #if defined UNICODE || defined _UNICODE 
-	typedef std::wstring	TSTRING;
+	typedef std::wstring			TSTRING;
+	typedef std::wostringstream		TOSTRINGSTREAM;
 #else
-	typedef std::string		TSTRING;
+	typedef std::string				TSTRING;
+	typedef std::ostringstream		TOSTRINGSTREAM;
 #endif
 
 
