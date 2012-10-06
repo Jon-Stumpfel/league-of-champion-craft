@@ -1,7 +1,7 @@
 #pragma once
 
 #include "StdAfx.h"
-
+#include "IGameState.h"
 class CGame
 {
 
@@ -28,6 +28,13 @@ private:
 		bool Input(void);
 		void Update(void);
 		void Render(void);
+
+	int m_nWidth;		
+	int m_nHeight;		
+	bool m_bIsWindowed;
+	DWORD m_dwCurrTime;
+	IGameState* currentState;
+
 
 };
 

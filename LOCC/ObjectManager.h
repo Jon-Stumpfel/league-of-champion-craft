@@ -8,13 +8,16 @@ class CObjectManager
 
 public:
 
-	void AddObject( CUnit* pUnit );
-	void RemoveObject( CUnit* pUnit );
+	void AddObject( CGameObject* pObject );
+	void RemoveObject( CGameObject* pObject );
 	void RemoveAllObjects( void );
-	
-	CObjectManager* GetInstance( void );
-	void DeleteInstance( void );
+	void UpdateAllObjects(float fElapsedTime);
+	void RenderAllObjects(void);
 
+	static CObjectManager* GetInstance( void );
+	static void DeleteInstance( void );
+
+	CGameObject* CreateObject(UNIT_TYPE type);
 private:
 
 	CObjectManager(void);
@@ -24,7 +27,10 @@ private:
 
 	static CObjectManager* s_Instance;
 
-	std::list< CUnit* > m_pObjectList;
+	typedef std::list<CGameObject*>		ObjectList;
+	typedef	ObjectList::iterator	OListIterator;
+
+	ObjectList m_pObjectList;
 
 };
 

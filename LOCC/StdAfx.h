@@ -15,6 +15,8 @@
 #include "SGD Wrappers\tinystr.h"
 #include "SGD Wrappers\tinyxml.h"
 
+#include <cassert>
+
 #include <dbghelp.h>	//	Used for Dump File
 #pragma comment(lib, "dbghelp.lib")
 
@@ -29,5 +31,5 @@ using std::string;
 struct Vec2D
 {
 	int nPosX;
-	int nPosY;
+	int nPosY;	
 };

@@ -8,9 +8,11 @@ public:
 	int GetID( std::string szGraphicsID );
 	void LoadImage( std::string szFilename );
 
-	CGraphicsManager* GetInstance( void );
-
-	void Initialize( void );
+	static CGraphicsManager* GetInstance( void );
+	static void DeleteInstance(void);
+	void Initialize( HWND hWnd, HINSTANCE hInstance,
+				int nScreenWidth, int nScreenHeight,
+				bool bIsWindowed );
 	void Shutdown( void );
 
 private:
