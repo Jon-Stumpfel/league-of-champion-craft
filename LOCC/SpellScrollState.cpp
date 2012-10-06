@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "SpellScrollState.h"
 
-CSpellScrollState* CSpellScrollState::s_Instance = nullptr;
+//CSpellScrollState* CSpellScrollState::s_Instance = nullptr;
 
 CSpellScrollState::CSpellScrollState(void)
 {
@@ -40,5 +40,6 @@ void CSpellScrollState::Render(void)
 
 CSpellScrollState* CSpellScrollState::GetInstance(void)
 {
-	return nullptr;
+	static CSpellScrollState s_Instance;
+	return &s_Instance;
 }

@@ -6,7 +6,7 @@
 #include "GameManager.h"
 #include "Unit.h"
 #include "Player.h"
-CGameplayState* CGameplayState::s_Instance = nullptr;
+//CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
 {
@@ -18,10 +18,12 @@ CGameplayState::~CGameplayState(void)
 
 CGameplayState* CGameplayState::GetInstance(void)
 {
-	if( s_Instance == nullptr )
-		s_Instance = new CGameplayState();
+	static CGameplayState s_Instance;
+	return &s_Instance;
+	//if( s_Instance == nullptr )
+	//	s_Instance = new CGameplayState();
 
-	return s_Instance;
+	//return s_Instance;
 }
 
 void CGameplayState::Enter(void)

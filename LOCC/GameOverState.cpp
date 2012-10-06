@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "GameOverState.h"
 
-CGameOverState* CGameOverState::s_Instance = nullptr;
+//CGameOverState* CGameOverState::s_Instance = nullptr;
 
 CGameOverState::CGameOverState(void)
 {
@@ -39,5 +39,6 @@ void CGameOverState::Render(void)
 
 CGameOverState* CGameOverState::GetInstance()
 {
-	return nullptr;
+	static CGameOverState s_Instance;
+	return &s_Instance;
 }

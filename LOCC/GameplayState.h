@@ -21,7 +21,7 @@ private:
 	CGameplayState(const CGameplayState&);
 	CGameplayState& operator=(const CGameplayState&);
 
-	static CGameplayState* s_Instance;
+//	static CGameplayState* s_Instance;
 
 };
 

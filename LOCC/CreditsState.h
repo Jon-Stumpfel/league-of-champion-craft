@@ -23,7 +23,7 @@ private:
 	CCreditsState(const CCreditsState&);
 	CCreditsState* operator=( CCreditsState& );
 
-	static CCreditsState* s_Instance;
+//	static CCreditsState* s_Instance;
 
 };
 

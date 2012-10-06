@@ -6,13 +6,20 @@ class CStateStack
 {
 
 public:
+	static CStateStack* GetInstance( void );
+	static void DeleteInstance(void);
+
+	void ClearStack(void);
 
 	void Push( IGameState* pState );
-	void Pop( IGameState* pState );
+	void Pop( void );
 	void Switch( IGameState* pState );
+	IGameState* GetTop(void);
 
-	static CStateStack* GetInstance( void );
+	void	UpdateStack(float fElapsedTime);
+	void	RenderStack(void);
 
+	void	SetRenderTopOnly(bool b) { m_bRenderTopOnly = b;}
 private:
 
 	CStateStack(void);
@@ -21,6 +28,8 @@ private:
 	CStateStack& operator=(const CStateStack&);
 
 	static CStateStack* s_Instance;
+
+	bool	m_bRenderTopOnly;
 
 	std::vector< IGameState* > m_vCurStates;
 

@@ -22,7 +22,7 @@ private:
 	CGameOverState(const CGameOverState&);
 	CGameOverState* operator=( CGameOverState& );
 
-	static CGameOverState* s_Instance;
+//	static CGameOverState* s_Instance;
 
 	Vec2D m_sCursorPos;
 

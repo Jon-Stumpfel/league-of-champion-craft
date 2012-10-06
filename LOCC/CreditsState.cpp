@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "CreditsState.h"
 
-CCreditsState* CCreditsState::s_Instance = nullptr;
+//CCreditsState* CCreditsState::s_Instance = nullptr;
 
 CCreditsState::CCreditsState(void)
 {
@@ -38,5 +38,6 @@ void CCreditsState::Render(void)
 
 CCreditsState* CCreditsState::GetInstance()
 {
-	return nullptr;
+	static CCreditsState s_Instance;
+	return &s_Instance;
 }
