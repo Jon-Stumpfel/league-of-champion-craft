@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "OptionsMenuState.h"
 
-COptionsMenuState* COptionsMenuState::s_Instance = nullptr;
+//COptionsMenuState* COptionsMenuState::s_Instance = nullptr;
 
 COptionsMenuState::COptionsMenuState(void)
 {
@@ -40,5 +40,6 @@ void COptionsMenuState::Render(void)
 
 COptionsMenuState* COptionsMenuState::GetInstance()
 {
-	return nullptr;
+	static COptionsMenuState s_Instance;
+	return &s_Instance;
 }

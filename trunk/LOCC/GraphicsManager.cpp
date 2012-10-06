@@ -58,7 +58,10 @@ CGraphicsManager* CGraphicsManager::GetInstance( void )
 void CGraphicsManager::DeleteInstance(void)
 {
 	if (s_Instance != nullptr)
+	{
+		s_Instance->Shutdown();
 		delete s_Instance;
+	}
 	s_Instance = nullptr;
 }
 
@@ -74,4 +77,9 @@ void CGraphicsManager::Initialize( HWND hWnd, HINSTANCE hInstance,
 
 void CGraphicsManager::Shutdown( void )
 {
+	while (m_vImageIDs.size() != 0)
+	{
+		CSGD_TextureManager::GetInstance()->UnloadTexture(m_vImageIDs.back().second);
+		m_vImageIDs.pop_back();
+	}
 }

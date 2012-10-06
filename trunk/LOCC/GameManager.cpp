@@ -23,9 +23,21 @@ CGameManager* CGameManager::GetInstance(void)
 }
 void CGameManager::DeleteInstance(void)
 {
-	
+	if (s_Instance != nullptr)
+	{
+		s_Instance->ShutDown();
+		delete s_Instance;
+	}
+	s_Instance = nullptr;
 }
-
+void CGameManager::ShutDown(void)
+{
+	while (m_vPlayers.size() != 0)
+	{
+		delete m_vPlayers.back();
+		m_vPlayers.pop_back();
+	}
+}
 CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 {
 	CPlayer* pPlayer = new CPlayer(m_nNewPlayerID++);

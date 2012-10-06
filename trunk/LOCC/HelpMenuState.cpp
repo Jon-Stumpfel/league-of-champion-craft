@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "HelpMenuState.h"
 
-CHelpMenuState* CHelpMenuState::s_Instance = nullptr;
+//CHelpMenuState* CHelpMenuState::s_Instance = nullptr;
 
 CHelpMenuState::CHelpMenuState(void)
 {
@@ -39,5 +39,6 @@ void CHelpMenuState::Render(void)
 
 CHelpMenuState* CHelpMenuState::GetInstance()
 {
-	return nullptr;
+	static CHelpMenuState s_Instance;
+	return &s_Instance;
 }

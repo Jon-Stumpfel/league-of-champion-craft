@@ -31,6 +31,7 @@ public:
 
 	void SetNextPlayer(int nPlayerID);
 
+	void ShutDown(void);
 private:
 
 	CGameManager(void);

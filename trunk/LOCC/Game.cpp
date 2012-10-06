@@ -2,6 +2,10 @@
 #include "Game.h"
 #include "GameplayState.h"
 #include "GraphicsManager.h"
+#include "GameManager.h"
+#include "MainMenuState.h"
+#include "ObjectManager.h"
+#include "StateStack.h"
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -18,13 +22,12 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_nHeight = nScreenHeight;
 	m_bIsWindowed = bIsWindowed;
 
+	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE);
+
 
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
-
-
-	currentState = CGameplayState::GetInstance();
-	// Fake initialize of gameplay state just to get something running. 
-	currentState->Enter();
+	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
+	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
 }
 
 bool CGame::Main(void)
@@ -41,7 +44,10 @@ bool CGame::Main(void)
 }
 void CGame::Shutdown(void)
 {
-
+	CGraphicsManager::DeleteInstance();
+	CGameManager::DeleteInstance();
+	CObjectManager::DeleteInstance();
+	CStateStack::DeleteInstance();
 }
 
 CGame::CGame(void)
@@ -53,11 +59,19 @@ CGame::~CGame(void)
 
 }
 
-
-
 // 3 actions for each frame:
 bool CGame::Input(void)
 {
+	CSGD_DirectInput::GetInstance()->ReadDevices();
+	if (CSGD_DirectInput::GetInstance()->KeyDown(DIK_LALT) || CSGD_DirectInput::GetInstance()->KeyDown(DIK_RALT))
+	{
+		if (CSGD_DirectInput::GetInstance()->KeyPressed(DIK_RETURN))
+		{
+			CSGD_Direct3D::GetInstance()->ChangeDisplayParam(m_nWidth, m_nHeight, !m_bIsWindowed);
+			m_bIsWindowed = !m_bIsWindowed;
+			return true;
+		}
+	}
 	return true;
 }
 void CGame::Update(void)
@@ -70,14 +84,14 @@ void CGame::Update(void)
 	if (fElapsedTime > 2)
 		fElapsedTime = 2;
 
-	currentState->Update(fElapsedTime);
+	CStateStack::GetInstance()->UpdateStack(fElapsedTime);
 }
 void CGame::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 255);
 	CSGD_Direct3D::GetInstance()->DeviceBegin();
 	CSGD_Direct3D::GetInstance()->SpriteBegin();
-	currentState->Render();
+	CStateStack::GetInstance()->RenderStack();
 	CSGD_Direct3D::GetInstance()->SpriteEnd();
 	CSGD_Direct3D::GetInstance()->DeviceEnd();
 	CSGD_Direct3D::GetInstance()->Present();
