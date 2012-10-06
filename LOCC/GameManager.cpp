@@ -6,6 +6,7 @@ CGameManager* CGameManager::s_Instance = nullptr;
 
 CGameManager::CGameManager(void)
 {
+	m_nNewPlayerID = 0;
 }
 
 
@@ -27,11 +28,25 @@ void CGameManager::DeleteInstance(void)
 
 CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 {
+	CPlayer* pPlayer = new CPlayer(m_nNewPlayerID++);
+	// TODO if bAIControlled add cplayer to list of AI controlled stuff
+	// CAIManager::PushPlayerID(pPlayer->GetPLayerID());
+
+	m_vPlayers.push_back(pPlayer);
 	return nullptr;
 }
 
 CPlayer* CGameManager::GetPlayer(int nPlayerID)
 {
+	for (decltype(m_vPlayers.size()) i = 0; i < m_vPlayers.size(); ++i)
+	{
+		if (m_vPlayers[i]->GetPlayerID() == nPlayerID)
+		{
+			return m_vPlayers[i];
+			break;
+		}
+
+	}
 	return nullptr;
 }
 
