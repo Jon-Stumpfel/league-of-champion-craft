@@ -350,5 +350,8 @@
     <ClInclude Include="SGD Wrappers\tinyxml.h">
       <Filter>SGD Wrappers</Filter>
     </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Messages</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

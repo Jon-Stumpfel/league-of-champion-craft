@@ -2,15 +2,14 @@
 #include "SpawnUnitMessage.h"
 
 
-SpawnUnitMessage::SpawnUnitMessage(void)
+
+CSpawnUnitMessage::CSpawnUnitMessage(Vec2D sPos, int nPlayerID, UNIT_TYPE eTypeToSpawn) : CMessage(MSG_SPAWNUNIT)
 {
+	m_sPos = sPos;
+	m_nPlayerID = nPlayerID;
+	m_eType = eTypeToSpawn;
 }
 
-SpawnUnitMessage::SpawnUnitMessage(Vec2D sPos, int nPlayerID)
-{
-
-}
-
-SpawnUnitMessage::~SpawnUnitMessage(void)
+CSpawnUnitMessage::~CSpawnUnitMessage(void)
 {
 }

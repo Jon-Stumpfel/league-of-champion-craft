@@ -10,7 +10,7 @@ class CMessageSystem
 public:
 
 	static CMessageSystem* GetInstance( void );
-
+	static void DeleteInstance(void);
 	int GetNumMessage( void ) const { return (int)m_qMsgQueue.size(); }
 
 	void InitMessageSystem( MESSAGEPROC MsgProc );

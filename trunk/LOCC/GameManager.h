@@ -2,7 +2,7 @@
 #include "StdAfx.h"
 #include "Unit.h"
 #include "ScriptManager.h"
-
+#include "IMessage.h"
 class CPlayer;
 
 class CGameManager
@@ -32,6 +32,9 @@ public:
 	void SetNextPlayer(int nPlayerID);
 
 	void ShutDown(void);
+
+
+	static void MessageProc(IMessage* pMsg);
 private:
 
 	CGameManager(void);
