@@ -6,7 +6,7 @@ class CGraphicsManager
 public:
 
 	int GetID( std::string szGraphicsID );
-	void LoadImage( std::string szFilename, std::string szReferenceName );
+	void LoadImage( std::string szFilename, std::string szReferenceName, DWORD colorKey );
 
 	static CGraphicsManager* GetInstance( void );
 	static void DeleteInstance(void);
