@@ -10,7 +10,7 @@ class CTileManager
 
 public:
 
-	void LoadSave( std::string sFilename );
+	bool LoadSave( std::string sFilename );
 	void Update( float fElapsedTime );
 	void Render( void );
 	CTile* GetTile( int x, int y );
@@ -28,8 +28,8 @@ private:
 
 	static CTileManager* s_Instance;
 
-	
-	CTile* m_pTileMap;
+	int	m_nTextureImageID;
+	CTile**	m_pTileMap;
 
 };
 
