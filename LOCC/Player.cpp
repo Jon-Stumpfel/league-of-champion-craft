@@ -8,7 +8,8 @@ CPlayer::CPlayer(int nPlayerID)
 	SetAP(30);
 	SetMetal(20);
 	SetWood(20);
-	SetPopCap(12);
+	SetPopCap(0);
+	SetMaxPopCap(12);
 	SetExp(0);
 }
 

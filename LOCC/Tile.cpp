@@ -4,7 +4,7 @@
 
 CTile::CTile(void)
 {	
-	m_eTType=PLAINS;
+	m_eTType=TT_PLAINS;
 	m_ucStatus=0;
 	m_nPlayerID=0;
 	m_sPos= Vec2D();
@@ -14,8 +14,8 @@ CTile::CTile( int eTile, bool bResouceTile, Vec2D sPos )
 {
 	m_eTType=eTile;
 	m_ucStatus=0;
-	if (bResouceTile==true);
-		SetStatus(RESOURCETILE, true);
+	if (bResouceTile==true)
+		SetStatus(TS_RESOURCETILE, true);
 
 	m_nPlayerID=0;
 	m_sPos= Vec2D();
@@ -43,7 +43,7 @@ void CTile::SetStatus(unsigned char TileStatus, bool On_or_Off)
 bool CTile::IsStatus(unsigned char TileStatus, bool On_or_Off)
 {
 	//FROZEN, RESOURCETILE, OCCUPIED, CAPTURING, CAPTURED, IS_DEAD,ISPASSABLE
-		assert(TileStatus<ISPASSABLE&&"TileStatus out of range");
+		assert(TileStatus<TS_ISPASSABLE&&"TileStatus out of range");
 		return false;
 	if (On_or_Off==true)
 	{

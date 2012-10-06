@@ -153,9 +153,30 @@ void CGameManager::MessageProc(IMessage* pMsg)
 	case MSG_ADDRESOURCE:
 		{
 			CAddResourceMessage* pSMSG = dynamic_cast<CAddResourceMessage*>(pMsg);
+			CPlayer* pPlayer = pThis->GetPlayer(pSMSG->GetPlayerID());
+
 			switch (pSMSG->GetTileType())
 			{
-
+			case TT_FARM:
+				{
+					pPlayer->SetMaxPopCap(pPlayer->GetMaxPopCap() + POP_PER_FARM);
+					pPlayer->SetAP(pPlayer->GetAP() + AP_PER_CAPTURE);
+				}
+				break;
+			case TT_MINE:
+				{
+					pPlayer->SetMetal(pPlayer->GetMetal() + METAL_PER_MINE);
+					pPlayer->SetAP(pPlayer->GetAP() + AP_PER_CAPTURE);
+				}
+				break;
+			case TT_MILL:
+				{
+					pPlayer->SetWood(pPlayer->GetWood() + WOOD_PER_MILL);
+					pPlayer->SetAP(pPlayer->GetAP() + AP_PER_CAPTURE);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		break;

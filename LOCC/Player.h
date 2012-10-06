@@ -9,6 +9,7 @@ private:
 	int m_nMetal;
 	int m_nWood;
 	int m_nPopCap;
+	int m_nMaxPopCap;
 	int m_nExp;
 	int m_nJoystickNum;
 
@@ -28,6 +29,9 @@ public:
 
 	int GetPopCap(void) { return m_nPopCap;}
 	void SetPopCap(int p) { m_nPopCap = p;}
+
+	int GetMaxPopCap(void) { return m_nMaxPopCap;}
+	void SetMaxPopCap(int p) { m_nMaxPopCap = p;}
 
 	int GetExp(void) { return m_nExp;}
 	void SetExp(int e) { m_nExp = e;}
