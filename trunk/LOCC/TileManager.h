@@ -28,6 +28,7 @@ private:
 
 	static CTileManager* s_Instance;
 
+	
 	CTile* m_pTileMap;
 
 };
