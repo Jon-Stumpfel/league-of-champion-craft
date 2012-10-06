@@ -82,59 +82,61 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_LEFT:
 		{
-		if (m_pSelectedUnit != nullptr) // we have a unit selected!
-		{
-			// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
-			//if (ShowChampPane == true)
-			//{
-			//	// We have the champion ability pane up!
-			//	m_nSelectedChampSpell--;
-			//	if (m_nSelectedChampSpell < 0)
-			//		m_nSelectedChampSpell = 3;
-			//}
-			//else
-			//{
-			//	// Champion ability is not pulled up, so just move the cursor on the main panel
-			//	m_nSelectedAbility--;
-			//	if (m_nSelectedAbility < 0)
-			//		m_nSelectedAbility = 2;
-			//}
-		}
-		else
-			MoveCursor(-1, 0);
+			if (m_pSelectedUnit != nullptr) // we have a unit selected!
+			{
+				// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
+				//if (ShowChampPane == true)
+				//{
+				//	// We have the champion ability pane up!
+				//	m_nSelectedChampSpell--;
+				//	if (m_nSelectedChampSpell < 0)
+				//		m_nSelectedChampSpell = 3;
+				//}
+				//else
+				//{
+				//	// Champion ability is not pulled up, so just move the cursor on the main panel
+				//	m_nSelectedAbility--;
+				//	if (m_nSelectedAbility < 0)
+				//		m_nSelectedAbility = 2;
+				//}
+			}
+			else
+				MoveCursor(-1, 0);
 		}
 		break;
 	case INPUT_RIGHT:
-
-		if (m_pSelectedUnit != nullptr) // we have a unit selected!
 		{
-			// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
-			//if (m_bShowChampPane == true)
-			//{
-			//	// We have the champion ability pane up!
-			//	m_nSelectedChampSpell++;
-			//	if (m_nSelectedChampSpell > 3)
-			//		m_nSelectedChampSpell = 0;
-			//}
-			//else
-			//{
-			//	// Champion ability is not pulled up, so just move the cursor on the main panel
-			//	m_nSelectedAbility++;
-			//	if (m_nSelectedAbility > 2)
-			//		m_nSelectedAbility = 0;
-			//}
+			if (m_pSelectedUnit != nullptr) // we have a unit selected!
+			{
+				// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
+				//if (m_bShowChampPane == true)
+				//{
+				//	// We have the champion ability pane up!
+				//	m_nSelectedChampSpell++;
+				//	if (m_nSelectedChampSpell > 3)
+				//		m_nSelectedChampSpell = 0;
+				//}
+				//else
+				//{
+				//	// Champion ability is not pulled up, so just move the cursor on the main panel
+				//	m_nSelectedAbility++;
+				//	if (m_nSelectedAbility > 2)
+				//		m_nSelectedAbility = 0;
+				//}
+			}
+			else
+				MoveCursor(1, 0);
 		}
-		else
-			MoveCursor(1, 0);
-
 		break;
 	case INPUT_DOWN:
+		{
 		if (m_pSelectedUnit != nullptr) // we have a unit selected
 		{
 			// do nothing! Up arrow does nada;
 		}
 		else
 			MoveCursor(0, 1);
+		}
 		break;
 	default:
 		break;
@@ -143,7 +145,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 
 void CGameplayState::Update(float fElapsedTime)
 {
-
+	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
+	if (pDI->KeyPressed(DIK_UP))
+		Input(INPUT_UP);
+	else if (pDI->KeyPressed(DIK_LEFT))
+		Input(INPUT_LEFT);
+	else if (pDI->KeyPressed(DIK_RIGHT))
+		Input(INPUT_RIGHT);
+	else if (pDI->KeyPressed(DIK_DOWN))
+		Input(INPUT_DOWN);
 }
 
 void CGameplayState::Render(void)
