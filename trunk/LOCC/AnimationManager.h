@@ -20,7 +20,10 @@ private:
 	CAnimationManager& operator=(const CAnimationManager&);
 	static CAnimationManager* s_Instance;
 
-	std::map<UnitType, AnimType> AnimMap;
-
+	std::vector<CAnimation*> m_vSwordsmanAnims;
+	std::vector<CAnimation*> m_vArcherAnims;
+	std::vector<CAnimation*> m_vCalvaryAnims;
+	std::vector<CAnimation*> m_vSkeletonAnims;
+	std::vector<CAnimation*> m_vChampionAnims;
 };
 

@@ -45,7 +45,9 @@ bool CAnimationManager::Load(const char* strName)
 		CAnimation* tempanim;
 		const char* tempchar;
 		tempchar = Animation->Attribute("Name");
-		if(tempchar == "FootmanWalking")
+		tempanim->SetLooping(Animation->Attribute("IsLooping"));
+		tempanim->SetPath(Animation->Attribute("ImgName"));
+		if(tempchar == "SwordsmanWalking")
 		{
 			
 		}
