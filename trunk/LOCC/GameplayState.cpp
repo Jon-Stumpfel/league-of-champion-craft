@@ -32,9 +32,26 @@ void CGameplayState::Enter(void)
 {
 	// test stuff
 
-	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(10, 10), 0, UT_SWORDSMAN);
+	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(30, 30), 0, UT_SWORDSMAN);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
+	pMsg = new CSpawnUnitMessage(Vec2D(100, 30), 0, UT_ARCHER);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(170, 30), 0, UT_HERO);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(240, 30), 0, UT_CAVALRY);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(310, 30), 0, UT_CASTLE);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(380, 30), 0, UT_SKELETON);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(450, 30), 0, UT_ICEBLOCK);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 //	OutputDebugString(_T("CREATING ARCHER\n"));
 //	CGameObject* pArcher = CObjectManager::GetInstance()->CreateObject(UT_ARCHER);
 //	OutputDebugString(_T("CREATING SWORDSMAN\n"));
@@ -80,13 +97,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 
 void CGameplayState::Update(float fElapsedTime)
 {
-	CObjectManager* pOM = CObjectManager::GetInstance();
 
 }
 
 void CGameplayState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(255, 0, 255);
+	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
 
 	CObjectManager::GetInstance()->RenderAllObjects();
 }

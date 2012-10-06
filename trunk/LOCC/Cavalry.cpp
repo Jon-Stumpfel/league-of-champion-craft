@@ -24,6 +24,7 @@ CCavalry::~CCavalry(void)
 }
 void CCavalry::Render(void)
 {
-	RECT soldierRect = {256, 0, 296, 64};
+	RECT soldierRect = {GetPos().nPosX, GetPos().nPosY, GetPos().nPosX + 32, GetPos().nPosY + 32};
+
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 0, 255, 255);	
 }

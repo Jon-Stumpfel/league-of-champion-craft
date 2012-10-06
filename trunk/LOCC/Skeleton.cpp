@@ -26,6 +26,7 @@ CSkeleton::~CSkeleton(void)
 
 void CSkeleton::Render(void)
 {
-	RECT soldierRect = {64, 64, 128, 100};
+	RECT soldierRect = {GetPos().nPosX, GetPos().nPosY, GetPos().nPosX + 32, GetPos().nPosY + 32};
+
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 255, 255, 255);	
 }

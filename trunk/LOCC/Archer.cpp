@@ -25,7 +25,8 @@ CArcher::~CArcher(void)
 
 void CArcher::Render(void)
 {
-	RECT soldierRect = {200, 200, 260, 260};
+	RECT soldierRect = {GetPos().nPosX, GetPos().nPosY, GetPos().nPosX + 32, GetPos().nPosY + 32};
+
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 100, 255,100);	
 }
 

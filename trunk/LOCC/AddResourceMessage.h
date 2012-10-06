@@ -1,20 +1,17 @@
 #pragma once
 
-#include "imessage.h"
+#include "message.h"
 
-class AddResourceMessage : public IMessage
+class CAddResourceMessage : public CMessage
 {
-	enum TileType{};
-
 private:
 
-	TileType m_eTile;
+	TILE_TYPE m_eTile;
 	int m_nPlayerID;
 
 public:
 
-	AddResourceMessage(void);
-	AddResourceMessage(TileType eTile, int nPlayerID);
-	~AddResourceMessage(void);
+	CAddResourceMessage(TILE_TYPE eTile, int nPlayerID);
+	~CAddResourceMessage(void);
 };
 

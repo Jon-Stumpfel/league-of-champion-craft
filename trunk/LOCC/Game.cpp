@@ -31,7 +31,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
 	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
-	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
 }
 
 bool CGame::Main(void)

@@ -1,18 +1,18 @@
 #pragma once
-#include "imessage.h"
-
-class DeSpawnUnitMessage : public IMessage
+#include "Message.h"
+#include "Unit.h"
+class CDespawnUnitMessage : public CMessage
 {
 
 private:
 
-	Vec2D m_sPos;
-	int m_nPlayerID;
+	CUnit* m_pUnitToDespawn;
 
 public:
 
-	DeSpawnUnitMessage(void);
-	DeSpawnUnitMessage( Vec2D sPos, int nPlayerID );
-	~DeSpawnUnitMessage(void);
+	CUnit* GetUnit(void) { return m_pUnitToDespawn;}
+
+	CDespawnUnitMessage( CUnit* pUnit );
+	~CDespawnUnitMessage(void);
 
 };

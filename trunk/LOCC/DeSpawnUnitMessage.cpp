@@ -1,15 +1,15 @@
 #include "StdAfx.h"
 #include "DeSpawnUnitMessage.h"
 
-DeSpawnUnitMessage::DeSpawnUnitMessage(void)
+
+
+CDespawnUnitMessage::CDespawnUnitMessage( CUnit* pUnit ) : CMessage(MSG_DESPAWNUNIT)
 {
+	m_pUnitToDespawn = pUnit;
+	pUnit->AddRef();
 }
 
-DeSpawnUnitMessage::DeSpawnUnitMessage(Vec2D sPos, int nPlayerID)
+CDespawnUnitMessage::~CDespawnUnitMessage(void)
 {
-
-}
-
-DeSpawnUnitMessage::~DeSpawnUnitMessage(void)
-{
+	m_pUnitToDespawn->Release();
 }
