@@ -1,23 +1,26 @@
 #pragma once
 
 #include "StdAfx.h"
-#include "imessage.h"
+#include "Message.h"
 #include "Unit.h"
 
-class SpawnUnitMessage : public IMessage
+class CSpawnUnitMessage : public CMessage
 {
 
 private:
 
 	int m_nPlayerID;
 	Vec2D m_sPos;
-	UNIT_TYPE eType;
+	UNIT_TYPE m_eType;
 
 public:
 
-	SpawnUnitMessage(void);
-	~SpawnUnitMessage(void);
-	SpawnUnitMessage(Vec2D sPos, int nPlayerID);
+	int GetPlayerID(void) { return m_nPlayerID;}
+	Vec2D GetPos(void) { return m_sPos;}
+	UNIT_TYPE GetUnitType(void) { return m_eType;}
+
+	~CSpawnUnitMessage(void);
+	CSpawnUnitMessage(Vec2D sPos, int nPlayerID, UNIT_TYPE eTypeToSpawn);
 
 };
 

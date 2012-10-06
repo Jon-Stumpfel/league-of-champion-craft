@@ -1,5 +1,10 @@
 #include "StdAfx.h"
 #include "GameManager.h"
+#include "ObjectManager.h"
+#include "SpawnUnitMessage.h"
+#include "DeSpawnUnitMessage.h"
+#include "AddResourceMessage.h"
+
 #include "Player.h"
 
 CGameManager* CGameManager::s_Instance = nullptr;
@@ -96,4 +101,24 @@ void CGameManager::Update(float fElapsedTime)
 void CGameManager::SetNextPlayer(int nPlayerID)
 {
 
+}
+
+void CGameManager::MessageProc(IMessage* pMsg)
+{
+	CGameManager* pThis = CGameManager::GetInstance();
+
+	// MESSAGE HANDLING
+	switch (pMsg->GetMessageID())
+	{
+	case MSG_SPAWNUNIT:
+		{
+			CSpawnUnitMessage* pSMSG = dynamic_cast<CSpawnUnitMessage*>(pMsg);
+			CUnit* pUnit = (CUnit*)CObjectManager::GetInstance()->CreateObject(pSMSG->GetUnitType());
+			pUnit->SetPos(pSMSG->GetPos());
+			pUnit->SetPlayerID(pSMSG->GetPlayerID());
+		}
+		break;
+	default:
+		break;
+	}
 }

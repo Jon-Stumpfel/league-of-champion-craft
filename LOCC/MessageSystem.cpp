@@ -21,7 +21,15 @@ CMessageSystem* CMessageSystem::GetInstance( void )
 
 	return s_Instance;
 }
-
+void CMessageSystem::DeleteInstance(void)
+	{
+		if (s_Instance != nullptr)
+		{
+			s_Instance->ShutdownMessageSystem();
+			delete s_Instance;
+		}
+		s_Instance = nullptr;
+	}
 void CMessageSystem::InitMessageSystem( MESSAGEPROC MsgProc )
 {
 	if ( MsgProc == nullptr )

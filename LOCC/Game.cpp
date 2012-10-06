@@ -1,11 +1,15 @@
 #include "StdAfx.h"
 #include "Game.h"
-#include "GameplayState.h"
 #include "GraphicsManager.h"
 #include "GameManager.h"
-#include "MainMenuState.h"
 #include "ObjectManager.h"
+#include "MessageSystem.h"
+
+#include "MainMenuState.h"
+#include "GameplayState.h"
+
 #include "StateStack.h"
+
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -24,7 +28,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 
 	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE);
 
-
+	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
 	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
 	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
@@ -48,6 +52,7 @@ void CGame::Shutdown(void)
 	CGameManager::DeleteInstance();
 	CObjectManager::DeleteInstance();
 	CStateStack::DeleteInstance();
+	CMessageSystem::DeleteInstance();
 }
 
 CGame::CGame(void)
@@ -84,6 +89,8 @@ void CGame::Update(void)
 	if (fElapsedTime > 2)
 		fElapsedTime = 2;
 
+	CMessageSystem* pMS = CMessageSystem::GetInstance();
+	pMS->ProcessMessages();
 	CStateStack::GetInstance()->UpdateStack(fElapsedTime);
 }
 void CGame::Render(void)

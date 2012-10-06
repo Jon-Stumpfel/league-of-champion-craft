@@ -179,6 +179,7 @@
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="MessageSystem.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OptionsMenuState.h" />
