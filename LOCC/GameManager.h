@@ -17,6 +17,8 @@ public:
 	CPlayer* GetPlayer(int nPlayerID);
 
 	void MoveUnit(CUnit* u, int nDirection);
+	void AddUnit(CUnit* pUnit);
+	void RemoveUnit(CUnit* pUnit);
 
 	int GetLevel(void);
 	void LoadLevel(std::string sFileName);

@@ -1,14 +1,13 @@
 #include "StdAfx.h"
 #include "AddResourceMessage.h"
 
-AddResourceMessage::AddResourceMessage(void)
+
+CAddResourceMessage::CAddResourceMessage(TILE_TYPE tile, int playerID) : CMessage(MSG_ADDRESOURCE)
 {
+	m_eTile = tile;
+	m_nPlayerID = playerID;
 }
 
-AddResourceMessage::AddResourceMessage(TileType tile, int playerID)
-{
-}
-
-AddResourceMessage::~AddResourceMessage(void)
+CAddResourceMessage::~CAddResourceMessage(void)
 {
 }

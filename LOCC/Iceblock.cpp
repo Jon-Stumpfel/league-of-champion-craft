@@ -25,7 +25,8 @@ CIceblock::~CIceblock(void)
 
 void CIceblock::Render(void)
 {
-	RECT soldierRect = {0 + 64, 384 + 64, 32 + 64, 384+32 + 64};
+	RECT soldierRect = {GetPos().nPosX, GetPos().nPosY, GetPos().nPosX + 32, GetPos().nPosY + 32};
+
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 0, 255, 0);	
 }
 

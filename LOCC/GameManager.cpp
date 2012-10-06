@@ -88,6 +88,29 @@ void CGameManager::LoadSave(int nSlot)
 {
 }
 
+void CGameManager::AddUnit(CUnit* pUnit)
+{
+	m_vUnits.push_back(pUnit);
+	pUnit->AddRef();
+}
+void CGameManager::RemoveUnit(CUnit* pUnit)
+{
+	std::vector<CUnit*>::iterator iter = m_vUnits.begin();
+
+	while (iter != m_vUnits.end())
+	{
+		if ((*iter) == pUnit)
+		{
+			m_vUnits.erase(iter);
+			pUnit->Release();
+			break;
+		}
+		else
+			++iter;
+	}
+	
+}
+
 void CGameManager::Reset(void)
 {
 }
@@ -102,6 +125,9 @@ void CGameManager::SetNextPlayer(int nPlayerID)
 {
 
 }
+
+
+
 
 void CGameManager::MessageProc(IMessage* pMsg)
 {
@@ -118,7 +144,23 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());
 		}
 		break;
+	case MSG_DESPAWNUNIT:
+		{
+			CDespawnUnitMessage* pSMSG = dynamic_cast<CDespawnUnitMessage*>(pMsg);
+			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
+		}
+		break;
+	case MSG_ADDRESOURCE:
+		{
+			CAddResourceMessage* pSMSG = dynamic_cast<CAddResourceMessage*>(pMsg);
+			switch (pSMSG->GetTileType())
+			{
+
+			}
+		}
+		break;
 	default:
 		break;
 	}
 }
+

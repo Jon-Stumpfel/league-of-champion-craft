@@ -25,6 +25,7 @@ CHero::~CHero(void)
 
 void CHero::Render(void)
 {
-	RECT soldierRect = {128, 0, 168, 32};
+	RECT soldierRect = {GetPos().nPosX, GetPos().nPosY, GetPos().nPosX + 32, GetPos().nPosY + 32};
+
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 205, 150, 100);	
 }

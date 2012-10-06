@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ObjectManager.h"
+#include "GameManager.h"
 #include "Castle.h"
 #include "Archer.h"
 #include "Swordsman.h"
@@ -53,6 +54,7 @@ CGameObject* CObjectManager::CreateObject(UNIT_TYPE type)
 		assert( pNewObject != nullptr && "CObjectManager::CreateObject did not receive a valid input");
 		break;
 	}
+	CGameManager::GetInstance()->AddUnit((CUnit*)pNewObject);
 	AddObject(pNewObject);
 	return pNewObject;
 }
@@ -73,6 +75,7 @@ void CObjectManager::RemoveObject( CGameObject* pObject )
 
 	OListIterator iter = m_pObjectList.begin();
 
+	CGameManager::GetInstance()->RemoveUnit((CUnit*)pObject);
 	while (iter != m_pObjectList.end())
 	{
 		if ((*iter) == pObject)
