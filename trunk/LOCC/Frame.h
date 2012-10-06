@@ -8,12 +8,11 @@ public:
 	~CFrame(void);
 
 private:
-
-	int m_nImgID;
+	Vec2D Position;
+	int width;
+	int height;
+	RECT m_rImageRect;
+	int m_iFrameNumber;
 	float m_fTimePlayed;
-
-	Vec2D m_sPos;
-	Vec2D m_sAnchorPos;
-
 };
 

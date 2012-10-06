@@ -30,3 +30,24 @@ CAnimationManager* CAnimationManager::GetInstance( void )
 
 	return s_Instance;
 }
+
+bool CAnimationManager::Load(const char* strName)
+{
+	TiXmlDocument doc;
+	if(doc.LoadFile(strName) == false)
+		return false;
+	TiXmlElement* pRoot = doc.RootElement();
+	if(pRoot == nullptr)
+		return false;
+	TiXmlElement* Animation = pRoot->FirstChildElement("Animation");
+	while(Animation != nullptr)
+	{
+		CAnimation* tempanim;
+		const char* tempchar;
+		tempchar = Animation->Attribute("Name");
+		if(tempchar == "FootmanWalking")
+		{
+			
+		}
+	}
+}
