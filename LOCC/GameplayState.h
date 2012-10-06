@@ -2,6 +2,7 @@
 #include "StdAfx.h"
 #include "igamestate.h"
 #include "InputManager.h"
+#include "Unit.h"
 class CGameplayState :	public IGameState
 	{
 public:
@@ -21,6 +22,11 @@ private:
 	CGameplayState(const CGameplayState&);
 	CGameplayState& operator=(const CGameplayState&);
 
+	void MoveCursor(int dX, int dY);
+	Vec2D m_CameraPos;
+	Vec2D m_SelectionPos;
+
+	CUnit* m_pSelectedUnit;
 //	static CGameplayState* s_Instance;
 
 };

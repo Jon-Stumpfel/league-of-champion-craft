@@ -32,67 +32,113 @@ void CGameplayState::Enter(void)
 {
 	// test stuff
 
-	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(30, 30), 0, UT_SWORDSMAN);
+	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(32, 32), 0, UT_SWORDSMAN);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-	pMsg = new CSpawnUnitMessage(Vec2D(100, 30), 0, UT_ARCHER);
+	pMsg = new CSpawnUnitMessage(Vec2D(96, 32), 0, UT_ARCHER);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-	pMsg = new CSpawnUnitMessage(Vec2D(170, 30), 0, UT_HERO);
+	pMsg = new CSpawnUnitMessage(Vec2D(160, 32), 0, UT_HERO);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-	pMsg = new CSpawnUnitMessage(Vec2D(240, 30), 0, UT_CAVALRY);
+	pMsg = new CSpawnUnitMessage(Vec2D(224, 32), 0, UT_CAVALRY);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-	pMsg = new CSpawnUnitMessage(Vec2D(310, 30), 0, UT_CASTLE);
+	pMsg = new CSpawnUnitMessage(Vec2D(288, 30), 0, UT_CASTLE);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-	pMsg = new CSpawnUnitMessage(Vec2D(380, 30), 0, UT_SKELETON);
+	pMsg = new CSpawnUnitMessage(Vec2D(352, 30), 0, UT_SKELETON);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-	pMsg = new CSpawnUnitMessage(Vec2D(450, 30), 0, UT_ICEBLOCK);
+	pMsg = new CSpawnUnitMessage(Vec2D(416, 30), 0, UT_ICEBLOCK);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-//	OutputDebugString(_T("CREATING ARCHER\n"));
-//	CGameObject* pArcher = CObjectManager::GetInstance()->CreateObject(UT_ARCHER);
-//	OutputDebugString(_T("CREATING SWORDSMAN\n"));
-//	CGameObject* pSwordsman = CObjectManager::GetInstance()->CreateObject(UT_SWORDSMAN);
-//
-//	OutputDebugString(_T("CREATING HERO\n"));
-//	CGameObject* pHero = CObjectManager::GetInstance()->CreateObject(UT_HERO);
-//
-//	OutputDebugString(_T("CREATING ICEBLOCK\n"));
-//	CGameObject* pIceblock = CObjectManager::GetInstance()->CreateObject(UT_ICEBLOCK);
-//
-//	OutputDebugString(_T("CREATING SKELETON\n"));
-//	CGameObject* pSkeleton = CObjectManager::GetInstance()->CreateObject(UT_SKELETON);
-//
-//	OutputDebugString(_T("CREATING CAVALRY\n"));
-//	CGameObject* pCavalry = CObjectManager::GetInstance()->CreateObject(UT_CAVALRY);
-////	CObjectManager::GetInstance()->RemoveObject(pArcher);
-//	OutputDebugString(_T("CREATING NEW ARCHER\n"));
-//	CGameObject* pNewArcher = CObjectManager::GetInstance()->CreateObject(UT_ARCHER);
-//
-//
-//	CGameObject* pCastle = CObjectManager::GetInstance()->CreateObject(UT_CASTLE);
-//
-//
-//
-//	CPlayer* pPlayer = CGameManager::GetInstance()->CreatePlayer(false);
-//
-//	CGameManager* pGM  = CGameManager::GetInstance();
-//
-//
-//	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Animations\\footman.png"), _T("swordsman"), DWORD(0000));
 
-	//CObjectManager::DeleteInstance();
+	CGameManager::GetInstance()->CreatePlayer(false);
 }
 
 void CGameplayState::Exit(void)
 {
 }
-
+void CGameplayState::MoveCursor(int dX, int dY)
+{
+	m_SelectionPos.nPosX += dX * 32;
+	m_SelectionPos.nPosY += dY * 32;
+}
 void CGameplayState::Input(INPUT_ENUM input)
 {
+	switch (input)
+	{
+	case INPUT_UP:
+		{
+			if (m_pSelectedUnit != nullptr)
+			{
+				// do nothing, up arrow does nothing with a unit selected
+			}
+			else
+			{
+				MoveCursor(0, -1);
+			}
+		}
+		break;
+	case INPUT_LEFT:
+		{
+		if (m_pSelectedUnit != nullptr) // we have a unit selected!
+		{
+			// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
+			//if (ShowChampPane == true)
+			//{
+			//	// We have the champion ability pane up!
+			//	m_nSelectedChampSpell--;
+			//	if (m_nSelectedChampSpell < 0)
+			//		m_nSelectedChampSpell = 3;
+			//}
+			//else
+			//{
+			//	// Champion ability is not pulled up, so just move the cursor on the main panel
+			//	m_nSelectedAbility--;
+			//	if (m_nSelectedAbility < 0)
+			//		m_nSelectedAbility = 2;
+			//}
+		}
+		else
+			MoveCursor(-1, 0);
+		}
+		break;
+	case INPUT_RIGHT:
+
+		if (m_pSelectedUnit != nullptr) // we have a unit selected!
+		{
+			// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
+			//if (m_bShowChampPane == true)
+			//{
+			//	// We have the champion ability pane up!
+			//	m_nSelectedChampSpell++;
+			//	if (m_nSelectedChampSpell > 3)
+			//		m_nSelectedChampSpell = 0;
+			//}
+			//else
+			//{
+			//	// Champion ability is not pulled up, so just move the cursor on the main panel
+			//	m_nSelectedAbility++;
+			//	if (m_nSelectedAbility > 2)
+			//		m_nSelectedAbility = 0;
+			//}
+		}
+		else
+			MoveCursor(1, 0);
+
+		break;
+	case INPUT_DOWN:
+		if (m_pSelectedUnit != nullptr) // we have a unit selected
+		{
+			// do nothing! Up arrow does nada;
+		}
+		else
+			MoveCursor(0, 1);
+		break;
+	default:
+		break;
+	}
 }
 
 void CGameplayState::Update(float fElapsedTime)
@@ -105,4 +151,17 @@ void CGameplayState::Render(void)
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
 
 	CObjectManager::GetInstance()->RenderAllObjects();
+
+
+	// DEBUG STUFF
+	CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetPlayer(0);
+	std::wostringstream oss;
+	oss << "Player: " << pDebugPlayer->GetPlayerID() << ", AP: " << pDebugPlayer->GetAP() << ", POP: "
+		<< pDebugPlayer->GetPopCap() << ", WOOD: " << pDebugPlayer->GetWood() << ", METAL: " << pDebugPlayer->GetMetal() << '\n';
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 0, 255, 255, 255);
+
+	// selection cursor
+	RECT selectRect = { m_SelectionPos.nPosX, m_SelectionPos.nPosY, 32, 32};
+	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
 }
+

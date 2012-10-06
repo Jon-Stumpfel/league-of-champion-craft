@@ -83,3 +83,11 @@ void CGraphicsManager::Shutdown( void )
 		m_vImageIDs.pop_back();
 	}
 }
+
+void CGraphicsManager::DrawWireframeRect(RECT r, int red, int green, int blue)
+{
+	CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top, r.left, r.top + r.bottom, red, green, blue);
+	CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top, r.left + r.right, r.top, red, green, blue);
+	CSGD_Direct3D::GetInstance()->DrawLine(r.left + r.right, r.top, r.left + r.right, r.top + r.bottom, red, green, blue);
+	CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top + r.bottom, r.left + r.right, r.top + r.bottom, red, green, blue);
+}
