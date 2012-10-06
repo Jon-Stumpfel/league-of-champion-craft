@@ -10,7 +10,8 @@ private:
 	int m_nPlayerID;
 
 public:
-
+	TILE_TYPE GetTileType(void) { return m_eTile;}
+	int GetPlayerID(void) { return m_nPlayerID;}
 	CAddResourceMessage(TILE_TYPE eTile, int nPlayerID);
 	~CAddResourceMessage(void);
 };
