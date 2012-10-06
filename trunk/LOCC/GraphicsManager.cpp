@@ -16,7 +16,20 @@ CGraphicsManager::~CGraphicsManager(void)
 
 int CGraphicsManager::GetID( TSTRING szGraphicsID )
 {
-	return -1;
+	int returnID = -1;
+
+	if (szGraphicsID != _T(""))
+	{
+		for (decltype(m_vImageIDs.size()) i = 0; i < m_vImageIDs.size(); ++i)
+		{
+			if (m_vImageIDs[i].first == szGraphicsID)
+				return m_vImageIDs[i].second;
+		}
+	}
+
+	assert(returnID != -1 && "TextureManager GetTexture returnID found to be -1");
+
+	return returnID;
 }
 
 void CGraphicsManager::LoadImage( TSTRING szFilename, TSTRING szReferenceName, DWORD colorKey )
