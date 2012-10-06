@@ -14,16 +14,26 @@ CGraphicsManager::~CGraphicsManager(void)
 {
 }
 
-int CGraphicsManager::GetID( std::string szGraphicsID )
+int CGraphicsManager::GetID( TSTRING szGraphicsID )
 {
 	return -1;
 }
 
-void CGraphicsManager::LoadImage( std::string szFilename, std::string szReferenceName )
+void CGraphicsManager::LoadImage( TSTRING szFilename, TSTRING szReferenceName, DWORD colorKey )
 {
-	
+	int newID = CSGD_TextureManager::GetInstance()->LoadTexture(szFilename.c_str(), colorKey);
+
+	ImageID newImageID;
+	newImageID.first = szFilename;
+	newImageID.second = newID;
+
+	m_vImageIDs.push_back(newImageID);
 }
 
+void CGraphicsManager::RemoveImage(TSTRING szReferenceName, int ID = -1)
+{
+
+}
 CGraphicsManager* CGraphicsManager::GetInstance( void )
 {
 	if (s_Instance == nullptr)
@@ -41,7 +51,7 @@ void CGraphicsManager::DeleteInstance(void)
 
 void CGraphicsManager::Initialize( HWND hWnd, HINSTANCE hInstance,
 	int nScreenWidth, int nScreenHeight,
-				bool bIsWindowed )
+	bool bIsWindowed )
 {
 	CSGD_Direct3D::GetInstance()->InitDirect3D(hWnd, nScreenWidth, nScreenHeight, bIsWindowed);	
 	CSGD_TextureManager::GetInstance()->InitTextureManager(CSGD_Direct3D::GetInstance()->GetDirect3DDevice(), 
