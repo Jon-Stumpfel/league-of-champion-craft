@@ -2,12 +2,6 @@
 
 class CPlayer
 {
-
-public:
-
-	CPlayer(void);
-	~CPlayer(void);
-
 private:
 
 	int m_nPlayerID;
@@ -17,6 +11,31 @@ private:
 	int m_nPopCap;
 	int m_nExp;
 	int m_nJoystickNum;
+
+public:
+
+	CPlayer(int nPlayerID);
+	~CPlayer(void);
+
+	int GetAP(void) { return m_nAP;}
+	void SetAP(int AP){m_nAP = AP;}
+
+	int GetMetal(void) { return m_nMetal;}
+	void SetMetal(int m) { m_nMetal = m;}
+
+	int GetWood(void) { return m_nWood;}
+	void SetWood(int w){ m_nWood = w;}
+
+	int GetPopCap(void) { return m_nPopCap;}
+	void SetPopCap(int p) { m_nPopCap = p;}
+
+	int GetExp(void) { return m_nExp;}
+	void SetExp(int e) { m_nExp = e;}
+
+	int GetJoyNum(void) { return m_nJoystickNum;}
+	void SetJoyNum(int j) { m_nJoystickNum = j;}
+
+	int GetPlayerID(void) { return m_nPlayerID;}
 
 };
 

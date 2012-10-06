@@ -43,7 +43,7 @@ void CGraphicsManager::LoadImage( TSTRING szFilename, TSTRING szReferenceName, D
 	m_vImageIDs.push_back(newImageID);
 }
 
-void CGraphicsManager::RemoveImage(TSTRING szReferenceName, int ID = -1)
+void CGraphicsManager::RemoveImage(TSTRING szReferenceName, int ID)
 {
 
 }
