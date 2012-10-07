@@ -9,6 +9,7 @@
 #include "Unit.h"
 #include "ParticleManager.h"
 #include "Player.h"
+#include "TileManager.h"
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -63,6 +64,13 @@ void CGameplayState::Enter(void)
 	test.nPosY = 300;
 
 	pPM->LoadParticles( TEST, test );
+
+	CTileManager* pTM=CTileManager::GetInstance();
+
+	string filename= "Assets\\Tiles\\TestMap.xml";
+
+	pTM->LoadSave(filename);
+
 
 	// INITIALIZATION SETUP
 	m_bIsMoving = false;
