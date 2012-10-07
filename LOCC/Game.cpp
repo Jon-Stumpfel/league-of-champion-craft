@@ -10,13 +10,11 @@
 
 #include "StateStack.h"
 
-
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
 
 	return &s_Instance;
-
 }
 
 void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
@@ -35,9 +33,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	
 
 	m_dwCurrTime = GetTickCount();
-
-	srand( unsigned int(0) );
-	rand();
 }
 
 bool CGame::Main(void)
