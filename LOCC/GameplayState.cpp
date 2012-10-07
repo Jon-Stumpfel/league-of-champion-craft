@@ -204,6 +204,14 @@ void CGameplayState::Update(float fElapsedTime)
 		Input(INPUT_ACCEPT);
 	else if (pDI->KeyPressed(DIK_Z))
 		Input(INPUT_CANCEL);
+	else if (pDI->KeyPressed(DIK_D)) // DEBUG DELETE SELECTED UNIT
+	{
+		if (m_pSelectedUnit)
+		{
+		CObjectManager::GetInstance()->RemoveObject(m_pSelectedUnit);
+			Input(INPUT_CANCEL);
+		}
+	}
 }
 
 void CGameplayState::Render(void)
