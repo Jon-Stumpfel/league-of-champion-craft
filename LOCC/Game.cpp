@@ -10,6 +10,7 @@
 
 #include "StateStack.h"
 
+
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;

@@ -152,7 +152,7 @@ void CGameManager::MessageProc(IMessage* pMsg)
 		break;
 	case MSG_ADDRESOURCE:
 		{
-			CAddResourceMessage* pSMSG = dynamic_cast<CAddResourceMessage*>(pMsg);
+			/*CAddResourceMessage* pSMSG = dynamic_cast<CAddResourceMessage*>(pMsg);
 			CPlayer* pPlayer = pThis->GetPlayer(pSMSG->GetPlayerID());
 
 			switch (pSMSG->GetTileType())
@@ -177,7 +177,7 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				break;
 			default:
 				break;
-			}
+			}*/
 		}
 		break;
 	default:
