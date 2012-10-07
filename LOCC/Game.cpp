@@ -86,8 +86,8 @@ void CGame::Update(void)
 
 	m_dwCurrTime = dwNow;
 
-	if (fElapsedTime > 2)
-		fElapsedTime = 2;
+	if (fElapsedTime > 2.0f)
+		fElapsedTime = 2.0f;
 
 	CMessageSystem* pMS = CMessageSystem::GetInstance();
 	pMS->ProcessMessages();

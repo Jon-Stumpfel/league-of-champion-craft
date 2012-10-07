@@ -96,14 +96,14 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 
 	pImageData->QueryFloatAttribute( "StartingRotation", &m_fStartRot );
 	pImageData->QueryFloatAttribute( "EndingRotation", &m_fEndRot );
-	pImageData->Attribute( "StartingXVel", &m_sStartVel.nPosX );
-	pImageData->Attribute( "EndingXVel", &m_sEndVel.nPosX );
-	pImageData->Attribute( "StartingYVel", &m_sStartVel.nPosY );
-	pImageData->Attribute( "EndingYVel", &m_sEndVel.nPosY );
-	pImageData->Attribute( "MinXVel", &m_sMinVel.nPosX );
-	pImageData->Attribute( "MaxXVel", &m_sMaxVel.nPosX );
-	pImageData->Attribute( "MinYVel", &m_sMinVel.nPosY );
-	pImageData->Attribute( "MaxYVel", &m_sMaxVel.nPosY );
+	pImageData->QueryFloatAttribute( "StartingXVel", &m_sStartVel.fVecX );
+	pImageData->QueryFloatAttribute( "EndingXVel", &m_sEndVel.fVecX );
+	pImageData->QueryFloatAttribute( "StartingYVel", &m_sStartVel.fVecY );
+	pImageData->QueryFloatAttribute( "EndingYVel", &m_sEndVel.fVecY );
+	pImageData->QueryFloatAttribute( "MinXVel", &m_sMinVel.fVecX );
+	pImageData->QueryFloatAttribute( "MaxXVel", &m_sMaxVel.fVecX );
+	pImageData->QueryFloatAttribute( "MinYVel", &m_sMinVel.fVecY );
+	pImageData->QueryFloatAttribute( "MaxYVel", &m_sMaxVel.fVecY );
 	pImageData->QueryFloatAttribute( "StartingScale", &m_fStartScale );
 	pImageData->QueryFloatAttribute( "EndingScale", &m_fEndScale );
 
@@ -121,13 +121,18 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 	// Populates the list of AliveParticles
 	for( int i = 0; i < m_nNumParticles; i++ )
 	{
-		Vec2D vel = m_sStartVel;
+		Vec2Df vel = m_sStartVel;
 
-		vel.nPosX = rand() % ((m_sMaxVel.nPosX - m_sMinVel.nPosX) + 1) + m_sMinVel.nPosX;
-		vel.nPosY = rand() % ((m_sMaxVel.nPosY - m_sMinVel.nPosY) + 1) + m_sMinVel.nPosY;
+		int maxX = int(m_sMaxVel.fVecX * 100);
+		int maxY = int(m_sMaxVel.fVecY * 100);
+		int minX = int(m_sMinVel.fVecX * 100);
+		int minY = int(m_sMinVel.fVecY * 100);
 
-		vel.nPosX *= m_sStartVel.nPosX;
-		vel.nPosY *= m_sStartVel.nPosY;
+		float tmpX = float(rand() % ((maxX - minX) + 1) + minX);
+		float tmpY = float(rand() % ((maxY - minY) + 1) + minY);
+
+		vel.fVecX = (tmpX / 100.0f) * m_sStartVel.fVecX;
+		vel.fVecY = (tmpY / 100.0f) * m_sStartVel.fVecY;
 
 		int maxLife = int(m_fMaxLife * 100);
 		int minLife = int(m_fMinLife * 100);
@@ -158,14 +163,14 @@ void CEmitter::Update( float fElapsedTime )
 {
 	// Checks to see if it can spawn another particle
 	// then adds one to the number spawned
-	if( m_fSpawnTimer < m_fSpawnRate )
+	if( m_fSpawnTimer > m_fSpawnRate )
 	{
 		if( m_vAliveParticles.size() > m_nNumSpawned )
 			m_nNumSpawned++;
 		m_fSpawnTimer = 0;
 	}
 
-	m_fSpawnTimer += fElapsedTime / 10;
+	m_fSpawnTimer += fElapsedTime;
 
 	// loops through the spawned particles 
 	for( unsigned int i = 0; i < m_nNumSpawned; i++ )
@@ -196,34 +201,42 @@ void CEmitter::Update( float fElapsedTime )
 
 		// Changes the color over time
 		Color oldColor = m_vAliveParticles[i]->GetColor();
-		Color perColor;
+		float perA, perR, perG, perB;
 
 		if( oldColor.a != 0 )
-			perColor.a = int(((m_sEndColor.a - oldColor.a) / oldColor.a));
+			perA = float((m_sEndColor.a - oldColor.a) / oldColor.a);
 		else 
-			perColor.a = int(((m_sEndColor.a - oldColor.a)));
+			perA = float((m_sEndColor.a - oldColor.a));
+
+		perA *= fElapsedTime;
 
 		if( oldColor.r != 0 )
-			perColor.r = int(((m_sEndColor.r - oldColor.r) / oldColor.r));
+			perR = float((m_sEndColor.r - oldColor.r) / oldColor.r);
 		else
-			perColor.r = int(((m_sEndColor.r - oldColor.r)));
+			perR = float((m_sEndColor.r - oldColor.r));
+
+		perR *= fElapsedTime;
 
 		if( oldColor.g != 0 )
-			perColor.g = int(((m_sEndColor.g - oldColor.g) / oldColor.g));
+			perG = float((m_sEndColor.g - oldColor.g) / oldColor.g);
 		else
-			perColor.g = int(((m_sEndColor.g - oldColor.g)));
+			perG = float((m_sEndColor.g - oldColor.g));
+
+		perG *= fElapsedTime;
 
 		if( oldColor.b != 0 )
-			perColor.b = int(((m_sEndColor.b - oldColor.b) / oldColor.b));
+			perB = float((m_sEndColor.b - oldColor.b) / oldColor.b);
 		else
-			perColor.b = int(((m_sEndColor.b - oldColor.b)));
+			perB = float((m_sEndColor.b - oldColor.b));
+
+		perB *= fElapsedTime;
 
 
 		Color newColor;
-		newColor.a = oldColor.a + (perColor.a * oldColor.a);
-		newColor.r = oldColor.r + (perColor.r * oldColor.r);
-		newColor.g = oldColor.g + (perColor.g * oldColor.g);
-		newColor.b = oldColor.b + (perColor.b * oldColor.b);
+		newColor.a = int(oldColor.a + (perA * oldColor.a));
+		newColor.r = int(oldColor.r + (perR * oldColor.r));
+		newColor.g = int(oldColor.g + (perG * oldColor.g));
+		newColor.b = int(oldColor.b + (perB * oldColor.b));
 
 		m_vAliveParticles[i]->SetColor( newColor );
 
@@ -234,6 +247,8 @@ void CEmitter::Update( float fElapsedTime )
 			perRot = (m_fEndRot - oldRot) / oldRot;
 		else
 			perRot = (m_fEndRot - oldRot);
+
+		perRot *= fElapsedTime;
 
 		float newRot = oldRot + (perRot * oldRot);
 		m_vAliveParticles[i]->SetRotation( newRot );
@@ -246,26 +261,31 @@ void CEmitter::Update( float fElapsedTime )
 		else 
 			perRot = (m_fEndScale - oldScale);
 
+		perRot *= fElapsedTime;
+
 		float newScale;
 		newScale = oldScale + (perScale * oldScale);
 		m_vAliveParticles[i]->SetScale( newScale );
 
 		// changes the velocity over time
-		Vec2D oldVel = m_vAliveParticles[i]->GetVel();
-		Vec2D perVel;
-		if( oldVel.nPosX != 0 )
-			perVel.nPosX = (m_sEndVel.nPosX - oldVel.nPosX) / oldVel.nPosX;
+		Vec2Df oldVel = m_vAliveParticles[i]->GetVel();
+		float perX, perY;
+		if( oldVel.fVecX != 0 )
+			perX = float(m_sEndVel.fVecX - oldVel.fVecX) / oldVel.fVecX;
 		else
-			perVel.nPosX = (m_sEndVel.nPosX - oldVel.nPosX);
+			perX = float(m_sEndVel.fVecX - oldVel.fVecX);
 
-		if( oldVel.nPosY != 0 )
-			perVel.nPosY = (m_sEndVel.nPosY - oldVel.nPosY) / oldVel.nPosY;
+		if( oldVel.fVecY != 0 )
+			perY = float(m_sEndVel.fVecY - oldVel.fVecY) / oldVel.fVecY;
 		else
-			perVel.nPosY = (m_sEndVel.nPosY - oldVel.nPosY);
+			perY = float((m_sEndVel.fVecY - oldVel.fVecY));
 
-		Vec2D newVel;
-		newVel.nPosX = oldVel.nPosX + (perVel.nPosX * oldVel.nPosX);
-		newVel.nPosY = oldVel.nPosY + (perVel.nPosY * oldVel.nPosY);
+		perX *= fElapsedTime;
+		perY *= fElapsedTime;
+
+		Vec2Df newVel;
+		newVel.fVecX = oldVel.fVecX + (perX * oldVel.fVecX);
+		newVel.fVecY = oldVel.fVecY + (perY * oldVel.fVecY);
 		m_vAliveParticles[i]->SetVel( newVel );
 	}
 }
@@ -275,10 +295,18 @@ void CEmitter::Loop( void )
 	// Populates the list of AliveParticles
 	for( int i = 0; i < m_nNumParticles; i++ )
 	{
-		Vec2D vel = m_sStartVel;
+		Vec2Df vel = m_sStartVel;
 
-		vel.nPosX *= rand() % ((m_sMaxVel.nPosX - m_sMinVel.nPosX) + 1) + m_sMinVel.nPosX;
-		vel.nPosY *= rand() % ((m_sMaxVel.nPosY - m_sMinVel.nPosY) + 1) + m_sMinVel.nPosY;
+		int maxX = int(m_sMaxVel.fVecX * 100);
+		int maxY = int(m_sMaxVel.fVecY * 100);
+		int minX = int(m_sMinVel.fVecX * 100);
+		int minY = int(m_sMinVel.fVecY * 100);
+
+		float tmpX = float(rand() % ((maxX - minX) + 1) + minX);
+		float tmpY = float(rand() % ((maxY - minY) + 1) + minY);
+
+		vel.fVecX = (tmpX / 100.0f) * m_sStartVel.fVecX;
+		vel.fVecY = (tmpY / 100.0f) * m_sStartVel.fVecY;
 
 		int maxLife = int(m_fMaxLife * 100);
 		int minLife = int(m_fMinLife * 100);
