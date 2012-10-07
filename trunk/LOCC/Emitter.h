@@ -37,13 +37,15 @@ private:
 	Color m_sStartColor;
 	Color m_sEndColor;
 
+	Vec2Df m_sMinDir;
+	Vec2Df m_sMaxDir;
 	Vec2Df m_sStartVel;
 	Vec2Df m_sEndVel;
-	Vec2Df m_sMaxAccel;
-	Vec2Df m_sMinAccel;
 	Vec2D m_sImgPos;
 	Vec2D m_sEmitPos;
 
+	int m_nMinSpawnRate;	
+	int m_nMaxSpawnRate;
 	float m_fSpawnRate;
 	float m_fStartRot;
 	float m_fEndRot;

@@ -59,8 +59,8 @@ void CGameplayState::Enter(void)
 	CParticleManager* pPM = CParticleManager::GetInstance();
 
 	Vec2D test;
-	test.nPosX = 100;
-	test.nPosY = 100;
+	test.nPosX = 400;
+	test.nPosY = 300;
 
 	pPM->LoadParticles( TEST, test );
 
@@ -190,7 +190,6 @@ void CGameplayState::Update(float fElapsedTime)
 	std::wostringstream woss;
 	woss << "Time Elapsed: " << fElapsedTime << "\n";
 	OutputDebugString(woss.str().c_str());
-	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 	if (pDI->KeyPressed(DIK_UP))
 		Input(INPUT_UP);
@@ -212,17 +211,20 @@ void CGameplayState::Update(float fElapsedTime)
 			Input(INPUT_CANCEL);
 		}
 	}
+
+	// Testing Particle Rendering
+	CParticleManager::GetInstance()->Update(fElapsedTime);
 }
 
 void CGameplayState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
+	CSGD_Direct3D::GetInstance()->Clear(1, 1, 1);
 	CObjectManager::GetInstance()->RenderAllObjects();
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
+	// Testing particle rendering
 	CParticleManager::GetInstance()->Render();
-
 
 	// DEBUG STUFF
 	CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetPlayer(0);
