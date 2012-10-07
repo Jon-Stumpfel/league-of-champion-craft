@@ -83,6 +83,6 @@ public:
 	void SetIsMoving(bool b) { m_bIsMoving = b;}
 	bool GetIsMoving(void) { return m_bIsMoving;}
 
-
+	UNIT_TYPE GetType(void) { return m_eType;}
 };
 

@@ -63,6 +63,12 @@ void CGameplayState::Enter(void)
 	test.nPosY = 100;
 
 	pPM->LoadParticles( TEST, test );
+
+	// INITIALIZATION SETUP
+	m_bIsMoving = false;
+	m_pSelectedUnit = nullptr;
+	m_CameraPos = Vec2D(0, 0);
+	m_SelectionPos = Vec2D(0, 0);
 }
 
 void CGameplayState::Exit(void)
@@ -70,8 +76,8 @@ void CGameplayState::Exit(void)
 }
 void CGameplayState::MoveCursor(int dX, int dY)
 {
-	m_SelectionPos.nPosX += dX * 32;
-	m_SelectionPos.nPosY += dY * 32;
+	m_SelectionPos.nPosX += dX;
+	m_SelectionPos.nPosY += dY;
 }
 void CGameplayState::Input(INPUT_ENUM input)
 {
@@ -79,7 +85,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 	{
 	case INPUT_UP:
 		{
-			if (m_pSelectedUnit != nullptr)
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving))
 			{
 				// do nothing, up arrow does nothing with a unit selected
 			}
@@ -91,7 +97,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_LEFT:
 		{
-			if (m_pSelectedUnit != nullptr) // we have a unit selected!
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected!
 			{
 				// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
 				//if (ShowChampPane == true)
@@ -115,7 +121,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_RIGHT:
 		{
-			if (m_pSelectedUnit != nullptr) // we have a unit selected!
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected!
 			{
 				// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
 				//if (m_bShowChampPane == true)
@@ -139,7 +145,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_DOWN:
 		{
-		if (m_pSelectedUnit != nullptr) // we have a unit selected
+		if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected
 		{
 			// do nothing! Up arrow does nada;
 		}
@@ -147,11 +153,38 @@ void CGameplayState::Input(INPUT_ENUM input)
 			MoveCursor(0, 1);
 		}
 		break;
+	case INPUT_ACCEPT:
+		{
+			if (m_pSelectedUnit == nullptr)
+			{
+				m_pSelectedUnit = CGameManager::GetInstance()->FindUnit(m_SelectionPos);
+			}
+			else
+			{
+				if (m_bIsMoving)
+				{
+					MoveToTile(m_SelectionPos);
+				}
+				else
+					m_bIsMoving = true;
+			}
+		}
+		break;
+	case INPUT_CANCEL:
+		{
+			m_pSelectedUnit = nullptr;
+			m_bIsMoving = false;
+		}
+		break;
 	default:
 		break;
 	}
 }
-
+void CGameplayState::MoveToTile(Vec2D nTilePosition)
+{
+	m_pSelectedUnit->SetPos(nTilePosition);
+	m_bIsMoving = false;
+}
 void CGameplayState::Update(float fElapsedTime)
 {
 	std::wostringstream woss;
@@ -167,6 +200,10 @@ void CGameplayState::Update(float fElapsedTime)
 		Input(INPUT_RIGHT);
 	else if (pDI->KeyPressed(DIK_DOWN))
 		Input(INPUT_DOWN);
+	else if (pDI->KeyPressed(DIK_RETURN))
+		Input(INPUT_ACCEPT);
+	else if (pDI->KeyPressed(DIK_Z))
+		Input(INPUT_CANCEL);
 }
 
 void CGameplayState::Render(void)
@@ -186,7 +223,21 @@ void CGameplayState::Render(void)
 		<< pDebugPlayer->GetPopCap() << ", WOOD: " << pDebugPlayer->GetWood() << ", METAL: " << pDebugPlayer->GetMetal() << '\n';
 	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 0, 255, 255, 255);
 
+	oss.str(_T(""));
+	oss << "Selected Unit: ";
+	if (m_pSelectedUnit != nullptr)
+	{
+		oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
+			m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
+	}
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
+
 	// selection cursor
-	RECT selectRect = { m_SelectionPos.nPosX, m_SelectionPos.nPosY, 32, 32};
-	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
+	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth, m_SelectionPos.nPosY * nFakeTileHeight, 
+		nFakeTileWidth, nFakeTileHeight};
+	if (m_bIsMoving)
+		CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
+	else
+		CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
+
 }

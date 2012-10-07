@@ -20,6 +20,7 @@ public:
 	void AddUnit(CUnit* pUnit);
 	void RemoveUnit(CUnit* pUnit);
 	CUnit* FindUnit(int posX, int posY);
+	CUnit* FindUnit(Vec2D pos);
 
 	int GetLevel(void);
 	void LoadLevel(std::string sFileName);
