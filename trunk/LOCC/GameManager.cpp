@@ -132,23 +132,26 @@ void CGameManager::SetNextPlayer(int nPlayerID)
 
 }
 
-
 CUnit* CGameManager::FindUnit(int posX, int posY)
 {
 	std::vector<CUnit*>::iterator iter = m_vUnits.begin();
 
 	while (iter != m_vUnits.end())
 	{
-		//if ((*iter)->GetPos() == Vec2D(posX, posY))
-	//	{
-		//	return (*iter);
-		//	break;
-	//	}
-
-
+		if ((*iter)->GetPos() == Vec2D(posX, posY))
+		{
+			return (*iter);
+			break;
+		}
+		++iter;
 	}
 	return nullptr;
 }
+CUnit* CGameManager::FindUnit(Vec2D pos)
+{
+	return FindUnit(pos.nPosX, pos.nPosY);
+}
+
 
 void CGameManager::MessageProc(IMessage* pMsg)
 {

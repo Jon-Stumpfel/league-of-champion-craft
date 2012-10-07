@@ -23,10 +23,13 @@ private:
 	CGameplayState& operator=(const CGameplayState&);
 
 	void MoveCursor(int dX, int dY);
+	void MoveToTile(Vec2D nTilePosition);
 	Vec2D m_CameraPos;
 	Vec2D m_SelectionPos;
 
 	CUnit* m_pSelectedUnit;
+
+	bool m_bIsMoving;
 //	static CGameplayState* s_Instance;
 
 };

@@ -27,8 +27,8 @@ CParticle::CParticle( Vec2D sPos, Vec2D sVel, float fScale, float fLife, Color s
 
 void CParticle::Update( float fElapsedTime )
 {
-	m_sPos.nPosX += m_sVel.nPosX;
-	m_sPos.nPosY += m_sVel.nPosY;
+	m_sPos.nPosX += m_sVel.nPosX * fElapsedTime;
+	m_sPos.nPosY += m_sVel.nPosY * fElapsedTime;
 }
 
 void CParticle::Render( void )

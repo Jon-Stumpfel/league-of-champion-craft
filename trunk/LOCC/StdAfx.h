@@ -34,7 +34,7 @@ struct Vec2D
 	int nPosY;
 	inline Vec2D(void) { }
 	inline Vec2D(int x, int y) { nPosX = x; nPosY = y;}
-	//inline bool operator==(const Vec2D& rhs, const Vec2D& lhs){ return ((rhs.nPosX == lhs.nPosX) && ( rhs.nPosY == lhs.nPosY));}
+	inline friend bool operator==(const Vec2D& rhs, const Vec2D& lhs){ return ((rhs.nPosX == lhs.nPosX) && ( rhs.nPosY == lhs.nPosY));}
 };
 
 enum ANIM_TYPE { AT_IDLE, AT_WALK_N, AT_WALK_S, AT_WALK_E, AT_WALK_W, AT_ATTACK_N, 
