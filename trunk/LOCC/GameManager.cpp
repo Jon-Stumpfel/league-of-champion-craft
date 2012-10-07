@@ -42,6 +42,12 @@ void CGameManager::ShutDown(void)
 		delete m_vPlayers.back();
 		m_vPlayers.pop_back();
 	}
+
+	while (m_vUnits.size() != 0)
+	{
+		m_vUnits.back()->Release();
+		m_vUnits.pop_back();
+	}
 }
 CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 {
@@ -127,7 +133,22 @@ void CGameManager::SetNextPlayer(int nPlayerID)
 }
 
 
+CUnit* CGameManager::FindUnit(int posX, int posY)
+{
+	std::vector<CUnit*>::iterator iter = m_vUnits.begin();
 
+	while (iter != m_vUnits.end())
+	{
+		//if ((*iter)->GetPos() == Vec2D(posX, posY))
+	//	{
+		//	return (*iter);
+		//	break;
+	//	}
+
+
+	}
+	return nullptr;
+}
 
 void CGameManager::MessageProc(IMessage* pMsg)
 {
