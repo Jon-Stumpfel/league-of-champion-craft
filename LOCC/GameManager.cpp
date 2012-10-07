@@ -84,6 +84,7 @@ int CGameManager::GetLevel(void)
 
 void CGameManager::LoadLevel(std::string sFileName)
 {
+
 }
 
 void CGameManager::LoadLevel(int nLevelNum)

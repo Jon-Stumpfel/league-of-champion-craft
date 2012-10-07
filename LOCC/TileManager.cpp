@@ -46,7 +46,9 @@ bool CTileManager::LoadSave( std::string sFilename )
 
 
 	TiXmlElement* pTiles = pRoot->FirstChildElement("Tiles");
-	TiXmlElement* pTile = pRoot->FirstChildElement("Tile");
+	TiXmlElement* pTile = pTiles->FirstChildElement("Tile");
+
+	m_pTileMap= new CTile*[tempRows];
 
 	for (int x = 0; x< tempRows; ++x)
 	{
