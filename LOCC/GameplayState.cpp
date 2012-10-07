@@ -33,26 +33,26 @@ void CGameplayState::Enter(void)
 {
 	// test stuff
 
-	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(32, 32), 0, UT_SWORDSMAN);
+	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(1, 1), 0, UT_SWORDSMAN);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-	pMsg = new CSpawnUnitMessage(Vec2D(96, 32), 0, UT_ARCHER);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(160, 32), 0, UT_HERO);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(224, 32), 0, UT_CAVALRY);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(288, 30), 0, UT_CASTLE);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(352, 30), 0, UT_SKELETON);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(416, 30), 0, UT_ICEBLOCK);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+  	pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_ARCHER);
+  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+  
+  	pMsg = new CSpawnUnitMessage(Vec2D(3, 1), 0, UT_HERO);
+  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+  
+  	pMsg = new CSpawnUnitMessage(Vec2D(4, 1), 0, UT_CAVALRY);
+  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+  
+  	pMsg = new CSpawnUnitMessage(Vec2D(5, 1), 0, UT_CASTLE);
+  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+  
+  	pMsg = new CSpawnUnitMessage(Vec2D(6, 1), 0, UT_SKELETON);
+  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+  
+  	pMsg = new CSpawnUnitMessage(Vec2D(7, 1), 0, UT_ICEBLOCK);
+  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 	CGameManager::GetInstance()->CreatePlayer(false);
 
@@ -154,6 +154,9 @@ void CGameplayState::Input(INPUT_ENUM input)
 
 void CGameplayState::Update(float fElapsedTime)
 {
+	std::wostringstream woss;
+	woss << "Time Elapsed: " << fElapsedTime << "\n";
+	OutputDebugString(woss.str().c_str());
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 	if (pDI->KeyPressed(DIK_UP))
@@ -169,7 +172,7 @@ void CGameplayState::Update(float fElapsedTime)
 void CGameplayState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
-	//CObjectManager::GetInstance()->RenderAllObjects();
+	CObjectManager::GetInstance()->RenderAllObjects();
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 

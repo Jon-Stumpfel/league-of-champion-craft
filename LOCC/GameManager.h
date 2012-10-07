@@ -19,6 +19,7 @@ public:
 	void MoveUnit(CUnit* u, int nDirection);
 	void AddUnit(CUnit* pUnit);
 	void RemoveUnit(CUnit* pUnit);
+	CUnit* FindUnit(int posX, int posY);
 
 	int GetLevel(void);
 	void LoadLevel(std::string sFileName);
