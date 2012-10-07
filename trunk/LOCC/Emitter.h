@@ -39,8 +39,8 @@ private:
 
 	Vec2Df m_sStartVel;
 	Vec2Df m_sEndVel;
-	Vec2Df m_sMinVel;
-	Vec2Df m_sMaxVel;
+	Vec2Df m_sMaxAccel;
+	Vec2Df m_sMinAccel;
 	Vec2D m_sImgPos;
 	Vec2D m_sEmitPos;
 
