@@ -35,6 +35,9 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	
 
 	m_dwCurrTime = GetTickCount();
+
+	srand( unsigned int(0) );
+	rand();
 }
 
 bool CGame::Main(void)
@@ -60,8 +63,8 @@ void CGame::Shutdown(void)
 
 CGame::CGame(void)
 {
-
 }
+
 CGame::~CGame(void)
 {
 
@@ -84,7 +87,7 @@ bool CGame::Input(void)
 }
 void CGame::Update(void)
 {
-	DWORD	dwNow = GetTickCount();
+	DWORD	dwNow =  GetTickCount();
 	float fElapsedTime = (dwNow - m_dwCurrTime) * 0.001f;
 
 	m_dwCurrTime = dwNow;

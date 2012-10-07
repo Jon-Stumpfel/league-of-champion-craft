@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
   <Particle>
     <ImageData ImagePath = "Assets/Particles/Smoky.png"
-      Height = "128" Width = "128" PosX = "0" PosY = "0" MaxParticles = "10" MinLife = "1" MaxLife = "5" IsLooping = "0"
-      SpawnRate = "2.5" SourceBlend = "1" DestBlend = "1" StartingA = "255" EndingA = "150" StartingR = "255"
-      EndingR = "255" StartingG = "255" EndingG = "0" StartingB= "255" EndingB="0"
-      StartingRotation = "0" EndingRotation = "0" StartingXVel = "1" EndingXVel = "1" StartingYVel = "1"
-      EndingYVel = "1" MinXVel = "60" MaxXVel = "100" MinYVel = "60"
-      MaxYVel = "100" StartingScale = "1.0" EndingScale = "2.0"></ImageData>
+      Height = "128" Width = "128" PosX = "0" PosY = "0" MaxParticles = "10" MinLife = "2" MaxLife = "5" IsLooping = "1"
+      SpawnRate = "1.5" SourceBlend = "1" DestBlend = "1" StartingA = "100" EndingA = "50" StartingR = "139"
+      EndingR = "205" StartingG = "69" EndingG = "133" StartingB= "19" EndingB="63"
+      StartingRotation = "0" EndingRotation = "0" StartingXVel = "1" EndingXVel = "0" StartingYVel = "1"
+      EndingYVel = "0" MinXAccel = "50" MaxXAccel = "100" MinYAccel = "50" MaxYAccel = "100" 
+      StartingScale = "1.0" EndingScale = "3.0"></ImageData>
   </Particle>
