@@ -37,10 +37,10 @@ private:
 	Color m_sStartColor;
 	Color m_sEndColor;
 
-	Vec2D m_sStartVel;
-	Vec2D m_sEndVel;
-	Vec2D m_sMinVel;
-	Vec2D m_sMaxVel;
+	Vec2Df m_sStartVel;
+	Vec2Df m_sEndVel;
+	Vec2Df m_sMinVel;
+	Vec2Df m_sMaxVel;
 	Vec2D m_sImgPos;
 	Vec2D m_sEmitPos;
 

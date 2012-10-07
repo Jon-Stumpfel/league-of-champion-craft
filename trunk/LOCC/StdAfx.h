@@ -37,6 +37,14 @@ struct Vec2D
 	inline friend bool operator==(const Vec2D& rhs, const Vec2D& lhs){ return ((rhs.nPosX == lhs.nPosX) && ( rhs.nPosY == lhs.nPosY));}
 };
 
+struct Vec2Df
+{
+	float fVecX;
+	float fVecY;
+	inline Vec2Df( void ) { }
+	inline Vec2Df( float x, float y ) { fVecY = y; fVecX = x; }
+};
+
 enum ANIM_TYPE { AT_IDLE, AT_WALK_N, AT_WALK_S, AT_WALK_E, AT_WALK_W, AT_ATTACK_N, 
 	AT_ATTACK_S, AT_ATTACK_E, AT_ATTACK_W, AT_ABILITY_N, AT_ABILITY_S, AT_ABILITY_E, AT_ABILITY_W };
 
