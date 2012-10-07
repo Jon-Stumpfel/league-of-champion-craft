@@ -2,6 +2,8 @@
 #include "Tile.h"
 #include <assert.h>
 
+
+//{ TS_FROZEN, TS_RESOURCETILE, TS_OCCUPIED, TS_CAPTURING, TS_CAPTURED, TS_IS_DEAD, TS_ISPASSABLE};
 CTile::CTile(void)
 {	
 	m_eTType=TT_PLAINS;
@@ -28,7 +30,7 @@ CTile::~CTile(void)
 
 void CTile::SetStatus(unsigned char TileStatus, bool On_or_Off)
 {
-	//FROZEN, RESOURCETILE, OCCUPIED, CAPTURING, CAPTURED, IS_DEAD
+	
 	if (On_or_Off==true)
 	{
 		m_ucStatus |= (1<<TileStatus);
@@ -42,9 +44,8 @@ void CTile::SetStatus(unsigned char TileStatus, bool On_or_Off)
 
 bool CTile::IsStatus(unsigned char TileStatus, bool On_or_Off)
 {
-	//FROZEN, RESOURCETILE, OCCUPIED, CAPTURING, CAPTURED, IS_DEAD,ISPASSABLE
-		assert(TileStatus<TS_ISPASSABLE&&"TileStatus out of range");
-		return false;
+	assert(TileStatus>TS_ISPASSABLE&&"TileStatus out of range");
+	return false;
 	if (On_or_Off==true)
 	{
 		if(m_ucStatus & (1<<TileStatus))
@@ -61,44 +62,52 @@ bool CTile::IsStatus(unsigned char TileStatus, bool On_or_Off)
 	}
 }
 
-void CTile::GetIfFrozen		(void)
-	{
-
-	}
-
-bool CTile::SetIfFrozen		(bool OnOff)
-	{
+bool CTile::GetIfFrozen		(void)
+{
+	if(m_ucStatus & (1<<TS_FROZEN))
 		return true;
-	}
-		
-void CTile::GetIfResoruce	(void)
+	else 
+		return false;                    
+}
+
+void CTile::SetIfFrozen	(bool OnOff)
+{
+	if (OnOff==true)
 	{
-
-
+		m_ucStatus |= (1<<TS_FROZEN);
 	}
-
-bool CTile::SetIfResoruce	(bool OnOff)
+	if (OnOff==false)
 	{
-		return true;
-
+		m_ucStatus &= ~(1<<TS_FROZEN);
 	}
+}
 
-void CTile::GetIfOccupied	(void)
-	{
+bool CTile::GetIfResoruce	(void)
+{
+	return true;
+}
 
-	}
+void CTile::SetIfResoruce	(bool OnOff)
+{
 
-bool CTile::SetIfOccupied	(bool OnOff)
-	{
-		return true;
-	}
+}
 
-void CTile::GetIfCaputring	(void)
-	{
+bool CTile::GetIfOccupied	(void)
+{
+	return true;
+}
 
-	}
+void CTile::SetIfOccupied	(bool OnOff)
+{
 
-bool CTile::SetIfCaputring	(bool OnOff)
-	{
-		return true;
-	}
+}
+
+bool CTile::GetIfCapturing	(void)
+{
+	return true;
+}
+
+void CTile::SetIfCapturing	(bool OnOff)
+{
+
+}
