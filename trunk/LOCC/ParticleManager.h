@@ -2,6 +2,13 @@
 
 class CEmitter;
 
+enum PRTCL_TYPE { TEST };
+
+struct Color
+{
+	int a, r, g, b;
+};
+
 class CParticleManager
 {
 
@@ -9,6 +16,7 @@ public:
 
 	void Update( float fElapsedTime );
 	void Render( void );
+	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos );
 
 	static CParticleManager* GetInstance( void );
 
@@ -19,7 +27,6 @@ private:
 	CParticleManager(const CParticleManager&);
 	CParticleManager& operator=(const CParticleManager&);
 
-	static CParticleManager* s_Instance;
 
 	std::vector< CEmitter* > m_vEmitters;
 

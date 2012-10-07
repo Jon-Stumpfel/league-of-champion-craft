@@ -7,6 +7,7 @@
 #include "MessageSystem.h"
 #include "SpawnUnitMessage.h"
 #include "Unit.h"
+#include "ParticleManager.h"
 #include "Player.h"
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
@@ -54,6 +55,14 @@ void CGameplayState::Enter(void)
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 	CGameManager::GetInstance()->CreatePlayer(false);
+
+	CParticleManager* pPM = CParticleManager::GetInstance();
+
+	Vec2D test;
+	test.nPosX = 100;
+	test.nPosY = 100;
+
+	pPM->LoadParticles( TEST, test );
 }
 
 void CGameplayState::Exit(void)
@@ -145,6 +154,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 
 void CGameplayState::Update(float fElapsedTime)
 {
+	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 	if (pDI->KeyPressed(DIK_UP))
 		Input(INPUT_UP);
@@ -159,8 +169,11 @@ void CGameplayState::Update(float fElapsedTime)
 void CGameplayState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
+	//CObjectManager::GetInstance()->RenderAllObjects();
 
-	CObjectManager::GetInstance()->RenderAllObjects();
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
+	CParticleManager::GetInstance()->Render();
 
 
 	// DEBUG STUFF
@@ -174,4 +187,3 @@ void CGameplayState::Render(void)
 	RECT selectRect = { m_SelectionPos.nPosX, m_SelectionPos.nPosY, 32, 32};
 	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
 }
-
