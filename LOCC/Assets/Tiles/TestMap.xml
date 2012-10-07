@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Map FileName="Grass Plains.png" Rows="2" Columns="5">
+<Map FileName="Assets/Tiles/Grass Plains.png" Rows="2" Columns="5">
   <Tiles>
     <Tile PosX="0" PosY="0" PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="32" PlayerID="0" TType="0"></Tile>
     <Tile PosX="0" PosY="1" PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="32" PlayerID="0" TType="1"></Tile>

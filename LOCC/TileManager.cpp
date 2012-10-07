@@ -37,13 +37,21 @@ bool CTileManager::LoadSave( std::string sFilename )
 		return false;
 
 	int tempRows=0, tempCols=0;
-	const char* texturefile;
+	string texturefile;
+	TSTRING _TStupid_textconversion;
 
 	pRoot->Attribute("Rows",&tempRows);
 	pRoot->Attribute("Columns", &tempCols);
 	texturefile= pRoot->Attribute("FileName");
 
+	_TStupid_textconversion.resize(texturefile.length());
+	for (unsigned int i=0; i<_TStupid_textconversion.length(); ++i)
+	{
+		_TStupid_textconversion[i]=texturefile[i];
+	}
 
+	CGraphicsManager::GetInstance()->LoadImageW(_TStupid_textconversion,_T("GrassTile"),D3DCOLOR_XRGB(0,0,0));
+	m_nTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("GrassTile"));
 
 	TiXmlElement* pTiles = pRoot->FirstChildElement("Tiles");
 	TiXmlElement* pTile = pTiles->FirstChildElement("Tile");
