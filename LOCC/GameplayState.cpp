@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "ObjectManager.h"
 #include "GraphicsManager.h"
+#include "TileManager.h"
 #include "GameManager.h"
 #include "MessageSystem.h"
 #include "SpawnUnitMessage.h"
@@ -227,13 +228,15 @@ void CGameplayState::Update(float fElapsedTime)
 void CGameplayState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(1, 1, 1);
+	CTileManager::GetInstance()->Render();
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
 	CObjectManager::GetInstance()->RenderAllObjects();
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	
 	//Render the map
-	CTileManager::GetInstance()->Render();
 
 	// Testing particle rendering
 	CParticleManager::GetInstance()->Render();
