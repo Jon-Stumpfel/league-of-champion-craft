@@ -20,7 +20,26 @@ public:
 	static CTileManager* GetInstance( void );
 
 private:
-	
+
+	RECT CTileManager::CellAlgorithm( int id )
+	{
+		assert( id >= 0 && id < m_nColumns * m_nRows && "CellAlgorithm - id out of range!" );
+
+		RECT rSource;
+
+		rSource.left	= (id % m_nColumns) * m_nTileWidth;
+		rSource.top		= (id / m_nColumns) * m_nTileHeight;
+
+		rSource.right	= rSource.left	+ m_nTileWidth;
+		rSource.bottom	= rSource.top	+ m_nTileHeight;
+
+		return rSource;
+
+	}
+	void SetTileWidth(int wTile)	{m_nTileWidth=wTile; };
+	void SetTileHieght(int HTile)	{m_nTileHeight=HTile;};
+
+
 	CTileManager(void);
 	~CTileManager(void);
 	CTileManager(const CTileManager&);
@@ -32,5 +51,9 @@ private:
 	CTile**	m_pTileMap;
 	int m_nRows;
 	int m_nColumns;
+
+	int m_nTileWidth;
+	int m_nTileHeight;
+
 };
 
