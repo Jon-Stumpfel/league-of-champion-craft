@@ -65,5 +65,5 @@ const int WOOD_PER_MILL = 10;
 const int AP_PER_CAPTURE = 2;
 
 // fake tile stuff
-const int nFakeTileWidth = 32;
-const int nFakeTileHeight = 32;
+const int nFakeTileWidth = 64;
+const int nFakeTileHeight = 64;
