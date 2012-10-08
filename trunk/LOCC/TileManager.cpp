@@ -58,9 +58,9 @@ bool CTileManager::LoadSave( std::string sFilename )
 
 	m_pTileMap= new CTile*[m_ucRows];
 
-	for (int x = 0; x< m_ucRows; ++x)
+	for (int x = 0; x< m_nRows; ++x)
 	{
-		m_pTileMap[x]= new CTile[m_ucColumns];
+		m_pTileMap[x]= new CTile[m_nColumns];
 	}
 	int tempdata1=0,tempdata2=0;
 
@@ -109,17 +109,16 @@ void CTileManager::Render( void )
 	int TWidth=m_pTileMap[0][0].GetTileWidth(),
 		THeight=m_pTileMap[0][0].GetTileHeight();
 	
-		m_ucRows=2;m_ucColumns=5;
+		m_nRows=2;
+		m_nColumns=5;
 
-	for ( int i=0; i<m_ucRows;i++)
+	for ( int i=0; i<m_nRows;i++)
 	{
-		for ( int j=0; j<m_ucRows;j++)
+		for ( int j=0; j<m_nRows;j++)
 		{
 			int x = (j * TWidth / 2) + (i * TWidth / 2);
 			int y = (i * THeight / 2) - (j * THeight / 2);
-			pTM->Draw(m_nTextureImageID,x,y); 
-            
-										
+			pTM->Draw(m_nTextureImageID,x,y); 							
 		}
 	}
 }
