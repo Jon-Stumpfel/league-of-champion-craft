@@ -62,9 +62,9 @@ void CGameplayState::Enter(void)
 
 	CParticleManager* pPM = CParticleManager::GetInstance();
 
-	Vec2D test;
-	test.nPosX = 400;
-	test.nPosY = 300;
+	Vec2Df test;
+	test.fVecX = 400;
+	test.fVecY = 300;
 
 	pPM->LoadParticles( TEST, test );
 

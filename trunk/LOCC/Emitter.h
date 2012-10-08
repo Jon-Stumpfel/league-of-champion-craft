@@ -16,7 +16,7 @@ public:
 	void Render( void );
 	void Update( float fElapsedTime );
 
-	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos );
+	void LoadParticles( PRTCL_TYPE eType, Vec2Df sPos );
 	void Clear( void );
 
 	bool Alive( void );
@@ -42,7 +42,7 @@ private:
 	Vec2Df m_sStartVel;
 	Vec2Df m_sEndVel;
 	Vec2D m_sImgPos;
-	Vec2D m_sEmitPos;
+	Vec2Df m_sEmitPos;
 
 	int m_nMinSpawnRate;	
 	int m_nMaxSpawnRate;

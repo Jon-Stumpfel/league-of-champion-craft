@@ -49,7 +49,7 @@ void CParticleManager::Render( void )
 	}
 }
 
-void  CParticleManager::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
+void  CParticleManager::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 {
 	m_vEmitters.push_back( new CEmitter );
 	m_vEmitters[m_vEmitters.size()-1]->LoadParticles( eType, sPos );
