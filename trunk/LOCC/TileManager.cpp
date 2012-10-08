@@ -54,7 +54,12 @@ bool CTileManager::LoadSave( std::string sFilename )
 	m_nTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("GrassTile"));
 
 	TiXmlElement* pTiles = pRoot->FirstChildElement("Tiles");
-	TiXmlElement* pTile = pTiles->FirstChildElement("Tile");
+	TiXmlElement* pTile = pTiles->FirstChild("Tile")->ToElement();
+
+	// KBV
+	m_nRows = m_ucRows;
+	m_nColumns = m_ucColumns;
+
 
 	m_pTileMap= new CTile*[m_ucRows];
 
@@ -92,6 +97,8 @@ bool CTileManager::LoadSave( std::string sFilename )
 
 			pTile->Attribute("TType",&tempdata1);
 			m_pTileMap[x][y].SetTileType(tempdata1);
+
+			pTile = pTile->NextSiblingElement("Tile");
 		}
 	}
 	return true;
@@ -109,16 +116,14 @@ void CTileManager::Render( void )
 	int TWidth=m_pTileMap[0][0].GetTileWidth(),
 		THeight=m_pTileMap[0][0].GetTileHeight();
 	
-		m_nRows=2;
-		m_nColumns=5;
 
 	for ( int i=0; i<m_nRows;i++)
 	{
-		for ( int j=0; j<m_nRows;j++)
+		for ( int j=0; j<m_nColumns;j++)
 		{
-			int x = (j * TWidth / 2) + (i * TWidth / 2);
-			int y = (i * THeight / 2) - (j * THeight / 2);
-			pTM->Draw(m_nTextureImageID,x,y); 							
+			//int x = (j * TWidth / 2) + (i * TWidth / 2);
+			//int y = (i * THeight / 2) - (j * THeight / 2);
+			pTM->Draw(m_nTextureImageID,i * TWidth,j * THeight); 							
 		}
 	}
 }
