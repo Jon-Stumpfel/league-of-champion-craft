@@ -7,6 +7,8 @@
 #include "GameManager.h"
 #include "MessageSystem.h"
 #include "SpawnUnitMessage.h"
+#include "AddResourceMessage.h"
+#include "DeSpawnUnitMessage.h"
 #include "Unit.h"
 #include "ParticleManager.h"
 #include "Player.h"
@@ -73,6 +75,9 @@ void CGameplayState::Enter(void)
 	pTM->LoadSave(filename);
 
 
+	SetRect(&rCamRect, 0, 0, 
+		CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth, CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight);
+
 	// INITIALIZATION SETUP
 	m_bIsMoving = false;
 	m_pSelectedUnit = nullptr;
@@ -80,6 +85,14 @@ void CGameplayState::Enter(void)
 	m_SelectionPos = Vec2D(0, 0);
 }
 
+int CGameplayState::GetCamOffsetX(void)
+{
+	return rCamRect.left * nFakeTileWidth;
+}
+int CGameplayState::GetCamOffsetY(void)
+{
+	return rCamRect.top * nFakeTileHeight;
+}
 void CGameplayState::Exit(void)
 {
 }
@@ -196,9 +209,6 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 }
 void CGameplayState::Update(float fElapsedTime)
 {
-	std::wostringstream woss;
-	woss << "Time Elapsed: " << fElapsedTime << "\n";
-	OutputDebugString(woss.str().c_str());
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 	if (pDI->KeyPressed(DIK_UP))
 		Input(INPUT_UP);
@@ -212,15 +222,39 @@ void CGameplayState::Update(float fElapsedTime)
 		Input(INPUT_ACCEPT);
 	else if (pDI->KeyPressed(DIK_Z))
 		Input(INPUT_CANCEL);
-	else if (pDI->KeyPressed(DIK_D)) // DEBUG DELETE SELECTED UNIT
+	else if (pDI->KeyPressed(DIK_T)) // DEBUG DELETE SELECTED UNIT
 	{
 		if (m_pSelectedUnit)
 		{
-		CObjectManager::GetInstance()->RemoveObject(m_pSelectedUnit);
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(m_pSelectedUnit);
+		CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
 			Input(INPUT_CANCEL);
 		}
 	}
-
+	else if (pDI->KeyPressed(DIK_R))
+	{
+		CAddResourceMessage* pMsg = new CAddResourceMessage(TT_MINE, 0);
+		CMessageSystem::GetInstance()->SendMessageW(pMsg);
+	}
+	else if (pDI->KeyPressed(DIK_W))
+	{
+		// camera up
+		OffsetRect(&rCamRect, 0, -1);
+	}
+	else if (pDI->KeyPressed(DIK_S))
+	{
+		// camera down
+			OffsetRect(&rCamRect, 0, 1);
+	}
+	else if (pDI->KeyPressed(DIK_A))
+	{
+		OffsetRect(&rCamRect, -1, 0);
+	}
+	else if (pDI->KeyPressed(DIK_D))
+	{
+		OffsetRect(&rCamRect, 1, 0);
+	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 }
@@ -257,8 +291,13 @@ void CGameplayState::Render(void)
 	}
 	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 
+	oss.str(_T(""));
+	oss << "Camera Pos: X: " << rCamRect.left << ", Y: " << rCamRect.top;
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 370, 255, 255, 255);
+
+
 	// selection cursor
-	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth, m_SelectionPos.nPosY * nFakeTileHeight, 
+	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth - GetCamOffsetX(), m_SelectionPos.nPosY * nFakeTileHeight - GetCamOffsetY(),  
 		nFakeTileWidth, nFakeTileHeight};
 	if (m_bIsMoving)
 		CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);

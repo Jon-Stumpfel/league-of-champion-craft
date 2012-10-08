@@ -15,6 +15,8 @@ public:
 	virtual void Update(float fElapsedTime);
 	virtual void Render(void);
 
+	int GetCamOffsetX(void);
+	int GetCamOffsetY(void);
 private:
 
 	CGameplayState(void);
@@ -24,6 +26,8 @@ private:
 
 	void MoveCursor(int dX, int dY);
 	void MoveToTile(Vec2D nTilePosition);
+
+	RECT rCamRect;
 	Vec2D m_CameraPos;
 	Vec2D m_SelectionPos;
 

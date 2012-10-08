@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "Swordsman.h"
-
+#include "GameplayState.h"
 
 CSwordsman::CSwordsman(void) : CUnit(UT_SWORDSMAN)
 {
@@ -26,7 +26,9 @@ CSwordsman::~CSwordsman(void)
 
 void CSwordsman::Render(void)
 {
-	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth, GetPos().nPosY * nFakeTileHeight, 
-		GetPos().nPosX * nFakeTileWidth + nFakeTileWidth, GetPos().nPosY * nFakeTileHeight + nFakeTileHeight};
+	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY(), 
+						GetPos().nPosX * nFakeTileWidth + nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 255, 0, 0);	
 }

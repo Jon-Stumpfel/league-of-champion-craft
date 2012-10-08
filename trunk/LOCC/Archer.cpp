@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "Archer.h"
-
-
+#include "GameplayState.h"
 CArcher::CArcher(void) : CUnit(UT_ARCHER)
 {
 	SetHP(12);
@@ -25,8 +24,10 @@ CArcher::~CArcher(void)
 
 void CArcher::Render(void)
 {
-	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth, GetPos().nPosY * nFakeTileHeight, 
-		GetPos().nPosX * nFakeTileWidth + nFakeTileWidth, GetPos().nPosY * nFakeTileHeight + nFakeTileHeight};
+	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY(), 
+						GetPos().nPosX * nFakeTileWidth + nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
 
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 100, 255,100);	
 }

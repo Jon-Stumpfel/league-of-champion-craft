@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "Skeleton.h"
-
+#include "GameplayState.h"
 
 CSkeleton::CSkeleton(void) : CUnit(UT_SKELETON)
 {
@@ -26,8 +26,10 @@ CSkeleton::~CSkeleton(void)
 
 void CSkeleton::Render(void)
 {
-	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth, GetPos().nPosY * nFakeTileHeight, 
-		GetPos().nPosX * nFakeTileWidth + nFakeTileWidth, GetPos().nPosY * nFakeTileHeight + nFakeTileHeight};
+	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY(), 
+						GetPos().nPosX * nFakeTileWidth + nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
 
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 255, 255, 255);	
 }
