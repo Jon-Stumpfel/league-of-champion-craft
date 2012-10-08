@@ -36,12 +36,12 @@ bool CTileManager::LoadSave( std::string sFilename )
 	if( pRoot == nullptr )
 		return false;
 
-	int tempRows=0, tempCols=0;
+	int m_ucRows=0, m_ucColumns=0;
 	string texturefile;
 	TSTRING _TStupid_textconversion;
 
-	pRoot->Attribute("Rows",&tempRows);
-	pRoot->Attribute("Columns", &tempCols);
+	pRoot->Attribute("Rows",&m_ucRows);
+	pRoot->Attribute("Columns", &m_ucColumns);
 	texturefile= pRoot->Attribute("FileName");
 
 	_TStupid_textconversion.resize(texturefile.length());
@@ -56,17 +56,17 @@ bool CTileManager::LoadSave( std::string sFilename )
 	TiXmlElement* pTiles = pRoot->FirstChildElement("Tiles");
 	TiXmlElement* pTile = pTiles->FirstChildElement("Tile");
 
-	m_pTileMap= new CTile*[tempRows];
+	m_pTileMap= new CTile*[m_ucRows];
 
-	for (int x = 0; x< tempRows; ++x)
+	for (int x = 0; x< m_ucRows; ++x)
 	{
-		m_pTileMap[x]= new CTile[tempCols];
+		m_pTileMap[x]= new CTile[m_ucColumns];
 	}
 	int tempdata1=0,tempdata2=0;
 
-	for (int x=0; x<tempRows; ++x)
+	for (int x=0; x<m_ucRows; ++x)
 	{
-		for(int y=0;y<tempCols;++y)
+		for(int y=0;y<m_ucColumns;++y)
 		{
 			pTile->Attribute("PosX",&tempdata1);
 			pTile->Attribute("PosY",&tempdata2);
@@ -104,11 +104,24 @@ void CTileManager::Update( float fElapsedTime )
 
 void CTileManager::Render( void )
 {
-	CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
+	CSGD_TextureManager* pTM=CSGD_TextureManager::GetInstance();
+
+	int TWidth=m_pTileMap[0][0].GetTileWidth(),
+		THeight=m_pTileMap[0][0].GetTileHeight();
 	
-	//int x = (minimapWidth / 2 * i) - (minimapHeight / 2 * j);
-	//int y = (minimapWidth / 2 * i) + (minimapHeight / 2 * j);
-	//pTM->Draw(m_nTextureImageID, new Point(x + minimapOffsetX, y + minimapOffsetY));
+		m_ucRows=2;m_ucColumns=5;
+
+	for ( int i=0; i<m_ucRows;i++)
+	{
+		for ( int j=0; j<m_ucRows;j++)
+		{
+			int x = (j * TWidth / 2) + (i * TWidth / 2);
+			int y = (i * THeight / 2) - (j * THeight / 2);
+			pTM->Draw(m_nTextureImageID,x,y); 
+            
+										
+		}
+	}
 }
 
 CTile* CTileManager::GetTile( int x, int y )
