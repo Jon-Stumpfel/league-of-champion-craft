@@ -231,6 +231,10 @@ void CGameplayState::Render(void)
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
+	
+	//Render the map
+	CTileManager::GetInstance()->Render();
+
 	// Testing particle rendering
 	CParticleManager::GetInstance()->Render();
 

@@ -2,6 +2,9 @@
 
 #include "StdAfx.h"
 
+static int m_ucRows;
+static int m_ucColumns;
+
 class CTile;
 class CUnit;
 
@@ -30,6 +33,5 @@ private:
 
 	int	m_nTextureImageID;
 	CTile**	m_pTileMap;
-
 };
 
