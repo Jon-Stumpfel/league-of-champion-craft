@@ -30,7 +30,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
 	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
-	
 
 	m_dwCurrTime = GetTickCount();
 }

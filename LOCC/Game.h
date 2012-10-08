@@ -16,6 +16,8 @@ public:
 	bool Main(void);
 	void Shutdown(void);
 
+	int GetWindowWidth(void) { return m_nWidth;}
+	int GetWindowHeight(void) { return m_nHeight;}
 private:
 
 	CGame(void);

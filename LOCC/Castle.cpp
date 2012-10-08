@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Castle.h"
+#include "GameplayState.h"
 
 
 CCastle::CCastle(void) : CUnit(UT_CASTLE)
@@ -25,8 +26,10 @@ CCastle::~CCastle(void)
 
 void CCastle::Render( void )
 {
-	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth, GetPos().nPosY * nFakeTileHeight, 
-		GetPos().nPosX * nFakeTileWidth + nFakeTileWidth, GetPos().nPosY * nFakeTileHeight + nFakeTileHeight};
+	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY(), 
+						GetPos().nPosX * nFakeTileWidth + nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
 
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 0, 0, 255);
 }

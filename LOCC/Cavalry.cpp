@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Cavalry.h"
+#include "GameplayState.h"
 
 
 CCavalry::CCavalry(void) : CUnit(UT_CAVALRY)
@@ -24,8 +25,10 @@ CCavalry::~CCavalry(void)
 }
 void CCavalry::Render(void)
 {
-	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth, GetPos().nPosY * nFakeTileHeight, 
-		GetPos().nPosX * nFakeTileWidth + nFakeTileWidth, GetPos().nPosY * nFakeTileHeight + nFakeTileHeight};
+	RECT soldierRect = {GetPos().nPosX * nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY(), 
+						GetPos().nPosX * nFakeTileWidth + nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
+						GetPos().nPosY * nFakeTileHeight + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
 
 	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 0, 255, 255);	
 }
