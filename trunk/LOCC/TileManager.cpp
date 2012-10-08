@@ -3,6 +3,7 @@
 #include "Unit.h"
 #include "Tile.h"
 #include "GraphicsManager.h"
+#include "GameplayState.h"
 
 CTileManager* CTileManager::s_Instance = nullptr;
 
@@ -60,7 +61,6 @@ bool CTileManager::LoadSave( std::string sFilename )
 	m_nRows = m_ucRows;
 	m_nColumns = m_ucColumns;
 
-
 	m_pTileMap= new CTile*[m_ucRows];
 
 	for (int x = 0; x< m_nRows; ++x)
@@ -79,10 +79,12 @@ bool CTileManager::LoadSave( std::string sFilename )
 			
 			pTile->Attribute("PixWidth",&tempdata1);
 			m_pTileMap[x][y].SetPixWidth(tempdata1);
+			SetTileWidth(tempdata1);
 
 			pTile->Attribute("PixHeight",&tempdata1);
 			m_pTileMap[x][y].SetPixHeight(tempdata1);
-			
+			SetTileHieght(tempdata1);
+
 			pTile->Attribute("TileWidth",&tempdata1);
 			m_pTileMap[x][y].SetTileWidth(tempdata1);
 
@@ -121,9 +123,30 @@ void CTileManager::Render( void )
 	{
 		for ( int j=0; j<m_nColumns;j++)
 		{
-			//int x = (j * TWidth / 2) + (i * TWidth / 2);
-			//int y = (i * THeight / 2) - (j * THeight / 2);
-			pTM->Draw(m_nTextureImageID,i * TWidth,j * THeight); 							
+			int x = i -/*(j * TWidth / 2) + (i * TWidth / 2);*/	CGameplayState::GetInstance()->GetCamOffsetX();
+			int y = j -/*(i * THeight / 2) - (j * THeight / 2);*/ CGameplayState::GetInstance()->GetCamOffsetY();
+			RECT Rsource= { 0,0,0,0}; 
+			switch(m_pTileMap[i][j].GetTileType())
+			{	
+			case TT_PLAINS:
+				{
+					Rsource = CellAlgorithm(TT_PLAINS);
+					pTM->Draw(m_nTextureImageID,x * TWidth,y * THeight,1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			case TT_FOREST:
+				{
+					Rsource = CellAlgorithm(TT_FOREST);
+					pTM->Draw(m_nTextureImageID,x * TWidth,y * THeight,1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			case TT_MOUNTAINS:
+				{
+					Rsource = CellAlgorithm(TT_MOUNTAINS);
+					pTM->Draw(m_nTextureImageID,x * TWidth,y * THeight,1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			}
 		}
 	}
 }
