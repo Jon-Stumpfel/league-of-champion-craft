@@ -11,7 +11,7 @@ public:
 	CParticle(void);
 	~CParticle(void);
 
-	CParticle( Vec2D sPos, Vec2Df sDir, Vec2Df sVel, float fScale, 
+	CParticle( Vec2Df sPos, Vec2Df sDir, Vec2Df sVel, float fScale, 
 				float fLife, Color sColor, float fRot, RECT sSource);
 
 	void Update( float fElapsedTime );
@@ -38,7 +38,7 @@ public:
 
 private:
 
-	Vec2D m_sPos;
+	Vec2Df m_sPos;
 	Vec2Df m_sVel;
 	Vec2Df m_sDir;
 	float m_fScale;

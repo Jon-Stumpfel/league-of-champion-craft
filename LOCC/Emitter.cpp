@@ -33,7 +33,7 @@ void CEmitter::Clear( void )
 	}
 }
 
-void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
+void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 {
 	srand( unsigned int(time(0)) );
 	rand();
@@ -141,7 +141,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 		int maxLife = int(m_fMaxLife * 100);
 		int minLife = int(m_fMinLife * 100);
 
-		float tmp = float((rand() % (minLife - maxLife) + 1) + minLife);
+		float tmp = float((rand() % (maxLife - minLife) + 1) + minLife);
 		
 		float life = float(tmp / 100.0f);
 
@@ -151,18 +151,23 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 		int minDirX = int(m_sMinDir.fVecX);
 		int minDirY = int(m_sMinDir.fVecY);
 
+		int DirX = rand() % (maxDirX - minDirX + 1) + minDirX;
+		int DirY = rand() % (maxDirY - minDirY + 1) + minDirY;
+
 		Vec2Df Dir;
-		Dir.fVecX = float( (rand() % (minDirX - maxDirX)) + 1 + minDirX);
-		Dir.fVecY = float( (rand() % (minDirY - maxDirY)) + 1 + minDirY);
+		Dir.fVecX = float(DirX);
+		Dir.fVecY = float(DirY);
+
+		Vec2Df start = m_sStartVel;
+		start.fVecX *= Dir.fVecX;	
+		start.fVecY *= Dir.fVecY;
 
 		RECT src = { m_sImgPos.nPosX, m_sImgPos.nPosY, m_sImgPos.nPosX + m_nWidth, m_sImgPos.nPosY + m_nHeight };
 
-		CParticle* tParticle = new CParticle(m_sEmitPos, Dir, m_sStartVel, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
+		CParticle* tParticle = new CParticle(m_sEmitPos, Dir, start, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
 
 		m_vAliveParticles.push_back( tParticle );
 	}
-
-	int zzz = 0;
 }
 
 void CEmitter::Render( void )
@@ -255,16 +260,16 @@ void CEmitter::Update( float fElapsedTime )
 
 		// Changes the Velocity over time
 		Vec2Df oldVel = m_vAliveParticles[i]->GetVel();
-		// startVel translated into the particles direction
-		float startVelX = m_sStartVel.fVecX * m_vAliveParticles[i]->GetDir().fVecX;
-		float startVelY = m_sStartVel.fVecY * m_vAliveParticles[i]->GetDir().fVecY;
-		// end vel translated into the particles direction
-		float endVelX = m_sEndVel.fVecX * m_vAliveParticles[i]->GetDir().fVecX;
-		float endVelY = m_sEndVel.fVecY * m_vAliveParticles[i]->GetDir().fVecY;
+		// Change the start velocity to the partciles direction
+		float startX = m_sStartVel.fVecX * m_vAliveParticles[i]->GetDir().fVecX;
+		float startY = m_sStartVel.fVecY * m_vAliveParticles[i]->GetDir().fVecY;
+		// Change the end velocity to the particles direction
+		float endX = m_sEndVel.fVecX * m_vAliveParticles[i]->GetDir().fVecX;
+		float endY = m_sEndVel.fVecY * m_vAliveParticles[i]->GetDir().fVecY;
 
 		// delta(v) / time
-		float dtX = (endVelX - startVelX) / time;
-		float dtY = (endVelY - startVelY) / time;
+		float dtX = (endX - startX) / time;
+		float dtY = (endY - startY) / time;
 
 		// change in time modified by the update time
 		dtX = dtX * fElapsedTime;
@@ -285,7 +290,7 @@ void CEmitter::Loop( void )
 		int maxLife = int(m_fMaxLife * 100);
 		int minLife = int(m_fMinLife * 100);
 
-		float tmp = float((rand() % (minLife - maxLife) + 1) + minLife);
+		float tmp = float((rand() % (maxLife - minLife) + 1) + minLife);
 		
 		float life = float(tmp / 100.0f);
 
@@ -295,13 +300,20 @@ void CEmitter::Loop( void )
 		int minDirX = int(m_sMinDir.fVecX);
 		int minDirY = int(m_sMinDir.fVecY);
 
+		int DirX = rand() % (maxDirX - minDirX + 1) + minDirX;
+		int DirY = rand() % (maxDirY - minDirY + 1) + minDirY;
+
 		Vec2Df Dir;
-		Dir.fVecX = float( (rand() % (minDirX - maxDirX)) + 1 + minDirX);
-		Dir.fVecY = float( (rand() % (minDirY - maxDirY)) + 1 + minDirY);
+		Dir.fVecX = float(DirX);
+		Dir.fVecY = float(DirY);
+
+		Vec2Df start = m_sStartVel;
+		start.fVecX *= Dir.fVecX;	
+		start.fVecY *= Dir.fVecY;
 
 		RECT src = { m_sImgPos.nPosX, m_sImgPos.nPosY, m_sImgPos.nPosX + m_nWidth, m_sImgPos.nPosY + m_nHeight };
 
-		CParticle* tParticle = new CParticle(m_sEmitPos, Dir, m_sStartVel, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
+		CParticle* tParticle = new CParticle(m_sEmitPos, Dir, start, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
 
 		m_vAliveParticles.push_back( tParticle );
 	}
