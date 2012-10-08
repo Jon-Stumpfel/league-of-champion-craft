@@ -33,6 +33,7 @@ private:
 
 	int m_nWidth;		
 	int m_nHeight;		
+	HWND m_hWnd;
 	bool m_bIsWindowed;
 	DWORD m_dwCurrTime;
 	IGameState* currentState;

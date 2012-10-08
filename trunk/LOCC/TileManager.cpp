@@ -123,27 +123,30 @@ void CTileManager::Render( void )
 	{
 		for ( int j=0; j<m_nColumns;j++)
 		{
-			int x = i -/*(j * TWidth / 2) + (i * TWidth / 2);*/	CGameplayState::GetInstance()->GetCamOffsetX();
-			int y = j -/*(i * THeight / 2) - (j * THeight / 2);*/ CGameplayState::GetInstance()->GetCamOffsetY();
+			int x = i - 0/*(j * TWidth / 2) + (i * TWidth / 2);*/;
+			int y = j - 0/*(i * THeight / 2) - (j * THeight / 2);*/;
 			RECT Rsource= { 0,0,0,0}; 
 			switch(m_pTileMap[i][j].GetTileType())
 			{	
 			case TT_PLAINS:
 				{
 					Rsource = CellAlgorithm(TT_PLAINS);
-					pTM->Draw(m_nTextureImageID,x * TWidth,y * THeight,1.0F,1.0F,&Rsource,0.0);
+					pTM->Draw(m_nTextureImageID,x * TWidth - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
 				}
 				break;
 			case TT_FOREST:
 				{
 					Rsource = CellAlgorithm(TT_FOREST);
-					pTM->Draw(m_nTextureImageID,x * TWidth,y * THeight,1.0F,1.0F,&Rsource,0.0);
+					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
 				}
 				break;
 			case TT_MOUNTAINS:
 				{
 					Rsource = CellAlgorithm(TT_MOUNTAINS);
-					pTM->Draw(m_nTextureImageID,x * TWidth,y * THeight,1.0F,1.0F,&Rsource,0.0);
+					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
 				}
 				break;
 			}

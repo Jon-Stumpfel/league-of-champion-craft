@@ -24,7 +24,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_nWidth = nScreenWidth;
 	m_nHeight = nScreenHeight;
 	m_bIsWindowed = bIsWindowed;
-
+	m_hWnd = hWnd;
 	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE);
 
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
@@ -81,6 +81,11 @@ bool CGame::Input(void)
 }
 void CGame::Update(void)
 {
+
+	//RECT r;
+	//GetWindowRect( m_hWnd, &r);
+	//ClipCursor( &r );
+
 	DWORD	dwNow =  GetTickCount();
 	float fElapsedTime = (dwNow - m_dwCurrTime) * 0.001f;
 

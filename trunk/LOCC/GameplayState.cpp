@@ -210,6 +210,29 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 void CGameplayState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
+
+	if (pDI->KeyPressed(DIK_F))
+	{
+
+		int x = 9;
+	}
+	//if (pDI->MouseGetPosX() < 10)
+	//{
+	//	OffsetRect(&rCamRect, -1, 0);
+	//}
+	//if (pDI->MouseGetPosX() > CGame::GetInstance()->GetWindowWidth() - 10)
+	//{
+	//	OffsetRect(&rCamRect, 1, 0);
+	//}
+	//if (pDI->MouseGetPosY() < 10)
+	//{
+	//	OffsetRect(&rCamRect, 0, -1);
+	//}
+	//if (pDI->MouseGetPosY() > CGame::GetInstance()->GetWindowHeight() - 10)
+	//{
+	//	OffsetRect(&rCamRect, 0, 1);
+
+	//}
 	if (pDI->KeyPressed(DIK_UP))
 		Input(INPUT_UP);
 	else if (pDI->KeyPressed(DIK_LEFT))
@@ -290,10 +313,12 @@ void CGameplayState::Render(void)
 			m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
 	}
 	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
-
+			int mGetPosX = CSGD_DirectInput::GetInstance()->MouseGetPosX();
+		int mGetPosY = CSGD_DirectInput::GetInstance()->MouseGetPosY();
 	oss.str(_T(""));
-	oss << "Camera Pos: X: " << rCamRect.left << ", Y: " << rCamRect.top;
+	oss << "Camera Pos: X: " << rCamRect.left << ", Y: " << rCamRect.top << "\nMouse PosX: " << mGetPosX << ", PosY: " << mGetPosY;
 	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 370, 255, 255, 255);
+
 
 
 	// selection cursor
