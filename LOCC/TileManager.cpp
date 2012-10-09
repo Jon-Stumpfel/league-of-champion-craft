@@ -25,7 +25,27 @@ CTileManager* CTileManager::GetInstance( void )
 
 	return s_Instance;
 }
+void CTileManager::DeleteInstance(void)
+{
+	if (s_Instance != nullptr)
+	{
+		s_Instance->ShutDown();
+		delete s_Instance;
+	}
+	s_Instance = nullptr;
+}
+void CTileManager::ShutDown(void)
+{
+	for (int x = 0; x<m_nRows; ++x)
+	{
+		for (int y=0; y<m_nColumns;++y)
+		{
+			delete [] m_pTileMap[y];
+		}
+		delete[] m_pTileMap[x];
+	}	
 
+}
 bool CTileManager::LoadSave( std::string sFilename )
 {
 	TiXmlDocument doc;
@@ -67,6 +87,7 @@ bool CTileManager::LoadSave( std::string sFilename )
 	{
 		m_pTileMap[x]= new CTile[m_nColumns];
 	}
+
 	int tempdata1=0,tempdata2=0;
 
 	for (int x=0; x<m_ucRows; ++x)
@@ -156,7 +177,7 @@ void CTileManager::Render( void )
 
 CTile* CTileManager::GetTile( int x, int y )
 {
-	return nullptr;
+	return &m_pTileMap[x][y];
 }
 
 CUnit* CTileManager::GetUnit( int x, int y )

@@ -111,3 +111,23 @@ void CTile::SetIfCapturing	(bool OnOff)
 {
 
 }
+bool CTile::GetIfPassable	(void)
+{
+	if(m_ucStatus & (1<<TS_ISPASSABLE))
+		return true;
+	else 
+		return false; 
+}
+int CTile::GetAPCost()
+{
+	if (m_eTType<=TT_MOUNTAINS)
+		return this->m_eTType+1;
+
+	if (m_eTType==TT_WATER)
+		return 1000;
+
+	if (m_eTType>TT_WATER)
+		return m_eTType+1-TT_FARM;
+	
+	return -1;
+}

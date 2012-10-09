@@ -4,7 +4,7 @@
 #include "GameManager.h"
 #include "ObjectManager.h"
 #include "MessageSystem.h"
-
+#include "TileManager.h"
 #include "MainMenuState.h"
 #include "GameplayState.h"
 
@@ -60,6 +60,7 @@ void CGame::Shutdown(void)
 	CObjectManager::DeleteInstance();
 	CStateStack::DeleteInstance();
 	CMessageSystem::DeleteInstance();
+	CTileManager::DeleteInstance();
 }
 
 CGame::CGame(void)
