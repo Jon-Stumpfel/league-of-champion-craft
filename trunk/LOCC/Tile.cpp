@@ -43,7 +43,6 @@ void CTile::SetStatus(unsigned char TileStatus, bool On_or_Off)
 	}
 
 }
-
 bool CTile::IsStatus(unsigned char TileStatus, bool On_or_Off)
 {
 	assert(TileStatus>TS_ISPASSABLE&&"TileStatus out of range");
@@ -64,15 +63,14 @@ bool CTile::IsStatus(unsigned char TileStatus, bool On_or_Off)
 	}
 }
 
-bool CTile::GetIfFrozen		(void)
+bool CTile::GetIfFrozen			(void)
 {
 	if(m_ucStatus & (1<<TS_FROZEN))
 		return true;
 	else 
 		return false;                    
 }
-
-void CTile::SetIfFrozen	(bool OnOff)
+void CTile::SetIfFrozen			(bool OnOff)
 {
 	if (OnOff==true)
 	{
@@ -84,33 +82,120 @@ void CTile::SetIfFrozen	(bool OnOff)
 	}
 }
 
-bool CTile::GetIfOccupied	(void)
+bool CTile::GetIfOccupied		(void)
 {
-
-	return true;
+	if(m_ucStatus & (1<<TS_OCCUPIED))
+		return true;
+	else 
+		return false;    
+}
+void CTile::SetIfOccupied		(bool OnOff)
+{
+	if (OnOff==true)
+	{
+		m_ucStatus |= (1<<TS_OCCUPIED);
+	}
+	if (OnOff==false)
+	{
+		m_ucStatus &= ~(1<<TS_OCCUPIED);
+	}
 }
 
-void CTile::SetIfOccupied	(bool OnOff)
+bool CTile::GetIfCapturing		(void)
 {
-
+	if(m_ucStatus & (1<<TS_CAPTURING))
+		return true;
+	else 
+		return false; 
+}
+void CTile::SetIfCapturing		(bool OnOff)
+{
+	if (OnOff==true)
+	{
+		m_ucStatus |= (1<<TS_CAPTURING);
+	}
+	if (OnOff==false)
+	{
+		m_ucStatus &= ~(1<<TS_CAPTURING);
+	}
 }
 
-bool CTile::GetIfCapturing	(void)
+bool CTile::GetIfCaptured		(void)
 {
-	return true;
+	if(m_ucStatus & (1<<TS_CAPTURED))
+		return true;
+	else 
+		return false;    
+}
+void CTile::SetIfCaptured		(bool OnOff)
+{
+	if (OnOff==true)
+	{
+		m_ucStatus |= (1<<TS_CAPTURED);
+	}
+	if (OnOff==false)
+	{
+		m_ucStatus &= ~(1<<TS_CAPTURED);
+	}
 }
 
-void CTile::SetIfCapturing	(bool OnOff)
+bool CTile::GetIfResourceTile	(void)
 {
-
+	if(m_ucStatus & (1<<TS_RESOURCETILE))
+		return true;
+	else 
+		return false;   
 }
-bool CTile::GetIfPassable	(void)
+void CTile::SetIfResourceTile	(bool OnOff)
+{
+	if (OnOff==true)
+	{
+		m_ucStatus |= (1<<TS_RESOURCETILE);
+	}
+	if (OnOff==false)
+	{
+		m_ucStatus &= ~(1<<TS_RESOURCETILE);
+	}
+}
+
+bool CTile::GetIfDeadTile		(void)
+{
+	if(m_ucStatus & (1<<TS_RESOURCETILE))
+		return true;
+	else 
+		return false;  
+}
+void CTile::SetIfDeadTile		(bool OnOff)
+{
+	if (OnOff==true)
+	{
+		m_ucStatus |= (1<<TS_RESOURCETILE);
+	}
+	if (OnOff==false)
+	{
+		m_ucStatus &= ~(1<<TS_RESOURCETILE);
+	}
+}
+
+bool CTile::GetIfPassable		(void)
 {
 	if(m_ucStatus & (1<<TS_ISPASSABLE))
 		return true;
 	else 
 		return false; 
 }
+void  CTile::SetIfPassable		(bool OnOff)
+{
+	if (OnOff==true)
+	{
+		m_ucStatus |= (1<<TS_ISPASSABLE);
+	}
+	if (OnOff==false)
+	{
+		m_ucStatus &= ~(1<<TS_ISPASSABLE);
+	}
+}
+
 int CTile::GetAPCost()
 {
 	if (m_eTType<=TT_MOUNTAINS)
