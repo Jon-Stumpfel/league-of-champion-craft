@@ -4,6 +4,7 @@
 #include "Tile.h"
 #include "GraphicsManager.h"
 #include "GameplayState.h"
+#include "GameManager.h"
 
 CTileManager* CTileManager::s_Instance = nullptr;
 
@@ -218,15 +219,26 @@ void CTileManager::Render( void )
 
 CTile* CTileManager::GetTile( int x, int y )
 {
+	if (x>m_nRows || y>m_nColumns)
+		return nullptr;
+
 	return &m_pTileMap[x][y];
 }
 
 CUnit* CTileManager::GetUnit( int x, int y )
 {
+	if (x>m_nRows || y>m_nColumns)
+		return nullptr;
+
+	if (m_pTileMap[x][y].GetIfOccupied())
+		return nullptr;
+
 	return nullptr;
 }
 
 CUnit* CTileManager::GetUnit( CTile* Tile )
 {
+
+
 	return nullptr;
 }

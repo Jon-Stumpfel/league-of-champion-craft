@@ -21,7 +21,7 @@ public:
 	void	SetIfCapturing		(bool OnOff);
 											
 	bool	GetIfCaptured		(void);
-	void	SetIfCaputred		(bool OnOff);
+	void	SetIfCaptured		(bool OnOff);
 
 	bool	GetIfResourceTile	(void);
 	void	SetIfResourceTile	(bool OnOff);
