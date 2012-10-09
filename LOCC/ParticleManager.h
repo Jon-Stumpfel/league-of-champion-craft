@@ -2,7 +2,7 @@
 
 class CEmitter;
 
-enum PRTCL_TYPE { TEST };
+enum PRTCL_TYPE { TEST, TESTSECOND };
 
 struct Color
 {
