@@ -121,6 +121,11 @@ int CTile::GetAPCost()
 
 	if (m_eTType>TT_WATER)
 		return m_eTType+1-TT_FARM;
-	
+
 	return -1;
+}
+
+bool CTile::operator==(const CTile& rhs)
+{
+	return ((m_sPos.nPosX == rhs.m_sPos.nPosX) && (m_sPos.nPosY == rhs.m_sPos.nPosY));
 }
