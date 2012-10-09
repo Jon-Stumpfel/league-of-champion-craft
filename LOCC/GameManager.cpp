@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "GameManager.h"
+#include "GameplayState.h"
 #include "ObjectManager.h"
 #include "SpawnUnitMessage.h"
 #include "DeSpawnUnitMessage.h"
@@ -19,6 +20,22 @@ CGameManager::~CGameManager(void)
 {
 }
 
+void CGameManager::NextPhase(void)
+{
+
+}
+
+CUnit* CGameManager::GetChampion(int nPlayerID)
+{
+	for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
+	{
+		if (m_vUnits[i]->GetPlayerID() != nPlayerID)
+			continue;
+		if (m_vUnits[i]->GetType() == UT_HERO)
+			return m_vUnits[i];
+	}
+	return nullptr;
+}
 CGameManager* CGameManager::GetInstance(void)
 {
 	if (s_Instance == nullptr)
@@ -115,11 +132,22 @@ void CGameManager::RemoveUnit(CUnit* pUnit)
 		else
 			++iter;
 	}
-	
+
 }
 
 void CGameManager::Reset(void)
 {
+	for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
+	{
+		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(m_vUnits[i]);
+	}
+	m_vUnits.clear();
+
+	for (decltype(m_vPlayers.size()) i = 0; i < m_vPlayers.size(); ++i)
+	{
+		delete m_vPlayers[i];
+	}
+	m_vPlayers.clear();
 }
 void CGameManager::NewGame(void)
 {

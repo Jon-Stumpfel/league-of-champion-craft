@@ -55,6 +55,7 @@ enum MSG_TYPE { MSG_SPAWNUNIT, MSG_DESPAWNUNIT, MSG_ADDRESOURCE };
 enum TILE_TYPE		{ TT_PLAINS, TT_FOREST, TT_MOUNTAINS, TT_WATER, TT_FARM, TT_MILL, TT_MINE, TT_CASTLE };
 enum TILE_STATUS	{ TS_FROZEN, TS_RESOURCETILE, TS_OCCUPIED, TS_CAPTURING, TS_CAPTURED, TS_IS_DEAD, TS_ISPASSABLE};
 
+enum GAME_PHASE { GP_MOVE, GP_ATTACK };
 
 
 
@@ -67,3 +68,5 @@ const int AP_PER_CAPTURE = 2;
 // fake tile stuff
 const int nFakeTileWidth = 64;
 const int nFakeTileHeight = 64;
+
+const int nMouseSensitivity = 15;

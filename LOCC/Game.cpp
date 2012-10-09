@@ -25,12 +25,19 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_nHeight = nScreenHeight;
 	m_bIsWindowed = bIsWindowed;
 	m_hWnd = hWnd;
+
 	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE);
 
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
 	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
-
+	POINT cursorPos;
+	GetCursorPos(&cursorPos);
+	float x = 0;
+	x = cursorPos.x; 
+	float y = 0;
+	y = cursorPos.y;
+	CGameplayState::GetInstance()->SetMouseOffset(Vec2D((int)x, (int)y));
 	m_dwCurrTime = GetTickCount();
 }
 
@@ -82,9 +89,6 @@ bool CGame::Input(void)
 void CGame::Update(void)
 {
 
-	//RECT r;
-	//GetWindowRect( m_hWnd, &r);
-	//ClipCursor( &r );
 
 	DWORD	dwNow =  GetTickCount();
 	float fElapsedTime = (dwNow - m_dwCurrTime) * 0.001f;
