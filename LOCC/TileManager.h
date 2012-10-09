@@ -32,10 +32,10 @@ private:
 		
 
 		// quick fix for rendering the wrong tiles
-		if (id == 1)
-			id = 2;
-		else if (id == 2)
-			id = 1;
+		//if (id == 1)
+		//	id = 2;
+		//else if (id == 2)
+		//	id = 1;
 		RECT rSource;
 
 		rSource.left	= (id % 4) * m_nTileWidth;
