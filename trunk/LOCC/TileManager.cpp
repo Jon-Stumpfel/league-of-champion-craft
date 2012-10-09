@@ -147,9 +147,9 @@ void CTileManager::Render( void )
 		THeight=m_pTileMap[0][0].GetTileHeight();
 	
 
-	for ( int i=0; i<m_nColumns;i++)
+	for ( int i=0; i<m_nRows;i++)
 	{
-		for ( int j=0; j<m_nRows;j++)
+		for ( int j=0; j<m_nColumns;j++)
 		{
 			int x = i - 0/*(j * TWidth / 2) + (i * TWidth / 2);*/;
 			int y = j - 0/*(i * THeight / 2) - (j * THeight / 2);*/;
