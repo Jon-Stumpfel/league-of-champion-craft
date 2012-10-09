@@ -36,14 +36,20 @@ void CTileManager::DeleteInstance(void)
 }
 void CTileManager::ShutDown(void)
 {
-	for (int x = 0; x<m_nRows; ++x)
+
+	for (int  x = 0; x < m_nRows; ++x)
 	{
-		for (int y=0; y<m_nColumns;++y)
-		{
-			delete [] m_pTileMap[y];
-		}
 		delete[] m_pTileMap[x];
-	}	
+	}
+	delete[] m_pTileMap;
+	//for (int x = 0; x<m_nRows; ++x)
+	//{
+	//	for (int y=0; y<m_nColumns;++y)
+	//	{
+	//		delete [] m_pTileMap[y];
+	//	}
+	//	delete[] m_pTileMap[x];
+	//}	
 
 }
 bool CTileManager::LoadSave( std::string sFilename )
