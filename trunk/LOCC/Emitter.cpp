@@ -48,6 +48,14 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 			if( doc.LoadFile( "Assets/Particles/Test.xml" ) == false )
 				return;
 		}
+		break;
+
+	case TESTSECOND:
+		{
+			if( doc.LoadFile( "Assets/Particles/Test2.xml" ) == false )
+				return;
+		}
+		break;
 	};
 
 	m_sEmitPos = sPos;
@@ -76,7 +84,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 
 	int tmp;
 	pImageData->Attribute( "IsLooping", &tmp);
-	if( tmp )
+	if( tmp > 0 )
 		m_bLooping = true;
 	else
 		m_bLooping = false;

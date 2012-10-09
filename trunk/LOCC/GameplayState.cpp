@@ -74,6 +74,10 @@ void CGameplayState::Enter(void)
 
 	pPM->LoadParticles( TEST, test );
 
+	test.fVecX = 100;
+	test.fVecY = 100;
+	pPM->LoadParticles( TESTSECOND,	test );
+
 	CTileManager* pTM=CTileManager::GetInstance();
 
 	string filename= "Assets\\Tiles\\TestMap.xml";
@@ -357,7 +361,7 @@ void CGameplayState::Update(float fElapsedTime)
 
 void CGameplayState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(1, 1, 1);
+	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
 	CTileManager::GetInstance()->Render();
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
