@@ -1,0 +1,9 @@
+C:\Users\Dalton\Desktop\World Tile Editor\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Dalton\Desktop\World Tile Editor\obj\x86\Debug\World_Tile_Editor.Form1.resources
+C:\Users\Dalton\Desktop\World Tile Editor\obj\x86\Debug\World_Tile_Editor.Properties.Resources.resources
+C:\Users\Dalton\Desktop\World Tile Editor\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Dalton\Desktop\World Tile Editor\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Dalton\Desktop\World Tile Editor\bin\Debug\World Tile Editor.exe
+C:\Users\Dalton\Desktop\World Tile Editor\bin\Debug\World Tile Editor.pdb
+C:\Users\Dalton\Desktop\World Tile Editor\obj\x86\Debug\World Tile Editor.exe
+C:\Users\Dalton\Desktop\World Tile Editor\obj\x86\Debug\World Tile Editor.pdb
