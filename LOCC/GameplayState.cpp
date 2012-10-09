@@ -76,9 +76,9 @@ void CGameplayState::Enter(void)
 
 	pPM->LoadParticles( TEST, test );
 
-	test.fVecX = 100;
-	test.fVecY = 100;
-	pPM->LoadParticles( TESTSECOND,	test );
+	//test.fVecX = 100;
+	//test.fVecY = 100;
+	//pPM->LoadParticles( TESTSECOND,	test );
 
 	CTileManager* pTM=CTileManager::GetInstance();
 
