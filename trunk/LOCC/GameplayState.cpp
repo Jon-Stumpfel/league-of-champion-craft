@@ -60,7 +60,7 @@ void CGameplayState::Enter(void)
 	string filename= "Assets\\Tiles\\TestMap.xml";
 
 	pTM->LoadSave(filename);
-
+	CAnimationManager::GetInstance()->Load("Assets\\Animations\\TestAnimation.xml");
 
 	SetRect(&rCamRect, 0, 0, 
 		CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth, CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight);
@@ -85,6 +85,7 @@ int CGameplayState::GetCamOffsetY(void)
 }
 void CGameplayState::Exit(void)
 {
+	CAnimationManager::GetInstance()->Shutdown();
 }
 
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
@@ -763,6 +764,7 @@ void CGameplayState::Update(float fElapsedTime)
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
+	CAnimationManager::GetInstance()->Update(fElapsedTime);
 }
 
 void CGameplayState::Render(void)
@@ -804,9 +806,7 @@ void CGameplayState::Render(void)
 		}
 	}
 	CObjectManager::GetInstance()->RenderAllObjects();
-
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-
 
 	//Render the map
 

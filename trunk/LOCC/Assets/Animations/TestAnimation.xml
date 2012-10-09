@@ -1,25 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Animations>
-  <Animation Name="FootmanWalking" IsLooping="1"         	ImgName="footman.png"/>
-	<Frames>
-	   <Frame FrameNumber="0" TimeForFrameToRun="1.0f"
-	    Position x="0" y="0" width="20" height="20"
-	    ImageRect top="9" right="53" bottom="50" 	    	    	    left="21"/>
-	   <Frame FrameNumber="1" TimeForFrameToRun="1.0f"
-	    Position x="0" y="0" width="20" height="20"
-	    ImageRect top="62" right="52" bottom="114"
-	    left="21"/>
-	   <Frame FrameNumber="2" TimeForFrameToRun="1.0f"
-	    Position x="0" y="0" width="20" height"20"
-	    ImageRect top="118" right="52" bottom="168"
-	    left="21"/>
-	   <Frame FrameNumber="3" TimeForFrameToRun="1.0f"
-	    Position x="0" y="0" width="20" height="20"
-	    ImageRect top="181" right="52" bottom="219"
-	    left="22"/>
-	   <Frame FrameNumber="4" TimeForFrameToRun="1.0f"
-	    Position x="0" y="0" width="20" height="20"
-	    ImageRect top="229" right="53" bottom="267"
-	    left="21"/>
-	</Frames>
+  <Animation UnitType ="2" AnimType="4" IsLooping="1" ImgName="Footman.png" CurrentFrame ="0"/>
+  <Frames NumFrames ="5"/>
+  <Frame FrameNumber="0" TimeForFrameToRun="25" top="19" right="78" bottom="90" left="32"/>
+  <Frame FrameNumber="1" TimeForFrameToRun="25" top="115" right="78" bottom="186" left="32"/>
+  <Frame FrameNumber="2" TimeForFrameToRun="25" top="205" right="78" bottom="276" left="32"/>
+  <Frame FrameNumber="3" TimeForFrameToRun="25" top="285" right="78" bottom="356" left="32"/>
+  <Frame FrameNumber="4" TimeForFrameToRun="25" top="366" right="78" bottom="437" left="32"/>
 </Animations>

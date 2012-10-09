@@ -2,6 +2,7 @@
 #include "StdAfx.h"
 #include "igamestate.h"
 #include "InputManager.h"
+#include "AnimationManager.h"
 #include "Unit.h"
 class CGameplayState :	public IGameState
 	{
@@ -67,7 +68,6 @@ private:
 	Vec2D m_SelectionPos;
 
 	CUnit* m_pSelectedUnit;
-
 	bool m_bIsMoving;
 //	static CGameplayState* s_Instance;
 

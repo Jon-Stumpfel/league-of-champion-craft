@@ -11,8 +11,8 @@ public:
 	bool Load(const char* strName);
 	static CAnimationManager* GetInstance( void );
 	RECT GetFrame(UnitAnimation STheAnimStruct);
+	void Shutdown();
 private:
-
 	CAnimationManager(void);
 	~CAnimationManager(void);
 	CAnimationManager(const CAnimationManager&);
