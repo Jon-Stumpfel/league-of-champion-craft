@@ -20,13 +20,20 @@ public:
 	ANIM_TYPE GetAnimType() {return m_eAnimType;}
 	void SetUnitType(UNIT_TYPE tempunittype) {m_eUnitType = tempunittype;}
 	UNIT_TYPE GetUnitType() {return m_eUnitType;}
-	void SetFrame(CFrame* tempframe) {m_vAnimVec[tempframe->GetFrame()] = tempframe;}
-	std::vector<CFrame*> GetFrameVec() {return m_vAnimVec;}
+	void SetFrame(CFrame tempframe) {m_vAnimVec.push_back(tempframe);}
+	std::vector<CFrame> GetFrameVec() {return m_vAnimVec;}
+	int GetCurrFrame() {return currframe;}
+	void SetCurrFrame(int tempframe) {currframe = tempframe;}
+	float GetElapsedTime() {return elapsedtime;}
+	void AddElapsedTime(float temptime) {elapsedtime+=temptime;}
+	void SetElapsedTime(float temptime) {elapsedtime=temptime;}
 private:
-	std::vector< CFrame* > m_vAnimVec;
+	std::vector< CFrame > m_vAnimVec;
 	bool m_bLooping;
 	const char* m_ccImagePath;
 	UNIT_TYPE m_eUnitType;
 	ANIM_TYPE m_eAnimType;
+	int currframe;
+	float elapsedtime;
 };
 

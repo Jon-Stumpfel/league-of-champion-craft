@@ -3,8 +3,8 @@
 
 CGameObject::CGameObject(void)
 {
-	m_sWorldPos.nPosY = 0;
-	m_sWorldPos.nPosX = 0;
+	m_sWorldPos.nPosY = 6;
+	m_sWorldPos.nPosX = 12;
 	m_unRefCount = 0;
 }
 

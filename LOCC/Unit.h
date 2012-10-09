@@ -2,15 +2,7 @@
 #include "StdAfx.h"
 #include "Ability.h"
 #include "GameObject.h"
-
-
-struct UnitAnimation
-{
-	UNIT_TYPE unitType;
-	ANIM_TYPE animationType;
-	int nCurrentFrame;
-	float fCurrentTime;
-};
+#include "AnimationManager.h"
 class CUnit : public CGameObject
 {
 	int m_nHP;
@@ -37,7 +29,6 @@ class CUnit : public CGameObject
 	std::vector<CTile*> m_vWaypoints;
 
 	UnitAnimation* m_pMyAnimation;
-
 	
 public:
 	CUnit(UNIT_TYPE type);
@@ -88,6 +79,9 @@ public:
 
 	void SetIsMoving(bool b) { m_bIsMoving = b;}
 	bool GetIsMoving(void) { return m_bIsMoving;}
+
+	void SetAnimStruct(UnitAnimation* tempanim) {m_pMyAnimation = tempanim;}
+	UnitAnimation* GetAnimStruct() {return m_pMyAnimation;}
 
 	UNIT_TYPE GetType(void) { return m_eType;}
 };

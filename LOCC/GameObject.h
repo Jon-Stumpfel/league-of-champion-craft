@@ -5,7 +5,6 @@ class CGameObject
 public:
 	Vec2D m_sWorldPos; // pixel position
 private:
-
 	unsigned int m_unRefCount;
 public:
 	CGameObject(void);

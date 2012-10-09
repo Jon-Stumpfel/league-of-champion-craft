@@ -4,6 +4,7 @@
 
 CAnimation::CAnimation(void)
 {
+	elapsedtime = 0.0f;
 }
 
 
