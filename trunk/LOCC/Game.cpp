@@ -38,6 +38,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	long y = 0;
 	y = cursorPos.y;
 	CGameplayState::GetInstance()->SetMouseOffset(Vec2D((int)x, (int)y));
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\wphighlight.png"), _T("wphighlight"), 0UL);
 	m_dwCurrTime = GetTickCount();
 }
 

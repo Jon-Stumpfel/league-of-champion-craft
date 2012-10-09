@@ -695,12 +695,36 @@ void CGameplayState::Render(void)
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	// render the waypoints?
-	for (decltype(m_vWaypoints.size()) i = 0; i < m_vWaypoints.size(); ++i)
+	if (m_pSelectedUnit != nullptr)
 	{
-		RECT tileRect = { m_vWaypoints[i]->GetPosition().nPosX * nFakeTileWidth - GetCamOffsetX(), 
-			m_vWaypoints[i]->GetPosition().nPosY * nFakeTileHeight - GetCamOffsetY(),  
-		nFakeTileWidth, nFakeTileHeight};
-		CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, 255, 255, 0);
+		int nTilesCanMove = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
+		int nAPCost = 0;
+		int r = 0;
+		int g = 255;
+		int b = 0;
+
+		for (int i = m_vWaypoints.size() - 1; i >= 0; --i)
+		{
+			nAPCost += m_vWaypoints[i]->GetAPCost();
+			nTilesCanMove--;
+			CPlayer* pPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
+			if (nAPCost > CGameManager::GetInstance()->GetCurrentPlayer()->GetAP())
+			{
+				r = 255;
+				g = 0;
+			}
+			if (nTilesCanMove < 0)
+			{
+				r = 255;
+				g = 0;
+			}
+			RECT tileRect = { m_vWaypoints[i]->GetPosition().nPosX * nFakeTileWidth - GetCamOffsetX(), 
+				m_vWaypoints[i]->GetPosition().nPosY * nFakeTileHeight - GetCamOffsetY(),  
+				nFakeTileWidth, nFakeTileHeight};
+		//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(120,r, g, b));
+		}
 	}
 	CObjectManager::GetInstance()->RenderAllObjects();
 
