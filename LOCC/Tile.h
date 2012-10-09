@@ -59,6 +59,7 @@ public:
 	// **USED TO LOAD FROM FILE; NOT TO BE PLAYED WITH**!!!
 	void  SetStatus        (unsigned char ucStatus )		{m_ucStatus=ucStatus;};
 
+	bool operator==(const CTile& rhs);
 private:
 	int					m_eTType;
 	unsigned char		m_ucStatus;
