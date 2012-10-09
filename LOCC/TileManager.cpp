@@ -219,7 +219,9 @@ void CTileManager::Render( void )
 
 CTile* CTileManager::GetTile( int x, int y )
 {
-	if (x>m_nRows || y>m_nColumns)
+	if (x>=m_nRows || y>=m_nColumns)
+		return nullptr;
+	if (x<0 || y<0)
 		return nullptr;
 
 	return &m_pTileMap[x][y];
@@ -227,7 +229,7 @@ CTile* CTileManager::GetTile( int x, int y )
 
 CUnit* CTileManager::GetUnit( int x, int y )
 {
-	if (x>m_nRows || y>m_nColumns)
+	if (x>=m_nRows || y>=m_nColumns)
 		return nullptr;
 	if (x<0 || y<0)
 		return nullptr;
