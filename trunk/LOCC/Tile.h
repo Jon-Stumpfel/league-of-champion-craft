@@ -35,11 +35,13 @@ public:
 	bool	GetIfPassable		(void);
 	void	SetIfPassable		(bool OnOff);
 
+	int		GetAPCost			(void );
+
 	int		GetTileType			(void)				{return m_eTType;};
 	void	SetTileType			(int eTileType)		{m_eTType=eTileType;};
 
-	int		GetPlayerID	(void)				{return m_nPlayerID;};	
-	void	SetPlayerID	(int nPlayerID)		{m_nPlayerID=nPlayerID;};
+	int		GetPlayerID			(void)				{return m_nPlayerID;};	
+	void	SetPlayerID			(int nPlayerID)		{m_nPlayerID=nPlayerID;};
 
 	Vec2D	GetPosition			(void)				{return m_sPos;};
 	void	SetPosition			(Vec2D sPos)		{m_sPos=sPos;};

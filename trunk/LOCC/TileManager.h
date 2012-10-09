@@ -9,7 +9,8 @@ class CTileManager
 {
 
 public:
-
+	void Init();
+	void ShutDown();
 	bool LoadSave( std::string sFilename );
 	void Update( float fElapsedTime );
 	void Render( void );
@@ -18,6 +19,7 @@ public:
 	CUnit* GetUnit( CTile* pTile );
 
 	static CTileManager* GetInstance( void );
+	static void DeleteInstance(void);
 
 private:
 

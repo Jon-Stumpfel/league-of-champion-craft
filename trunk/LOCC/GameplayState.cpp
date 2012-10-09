@@ -13,6 +13,8 @@
 #include "ParticleManager.h"
 #include "Player.h"
 #include "TileManager.h"
+#include "Tile.h"
+
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -357,6 +359,7 @@ void CGameplayState::Update(float fElapsedTime)
 	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
+
 }
 
 void CGameplayState::Render(void)
