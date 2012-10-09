@@ -23,9 +23,12 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <algorithm>
+#include <list>
 using std::ostringstream;
 using std::vector;
 using std::string;
+
 
 // Gameplay stuff
 struct Vec2D

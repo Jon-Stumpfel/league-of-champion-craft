@@ -29,7 +29,13 @@ private:
 	RECT CTileManager::CellAlgorithm( int id )
 	{
 		assert( id >= 0 && id < m_nColumns * m_nRows && "CellAlgorithm - id out of range!" );
+		
 
+		// quick fix for rendering the wrong tiles
+		if (id == 1)
+			id = 2;
+		else if (id == 2)
+			id = 1;
 		RECT rSource;
 
 		rSource.left	= (id % 4) * m_nTileWidth;

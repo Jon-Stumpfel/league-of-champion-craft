@@ -25,14 +25,32 @@ public:
 	void SnapToUnit(CUnit* pUnit);
 private:
 
+	class ASNode
+	{
+	public:
+		CTile* pTile;
+		int	 nCost;
+		ASNode* parent;
+		int nF;
+		int nH;
+		int nG;
+	};
 	CGameplayState(void);
 	~CGameplayState(void);
 	CGameplayState(const CGameplayState&);
 	CGameplayState& operator=(const CGameplayState&);
 
+	void MoveCamera(int dX, int dY);
 	void MoveCursor(int dX, int dY, bool lock = true);
 	void MoveToTile(Vec2D nTilePosition);
-	void MoveCamera(int dX, int dY);
+
+
+	// A* algorithm stuff
+	std::vector<CTile*> m_vWaypoints;
+	bool CalculateMove(CTile* startTile, CTile* targetTile);
+	void FindNode(std::list<ASNode*> list, CTile* pTile);
+
+
 	RECT rCamRect;
 	Vec2D m_MouseOffset;
 	Vec2D m_CameraPos;
