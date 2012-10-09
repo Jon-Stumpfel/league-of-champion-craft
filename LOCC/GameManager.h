@@ -14,7 +14,8 @@ public:
 	static void DeleteInstance(void);	
 
 	CPlayer* CreatePlayer(bool bAIControlled = false);
-	CPlayer* GetCurrentPlayer(void) { return m_pCurrentPlayer;}
+	CPlayer* GetCurrentPlayer(void);
+	void SetCurrentPlayer(int nPlayerID) { m_pCurrentPlayer = m_vPlayers[nPlayerID];}
 	CPlayer* GetPlayer(int nPlayerID);
 
 	void AddUnit(CUnit* pUnit);

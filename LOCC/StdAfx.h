@@ -72,4 +72,4 @@ const int AP_PER_CAPTURE = 2;
 const int nFakeTileWidth = 64;
 const int nFakeTileHeight = 64;
 
-const int nMouseSensitivity = 15;
+const int nMouseSensitivity = 10005;
