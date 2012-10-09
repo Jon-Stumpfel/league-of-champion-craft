@@ -229,6 +229,8 @@ CUnit* CTileManager::GetUnit( int x, int y )
 {
 	if (x>m_nRows || y>m_nColumns)
 		return nullptr;
+	if (x<0 || y<0)
+		return nullptr;
 
 	if (m_pTileMap[x][y].GetIfOccupied())
 		return nullptr;
