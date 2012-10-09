@@ -14,22 +14,25 @@ public:
 	static void DeleteInstance(void);	
 
 	CPlayer* CreatePlayer(bool bAIControlled = false);
+	CPlayer* GetCurrentPlayer(void) { return m_pCurrentPlayer;}
 	CPlayer* GetPlayer(int nPlayerID);
 
 	void MoveUnit(CUnit* u, int nDirection);
 	void AddUnit(CUnit* pUnit);
 	void RemoveUnit(CUnit* pUnit);
+
+	CUnit* GetChampion(int nPlayerID);
 	CUnit* FindUnit(int posX, int posY);
 	CUnit* FindUnit(Vec2D pos);
 
 	int GetLevel(void);
 	void LoadLevel(std::string sFileName);
 	void LoadLevel(int nLevelNum);
-
 	void LoadSave(int nSlot);
 
 	void Reset(void);
 	void NewGame(void);
+	void NextPhase(void);
 
 	void Update(float fElapsedTime);
 
@@ -39,6 +42,8 @@ public:
 
 
 	static void MessageProc(IMessage* pMsg);
+
+	GAME_PHASE GetCurrentPhase(void) { return m_nCurrentPhase;}
 private:
 
 	CGameManager(void);
@@ -57,8 +62,10 @@ private:
 	std::vector< ScriptSpawnData > m_vScritpSpawns;
 
 	int m_nCurrentLevel;
-	int m_nCurrentPhase;
 	int m_nSaveSlot;
+
+	GAME_PHASE m_nCurrentPhase;
+	int m_nTurnCount;
 
 	bool m_bNewGame;
 

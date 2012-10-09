@@ -40,26 +40,32 @@ void CGameplayState::Enter(void)
 	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(1, 1), 0, UT_SWORDSMAN);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
-  	pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_ARCHER);
-  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-  
-  	pMsg = new CSpawnUnitMessage(Vec2D(3, 1), 0, UT_HERO);
-  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-  
-  	pMsg = new CSpawnUnitMessage(Vec2D(4, 1), 0, UT_CAVALRY);
-  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-  
-  	pMsg = new CSpawnUnitMessage(Vec2D(5, 1), 0, UT_CASTLE);
-  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-  
-  	pMsg = new CSpawnUnitMessage(Vec2D(6, 1), 0, UT_SKELETON);
-  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-  
-  	pMsg = new CSpawnUnitMessage(Vec2D(7, 1), 0, UT_ICEBLOCK);
-  	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+	pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_ARCHER);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(3, 1), 0, UT_HERO);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(4, 1), 0, UT_CAVALRY);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(5, 1), 0, UT_CASTLE);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(6, 1), 0, UT_SKELETON);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(7, 1), 0, UT_ICEBLOCK);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 	CGameManager::GetInstance()->CreatePlayer(false);
 
+
+	CGameManager::GetInstance()->CreatePlayer(false); // player 2
+	pMsg = new CSpawnUnitMessage(Vec2D(3, 7), 1, UT_HERO);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	CGameManager* pGM = CGameManager::GetInstance();
 	CParticleManager* pPM = CParticleManager::GetInstance();
 
 	Vec2Df test;
@@ -96,10 +102,59 @@ int CGameplayState::GetCamOffsetY(void)
 void CGameplayState::Exit(void)
 {
 }
-void CGameplayState::MoveCursor(int dX, int dY)
+void CGameplayState::SnapToUnit(CUnit* pUnit)
+{
+	int nSelX = pUnit->GetPos().nPosX - m_SelectionPos.nPosX;
+	int nSelY = pUnit->GetPos().nPosY - m_SelectionPos.nPosY;
+	int nWindowTileWidth = CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth;
+	int nWindowTileHeight = CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight;
+	int nDesiredCamX = pUnit->GetPos().nPosX - (nWindowTileWidth / 2);
+	int nDesiredCamY = pUnit->GetPos().nPosY - (nWindowTileHeight / 2);
+	int camX = nDesiredCamX - m_CameraPos.nPosX;
+	int camY = nDesiredCamY - m_CameraPos.nPosY;
+	MoveCursor(nSelX, nSelY, false);
+	MoveCamera(camX, camY);
+}
+void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 {
 	m_SelectionPos.nPosX += dX;
 	m_SelectionPos.nPosY += dY;
+
+	// This locks camera to cursor position
+	if (lock == true)
+	{
+		if (m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth) < m_SelectionPos.nPosX)
+		{
+			int n = m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth);
+			int nDistance = m_SelectionPos.nPosX - n;
+			MoveCamera(nDistance, 0);
+		}
+		if (m_CameraPos.nPosX > m_SelectionPos.nPosX)
+		{
+			int n = m_CameraPos.nPosX;
+			int nDistance = m_SelectionPos.nPosX - n;
+			MoveCamera(nDistance, 0);
+		}
+		if (m_CameraPos.nPosY + (CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight) < m_SelectionPos.nPosY)
+		{
+			int n = m_CameraPos.nPosY + (CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight);
+			int nDistance = m_SelectionPos.nPosY - n;
+			MoveCamera(0, nDistance);
+		}
+		if (m_CameraPos.nPosY > m_SelectionPos.nPosY)
+		{
+			int n = m_CameraPos.nPosY;
+			int nDistance = m_SelectionPos.nPosY - n;
+			MoveCamera(0, nDistance);
+		}
+	}
+
+}
+void CGameplayState::MoveCamera(int dX, int dY)
+{
+	OffsetRect(&rCamRect, dX, dY);
+	m_CameraPos.nPosX += dX;
+	m_CameraPos.nPosY += dY;
 }
 void CGameplayState::Input(INPUT_ENUM input)
 {
@@ -167,12 +222,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_DOWN:
 		{
-		if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected
-		{
-			// do nothing! Up arrow does nada;
-		}
-		else
-			MoveCursor(0, 1);
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected
+			{
+				// do nothing! Up arrow does nada;
+			}
+			else
+				MoveCursor(0, 1);
 		}
 		break;
 	case INPUT_ACCEPT:
@@ -198,6 +253,18 @@ void CGameplayState::Input(INPUT_ENUM input)
 			m_bIsMoving = false;
 		}
 		break;
+	case INPUT_CAM_UP:
+		MoveCamera(0, -1);
+		break;
+	case INPUT_CAM_DOWN:
+		MoveCamera(0, 1);
+		break;
+	case INPUT_CAM_LEFT:
+		MoveCamera(-1, 0);
+		break;
+	case INPUT_CAM_RIGHT:
+		MoveCamera(1, 0);
+		break;
 	default:
 		break;
 	}
@@ -211,28 +278,39 @@ void CGameplayState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
-	if (pDI->KeyPressed(DIK_F))
+	if (pDI->KeyPressed(DIK_W))
 	{
-
-		int x = 9;
+		Input(INPUT_CAM_UP);
 	}
-	//if (pDI->MouseGetPosX() < 10)
-	//{
-	//	OffsetRect(&rCamRect, -1, 0);
-	//}
-	//if (pDI->MouseGetPosX() > CGame::GetInstance()->GetWindowWidth() - 10)
-	//{
-	//	OffsetRect(&rCamRect, 1, 0);
-	//}
-	//if (pDI->MouseGetPosY() < 10)
-	//{
-	//	OffsetRect(&rCamRect, 0, -1);
-	//}
-	//if (pDI->MouseGetPosY() > CGame::GetInstance()->GetWindowHeight() - 10)
-	//{
-	//	OffsetRect(&rCamRect, 0, 1);
+	else if (pDI->KeyPressed(DIK_S))
+	{
+		Input(INPUT_CAM_DOWN);
+	}
+	else if (pDI->KeyPressed(DIK_A))
+	{
+		Input(INPUT_CAM_LEFT);
+	}
+	else if (pDI->KeyPressed(DIK_D))
+	{
+		Input(INPUT_CAM_RIGHT);
+	}
+	if (pDI->MouseMovementX() < -nMouseSensitivity)
+	{
+		Input(INPUT_CAM_LEFT);
+	}
+	else if (pDI->MouseMovementX() > nMouseSensitivity)
+	{
+		Input(INPUT_CAM_RIGHT);
+	}
+	if (pDI->MouseMovementY() < -nMouseSensitivity)
+	{
+		Input(INPUT_CAM_UP);
+	}
+	else if (pDI->MouseMovementY() > nMouseSensitivity)
+	{
+		Input(INPUT_CAM_DOWN);
+	}
 
-	//}
 	if (pDI->KeyPressed(DIK_UP))
 		Input(INPUT_UP);
 	else if (pDI->KeyPressed(DIK_LEFT))
@@ -250,7 +328,7 @@ void CGameplayState::Update(float fElapsedTime)
 		if (m_pSelectedUnit)
 		{
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(m_pSelectedUnit);
-		CMessageSystem::GetInstance()->SendMessageW(pMsg);
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 			Input(INPUT_CANCEL);
 		}
@@ -260,23 +338,18 @@ void CGameplayState::Update(float fElapsedTime)
 		CAddResourceMessage* pMsg = new CAddResourceMessage(TT_MINE, 0);
 		CMessageSystem::GetInstance()->SendMessageW(pMsg);
 	}
-	else if (pDI->KeyPressed(DIK_W))
+	else if (pDI->KeyPressed(DIK_Y))
 	{
-		// camera up
-		OffsetRect(&rCamRect, 0, -1);
+		SnapToUnit(CGameManager::GetInstance()->GetChampion(0));
 	}
-	else if (pDI->KeyPressed(DIK_S))
+	else if (pDI->KeyPressed(DIK_U))
 	{
-		// camera down
-			OffsetRect(&rCamRect, 0, 1);
+		SnapToUnit(CGameManager::GetInstance()->GetChampion(1));
 	}
-	else if (pDI->KeyPressed(DIK_A))
+	else if (pDI->KeyPressed(DIK_I))
 	{
-		OffsetRect(&rCamRect, -1, 0);
-	}
-	else if (pDI->KeyPressed(DIK_D))
-	{
-		OffsetRect(&rCamRect, 1, 0);
+		CGameManager* pGM = CGameManager::GetInstance();
+		int x = 9;
 	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
@@ -292,7 +365,7 @@ void CGameplayState::Render(void)
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	
+
 	//Render the map
 
 	// Testing particle rendering
@@ -313,12 +386,6 @@ void CGameplayState::Render(void)
 			m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
 	}
 	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
-			int mGetPosX = CSGD_DirectInput::GetInstance()->MouseGetPosX();
-		int mGetPosY = CSGD_DirectInput::GetInstance()->MouseGetPosY();
-	oss.str(_T(""));
-	oss << "Camera Pos: X: " << rCamRect.left << ", Y: " << rCamRect.top << "\nMouse PosX: " << mGetPosX << ", PosY: " << mGetPosY;
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 370, 255, 255, 255);
-
 
 
 	// selection cursor
