@@ -198,8 +198,18 @@ void  CTile::SetIfPassable		(bool OnOff)
 
 int CTile::GetAPCost()
 {
-	if (m_eTType<=TT_MOUNTAINS)
-		return this->m_eTType+1;
+	switch (m_eTType)
+	{
+	case TT_MOUNTAINS:
+		return 3;
+	case TT_FOREST:
+		return 2;
+	case TT_PLAINS:
+		return 1;
+
+	}
+	//if (m_eTType<=TT_MOUNTAINS)
+	//	return this->m_eTType+1;
 
 	if (m_eTType==TT_WATER)
 		return 1000;

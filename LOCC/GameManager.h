@@ -17,7 +17,6 @@ public:
 	CPlayer* GetCurrentPlayer(void) { return m_pCurrentPlayer;}
 	CPlayer* GetPlayer(int nPlayerID);
 
-	void MoveUnit(CUnit* u, int nDirection);
 	void AddUnit(CUnit* pUnit);
 	void RemoveUnit(CUnit* pUnit);
 

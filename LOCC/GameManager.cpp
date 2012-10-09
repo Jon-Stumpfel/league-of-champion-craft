@@ -25,6 +25,8 @@ void CGameManager::NextPhase(void)
 
 }
 
+// Get the player's champion unit. Searches through the unit list to find a unit that matches
+// the criteria: Owned by nPlayerID and is a UT_HERO. We can assume there will only ever be 1 hero.
 CUnit* CGameManager::GetChampion(int nPlayerID)
 {
 	for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
@@ -88,10 +90,6 @@ CPlayer* CGameManager::GetPlayer(int nPlayerID)
 
 	}
 	return nullptr;
-}
-
-void CGameManager::MoveUnit(CUnit* u, int nDirection)
-{
 }
 
 int CGameManager::GetLevel(void)
@@ -181,7 +179,7 @@ CUnit* CGameManager::FindUnit(Vec2D pos)
 	return FindUnit(pos.nPosX, pos.nPosY);
 }
 
-
+// This is the MessageSystem MessageProc. Message handling is done here
 void CGameManager::MessageProc(IMessage* pMsg)
 {
 	CGameManager* pThis = CGameManager::GetInstance();

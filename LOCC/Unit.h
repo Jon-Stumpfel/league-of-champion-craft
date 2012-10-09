@@ -16,6 +16,7 @@ class CUnit : public CGameObject
 	int m_nHP;
 	int m_nAttack;
 	int m_nSpeed;
+	int m_nTilesMoved;
 	int m_nFacing; 
 	int m_nUniqueID;
 	int m_nPlayerID;
@@ -37,18 +38,23 @@ class CUnit : public CGameObject
 
 	UnitAnimation* m_pMyAnimation;
 
+	
 public:
 	CUnit(UNIT_TYPE type);
 	~CUnit(void);
+
+	void AddWaypoint(CTile* pTile);
 
 	void Update(float fElapsedTime);
 	void Render(void);
 
 	CAbility* GetAbility(int index) { return m_vAbilities[index];}
 	
-	void SetPos(int posX, int posY) { m_sGamePos.nPosX = posX; m_sGamePos.nPosY = posY;}
-	void SetPos(Vec2D pos) { m_sGamePos = pos;}
+	void SetPos(int posX, int posY);
+	void SetPos(Vec2D pos);
 	Vec2D GetPos(void) { return m_sGamePos;}
+
+	int GetTilesMoved(void) { return m_nTilesMoved;}
 
 	void SetHP(int h) { m_nHP = h ;}
 	int GetHP(void) { return m_nHP;}
