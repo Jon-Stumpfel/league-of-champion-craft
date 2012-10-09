@@ -6,17 +6,50 @@
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_nTilesMoved = 0;
+	CAbility* pAbility = new CAbility();
+	pAbility->m_nAPCost = 0;
+	pAbility->m_bIsMove = true;
+	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("moveicon"));
+	m_vAbilities.push_back(pAbility);
+
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 1;
+	pAbility->m_bIsMove = false;
+	pAbility->m_bIsAttack = true;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_nPhase = GP_ATTACK;
+	pAbility->m_nRange = 1;
+	pAbility->m_nCooldown = 0;
+	pAbility->m_vPattern.push_back(Vec2D(-1, 0));
+	pAbility->m_vPattern.push_back(Vec2D(1, 0));
+	pAbility->m_vPattern.push_back(Vec2D(0, -1));
+	pAbility->m_vPattern.push_back(Vec2D(0, 1));
+	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
+
+	m_vAbilities.push_back(pAbility);
+
 }
 
 
 CUnit::~CUnit(void)
 {
+	for (decltype(m_vAbilities.size()) i =0; i < m_vAbilities.size(); ++i)
+		delete m_vAbilities[i];
+
 }
 
 void CUnit::AddWaypoint(CTile* pTile)
 {
 	if (pTile != nullptr)
 		m_vWaypoints.push_back(pTile);
+}
+CAbility* CUnit::GetAbility(int index)
+{
+	if ((decltype(m_vAbilities.size()))index < m_vAbilities.size())
+		return m_vAbilities[index];
+	else
+		return nullptr;
 }
 
 // Just used for checking if two numbers are close enough together for waypoint moving. Used to be

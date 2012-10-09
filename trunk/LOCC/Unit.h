@@ -39,7 +39,7 @@ public:
 	void Update(float fElapsedTime);
 	void Render(void);
 
-	CAbility* GetAbility(int index) { return m_vAbilities[index];}
+	CAbility* GetAbility(int index);
 	
 	void SetPos(int posX, int posY);
 	void SetPos(Vec2D pos);

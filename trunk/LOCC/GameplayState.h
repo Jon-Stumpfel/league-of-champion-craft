@@ -1,6 +1,7 @@
 #pragma once
 #include "StdAfx.h"
 #include "igamestate.h"
+#include "Ability.h"
 #include "InputManager.h"
 #include "AnimationManager.h"
 #include "Unit.h"
@@ -24,6 +25,8 @@ public:
 
 
 	void SnapToPosition(Vec2D pPos);
+
+	void ClearSelections(void);
 private:
 
 	class ASNode
@@ -58,7 +61,6 @@ private:
 	Vec2D m_currCamPixelPos;
 	float m_fLerpPercent;
 	bool m_bLerpingX;
-	bool m_bLerpingY;
 	void LerpCamera(float fElapsedTime);
 
 
@@ -66,6 +68,10 @@ private:
 	Vec2D m_MouseOffset;
 	Vec2D m_CameraPos;
 	Vec2D m_SelectionPos;
+
+	int m_nSelectedAbility;
+	void UseAbility(CAbility* ability);
+
 
 	CUnit* m_pSelectedUnit;
 	bool m_bIsMoving;
