@@ -3,7 +3,9 @@
 #include <assert.h>
 
 
+//{ TT_PLAINS, TT_FOREST, TT_MOUNTAINS, TT_WATER, TT_FARM, TT_MILL, TT_MINE, TT_CASTLE };
 //{ TS_FROZEN, TS_RESOURCETILE, TS_OCCUPIED, TS_CAPTURING, TS_CAPTURED, TS_IS_DEAD, TS_ISPASSABLE};
+
 CTile::CTile(void)
 {	
 	m_eTType=TT_PLAINS;
@@ -82,18 +84,9 @@ void CTile::SetIfFrozen	(bool OnOff)
 	}
 }
 
-bool CTile::GetIfResoruce	(void)
-{
-	return true;
-}
-
-void CTile::SetIfResoruce	(bool OnOff)
-{
-
-}
-
 bool CTile::GetIfOccupied	(void)
 {
+
 	return true;
 }
 

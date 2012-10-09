@@ -14,9 +14,6 @@ public:
 	bool	GetIfFrozen			(void);
 	void	SetIfFrozen			(bool OnOff);
 
-	bool	GetIfResoruce		(void);
-	void	SetIfResoruce		(bool OnOff);
-
 	bool	GetIfOccupied		(void);
 	void	SetIfOccupied		(bool OnOff);
 

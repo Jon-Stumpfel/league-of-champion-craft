@@ -146,9 +146,9 @@ void CTileManager::Render( void )
 		THeight=m_pTileMap[0][0].GetTileHeight();
 	
 
-	for ( int i=0; i<m_nRows;i++)
+	for ( int i=0; i<m_nColumns;i++)
 	{
-		for ( int j=0; j<m_nColumns;j++)
+		for ( int j=0; j<m_nRows;j++)
 		{
 			int x = i - 0/*(j * TWidth / 2) + (i * TWidth / 2);*/;
 			int y = j - 0/*(i * THeight / 2) - (j * THeight / 2);*/;
@@ -172,6 +172,41 @@ void CTileManager::Render( void )
 			case TT_MOUNTAINS:
 				{
 					Rsource = CellAlgorithm(TT_MOUNTAINS);
+					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			case TT_WATER:
+				{
+					Rsource = CellAlgorithm(TT_WATER);
+					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			case TT_FARM:
+				{
+					Rsource = CellAlgorithm(TT_FARM);
+					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			case TT_MILL:
+				{
+					Rsource = CellAlgorithm(TT_MILL);
+					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			case TT_MINE:
+				{
+					Rsource = CellAlgorithm(TT_MINE);
+					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
+						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
+				}
+				break;
+			case TT_CASTLE:
+				{
+					Rsource = CellAlgorithm(TT_CASTLE);
 					pTM->Draw(m_nTextureImageID,x * TWidth- CGameplayState::GetInstance()->GetCamOffsetX()
 						,y * THeight - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,0.0);
 				}
