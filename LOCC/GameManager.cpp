@@ -34,6 +34,8 @@ void CGameManager::NextPhase(void)
 		m_pCurrentPlayer = m_pNextPlayer;
 		m_pNextPlayer = pTemp;
 		m_nTurnCount++;
+		CGameplayState::GetInstance()->ClearSelections();
+		CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos());
 	}
 }
 

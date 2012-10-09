@@ -40,6 +40,9 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGameplayState::GetInstance()->SetMouseOffset(Vec2D((int)x, (int)y));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\wphighlight.png"), _T("wphighlight"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\ui.png"), _T("uioverlay"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\panelselectioncursor.png"), _T("panelselect"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\moveabilityicon.png"), _T("moveicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\meleeabilityicon.png"), _T("meleeattackicon"), 0UL);
 	m_dwCurrTime = GetTickCount();
 }
 

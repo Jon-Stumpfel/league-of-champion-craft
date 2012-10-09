@@ -78,3 +78,4 @@ const int nFakeTileWidth = 64;
 const int nFakeTileHeight = 64;
 
 const int nMouseSensitivity = 211110;	
+const int nCameraScrollSpeed = 2;

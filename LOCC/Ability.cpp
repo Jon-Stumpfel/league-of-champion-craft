@@ -4,6 +4,7 @@
 
 CAbility::CAbility(void)
 {
+	m_szInterfaceIcon = TSTRING(_T("lol"));
 }
 
 

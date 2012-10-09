@@ -14,6 +14,8 @@
 #include "Player.h"
 #include "TileManager.h"
 #include "Tile.h"
+#include "Ability.h"
+#include "AbilityManager.h"
 
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
@@ -70,7 +72,8 @@ void CGameplayState::Enter(void)
 	m_pSelectedUnit = nullptr;
 	m_CameraPos = Vec2D(0, 0);
 	m_SelectionPos = Vec2D(0, 0);
-	m_bLerpingX = m_bLerpingY = false;
+	m_bLerpingX = false;
+	m_nSelectedAbility = 0;
 }
 
 int CGameplayState::GetCamOffsetX(void)
@@ -166,6 +169,8 @@ static bool CloseEnough(int n1, int n2)
 	else
 		return false;
 }
+
+// Lerping helper function
 Vec2D Lerp(Vec2D start, Vec2D end, float fPercent)
 {
 	Vec2D lerp;
@@ -173,56 +178,19 @@ Vec2D Lerp(Vec2D start, Vec2D end, float fPercent)
 	lerp.nPosY = int(end.nPosY + fPercent*(start.nPosY - end.nPosY));
 	return lerp;
 }
+// Smoothly lerps the camera from it's current position to the destination position
 void CGameplayState::LerpCamera(float fElapsedTime)
 {
 	if (m_bLerpingX)
 	{
 	m_currCamPixelPos = Lerp(m_oldCamPixelPos, m_newCamPixelPos, m_fLerpPercent);
-	m_fLerpPercent -= 2 * fElapsedTime;
+	m_fLerpPercent -= nCameraScrollSpeed * fElapsedTime;
 	}
 	if (m_fLerpPercent < 0)
 	{
 		m_bLerpingX = false;
 		m_oldCamPixelPos = m_newCamPixelPos;
 	}
-	//if (m_bLerpingX)
-	//{
-	//	if (CloseEnough(m_oldCamPixelPos.nPosX, m_newCamPixelPos.nPosX))
-	//	{
-	//		m_bLerpingX = false;
-	//	}
-	//	else
-	//	{
-
-	//		//if (m_oldCamPixelPos.nPosX < m_newCamPixelPos.nPosX)
-	//		//{
-	//		//	m_oldCamPixelPos.nPosX += 10;
-	//		//}
-	//		//else if (m_oldCamPixelPos.nPosX > m_newCamPixelPos.nPosX)
-	//		//{
-	//		//	m_oldCamPixelPos.nPosX -= 10;
-	//		//}
-	//	}
-
-	//}
-	//if (m_bLerpingY)
-	//{
-	//	if (CloseEnough(m_oldCamPixelPos.nPosY, m_newCamPixelPos.nPosY))
-	//	{
-	//		m_bLerpingY = false;
-	//	}
-	//	else
-	//	{
-	//		if (m_oldCamPixelPos.nPosY < m_newCamPixelPos.nPosY)
-	//		{
-	//			m_oldCamPixelPos.nPosY += 10;
-	//		}
-	//		else if (m_oldCamPixelPos.nPosY > m_newCamPixelPos.nPosY)
-	//		{
-	//			m_oldCamPixelPos.nPosY -= 10;
-	//		}
-	//	}
-	//}
 }
 
 // Moves the camera by dX and dY values (delta)
@@ -231,14 +199,15 @@ void CGameplayState::MoveCamera(int dX, int dY)
 	OffsetRect(&rCamRect, dX, dY);
 	m_fLerpPercent = 1;
 
-		m_oldCamPixelPos.nPosX = m_currCamPixelPos.nPosX;
-		m_oldCamPixelPos.nPosY = m_currCamPixelPos.nPosY;
+	m_oldCamPixelPos.nPosX = m_currCamPixelPos.nPosX;
+	m_oldCamPixelPos.nPosY = m_currCamPixelPos.nPosY;
 
 	m_CameraPos.nPosX += dX;
 	m_CameraPos.nPosY += dY;
+
 	m_newCamPixelPos.nPosX = m_CameraPos.nPosX * nFakeTileWidth;
 	m_newCamPixelPos.nPosY = m_CameraPos.nPosY * nFakeTileHeight;
-	m_bLerpingX = m_bLerpingY = true;
+	m_bLerpingX = true;
 
 }
 void CGameplayState::Input(INPUT_ENUM input)
@@ -270,12 +239,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 				//		m_nSelectedChampSpell = 3;
 				//}
 				//else
-				//{
-				//	// Champion ability is not pulled up, so just move the cursor on the main panel
-				//	m_nSelectedAbility--;
-				//	if (m_nSelectedAbility < 0)
-				//		m_nSelectedAbility = 2;
-				//}
+				{
+					// Champion ability is not pulled up, so just move the cursor on the main panel
+					m_nSelectedAbility--;
+					if (m_nSelectedAbility < 0)
+						m_nSelectedAbility = 2;
+				}
 			}
 			else
 				MoveCursor(-1, 0);
@@ -294,12 +263,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 				//		m_nSelectedChampSpell = 0;
 				//}
 				//else
-				//{
-				//	// Champion ability is not pulled up, so just move the cursor on the main panel
-				//	m_nSelectedAbility++;
-				//	if (m_nSelectedAbility > 2)
-				//		m_nSelectedAbility = 0;
-				//}
+				{
+					// Champion ability is not pulled up, so just move the cursor on the main panel
+					m_nSelectedAbility++;
+					if (m_nSelectedAbility > 2)
+						m_nSelectedAbility = 0;
+				}
 			}
 			else
 				MoveCursor(1, 0);
@@ -341,15 +310,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 					MoveToTile(m_SelectionPos);
 				}
 				else
-					m_bIsMoving = true;
+				{
+					UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
+				}
 			}
 		}
 		break;
 	case INPUT_CANCEL:
 		{
-			m_pSelectedUnit = nullptr;
-			m_bIsMoving = false;
-			m_vWaypoints.clear();
+			ClearSelections();
 		}
 		break;
 	case INPUT_CAM_UP:
@@ -366,6 +335,21 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	default:
 		break;
+	}
+}
+
+void CGameplayState::UseAbility(CAbility* ability)
+{
+	if (ability == nullptr)
+		return;
+	if (ability->m_nPhase != CGameManager::GetInstance()->GetCurrentPhase())
+		return;
+
+	// They used the movement ability
+	if (ability->m_bIsMove)
+	{
+		m_bIsMoving = true;
+		return;
 	}
 }
 
@@ -679,6 +663,13 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile)
 	return true;
 }
 
+void CGameplayState::ClearSelections(void)
+{
+	m_bIsMoving = false;
+	m_pSelectedUnit = nullptr;
+	m_nSelectedAbility =0;
+	m_vWaypoints.clear();
+}
 void CGameplayState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
@@ -804,7 +795,34 @@ void CGameplayState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
 				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(120,r, g, b));
 		}
+
+		// Draw the doohickeys on the ground to show the pattern
+	CAbility* drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+	if (drawAbility != nullptr && !drawAbility->m_bIsMove)
+	{
+		// it's a real ability and it's not the move one
+		for (decltype(drawAbility->m_vPattern.size()) i = 0; i < drawAbility->m_vPattern.size(); ++i)
+		{
+			CTile* pPatternTile = CTileManager::GetInstance()->GetTile(
+				m_pSelectedUnit->GetPos().nPosX + drawAbility->m_vPattern[i].nPosX,
+				m_pSelectedUnit->GetPos().nPosY + drawAbility->m_vPattern[i].nPosY);
+
+			if (pPatternTile != nullptr)
+			{
+				int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+				int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+				pPatternTile->GetPosition().nPosX * nFakeTileWidth - GetCamOffsetX(),
+				pPatternTile->GetPosition().nPosY * nFakeTileHeight - GetCamOffsetY()
+				, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(90, r, g, 0));
+			}
+		}
 	}
+
+	}
+
+
 	CObjectManager::GetInstance()->RenderAllObjects();
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
@@ -851,7 +869,54 @@ void CGameplayState::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(
 		CGraphicsManager::GetInstance()->GetID(_T("uioverlay")), 0, 0, 0.8f,0.6f);
 
-	int n = CGame::GetInstance()->GetWindowWidth();
-	int y = CGame::GetInstance()->GetWindowHeight();
+
+
+	if (m_pSelectedUnit != nullptr)
+	{
+		int nCursorPosX = 0;
+		int nCursorPosY = 515;
+		switch (m_nSelectedAbility)
+		{
+		default:
+		case 0:
+			nCursorPosX = 280;
+			break;
+		case 1:
+			nCursorPosX = 375;
+			break;
+		case 2:
+			nCursorPosX = 470;
+			break;
+		}
+
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("panelselect")),  nCursorPosX, nCursorPosY, 0.6f, 0.6f);
+
+
+
+
+		// drawin icons. Could loop it, don't see a reason to
+
+		CAbility* pAbility = m_pSelectedUnit->GetAbility(0);
+		if (pAbility != nullptr)
+		{
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 287, 522);
+		}
+		pAbility = m_pSelectedUnit->GetAbility(1);
+		if (pAbility != nullptr)
+		{
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 382, 522);
+		}
+		pAbility = m_pSelectedUnit->GetAbility(2);
+		if (pAbility != nullptr)
+		{
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522);
+		}
+		int n = CGame::GetInstance()->GetWindowWidth();
+		int y = CGame::GetInstance()->GetWindowHeight();
+	}
 
 }
