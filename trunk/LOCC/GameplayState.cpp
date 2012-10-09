@@ -39,33 +39,8 @@ void CGameplayState::Enter(void)
 {
 	// test stuff
 
-	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(1, 1), 0, UT_SWORDSMAN);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+	CGameManager::GetInstance()->Reset();
 
-	pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_ARCHER);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(3, 1), 0, UT_HERO);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(4, 1), 0, UT_CAVALRY);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(5, 1), 0, UT_CASTLE);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(6, 1), 0, UT_SKELETON);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(7, 1), 0, UT_ICEBLOCK);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	CGameManager::GetInstance()->CreatePlayer(false);
-
-
-	CGameManager::GetInstance()->CreatePlayer(false); // player 2
-	pMsg = new CSpawnUnitMessage(Vec2D(3, 7), 1, UT_HERO);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 	CGameManager* pGM = CGameManager::GetInstance();
 	CParticleManager* pPM = CParticleManager::GetInstance();
@@ -95,30 +70,33 @@ void CGameplayState::Enter(void)
 	m_pSelectedUnit = nullptr;
 	m_CameraPos = Vec2D(0, 0);
 	m_SelectionPos = Vec2D(0, 0);
+	m_bLerpingX = m_bLerpingY = false;
 }
 
 int CGameplayState::GetCamOffsetX(void)
 {
-	return rCamRect.left * nFakeTileWidth;
+	return m_currCamPixelPos.nPosX;
+	//return rCamRect.left * nFakeTileWidth;
 }
 int CGameplayState::GetCamOffsetY(void)
 {
-	return rCamRect.top * nFakeTileHeight;
+	return m_currCamPixelPos.nPosY;
+	//return rCamRect.top * nFakeTileHeight;
 }
 void CGameplayState::Exit(void)
 {
 }
 
-// Snaps the camera to pUnit. This is used for moving the camera to the player's hero at turn start
+// Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
 // but could be used for anything. Just pass a pUnit in and the camera and selection cursor shifts to that unit.
-void CGameplayState::SnapToUnit(CUnit* pUnit)
+void CGameplayState::SnapToPosition(Vec2D pPos)
 {
-	int nSelX = pUnit->GetPos().nPosX - m_SelectionPos.nPosX;
-	int nSelY = pUnit->GetPos().nPosY - m_SelectionPos.nPosY;
+	int nSelX = pPos.nPosX - m_SelectionPos.nPosX;
+	int nSelY = pPos.nPosY - m_SelectionPos.nPosY;
 	int nWindowTileWidth = CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth;
 	int nWindowTileHeight = CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight;
-	int nDesiredCamX = pUnit->GetPos().nPosX - (nWindowTileWidth / 2);
-	int nDesiredCamY = pUnit->GetPos().nPosY - (nWindowTileHeight / 2);
+	int nDesiredCamX = pPos.nPosX - (nWindowTileWidth / 2);
+	int nDesiredCamY = pPos.nPosY - (nWindowTileHeight / 2);
 	int camX = nDesiredCamX - m_CameraPos.nPosX;
 	int camY = nDesiredCamY - m_CameraPos.nPosY;
 	MoveCursor(nSelX, nSelY, false);
@@ -147,38 +125,120 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 	{
 		if (m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth) < m_SelectionPos.nPosX)
 		{
-			int n = m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth);
-			int nDistance = m_SelectionPos.nPosX - n;
-			MoveCamera(nDistance, 0);
+			SnapToPosition(m_SelectionPos);
+			//int n = m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth);
+			//int nDistance = m_SelectionPos.nPosX - n;
+			//MoveCamera(nDistance, 0);
 		}
 		if (m_CameraPos.nPosX > m_SelectionPos.nPosX)
 		{
-			int n = m_CameraPos.nPosX;
-			int nDistance = m_SelectionPos.nPosX - n;
-			MoveCamera(nDistance, 0);
+			SnapToPosition(m_SelectionPos);
+
+			//int n = m_CameraPos.nPosX;
+			//int nDistance = m_SelectionPos.nPosX - n;
+			//MoveCamera(nDistance, 0);
 		}
-		if (m_CameraPos.nPosY + (CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight) < m_SelectionPos.nPosY)
+		if (m_CameraPos.nPosY + ((CGame::GetInstance()->GetWindowHeight() * 0.8f )/ nFakeTileHeight) < m_SelectionPos.nPosY)
 		{
-			int n = m_CameraPos.nPosY + (CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight);
-			int nDistance = m_SelectionPos.nPosY - n;
-			MoveCamera(0, nDistance);
+			SnapToPosition(m_SelectionPos);
+
+			//int n = m_CameraPos.nPosY + int(((CGame::GetInstance()->GetWindowHeight() * 0.8f)) / nFakeTileHeight);
+			//int nDistance = m_SelectionPos.nPosY - n;
+			//MoveCamera(0, nDistance);
 		}
 		if (m_CameraPos.nPosY > m_SelectionPos.nPosY)
 		{
-			int n = m_CameraPos.nPosY;
-			int nDistance = m_SelectionPos.nPosY - n;
-			MoveCamera(0, nDistance);
+			SnapToPosition(m_SelectionPos);
+
+			//int n = m_CameraPos.nPosY;
+			//int nDistance = m_SelectionPos.nPosY - n;
+			//MoveCamera(0, nDistance);
 		}
 	}
 
+}
+
+static bool CloseEnough(int n1, int n2)
+{
+	if (abs(n1 - n2) < 10)
+		return true;
+	else
+		return false;
+}
+Vec2D Lerp(Vec2D start, Vec2D end, float fPercent)
+{
+	Vec2D lerp;
+	lerp.nPosX = int(end.nPosX + fPercent*(start.nPosX - end.nPosX));
+	lerp.nPosY = int(end.nPosY + fPercent*(start.nPosY - end.nPosY));
+	return lerp;
+}
+void CGameplayState::LerpCamera(float fElapsedTime)
+{
+	if (m_bLerpingX)
+	{
+	m_currCamPixelPos = Lerp(m_oldCamPixelPos, m_newCamPixelPos, m_fLerpPercent);
+	m_fLerpPercent -= 2 * fElapsedTime;
+	}
+	if (m_fLerpPercent < 0)
+	{
+		m_bLerpingX = false;
+		m_oldCamPixelPos = m_newCamPixelPos;
+	}
+	//if (m_bLerpingX)
+	//{
+	//	if (CloseEnough(m_oldCamPixelPos.nPosX, m_newCamPixelPos.nPosX))
+	//	{
+	//		m_bLerpingX = false;
+	//	}
+	//	else
+	//	{
+
+	//		//if (m_oldCamPixelPos.nPosX < m_newCamPixelPos.nPosX)
+	//		//{
+	//		//	m_oldCamPixelPos.nPosX += 10;
+	//		//}
+	//		//else if (m_oldCamPixelPos.nPosX > m_newCamPixelPos.nPosX)
+	//		//{
+	//		//	m_oldCamPixelPos.nPosX -= 10;
+	//		//}
+	//	}
+
+	//}
+	//if (m_bLerpingY)
+	//{
+	//	if (CloseEnough(m_oldCamPixelPos.nPosY, m_newCamPixelPos.nPosY))
+	//	{
+	//		m_bLerpingY = false;
+	//	}
+	//	else
+	//	{
+	//		if (m_oldCamPixelPos.nPosY < m_newCamPixelPos.nPosY)
+	//		{
+	//			m_oldCamPixelPos.nPosY += 10;
+	//		}
+	//		else if (m_oldCamPixelPos.nPosY > m_newCamPixelPos.nPosY)
+	//		{
+	//			m_oldCamPixelPos.nPosY -= 10;
+	//		}
+	//	}
+	//}
 }
 
 // Moves the camera by dX and dY values (delta)
 void CGameplayState::MoveCamera(int dX, int dY)
 {
 	OffsetRect(&rCamRect, dX, dY);
+	m_fLerpPercent = 1;
+
+		m_oldCamPixelPos.nPosX = m_currCamPixelPos.nPosX;
+		m_oldCamPixelPos.nPosY = m_currCamPixelPos.nPosY;
+
 	m_CameraPos.nPosX += dX;
 	m_CameraPos.nPosY += dY;
+	m_newCamPixelPos.nPosX = m_CameraPos.nPosX * nFakeTileWidth;
+	m_newCamPixelPos.nPosY = m_CameraPos.nPosY * nFakeTileHeight;
+	m_bLerpingX = m_bLerpingY = true;
+
 }
 void CGameplayState::Input(INPUT_ENUM input)
 {
@@ -258,7 +318,20 @@ void CGameplayState::Input(INPUT_ENUM input)
 		{
 			if (m_pSelectedUnit == nullptr)
 			{
+				// Stop them from selecting a unit that is not theirs
 				m_pSelectedUnit = CGameManager::GetInstance()->FindUnit(m_SelectionPos);
+				if (m_pSelectedUnit != nullptr)
+				{
+					int nUnitPlayerID = m_pSelectedUnit->GetPlayerID();
+					CPlayer* player = CGameManager::GetInstance()->GetCurrentPlayer();
+					int nPlayerPlayerID = player->GetPlayerID();
+
+					if (nUnitPlayerID != nPlayerPlayerID)
+					{
+						m_pSelectedUnit = nullptr;
+					}
+
+				}
 			}
 			else
 			{
@@ -303,7 +376,6 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	CTile* pStartTile = pTM->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY);
 	CTile* pTargetTile = pTM->GetTile(nTilePosition.nPosX, nTilePosition.nPosY);
 
-
 	// Check if where we are going to is passable and occupied, if so, return out of function
 	if (pTargetTile->GetIfPassable() || pTargetTile->GetIfOccupied())
 	{
@@ -347,7 +419,7 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP() - nTotalAPCost);
 
 	// Add the tile waypoints to the unit so that he can slide along them neatly
-	for (int i = 0; i < m_vWaypoints.size(); ++i)
+	for (unsigned int i = 0; i < m_vWaypoints.size(); ++i)
 	{
 		m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
 	}
@@ -610,6 +682,10 @@ void CGameplayState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
+
+	LerpCamera(fElapsedTime);
+
+
 	if (pDI->KeyPressed(DIK_W))
 	{
 		Input(INPUT_CAM_UP);
@@ -672,15 +748,16 @@ void CGameplayState::Update(float fElapsedTime)
 	}
 	else if (pDI->KeyPressed(DIK_Y))
 	{
-		SnapToUnit(CGameManager::GetInstance()->GetChampion(0));
+		SnapToPosition(CGameManager::GetInstance()->GetChampion(0)->GetPos());
 	}
 	else if (pDI->KeyPressed(DIK_U))
 	{
-		SnapToUnit(CGameManager::GetInstance()->GetChampion(1));
+		SnapToPosition(CGameManager::GetInstance()->GetChampion(1)->GetPos());
 	}
 	else if (pDI->KeyPressed(DIK_I))
 	{
 		CGameManager* pGM = CGameManager::GetInstance();
+		pGM->NextPhase();
 		int x = 9;
 	}
 	// Testing Particle Rendering
@@ -721,7 +798,7 @@ void CGameplayState::Render(void)
 			RECT tileRect = { m_vWaypoints[i]->GetPosition().nPosX * nFakeTileWidth - GetCamOffsetX(), 
 				m_vWaypoints[i]->GetPosition().nPosY * nFakeTileHeight - GetCamOffsetY(),  
 				nFakeTileWidth, nFakeTileHeight};
-		//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
+			//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
 				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(120,r, g, b));
 		}
@@ -737,11 +814,19 @@ void CGameplayState::Render(void)
 	CParticleManager::GetInstance()->Render();
 
 	// DEBUG STUFF
-	CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetPlayer(0);
+	CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
 	std::wostringstream oss;
 	oss << "Player: " << pDebugPlayer->GetPlayerID() << ", AP: " << pDebugPlayer->GetAP() << ", POP: "
 		<< pDebugPlayer->GetPopCap() << ", WOOD: " << pDebugPlayer->GetWood() << ", METAL: " << pDebugPlayer->GetMetal() << '\n';
 	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 0, 255, 255, 255);
+	oss.str(_T(""));
+	if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+	{
+		oss << "MOVEMENT PHASE";
+	}
+	else
+		oss << "ATTACK PHASE";
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 30, 255, 255, 255);
 
 	oss.str(_T(""));
 	oss << "Selected Unit: ";
@@ -760,5 +845,13 @@ void CGameplayState::Render(void)
 		CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
 	else
 		CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
+
+
+	// Render the UI Overlay
+	CSGD_TextureManager::GetInstance()->Draw(
+		CGraphicsManager::GetInstance()->GetID(_T("uioverlay")), 0, 0, 0.8f,0.6f);
+
+	int n = CGame::GetInstance()->GetWindowWidth();
+	int y = CGame::GetInstance()->GetWindowHeight();
 
 }
