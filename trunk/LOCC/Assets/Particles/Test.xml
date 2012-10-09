@@ -2,9 +2,9 @@
   <Particle>
     <ImageData ImagePath = "Assets/Particles/Smoky.png"
       Height = "128" Width = "128" ImgPosX = "0" ImgPosY = "0" NumParticles = "50" MinLife = "1" MaxLife = "1.1" IsLooping = "1"
-      MinSpawnRate =".01" MaxSpawnRate = ".2" StartingA = "255" EndingA = "50" 
-      StartingR = "166" EndingR = "0" StartingG = "94"
-      EndingG = "0" StartingB= "0" EndingB="105" StartingRotation = "0"
+      MinSpawnRate =".01" MaxSpawnRate = ".2" StartingA = "255" EndingA = "100" 
+      StartingR = "255" EndingR = "255" StartingG = "255"
+      EndingG = "30" StartingB= "255" EndingB="100" StartingRotation = "3.14159265"
       EndingRotation = "0" StartingScale = "1.0" EndingScale = "3.0"
       MinDirX ="-1" MaxDirX ="1" MinDirY ="-1" MaxDirY ="1" StartVel ="10" EndVel ="5"
       ></ImageData>

@@ -280,8 +280,8 @@ void CEmitter::Update( float fElapsedTime )
 		float dtY = (endY - startY) / time;
 
 		// change in time modified by the update time
-		dtX = dtX * fElapsedTime;
-		dtY = dtY * fElapsedTime;
+		dtX = dtX;
+		dtY = dtY;
 
 		// set the new velocity 
 		Vec2Df newVel(dtX + oldVel.fVecX, dtY + oldVel.fVecY);

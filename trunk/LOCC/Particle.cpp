@@ -8,6 +8,10 @@
 
 CParticle::CParticle(void)
 {
+	m_sVel.fVecX = 0;
+	m_sVel.fVecY = 0;
+	m_sDir.fVecX = 0;
+	m_sDir.fVecY = 0;
 }
 
 
@@ -32,8 +36,8 @@ CParticle::CParticle( Vec2Df sPos, Vec2Df sDir, Vec2Df sVel, float fScale,
 void CParticle::Update( float fElapsedTime )
 {
 	// finds the velocity over the amount of elapsed time
-	m_sPos.fVecX += m_sVel.fVecX;
-	m_sPos.fVecY += m_sVel.fVecY;
+	m_sPos.fVecX += m_sVel.fVecX * fElapsedTime;
+	m_sPos.fVecY += m_sVel.fVecY * fElapsedTime;
 
 	// Increases the age of the particle
 	m_fCurTime += fElapsedTime;
@@ -47,9 +51,13 @@ void CParticle::Render( void )
 
 	int ID = pGM->GetID( _T("Particle") );
 
-	int x = int(m_sPos.fVecX) - pGP->GetCamOffsetX();
-	int y = int(m_sPos.fVecY) - pGP->GetCamOffsetY();
+	int x = int(m_sPos.fVecX);
+	int y = int(m_sPos.fVecY);
 
-	pTM->Draw( ID, x, y, m_fScale, m_fScale, &m_sSource, float(m_sSource.right - m_sSource.left)/2.0f, float(m_sSource.bottom - m_sSource.top)/2.0f,
-					m_fRot, D3DCOLOR_ARGB(m_sColor.a, m_sColor.r, m_sColor.g, m_sColor.b ) );
+	float nWidth = (m_sSource.right - m_sSource.left) * m_fScale * .5f;
+	float nHeight = (m_sSource.bottom - m_sSource.top) * m_fScale * .5f;
+
+	pTM->Draw( ID, (x - nWidth)-pGP->GetCamOffsetX(), (y - nHeight)-pGP->GetCamOffsetY(), m_fScale, m_fScale, &m_sSource,
+				float(m_sSource.right - m_sSource.left)/2.0f, float(m_sSource.bottom - m_sSource.top)/2.0f,
+				m_fRot, D3DCOLOR_ARGB(m_sColor.a, m_sColor.r, m_sColor.g, m_sColor.b ) );
 }
