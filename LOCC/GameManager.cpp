@@ -3,6 +3,7 @@
 #include "GameplayState.h"
 #include "ObjectManager.h"
 #include "SpawnUnitMessage.h"
+#include "MessageSystem.h"
 #include "DeSpawnUnitMessage.h"
 #include "AddResourceMessage.h"
 
@@ -22,7 +23,18 @@ CGameManager::~CGameManager(void)
 
 void CGameManager::NextPhase(void)
 {
-
+	if (m_nCurrentPhase == GP_MOVE)
+	{
+		m_nCurrentPhase = GP_ATTACK;
+	}
+	else if (m_nCurrentPhase == GP_ATTACK)
+	{
+		CPlayer* pTemp = m_pCurrentPlayer;
+		m_nCurrentPhase = GP_MOVE;
+		m_pCurrentPlayer = m_pNextPlayer;
+		m_pNextPlayer = pTemp;
+		m_nTurnCount++;
+	}
 }
 
 // Get the player's champion unit. Searches through the unit list to find a unit that matches
@@ -81,6 +93,8 @@ CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 	{
 		m_pCurrentPlayer = pPlayer;
 	}
+	else
+		m_pNextPlayer = pPlayer;
 	m_vPlayers.push_back(pPlayer);
 	return nullptr;
 }
@@ -140,6 +154,7 @@ void CGameManager::RemoveUnit(CUnit* pUnit)
 
 }
 
+// Reset the game and load whatever needs to be loaded
 void CGameManager::Reset(void)
 {
 	for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
@@ -153,6 +168,58 @@ void CGameManager::Reset(void)
 		delete m_vPlayers[i];
 	}
 	m_vPlayers.clear();
+
+	// Debug level
+	// Player 1 and his units
+	CreatePlayer(false); // player 1
+	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_SWORDSMAN);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(3, 1), 0, UT_ARCHER);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(4, 1), 0, UT_HERO);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(5, 1), 0, UT_CAVALRY);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(6, 1), 0, UT_CASTLE);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(7, 1), 0, UT_SKELETON);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(8, 1), 0, UT_ICEBLOCK);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+
+	// Player 2 and his units
+	CreatePlayer(false); // player 2
+	pMsg = new CSpawnUnitMessage(Vec2D(2, 6), 1, UT_SWORDSMAN);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(3, 6), 1, UT_ARCHER);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(4, 6), 1, UT_HERO);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(5, 6), 1, UT_CAVALRY);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(6, 6), 1, UT_CASTLE);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(7, 6), 1, UT_SKELETON);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	pMsg = new CSpawnUnitMessage(Vec2D(8, 6), 1, UT_ICEBLOCK);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+	m_nCurrentPhase = GP_MOVE;
+
+
 }
 void CGameManager::NewGame(void)
 {

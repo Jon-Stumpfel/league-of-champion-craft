@@ -22,7 +22,7 @@ public:
 	void SetMouseOffset(Vec2D v) { m_MouseOffset = v;}
 
 
-	void SnapToUnit(CUnit* pUnit);
+	void SnapToPosition(Vec2D pPos);
 private:
 
 	class ASNode
@@ -49,6 +49,16 @@ private:
 	std::vector<CTile*> m_vWaypoints;
 	bool CalculateMove(CTile* startTile, CTile* targetTile);
 	void FindNode(std::list<ASNode*> list, CTile* pTile);
+
+
+	
+	Vec2D m_newCamPixelPos;
+	Vec2D m_oldCamPixelPos;
+	Vec2D m_currCamPixelPos;
+	float m_fLerpPercent;
+	bool m_bLerpingX;
+	bool m_bLerpingY;
+	void LerpCamera(float fElapsedTime);
 
 
 	RECT rCamRect;
