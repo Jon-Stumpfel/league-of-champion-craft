@@ -33,9 +33,9 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
-	float x = 0;
+	long x = 0;
 	x = cursorPos.x; 
-	float y = 0;
+	long y = 0;
 	y = cursorPos.y;
 	CGameplayState::GetInstance()->SetMouseOffset(Vec2D((int)x, (int)y));
 	m_dwCurrTime = GetTickCount();

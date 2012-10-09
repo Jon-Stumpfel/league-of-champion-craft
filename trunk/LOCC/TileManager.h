@@ -29,8 +29,8 @@ private:
 
 		RECT rSource;
 
-		rSource.left	= (id % m_nColumns) * m_nTileWidth;
-		rSource.top		= (id / m_nColumns) * m_nTileHeight;
+		rSource.left	= (id % 4) * m_nTileWidth;
+		rSource.top		= (id / 4) * m_nTileHeight;
 
 		rSource.right	= rSource.left	+ m_nTileWidth;
 		rSource.bottom	= rSource.top	+ m_nTileHeight;
