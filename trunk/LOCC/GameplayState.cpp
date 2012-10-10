@@ -855,32 +855,6 @@ void CGameplayState::Render(void)
 	// Testing particle rendering
 	CParticleManager::GetInstance()->Render();
 
-	// DEBUG STUFF
-	CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
-	std::wostringstream oss;
-	oss << "Player: " << pDebugPlayer->GetPlayerID() << ", AP: " << pDebugPlayer->GetAP() << ", POP: "
-		<< pDebugPlayer->GetPopCap() << ", WOOD: " << pDebugPlayer->GetWood() << ", METAL: " << pDebugPlayer->GetMetal() << '\n';
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 0, 255, 255, 255);
-	oss.str(_T(""));
-	if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
-	{
-		oss << "MOVEMENT PHASE";
-	}
-	else
-		oss << "ATTACK PHASE";
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 30, 255, 255, 255);
-
-	oss.str(_T(""));
-	oss << "Selected Unit: ";
-	if (m_pSelectedUnit != nullptr)
-	{
-		oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
-			m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
-	}
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
-
-	    int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
-    int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
 
 	// selection cursor
 	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth - GetCamOffsetX(), m_SelectionPos.nPosY * nFakeTileHeight - GetCamOffsetY(),  
@@ -905,8 +879,6 @@ void CGameplayState::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(
 		CGraphicsManager::GetInstance()->GetID(_T("uioverlay")), 0, 0, 0.8f,0.6f);
 
-
-
 	if (m_pSelectedUnit != nullptr)
 	{
 		int nCursorPosX = 0;
@@ -927,8 +899,6 @@ void CGameplayState::Render(void)
 
 		CSGD_TextureManager::GetInstance()->Draw(
 			CGraphicsManager::GetInstance()->GetID(_T("panelselect")),  nCursorPosX, nCursorPosY, 0.6f, 0.6f);
-
-
 
 
 		// drawin icons. Could loop it, don't see a reason to
@@ -1079,4 +1049,27 @@ void CGameplayState::Render(void)
 	//CGraphicsManager::GetInstance()->DrawWireframeDiag(rWireRect, 255, 255, 255);
 //	CSGD_Direct3D::GetInstance()->DrawRect(tileRect, 255, 0, 255);
 	
+	// DEBUG STUFF
+	CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
+	std::wostringstream oss;
+	oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
+		", Metal: " << pDebugPlayer->GetMetal() << '\n';
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
+	oss.str(_T(""));
+	if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+	{
+		oss << "MOVEMENT PHASE";
+	}
+	else
+		oss << "ATTACK PHASE";
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 30, 255, 255, 255);
+
+	oss.str(_T(""));
+	oss << "Selected Unit: ";
+	if (m_pSelectedUnit != nullptr)
+	{
+		oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
+			m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
+	}
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 }
