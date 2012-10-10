@@ -855,7 +855,8 @@ void CGameplayState::Render(void)
 	// Testing particle rendering
 	CParticleManager::GetInstance()->Render();
 
-
+	 int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
+    int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
 	// selection cursor
 	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth - GetCamOffsetX(), m_SelectionPos.nPosY * nFakeTileHeight - GetCamOffsetY(),  
 		nFakeTileWidth, nFakeTileHeight};
@@ -1062,7 +1063,7 @@ void CGameplayState::Render(void)
 	}
 	else
 		oss << "ATTACK PHASE";
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 30, 255, 255, 255);
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 675, 0, 255, 255, 255);
 
 	oss.str(_T(""));
 	oss << "Selected Unit: ";
