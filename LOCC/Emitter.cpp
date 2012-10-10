@@ -252,6 +252,7 @@ void CEmitter::Update( float fElapsedTime )
 		float oldRot = m_vAliveParticles[i]->GetRotation();
 		// delta(rotation) / time
 		float dtRot = (m_fEndRot - m_fStartRot) / time;
+		dtRot = dtRot * fElapsedTime;
 		// set the new value
 		float newRot = dtRot + oldRot;
 		m_vAliveParticles[i]->SetRotation( newRot );
@@ -278,10 +279,6 @@ void CEmitter::Update( float fElapsedTime )
 		// delta(v) / time
 		float dtX = (endX - startX) / time;
 		float dtY = (endY - startY) / time;
-
-		// change in time modified by the update time
-		dtX = dtX;
-		dtY = dtY;
 
 		// set the new velocity 
 		Vec2Df newVel(dtX + oldVel.fVecX, dtY + oldVel.fVecY);
