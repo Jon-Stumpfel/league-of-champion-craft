@@ -32,7 +32,7 @@ CSwordsman::~CSwordsman(void)
 void CSwordsman::Render(void)
 {
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Swordsman"),
-		m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(),
+		m_sWorldPos.nPosX + 24- CGameplayState::GetInstance()->GetCamOffsetX(),
 		m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(),
 		0.75f,0.75f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));	

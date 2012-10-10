@@ -104,7 +104,7 @@ void CGameplayState::SnapToPosition(Vec2D pPos)
 	int camX = nDesiredCamX - m_CameraPos.nPosX;
 	int camY = nDesiredCamY - m_CameraPos.nPosY;
 	MoveCursor(nSelX, nSelY, false);
-	MoveCamera(camX, camY);
+//	MoveCamera(camX, camY);
 }
 
 // Moves the selection cursor by deltaX and deltaY values. Lock when true locks the camera from moving, otherwise
@@ -127,7 +127,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 	// This locks camera to cursor position
 	if (lock == true)
 	{
-		if (m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth) < m_SelectionPos.nPosX)
+		if (m_CameraPos.nPosX + 12 < m_SelectionPos.nPosX)
 		{
 			SnapToPosition(m_SelectionPos);
 			//int n = m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth);
@@ -142,7 +142,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 			//int nDistance = m_SelectionPos.nPosX - n;
 			//MoveCamera(nDistance, 0);
 		}
-		if (m_CameraPos.nPosY + ((CGame::GetInstance()->GetWindowHeight() * 0.8f )/ nFakeTileHeight) < m_SelectionPos.nPosY)
+		if (m_CameraPos.nPosY + 7 < m_SelectionPos.nPosY)
 		{
 			SnapToPosition(m_SelectionPos);
 
@@ -768,11 +768,11 @@ RECT CellAlgorithm( int id )
 	//	id = 1;
 	RECT rSource;
 
-	rSource.left	= (id % 4) * nFakeTileWidth;
-	rSource.top		= (id / 4) * nFakeTileHeight;
+	rSource.left	= (id % 4) * (nFakeTileWidth - 26);
+	rSource.top		= (id / 4) * (nFakeTileHeight - 27);
 
-	rSource.right	= rSource.left	+ nFakeTileWidth +1;
-	rSource.bottom	= rSource.top	+ nFakeTileHeight;
+	rSource.right	= rSource.left	+ (nFakeTileWidth - 26) +1;
+	rSource.bottom	= rSource.top	+ (nFakeTileHeight - 27);
 
 	return rSource;
 
@@ -807,12 +807,15 @@ void CGameplayState::Render(void)
 				r = 255;
 				g = 0;
 			}
-			RECT tileRect = { m_vWaypoints[i]->GetPosition().nPosX * nFakeTileWidth - GetCamOffsetX(), 
-				m_vWaypoints[i]->GetPosition().nPosY * nFakeTileHeight - GetCamOffsetY(),  
+
+			int x = (nFakeTileWidth / 2 * m_vWaypoints[i]->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints[i]->GetPosition().nPosY);
+			int y = (nFakeTileWidth / 2 * m_vWaypoints[i]->GetPosition().nPosX ) + (nFakeTileHeight  / 2 * m_vWaypoints[i]->GetPosition().nPosY);
+			RECT tileRect = { x - GetCamOffsetX(), 
+				y - GetCamOffsetY(),  
 				nFakeTileWidth, nFakeTileHeight};
 			//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(120,r, g, b));
+				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2, nFakeTileHeight / 2, (45 * 3.1415928 / 180), D3DCOLOR_ARGB(120,r, g, b));
 		}
 
 		// Draw the doohickeys on the ground to show the pattern
@@ -831,10 +834,12 @@ void CGameplayState::Render(void)
 				int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
 				int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
 
+				int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
+				int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
 				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-				pPatternTile->GetPosition().nPosX * nFakeTileWidth - GetCamOffsetX(),
-				pPatternTile->GetPosition().nPosY * nFakeTileHeight - GetCamOffsetY()
-				, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(90, r, g, 0));
+				x - GetCamOffsetX(),
+				y - GetCamOffsetY()
+				, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2, nFakeTileHeight / 2, (45 * 3.1415928 / 180), D3DCOLOR_ARGB(90, r, g, 0));
 			}
 		}
 	}
@@ -874,14 +879,26 @@ void CGameplayState::Render(void)
 	}
 	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 
+	    int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
+    int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
 
 	// selection cursor
 	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth - GetCamOffsetX(), m_SelectionPos.nPosY * nFakeTileHeight - GetCamOffsetY(),  
 		nFakeTileWidth, nFakeTileHeight};
+	x -= 1;
+	y-=18;
+	RECT diamondRect = {x- GetCamOffsetX(), y -GetCamOffsetY(), nFakeTileWidth, nFakeTileHeight };
+
 	if (m_bIsMoving)
-		CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
+		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 0, 255, 0);
 	else
-		CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
+		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 255, 255);
+
+	//if (m_bIsMoving)
+	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
+	//else
+	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
+	
 
 
 	// Render the UI Overlay
@@ -986,11 +1003,13 @@ void CGameplayState::Render(void)
 			case TT_FARM:
 					rSrc = CellAlgorithm(TT_FARM);
 				g=177; r=34; b=76; break;
+			case TT_CASTLE:
+					rSrc = CellAlgorithm(TT_CASTLE);
 			default:
 				g=177; r=34; b=76; break;
 			}
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("GrassTile")),
-				tileRect.left, tileRect.top, nMiniTileWidth/nFakeTileWidth, nMiniTileHeight/nFakeTileHeight, &rSrc);
+				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 26), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
 			r = 255 * !(pTile->GetPlayerID());
 			b = 255 * (pTile->GetPlayerID());
@@ -1019,35 +1038,45 @@ void CGameplayState::Render(void)
 			1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
 	}
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
 	// Draw a wireframe for where the in-game camera can currently see
-	float nConvertX = float(m_currCamPixelPos.nPosX / nFakeTileWidth);
-	float nConvertY = float(m_currCamPixelPos.nPosY / nFakeTileHeight);
-	float nCamWidth = 12;
-	float nCamHeight = 7;
 
 
-	float fRelativeX = m_currCamPixelPos.nPosX / float(CTileManager::GetInstance()->GetNumRows() * nFakeTileWidth);
-	float fRelativeY = m_currCamPixelPos.nPosY / float(CTileManager::GetInstance()->GetNumColumns() * nFakeTileHeight);
-	RECT tileRect = { (LONG)(fRelativeX * nMiniMapWidth + nMiniMapOffsetX),(LONG)(fRelativeY * nMiniMapHeight + nMiniMapOffsetY) , 
-		(LONG)(fRelativeX * nMiniMapWidth  + (nCamWidth * nMiniTileWidth)+ nMiniMapOffsetX), 
-		(LONG)(fRelativeY * nMiniMapHeight + (nCamHeight * nMiniTileHeight) + nMiniMapOffsetY)};
+	int nPosTop = (m_CameraPos.nPosX) * nFakeTileWidth;
+	int nPosLeft = (m_CameraPos.nPosY) * nFakeTileHeight;
 
-	if (tileRect.right > nMiniMapOffsetX + nMiniMapWidth)
-		tileRect.right = (LONG)(nMiniMapOffsetX + nMiniMapWidth);
-	if (tileRect.left < nMiniMapOffsetX)
-		tileRect.left = (LONG)nMiniMapOffsetX;
-	if (tileRect.top < nMiniMapOffsetY)
-		tileRect.top = (LONG)nMiniMapOffsetY;
-	if (tileRect.bottom > nMiniMapOffsetY + nMiniMapHeight)
-		tileRect.bottom = (LONG)(nMiniMapOffsetY + nMiniMapHeight);
+	RECT rSmallRect = { nPosTop + nMiniMapOffsetX - 64, nPosLeft+ nMiniMapOffsetY, nMiniMapOffsetX, nMiniMapOffsetY};
 
-	RECT rWireRect = { (LONG)tileRect.left, (LONG)tileRect.top,
-		(LONG)(tileRect.right -tileRect.left), (LONG)(tileRect.bottom - tileRect.top)};
+	CGraphicsManager::GetInstance()->DrawWireframeRect(rSmallRect, 255, 255, 0, true);
+
+	//float nConvertX = float(m_currCamPixelPos.nPosX / nFakeTileWidth);
+	//float nConvertY = float(m_currCamPixelPos.nPosY / nFakeTileHeight);
+	//float nCamWidth = 9;
+	//float nCamHeight = 7;
+
+
+	//float fRelativeX = m_currCamPixelPos.nPosX / float(CTileManager::GetInstance()->GetNumRows() * nFakeTileWidth);
+	//float fRelativeY = m_currCamPixelPos.nPosY / float(CTileManager::GetInstance()->GetNumColumns() * nFakeTileHeight);
+	//RECT tileRect = { (LONG)(fRelativeX * nMiniMapWidth + nMiniMapOffsetX),(LONG)(fRelativeY * nMiniMapHeight + nMiniMapOffsetY) , 
+	//	(LONG)(fRelativeX * nMiniMapWidth  + (nCamWidth * nMiniTileWidth)+ nMiniMapOffsetX), 
+	//	(LONG)(fRelativeY * nMiniMapHeight + (nCamHeight * nMiniTileHeight) + nMiniMapOffsetY)};
+
+	//if (tileRect.right > nMiniMapOffsetX + nMiniMapWidth)
+	//	tileRect.right = (LONG)(nMiniMapOffsetX + nMiniMapWidth);
+	//if (tileRect.left < nMiniMapOffsetX)
+	//	tileRect.left = (LONG)nMiniMapOffsetX;
+	//if (tileRect.top < nMiniMapOffsetY)
+	//	tileRect.top = (LONG)nMiniMapOffsetY;
+	//if (tileRect.bottom > nMiniMapOffsetY + nMiniMapHeight)
+	//	tileRect.bottom = (LONG)(nMiniMapOffsetY + nMiniMapHeight);
+
+	//RECT rWireRect = { (LONG)tileRect.left, (LONG)tileRect.top,
+	//	(LONG)(tileRect.right -tileRect.left), (LONG)(tileRect.bottom - tileRect.top)};
 	//RECT tileRect = { (LONG)(nConvertX * nMiniTileWidth + nMiniMapOffsetX),
 	//	(LONG)(nConvertY * nMiniTileHeight+ nMiniMapOffsetY), 
 	//	(LONG)(((nConvertX + nCamWidth) * nMiniTileWidth) + nMiniMapOffsetX),
 	//	(LONG)(((nConvertY + nCamHeight) * nMiniTileHeight) + nMiniMapOffsetY)};
-	CGraphicsManager::GetInstance()->DrawWireframeRect(rWireRect, 255, 255, 255);
+	//CGraphicsManager::GetInstance()->DrawWireframeDiag(rWireRect, 255, 255, 255);
 //	CSGD_Direct3D::GetInstance()->DrawRect(tileRect, 255, 0, 255);
 	
 }

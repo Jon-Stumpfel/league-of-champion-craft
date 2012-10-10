@@ -30,9 +30,16 @@ CArcher::~CArcher(void)
 
 void CArcher::Render(void)
 {
+	               //   int x = (nFakeTileWidth / 2 * GetPos().nPosX) - (nFakeTileHeight / 2 * GetPos().nPosY);
+                  //  int y = (nFakeTileWidth / 2 * GetPos().nPosX) + (nFakeTileHeight  / 2 * GetPos().nPosY);
+	RECT soldierRect = {m_sWorldPos.nPosX + 24, 
+						m_sWorldPos.nPosY - 6, 
+						0, 
+						0};
+	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct);
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Archer"),
-		m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(),
-		m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(),
+		soldierRect.left  - CGameplayState::GetInstance()->GetCamOffsetX(),
+		soldierRect.top  - CGameplayState::GetInstance()->GetCamOffsetY(),
 		0.75f,0.75f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }

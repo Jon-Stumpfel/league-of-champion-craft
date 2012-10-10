@@ -32,8 +32,8 @@ CCastle::~CCastle(void)
 void CCastle::Render( void )
 {
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Castle"),
-		m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(),
-		m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(),
+		m_sWorldPos.nPosX + 16 - CGameplayState::GetInstance()->GetCamOffsetX(),
+		m_sWorldPos.nPosY - 6- CGameplayState::GetInstance()->GetCamOffsetY(),
 		0.25f,0.25f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }

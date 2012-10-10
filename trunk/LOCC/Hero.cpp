@@ -32,8 +32,8 @@ CHero::~CHero(void)
 void CHero::Render(void)
 {
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Champion"),
-		m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(),
-		m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(),
+		m_sWorldPos.nPosX + 24 - CGameplayState::GetInstance()->GetCamOffsetX(),
+		m_sWorldPos.nPosY - 6- CGameplayState::GetInstance()->GetCamOffsetY(),
 		0.55f,0.55f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }
