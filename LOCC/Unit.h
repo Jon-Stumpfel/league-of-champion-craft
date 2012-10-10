@@ -27,8 +27,6 @@ class CUnit : public CGameObject
 	std::vector<CAbility*> m_vAbilities;
 	std::vector< CAbility* > m_vDebuffs;
 	std::vector<CTile*> m_vWaypoints;
-
-	UnitAnimation* m_pMyAnimation;
 	
 public:
 	CUnit(UNIT_TYPE type);
@@ -80,9 +78,6 @@ public:
 
 	void SetIsMoving(bool b) { m_bIsMoving = b;}
 	bool GetIsMoving(void) { return m_bIsMoving;}
-
-	void SetAnimStruct(UnitAnimation* tempanim) {m_pMyAnimation = tempanim;}
-	UnitAnimation* GetAnimStruct() {return m_pMyAnimation;}
 
 	UNIT_TYPE GetType(void) { return m_eType;}
 };

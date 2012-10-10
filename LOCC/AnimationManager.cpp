@@ -28,7 +28,11 @@ void CAnimationManager::Update( float fElapsedTime )
 			else if(m_vSwordsmanAnims[i].GetFrameVec()[m_vSwordsmanAnims[i].GetCurrFrame()].GetTimePlayed() < m_vSwordsmanAnims[i].GetElapsedTime()
 				&& (unsigned) m_vSwordsmanAnims[i].GetCurrFrame() >= m_vSwordsmanAnims[i].GetFrameVec().size()-1)
 			{
-				m_vSwordsmanAnims[i].SetCurrFrame(0);
+				if(m_vSwordsmanAnims[i].GetLooping() == true)
+					m_vSwordsmanAnims[i].SetCurrFrame(0);
+				else if(m_vSwordsmanAnims[i].GetLooping() == false)
+					m_vSwordsmanAnims[i].SetCurrFrame(m_vSwordsmanAnims[i].GetFrameVec().size()-1);
+				m_vSwordsmanAnims[i].SetElapsedTime(0.0f);
 			}
 		}
 	}
@@ -46,7 +50,10 @@ void CAnimationManager::Update( float fElapsedTime )
 			if(m_vArcherAnims[i].GetFrameVec()[m_vArcherAnims[i].GetCurrFrame()].GetTimePlayed() < m_vArcherAnims[i].GetElapsedTime()
 				&& (unsigned) m_vArcherAnims[i].GetCurrFrame() >= m_vArcherAnims[i].GetFrameVec().size()-1)
 			{
-				m_vArcherAnims[i].SetCurrFrame(0);
+				if(m_vArcherAnims[i].GetLooping() == true)
+					m_vArcherAnims[i].SetCurrFrame(0);
+				else if(m_vArcherAnims[i].GetLooping() == false)
+					m_vArcherAnims[i].SetCurrFrame(m_vArcherAnims[i].GetFrameVec().size()-1);
 				m_vArcherAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -65,7 +72,11 @@ void CAnimationManager::Update( float fElapsedTime )
 			else if(m_vCalvaryAnims[i].GetFrameVec()[m_vCalvaryAnims[i].GetCurrFrame()].GetTimePlayed() < m_vCalvaryAnims[i].GetElapsedTime()
 				&& (unsigned) m_vCalvaryAnims[i].GetCurrFrame() >= m_vCalvaryAnims[i].GetFrameVec().size()-1)
 			{
-				m_vCalvaryAnims[i].SetCurrFrame(0);
+				if(m_vCalvaryAnims[i].GetLooping() == true)
+					m_vCalvaryAnims[i].SetCurrFrame(0);
+				else if(m_vCalvaryAnims[i].GetLooping() == false)
+					m_vCalvaryAnims[i].SetCurrFrame(m_vCalvaryAnims[i].GetFrameVec().size()-1);
+				m_vCalvaryAnims[i].SetElapsedTime(0.0f);
 			}
 		}
 	}
@@ -83,7 +94,11 @@ void CAnimationManager::Update( float fElapsedTime )
 			else if(m_vSkeletonAnims[i].GetFrameVec()[m_vSkeletonAnims[i].GetCurrFrame()].GetTimePlayed() < m_vSkeletonAnims[i].GetElapsedTime()
 				&& (unsigned) m_vSkeletonAnims[i].GetCurrFrame() >= m_vSkeletonAnims[i].GetFrameVec().size()-1)
 			{
-				m_vSkeletonAnims[i].SetCurrFrame(0);
+				if(m_vSkeletonAnims[i].GetLooping() == true)
+					m_vSkeletonAnims[i].SetCurrFrame(0);
+				else if(m_vSkeletonAnims[i].GetLooping() == false)
+					m_vSkeletonAnims[i].SetCurrFrame(m_vSkeletonAnims[i].GetFrameVec().size()-1);
+				m_vSkeletonAnims[i].SetElapsedTime(0.0f);
 			}
 		}
 	}
@@ -101,7 +116,11 @@ void CAnimationManager::Update( float fElapsedTime )
 			else if(m_vChampionAnims[i].GetFrameVec()[m_vChampionAnims[i].GetCurrFrame()].GetTimePlayed() < m_vChampionAnims[i].GetElapsedTime()
 				&& (unsigned) m_vChampionAnims[i].GetCurrFrame() >= m_vChampionAnims[i].GetFrameVec().size()-1)
 			{
-				m_vChampionAnims[i].SetCurrFrame(0);
+				if(m_vChampionAnims[i].GetLooping() == true)
+					m_vChampionAnims[i].SetCurrFrame(0);
+				else if(m_vChampionAnims[i].GetLooping() == false)
+					m_vChampionAnims[i].SetCurrFrame(m_vChampionAnims[i].GetFrameVec().size()-1);
+				m_vChampionAnims[i].SetElapsedTime(0.0f);
 			}
 		}
 	}
@@ -119,7 +138,11 @@ void CAnimationManager::Update( float fElapsedTime )
 			else if(m_vCastleAnims[i].GetFrameVec()[m_vCastleAnims[i].GetCurrFrame()].GetTimePlayed() < m_vCastleAnims[i].GetElapsedTime()
 				&& (unsigned) m_vCastleAnims[i].GetCurrFrame() >= m_vCastleAnims[i].GetFrameVec().size()-1)
 			{
-				m_vCastleAnims[i].SetCurrFrame(0);
+				if(m_vCastleAnims[i].GetLooping() == true)
+					m_vCastleAnims[i].SetCurrFrame(0);
+				else if(m_vCastleAnims[i].GetLooping() == false)
+					m_vCastleAnims[i].SetCurrFrame(m_vCastleAnims[i].GetFrameVec().size()-1);
+				m_vCastleAnims[i].SetElapsedTime(0.0f);
 			}
 		}
 	}
@@ -137,7 +160,11 @@ void CAnimationManager::Update( float fElapsedTime )
 			else if(m_vIceBlockAnims[i].GetFrameVec()[m_vIceBlockAnims[i].GetCurrFrame()].GetTimePlayed() < m_vIceBlockAnims[i].GetElapsedTime()
 				&& (unsigned) m_vIceBlockAnims[i].GetCurrFrame() >= m_vIceBlockAnims[i].GetFrameVec().size()-1)
 			{
-				m_vIceBlockAnims[i].SetCurrFrame(0);
+				if(m_vIceBlockAnims[i].GetLooping() == true)
+					m_vIceBlockAnims[i].SetCurrFrame(0);
+				else if(m_vIceBlockAnims[i].GetLooping() == false)
+					m_vIceBlockAnims[i].SetCurrFrame(m_vIceBlockAnims[i].GetFrameVec().size()-1);
+				m_vIceBlockAnims[i].SetElapsedTime(0.0f);
 			}
 		}
 	}
@@ -159,10 +186,10 @@ bool CAnimationManager::Load(const char* strName)
 	TiXmlElement* pRoot = doc.RootElement();
 	if(pRoot == nullptr)
 		return false;
-	CAnimation tempanim;
 	TiXmlElement* Animation = pRoot->FirstChildElement("Animation");
 	while(Animation != nullptr)
 	{
+		CAnimation tempanim;
 		int tempunit;
 		int tempanimtype;
 		Animation->Attribute("UnitType", &tempunit);
@@ -181,68 +208,68 @@ bool CAnimationManager::Load(const char* strName)
 		int tempframe;
 		Animation->Attribute("CurrFrame", &tempframe);
 		tempanim.SetCurrFrame(tempframe);
+		TiXmlElement* Frames = Animation->FirstChildElement("Frames");
+		int maxframes;
+		while(Frames != nullptr)
+		{
+			Frames->Attribute("NumFrames", &maxframes);
+			Frames = Frames->NextSiblingElement("Frames");
+		}
+		TiXmlElement* Frame = Animation->FirstChildElement("Frame");
+		while(Frame != nullptr)
+		{
+			CFrame tempframe;
+			//setting which order the frames render
+			int tempframenum;
+			Frame->Attribute("FrameNumber", &tempframenum);
+			tempframe.SetFrameNumber(tempframenum);
+			//setting the time each frame runs
+			double temptime;
+			Frame->Attribute("TimeForFrameToRun", &temptime);
+			tempframe.SetTimePlayed((float)temptime/100);
+			//setting the image's rect on the sprite sheet
+			RECT temprect; int tempright; int templeft; int temptop; int tempbottom;
+			Frame->Attribute("top", &temptop);
+			Frame->Attribute("right", &tempright);
+			Frame->Attribute("bottom", &tempbottom);
+			Frame->Attribute("left", &templeft);
+			temprect.top = temptop; temprect.bottom = tempbottom;
+			temprect.right = tempright; temprect.left = templeft;
+			tempframe.SetImageRect(temprect);
+			tempanim.SetFrame(tempframe);
+			Frame = Frame->NextSiblingElement("Frame");
+		}
+		//The below code checks the name of the animation for the type of
+		//unit, so it can save to the right vector
+		if(tempanim.GetUnitType() == UT_SWORDSMAN)
+		{
+			m_vSwordsmanAnims.push_back(tempanim);
+		}
+		else if(tempanim.GetUnitType() == UT_HERO)
+		{
+			m_vChampionAnims.push_back(tempanim);
+		}
+		else if(tempanim.GetUnitType() == UT_ARCHER)
+		{
+			m_vArcherAnims.push_back(tempanim);
+		}
+		else if(tempanim.GetUnitType() == UT_CASTLE)
+		{
+			m_vCastleAnims.push_back(tempanim);
+		}
+		else if(tempanim.GetUnitType() == UT_CAVALRY)
+		{
+			m_vCalvaryAnims.push_back(tempanim);
+		}
+		else if(tempanim.GetUnitType() == UT_SKELETON)
+		{
+			m_vSkeletonAnims.push_back(tempanim);
+		}
+		else if(tempanim.GetUnitType() == UT_ICEBLOCK)
+		{
+			m_vIceBlockAnims.push_back(tempanim);
+		}
 		Animation = Animation->NextSiblingElement("Animation");
-	}
-	TiXmlElement* Frames = pRoot->FirstChildElement("Frames");
-	int maxframes;
-	while(Frames != nullptr)
-	{
-		Frames->Attribute("NumFrames", &maxframes);
-		Frames = Frames->NextSiblingElement("Frames");
-	}
-	TiXmlElement* Frame = pRoot->FirstChildElement("Frame");
-	while(Frame != nullptr)
-	{
-		CFrame tempframe;
-		//setting which order the frames render
-		int tempframenum;
-		Frame->Attribute("FrameNumber", &tempframenum);
-		tempframe.SetFrameNumber(tempframenum);
-		//setting the time each frame runs
-		double temptime;
-		Frame->Attribute("TimeForFrameToRun", &temptime);
-		tempframe.SetTimePlayed((float)temptime/100);
-		//setting the image's rect on the sprite sheet
-		RECT temprect; int tempright; int templeft; int temptop; int tempbottom;
-		Frame->Attribute("top", &temptop);
-		Frame->Attribute("right", &tempright);
-		Frame->Attribute("bottom", &tempbottom);
-		Frame->Attribute("left", &templeft);
-		temprect.top = temptop; temprect.bottom = tempbottom;
-		temprect.right = tempright; temprect.left = templeft;
-		tempframe.SetImageRect(temprect);
-		tempanim.SetFrame(tempframe);
-		Frame = Frame->NextSiblingElement("Frame");
-	}
-	//The below code checks the name of the animation for the type of
-	//unit, so it can save to the right vector
-	if(tempanim.GetUnitType() == UT_SWORDSMAN)
-	{
-		m_vSwordsmanAnims.push_back(tempanim);
-	}
-	else if(tempanim.GetUnitType() == UT_HERO)
-	{
-		m_vChampionAnims.push_back(tempanim);
-	}
-	else if(tempanim.GetUnitType() == UT_ARCHER)
-	{
-		m_vArcherAnims.push_back(tempanim);
-	}
-	else if(tempanim.GetUnitType() == UT_CASTLE)
-	{
-		m_vCastleAnims.push_back(tempanim);
-	}
-	else if(tempanim.GetUnitType() == UT_CAVALRY)
-	{
-		m_vCalvaryAnims.push_back(tempanim);
-	}
-	else if(tempanim.GetUnitType() == UT_SKELETON)
-	{
-		m_vSkeletonAnims.push_back(tempanim);
-	}
-	else if(tempanim.GetUnitType() == UT_ICEBLOCK)
-	{
-		m_vIceBlockAnims.push_back(tempanim);
 	}
 	return true;
 }
@@ -289,6 +316,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_N:
 				{
@@ -300,6 +328,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_S:
 				{
@@ -311,6 +340,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_E:
 				{
@@ -322,6 +352,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_W:
 				{
@@ -333,6 +364,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_N:
 				{
@@ -344,6 +376,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_S:
 				{
@@ -355,6 +388,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_E:
 				{
@@ -366,6 +400,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_W:
 				{
@@ -377,6 +412,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_N:
 				{
@@ -388,6 +424,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_S:
 				{
@@ -399,6 +436,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_E:
 				{
@@ -410,6 +448,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_W:
 				{
@@ -421,8 +460,10 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			}
+			break;
 		}
 	case UT_HERO:
 		{
@@ -438,6 +479,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_N:
 				{
@@ -449,6 +491,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_S:
 				{
@@ -460,6 +503,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_E:
 				{
@@ -471,6 +515,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_W:
 				{
@@ -482,6 +527,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_N:
 				{
@@ -493,6 +539,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_S:
 				{
@@ -504,6 +551,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_E:
 				{
@@ -515,6 +563,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_W:
 				{
@@ -526,6 +575,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_N:
 				{
@@ -537,6 +587,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_S:
 				{
@@ -548,6 +599,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_E:
 				{
@@ -559,6 +611,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_W:
 				{
@@ -570,8 +623,10 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			}
+			break;
 		}
 	case UT_ARCHER:
 		{
@@ -587,6 +642,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_N:
 				{
@@ -598,6 +654,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_S:
 				{
@@ -609,6 +666,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_E:
 				{
@@ -620,6 +678,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_W:
 				{
@@ -631,6 +690,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_N:
 				{
@@ -642,6 +702,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_S:
 				{
@@ -653,6 +714,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_E:
 				{
@@ -664,6 +726,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_W:
 				{
@@ -675,6 +738,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_N:
 				{
@@ -686,6 +750,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_S:
 				{
@@ -697,6 +762,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_E:
 				{
@@ -708,6 +774,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_W:
 				{
@@ -719,8 +786,10 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			}
+			break;
 		}
 	case UT_SWORDSMAN:
 		{
@@ -736,6 +805,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_N:
 				{
@@ -747,6 +817,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_S:
 				{
@@ -758,6 +829,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_E:
 				{
@@ -769,6 +841,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_W:
 				{
@@ -780,6 +853,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_N:
 				{
@@ -791,6 +865,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_S:
 				{
@@ -802,6 +877,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_E:
 				{
@@ -813,6 +889,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_W:
 				{
@@ -824,6 +901,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_N:
 				{
@@ -835,6 +913,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_S:
 				{
@@ -846,6 +925,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_E:
 				{
@@ -857,6 +937,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_W:
 				{
@@ -868,8 +949,10 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			}
+			break;
 		}
 		case UT_CAVALRY:
 		{
@@ -885,6 +968,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_N:
 				{
@@ -896,6 +980,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_S:
 				{
@@ -907,6 +992,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_E:
 				{
@@ -918,6 +1004,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_W:
 				{
@@ -929,6 +1016,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_N:
 				{
@@ -940,6 +1028,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_S:
 				{
@@ -951,6 +1040,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_E:
 				{
@@ -962,6 +1052,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_W:
 				{
@@ -973,6 +1064,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_N:
 				{
@@ -984,6 +1076,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_S:
 				{
@@ -995,6 +1088,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_E:
 				{
@@ -1006,6 +1100,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_W:
 				{
@@ -1017,8 +1112,10 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			}
+			break;
 		}
 		case UT_SKELETON:
 		{
@@ -1034,6 +1131,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_N:
 				{
@@ -1045,6 +1143,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_S:
 				{
@@ -1056,6 +1155,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_E:
 				{
@@ -1067,6 +1167,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_W:
 				{
@@ -1078,6 +1179,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_N:
 				{
@@ -1089,6 +1191,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_S:
 				{
@@ -1100,6 +1203,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_E:
 				{
@@ -1111,6 +1215,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_W:
 				{
@@ -1122,6 +1227,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_N:
 				{
@@ -1133,6 +1239,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_S:
 				{
@@ -1144,6 +1251,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_E:
 				{
@@ -1155,6 +1263,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_W:
 				{
@@ -1166,8 +1275,10 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			}
+			break;
 		}
 		case UT_ICEBLOCK:
 		{
@@ -1183,6 +1294,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_N:
 				{
@@ -1194,6 +1306,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_S:
 				{
@@ -1205,6 +1318,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_E:
 				{
@@ -1216,6 +1330,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_WALK_W:
 				{
@@ -1227,6 +1342,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_N:
 				{
@@ -1238,6 +1354,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_S:
 				{
@@ -1249,6 +1366,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_E:
 				{
@@ -1260,6 +1378,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ATTACK_W:
 				{
@@ -1271,6 +1390,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_N:
 				{
@@ -1282,6 +1402,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_S:
 				{
@@ -1293,6 +1414,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_E:
 				{
@@ -1304,6 +1426,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			case AT_ABILITY_W:
 				{
@@ -1315,8 +1438,10 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
 						}
 					}
+					break;
 				}
 			}
+			break;
 		}
 	}
 	RECT failrect; failrect.top = 0; failrect.bottom = 0; failrect.left = 0; failrect.right = 0;

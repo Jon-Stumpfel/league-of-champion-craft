@@ -15,21 +15,25 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-
+	m_sAnimStruct = new UnitAnimation();
+	m_sAnimStruct->animationType = AT_WALK_W;
+	m_sAnimStruct->fCurrentTime = 0.0f;
+	m_sAnimStruct->unitType = UT_HERO;
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\champion.png",L"Champion",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
 
 
 CHero::~CHero(void)
 {
+	delete m_sAnimStruct;
 }
 
 void CHero::Render(void)
 {
-	RECT soldierRect = {m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(), 
-						m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(), 
-						m_sWorldPos.nPosX+ nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
-						m_sWorldPos.nPosY + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
-
-	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 205, 150, 100);	
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Champion"),
+		m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(),
+		m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(),
+		0.55f,0.55f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
+		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }

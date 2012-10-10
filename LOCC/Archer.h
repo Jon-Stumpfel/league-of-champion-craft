@@ -4,7 +4,7 @@
 #include "GraphicsManager.h"
 class CArcher : public CUnit
 {
-	UnitAnimation* tempanimstruct;
+	UnitAnimation* m_sAnimStruct;
 public:
 
 	CArcher(void);
