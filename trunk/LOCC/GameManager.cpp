@@ -36,6 +36,15 @@ void CGameManager::NextPhase(void)
 		m_nTurnCount++;
 		CGameplayState::GetInstance()->ClearSelections();
 		CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos());
+		m_pCurrentPlayer->SetAP(nStartingAP);
+
+		for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
+		{
+			if (m_vUnits[i]->GetPlayerID() == m_pCurrentPlayer->GetPlayerID())
+			{
+				m_vUnits[i]->SetTilesMoved(0);
+			}
+		}
 	}
 }
 
@@ -220,7 +229,6 @@ void CGameManager::Reset(void)
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 	m_nCurrentPhase = GP_MOVE;
-
 
 }
 void CGameManager::NewGame(void)

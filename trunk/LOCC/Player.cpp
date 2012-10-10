@@ -5,7 +5,7 @@
 CPlayer::CPlayer(int nPlayerID)
 {
 	m_nPlayerID = nPlayerID;
-	SetAP(30);
+	SetAP(nStartingAP);
 	SetMetal(20);
 	SetWood(20);
 	SetPopCap(0);

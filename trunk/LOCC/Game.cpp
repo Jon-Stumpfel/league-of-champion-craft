@@ -43,6 +43,9 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\panelselectioncursor.png"), _T("panelselect"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\moveabilityicon.png"), _T("moveicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\meleeabilityicon.png"), _T("meleeattackicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\minimaptriangle.png"), _T("minitriangle"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\minimapcircle.png"), _T("minicircle"), 0UL);
+
 	m_dwCurrTime = GetTickCount();
 }
 
