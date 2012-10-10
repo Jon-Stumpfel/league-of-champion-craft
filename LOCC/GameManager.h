@@ -44,6 +44,10 @@ public:
 	static void MessageProc(IMessage* pMsg);
 
 	GAME_PHASE GetCurrentPhase(void) { return m_nCurrentPhase;}
+
+	// This is only for GameplayState to render minimap circles for units. Please do not use it
+	// to modify anything inside this array
+	const std::vector<CUnit*> GetUnits(void) { return m_vUnits;}
 private:
 
 	CGameManager(void);

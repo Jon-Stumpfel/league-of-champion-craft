@@ -758,6 +758,25 @@ void CGameplayState::Update(float fElapsedTime)
 	CAnimationManager::GetInstance()->Update(fElapsedTime);
 }
 
+RECT CellAlgorithm( int id )
+{
+
+	// quick fix for rendering the wrong tiles
+	//if (id == 1)
+	//	id = 2;
+	//else if (id == 2)
+	//	id = 1;
+	RECT rSource;
+
+	rSource.left	= (id % 4) * nFakeTileWidth;
+	rSource.top		= (id / 4) * nFakeTileHeight;
+
+	rSource.right	= rSource.left	+ nFakeTileWidth +1;
+	rSource.bottom	= rSource.top	+ nFakeTileHeight;
+
+	return rSource;
+
+}
 void CGameplayState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
@@ -918,5 +937,117 @@ void CGameplayState::Render(void)
 		int n = CGame::GetInstance()->GetWindowWidth();
 		int y = CGame::GetInstance()->GetWindowHeight();
 	}
+	// MINI MAP TIME! Render this ontop of the interface thing. Will need to tweak when we go isometric
 
+	int nMiniMapOffsetX = 10;
+	int nMiniMapOffsetY = 440;
+	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY, nMiniMapOffsetX + 225, nMiniMapOffsetY + 152};
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+	CSGD_Direct3D::GetInstance()->DrawRect(miniR, 0, 0, 0);
+
+	float nMiniMapWidth = 225.0f;
+	float nMiniMapHeight = 152.0f;
+	float nMiniTileWidth = nMiniMapWidth / CTileManager::GetInstance()->GetNumRows();
+	float nMiniTileHeight = nMiniMapHeight / CTileManager::GetInstance()->GetNumColumns();
+
+	// Render the tiles. Only using colored blocks for now
+	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
+		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
+		{
+			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
+				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
+				(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
+				(LONG)(j * nMiniTileHeight + nMiniTileHeight+ nMiniMapOffsetY)};
+			int r = 0;
+			int g = 0;
+			int b = 0;
+			CTile* pTile = CTileManager::GetInstance()->GetTile(i, j);
+			RECT rSrc;
+			switch (pTile->GetTileType())
+			{
+			case TT_PLAINS:
+					rSrc = CellAlgorithm(TT_PLAINS);
+				g=177; r=34; b=76; break;
+			case TT_FOREST:
+					rSrc = CellAlgorithm(TT_FOREST);
+				g=128; r=0; b=0; break;
+			case TT_MOUNTAINS:
+					rSrc = CellAlgorithm(TT_MOUNTAINS);
+				g=64;r=128; b=0; break;
+			case TT_WATER:
+					rSrc = CellAlgorithm(TT_WATER);
+				g=128;r=0;b=192;break; 
+			case TT_MINE:
+					rSrc = CellAlgorithm(TT_MINE);
+				g=64;r=128; b=0; break;
+			case TT_MILL:
+					rSrc = CellAlgorithm(TT_MILL);
+				g=128; r=0; b=0; break;
+			case TT_FARM:
+					rSrc = CellAlgorithm(TT_FARM);
+				g=177; r=34; b=76; break;
+			default:
+				g=177; r=34; b=76; break;
+			}
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("GrassTile")),
+				tileRect.left, tileRect.top, nMiniTileWidth/nFakeTileWidth, nMiniTileHeight/nFakeTileHeight, &rSrc);
+			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
+			r = 255 * !(pTile->GetPlayerID());
+			b = 255 * (pTile->GetPlayerID());
+			g = 0;
+			switch (pTile->GetTileType())
+			{
+			case TT_MILL:
+			case TT_MINE:
+			case TT_FARM:
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("minitriangle")),
+					(int)tileRect.left, (int)tileRect.top, 1.0f, 1.0f,(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r,g,b));
+				break;
+			}
+		}
+
+		// Render the units as circles
+	for (decltype(CGameManager::GetInstance()->GetUnits().size()) i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
+	{
+		int r = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 0);
+		int b = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 1);
+		int g = 0;
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("minicircle")),
+			int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosX * nMiniTileWidth + nMiniMapOffsetX),
+			int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosY * nMiniTileHeight + nMiniMapOffsetY),
+			1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
+	}
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+	// Draw a wireframe for where the in-game camera can currently see
+	float nConvertX = float(m_currCamPixelPos.nPosX / nFakeTileWidth);
+	float nConvertY = float(m_currCamPixelPos.nPosY / nFakeTileHeight);
+	float nCamWidth = 12;
+	float nCamHeight = 7;
+
+
+	float fRelativeX = m_currCamPixelPos.nPosX / float(CTileManager::GetInstance()->GetNumRows() * nFakeTileWidth);
+	float fRelativeY = m_currCamPixelPos.nPosY / float(CTileManager::GetInstance()->GetNumColumns() * nFakeTileHeight);
+	RECT tileRect = { (LONG)(fRelativeX * nMiniMapWidth + nMiniMapOffsetX),(LONG)(fRelativeY * nMiniMapHeight + nMiniMapOffsetY) , 
+		(LONG)(fRelativeX * nMiniMapWidth  + (nCamWidth * nMiniTileWidth)+ nMiniMapOffsetX), 
+		(LONG)(fRelativeY * nMiniMapHeight + (nCamHeight * nMiniTileHeight) + nMiniMapOffsetY)};
+
+	if (tileRect.right > nMiniMapOffsetX + nMiniMapWidth)
+		tileRect.right = (LONG)(nMiniMapOffsetX + nMiniMapWidth);
+	if (tileRect.left < nMiniMapOffsetX)
+		tileRect.left = (LONG)nMiniMapOffsetX;
+	if (tileRect.top < nMiniMapOffsetY)
+		tileRect.top = (LONG)nMiniMapOffsetY;
+	if (tileRect.bottom > nMiniMapOffsetY + nMiniMapHeight)
+		tileRect.bottom = (LONG)(nMiniMapOffsetY + nMiniMapHeight);
+
+	RECT rWireRect = { (LONG)tileRect.left, (LONG)tileRect.top,
+		(LONG)(tileRect.right -tileRect.left), (LONG)(tileRect.bottom - tileRect.top)};
+	//RECT tileRect = { (LONG)(nConvertX * nMiniTileWidth + nMiniMapOffsetX),
+	//	(LONG)(nConvertY * nMiniTileHeight+ nMiniMapOffsetY), 
+	//	(LONG)(((nConvertX + nCamWidth) * nMiniTileWidth) + nMiniMapOffsetX),
+	//	(LONG)(((nConvertY + nCamHeight) * nMiniTileHeight) + nMiniMapOffsetY)};
+	CGraphicsManager::GetInstance()->DrawWireframeRect(rWireRect, 255, 255, 255);
+//	CSGD_Direct3D::GetInstance()->DrawRect(tileRect, 255, 0, 255);
+	
 }
