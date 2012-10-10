@@ -1,10 +1,10 @@
 #pragma once
 
 #include "unit.h"
-
+#include "GraphicsManager.h"
 class CCastle : public CUnit
 {
-
+	UnitAnimation* m_sAnimStruct;
 public:
 
 	CCastle(void);

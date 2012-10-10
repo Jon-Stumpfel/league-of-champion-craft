@@ -15,20 +15,25 @@ CSwordsman::CSwordsman(void) : CUnit(UT_SWORDSMAN)
 	SetShielded(false);
 	SetIsMoving(false);
 
+	m_sAnimStruct = new UnitAnimation();
+	m_sAnimStruct->animationType = AT_WALK_W;
+	m_sAnimStruct->fCurrentTime = 0.0f;
+	m_sAnimStruct->unitType = UT_SWORDSMAN;
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman.png",L"Swordsman",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
 
 
 CSwordsman::~CSwordsman(void)
 {
-
+	delete m_sAnimStruct;
 }
 
 void CSwordsman::Render(void)
 {
-	RECT soldierRect = {m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(), 
-						m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(), 
-						m_sWorldPos.nPosX+ nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
-						m_sWorldPos.nPosY + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
-	CSGD_Direct3D::GetInstance()->DrawRect(soldierRect, 255, 0, 0);	
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Swordsman"),
+		m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(),
+		m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(),
+		0.75f,0.75f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
+		0,0,D3DCOLOR_ARGB(255,255,255,255));	
 }

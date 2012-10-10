@@ -14,33 +14,26 @@ CArcher::CArcher(void) : CUnit(UT_ARCHER)
 	SetShielded(false);
 	SetIsMoving(false);
 	
-	tempanimstruct = new UnitAnimation();
-	tempanimstruct->animationType = AT_WALK_W;
-	tempanimstruct->fCurrentTime = 0.0f;
-	tempanimstruct->nCurrentFrame = 0;
-	tempanimstruct->unitType = UT_ARCHER;
-	this->SetAnimStruct(tempanimstruct);
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman.png",L"Archer",D3DCOLOR_ARGB(255,255,255,255));
+	m_sAnimStruct = new UnitAnimation();
+	m_sAnimStruct->animationType = AT_WALK_W;
+	m_sAnimStruct->fCurrentTime = 0.0f;
+	m_sAnimStruct->unitType = UT_ARCHER;
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer.png",L"Archer",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
 
 
 CArcher::~CArcher(void)
 {
-	delete tempanimstruct;
+	delete m_sAnimStruct;
 }
 
 void CArcher::Render(void)
 {
-	RECT soldierRect = {m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(), 
-						m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(), 
-						m_sWorldPos.nPosX+ nFakeTileWidth - CGameplayState::GetInstance()->GetCamOffsetX(), 
-						m_sWorldPos.nPosY + nFakeTileHeight - CGameplayState::GetInstance()->GetCamOffsetY()};
-	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*this->GetAnimStruct());
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Archer"),
 		m_sWorldPos.nPosX - CGameplayState::GetInstance()->GetCamOffsetX(),
 		m_sWorldPos.nPosY - CGameplayState::GetInstance()->GetCamOffsetY(),
-		0.75f,0.75f,&CAnimationManager::GetInstance()->GetFrame(*this->GetAnimStruct()),0,
-		0,0,D3DCOLOR_ARGB(255,255,255,255));	
+		0.75f,0.75f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
+		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }
 

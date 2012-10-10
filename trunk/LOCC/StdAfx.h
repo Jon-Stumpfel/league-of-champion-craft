@@ -62,7 +62,6 @@ struct UnitAnimation
 {
 	UNIT_TYPE unitType;
 	ANIM_TYPE animationType;
-	int nCurrentFrame;
 	float fCurrentTime;
 };
 enum GAME_PHASE { GP_MOVE, GP_ATTACK };
