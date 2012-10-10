@@ -37,10 +37,10 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.adjustTileSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainContainer = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.graphicsPanel2 = new World_Tile_Editor.GraphicsPanel();
+            this.TilesetGraphicsPanel = new World_Tile_Editor.GraphicsPanel();
             this.Tile_Options = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,7 +51,7 @@
             this.RowsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.graphicsPanel1 = new World_Tile_Editor.GraphicsPanel();
+            this.MapGraphicsPanel = new World_Tile_Editor.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainContainer)).BeginInit();
             this.MainContainer.Panel1.SuspendLayout();
@@ -131,17 +131,16 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadTileToolStripMenuItem});
+            this.adjustTileSizeToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(67, 21);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
-            // loadTileToolStripMenuItem
+            // adjustTileSizeToolStripMenuItem
             // 
-            this.loadTileToolStripMenuItem.Name = "loadTileToolStripMenuItem";
-            this.loadTileToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.loadTileToolStripMenuItem.Text = "&Load TileSet";
-            this.loadTileToolStripMenuItem.Click += new System.EventHandler(this.loadTileToolStripMenuItem_Click);
+            this.adjustTileSizeToolStripMenuItem.Name = "adjustTileSizeToolStripMenuItem";
+            this.adjustTileSizeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.adjustTileSizeToolStripMenuItem.Text = "&Adjust TileSet ";
             // 
             // MainContainer
             // 
@@ -157,7 +156,7 @@
             // MainContainer.Panel2
             // 
             this.MainContainer.Panel2.BackColor = System.Drawing.SystemColors.Window;
-            this.MainContainer.Panel2.Controls.Add(this.graphicsPanel1);
+            this.MainContainer.Panel2.Controls.Add(this.MapGraphicsPanel);
             this.MainContainer.Size = new System.Drawing.Size(605, 408);
             this.MainContainer.SplitterDistance = 174;
             this.MainContainer.TabIndex = 1;
@@ -173,7 +172,7 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.BackColor = System.Drawing.SystemColors.Window;
-            this.splitContainer2.Panel1.Controls.Add(this.graphicsPanel2);
+            this.splitContainer2.Panel1.Controls.Add(this.TilesetGraphicsPanel);
             // 
             // splitContainer2.Panel2
             // 
@@ -183,13 +182,14 @@
             this.splitContainer2.SplitterDistance = 180;
             this.splitContainer2.TabIndex = 0;
             // 
-            // graphicsPanel2
+            // TilesetGraphicsPanel
             // 
-            this.graphicsPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphicsPanel2.Location = new System.Drawing.Point(0, 0);
-            this.graphicsPanel2.Name = "graphicsPanel2";
-            this.graphicsPanel2.Size = new System.Drawing.Size(170, 176);
-            this.graphicsPanel2.TabIndex = 0;
+            this.TilesetGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TilesetGraphicsPanel.Location = new System.Drawing.Point(0, 0);
+            this.TilesetGraphicsPanel.Name = "TilesetGraphicsPanel";
+            this.TilesetGraphicsPanel.Size = new System.Drawing.Size(170, 176);
+            this.TilesetGraphicsPanel.TabIndex = 0;
+            this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
             // 
             // Tile_Options
             // 
@@ -283,13 +283,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Rows";
             // 
-            // graphicsPanel1
+            // MapGraphicsPanel
             // 
-            this.graphicsPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphicsPanel1.Location = new System.Drawing.Point(0, 0);
-            this.graphicsPanel1.Name = "graphicsPanel1";
-            this.graphicsPanel1.Size = new System.Drawing.Size(423, 404);
-            this.graphicsPanel1.TabIndex = 0;
+            this.MapGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MapGraphicsPanel.Location = new System.Drawing.Point(0, 0);
+            this.MapGraphicsPanel.Name = "MapGraphicsPanel";
+            this.MapGraphicsPanel.Size = new System.Drawing.Size(423, 404);
+            this.MapGraphicsPanel.TabIndex = 0;
+            this.MapGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MapGraphicsPanel_Paint);
             // 
             // Form1
             // 
@@ -344,11 +345,11 @@
         private System.Windows.Forms.NumericUpDown RowsNumericUpDown;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ToolStripMenuItem loadTileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private GraphicsPanel graphicsPanel1;
-        private GraphicsPanel graphicsPanel2;
+        private GraphicsPanel MapGraphicsPanel;
+        private GraphicsPanel TilesetGraphicsPanel;
+        private System.Windows.Forms.ToolStripMenuItem adjustTileSizeToolStripMenuItem;
     }
 }
 
