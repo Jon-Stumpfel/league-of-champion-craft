@@ -84,10 +84,31 @@ void CGraphicsManager::Shutdown( void )
 	}
 }
 
-void CGraphicsManager::DrawWireframeRect(RECT r, int red, int green, int blue)
+	void CGraphicsManager::DrawWireframeDiag(RECT r, int red, int green, int blue)
+	{
+		int nWidth = r.right;
+		int nHeight = r.bottom;
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left + nWidth * 0.5f, r.top, r.left + nWidth, r.top +nHeight * 0.5f, red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left + nWidth, r.top + nHeight * 0.5f, r.left + nWidth * 0.5f, r.top +nHeight, red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left + nWidth * 0.5f, r.top + nHeight, r.left, r.top +nHeight * 0.5f, red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top + nHeight * 0.5f, r.left + nWidth * 0.5f, r.top, red, green, blue);
+	}
+
+void CGraphicsManager::DrawWireframeRect(RECT r, int red, int green, int blue, bool bDirect)
 {
-	CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top, r.left, r.top + r.bottom, red, green, blue);
-	CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top, r.left + r.right, r.top, red, green, blue);
-	CSGD_Direct3D::GetInstance()->DrawLine(r.left + r.right, r.top, r.left + r.right, r.top + r.bottom, red, green, blue);
-	CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top + r.bottom, r.left + r.right, r.top + r.bottom, red, green, blue);
+	if (bDirect)
+	{
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top, r.right, r.top);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.right, r.top, r.right, r.bottom);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.right, r.bottom, r.left, r.bottom);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.bottom, r.left, r.top);
+	
+	}
+	else
+	{
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top, r.left, r.top + r.bottom, red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top, r.left + r.right, r.top, red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left + r.right, r.top, r.left + r.right, r.top + r.bottom, red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top + r.bottom, r.left + r.right, r.top + r.bottom, red, green, blue);
+	}
 }

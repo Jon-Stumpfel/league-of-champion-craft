@@ -75,8 +75,8 @@ const int AP_PER_CAPTURE = 2;
 const int nStartingAP = 30;
 
 // fake tile stuff
-const int nFakeTileWidth = 64;
-const int nFakeTileHeight = 64;
+const int nFakeTileWidth = 64 +26;
+const int nFakeTileHeight = 64 + 27;
 
 const int nMouseSensitivity = 211110;	
 const int nCameraScrollSpeed = 2;

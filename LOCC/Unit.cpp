@@ -56,7 +56,7 @@ CAbility* CUnit::GetAbility(int index)
 // 5 pixels, but left some weird off. Now it's just 0, so it's a relic function but it doesn't hurt leaving it
 static bool CloseEnough(int n1, int n2)
 {
-	if (abs(n1 - n2) == 0)
+	if (abs(n1 - n2) < 2)
 		return true;
 	else
 		return false;
@@ -71,8 +71,10 @@ void CUnit::Update(float fElapsedTime)
 		CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY)->SetIfOccupied(false);
 
 		// Find out how we need to move, pixel wise, to our intended target.
-		int nNewPixelPosX = m_vWaypoints.back()->GetPosition().nPosX * nFakeTileWidth;
-		int nNewPixelPosY = m_vWaypoints.back()->GetPosition().nPosY * nFakeTileHeight;
+		float x = (nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints.back()->GetPosition().nPosY);
+		float y = (nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) + (nFakeTileHeight  / 2 * m_vWaypoints.back()->GetPosition().nPosY);
+		float nNewPixelPosX = x;//m_vWaypoints.back()->GetPosition().nPosX * nFakeTileWidth;
+		float nNewPixelPosY = y;//m_vWaypoints.back()->GetPosition().nPosY * nFakeTileHeight;
 
 		// Moves our posX or posY over time so that our pixel position matches up with the pixel position
 		// of the first waypoint
@@ -99,8 +101,8 @@ void CUnit::Update(float fElapsedTime)
 		// Progress the number of tiles we have moved by 1
 		// Remove that tile from our waypoint, and then if we've moved our speed, clear the rest of the waypoints 
 		// because we can't move any further.
-		if (CloseEnough((m_sWorldPos.nPosX ) ,(m_vWaypoints.back()->GetPosition().nPosX *nFakeTileWidth))&&
-			CloseEnough((m_sWorldPos.nPosY ),(m_vWaypoints.back()->GetPosition().nPosY *nFakeTileHeight)))
+		if (CloseEnough((m_sWorldPos.nPosX ) ,(x))&&
+			CloseEnough((m_sWorldPos.nPosY ),(y)))
 		{
 			m_sGamePos = m_vWaypoints.back()->GetPosition();
 			CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY)->SetIfOccupied(true);
@@ -125,8 +127,10 @@ void CUnit::Render(void)
 // tile to no longer occupied, and sets our pixel position to equal that new tile
 void CUnit::SetPos(int posX, int posY)
 {
-	m_sWorldPos.nPosX = posX * nFakeTileWidth;
-	m_sWorldPos.nPosY = posY * nFakeTileHeight;
+	int x = (nFakeTileWidth / 2 * posX ) - (nFakeTileHeight / 2 * posY);
+	int y = (nFakeTileWidth / 2 *posX ) + (nFakeTileHeight  / 2 * posY);
+	m_sWorldPos.nPosX = x;//posX * nFakeTileWidth;
+	m_sWorldPos.nPosY = y;//posY * nFakeTileHeight;
 	CTile* pTile = CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY);
 	if (pTile != nullptr)
 		pTile->SetIfOccupied(false);

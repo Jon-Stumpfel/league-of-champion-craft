@@ -15,7 +15,8 @@ public:
 				bool bIsWindowed );
 	void Shutdown( void );
 
-	void CGraphicsManager::DrawWireframeRect(RECT r, int red, int green, int blue);
+	void DrawWireframeRect(RECT r, int red, int green, int blue, bool bDirect = false);
+	void DrawWireframeDiag(RECT r, int red, int green, int blue);
 
 private:
 
