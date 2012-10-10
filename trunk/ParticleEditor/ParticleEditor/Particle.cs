@@ -10,6 +10,24 @@ namespace ParticleEditor
     struct Vector2D
     {
         public float x, y;
+
+        public float Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+
+        public float X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+
+        public void Init(float Velx, float Vely)
+        {
+            x = Velx;
+            y = Vely;
+        }
     }
 
     class Particle
@@ -22,20 +40,18 @@ namespace ParticleEditor
             set { color = value; }
         }
 
-        private int alpha;
+        private float scale, rotation, curLife, maxLife;
 
-        public int Alpha
+        public float MaxLife
         {
-            get { return alpha; }
-            set { alpha = value; }
+            get { return maxLife; }
+            set { maxLife = value; }
         }
 
-        private float scale, rotation, life;
-
-        public float Life
+        public float CurLife
         {
-            get { return life; }
-            set { life = value; }
+            get { return curLife; }
+            set { curLife = value; }
         }
 
         public float Rotation
@@ -50,12 +66,32 @@ namespace ParticleEditor
             set { scale = value; }
         }
 
-        private Vector2D velocity;
+        private Vector2D velocityStart, velocityEnd, curVelocity;
 
-        internal Vector2D Velocity
+        internal Vector2D CurVelocity
         {
-            get { return velocity; }
-            set { velocity = value; }
+            get { return curVelocity; }
+            set { curVelocity = value; }
+        }
+
+        internal Vector2D VelocityEnd
+        {
+            get { return velocityEnd; }
+            set { velocityEnd = value; }
+        }
+
+        internal Vector2D VelocityStart
+        {
+            get { return velocityStart; }
+            set { velocityStart = value; }
+        }
+
+        Vector2D pos;
+
+        internal Vector2D Pos
+        {
+            get { return pos; }
+            set { pos = value; }
         }
 
         private Rectangle source;
@@ -64,6 +100,19 @@ namespace ParticleEditor
         {
             get { return source; }
             set { source = value; }
+        }
+
+        public void Update(float fElapsedTime)
+        {
+            pos.x += curVelocity.x * fElapsedTime;
+            pos.y += curVelocity.y * fElapsedTime;
+
+            curLife += fElapsedTime;
+        }
+
+        public void Render()
+        {
+               // HOW USE WRAPPER!!?!
         }
     }
 }

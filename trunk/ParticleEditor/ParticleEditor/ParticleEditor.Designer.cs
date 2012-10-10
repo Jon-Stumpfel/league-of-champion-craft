@@ -40,7 +40,6 @@
             this.stopPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.graphicsPanel1 = new ParticleEditor.GraphicsPanel();
             this.btStopPrev = new System.Windows.Forms.Button();
             this.btPreview = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -127,7 +126,6 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -268,10 +266,6 @@
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.graphicsPanel1);
-            // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.btStopPrev);
@@ -279,14 +273,6 @@
             this.splitContainer2.Size = new System.Drawing.Size(453, 607);
             this.splitContainer2.SplitterDistance = 568;
             this.splitContainer2.TabIndex = 0;
-            // 
-            // graphicsPanel1
-            // 
-            this.graphicsPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphicsPanel1.Location = new System.Drawing.Point(0, 0);
-            this.graphicsPanel1.Name = "graphicsPanel1";
-            this.graphicsPanel1.Size = new System.Drawing.Size(449, 564);
-            this.graphicsPanel1.TabIndex = 0;
             // 
             // btStopPrev
             // 
@@ -305,6 +291,7 @@
             this.btPreview.TabIndex = 4;
             this.btPreview.Text = "Preview";
             this.btPreview.UseVisualStyleBackColor = true;
+            this.btPreview.Click += new System.EventHandler(this.btPreview_Click);
             // 
             // groupBox1
             // 
@@ -1260,13 +1247,13 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ParticleEditor";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParticleEditor_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
@@ -1411,7 +1398,6 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private GraphicsPanel graphicsPanel1;
         private System.Windows.Forms.Button btStopPrev;
         private System.Windows.Forms.Button btPreview;
     }
