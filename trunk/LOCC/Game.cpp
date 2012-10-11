@@ -75,6 +75,7 @@ bool CGame::Main(void)
 }
 void CGame::Shutdown(void)
 {
+	CScriptManager::DeleteInstance();
 	CGraphicsManager::DeleteInstance();
 	CGameManager::DeleteInstance();
 	CObjectManager::DeleteInstance();

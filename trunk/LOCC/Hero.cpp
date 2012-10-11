@@ -16,10 +16,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-	m_sAnimStruct = new UnitAnimation();
-	m_sAnimStruct->animationType = AT_WALK_W;
-	m_sAnimStruct->fCurrentTime = 0.0f;
-	m_sAnimStruct->unitType = UT_HERO;
+
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\champion.png",L"Champion",D3DCOLOR_ARGB(255,255,255,255));
 
 
@@ -33,6 +30,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));
 	SetShielded(true);
 	PushDebuff(pAbility);
+
 }
 
 
