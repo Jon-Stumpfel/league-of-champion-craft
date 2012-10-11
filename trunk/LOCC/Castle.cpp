@@ -16,10 +16,6 @@ CCastle::CCastle(void) : CUnit(UT_CASTLE)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-	m_sAnimStruct = new UnitAnimation();
-	m_sAnimStruct->animationType = AT_WALK_W;
-	m_sAnimStruct->fCurrentTime = 0.0f;
-	m_sAnimStruct->unitType = UT_CASTLE;
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\castle.png",L"Castle",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
@@ -27,7 +23,6 @@ CCastle::CCastle(void) : CUnit(UT_CASTLE)
 
 CCastle::~CCastle(void)
 {
-	delete m_sAnimStruct;
 }
 
 void CCastle::Render( void )

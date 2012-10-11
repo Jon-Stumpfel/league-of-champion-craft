@@ -33,7 +33,7 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	m_vAbilities.push_back(pAbility);
 
 	m_sAnimStruct = new UnitAnimation();
-	m_sAnimStruct->animationType = AT_WALK_N;
+	m_sAnimStruct->animationType = AT_WALK_W;
 	m_sAnimStruct->fCurrentTime = 0.0f;
 	m_sAnimStruct->unitType = m_eType;
 }
