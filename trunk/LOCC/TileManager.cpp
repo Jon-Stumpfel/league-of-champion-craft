@@ -156,7 +156,7 @@ void CTileManager::Render( void )
                     int y = (TWidth / 2 * i) + (THeight  / 2 * j);
 			RECT Rsource= { 0,0,0,0}; 
 
-			float fRad = (float(45 * 3.14159286 / 180);
+			float fRad = (float(45 * 3.14159286 / 180));
 			switch(m_pTileMap[i][j].GetTileType())
 			{	
 			case TT_PLAINS:
