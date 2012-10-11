@@ -88,10 +88,10 @@ void CGraphicsManager::Shutdown( void )
 	{
 		int nWidth = r.right;
 		int nHeight = r.bottom;
-		CSGD_Direct3D::GetInstance()->DrawLine(r.left + nWidth * 0.5f, r.top, r.left + nWidth, r.top +nHeight * 0.5f, red, green, blue);
-		CSGD_Direct3D::GetInstance()->DrawLine(r.left + nWidth, r.top + nHeight * 0.5f, r.left + nWidth * 0.5f, r.top +nHeight, red, green, blue);
-		CSGD_Direct3D::GetInstance()->DrawLine(r.left + nWidth * 0.5f, r.top + nHeight, r.left, r.top +nHeight * 0.5f, red, green, blue);
-		CSGD_Direct3D::GetInstance()->DrawLine(r.left, r.top + nHeight * 0.5f, r.left + nWidth * 0.5f, r.top, red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine((int)(r.left + nWidth * 0.5f), (int)r.top, (int)(r.left + nWidth), (int)(r.top +nHeight * 0.5f), red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine((int)(r.left + nWidth), (int)(r.top + nHeight * 0.5f), (int)(r.left + nWidth * 0.5f), (int)( r.top +nHeight), red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine((int)(r.left + nWidth * 0.5f), (int)(r.top + nHeight), (int)(r.left), (int)(r.top +nHeight * 0.5f), red, green, blue);
+		CSGD_Direct3D::GetInstance()->DrawLine((int)(r.left), (int)(r.top + nHeight * 0.5f), (int)(r.left + nWidth * 0.5f), r.top, red, green, blue);
 	}
 
 void CGraphicsManager::DrawWireframeRect(RECT r, int red, int green, int blue, bool bDirect)

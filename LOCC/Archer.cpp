@@ -4,6 +4,7 @@
 CArcher::CArcher(void) : CUnit(UT_ARCHER)
 {
 	SetHP(12);
+	SetMaxHP(12);
 	SetAttack(6);
 	SetSpeed(4);
 	SetFacing(0);
