@@ -45,6 +45,17 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\meleeabilityicon.png"), _T("meleeattackicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\minimaptriangle.png"), _T("minitriangle"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\minimapcircle.png"), _T("minicircle"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\heroportrait.png"), _T("heroportrait"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\archerportrait.png"), _T("archerportrait"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\swordsmanportrait.png"), _T("swordsmanportrait"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\cavalryportrait.png"), _T("cavalryportrait"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\skeletonportrait.png"), _T("skeletonportrait"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\iceblockportrait.png"), _T("iceblockportrait"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\castleportrait.png"), _T("castleportrait"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\speedicon.png"), _T("speedicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\rangeicon.png"), _T("rangeicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\damageicon.png"), _T("damageicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\tilesmovedicon.png"), _T("tilesmovedicon"), 0UL);
 
 	m_dwCurrTime = GetTickCount();
 }

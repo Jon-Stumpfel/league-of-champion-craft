@@ -6,6 +6,7 @@
 CCastle::CCastle(void) : CUnit(UT_CASTLE)
 {
 	SetHP(500);
+	SetMaxHP(500);
 	SetAttack(0);
 	SetSpeed(0);
 	SetFacing(0);

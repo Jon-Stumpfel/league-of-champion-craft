@@ -6,6 +6,7 @@
 class CUnit : public CGameObject
 {
 	int m_nHP;
+	int m_nMaxHP;
 	int m_nAttack;
 	int m_nSpeed;
 	int m_nTilesMoved;
@@ -32,6 +33,8 @@ public:
 	CUnit(UNIT_TYPE type);
 	~CUnit(void);
 
+	int GetPortraitID(void);
+
 	void AddWaypoint(CTile* pTile);
 
 	void Update(float fElapsedTime);
@@ -48,6 +51,9 @@ public:
 
 	void SetHP(int h) { m_nHP = h ;}
 	int GetHP(void) { return m_nHP;}
+
+	void SetMaxHP(int mh) { m_nMaxHP = mh;}
+	int GetMaxHP(void) { return m_nMaxHP;}
 
 	void SetAttack(int a) { m_nAttack = a;}
 	int GetAttack(void) { return m_nAttack;}

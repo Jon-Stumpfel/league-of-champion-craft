@@ -104,7 +104,7 @@ void CGameplayState::SnapToPosition(Vec2D pPos)
 	int camX = nDesiredCamX - m_CameraPos.nPosX;
 	int camY = nDesiredCamY - m_CameraPos.nPosY;
 	MoveCursor(nSelX, nSelY, false);
-//	MoveCamera(camX, camY);
+	//	MoveCamera(camX, camY);
 }
 
 // Moves the selection cursor by deltaX and deltaY values. Lock when true locks the camera from moving, otherwise
@@ -183,8 +183,8 @@ void CGameplayState::LerpCamera(float fElapsedTime)
 {
 	if (m_bLerpingX)
 	{
-	m_currCamPixelPos = Lerp(m_oldCamPixelPos, m_newCamPixelPos, m_fLerpPercent);
-	m_fLerpPercent -= nCameraScrollSpeed * fElapsedTime;
+		m_currCamPixelPos = Lerp(m_oldCamPixelPos, m_newCamPixelPos, m_fLerpPercent);
+		m_fLerpPercent -= nCameraScrollSpeed * fElapsedTime;
 	}
 	if (m_fLerpPercent < 0)
 	{
@@ -723,34 +723,19 @@ void CGameplayState::Update(float fElapsedTime)
 		Input(INPUT_ACCEPT);
 	else if (pDI->KeyPressed(DIK_Z))
 		Input(INPUT_CANCEL);
-	else if (pDI->KeyPressed(DIK_T)) // DEBUG DELETE SELECTED UNIT
-	{
-		if (m_pSelectedUnit)
-		{
-			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(m_pSelectedUnit);
-			CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-			Input(INPUT_CANCEL);
-		}
-	}
-	else if (pDI->KeyPressed(DIK_R))
-	{
-		CAddResourceMessage* pMsg = new CAddResourceMessage(TT_MINE, 0);
-		CMessageSystem::GetInstance()->SendMessageW(pMsg);
-	}
 	else if (pDI->KeyPressed(DIK_Y))
 	{
-		SnapToPosition(CGameManager::GetInstance()->GetChampion(0)->GetPos());
-	}
-	else if (pDI->KeyPressed(DIK_U))
-	{
-		SnapToPosition(CGameManager::GetInstance()->GetChampion(1)->GetPos());
+		SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
 	}
 	else if (pDI->KeyPressed(DIK_I))
 	{
 		CGameManager* pGM = CGameManager::GetInstance();
 		pGM->NextPhase();
-		int x = 9;
+	}
+	else if (pDI->KeyPressed(DIK_T))
+	{
+		if (m_pSelectedUnit != nullptr)
+			m_pSelectedUnit->SetHP(m_pSelectedUnit->GetHP() - 1);
 	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
@@ -815,34 +800,34 @@ void CGameplayState::Render(void)
 				nFakeTileWidth, nFakeTileHeight};
 			//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2, nFakeTileHeight / 2, (45 * 3.1415928 / 180), D3DCOLOR_ARGB(120,r, g, b));
+				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(120,r, g, b));
 		}
 
 		// Draw the doohickeys on the ground to show the pattern
-	CAbility* drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
-	if (drawAbility != nullptr && !drawAbility->m_bIsMove)
-	{
-		// it's a real ability and it's not the move one
-		for (decltype(drawAbility->m_vPattern.size()) i = 0; i < drawAbility->m_vPattern.size(); ++i)
+		CAbility* drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+		if (drawAbility != nullptr && !drawAbility->m_bIsMove)
 		{
-			CTile* pPatternTile = CTileManager::GetInstance()->GetTile(
-				m_pSelectedUnit->GetPos().nPosX + drawAbility->m_vPattern[i].nPosX,
-				m_pSelectedUnit->GetPos().nPosY + drawAbility->m_vPattern[i].nPosY);
-
-			if (pPatternTile != nullptr)
+			// it's a real ability and it's not the move one
+			for (decltype(drawAbility->m_vPattern.size()) i = 0; i < drawAbility->m_vPattern.size(); ++i)
 			{
-				int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
-				int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+				CTile* pPatternTile = CTileManager::GetInstance()->GetTile(
+					m_pSelectedUnit->GetPos().nPosX + drawAbility->m_vPattern[i].nPosX,
+					m_pSelectedUnit->GetPos().nPosY + drawAbility->m_vPattern[i].nPosY);
 
-				int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
-				int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
-				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-				x - GetCamOffsetX(),
-				y - GetCamOffsetY()
-				, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2, nFakeTileHeight / 2, (45 * 3.1415928 / 180), D3DCOLOR_ARGB(90, r, g, 0));
+				if (pPatternTile != nullptr)
+				{
+					int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+					int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+
+					int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
+					int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
+					CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+						x - GetCamOffsetX(),
+						y - GetCamOffsetY()
+						, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 0));
+				}
 			}
 		}
-	}
 
 	}
 
@@ -855,8 +840,8 @@ void CGameplayState::Render(void)
 	// Testing particle rendering
 	CParticleManager::GetInstance()->Render();
 
-	 int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
-    int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
+	int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
+	int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
 	// selection cursor
 	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth - GetCamOffsetX(), m_SelectionPos.nPosY * nFakeTileHeight - GetCamOffsetY(),  
 		nFakeTileWidth, nFakeTileHeight};
@@ -873,7 +858,7 @@ void CGameplayState::Render(void)
 	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
 	//else
 	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
-	
+
 
 
 	// Render the UI Overlay
@@ -907,20 +892,20 @@ void CGameplayState::Render(void)
 		CAbility* pAbility = m_pSelectedUnit->GetAbility(0);
 		if (pAbility != nullptr)
 		{
-		CSGD_TextureManager::GetInstance()->Draw(
-			CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 287, 522);
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 287, 522);
 		}
 		pAbility = m_pSelectedUnit->GetAbility(1);
 		if (pAbility != nullptr)
 		{
-		CSGD_TextureManager::GetInstance()->Draw(
-			CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 382, 522);
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 382, 522);
 		}
 		pAbility = m_pSelectedUnit->GetAbility(2);
 		if (pAbility != nullptr)
 		{
-		CSGD_TextureManager::GetInstance()->Draw(
-			CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522);
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522);
 		}
 		int n = CGame::GetInstance()->GetWindowWidth();
 		int y = CGame::GetInstance()->GetWindowHeight();
@@ -954,33 +939,33 @@ void CGameplayState::Render(void)
 			switch (pTile->GetTileType())
 			{
 			case TT_PLAINS:
-					rSrc = CellAlgorithm(TT_PLAINS);
+				rSrc = CellAlgorithm(TT_PLAINS);
 				g=177; r=34; b=76; break;
 			case TT_FOREST:
-					rSrc = CellAlgorithm(TT_FOREST);
+				rSrc = CellAlgorithm(TT_FOREST);
 				g=128; r=0; b=0; break;
 			case TT_MOUNTAINS:
-					rSrc = CellAlgorithm(TT_MOUNTAINS);
+				rSrc = CellAlgorithm(TT_MOUNTAINS);
 				g=64;r=128; b=0; break;
 			case TT_WATER:
-					rSrc = CellAlgorithm(TT_WATER);
+				rSrc = CellAlgorithm(TT_WATER);
 				g=128;r=0;b=192;break; 
 			case TT_MINE:
-					rSrc = CellAlgorithm(TT_MINE);
+				rSrc = CellAlgorithm(TT_MINE);
 				g=64;r=128; b=0; break;
 			case TT_MILL:
-					rSrc = CellAlgorithm(TT_MILL);
+				rSrc = CellAlgorithm(TT_MILL);
 				g=128; r=0; b=0; break;
 			case TT_FARM:
-					rSrc = CellAlgorithm(TT_FARM);
+				rSrc = CellAlgorithm(TT_FARM);
 				g=177; r=34; b=76; break;
 			case TT_CASTLE:
-					rSrc = CellAlgorithm(TT_CASTLE);
+				rSrc = CellAlgorithm(TT_CASTLE);
 			default:
 				g=177; r=34; b=76; break;
 			}
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("GrassTile")),
-				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 26), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
+				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
 			r = 255 * !(pTile->GetPlayerID());
 			b = 255 * (pTile->GetPlayerID());
@@ -991,86 +976,102 @@ void CGameplayState::Render(void)
 			case TT_MINE:
 			case TT_FARM:
 				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("minitriangle")),
-					(int)tileRect.left, (int)tileRect.top, 1.0f, 1.0f,(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r,g,b));
+					(int)tileRect.left + 15, (int)tileRect.top, 1.0f, 1.0f,(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r,g,b));
 				break;
 			}
 		}
 
 		// Render the units as circles
-	for (decltype(CGameManager::GetInstance()->GetUnits().size()) i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
-	{
-		int r = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 0);
-		int b = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 1);
-		int g = 0;
-		CSGD_TextureManager::GetInstance()->Draw(
-			CGraphicsManager::GetInstance()->GetID(_T("minicircle")),
-			int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosX * nMiniTileWidth + nMiniMapOffsetX),
-			int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosY * nMiniTileHeight + nMiniMapOffsetY),
-			1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
-	}
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+		for (decltype(CGameManager::GetInstance()->GetUnits().size()) i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
+		{
+			int r = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 0);
+			int b = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 1);
+			int g = 0;
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(_T("minicircle")),
+				int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosX * nMiniTileWidth + nMiniMapOffsetX + 1),
+				int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosY * nMiniTileHeight + nMiniMapOffsetY),
+				1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
+		}
+		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	// Draw a wireframe for where the in-game camera can currently see
+		// UNIT CARD STUFF HOORAY
+		if (m_pSelectedUnit != nullptr)
+		{
+			std::wostringstream woss;
+			CSGD_TextureManager::GetInstance()->Draw(m_pSelectedUnit->GetPortraitID(), 578, 435, 1.6f, 1.6f);
+
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
+				710, 440, 0.5f, 0.5f);
+			woss << m_pSelectedUnit->GetSpeed();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 445, 255, 255, 255);
+			woss.str(_T(""));
+
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
+				710, 480, 0.5f, 0.5f);
+			woss << m_pSelectedUnit->GetAttack();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 485, 255, 255, 255);
+			woss.str(_T(""));
+
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
+				710, 520, 0.5f, 0.5f);
+			woss << m_pSelectedUnit->GetRange();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 525, 255, 255, 255);
+			woss.str(_T(""));
+
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
+				710, 560, 0.5f, 0.5f);
+			woss << m_pSelectedUnit->GetTilesMoved();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 565, 255, 255, 255);
+			woss.str(_T(""));
+
+			float fhpPercent = m_pSelectedUnit->GetHP() / m_pSelectedUnit->GetMaxHP();
+
+			int colR = 0, colG = 255;
+			if (fhpPercent < 0.75f)
+			{
+				colR += 85; 
+				colG -= 85;
+			}
+			if (fhpPercent < 0.50f)
+			{
+				colR += 85; 
+				colG -= 85;
+			}
+			if (fhpPercent < 0.25f)
+			{
+				colR += 85; 
+				colG -= 85;
+			}
+			RECT hpRect = { 578, 540, 578 + (102 * fhpPercent), 550 };
+			CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
+
+		}
 
 
-	int nPosTop = (m_CameraPos.nPosX) * nFakeTileWidth;
-	int nPosLeft = (m_CameraPos.nPosY) * nFakeTileHeight;
-
-	RECT rSmallRect = { nPosTop + nMiniMapOffsetX - 64, nPosLeft+ nMiniMapOffsetY, nMiniMapOffsetX, nMiniMapOffsetY};
-
-	CGraphicsManager::GetInstance()->DrawWireframeRect(rSmallRect, 255, 255, 0, true);
-
-	//float nConvertX = float(m_currCamPixelPos.nPosX / nFakeTileWidth);
-	//float nConvertY = float(m_currCamPixelPos.nPosY / nFakeTileHeight);
-	//float nCamWidth = 9;
-	//float nCamHeight = 7;
 
 
-	//float fRelativeX = m_currCamPixelPos.nPosX / float(CTileManager::GetInstance()->GetNumRows() * nFakeTileWidth);
-	//float fRelativeY = m_currCamPixelPos.nPosY / float(CTileManager::GetInstance()->GetNumColumns() * nFakeTileHeight);
-	//RECT tileRect = { (LONG)(fRelativeX * nMiniMapWidth + nMiniMapOffsetX),(LONG)(fRelativeY * nMiniMapHeight + nMiniMapOffsetY) , 
-	//	(LONG)(fRelativeX * nMiniMapWidth  + (nCamWidth * nMiniTileWidth)+ nMiniMapOffsetX), 
-	//	(LONG)(fRelativeY * nMiniMapHeight + (nCamHeight * nMiniTileHeight) + nMiniMapOffsetY)};
+		// DEBUG STUFF
+		CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
+		std::wostringstream oss;
+		oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
+			", Metal: " << pDebugPlayer->GetMetal() << '\n';
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
+		oss.str(_T(""));
+		if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+		{
+			oss << "MOVEMENT PHASE";
+		}
+		else
+			oss << "ATTACK PHASE";
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 675, 0, 255, 255, 255);
 
-	//if (tileRect.right > nMiniMapOffsetX + nMiniMapWidth)
-	//	tileRect.right = (LONG)(nMiniMapOffsetX + nMiniMapWidth);
-	//if (tileRect.left < nMiniMapOffsetX)
-	//	tileRect.left = (LONG)nMiniMapOffsetX;
-	//if (tileRect.top < nMiniMapOffsetY)
-	//	tileRect.top = (LONG)nMiniMapOffsetY;
-	//if (tileRect.bottom > nMiniMapOffsetY + nMiniMapHeight)
-	//	tileRect.bottom = (LONG)(nMiniMapOffsetY + nMiniMapHeight);
-
-	//RECT rWireRect = { (LONG)tileRect.left, (LONG)tileRect.top,
-	//	(LONG)(tileRect.right -tileRect.left), (LONG)(tileRect.bottom - tileRect.top)};
-	//RECT tileRect = { (LONG)(nConvertX * nMiniTileWidth + nMiniMapOffsetX),
-	//	(LONG)(nConvertY * nMiniTileHeight+ nMiniMapOffsetY), 
-	//	(LONG)(((nConvertX + nCamWidth) * nMiniTileWidth) + nMiniMapOffsetX),
-	//	(LONG)(((nConvertY + nCamHeight) * nMiniTileHeight) + nMiniMapOffsetY)};
-	//CGraphicsManager::GetInstance()->DrawWireframeDiag(rWireRect, 255, 255, 255);
-//	CSGD_Direct3D::GetInstance()->DrawRect(tileRect, 255, 0, 255);
-	
-	// DEBUG STUFF
-	CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
-	std::wostringstream oss;
-	oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
-		", Metal: " << pDebugPlayer->GetMetal() << '\n';
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
-	oss.str(_T(""));
-	if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
-	{
-		oss << "MOVEMENT PHASE";
-	}
-	else
-		oss << "ATTACK PHASE";
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 675, 0, 255, 255, 255);
-
-	oss.str(_T(""));
-	oss << "Selected Unit: ";
-	if (m_pSelectedUnit != nullptr)
-	{
-		oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
-			m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
-	}
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
+		oss.str(_T(""));
+		oss << "Selected Unit: ";
+		if (m_pSelectedUnit != nullptr)
+		{
+			oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
+				m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
+		}
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 }

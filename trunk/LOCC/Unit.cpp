@@ -2,6 +2,7 @@
 #include "Unit.h"
 #include "GraphicsManager.h"
 #include "TileManager.h"
+#include "Archer.h"
 #include "Tile.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
@@ -31,6 +32,34 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 
 }
 
+int CUnit::GetPortraitID(void)
+{
+	switch(m_eType)
+	{
+	case UT_ARCHER:
+		return CGraphicsManager::GetInstance()->GetID(_T("archerportrait"));
+		break;
+	case UT_CASTLE:
+		return CGraphicsManager::GetInstance()->GetID(_T("castleportrait"));
+		break;
+	case UT_CAVALRY:
+		return CGraphicsManager::GetInstance()->GetID(_T("cavalryportrait"));
+		break;
+	case UT_HERO:
+		return CGraphicsManager::GetInstance()->GetID(_T("heroportrait"));
+		break;
+	case UT_ICEBLOCK:
+		return CGraphicsManager::GetInstance()->GetID(_T("iceblockportrait"));
+		break;
+	case UT_SKELETON:
+		return CGraphicsManager::GetInstance()->GetID(_T("skeletonportrait"));
+		break;
+	case UT_SWORDSMAN:
+		return CGraphicsManager::GetInstance()->GetID(_T("swordsmanportrait"));
+		break;
+	}
+	return -1;
+}
 
 CUnit::~CUnit(void)
 {
@@ -70,9 +99,27 @@ void CUnit::Update(float fElapsedTime)
 		// Set the tile we are moving off of's occupied to false.
 		CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY)->SetIfOccupied(false);
 
+		int xDistance = m_sGamePos.nPosX - m_vWaypoints.back()->GetPosition().nPosX;
+		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
+
+
+		if (m_eType == UT_ARCHER)
+		{
+			CArcher* pArcher = dynamic_cast<CArcher*>(this);
+
+			if (yDistance == -1)
+				pArcher->SetAnimType(AT_WALK_S);
+			else if (yDistance == 1)
+				pArcher->SetAnimType(AT_WALK_N);
+			else if (xDistance == -1)
+				pArcher->SetAnimType(AT_WALK_E);
+			else if (xDistance == 1)
+				pArcher->SetAnimType(AT_WALK_W);
+		}
+
 		// Find out how we need to move, pixel wise, to our intended target.
-		float x = (nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints.back()->GetPosition().nPosY);
-		float y = (nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) + (nFakeTileHeight  / 2 * m_vWaypoints.back()->GetPosition().nPosY);
+		float x = float((nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints.back()->GetPosition().nPosY));
+		float y = float((nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) + (nFakeTileHeight  / 2 * m_vWaypoints.back()->GetPosition().nPosY));
 		float nNewPixelPosX = x;//m_vWaypoints.back()->GetPosition().nPosX * nFakeTileWidth;
 		float nNewPixelPosY = y;//m_vWaypoints.back()->GetPosition().nPosY * nFakeTileHeight;
 
@@ -101,8 +148,8 @@ void CUnit::Update(float fElapsedTime)
 		// Progress the number of tiles we have moved by 1
 		// Remove that tile from our waypoint, and then if we've moved our speed, clear the rest of the waypoints 
 		// because we can't move any further.
-		if (CloseEnough((m_sWorldPos.nPosX ) ,(x))&&
-			CloseEnough((m_sWorldPos.nPosY ),(y)))
+		if (CloseEnough((m_sWorldPos.nPosX ) ,((int)x))&&
+			CloseEnough((m_sWorldPos.nPosY ),((int)y)))
 		{
 			m_sGamePos = m_vWaypoints.back()->GetPosition();
 			CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY)->SetIfOccupied(true);
