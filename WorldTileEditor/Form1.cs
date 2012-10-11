@@ -89,22 +89,33 @@ namespace WorldTileEditor
 
         public void RenderTool()
         {
-            //tm.LoadTexture("Resources\\_default.png", 0);
+
+            //String filename;
+            //filename = "Resources/_default.png";
+            //int textureId=tm.LoadTexture(filename, 0);
+
             Point offset = new Point(0, 0);
             offset.X += MapGraphicsPanel.AutoScrollPosition.X;
             offset.Y += MapGraphicsPanel.AutoScrollPosition.Y;
+            d3D.Clear(TilesetGraphicsPanel, Color.White);
+            d3D.DeviceBegin();
+            d3D.SpriteBegin();
 
             for (int i = 0; i < TileSetSize_RC.Width; ++i)
             {
                 for (int j = 0; j < TileSetSize_RC.Height; ++j)
                 {
                     Rectangle drawrect= new Rectangle(j * TilePixelSize.Width + offset.X,i * TilePixelSize.Height + offset.Y,TilePixelSize.Width,TilePixelSize.Height);
-                    d3D.DeviceBegin();
-                    d3D.DrawRect(drawrect, 0, 0, 255);
-                    d3D.Present();
-                    d3D.DeviceEnd();
+                    d3D.DrawEmptyRect(drawrect, Color.Black);
                 }
             }
+            Rectangle drawrect1 = new Rectangle(0,0, TilePixelSize.Width, TilePixelSize.Height);
+
+            d3D.SpriteEnd();
+            d3D.DeviceEnd();
+            d3D.Present();
+            //tm.Draw(textureId, 0, 0, 1.0f, 1.0f, drawrect1,0,0,0.0f,0);
+          
         }
 
         private void MapGraphicsPanel_Paint(object sender, PaintEventArgs e)
