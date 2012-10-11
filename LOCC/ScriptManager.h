@@ -4,7 +4,7 @@
 class CTile;
 class CAbility;
 
-enum SCRIPT_TYPE {  }; 
+
 
 struct ScriptSpawnData
 {
@@ -19,6 +19,9 @@ struct ScriptMessageData
 	std::string szMessage;
 };
 
+typedef std::pair<int, ScriptSpawnData> ScriptedSpawn;
+typedef std::pair<int, ScriptMessageData> ScriptedMessage;
+
 class CScriptManager
 {
 
@@ -31,7 +34,7 @@ public:
 	void Shutdown( void );
 	
 	static CScriptManager* GetInstance( void );
-
+	static void DeleteInstance(void);
 private:
 
 	CScriptManager(void);
@@ -41,7 +44,7 @@ private:
 
 	static CScriptManager* s_Instance;
 
-	std::pair< ScriptSpawnData, int > m_pScriptedSpawn;
+
 	std::pair< ScriptMessageData, int > m_pScriptedMessage;
 
 };

@@ -3,6 +3,7 @@
 #include "GameplayState.h"
 #include "ObjectManager.h"
 #include "SpawnUnitMessage.h"
+#include "ScriptManager.h"
 #include "MessageSystem.h"
 #include "DeSpawnUnitMessage.h"
 #include "AddResourceMessage.h"
@@ -14,6 +15,8 @@ CGameManager* CGameManager::s_Instance = nullptr;
 CGameManager::CGameManager(void)
 {
 	m_nNewPlayerID = 0;
+	m_pCurrentPlayer = nullptr;
+	m_pNextPlayer = nullptr;
 }
 
 
@@ -29,13 +32,20 @@ void CGameManager::NextPhase(void)
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
 	{
+
+		if (m_pCurrentPlayer->GetPlayerID() == 1)
+			m_nTurnCount++;
 		CPlayer* pTemp = m_pCurrentPlayer;
 		m_nCurrentPhase = GP_MOVE;
 		m_pCurrentPlayer = m_pNextPlayer;
 		m_pNextPlayer = pTemp;
-		m_nTurnCount++;
+
+
 		CGameplayState::GetInstance()->ClearSelections();
-		CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos());
+		if (GetChampion(m_pCurrentPlayer->GetPlayerID()) != nullptr)
+		{
+			CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos());
+		}
 		m_pCurrentPlayer->SetAP(nStartingAP);
 
 		for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
@@ -68,6 +78,8 @@ CGameManager* CGameManager::GetInstance(void)
 	return s_Instance;
 
 }
+
+
 CPlayer* CGameManager::GetCurrentPlayer(void)
 {
 	return m_pCurrentPlayer;
@@ -131,6 +143,10 @@ int CGameManager::GetLevel(void)
 
 void CGameManager::LoadLevel(std::string sFileName)
 {
+	std::ostringstream oss;
+	oss << "Assets\\Scripts\\" << sFileName << ".xml";
+	CScriptManager::GetInstance()->LoadScript(oss.str(), ST_LEVEL);
+
 
 }
 
@@ -180,10 +196,17 @@ void CGameManager::Reset(void)
 	}
 	m_vPlayers.clear();
 
+	m_nTurnCount = 1;
+
 	// Debug level
+
+	// Attempting to load fake level 1 script
+	LoadLevel(string("level1"));
+
 	// Player 1 and his units
 	CreatePlayer(false); // player 1
-	CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_SWORDSMAN);
+	CreatePlayer(false);
+	/*CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_SWORDSMAN);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 	pMsg = new CSpawnUnitMessage(Vec2D(3, 1), 0, UT_ARCHER);
@@ -226,7 +249,7 @@ void CGameManager::Reset(void)
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 	pMsg = new CSpawnUnitMessage(Vec2D(8, 6), 1, UT_ICEBLOCK);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
+	CMessageSystem::GetInstance()->SendMessageW(pMsg); */
 
 	m_nCurrentPhase = GP_MOVE;
 
@@ -236,6 +259,19 @@ void CGameManager::NewGame(void)
 }
 void CGameManager::Update(float fElapsedTime)
 {
+	std::vector<std::vector<ScriptedSpawn>::iterator> vToRemove;
+	std::vector<ScriptedSpawn>::iterator iter;
+	for (decltype(m_vScriptSpawns.size()) i = 0; i < m_vScriptSpawns.size(); ++i)
+	{
+		ScriptedSpawn s = m_vScriptSpawns[i];
+		if (m_nTurnCount == s.first)
+		{
+			CSpawnUnitMessage* pMSG = new CSpawnUnitMessage(Vec2D(s.second.sPos), s.second.nPlayerID, s.second.eType, s.second.nFacing);
+			CMessageSystem::GetInstance()->SendMessageW(pMSG);
+			m_vScriptSpawns.erase(m_vScriptSpawns.begin() + i);
+			--i;
+		}
+	}
 
 }
 void CGameManager::SetNextPlayer(int nPlayerID)

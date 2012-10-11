@@ -674,7 +674,6 @@ void CGameplayState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
-
 	LerpCamera(fElapsedTime);
 
 
@@ -741,6 +740,8 @@ void CGameplayState::Update(float fElapsedTime)
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
 	CAnimationManager::GetInstance()->Update(fElapsedTime);
+	CGameManager::GetInstance()->Update(fElapsedTime);
+
 }
 
 RECT CellAlgorithm( int id )
@@ -1062,7 +1063,6 @@ void CGameplayState::Render(void)
 				CSGD_TextureManager::GetInstance()->Draw(
 					CGraphicsManager::GetInstance()->GetID(m_pSelectedUnit->GetDebuff(i)->m_szInterfaceIcon), 580 + (25*i), 560, 0.4f, 0.4f);
 			}
-
 		}
 
 
@@ -1071,17 +1071,27 @@ void CGameplayState::Render(void)
 		// DEBUG STUFF
 		CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
 		std::wostringstream oss;
+		if (pDebugPlayer != nullptr)
+		{
 		oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
 			", Metal: " << pDebugPlayer->GetMetal() << '\n';
 		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
 		oss.str(_T(""));
+		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == 0)
+			oss << "PLAYER 1 ";
+		else 
+			oss << "PLAYER 2 ";
 		if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
 		{
-			oss << "MOVEMENT PHASE";
+			oss << "MOVEMENT";
 		}
 		else
-			oss << "ATTACK PHASE";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 675, 0, 255, 255, 255);
+			oss << "ATTACK";
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 0, 255, 255, 255);
+		oss.str(_T(""));
+		int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
+		oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
 
 		oss.str(_T(""));
 		oss << "Selected Unit: ";
@@ -1091,4 +1101,5 @@ void CGameplayState::Render(void)
 				m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
 		}
 		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
+		}
 }

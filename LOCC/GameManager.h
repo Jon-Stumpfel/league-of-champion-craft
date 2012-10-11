@@ -34,6 +34,8 @@ public:
 	void NewGame(void);
 	void NextPhase(void);
 
+	int GetCurrentTurn(void) { return m_nTurnCount;}
+
 	void Update(float fElapsedTime);
 
 	void SetNextPlayer(int nPlayerID);
@@ -48,6 +50,8 @@ public:
 	// This is only for GameplayState to render minimap circles for units. Please do not use it
 	// to modify anything inside this array
 	const std::vector<CUnit*> GetUnits(void) { return m_vUnits;}
+
+	void AddScriptSpawn(ScriptedSpawn data) { m_vScriptSpawns.push_back(data);}
 private:
 
 	CGameManager(void);
@@ -62,8 +66,8 @@ private:
 
 	std::vector<CPlayer*> m_vPlayers;
 	std::vector<CUnit*> m_vUnits;
-	std::vector< ScriptMessageData > m_vScriptMessage;
-	std::vector< ScriptSpawnData > m_vScritpSpawns;
+	std::vector< ScriptedMessage > m_vScriptMessage;
+	std::vector< ScriptedSpawn > m_vScriptSpawns;
 
 	int m_nCurrentLevel;
 	int m_nSaveSlot;
