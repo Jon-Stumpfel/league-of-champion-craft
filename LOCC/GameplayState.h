@@ -76,7 +76,9 @@ private:
 
 
 	CUnit* m_pSelectedUnit;
+	CTile* m_pTargetedTile;
 	bool m_bIsMoving;
+	bool m_bIsTargeting;
 //	static CGameplayState* s_Instance;
 
 };

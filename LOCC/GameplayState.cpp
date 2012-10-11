@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+ #include "StdAfx.h"
 #include "GameplayState.h"
 #include "GameObject.h"
 #include "ObjectManager.h"
@@ -69,6 +69,7 @@ void CGameplayState::Enter(void)
 
 	// INITIALIZATION SETUP
 	m_bIsMoving = false;
+	m_bIsTargeting = false;
 	m_pSelectedUnit = nullptr;
 	m_CameraPos = Vec2D(0, 0);
 	m_SelectionPos = Vec2D(0, 0);
@@ -78,12 +79,12 @@ void CGameplayState::Enter(void)
 
 int CGameplayState::GetCamOffsetX(void)
 {
-	return m_currCamPixelPos.nPosX;
+	return m_currCamPixelPos.nPosX - (4 * nFakeTileWidth);
 	//return rCamRect.left * nFakeTileWidth;
 }
 int CGameplayState::GetCamOffsetY(void)
 {
-	return m_currCamPixelPos.nPosY;
+	return m_currCamPixelPos.nPosY - (2 * nFakeTileHeight);
 	//return rCamRect.top * nFakeTileHeight;
 }
 void CGameplayState::Exit(void)
@@ -99,12 +100,12 @@ void CGameplayState::SnapToPosition(Vec2D pPos)
 	int nSelY = pPos.nPosY - m_SelectionPos.nPosY;
 	int nWindowTileWidth = CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth;
 	int nWindowTileHeight = CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight;
-	int nDesiredCamX = pPos.nPosX - (nWindowTileWidth / 2);
-	int nDesiredCamY = pPos.nPosY - (nWindowTileHeight / 2);
+	int nDesiredCamX = pPos.nPosX - m_CameraPos.nPosX;
+	int nDesiredCamY = pPos.nPosY - m_CameraPos.nPosY;
 	int camX = nDesiredCamX - m_CameraPos.nPosX;
 	int camY = nDesiredCamY - m_CameraPos.nPosY;
 	MoveCursor(nSelX, nSelY, false);
-	//	MoveCamera(camX, camY);
+	MoveCamera(nDesiredCamX, nDesiredCamY );
 }
 
 // Moves the selection cursor by deltaX and deltaY values. Lock when true locks the camera from moving, otherwise
@@ -127,7 +128,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 	// This locks camera to cursor position
 	if (lock == true)
 	{
-		if (m_CameraPos.nPosX + 12 < m_SelectionPos.nPosX)
+		if (m_CameraPos.nPosX < m_SelectionPos.nPosX)
 		{
 			SnapToPosition(m_SelectionPos);
 			//int n = m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth);
@@ -142,7 +143,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 			//int nDistance = m_SelectionPos.nPosX - n;
 			//MoveCamera(nDistance, 0);
 		}
-		if (m_CameraPos.nPosY + 7 < m_SelectionPos.nPosY)
+		if (m_CameraPos.nPosY < m_SelectionPos.nPosY)
 		{
 			SnapToPosition(m_SelectionPos);
 
@@ -205,8 +206,10 @@ void CGameplayState::MoveCamera(int dX, int dY)
 	m_CameraPos.nPosX += dX;
 	m_CameraPos.nPosY += dY;
 
-	m_newCamPixelPos.nPosX = m_CameraPos.nPosX * nFakeTileWidth;
-	m_newCamPixelPos.nPosY = m_CameraPos.nPosY * nFakeTileHeight;
+    int x = (nFakeTileWidth / 2 * (m_CameraPos.nPosX)) - (nFakeTileHeight / 2 * (m_CameraPos.nPosY));
+    int y = (nFakeTileWidth / 2 * (m_CameraPos.nPosX)) + (nFakeTileHeight  / 2 * (m_CameraPos.nPosY)) ;
+	m_newCamPixelPos.nPosX = x;
+	m_newCamPixelPos.nPosY = y;
 	m_bLerpingX = true;
 
 }
@@ -216,7 +219,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 	{
 	case INPUT_UP:
 		{
-			if (m_pSelectedUnit != nullptr && (!m_bIsMoving))
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving) && (!m_bIsTargeting))
 			{
 				// do nothing, up arrow does nothing with a unit selected
 			}
@@ -228,7 +231,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_LEFT:
 		{
-			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected!
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)&& (!m_bIsTargeting))// we have a unit selected!
 			{
 				// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
 				//if (ShowChampPane == true)
@@ -252,7 +255,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_RIGHT:
 		{
-			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected!
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)&& (!m_bIsTargeting)) // we have a unit selected!
 			{
 				// Move the ability selection box selector thing. Check if we have the champion spell pane pulled up 
 				//if (m_bShowChampPane == true)
@@ -276,7 +279,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_DOWN:
 		{
-			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)) // we have a unit selected
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)&& (!m_bIsTargeting)) // we have a unit selected
 			{
 				// do nothing! Up arrow does nada;
 			}
@@ -308,6 +311,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 				if (m_bIsMoving)
 				{
 					MoveToTile(m_SelectionPos);
+				}
+				else if (m_bIsTargeting)
+				{
+					m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
+					if (m_pTargetedTile != nullptr)
+						UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
 				}
 				else
 				{
@@ -344,13 +353,56 @@ void CGameplayState::UseAbility(CAbility* ability)
 		return;
 	if (ability->m_nPhase != CGameManager::GetInstance()->GetCurrentPhase())
 		return;
-
 	// They used the movement ability
+	if (m_pSelectedUnit->GetHasAttacked())
+		return;
 	if (ability->m_bIsMove)
 	{
 		m_bIsMoving = true;
 		return;
 	}
+	else
+	{
+		if (ability->m_nNumTargets == 1)
+		{
+			if ( m_pTargetedTile == nullptr && m_bIsTargeting == false)
+			{
+				m_bIsTargeting = true;
+				return;
+			}
+			else if (m_bIsTargeting == true && m_pTargetedTile == nullptr)
+			{
+				return;
+			}
+			else if (m_bIsTargeting == true && m_pTargetedTile != nullptr)
+			{
+				// cast the spell!
+				for (decltype(ability->m_vPattern.size()) i = 0; i < ability->m_vPattern.size(); ++i)
+				{
+					Vec2D hitPosition;
+					hitPosition.nPosX = m_pSelectedUnit->GetPos().nPosX + ability->m_vPattern[i].nPosX;
+					hitPosition.nPosY = m_pSelectedUnit->GetPos().nPosY + ability->m_vPattern[i].nPosY;
+
+					if (hitPosition == m_pTargetedTile->GetPosition())
+					{
+						CUnit* hitUnit = CGameManager::GetInstance()->FindUnit(hitPosition);
+						if (hitUnit != nullptr)
+						{
+							hitUnit->SetHP(hitUnit->GetHP() - m_pSelectedUnit->GetAttack());
+						}
+						break;
+					}
+
+				}
+				CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+				if (ability->m_bIsAttack)
+					m_pSelectedUnit->SetHasAttacked(true);
+				m_bIsTargeting = false;
+				m_pTargetedTile = nullptr;
+				m_pSelectedUnit = nullptr;
+			}
+		}
+	}	
 }
 
 // Attempts to move the selectedUnit to the tile at position nTilePosition
@@ -852,8 +904,11 @@ void CGameplayState::Render(void)
 
 	if (m_bIsMoving)
 		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 0, 255, 0);
+	else if (m_bIsTargeting)
+		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 0, 0);
 	else
 		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 255, 255);
+
 
 	//if (m_bIsMoving)
 	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
@@ -1053,7 +1108,7 @@ void CGameplayState::Render(void)
 				colR = 255;
 			if (colG < 0)
 				colG = 0;
-			RECT hpRect = { 578, 540, 578 + (102 * fhpPercent), 550 };
+			RECT hpRect = { 578, 540, 578 + (LONG)(102 * fhpPercent), 550 };
 			CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
 
 			// debuffs
