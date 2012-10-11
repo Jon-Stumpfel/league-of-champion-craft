@@ -15,10 +15,6 @@ CArcher::CArcher(void) : CUnit(UT_ARCHER)
 	SetShielded(false);
 	SetIsMoving(false);
 	
-	m_sAnimStruct = new UnitAnimation();
-	m_sAnimStruct->animationType = AT_WALK_W;
-	m_sAnimStruct->fCurrentTime = 0.0f;
-	m_sAnimStruct->unitType = UT_ARCHER;
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer.png",L"Archer",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
@@ -26,7 +22,6 @@ CArcher::CArcher(void) : CUnit(UT_ARCHER)
 
 CArcher::~CArcher(void)
 {
-	delete m_sAnimStruct;
 }
 
 void CArcher::Render(void)
@@ -37,11 +32,12 @@ void CArcher::Render(void)
 						m_sWorldPos.nPosY - 6, 
 						0, 
 						0};
-	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct);
+	//RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect();
+	Vec2D tempanchorpoint = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetAnchorPoint();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Archer"),
-		soldierRect.left  - CGameplayState::GetInstance()->GetCamOffsetX(),
-		soldierRect.top  - CGameplayState::GetInstance()->GetCamOffsetY(),
-		0.75f,0.75f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
+		soldierRect.left - (tempanchorpoint.nPosX/4*3) - CGameplayState::GetInstance()->GetCamOffsetX(),
+		soldierRect.top  - (tempanchorpoint.nPosY/4*3) - CGameplayState::GetInstance()->GetCamOffsetY(),
+		0.75f,0.75f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }
 

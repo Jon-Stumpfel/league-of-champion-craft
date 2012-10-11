@@ -236,6 +236,12 @@ bool CAnimationManager::Load(const char* strName)
 			temprect.top = temptop; temprect.bottom = tempbottom;
 			temprect.right = tempright; temprect.left = templeft;
 			tempframe.SetImageRect(temprect);
+			Vec2D tempvec; int vecx; int vecy;
+			Frame->Attribute("AnchorX", &vecx);
+			Frame->Attribute("AnchorY", &vecy);
+			tempvec.nPosX = vecx;
+			tempvec.nPosY = vecy;
+			tempframe.SetAnchorPoint(tempvec);
 			tempanim.SetFrame(tempframe);
 			Frame = Frame->NextSiblingElement("Frame");
 		}
@@ -274,7 +280,7 @@ bool CAnimationManager::Load(const char* strName)
 	return true;
 }
 
-RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
+CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 {
 	/*okay, a quick explanation of this cluster-fuckery....
 	so, to render the animations, I set it up so the unit will call this function, sending
@@ -313,7 +319,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_IDLE)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -325,7 +331,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -337,7 +343,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -349,7 +355,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -361,7 +367,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -373,7 +379,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -385,7 +391,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -397,7 +403,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -409,7 +415,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -421,7 +427,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -433,7 +439,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -445,7 +451,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -457,7 +463,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -476,7 +482,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_IDLE)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -488,7 +494,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -500,7 +506,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -512,7 +518,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -524,7 +530,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -536,7 +542,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -548,7 +554,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -560,7 +566,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -572,7 +578,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -584,7 +590,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -596,7 +602,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -608,7 +614,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -620,7 +626,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -639,7 +645,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_IDLE)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -651,7 +657,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -663,7 +669,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -675,7 +681,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -687,7 +693,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -699,7 +705,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -711,7 +717,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -723,7 +729,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -735,7 +741,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -747,7 +753,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -759,7 +765,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -771,7 +777,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -783,7 +789,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -802,7 +808,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_IDLE)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -814,7 +820,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -826,7 +832,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -838,7 +844,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -850,7 +856,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -862,7 +868,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -874,7 +880,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -886,7 +892,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -898,7 +904,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -910,7 +916,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -922,7 +928,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -934,7 +940,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -946,7 +952,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -965,7 +971,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_IDLE)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -977,7 +983,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -989,7 +995,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1001,7 +1007,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1013,7 +1019,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1025,7 +1031,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1037,7 +1043,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1049,7 +1055,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1061,7 +1067,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1073,7 +1079,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1085,7 +1091,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1097,7 +1103,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1109,7 +1115,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1128,7 +1134,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_IDLE)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1140,7 +1146,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1152,7 +1158,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1164,7 +1170,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1176,7 +1182,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1188,7 +1194,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1200,7 +1206,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1212,7 +1218,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1224,7 +1230,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1236,7 +1242,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1248,7 +1254,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1260,7 +1266,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1272,7 +1278,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1291,7 +1297,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_IDLE)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1303,7 +1309,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1315,7 +1321,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1327,7 +1333,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1339,7 +1345,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_WALK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1351,7 +1357,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1363,7 +1369,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1375,7 +1381,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1387,7 +1393,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ATTACK_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1399,7 +1405,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_N)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1411,7 +1417,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_S)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1423,7 +1429,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_E)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1435,7 +1441,7 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
 						{
-							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()].GetRect();
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
 					}
 					break;
@@ -1444,8 +1450,14 @@ RECT CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			break;
 		}
 	}
-	RECT failrect; failrect.top = 0; failrect.bottom = 0; failrect.left = 0; failrect.right = 0;
-	return failrect;
+	CFrame failframe;
+	RECT failrect; failrect.bottom = -1; failrect.left = -1;
+	failrect.right = -1; failrect.top = -1;
+	failframe.SetAnchorPoint(Vec2D(-1,-1));
+	failframe.SetFrameNumber(-1);
+	failframe.SetImageRect(failrect);
+	failframe.SetTimePlayed(-1.0f);
+	return failframe;
 }
 
 void CAnimationManager::Shutdown()

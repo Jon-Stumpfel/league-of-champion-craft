@@ -90,5 +90,6 @@ public:
 	bool GetIsMoving(void) { return m_bIsMoving;}
 
 	UNIT_TYPE GetType(void) { return m_eType;}
+	UnitAnimation* m_sAnimStruct;
 };
 

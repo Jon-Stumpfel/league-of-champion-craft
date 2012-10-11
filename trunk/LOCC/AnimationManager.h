@@ -10,7 +10,7 @@ public:
 	void Update( float fElapsedTime );
 	bool Load(const char* strName);
 	static CAnimationManager* GetInstance( void );
-	RECT GetFrame(UnitAnimation STheAnimStruct);
+	CFrame GetFrame(UnitAnimation STheAnimStruct);
 	void Shutdown();
 private:
 	CAnimationManager(void);
