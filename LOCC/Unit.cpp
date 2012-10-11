@@ -32,8 +32,10 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 
 	m_vAbilities.push_back(pAbility);
 
-
-
+	m_sAnimStruct = new UnitAnimation();
+	m_sAnimStruct->animationType = AT_WALK_N;
+	m_sAnimStruct->fCurrentTime = 0.0f;
+	m_sAnimStruct->unitType = m_eType;
 }
 
 int CUnit::GetPortraitID(void)
@@ -69,6 +71,7 @@ CUnit::~CUnit(void)
 {
 	for (decltype(m_vAbilities.size()) i =0; i < m_vAbilities.size(); ++i)
 		delete m_vAbilities[i];
+	delete m_sAnimStruct;
 }
 
 void CUnit::AddWaypoint(CTile* pTile)
@@ -109,9 +112,14 @@ void CUnit::Update(float fElapsedTime)
 
 		int xDistance = m_sGamePos.nPosX - m_vWaypoints.back()->GetPosition().nPosX;
 		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
-
-
-
+			if (yDistance == -1)
+				m_sAnimStruct->animationType = AT_WALK_S;
+			else if (yDistance == 1)
+				m_sAnimStruct->animationType = AT_WALK_N;
+			else if (xDistance == -1)
+				m_sAnimStruct->animationType = AT_WALK_E;
+			else if (xDistance == 1)
+				m_sAnimStruct->animationType = AT_WALK_W;
 
 		// Find out how we need to move, pixel wise, to our intended target.
 		float x = float((nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints.back()->GetPosition().nPosY));

@@ -32,10 +32,11 @@ CCastle::~CCastle(void)
 
 void CCastle::Render( void )
 {
+	Vec2D tempanchorpoint = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetAnchorPoint();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Castle"),
-		m_sWorldPos.nPosX + 16 - CGameplayState::GetInstance()->GetCamOffsetX(),
-		m_sWorldPos.nPosY - 6- CGameplayState::GetInstance()->GetCamOffsetY(),
-		0.25f,0.25f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct),0,
+		(m_sWorldPos.nPosX + 16)- (tempanchorpoint.nPosX/4*3) - CGameplayState::GetInstance()->GetCamOffsetX(),
+		(m_sWorldPos.nPosY - 6) - (tempanchorpoint.nPosY/4*3) - CGameplayState::GetInstance()->GetCamOffsetY(),
+		0.25f,0.25f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }
 
