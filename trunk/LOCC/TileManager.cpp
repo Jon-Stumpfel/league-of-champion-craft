@@ -152,8 +152,8 @@ void CTileManager::Render( void )
 		for ( int j=0; j<m_nColumns;j++)
 		{
 
-                    int x = (TWidth / 2 * i) - (THeight / 2 * j);
-                    int y = (TWidth / 2 * i) + (THeight  / 2 * j);
+                int x = (TWidth / 2 * i) - (THeight / 2 * j);
+                int y = (TWidth / 2 * i) + (THeight  / 2 * j);
 			RECT Rsource= { 0,0,0,0}; 
 
 			float fRad = (float(45 * 3.14159286 / 180));

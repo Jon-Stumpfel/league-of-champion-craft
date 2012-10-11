@@ -69,6 +69,8 @@ private:
 	std::vector< ScriptedMessage > m_vScriptMessage;
 	std::vector< ScriptedSpawn > m_vScriptSpawns;
 
+	void LoadUnitsFromScript(void);
+
 	int m_nCurrentLevel;
 	int m_nSaveSlot;
 

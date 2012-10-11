@@ -3,6 +3,7 @@
 #include "GameplayState.h"
 #include "ObjectManager.h"
 #include "SpawnUnitMessage.h"
+#include "TileManager.h"
 #include "ScriptManager.h"
 #include "MessageSystem.h"
 #include "DeSpawnUnitMessage.h"
@@ -150,6 +151,24 @@ void CGameManager::LoadLevel(std::string sFileName)
 
 }
 
+void CGameManager::LoadUnitsFromScript(void)
+{
+	for (decltype(m_vScriptSpawns.size()) i = 0; i < m_vScriptSpawns.size(); ++i)
+	{
+		ScriptedSpawn s = m_vScriptSpawns[i];
+		if (m_nTurnCount == s.first)
+		{
+			CSpawnUnitMessage* pMSG = new CSpawnUnitMessage(Vec2D(s.second.sPos), s.second.nPlayerID, s.second.eType, s.second.nFacing);
+			CMessageSystem::GetInstance()->SendMessageW(pMSG);
+			m_vScriptSpawns.erase(m_vScriptSpawns.begin() + i);
+			--i;
+		}
+	}
+
+	CMessageSystem::GetInstance()->ProcessMessages();
+
+}
+
 void CGameManager::LoadLevel(int nLevelNum)
 {
 }
@@ -198,14 +217,21 @@ void CGameManager::Reset(void)
 
 	m_nTurnCount = 1;
 
-	// Debug level
 
+	// Load map
+	CTileManager* pTM=CTileManager::GetInstance();
+	string filename= "Assets\\Tiles\\TestMap.xml";
+	pTM->LoadSave(filename);
 	// Attempting to load fake level 1 script
 	LoadLevel(string("level1"));
 
 	// Player 1 and his units
 	CreatePlayer(false); // player 1
 	CreatePlayer(false);
+
+	LoadUnitsFromScript();
+	// Debug level
+
 	/*CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_SWORDSMAN);
 	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
@@ -259,19 +285,7 @@ void CGameManager::NewGame(void)
 }
 void CGameManager::Update(float fElapsedTime)
 {
-	std::vector<std::vector<ScriptedSpawn>::iterator> vToRemove;
-	std::vector<ScriptedSpawn>::iterator iter;
-	for (decltype(m_vScriptSpawns.size()) i = 0; i < m_vScriptSpawns.size(); ++i)
-	{
-		ScriptedSpawn s = m_vScriptSpawns[i];
-		if (m_nTurnCount == s.first)
-		{
-			CSpawnUnitMessage* pMSG = new CSpawnUnitMessage(Vec2D(s.second.sPos), s.second.nPlayerID, s.second.eType, s.second.nFacing);
-			CMessageSystem::GetInstance()->SendMessageW(pMSG);
-			m_vScriptSpawns.erase(m_vScriptSpawns.begin() + i);
-			--i;
-		}
-	}
+	LoadUnitsFromScript();
 
 }
 void CGameManager::SetNextPlayer(int nPlayerID)
@@ -312,6 +326,7 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			CSpawnUnitMessage* pSMSG = dynamic_cast<CSpawnUnitMessage*>(pMsg);
 			CUnit* pUnit = (CUnit*)CObjectManager::GetInstance()->CreateObject(pSMSG->GetUnitType());
 			pUnit->SetPos(pSMSG->GetPos());
+			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());
 		}
 		break;
