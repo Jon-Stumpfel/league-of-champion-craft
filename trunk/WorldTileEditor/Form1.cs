@@ -111,6 +111,30 @@ namespace WorldTileEditor
             }
             Rectangle drawrect1 = new Rectangle(0,0, TilePixelSize.Width, TilePixelSize.Height);
 
+
+
+            d3D.SpriteEnd();
+            d3D.DeviceEnd();
+            d3D.Present();
+
+            d3D.Clear(MapGraphicsPanel, Color.White);
+
+            d3D.DeviceBegin();
+            d3D.SpriteBegin();
+
+            for (int i = 0; i < Mapsize.Width; ++i)
+            {
+                for (int j = 0; j < Mapsize.Height; ++j)
+                {
+                    Rectangle drawrect = new Rectangle(j * TilePixelSize.Width + offset.X, i * TilePixelSize.Height + offset.Y, TilePixelSize.Width, TilePixelSize.Height);
+                    d3D.DrawEmptyRect(drawrect, Color.Black);
+                }
+            }
+            Rectangle drawrect3 = new Rectangle(0, 0, TilePixelSize.Width, TilePixelSize.Height);
+
+
+
+
             d3D.SpriteEnd();
             d3D.DeviceEnd();
             d3D.Present();
@@ -130,18 +154,6 @@ namespace WorldTileEditor
             Point offset = new Point(0, 0);
             offset.X += TilesetGraphicsPanel.AutoScrollPosition.X;
             offset.Y += TilesetGraphicsPanel.AutoScrollPosition.Y;
-            //e.Graphics.DrawImage(Tileset, offset);
-
-            //width==rows; height =columns
-            //use pixelsize when you need to create squares around the tiles
-            //for (int i = 0; i < TileSetSize_RC.Width; ++i)
-            //{
-            //    for (int j = 0; j < TileSetSize_RC.Height; ++j)
-            //    {
-            //        e.Graphics.DrawRectangle(Pens.AntiqueWhite, new Rectangle(j * TilePixelSize.Width + offset.X, i * TilePixelSize.Height + offset.Y, TilePixelSize.Width, TilePixelSize.Height));
-            //    }
-
-            //}
             Pen Selection = new Pen(Color.Goldenrod, 5.0f);
             e.Graphics.DrawRectangle(Selection, new Rectangle(SelectedTile.X * TilePixelSize.Width,
                                                               SelectedTile.Y * TilePixelSize.Height,
