@@ -27,6 +27,8 @@ public:
 	void SnapToPosition(Vec2D pPos);
 
 	void ClearSelections(void);
+
+	CUnit* GetSelectedUnit(void) { return m_pSelectedUnit; }
 private:
 
 	class ASNode

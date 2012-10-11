@@ -41,7 +41,11 @@ public:
 	void Render(void);
 
 	CAbility* GetAbility(int index);
-	
+
+	void PushDebuff(CAbility* debuff) { m_vDebuffs.push_back(debuff);}
+	CAbility* GetDebuff(int i) { return m_vDebuffs[i];}
+	int GetNumDebuffs(void) { return m_vDebuffs.size();}
+
 	void SetPos(int posX, int posY);
 	void SetPos(Vec2D pos);
 	Vec2D GetPos(void) { return m_sGamePos;}

@@ -56,6 +56,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\rangeicon.png"), _T("rangeicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\damageicon.png"), _T("damageicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\tilesmovedicon.png"), _T("tilesmovedicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\shieldicon.png"), _T("shieldicon"), 0UL);
 
 	m_dwCurrTime = GetTickCount();
 }
