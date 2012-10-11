@@ -57,24 +57,24 @@ void CGameplayState::Enter(void)
 	//test.fVecY = 100;
 	//pPM->LoadParticles( TESTSECOND,	test );
 
-	CTileManager* pTM=CTileManager::GetInstance();
-
-	string filename= "Assets\\Tiles\\TestMap.xml";
-
-	pTM->LoadSave(filename);
 	CAnimationManager::GetInstance()->Load("Assets\\Animations\\TestAnimation.xml");
 
 	SetRect(&rCamRect, 0, 0, 
 		CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth, CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight);
 
 	// INITIALIZATION SETUP
+
+	
 	m_bIsMoving = false;
 	m_bIsTargeting = false;
 	m_pSelectedUnit = nullptr;
-	m_CameraPos = Vec2D(0, 0);
+//	m_CameraPos = Vec2D(0, 0);
 	m_SelectionPos = Vec2D(0, 0);
 	m_bLerpingX = false;
 	m_nSelectedAbility = 0;
+
+	SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
+
 }
 
 int CGameplayState::GetCamOffsetX(void)
@@ -1153,7 +1153,7 @@ void CGameplayState::Render(void)
 		if (m_pSelectedUnit != nullptr)
 		{
 			oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
-				m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP();
+				m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP() << ", facing: " << m_pSelectedUnit->GetFacing();
 		}
 		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 		}

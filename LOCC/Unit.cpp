@@ -132,6 +132,15 @@ void CUnit::Update(float fElapsedTime)
 	}
 	// move me along the route!
 	// If we have any waypoints in our list of waypoints added in from GameplayState::MoveToTile, then we need to move across them
+
+			if (m_nFacing == 0)
+				m_sAnimStruct->animationType = AT_WALK_S;
+			else if (m_nFacing == 1)
+				m_sAnimStruct->animationType = AT_WALK_N;
+			else if (m_nFacing == 2)
+				m_sAnimStruct->animationType = AT_WALK_E;
+			else if (m_nFacing == 3)
+				m_sAnimStruct->animationType = AT_WALK_W;
 	if (m_vWaypoints.size() != 0)
 	{
 		// Set the tile we are moving off of's occupied to false.
@@ -140,13 +149,15 @@ void CUnit::Update(float fElapsedTime)
 		int xDistance = m_sGamePos.nPosX - m_vWaypoints.back()->GetPosition().nPosX;
 		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
 			if (yDistance == -1)
-				m_sAnimStruct->animationType = AT_WALK_S;
+				m_nFacing = 0;
 			else if (yDistance == 1)
-				m_sAnimStruct->animationType = AT_WALK_N;
+				m_nFacing = 1;
 			else if (xDistance == -1)
-				m_sAnimStruct->animationType = AT_WALK_E;
+				m_nFacing = 2;
 			else if (xDistance == 1)
-				m_sAnimStruct->animationType = AT_WALK_W;
+				m_nFacing = 3;
+
+
 
 		// Find out how we need to move, pixel wise, to our intended target.
 		float x = float((nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints.back()->GetPosition().nPosY));

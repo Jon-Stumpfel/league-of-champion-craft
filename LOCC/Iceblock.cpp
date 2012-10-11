@@ -9,7 +9,6 @@ CIceblock::CIceblock(void) : CUnit(UT_ICEBLOCK)
 	SetMaxHP(20);
 	SetAttack(0);
 	SetSpeed(0);
-	SetFacing(0);
 	SetRange(0);
 	SetEXPValue(5);
 

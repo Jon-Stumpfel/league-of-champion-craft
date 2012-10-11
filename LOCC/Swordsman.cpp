@@ -8,7 +8,6 @@ CSwordsman::CSwordsman(void) : CUnit(UT_SWORDSMAN)
 	SetMaxHP(20);
 	SetAttack(8);
 	SetSpeed(3);
-	SetFacing(0);
 	SetRange(1);
 	SetEXPValue(10);
 

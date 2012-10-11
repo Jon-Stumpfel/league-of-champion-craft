@@ -8,7 +8,6 @@ CSkeleton::CSkeleton(void) : CUnit(UT_SKELETON)
 	SetMaxHP(10);
 	SetAttack(4);
 	SetSpeed(2);
-	SetFacing(0);
 	SetRange(1);
 	SetEXPValue(10);
 
