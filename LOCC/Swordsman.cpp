@@ -15,11 +15,6 @@ CSwordsman::CSwordsman(void) : CUnit(UT_SWORDSMAN)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-
-	m_sAnimStruct = new UnitAnimation();
-	m_sAnimStruct->animationType = AT_WALK_W;
-	m_sAnimStruct->fCurrentTime = 0.0f;
-	m_sAnimStruct->unitType = UT_SWORDSMAN;
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman.png",L"Swordsman",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
@@ -27,7 +22,6 @@ CSwordsman::CSwordsman(void) : CUnit(UT_SWORDSMAN)
 
 CSwordsman::~CSwordsman(void)
 {
-	delete m_sAnimStruct;
 }
 
 void CSwordsman::Render(void)

@@ -36,7 +36,6 @@ CHero::CHero(void) : CUnit(UT_HERO)
 
 CHero::~CHero(void)
 {
-	delete m_sAnimStruct;
 	delete GetDebuff(0);
 }
 

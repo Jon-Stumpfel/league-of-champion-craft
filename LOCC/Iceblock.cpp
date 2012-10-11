@@ -16,10 +16,6 @@ CIceblock::CIceblock(void) : CUnit(UT_ICEBLOCK)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-	m_sAnimStruct = new UnitAnimation();
-	m_sAnimStruct->animationType = AT_WALK_W;
-	m_sAnimStruct->fCurrentTime = 0.0f;
-	m_sAnimStruct->unitType = UT_ICEBLOCK;
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\iceblock.png",L"IceBlock",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
@@ -27,7 +23,6 @@ CIceblock::CIceblock(void) : CUnit(UT_ICEBLOCK)
 
 CIceblock::~CIceblock(void)
 {
-	delete m_sAnimStruct;
 }
 
 void CIceblock::Render(void)
