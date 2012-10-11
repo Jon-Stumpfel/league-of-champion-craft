@@ -21,13 +21,25 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	m_sAnimStruct->fCurrentTime = 0.0f;
 	m_sAnimStruct->unitType = UT_HERO;
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\champion.png",L"Champion",D3DCOLOR_ARGB(255,255,255,255));
+
+
+
 	// TODO: Setup abilities when they are in place
+	CAbility* pAbility = new CAbility();
+	pAbility->m_nAPCost = 3;
+	pAbility->m_nCooldown = 1;
+	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));
+	SetShielded(true);
+	PushDebuff(pAbility);
 }
 
 
 CHero::~CHero(void)
 {
 	delete m_sAnimStruct;
+	delete GetDebuff(0);
 }
 
 void CHero::Render(void)

@@ -4,6 +4,8 @@
 #include "TileManager.h"
 #include "Archer.h"
 #include "Tile.h"
+#include "DeSpawnUnitMessage.h"
+#include "MessageSystem.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_nTilesMoved = 0;
@@ -29,6 +31,8 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
 
 	m_vAbilities.push_back(pAbility);
+
+
 
 }
 
@@ -65,7 +69,6 @@ CUnit::~CUnit(void)
 {
 	for (decltype(m_vAbilities.size()) i =0; i < m_vAbilities.size(); ++i)
 		delete m_vAbilities[i];
-
 }
 
 void CUnit::AddWaypoint(CTile* pTile)
@@ -92,6 +95,11 @@ static bool CloseEnough(int n1, int n2)
 }
 void CUnit::Update(float fElapsedTime)
 {
+	if (m_nHP <= 0)
+	{
+		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
+		CMessageSystem::GetInstance()->SendMessageW(pMsg);
+	}
 	// move me along the route!
 	// If we have any waypoints in our list of waypoints added in from GameplayState::MoveToTile, then we need to move across them
 	if (m_vWaypoints.size() != 0)
@@ -103,19 +111,7 @@ void CUnit::Update(float fElapsedTime)
 		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
 
 
-		if (m_eType == UT_ARCHER)
-		{
-			CArcher* pArcher = dynamic_cast<CArcher*>(this);
 
-			if (yDistance == -1)
-				pArcher->SetAnimType(AT_WALK_S);
-			else if (yDistance == 1)
-				pArcher->SetAnimType(AT_WALK_N);
-			else if (xDistance == -1)
-				pArcher->SetAnimType(AT_WALK_E);
-			else if (xDistance == 1)
-				pArcher->SetAnimType(AT_WALK_W);
-		}
 
 		// Find out how we need to move, pixel wise, to our intended target.
 		float x = float((nFakeTileWidth / 2 * m_vWaypoints.back()->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints.back()->GetPosition().nPosY));

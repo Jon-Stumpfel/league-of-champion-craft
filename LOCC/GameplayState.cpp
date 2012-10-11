@@ -1025,26 +1025,43 @@ void CGameplayState::Render(void)
 			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 565, 255, 255, 255);
 			woss.str(_T(""));
 
-			float fhpPercent = m_pSelectedUnit->GetHP() / m_pSelectedUnit->GetMaxHP();
+			float fhpPercent = (float)m_pSelectedUnit->GetHP() / (float)m_pSelectedUnit->GetMaxHP();
 
 			int colR = 0, colG = 255;
-			if (fhpPercent < 0.75f)
+			if (fhpPercent < 0.80f)
 			{
-				colR += 85; 
-				colG -= 85;
+				colR += 65; 
+				colG -= 65;
 			}
-			if (fhpPercent < 0.50f)
+			if (fhpPercent < 0.60f)
 			{
-				colR += 85; 
-				colG -= 85;
+				colR += 65; 
+				colG -= 65;
 			}
-			if (fhpPercent < 0.25f)
+			if (fhpPercent < 0.40f)
 			{
-				colR += 85; 
-				colG -= 85;
+				colR += 65; 
+				colG -= 65;
 			}
+			if (fhpPercent < 0.20f)
+			{
+				colR += 65; 
+				colG -= 65;
+			}
+			if (colR > 255)
+				colR = 255;
+			if (colG < 0)
+				colG = 0;
 			RECT hpRect = { 578, 540, 578 + (102 * fhpPercent), 550 };
 			CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
+
+			// debuffs
+
+			for (int i = 0; i < m_pSelectedUnit->GetNumDebuffs(); ++i)
+			{
+				CSGD_TextureManager::GetInstance()->Draw(
+					CGraphicsManager::GetInstance()->GetID(m_pSelectedUnit->GetDebuff(i)->m_szInterfaceIcon), 580 + (25*i), 560, 0.4f, 0.4f);
+			}
 
 		}
 

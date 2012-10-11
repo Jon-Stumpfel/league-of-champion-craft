@@ -282,6 +282,10 @@ void CGameManager::MessageProc(IMessage* pMsg)
 	case MSG_DESPAWNUNIT:
 		{
 			CDespawnUnitMessage* pSMSG = dynamic_cast<CDespawnUnitMessage*>(pMsg);
+			if (CGameplayState::GetInstance()->GetSelectedUnit() == pSMSG->GetUnit())
+			{
+				CGameplayState::GetInstance()->ClearSelections();
+			}
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
 		}
 		break;
