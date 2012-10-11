@@ -13,6 +13,7 @@ public:
 
 	std::vector< Vec2D > m_vPattern;
 
+	int m_nDamage;
 	int m_nAPCost;
 	int m_nCooldown;
 	int m_nRange;

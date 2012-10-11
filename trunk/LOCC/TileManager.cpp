@@ -156,63 +156,63 @@ void CTileManager::Render( void )
                     int y = (TWidth / 2 * i) + (THeight  / 2 * j);
 			RECT Rsource= { 0,0,0,0}; 
 
-			float fRad = 45 * 3.14159286 / 180;
+			float fRad = (float(45 * 3.14159286 / 180);
 			switch(m_pTileMap[i][j].GetTileType())
 			{	
 			case TT_PLAINS:
 				{
 					Rsource = CellAlgorithm(TT_PLAINS);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, TWidth / 2, THeight/ 2, fRad);
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			case TT_FOREST:
 				{
 					Rsource = CellAlgorithm(TT_FOREST);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y- CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,TWidth / 2, THeight/ 2, fRad);
+						,y- CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			case TT_MOUNTAINS:
 				{
 					Rsource = CellAlgorithm(TT_MOUNTAINS);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,TWidth / 2, THeight/ 2, fRad);
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			case TT_WATER:
 				{
 					Rsource = CellAlgorithm(TT_WATER);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,TWidth / 2, THeight/ 2, fRad);
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			case TT_FARM:
 				{
 					Rsource = CellAlgorithm(TT_FARM);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,TWidth / 2, THeight/ 2, fRad);
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			case TT_MILL:
 				{
 					Rsource = CellAlgorithm(TT_MILL);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,TWidth / 2, THeight/ 2, fRad);
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			case TT_MINE:
 				{
 					Rsource = CellAlgorithm(TT_MINE);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,TWidth / 2, THeight/ 2, fRad);
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			case TT_CASTLE:
 				{
 					Rsource = CellAlgorithm(TT_CASTLE);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,TWidth / 2, THeight/ 2, fRad);
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				break;
 			}

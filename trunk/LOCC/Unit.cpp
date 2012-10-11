@@ -16,6 +16,8 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	pAbility->m_szInterfaceIcon = TSTRING(_T("moveicon"));
 	m_vAbilities.push_back(pAbility);
 
+	if (m_eType != UT_ARCHER)
+	{
 	pAbility = new CAbility();
 	pAbility->m_nAPCost = 1;
 	pAbility->m_bIsMove = false;
@@ -29,7 +31,32 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	pAbility->m_vPattern.push_back(Vec2D(0, -1));
 	pAbility->m_vPattern.push_back(Vec2D(0, 1));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
+	}
+	else
+	{
+		pAbility = new CAbility();
+		pAbility->m_nAPCost = 1;
+		pAbility->m_bIsMove = false;
+		pAbility->m_bIsAttack = true;
+		pAbility->m_nNumTargets = 1;
+		pAbility->m_nPhase = GP_ATTACK;
+		pAbility->m_nRange = 2;
+		pAbility->m_nCooldown = 0;
+		pAbility->m_vPattern.push_back(Vec2D(-1, 0));
+		pAbility->m_vPattern.push_back(Vec2D(1, 0));
+		pAbility->m_vPattern.push_back(Vec2D(0, -1));
+		pAbility->m_vPattern.push_back(Vec2D(0, 1));
+		pAbility->m_vPattern.push_back(Vec2D(-2, 0));
+		pAbility->m_vPattern.push_back(Vec2D(2, 0));
+		pAbility->m_vPattern.push_back(Vec2D(0, -2));
+		pAbility->m_vPattern.push_back(Vec2D(0, 2));
+		pAbility->m_vPattern.push_back(Vec2D(-1, -1));
+		pAbility->m_vPattern.push_back(Vec2D(1, 1));
+		pAbility->m_vPattern.push_back(Vec2D(1, -1));
+		pAbility->m_vPattern.push_back(Vec2D(-1, 1));
+		pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
 
+	}
 	m_vAbilities.push_back(pAbility);
 
 	m_sAnimStruct = new UnitAnimation();
