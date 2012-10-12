@@ -17,5 +17,6 @@ private:
 	CPauseState(const CPauseState&);
 	CPauseState* operator=( CPauseState& );
 
+
 	int m_nVerticalChoice;
 };

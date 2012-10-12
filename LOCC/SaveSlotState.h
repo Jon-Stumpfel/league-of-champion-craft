@@ -16,7 +16,13 @@ public:
 
 private:
 
-	
+	int m_nHighlightedSlot;
+	int m_nMenuChoice;
+	int m_nConfirmChoice;
+	bool m_bShowMenu;
+	bool m_bConfirm;
+	void ReadSlot(int nSlot);
+
 	CSaveSlotState(void);
 	virtual ~CSaveSlotState(void);
 	CSaveSlotState(const CSaveSlotState&);

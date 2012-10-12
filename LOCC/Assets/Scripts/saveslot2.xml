@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Map mapID="-842150451" phaseNumber="11" phase="1" currPlayer="1">
+<Map mapID="-842150451" phaseNumber="16" phase="0" currPlayer="0">
     <Players>
-        <Player id="0" ai="0" AP="8" wood="20" metal="20">
-            <Champion posX="2" posY="2" health="50" xp="0" facing="0" tilesMoved="3" hasAttacked="1" />
-            <Units numUnits="2">
-                <Unit posX="0" posY="3" unitType="2" health="12" facing="0" tilesMoved="3" hasAttacked="1" />
-                <Unit posX="3" posY="3" unitType="3" health="12" facing="0" tilesMoved="2" hasAttacked="1" />
+        <Player id="0" ai="0" AP="30" wood="20" metal="20">
+            <Champion posX="4" posY="3" health="42" xp="0" facing="0" tilesMoved="0" hasAttacked="0" />
+            <Units numUnits="5">
+                <Unit posX="2" posY="4" unitType="2" health="4" facing="3" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="5" posY="4" unitType="3" health="12" facing="0" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="3" posY="1" unitType="2" health="12" facing="2" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="3" posY="3" unitType="3" health="11" facing="0" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="6" posY="3" unitType="3" health="20" facing="2" tilesMoved="0" hasAttacked="0" />
             </Units>
         </Player>
-        <Player id="1" ai="0" AP="22" wood="20" metal="20">
-            <Champion posX="0" posY="7" health="50" xp="0" facing="0" tilesMoved="4" hasAttacked="0" />
-            <Units numUnits="1">
-                <Unit posX="2" posY="5" unitType="2" health="12" facing="1" tilesMoved="3" hasAttacked="1" />
+        <Player id="1" ai="0" AP="30" wood="20" metal="20">
+            <Champion posX="3" posY="4" health="50" xp="0" facing="3" tilesMoved="0" hasAttacked="0" />
+            <Units numUnits="5">
+                <Unit posX="2" posY="8" unitType="2" health="6" facing="0" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="4" posY="4" unitType="3" health="12" facing="1" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="3" posY="7" unitType="2" health="12" facing="0" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="2" posY="5" unitType="3" health="20" facing="3" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="5" posY="5" unitType="3" health="20" facing="1" tilesMoved="0" hasAttacked="0" />
             </Units>
         </Player>
     </Players>

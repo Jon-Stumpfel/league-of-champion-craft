@@ -14,6 +14,15 @@ CGraphicsManager::~CGraphicsManager(void)
 {
 }
 
+
+void CGraphicsManager::DrawArrow(int x, int y, int red, int green, int blue)
+{
+	CSGD_Direct3D::GetInstance()->DrawLine(x - 10, y, x + 10, y, red, green, blue);
+	CSGD_Direct3D::GetInstance()->DrawLine(x, y - 3, x + 10, y, red, green, blue);
+	CSGD_Direct3D::GetInstance()->DrawLine(x, y + 3, x + 10, y, red, green, blue);
+
+}
+
 int CGraphicsManager::GetID( TSTRING szGraphicsID )
 {
 	int returnID = -1;
