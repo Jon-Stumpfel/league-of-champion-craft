@@ -250,7 +250,9 @@ void CGameManager::SaveGame(int nSlot)
 		pUnits->SetAttribute("numUnits", nNumUnits);
 	}
 
-	doc.SaveFile("Assets\\Scripts\\saveslot2.xml");
+	std::ostringstream oss;
+	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
+	doc.SaveFile(oss.str().c_str());
 }
 void CGameManager::LoadSave(int nSlot)
 {

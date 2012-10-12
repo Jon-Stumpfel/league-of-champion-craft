@@ -3,7 +3,7 @@
 #include "SaveSlotState.h"
 #include "OptionsMenuState.h"
 #include "MainMenuState.h"
-
+#include "GraphicsManager.h"
 #include "StateStack.h"
 CPauseState::CPauseState(void)
 {
@@ -77,18 +77,26 @@ void CPauseState::Render(void)
 
 	// lol rainbow text just for the time being
 	std::wostringstream woss;
-	woss << "GAME PAUSED    currentMenuCHoice: " << m_nVerticalChoice;
+	woss << "GAME PAUSED";
 	static int r = 255, g = 0,b = 255;
-	r -= 1;
-	g += 1;
-	b -= 1;
+	static int redAmt = 1, greenAmt = 1;
+	r -= redAmt;
+	g += greenAmt;
+	//b -= 1;
 
-	if (r < 0)
-		r = 255;
-	if (g > 255)
-		g = 0;
+	if (r < 1 || r > 254)
+		redAmt *= -1;
+	if (g < 1 || g > 254)
+		greenAmt *= -1;
 	if (b < 0)
 		b = 255;
 
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 350, 120, r, g,b);
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 335, 150, r, g,b);
+
+	CSGD_Direct3D::GetInstance()->DrawTextW(_T("Resume Game"), 350, 180, 255, 255, 255);
+	CSGD_Direct3D::GetInstance()->DrawTextW(_T("Options"), 350, 210, 255, 255, 255);
+
+	CSGD_Direct3D::GetInstance()->DrawTextW(_T("Save/Load"), 350, 240, 255, 255, 255);
+	CSGD_Direct3D::GetInstance()->DrawTextW(_T("Exit to Menu"), 350, 270, 255, 255, 255);
+	CGraphicsManager::GetInstance()->DrawArrow(330, 190 + m_nVerticalChoice * 30, 255, 255, 255);
 }

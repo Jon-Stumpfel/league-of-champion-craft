@@ -17,6 +17,7 @@ public:
 
 	void DrawWireframeRect(RECT r, int red, int green, int blue, bool bDirect = false);
 	void DrawWireframeDiag(RECT r, int red, int green, int blue);
+	void DrawArrow(int x, int y, int red, int green, int blue);
 
 private:
 

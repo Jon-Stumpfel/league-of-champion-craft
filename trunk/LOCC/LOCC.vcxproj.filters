@@ -189,11 +189,11 @@
     <ClCompile Include="SGD Wrappers\tinyxmlerror.cpp">
       <Filter>SGD Wrappers</Filter>
     </ClCompile>
-    <ClCompile Include="SaveSlotState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PauseState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveSlotState.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -360,10 +360,10 @@
       <Filter>Messages</Filter>
     </ClInclude>
     <ClInclude Include="SaveSlotState.h">
-      <Filter>Header Files</Filter>
+      <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="PauseState.h">
-      <Filter>Header Files</Filter>
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
