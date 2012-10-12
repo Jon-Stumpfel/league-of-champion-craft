@@ -15,16 +15,24 @@ namespace ParticleEditor
 {
     class Emitter
     {
-        private static Emitter Instance;
+        private static Emitter instance;
 
-        internal static Emitter Instance1
+        internal static Emitter Instance
         {
             get 
             {
-                if (Instance == null)
-                    Instance = new Emitter();
-                return Instance; 
+                if (instance == null)
+                    instance = new Emitter();
+                return instance; 
             }
+        }
+
+        private Vector2D pos;
+
+        internal Vector2D Pos
+        {
+            get { return pos; }
+            set { pos = value; }
         }
 
         private Color colorStart, colorEnd;
@@ -41,24 +49,12 @@ namespace ParticleEditor
             set { colorStart = value; }
         }
 
-        private int particleCount, imgHeight, imgWidth;
+        private int particleCount;
 
         public int ParticleCount
         {
             get { return particleCount; }
             set { particleCount = value; }
-        }
-
-        public int ImgHeight
-        {
-            get { return imgHeight; }
-            set { imgHeight = value; }
-        }
-
-        public int ImgWidth
-        {
-            get { return imgWidth; }
-            set { imgWidth = value; }
         }
 
         private float angle, angleRotation, rotationStart, rotationEnd,
@@ -219,43 +215,27 @@ namespace ParticleEditor
             set { numSpawned = value; }
         }
 
-        private float spawnRate, spawnTimer;
-        private Stopwatch stopWatch = new Stopwatch();
-
-        public void Run()
-        {
-            Emitter self = Emitter.Instance1;
-            while (alive)
-            {
-                if (self.stopWatch.IsRunning == false)
-                    self.stopWatch.Start();
-                float elapsedtime = self.stopWatch.ElapsedTicks;
-                if (elapsedtime > 0.1f)
-                    elapsedtime = 0.1f;
-                self.Update(elapsedtime);
-                self.Render();
-                self.stopWatch.Restart();
-            }
-        }
+        float spawnRate, spawnTimer;
 
         public void Update(float fElapsedTime)
         {
             if (spawnRate < spawnTimer)
             {
-                if( particles.Count > numSpawned )
+                if( particles.Count > numSpawned  && particleCount != 0)
                     numSpawned++;
                 spawnTimer = 0;
-                float l = new Random().Next((int)spawnMax * 100, (int)spawnMin * 00000100);
-                spawnTimer = l / 100.0f;
+                Random r = new Random();
+                float l = (float)r.Next((int)(spawnMin * 100), (int)(spawnMax * 100));
+                spawnRate = l / 100.0f;
             }
 
             spawnTimer += fElapsedTime;
 
-            for (int i = 0; i < numSpawned; i++ )
+            for (int i = 0; i < numSpawned; i++)
             {
                 particles[i].Update(fElapsedTime);
 
-                if (particles[i].CurLife >= particles[i].CurLife)
+                if (particles[i].CurLife >= particles[i].MaxLife)
                 {
                     particles.Remove(particles[i]);
 
@@ -287,7 +267,7 @@ namespace ParticleEditor
                 dtG *= fElapsedTime;
                 dtB *= fElapsedTime;
 
-                Color newColor = Color.FromArgb((int)dtA, (int)dtR, (int)dtG, (int)dtB);
+                Color newColor = Color.FromArgb((int)dtA + (int)oldColor.A, (int)dtR + (int)oldColor.R, (int)dtG + (int)oldColor.G, (int)dtB + (int)oldColor.B);
                 particles[i].Color = newColor;
 
                 // Rotation changing over time
@@ -309,19 +289,57 @@ namespace ParticleEditor
                 float dtX = (particles[i].VelocityEnd.x - particles[i].VelocityStart.x) / time;
                 float dtY = (particles[i].VelocityEnd.y - particles[i].VelocityStart.y) / time;
 
+                dtX = dtX * fElapsedTime;
+                dtY = dtY * fElapsedTime;
+
                 Vector2D newVel = new Vector2D();
                 newVel.Init(dtX + oldVel.x, dtY + oldVel.y);
                 particles[i].CurVelocity = newVel;
             }
         }
 
+        private string imgpath = null;
+
+        public string Imgpath
+        {
+            get { return imgpath; }
+            set { imgpath = value; }
+        }
+
+        SGP.ManagedDirect3D d3d = SGP.ManagedDirect3D.Instance;
+
         public void Render()
         {
+            if (type == Shape.POINT)
+            {
+                d3d.DrawLine((int)pos.x, (int)pos.y,
+                            (int)pos.x + 2, (int)pos.y + 2, Color.Black);
+
+                double theta = double.Parse(angle.ToString());
+                double rot = double.Parse(angleRotation.ToString());
+                float dirXMin = (float)Math.Sin(rot);
+                float dirYMin = -(float)Math.Cos(rot);
+                float dirXMax = (float)Math.Sin(theta + rot);
+                float dirYMax = -(float)Math.Cos(theta + rot);
+                d3d.DrawLine((int)pos.x, (int)pos.y, (int)(pos.x + (dirXMin * 100)), (int)(pos.y + (dirYMin * 100)), Color.Red);
+                d3d.DrawLine((int)pos.x, (int)pos.y, (int)(pos.x + (dirXMax * 100)), (int)(pos.y + (dirYMax * 100)), Color.Red);
+            }
+
             for (int i = 0; i < numSpawned; i++)
             {
                 particles[i].Render();
             }
         }
+
+        public void Clear()
+        {
+            if( particles.Count > 0 )
+                 particles.Clear();
+
+            numSpawned = 0;
+        }
+
+        private SGP.ManagedTextureManager tm = SGP.ManagedTextureManager.Instance;
 
         public void InitParticle()
         {
@@ -333,47 +351,71 @@ namespace ParticleEditor
             {
                 // Sets values to the starting values
                 Particle tmp = new Particle();
+                tmp.Id = tm.LoadTexture(imgpath, Color.FromArgb(255, 255, 255, 255).ToArgb());
+
                 tmp.Color = colorStart;
                 tmp.Rotation = rotationStart;
                 tmp.Scale = scaleStart;
                 tmp.Rotation = rotationStart;
-                tmp.Source = new Rectangle((int)imgPos.x, (int)imgPos.y, imgHeight, imgWidth);
+                tmp.Source = new Rectangle(0, 0, tm.GetTextureWidth(tmp.Id), tm.GetTextureHeight(tmp.Id));
 
                 // Finds random values
-                Vector2D Maxdir = new Vector2D();
-                Maxdir.x = float.Parse(Math.Sin((angle + angleRotation) * Math.PI / 180).ToString());
-                Maxdir.y = float.Parse(Math.Cos((angle + angleRotation) * Math.PI / 180).ToString());
-                Vector2D Mindir = new Vector2D();
-                Mindir.x = float.Parse(Math.Sin(angleRotation * Math.PI / 180).ToString());
-                Mindir.y = float.Parse(Math.Cos(angleRotation * Math.PI / 180).ToString());
+                double theta = double.Parse(angle.ToString());
+                double rot = double.Parse(angleRotation.ToString());
 
-                // Finds the direction of the particle based on the angle of projection
-                float dir = (float)rand.Next((int)Mindir.x * 1000, (int)Maxdir.x * 1000);
+                float dirXMin = (float)Math.Sin(rot);
+                float dirYMin = -(float)Math.Cos(rot);
+                float dirXMax = (float)Math.Sin(theta + rot);
+                float dirYMax = -(float)Math.Cos(theta + rot);
+                float dirX;
+                float dirY;
 
+                if (angle < Math.PI)
+                {
+                    dirX = (float)rand.Next((int)(dirXMin*100), (int)(dirXMax * 100));
+                    dirY = (float)rand.Next((int)(dirYMin*100), (int)(dirYMax * 100));
+                }
+                else if (angle < 2 * Math.PI)
+                {
+                    dirX = -(float)rand.Next((int)(dirXMax * 100), (int)(dirXMin * 100));
+                    dirY = (float)rand.Next((int)(dirYMin * 100), (int)(dirYMax * 100));
+                }
+                else if (angle == 2 * Math.PI)
+                {
+                    dirX = (float)rand.Next(-100, 100);
+                    dirY = (float)rand.Next(-100, 100);
+                }
+                else
+                {
+                    dirX = 0;
+                    dirY = 0;
+                }
                 // Finds the start velocity
                 Vector2D vel;  
-                float x = (float)rand.Next((int)velStartMin.x * 100, (int)velStartMax.x *100);
-                float y = (float)rand.Next((int)velStartMin.y * 100, (int)velStartMax.y * 100);
-                vel.x = (dir / 1000.0f) * (x / 100.0f);
-                vel.y = (dir / 1000.0f) * (y / 100.0f);
+                float x = (float)rand.Next((int)(velStartMin.x * 100), (int)(velStartMax.x * 100));
+                float y = (float)rand.Next((int)(velStartMin.y * 100), (int)(velStartMax.y * 100));
+                vel.x = (dirX / 100.0f) * (x / 100.0f);
+                vel.y = (dirY / 100.0f) * (y / 100.0f);
                 tmp.VelocityStart = vel;
 
                 // Finds the end velocity
-                x = (float)rand.Next((int)velEndMin.x * 100, (int)velEndMax.x * 100);
-                y = (float)rand.Next((int)velEndMin.y * 100, (int)velEndMax.y * 100);
-                vel.x = (dir / 1000.0f) * (x / 100.0f);
-                vel.y = (dir / 1000.0f) * (y / 100.0f);
+                x = (float)rand.Next((int)(velEndMin.x * 100), (int)(velEndMax.x * 100));
+                y = (float)rand.Next((int)(velEndMin.y * 100), (int)(velEndMax.y * 100));
+                vel.x = (dirX / 1000.0f) * (x / 100.0f);
+                vel.y = (dirY / 1000.0f) * (y / 100.0f);
                 tmp.VelocityEnd = vel;
 
                 tmp.CurVelocity = tmp.VelocityStart;
 
-                float life = (float)rand.Next((int)lifeMin * 100, (int)lifeMax * 100);
+                float life = (float)rand.Next((int)(lifeMin * 100), (int)(lifeMax * 100));
                 tmp.MaxLife = (life / 100.0f);
+
+                tmp.Pos = pos;
 
                 particles.Add(tmp);
             }
 
-            float sr = rand.Next( (int)spawnMin * 100, (int)spawnMax * 100 );
+            float sr = (float)(rand.Next( (int)(spawnMin * 100), (int)(spawnMax * 100) ));
             spawnRate = sr / 100.0f;
             spawnTimer = 0;
         }

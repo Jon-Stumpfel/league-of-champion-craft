@@ -20,3 +20,5 @@ C:\Users\Ryan\Desktop\ParticleEditor\ParticleEditor\obj\x86\Debug\ParticleEditor
 C:\Users\Ryan\Desktop\ParticleEditor\ParticleEditor\obj\x86\Debug\ParticleEditor.Properties.Resources.resources
 C:\Users\Ryan\Desktop\ParticleEditor\ParticleEditor\obj\x86\Debug\ParticleEditor.csproj.GenerateResource.Cache
 C:\Users\Ryan\Desktop\ParticleEditor\ParticleEditor\obj\x86\Debug\ParticleEditor.csprojResolveAssemblyReference.cache
+C:\Users\Ryan\Desktop\LOCC\ParticleEditor\ParticleEditor\bin\Debug\ParticleEditor.exe.config
+C:\Users\Ryan\Desktop\LOCC\ParticleEditor\ParticleEditor\obj\x86\Debug\ParticleEditor.csprojResolveAssemblyReference.cache

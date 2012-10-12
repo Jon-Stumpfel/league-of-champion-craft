@@ -106,13 +106,28 @@ namespace ParticleEditor
         {
             pos.x += curVelocity.x * fElapsedTime;
             pos.y += curVelocity.y * fElapsedTime;
-
+            
             curLife += fElapsedTime;
+        }
+
+        SGP.ManagedDirect3D d3d = SGP.ManagedDirect3D.Instance;
+        SGP.ManagedTextureManager tm = SGP.ManagedTextureManager.Instance;
+        Emitter emitter = Emitter.Instance;
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
         }
 
         public void Render()
         {
-               // HOW USE WRAPPER!!?!
+            float nWidth = tm.GetTextureWidth(id) * scale * .5f;
+            float nHeight = tm.GetTextureHeight(id) * scale * .5f;
+            tm.Draw(id, (int)pos.x - (int)nWidth, (int)pos.y - (int)nHeight, scale, scale, source, 
+                     (int)(tm.GetTextureWidth(id) * scale * 0.5f), 
+                     (int)(tm.GetTextureHeight(id) * scale * 0.5f), rotation, color);
         }
     }
 }
