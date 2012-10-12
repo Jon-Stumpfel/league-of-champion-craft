@@ -34,17 +34,13 @@ CGameplayState* CGameplayState::GetInstance(void)
 {
 	static CGameplayState s_Instance;
 	return &s_Instance;
-	//if( s_Instance == nullptr )
-	//	s_Instance = new CGameplayState();
-
-	//return s_Instance;
 }
 
 void CGameplayState::Enter(void)
 {
 	// test stuff
 
-	CGameManager::GetInstance()->Reset();
+	CGameManager::GetInstance()->NewGame();
 
 
 	CGameManager* pGM = CGameManager::GetInstance();
@@ -749,6 +745,14 @@ void CGameplayState::Update(float fElapsedTime)
 	{
 		if (m_pSelectedUnit != nullptr)
 			m_pSelectedUnit->SetHP(m_pSelectedUnit->GetHP() - 1);
+	}
+	else if (pDI->KeyPressed(DIK_O))
+	{
+		CGameManager::GetInstance()->SaveGame(1);
+	}
+	else if (pDI->KeyPressed(DIK_P))
+	{
+		CGameManager::GetInstance()->LoadSave(2);
 	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);

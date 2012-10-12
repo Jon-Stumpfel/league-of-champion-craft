@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Map mapID="1" phaseNumber="0" phase="0" currPlayer="0" >
+  <Players>
+    <Player id="0" ai="0" AP="22" wood="30" metal="55">
+      <Champion posX="2" posY="2" health="37" xp="250" facing="0" tilesMoved="0" hasAttacked="0">
+        <Spells>
+          <Spell sType=""/>
+        </Spells>
+      </Champion>
+      <Units numUnits="4">
+        <Unit posX="3" posY="2" unitType="2" health="8"	shielded="0" facing="0" tilesMoved="0" hasAttacked="0" >
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+        <Unit posX="4" posY="2" unitType="2" health="8"	shielded="0" facing="0" tilesMoved="0" hasAttacked="0">
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+        <Unit posX="5" posY="2" unitType="2" health="20"	shielded="0" facing="1" tilesMoved="0" hasAttacked="0">
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+        <Unit posX="6" posY="2" unitType="3" health="12"	shielded="0" facing="1" tilesMoved="0" hasAttacked="0">
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+      </Units>
+    </Player>
+    <Player id="1" ai="0" AP="22" wood="30" metal="55">
+      <Champion posX="3" posY="7" health="37" xp="250" facing="0">
+        <Spells>
+          <Spell sType=""/>
+        </Spells>
+      </Champion>
+      <Units numUnits="4">
+        <Unit posX="3" posY="6" unitType="2" health="8"	shielded="0" facing="0" tilesMoved="0" hasAttacked="0">
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+        <Unit posX="4" posY="6" unitType="2" health="8"	shielded="0" facing="0" tilesMoved="0" hasAttacked="0">
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+        <Unit posX="5" posY="6" unitType="2" health="20"	shielded="0" facing="1" tilesMoved="0" hasAttacked="0">
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+        <Unit posX="6" posY="6" unitType="3" health="12"	shielded="0" facing="1" tilesMoved="0" hasAttacked="0">
+          <Effects numEffects="">
+            <Effect ability=""/>
+          </Effects>
+        </Unit>
+      </Units>
+    </Player>
+  </Players>
+  <MapModifications numMods="">
+    <Modification modType="" modX="" modY="" modTimeLeft=""/>
+  </MapModifications>
+</Map>
