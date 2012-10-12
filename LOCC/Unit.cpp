@@ -134,13 +134,13 @@ void CUnit::Update(float fElapsedTime)
 	// If we have any waypoints in our list of waypoints added in from GameplayState::MoveToTile, then we need to move across them
 
 			if (m_nFacing == 0)
-				m_sAnimStruct->animationType = AT_WALK_S;
+				m_sAnimStruct->animationType = AT_WALK_W; // S
 			else if (m_nFacing == 1)
-				m_sAnimStruct->animationType = AT_WALK_N;
+				m_sAnimStruct->animationType = AT_WALK_W; // N
 			else if (m_nFacing == 2)
-				m_sAnimStruct->animationType = AT_WALK_E;
+				m_sAnimStruct->animationType = AT_WALK_W; // E
 			else if (m_nFacing == 3)
-				m_sAnimStruct->animationType = AT_WALK_W;
+				m_sAnimStruct->animationType = AT_WALK_W; // W
 	if (m_vWaypoints.size() != 0)
 	{
 		// Set the tile we are moving off of's occupied to false.

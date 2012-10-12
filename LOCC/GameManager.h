@@ -18,6 +18,9 @@ public:
 	void SetCurrentPlayer(int nPlayerID) { m_pCurrentPlayer = m_vPlayers[nPlayerID];}
 	CPlayer* GetPlayer(int nPlayerID);
 
+	void SetCurrentPhase(GAME_PHASE phase) { m_nCurrentPhase = phase;}
+	void SetPhaseCount(int count) { m_nPhaseCount = count;}
+
 	void AddUnit(CUnit* pUnit);
 	void RemoveUnit(CUnit* pUnit);
 
@@ -27,14 +30,14 @@ public:
 
 	int GetLevel(void);
 	void LoadLevel(std::string sFileName);
-	void LoadLevel(int nLevelNum);
+	void LoadMap(int nLevelNum);
 	void LoadSave(int nSlot);
 
 	void Reset(void);
 	void NewGame(void);
 	void NextPhase(void);
 
-	int GetCurrentTurn(void) { return m_nTurnCount;}
+	int GetCurrentTurn(void); // This splits it up so a "turn" is techcnially 1 phase
 
 	void Update(float fElapsedTime);
 
@@ -52,6 +55,8 @@ public:
 	const std::vector<CUnit*> GetUnits(void) { return m_vUnits;}
 
 	void AddScriptSpawn(ScriptedSpawn data) { m_vScriptSpawns.push_back(data);}
+
+	void SaveGame(int nSlot);
 private:
 
 	CGameManager(void);
@@ -76,6 +81,7 @@ private:
 
 	GAME_PHASE m_nCurrentPhase;
 	int m_nTurnCount;
+	int m_nPhaseCount;
 
 	bool m_bNewGame;
 

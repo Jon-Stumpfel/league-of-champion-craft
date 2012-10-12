@@ -12,11 +12,14 @@ private:
 	int m_nMaxPopCap;
 	int m_nExp;
 	int m_nJoystickNum;
-
+	bool m_bAI;
 public:
 
 	CPlayer(int nPlayerID);
 	~CPlayer(void);
+
+	bool GetAI(void) { return m_bAI;}
+	void SetAI(bool b) { m_bAI = b;}
 
 	int GetAP(void) { return m_nAP;}
 	void SetAP(int AP){m_nAP = AP;}

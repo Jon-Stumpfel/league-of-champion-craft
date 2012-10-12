@@ -8,7 +8,9 @@
 #include "MessageSystem.h"
 #include "DeSpawnUnitMessage.h"
 #include "AddResourceMessage.h"
-
+#include "Tile.h"
+#include "Unit.h"
+#include "Hero.h"
 #include "Player.h"
 
 CGameManager* CGameManager::s_Instance = nullptr;
@@ -16,6 +18,7 @@ CGameManager* CGameManager::s_Instance = nullptr;
 CGameManager::CGameManager(void)
 {
 	m_nNewPlayerID = 0;
+	m_nPhaseCount = 0;
 	m_pCurrentPlayer = nullptr;
 	m_pNextPlayer = nullptr;
 }
@@ -27,15 +30,13 @@ CGameManager::~CGameManager(void)
 
 void CGameManager::NextPhase(void)
 {
+	m_nPhaseCount++;
 	if (m_nCurrentPhase == GP_MOVE)
 	{
 		m_nCurrentPhase = GP_ATTACK;
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
 	{
-
-		if (m_pCurrentPlayer->GetPlayerID() == 1)
-			m_nTurnCount++;
 		CPlayer* pTemp = m_pCurrentPlayer;
 		m_nCurrentPhase = GP_MOVE;
 		m_pCurrentPlayer = m_pNextPlayer;
@@ -54,6 +55,7 @@ void CGameManager::NextPhase(void)
 			if (m_vUnits[i]->GetPlayerID() == m_pCurrentPlayer->GetPlayerID())
 			{
 				m_vUnits[i]->SetTilesMoved(0);
+				m_vUnits[i]->SetHasAttacked(false);
 			}
 		}
 	}
@@ -113,6 +115,13 @@ CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 	CPlayer* pPlayer = new CPlayer(m_nNewPlayerID++);
 	// TODO if bAIControlled add cplayer to list of AI controlled stuff
 	// CAIManager::PushPlayerID(pPlayer->GetPLayerID());
+	if (bAIControlled)
+	{
+		pPlayer->SetAI(true);
+	}
+	else
+		pPlayer->SetAI(false);
+
 	if (m_vPlayers.size() == 0)
 	{
 		m_pCurrentPlayer = pPlayer;
@@ -120,7 +129,7 @@ CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 	else
 		m_pNextPlayer = pPlayer;
 	m_vPlayers.push_back(pPlayer);
-	return nullptr;
+	return pPlayer;
 }
 
 CPlayer* CGameManager::GetPlayer(int nPlayerID)
@@ -148,8 +157,6 @@ void CGameManager::LoadLevel(std::string sFileName)
 	oss << "Assets\\Scripts\\" << sFileName << ".xml";
 	m_vScriptSpawns.clear();
 	CScriptManager::GetInstance()->LoadScript(oss.str(), ST_LEVEL);
-
-
 }
 
 void CGameManager::LoadUnitsFromScript(void)
@@ -157,7 +164,7 @@ void CGameManager::LoadUnitsFromScript(void)
 	for (decltype(m_vScriptSpawns.size()) i = 0; i < m_vScriptSpawns.size(); ++i)
 	{
 		ScriptedSpawn s = m_vScriptSpawns[i];
-		if (m_nTurnCount == s.first)
+		if (GetCurrentTurn() == s.first)
 		{
 			CSpawnUnitMessage* pMSG = new CSpawnUnitMessage(Vec2D(s.second.sPos), s.second.nPlayerID, s.second.eType, s.second.nFacing);
 			CMessageSystem::GetInstance()->SendMessageW(pMSG);
@@ -170,12 +177,177 @@ void CGameManager::LoadUnitsFromScript(void)
 
 }
 
-void CGameManager::LoadLevel(int nLevelNum)
+void CGameManager::LoadMap(int nLevelNum)
 {
+	CTileManager* pTM=CTileManager::GetInstance();
+	string filename= "Assets\\Tiles\\TestMap.xml";
+	pTM->LoadSave(filename);
+	// Attempting to load fake level 1 script
 }
 
+void CGameManager::SaveGame(int nSlot)
+{
+	TiXmlDocument doc;
+	TiXmlDeclaration* pDec = new TiXmlDeclaration("1.0", "utf-8", "");
+
+	doc.LinkEndChild(pDec);
+
+	TiXmlElement* pRoot = new TiXmlElement("Map");
+	doc.LinkEndChild(pRoot);
+
+	pRoot->SetAttribute("mapID", m_nCurrentLevel);
+	pRoot->SetAttribute("phaseNumber", m_nPhaseCount);
+	pRoot->SetAttribute("phase", m_nCurrentPhase);
+	pRoot->SetAttribute("currPlayer", m_pCurrentPlayer->GetPlayerID());
+
+	TiXmlElement* pPlayers = new TiXmlElement("Players");
+	pRoot->LinkEndChild(pPlayers);
+	for (int i = 0; i < 2; ++i)
+	{
+		TiXmlElement* pPlayer = new TiXmlElement("Player");
+		pPlayers->LinkEndChild(pPlayer);
+		pPlayer->SetAttribute("id", m_vPlayers[i]->GetPlayerID());
+		pPlayer->SetAttribute("ai", (int)m_vPlayers[i]->GetAI());
+		pPlayer->SetAttribute("AP", m_vPlayers[i]->GetAP());
+		pPlayer->SetAttribute("wood", m_vPlayers[i]->GetWood());
+		pPlayer->SetAttribute("metal", m_vPlayers[i]->GetMetal());
+
+		TiXmlElement* pChampion = new TiXmlElement("Champion");
+		CHero* pHero = dynamic_cast<CHero*>(GetChampion(m_vPlayers[i]->GetPlayerID()));
+		pChampion->SetAttribute("posX", pHero->GetPos().nPosX);
+		pChampion->SetAttribute("posY", pHero->GetPos().nPosY);
+		pChampion->SetAttribute("health", pHero->GetHP());
+		pChampion->SetAttribute("xp", m_vPlayers[i]->GetExp());
+		pChampion->SetAttribute("facing", pHero->GetFacing());
+		pChampion->SetAttribute("tilesMoved", pHero->GetTilesMoved());
+		pChampion->SetAttribute("hasAttacked", (int)pHero->GetHasAttacked());
+		// TODO: setup spell saving here
+
+		pPlayer->LinkEndChild(pChampion);
+
+		// Lets save the units!
+		TiXmlElement* pUnits = new TiXmlElement("Units");
+		pPlayer->LinkEndChild(pUnits);
+		int nNumUnits = 0;
+		for (decltype(m_vUnits.size()) j = 0; j < m_vUnits.size(); ++j)
+		{
+			// this is our unit, lets save it!
+			if (m_vUnits[j]->GetPlayerID() == m_vPlayers[i]->GetPlayerID() && m_vUnits[j]->GetType() != UT_HERO)
+			{
+				TiXmlElement* pUnit = new TiXmlElement("Unit");
+				CUnit* puni = m_vUnits[j];
+				nNumUnits++;
+				pUnit->SetAttribute("posX", puni->GetPos().nPosX);
+				pUnit->SetAttribute("posY", puni->GetPos().nPosY);
+				pUnit->SetAttribute("unitType", (int)puni->GetType());
+				pUnit->SetAttribute("health", puni->GetHP());
+				pUnit->SetAttribute("facing", puni->GetFacing());
+				pUnit->SetAttribute("tilesMoved", puni->GetTilesMoved());
+				pUnit->SetAttribute("hasAttacked", (int)puni->GetHasAttacked());
+				pUnits->LinkEndChild(pUnit);
+			}
+		}
+		pUnits->SetAttribute("numUnits", nNumUnits);
+	}
+
+	doc.SaveFile("Assets\\Scripts\\saveslot2.xml");
+}
 void CGameManager::LoadSave(int nSlot)
 {
+	Reset();
+	std::ostringstream oss;
+	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
+	TiXmlDocument doc;
+	if (doc.LoadFile(oss.str().c_str()))
+	{
+		TiXmlElement* pRoot = doc.RootElement();
+
+		if (pRoot == nullptr)
+			return;
+
+		int nMapID, nCurrPlayer, nPhaseCount, nCurrPhase;
+		pRoot->QueryIntAttribute("mapID", &nMapID);
+		pRoot->QueryIntAttribute("currPlayer", &nCurrPlayer);
+		pRoot->QueryIntAttribute("phaseNumber", &nPhaseCount);
+		pRoot->QueryIntAttribute("phase", &nCurrPhase);
+
+
+		LoadMap(nMapID);
+		TiXmlElement* pPlayers = pRoot->FirstChildElement("Players");
+		TiXmlElement* pPlayer = pPlayers->FirstChildElement("Player");
+
+		for (int np = 0; np < 2; ++np)
+		{
+			int nAIControlled;
+			int nPlayerID;
+			int nAP, nWood, nMetal;
+			pPlayer->QueryIntAttribute("id", &nPlayerID);
+			pPlayer->QueryIntAttribute("ai", &nAIControlled);
+			pPlayer->QueryIntAttribute("wood", &nWood);
+			pPlayer->QueryIntAttribute("AP", &nAP);
+			pPlayer->QueryIntAttribute("metal", &nMetal);
+			CPlayer* pplay = CreatePlayer((bool)nAIControlled);
+
+			pplay->SetWood(nWood);
+			pplay->SetAP(nAP);
+			pplay->SetMetal(nMetal);
+
+
+			TiXmlElement* pChampion = pPlayer->FirstChildElement("Champion");
+
+			int nPosX, nPosY, nHealth, nXP, nFacing, nTilesMoved, nHasAttacked;
+			// TODO: load in spells here from ability manager
+			pChampion->QueryIntAttribute("posX", &nPosX);
+			pChampion->QueryIntAttribute("posY", &nPosY);
+			pChampion->QueryIntAttribute("health", &nHealth);
+			pChampion->QueryIntAttribute("xp", &nXP);
+			pChampion->QueryIntAttribute("facing", &nFacing);
+			pChampion->QueryIntAttribute("tilesMoved", &nTilesMoved);
+			pChampion->QueryIntAttribute("hasAttacked", &nHasAttacked);
+
+			pplay->SetExp(nXP);
+
+			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
+				nHealth, nTilesMoved, (bool)nHasAttacked);
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
+
+			int nNumUnits;
+			TiXmlElement* pUnits = pPlayer->FirstChildElement("Units");
+			pUnits->QueryIntAttribute("numUnits", &nNumUnits);
+
+			TiXmlElement* pUnit = pUnits->FirstChildElement("Unit");
+			for (int i = 0; i < nNumUnits; ++i)
+			{
+				int nUnitPosX, nUnitPosY, nUnitType, nUnitHealth, nUnitFacing, nUnitTilesMoved, nUnitHasAttacked;
+				pUnit->QueryIntAttribute("posX", &nUnitPosX);
+				pUnit->QueryIntAttribute("posY", &nUnitPosY);
+				pUnit->QueryIntAttribute("unitType", &nUnitType);
+				pUnit->QueryIntAttribute("health", &nUnitHealth);
+				pUnit->QueryIntAttribute("facing", &nUnitFacing);
+				pUnit->QueryIntAttribute("tilesMoved", &nUnitTilesMoved);
+				pUnit->QueryIntAttribute("hasAttacked", &nUnitHasAttacked);
+
+				CSpawnUnitMessage* pUnitMsg = 
+					new CSpawnUnitMessage(Vec2D(nUnitPosX, nUnitPosY), nPlayerID, (UNIT_TYPE)nUnitType, nUnitFacing, true, nUnitHealth,
+						nUnitTilesMoved,(bool)nUnitHasAttacked );
+				CMessageSystem::GetInstance()->SendMessageW(pUnitMsg);
+
+				pUnit = pUnit->NextSiblingElement("Unit");
+			}
+			pPlayer = pPlayer->NextSiblingElement("Player");
+		}
+
+
+		SetCurrentPlayer(nCurrPlayer);
+		if (nCurrPlayer == 0)
+			SetNextPlayer(1);
+		else
+			SetNextPlayer(0);
+		SetPhaseCount(nPhaseCount);
+		SetCurrentPhase((GAME_PHASE)nCurrPhase);
+
+	}
 }
 
 void CGameManager::AddUnit(CUnit* pUnit)
@@ -204,7 +376,6 @@ void CGameManager::RemoveUnit(CUnit* pUnit)
 // Reset the game and load whatever needs to be loaded
 void CGameManager::Reset(void)
 {
-	CTileManager::GetInstance()->ShutDown();
 	for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
 	{
 		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(m_vUnits[i]);
@@ -217,86 +388,49 @@ void CGameManager::Reset(void)
 		delete m_vPlayers[i];
 	}
 	m_vPlayers.clear();
-
+	m_nNewPlayerID = 0;
+	m_vScriptSpawns.clear();
 
 	CMessageSystem::GetInstance()->ProcessMessages();
-	m_nTurnCount = 1;
+	CTileManager::GetInstance()->ShutDown();
 
+}
+void CGameManager::NewGame(void)
+{
 
-	// Load map
-	CTileManager* pTM=CTileManager::GetInstance();
-	string filename= "Assets\\Tiles\\TestMap.xml";
-	pTM->LoadSave(filename);
-	// Attempting to load fake level 1 script
+	Reset();
 	LoadLevel(string("level1"));
+	LoadMap(1);
 
+	m_nPhaseCount = 0;
 	// Player 1 and his units
 	m_nNewPlayerID = 0;
 	CreatePlayer(false); // player 1
 	CreatePlayer(false);
 
 	LoadUnitsFromScript();
-	// Debug level
-
-	/*CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(2, 1), 0, UT_SWORDSMAN);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(3, 1), 0, UT_ARCHER);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(4, 1), 0, UT_HERO);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(5, 1), 0, UT_CAVALRY);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(6, 1), 0, UT_CASTLE);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(7, 1), 0, UT_SKELETON);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(8, 1), 0, UT_ICEBLOCK);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 
-	// Player 2 and his units
-	CreatePlayer(false); // player 2
-	pMsg = new CSpawnUnitMessage(Vec2D(2, 6), 1, UT_SWORDSMAN);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(3, 6), 1, UT_ARCHER);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(4, 6), 1, UT_HERO);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(5, 6), 1, UT_CAVALRY);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(6, 6), 1, UT_CASTLE);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(7, 6), 1, UT_SKELETON);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
-	pMsg = new CSpawnUnitMessage(Vec2D(8, 6), 1, UT_ICEBLOCK);
-	CMessageSystem::GetInstance()->SendMessageW(pMsg); */
 
 	m_nCurrentPhase = GP_MOVE;
-
 }
-void CGameManager::NewGame(void)
+
+int CGameManager::GetCurrentTurn(void)
 {
+	int nTurn = m_nPhaseCount / 4;
+
+	return nTurn +1;
 }
 void CGameManager::Update(float fElapsedTime)
 {
 	LoadUnitsFromScript();
 
+	int x = m_vUnits.size();
+
 }
 void CGameManager::SetNextPlayer(int nPlayerID)
 {
-
+	m_pNextPlayer = m_vPlayers[nPlayerID];
 }
 
 CUnit* CGameManager::FindUnit(int posX, int posY)
@@ -334,6 +468,12 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			pUnit->SetPos(pSMSG->GetPos());
 			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());
+			if (pSMSG->GetLoaded())
+			{
+				pUnit->SetHP(pSMSG->GetHealth());
+				pUnit->SetTilesMoved(pSMSG->GetTilesMoved());
+				pUnit->SetHasAttacked(pSMSG->GetHasAttacked());
+			}
 		}
 		break;
 	case MSG_DESPAWNUNIT:
@@ -343,7 +483,11 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			{
 				CGameplayState::GetInstance()->ClearSelections();
 			}
+			CTile* tile = CTileManager::GetInstance()->GetTile(pSMSG->GetUnit()->GetPos().nPosX, pSMSG->GetUnit()->GetPos().nPosY);
+			int x = 9;
+			tile->SetIfOccupied(false);
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
+
 		}
 		break;
 	case MSG_ADDRESOURCE:
