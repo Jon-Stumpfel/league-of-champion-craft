@@ -59,12 +59,5 @@ namespace WorldTileEditor.Properties {
                 resourceCulture = value;
             }
         }
-        
-        internal static System.Drawing.Bitmap _default {
-            get {
-                object obj = ResourceManager.GetObject("_default", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
