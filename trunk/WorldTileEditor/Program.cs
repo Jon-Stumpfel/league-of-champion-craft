@@ -18,7 +18,9 @@ namespace WorldTileEditor
             //Application.Run(new Form1());
             Form1 theform = new Form1();
 
+            SaveFileDialog savedlg = new SaveFileDialog(); 
             theform.Show();
+            savedlg.ShowDialog();
 
             while (theform.Looping)
             {

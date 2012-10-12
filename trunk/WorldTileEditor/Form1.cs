@@ -34,24 +34,28 @@ namespace WorldTileEditor
             __64 = 64,
             _128 = 128
         }
+        //TextureId: The int used to catch normal tile set map Image
+        int normtextureId;
+        public int NormtextureId
+        {
+            get { return normtextureId; }
+            set { normtextureId = value; }
+        }
 
-        //TileSetSize_RC: RC=(Rows&Columns)
+
+        //TileSetSize_RC: RC=(Rows&Columns) wdith==columns ; height==rows
         //this is for Calucatlating the rows and columns on the TilesetImage
-        Size tilesetSize_RC = new Size(2, 4);
+        Size tilesetSize_RC = new Size(4, 2);
         public Size TileSetSize_RC
         {
             get { return tilesetSize_RC; }
             set { tilesetSize_RC = value; }
         }
 
-        //TilesetImage: the actual source file Image; 
-        //use this varible' width and hieght to set the minsize of the window
-        Bitmap tilesetImage = new Bitmap(Properties.Resources._default);
-        public Bitmap Tileset
-        {
-            get { return tilesetImage; }
-            set { tilesetImage = value; }
-        }
+        //Selected Tile Point: the top right point of the selected tile in the tileset
+        //We jerryrig this to calucate the enum of a Tile;
+        Point selectedTilePoint = new Point(0, 0);
+
 
         //TilePixelSize: the width and hieght of a tile, for the map or the tileset
         //messing with this will break the game right now. all the tiles need to be squares
@@ -65,7 +69,7 @@ namespace WorldTileEditor
         //SelectedTile: The Top-Right point of a selected tile on the tilset
         //this will be used to calculate switch tile is selected and will be placed on the map
         //TileClass SelectedTile = new TileClass();
-        Point SelectedTile = new Point();
+        TileClass SelectedTile = new TileClass();
 
 
         public Form1()
@@ -79,6 +83,10 @@ namespace WorldTileEditor
             d3D.InitManagedDirect3D(TilesetGraphicsPanel);
             d3D.InitManagedDirect3D(MapGraphicsPanel);
             tm.InitManagedTextureManager(d3D.Device, d3D.Sprite);
+            
+            String filename = "MapEditorTiles.png";
+            NormtextureId= tm.LoadTexture(filename, 0);
+
         }
 
         public void UpdateTool()
@@ -89,24 +97,29 @@ namespace WorldTileEditor
 
         public void RenderTool()
         {
-
-            //String filename;
-            //filename = "Resources/_default.png";
-            //int textureId=tm.LoadTexture(filename, 0);
-
             Point offset = new Point(0, 0);
             offset.X += MapGraphicsPanel.AutoScrollPosition.X;
             offset.Y += MapGraphicsPanel.AutoScrollPosition.Y;
             d3D.Clear(TilesetGraphicsPanel, Color.White);
+
             d3D.DeviceBegin();
             d3D.SpriteBegin();
 
-            for (int i = 0; i < TileSetSize_RC.Width; ++i)
+            for (int i = 0; i < TileSetSize_RC.Height; ++i)
             {
-                for (int j = 0; j < TileSetSize_RC.Height; ++j)
+                for (int j = 0; j < TileSetSize_RC.Width; ++j)
                 {
-                    Rectangle drawrect= new Rectangle(j * TilePixelSize.Width + offset.X,i * TilePixelSize.Height + offset.Y,TilePixelSize.Width,TilePixelSize.Height);
-                    d3D.DrawEmptyRect(drawrect, Color.Black);
+                    Point magicpoint = new Point(i, j);
+                    if (magicpoint == selectedTilePoint)
+                    {
+                        Rectangle drawrect = new Rectangle(j * TilePixelSize.Width + offset.X, i * TilePixelSize.Height + offset.Y, TilePixelSize.Width, TilePixelSize.Height);
+                        d3D.DrawEmptyRect(drawrect, Color.Goldenrod);
+                    }
+                    else
+                    {
+                        Rectangle drawrect = new Rectangle(j * TilePixelSize.Width + offset.X, i * TilePixelSize.Height + offset.Y, TilePixelSize.Width, TilePixelSize.Height);
+                        d3D.DrawEmptyRect(drawrect, Color.Black);
+                    }
                 }
             }
             Rectangle drawrect1 = new Rectangle(0,0, TilePixelSize.Width, TilePixelSize.Height);
@@ -122,9 +135,9 @@ namespace WorldTileEditor
             d3D.DeviceBegin();
             d3D.SpriteBegin();
 
-            for (int i = 0; i < Mapsize.Width; ++i)
+            for (int i = 0; i < Mapsize.Height; ++i)
             {
-                for (int j = 0; j < Mapsize.Height; ++j)
+                for (int j = 0; j < Mapsize.Width; ++j)
                 {
                     Rectangle drawrect = new Rectangle(j * TilePixelSize.Width + offset.X, i * TilePixelSize.Height + offset.Y, TilePixelSize.Width, TilePixelSize.Height);
                     d3D.DrawEmptyRect(drawrect, Color.Black);
@@ -132,14 +145,12 @@ namespace WorldTileEditor
             }
             Rectangle drawrect3 = new Rectangle(0, 0, TilePixelSize.Width, TilePixelSize.Height);
 
-
-
-
+             //tm.Draw(textureId, 0, 0, 1.0f, 1.0f, drawrect1,0,0,0.0f,0);
+          
             d3D.SpriteEnd();
             d3D.DeviceEnd();
             d3D.Present();
-            //tm.Draw(textureId, 0, 0, 1.0f, 1.0f, drawrect1,0,0,0.0f,0);
-          
+           
         }
 
         private void MapGraphicsPanel_Paint(object sender, PaintEventArgs e)
@@ -147,19 +158,20 @@ namespace WorldTileEditor
             Point offset = new Point(0, 0);
             offset.X += MapGraphicsPanel.AutoScrollPosition.X;
             offset.Y += MapGraphicsPanel.AutoScrollPosition.Y;
+            
         }
 
         private void TilesetGraphicsPanel_Paint(object sender, PaintEventArgs e)
         {
-            Point offset = new Point(0, 0);
-            offset.X += TilesetGraphicsPanel.AutoScrollPosition.X;
-            offset.Y += TilesetGraphicsPanel.AutoScrollPosition.Y;
-            Pen Selection = new Pen(Color.Goldenrod, 5.0f);
-            e.Graphics.DrawRectangle(Selection, new Rectangle(SelectedTile.X * TilePixelSize.Width,
-                                                              SelectedTile.Y * TilePixelSize.Height,
-                                                              TilePixelSize.Width, TilePixelSize.Height));
+            //Point offset = new Point(0, 0);
+            //offset.X += TilesetGraphicsPanel.AutoScrollPosition.X;
+            //offset.Y += TilesetGraphicsPanel.AutoScrollPosition.Y;
+            //Pen Selection = new Pen(Color.Goldenrod, 5.0f);
+            //e.Graphics.DrawRectangle(Selection, new Rectangle(SelectedTile.X * TilePixelSize.Width,
+            //                                                  SelectedTile.Y * TilePixelSize.Height,
+            //                                                  TilePixelSize.Width, TilePixelSize.Height));
             
-       
+            
         }
 
         private void TilesetGraphicsPanel_MouseClick(object sender, MouseEventArgs e)
@@ -169,8 +181,8 @@ namespace WorldTileEditor
 
             if (e.Location.X > 0 && e.Location.Y > 0 && e.Location.X < Xoutofrange && e.Location.Y < Youtofrange)
             {
-                SelectedTile.X = e.X / tilesetSize_RC.Width;
-                SelectedTile.Y = e.Y / tilesetSize_RC.Height;
+                selectedTilePoint.X = e.X / tilePixelSize.Width;
+                selectedTilePoint.Y = e.Y / tilePixelSize.Height;
             }
             UpdateTileset();
             
@@ -178,16 +190,12 @@ namespace WorldTileEditor
         // updates for a whole new tile
         public void UpdateTileset()
         {
-            Graphics g = TilesetGraphicsPanel.CreateGraphics();
-            Tileset.SetResolution(g.DpiX, g.DpiY);
-            TilesetGraphicsPanel.AutoScrollMinSize = Tileset.Size;
+
         }
         // OR showing more tiles on the map
         public void UpdateMap()
         {
-            Graphics g = MapGraphicsPanel.CreateGraphics();
-            Tileset.SetResolution(g.DpiX, g.DpiY);
-            MapGraphicsPanel.AutoScrollMinSize = Tileset.Size;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
