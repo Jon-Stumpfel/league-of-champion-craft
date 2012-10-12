@@ -146,6 +146,7 @@ void CGameManager::LoadLevel(std::string sFileName)
 {
 	std::ostringstream oss;
 	oss << "Assets\\Scripts\\" << sFileName << ".xml";
+	m_vScriptSpawns.clear();
 	CScriptManager::GetInstance()->LoadScript(oss.str(), ST_LEVEL);
 
 
@@ -203,11 +204,13 @@ void CGameManager::RemoveUnit(CUnit* pUnit)
 // Reset the game and load whatever needs to be loaded
 void CGameManager::Reset(void)
 {
+	CTileManager::GetInstance()->ShutDown();
 	for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
 	{
 		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(m_vUnits[i]);
+		CMessageSystem::GetInstance()->SendMessageW(pMsg);
 	}
-	m_vUnits.clear();
+	//m_vUnits.clear();
 
 	for (decltype(m_vPlayers.size()) i = 0; i < m_vPlayers.size(); ++i)
 	{
@@ -215,6 +218,8 @@ void CGameManager::Reset(void)
 	}
 	m_vPlayers.clear();
 
+
+	CMessageSystem::GetInstance()->ProcessMessages();
 	m_nTurnCount = 1;
 
 
@@ -226,6 +231,7 @@ void CGameManager::Reset(void)
 	LoadLevel(string("level1"));
 
 	// Player 1 and his units
+	m_nNewPlayerID = 0;
 	CreatePlayer(false); // player 1
 	CreatePlayer(false);
 

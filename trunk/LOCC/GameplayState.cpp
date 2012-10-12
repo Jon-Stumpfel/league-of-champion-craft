@@ -16,6 +16,9 @@
 #include "Tile.h"
 #include "Ability.h"
 #include "AbilityManager.h"
+#include "StateStack.h"
+#include "PauseState.h"
+
 
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
@@ -327,7 +330,10 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_CANCEL:
 		{
+			if (m_pSelectedUnit == nullptr)
+				CStateStack::GetInstance()->Push(CPauseState::GetInstance());
 			ClearSelections();
+
 		}
 		break;
 	case INPUT_CAM_UP:
@@ -729,52 +735,8 @@ void CGameplayState::Update(float fElapsedTime)
 	LerpCamera(fElapsedTime);
 
 
-	if (pDI->KeyPressed(DIK_W))
-	{
-		Input(INPUT_CAM_UP);
-	}
-	else if (pDI->KeyPressed(DIK_S))
-	{
-		Input(INPUT_CAM_DOWN);
-	}
-	else if (pDI->KeyPressed(DIK_A))
-	{
-		Input(INPUT_CAM_LEFT);
-	}
-	else if (pDI->KeyPressed(DIK_D))
-	{
-		Input(INPUT_CAM_RIGHT);
-	}
-	if (pDI->MouseMovementX() < -nMouseSensitivity)
-	{
-		Input(INPUT_CAM_LEFT);
-	}
-	else if (pDI->MouseMovementX() > nMouseSensitivity)
-	{
-		Input(INPUT_CAM_RIGHT);
-	}
-	if (pDI->MouseMovementY() < -nMouseSensitivity)
-	{
-		Input(INPUT_CAM_UP);
-	}
-	else if (pDI->MouseMovementY() > nMouseSensitivity)
-	{
-		Input(INPUT_CAM_DOWN);
-	}
 
-	if (pDI->KeyPressed(DIK_UP))
-		Input(INPUT_UP);
-	else if (pDI->KeyPressed(DIK_LEFT))
-		Input(INPUT_LEFT);
-	else if (pDI->KeyPressed(DIK_RIGHT))
-		Input(INPUT_RIGHT);
-	else if (pDI->KeyPressed(DIK_DOWN))
-		Input(INPUT_DOWN);
-	else if (pDI->KeyPressed(DIK_RETURN))
-		Input(INPUT_ACCEPT);
-	else if (pDI->KeyPressed(DIK_Z))
-		Input(INPUT_CANCEL);
-	else if (pDI->KeyPressed(DIK_Y))
+	if (pDI->KeyPressed(DIK_Y))
 	{
 		SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
 	}

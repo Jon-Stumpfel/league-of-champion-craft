@@ -97,6 +97,7 @@ CGame::~CGame(void)
 // 3 actions for each frame:
 bool CGame::Input(void)
 {
+	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 	CSGD_DirectInput::GetInstance()->ReadDevices();
 	if (CSGD_DirectInput::GetInstance()->KeyDown(DIK_LALT) || CSGD_DirectInput::GetInstance()->KeyDown(DIK_RALT))
 	{
@@ -107,6 +108,55 @@ bool CGame::Input(void)
 			return true;
 		}
 	}
+
+	
+	// Working intercepting INputManager imeplenetation so that input is done here until then
+	if (pDI->KeyPressed(DIK_W))
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_UP);
+	}
+	else if (pDI->KeyPressed(DIK_S))
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_DOWN);
+	}
+	else if (pDI->KeyPressed(DIK_A))
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_LEFT);
+	}
+	else if (pDI->KeyPressed(DIK_D))
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_RIGHT);
+	}
+	if (pDI->MouseMovementX() < -nMouseSensitivity)
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_LEFT);
+	}
+	else if (pDI->MouseMovementX() > nMouseSensitivity)
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_RIGHT);
+	}
+	if (pDI->MouseMovementY() < -nMouseSensitivity)
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_UP);
+	}
+	else if (pDI->MouseMovementY() > nMouseSensitivity)
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_DOWN);
+	}
+
+	if (pDI->KeyPressed(DIK_UP))
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_UP);
+	else if (pDI->KeyPressed(DIK_LEFT))
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
+	else if (pDI->KeyPressed(DIK_RIGHT))
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
+	else if (pDI->KeyPressed(DIK_DOWN))
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_DOWN);
+	else if (pDI->KeyPressed(DIK_RETURN))
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_ACCEPT);
+	else if (pDI->KeyPressed(DIK_Z))
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
+
 	return true;
 }
 void CGame::Update(void)
