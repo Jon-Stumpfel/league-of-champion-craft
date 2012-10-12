@@ -35,25 +35,15 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadImg = new System.Windows.Forms.ToolStripMenuItem();
             this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btStopPrev = new System.Windows.Forms.Button();
             this.btPreview = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.nudWidth = new System.Windows.Forms.NumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.nudHeight = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.nudImgPosY = new System.Windows.Forms.NumericUpDown();
-            this.nudImgPosX = new System.Windows.Forms.NumericUpDown();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.nudAngleRot = new System.Windows.Forms.NumericUpDown();
             this.nudAngle = new System.Windows.Forms.NumericUpDown();
@@ -126,14 +116,10 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudImgPosY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudImgPosX)).BeginInit();
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAngleRot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAngle)).BeginInit();
@@ -215,30 +201,33 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetToolStripMenuItem,
+            this.loadImg,
             this.previewToolStripMenuItem,
             this.stopPreviewToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
-            // resetToolStripMenuItem
+            // loadImg
             // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
-            this.resetToolStripMenuItem.Text = "Load Image";
+            this.loadImg.Name = "loadImg";
+            this.loadImg.Size = new System.Drawing.Size(164, 24);
+            this.loadImg.Text = "Load Image";
+            this.loadImg.Click += new System.EventHandler(this.loadImg_Click);
             // 
             // previewToolStripMenuItem
             // 
             this.previewToolStripMenuItem.Name = "previewToolStripMenuItem";
             this.previewToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
             this.previewToolStripMenuItem.Text = "Preview";
+            this.previewToolStripMenuItem.Click += new System.EventHandler(this.btPreview_Click);
             // 
             // stopPreviewToolStripMenuItem
             // 
             this.stopPreviewToolStripMenuItem.Name = "stopPreviewToolStripMenuItem";
             this.stopPreviewToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
             this.stopPreviewToolStripMenuItem.Text = "Stop Preview";
+            this.stopPreviewToolStripMenuItem.Click += new System.EventHandler(this.btStopPrev_Click);
             // 
             // splitContainer1
             // 
@@ -266,6 +255,10 @@
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.panel1);
+            // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.btStopPrev);
@@ -274,14 +267,24 @@
             this.splitContainer2.SplitterDistance = 568;
             this.splitContainer2.TabIndex = 0;
             // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(449, 564);
+            this.panel1.TabIndex = 0;
+            // 
             // btStopPrev
             // 
             this.btStopPrev.Location = new System.Drawing.Point(232, 3);
             this.btStopPrev.Name = "btStopPrev";
             this.btStopPrev.Size = new System.Drawing.Size(216, 25);
             this.btStopPrev.TabIndex = 3;
+            this.btStopPrev.TabStop = false;
             this.btStopPrev.Text = "Stop Preview";
             this.btStopPrev.UseVisualStyleBackColor = true;
+            this.btStopPrev.Click += new System.EventHandler(this.btStopPrev_Click);
             // 
             // btPreview
             // 
@@ -289,13 +292,13 @@
             this.btPreview.Name = "btPreview";
             this.btPreview.Size = new System.Drawing.Size(221, 25);
             this.btPreview.TabIndex = 4;
+            this.btPreview.TabStop = false;
             this.btPreview.Text = "Preview";
             this.btPreview.UseVisualStyleBackColor = true;
             this.btPreview.Click += new System.EventHandler(this.btPreview_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.groupBox7);
             this.groupBox1.Controls.Add(this.groupBox9);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.groupBox8);
@@ -309,135 +312,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Particle";
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.label22);
-            this.groupBox7.Controls.Add(this.nudWidth);
-            this.groupBox7.Controls.Add(this.label19);
-            this.groupBox7.Controls.Add(this.label21);
-            this.groupBox7.Controls.Add(this.nudHeight);
-            this.groupBox7.Controls.Add(this.label18);
-            this.groupBox7.Controls.Add(this.label20);
-            this.groupBox7.Controls.Add(this.label3);
-            this.groupBox7.Controls.Add(this.nudImgPosY);
-            this.groupBox7.Controls.Add(this.nudImgPosX);
-            this.groupBox7.Location = new System.Drawing.Point(9, 488);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(200, 95);
-            this.groupBox7.TabIndex = 1;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Image";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(7, 69);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(38, 15);
-            this.label22.TabIndex = 1;
-            this.label22.Text = "Width";
-            // 
-            // nudWidth
-            // 
-            this.nudWidth.Location = new System.Drawing.Point(52, 67);
-            this.nudWidth.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.nudWidth.Name = "nudWidth";
-            this.nudWidth.Size = new System.Drawing.Size(55, 22);
-            this.nudWidth.TabIndex = 6;
-            this.nudWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(111, 19);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(58, 17);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "Position";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(7, 41);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(43, 15);
-            this.label21.TabIndex = 1;
-            this.label21.Text = "Height";
-            // 
-            // nudHeight
-            // 
-            this.nudHeight.Location = new System.Drawing.Point(52, 39);
-            this.nudHeight.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.nudHeight.Name = "nudHeight";
-            this.nudHeight.Size = new System.Drawing.Size(55, 22);
-            this.nudHeight.TabIndex = 6;
-            this.nudHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(14, 19);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(74, 17);
-            this.label18.TabIndex = 1;
-            this.label18.Text = "Dimension";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(113, 71);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(14, 13);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "Y";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(113, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(14, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "X";
-            // 
-            // nudImgPosY
-            // 
-            this.nudImgPosY.Location = new System.Drawing.Point(133, 39);
-            this.nudImgPosY.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.nudImgPosY.Name = "nudImgPosY";
-            this.nudImgPosY.Size = new System.Drawing.Size(61, 22);
-            this.nudImgPosY.TabIndex = 6;
-            this.nudImgPosY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // nudImgPosX
-            // 
-            this.nudImgPosX.Location = new System.Drawing.Point(133, 67);
-            this.nudImgPosX.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.nudImgPosX.Name = "nudImgPosX";
-            this.nudImgPosX.Size = new System.Drawing.Size(61, 22);
-            this.nudImgPosX.TabIndex = 6;
-            this.nudImgPosX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox9
             // 
@@ -454,9 +328,9 @@
             this.groupBox9.Controls.Add(this.label17);
             this.groupBox9.Controls.Add(this.label2);
             this.groupBox9.Controls.Add(this.label1);
-            this.groupBox9.Location = new System.Drawing.Point(13, 150);
+            this.groupBox9.Location = new System.Drawing.Point(13, 151);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(196, 332);
+            this.groupBox9.Size = new System.Drawing.Size(196, 440);
             this.groupBox9.TabIndex = 0;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Emitter";
@@ -476,7 +350,7 @@
             0});
             this.nudAngleRot.Name = "nudAngleRot";
             this.nudAngleRot.Size = new System.Drawing.Size(63, 22);
-            this.nudAngleRot.TabIndex = 7;
+            this.nudAngleRot.TabIndex = 11;
             this.nudAngleRot.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nudAngleRot.ValueChanged += new System.EventHandler(this.nudAngleRot_ValueChanged);
             // 
@@ -495,7 +369,7 @@
             0});
             this.nudAngle.Name = "nudAngle";
             this.nudAngle.Size = new System.Drawing.Size(63, 22);
-            this.nudAngle.TabIndex = 7;
+            this.nudAngle.TabIndex = 10;
             this.nudAngle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nudAngle.ValueChanged += new System.EventHandler(this.nudAngle_ValueChanged);
             // 
@@ -514,8 +388,13 @@
             0});
             this.nudParticleNum.Name = "nudParticleNum";
             this.nudParticleNum.Size = new System.Drawing.Size(120, 22);
-            this.nudParticleNum.TabIndex = 6;
+            this.nudParticleNum.TabIndex = 12;
             this.nudParticleNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudParticleNum.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // label24
             // 
@@ -547,7 +426,7 @@
             this.cbShape.Location = new System.Drawing.Point(61, 25);
             this.cbShape.Name = "cbShape";
             this.cbShape.Size = new System.Drawing.Size(128, 24);
-            this.cbShape.TabIndex = 5;
+            this.cbShape.TabIndex = 8;
             // 
             // tbAngleRot
             // 
@@ -556,6 +435,7 @@
             this.tbAngleRot.Name = "tbAngleRot";
             this.tbAngleRot.Size = new System.Drawing.Size(183, 56);
             this.tbAngleRot.TabIndex = 2;
+            this.tbAngleRot.TabStop = false;
             this.tbAngleRot.Scroll += new System.EventHandler(this.tbAngleRot_Scroll);
             // 
             // tbAngle
@@ -565,6 +445,7 @@
             this.tbAngle.Name = "tbAngle";
             this.tbAngle.Size = new System.Drawing.Size(183, 56);
             this.tbAngle.TabIndex = 2;
+            this.tbAngle.TabStop = false;
             this.tbAngle.Scroll += new System.EventHandler(this.tbAngle_Scroll);
             // 
             // cbLooping
@@ -574,7 +455,7 @@
             this.cbLooping.Location = new System.Drawing.Point(6, 72);
             this.cbLooping.Name = "cbLooping";
             this.cbLooping.Size = new System.Drawing.Size(81, 21);
-            this.cbLooping.TabIndex = 3;
+            this.cbLooping.TabIndex = 9;
             this.cbLooping.Text = "Looping";
             this.cbLooping.UseVisualStyleBackColor = true;
             // 
@@ -645,6 +526,11 @@
             this.nudLifeMin.Size = new System.Drawing.Size(108, 22);
             this.nudLifeMin.TabIndex = 2;
             this.nudLifeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudLifeMin.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // nudLifeMax
             // 
@@ -664,6 +550,11 @@
             this.nudLifeMax.Size = new System.Drawing.Size(108, 22);
             this.nudLifeMax.TabIndex = 2;
             this.nudLifeMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudLifeMax.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label13
             // 
@@ -712,8 +603,13 @@
             0});
             this.nudSpawnMin.Name = "nudSpawnMin";
             this.nudSpawnMin.Size = new System.Drawing.Size(108, 22);
-            this.nudSpawnMin.TabIndex = 2;
+            this.nudSpawnMin.TabIndex = 14;
             this.nudSpawnMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudSpawnMin.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // nudSpawnMax
             // 
@@ -731,8 +627,13 @@
             0});
             this.nudSpawnMax.Name = "nudSpawnMax";
             this.nudSpawnMax.Size = new System.Drawing.Size(108, 22);
-            this.nudSpawnMax.TabIndex = 2;
+            this.nudSpawnMax.TabIndex = 13;
             this.nudSpawnMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudSpawnMax.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
             // 
             // label16
             // 
@@ -786,67 +687,146 @@
             // nudVelMaxEndX
             // 
             this.nudVelMaxEndX.Location = new System.Drawing.Point(45, 197);
+            this.nudVelMaxEndX.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMaxEndX.Name = "nudVelMaxEndX";
             this.nudVelMaxEndX.Size = new System.Drawing.Size(45, 22);
-            this.nudVelMaxEndX.TabIndex = 2;
+            this.nudVelMaxEndX.TabIndex = 22;
             this.nudVelMaxEndX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMaxEndX.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // nudVelMaxStartX
             // 
             this.nudVelMaxStartX.Location = new System.Drawing.Point(48, 88);
+            this.nudVelMaxStartX.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMaxStartX.Name = "nudVelMaxStartX";
             this.nudVelMaxStartX.Size = new System.Drawing.Size(45, 22);
-            this.nudVelMaxStartX.TabIndex = 2;
+            this.nudVelMaxStartX.TabIndex = 18;
             this.nudVelMaxStartX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMaxStartX.Value = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
             // 
             // nudVelMaxEndY
             // 
             this.nudVelMaxEndY.Location = new System.Drawing.Point(132, 197);
+            this.nudVelMaxEndY.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMaxEndY.Name = "nudVelMaxEndY";
             this.nudVelMaxEndY.Size = new System.Drawing.Size(46, 22);
-            this.nudVelMaxEndY.TabIndex = 2;
+            this.nudVelMaxEndY.TabIndex = 23;
             this.nudVelMaxEndY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMaxEndY.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // nudVelMaxStartY
             // 
             this.nudVelMaxStartY.Location = new System.Drawing.Point(135, 88);
+            this.nudVelMaxStartY.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMaxStartY.Name = "nudVelMaxStartY";
             this.nudVelMaxStartY.Size = new System.Drawing.Size(46, 22);
-            this.nudVelMaxStartY.TabIndex = 2;
+            this.nudVelMaxStartY.TabIndex = 19;
             this.nudVelMaxStartY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMaxStartY.Value = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
             // 
             // nudVelMinEndY
             // 
             this.nudVelMinEndY.Location = new System.Drawing.Point(132, 151);
+            this.nudVelMinEndY.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMinEndY.Name = "nudVelMinEndY";
             this.nudVelMinEndY.Size = new System.Drawing.Size(46, 22);
-            this.nudVelMinEndY.TabIndex = 2;
+            this.nudVelMinEndY.TabIndex = 21;
             this.nudVelMinEndY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMinEndY.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // nudVelMinStartY
             // 
             this.nudVelMinStartY.Location = new System.Drawing.Point(135, 42);
+            this.nudVelMinStartY.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMinStartY.Name = "nudVelMinStartY";
             this.nudVelMinStartY.Size = new System.Drawing.Size(46, 22);
-            this.nudVelMinStartY.TabIndex = 2;
+            this.nudVelMinStartY.TabIndex = 17;
             this.nudVelMinStartY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMinStartY.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // nudVelMinEndX
             // 
-            this.nudVelMinEndX.Enabled = false;
             this.nudVelMinEndX.Location = new System.Drawing.Point(45, 151);
+            this.nudVelMinEndX.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMinEndX.Name = "nudVelMinEndX";
             this.nudVelMinEndX.Size = new System.Drawing.Size(46, 22);
-            this.nudVelMinEndX.TabIndex = 2;
+            this.nudVelMinEndX.TabIndex = 20;
             this.nudVelMinEndX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMinEndX.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // nudVelMinStartX
             // 
             this.nudVelMinStartX.Location = new System.Drawing.Point(48, 42);
+            this.nudVelMinStartX.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.nudVelMinStartX.Name = "nudVelMinStartX";
             this.nudVelMinStartX.Size = new System.Drawing.Size(46, 22);
-            this.nudVelMinStartX.TabIndex = 2;
+            this.nudVelMinStartX.TabIndex = 16;
             this.nudVelMinStartX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudVelMinStartX.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // label38
             // 
@@ -1010,7 +990,7 @@
             0});
             this.nudRotEnd.Name = "nudRotEnd";
             this.nudRotEnd.Size = new System.Drawing.Size(82, 22);
-            this.nudRotEnd.TabIndex = 2;
+            this.nudRotEnd.TabIndex = 7;
             this.nudRotEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // nudRotStart
@@ -1028,7 +1008,7 @@
             0});
             this.nudRotStart.Name = "nudRotStart";
             this.nudRotStart.Size = new System.Drawing.Size(82, 22);
-            this.nudRotStart.TabIndex = 2;
+            this.nudRotStart.TabIndex = 6;
             this.nudRotStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label9
@@ -1078,8 +1058,13 @@
             0});
             this.nudScaleEnd.Name = "nudScaleEnd";
             this.nudScaleEnd.Size = new System.Drawing.Size(82, 22);
-            this.nudScaleEnd.TabIndex = 2;
+            this.nudScaleEnd.TabIndex = 5;
             this.nudScaleEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudScaleEnd.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
             // 
             // nudScaleStart
             // 
@@ -1097,8 +1082,13 @@
             0});
             this.nudScaleStart.Name = "nudScaleStart";
             this.nudScaleStart.Size = new System.Drawing.Size(82, 22);
-            this.nudScaleStart.TabIndex = 2;
+            this.nudScaleStart.TabIndex = 4;
             this.nudScaleStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudScaleStart.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label7
             // 
@@ -1177,7 +1167,7 @@
             this.btColorEnd.Location = new System.Drawing.Point(6, 89);
             this.btColorEnd.Name = "btColorEnd";
             this.btColorEnd.Size = new System.Drawing.Size(86, 23);
-            this.btColorEnd.TabIndex = 0;
+            this.btColorEnd.TabIndex = 1;
             this.btColorEnd.UseVisualStyleBackColor = false;
             this.btColorEnd.Click += new System.EventHandler(this.btColorEnd_Click);
             // 
@@ -1206,7 +1196,7 @@
             0});
             this.nudEndAlpha.Name = "nudEndAlpha";
             this.nudEndAlpha.Size = new System.Drawing.Size(71, 22);
-            this.nudEndAlpha.TabIndex = 6;
+            this.nudEndAlpha.TabIndex = 3;
             this.nudEndAlpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nudEndAlpha.Value = new decimal(new int[] {
             255,
@@ -1229,7 +1219,7 @@
             0});
             this.nudStartAlpha.Name = "nudStartAlpha";
             this.nudStartAlpha.Size = new System.Drawing.Size(71, 22);
-            this.nudStartAlpha.TabIndex = 6;
+            this.nudStartAlpha.TabIndex = 2;
             this.nudStartAlpha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nudStartAlpha.Value = new decimal(new int[] {
             255,
@@ -1254,16 +1244,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudImgPosY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudImgPosX)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAngleRot)).EndInit();
@@ -1338,18 +1323,8 @@
         private System.Windows.Forms.Button btColorEnd;
         private System.Windows.Forms.Button btColorStart;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.NumericUpDown nudWidth;
-        private System.Windows.Forms.NumericUpDown nudHeight;
-        private System.Windows.Forms.NumericUpDown nudImgPosY;
-        private System.Windows.Forms.NumericUpDown nudImgPosX;
         private System.Windows.Forms.NumericUpDown nudParticleNum;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.NumericUpDown nudSpawnMax;
         private System.Windows.Forms.NumericUpDown nudSpawnMin;
@@ -1366,13 +1341,12 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadImg;
         private System.Windows.Forms.NumericUpDown nudAngle;
         private System.Windows.Forms.NumericUpDown nudAngleRot;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TrackBar tbAngleRot;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopPreviewToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown nudVelMaxStartY;
@@ -1389,7 +1363,6 @@
         private System.Windows.Forms.NumericUpDown nudVelMaxEndX;
         private System.Windows.Forms.NumericUpDown nudVelMaxEndY;
         private System.Windows.Forms.NumericUpDown nudVelMinEndY;
-        private System.Windows.Forms.NumericUpDown nudVelMinEndX;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label36;
@@ -1400,6 +1373,8 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Button btStopPrev;
         private System.Windows.Forms.Button btPreview;
+        private System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.NumericUpDown nudVelMinEndX;
     }
 }
 

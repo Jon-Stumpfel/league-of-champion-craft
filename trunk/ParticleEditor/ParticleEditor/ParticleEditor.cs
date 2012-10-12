@@ -12,20 +12,86 @@ namespace ParticleEditor
 {
     public partial class ParticleEditor : Form
     {
-        private Emitter emitter = Emitter.Instance1;
+        private Emitter emitter = Emitter.Instance;
+        private bool alive;
+
+        public bool Alive
+        {
+            get { return alive; }
+            set { alive = value; }
+        }
+
+        public void Update(float fElapsedTime)
+        {
+            double rad = Math.PI / 180;
+            emitter.Angle = float.Parse(nudAngle.Value.ToString()) * float.Parse(rad.ToString());
+            emitter.AngleRotation = float.Parse(nudAngleRot.Value.ToString()) * float.Parse(rad.ToString());
+
+            emitter.Update(fElapsedTime);
+
+            if (nudSpawnMin.Value > nudSpawnMax.Value)
+                nudSpawnMax.Value = nudSpawnMin.Value;
+
+            if (nudLifeMin.Value > nudLifeMax.Value)
+                nudLifeMax.Value = nudLifeMin.Value;
+
+            if (nudVelMinEndX.Value > nudVelMaxEndX.Value)
+                nudVelMaxEndX.Value = nudVelMinEndX.Value;
+
+            if (nudVelMinStartX.Value > nudVelMaxStartX.Value)
+                nudVelMaxStartX.Value = nudVelMinStartX.Value;
+
+            if (nudVelMinEndY.Value > nudVelMaxEndY.Value)
+                nudVelMaxEndY.Value = nudVelMinEndY.Value;
+
+            if (nudVelMinStartY.Value > nudVelMaxStartY.Value)
+                nudVelMaxStartY.Value = nudVelMinStartY.Value;
+            
+        }
+
+        SGP.ManagedDirect3D d3d = SGP.ManagedDirect3D.Instance;
+        SGP.ManagedTextureManager tm = SGP.ManagedTextureManager.Instance;
+
+        public void Render()
+        {
+
+            d3d.DeviceBegin();
+            d3d.SpriteBegin();
+
+            d3d.Clear(Color.Beige);
+            d3d.Sprite.Flush();
+
+            emitter.Render();
+
+            d3d.SpriteEnd();
+            d3d.DeviceEnd();
+
+            d3d.Present();
+            
+        }
+
         public ParticleEditor()
         {
             InitializeComponent();
-            // Initalizes the click and drag value thing...
+
+            SGP.ManagedDirect3D d3d = SGP.ManagedDirect3D.Instance;
+            d3d.InitManagedDirect3D(panel1);
+            SGP.ManagedTextureManager mtm = SGP.ManagedTextureManager.Instance;
+            mtm.InitManagedTextureManager(d3d.Device, d3d.Sprite);
+
             int value = tbAngle.Value;
             nudAngle.Value = value;
             
             value = (int)nudAngleRot.Value;
             tbAngleRot.Value = value;
 
-            emitter.Alive = true;
-            thread = new Thread(new ThreadStart(emitter.Run));
-            thread.Start();
+            Alive = true;
+
+            Vector2D pos = new Vector2D();
+            pos.Init(230, 270);
+            emitter.Pos = pos;
+            emitter.Type = Shape.POINT;
+            cbShape.SelectedIndex = 0;
         }
 
         private void tbAngle_Scroll(object sender, EventArgs e)
@@ -66,35 +132,36 @@ namespace ParticleEditor
             btColorEnd.BackColor = cd.Color;
         }
 
-        private Thread thread;
-
-
         private void btPreview_Click(object sender, EventArgs e)
         {
-            int R = int.Parse(btColorStart.ForeColor.R.ToString());
-            int G = int.Parse(btColorStart.ForeColor.G.ToString());
-            int B = int.Parse(btColorStart.ForeColor.B.ToString());
+            int R = int.Parse(btColorStart.BackColor.R.ToString());
+            int G = int.Parse(btColorStart.BackColor.G.ToString());
+            int B = int.Parse(btColorStart.BackColor.B.ToString());
             emitter.ColorStart = Color.FromArgb(int.Parse(nudStartAlpha.Value.ToString()), R, G, B);
 
-            R = int.Parse(btColorEnd.ForeColor.R.ToString());
-            G = int.Parse(btColorEnd.ForeColor.G.ToString());
-            B = int.Parse(btColorEnd.ForeColor.B.ToString());
+            R = int.Parse(btColorEnd.BackColor.R.ToString());
+            G = int.Parse(btColorEnd.BackColor.G.ToString());
+            B = int.Parse(btColorEnd.BackColor.B.ToString());
             emitter.ColorEnd = Color.FromArgb(int.Parse(nudEndAlpha.Value.ToString()), R, G, B);
 
             emitter.ParticleCount = (int)nudParticleNum.Value;
-            emitter.ImgHeight = (int)nudHeight.Value;
-            emitter.ImgWidth = (int)nudWidth.Value;
             float pi = float.Parse(Math.PI.ToString());
-            emitter.Angle = (float) nudAngle.Value * pi / 180;
-            emitter.AngleRotation = (float)nudAngleRot.Value * pi / 180;
-            emitter.RotationStart = (float)nudRotStart.Value;
-            emitter.RotationEnd = (float)nudRotEnd.Value;
-            emitter.ScaleStart = (float)nudScaleStart.Value;
-            emitter.ScaleEnd = (float)nudScaleEnd.Value;
-            emitter.SpawnMax = (float)nudSpawnMax.Value;
-            emitter.SpawnMin = (float)nudSpawnMin.Value;
-            emitter.LifeMax = (float)nudLifeMax.Value;
-            emitter.LifeMin = (float)nudLifeMin.Value;
+
+            double rad = Math.PI / 180;
+            emitter.Angle = float.Parse(nudAngle.Value.ToString()) * float.Parse(rad.ToString());
+            emitter.AngleRotation = float.Parse(nudAngleRot.Value.ToString()) * float.Parse(rad.ToString());
+            
+            double r = (double)nudRotStart.Value * rad;
+            emitter.RotationStart = float.Parse(r.ToString());
+            r = (double)nudRotEnd.Value * rad;
+            emitter.RotationEnd = float.Parse(r.ToString());
+
+            emitter.ScaleStart = float.Parse(nudScaleStart.Value.ToString());
+            emitter.ScaleEnd = float.Parse(nudScaleEnd.Value.ToString());
+            emitter.SpawnMax = float.Parse(nudSpawnMax.Value.ToString());
+            emitter.SpawnMin = float.Parse(nudSpawnMin.Value.ToString());
+            emitter.LifeMax = float.Parse(nudLifeMax.Value.ToString());
+            emitter.LifeMin = float.Parse(nudLifeMin.Value.ToString());
 
             Vector2D tmp = new Vector2D();
             tmp.Init((float)nudVelMaxStartX.Value, (float)nudVelMaxStartY.Value);
@@ -105,8 +172,6 @@ namespace ParticleEditor
             emitter.VelStartMin = tmp;
             tmp.Init((float)nudVelMinEndX.Value, (float)nudVelMinEndY.Value);
             emitter.VelEndMin = tmp;
-            tmp.Init((float)nudImgPosX.Value, (float)nudImgPosY.Value);
-            emitter.ImgPos = tmp;
 
             emitter.Looping = cbLooping.Checked;
             int i = cbShape.SelectedIndex;
@@ -120,24 +185,35 @@ namespace ParticleEditor
             else if( i == 3 )
                 emitter.Type = Shape.LINE;
 
-            emitter.InitParticle();
+            Vector2D pos = new Vector2D();
+            pos.Init(230, 270);
+            emitter.Pos = pos;
 
-            if (emitter.Alive == false)
+            if (emitter.Imgpath == null)
             {
-                emitter.InitParticle();
-                emitter.Alive = true;
-                thread = new Thread(new ThreadStart(emitter.Run));
-                thread.Start();
+                string s = "No Image Selected";
+                DialogResult mb = MessageBox.Show(s);
+                return;
             }
-            else
-            {
-                emitter.InitParticle();
-            }
+
+            emitter.InitParticle();
         }
 
         private void ParticleEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            thread.Abort();
+            alive = false;
+        }
+
+        private void btStopPrev_Click(object sender, EventArgs e)
+        {
+            emitter.Clear();
+        }
+
+        private void loadImg_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog of = new OpenFileDialog();
+            DialogResult result = of.ShowDialog();
+            emitter.Imgpath = of.FileName;
         }
     }
 }
