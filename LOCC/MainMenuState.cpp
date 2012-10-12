@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MainMenuState.h"
 #include "StateStack.h"
+#include "GameplayState.h"
 //CMainMenuState* CMainMenuState::s_Instance = nullptr;
 
 CMainMenuState::CMainMenuState(void)
@@ -24,15 +25,16 @@ void CMainMenuState::Exit(void)
 
 void CMainMenuState::Input(INPUT_ENUM input)
 {
-
+	switch (input)
+	{
+	case INPUT_ACCEPT:
+		CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+	}
 }
 
 void CMainMenuState::Update(float fElapsedTime)
 {
-	if (CSGD_DirectInput::GetInstance()->KeyPressed(DIK_RETURN))
-	{
-		CStateStack::GetInstance()->Pop();
-	}
+
 }
 
 void CMainMenuState::Render(void)
