@@ -29,6 +29,9 @@ public:
 	void ClearSelections(void);
 
 	CUnit* GetSelectedUnit(void) { return m_pSelectedUnit; }
+
+	CUnit* GetHighlighted(void) { return m_pHighlightedUnit;}
+	void ClearHighlighted(void) { m_pHighlightedUnit = nullptr;}
 private:
 
 	class ASNode
@@ -71,11 +74,18 @@ private:
 	Vec2D m_CameraPos;
 	Vec2D m_SelectionPos;
 
+	int m_nCardOffsetX;
+	int m_nCardOffsetMaxX;
+	float m_fCardOffsetLerp;
+	bool m_bShowingCard;
+
 	int m_nSelectedAbility;
 	void UseAbility(CAbility* ability);
 
 
 	CUnit* m_pSelectedUnit;
+	CUnit* m_pHighlightedUnit;
+	bool m_bIsHighlighting;
 	CTile* m_pTargetedTile;
 	bool m_bIsMoving;
 	bool m_bIsTargeting;

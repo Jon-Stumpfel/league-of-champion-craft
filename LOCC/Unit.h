@@ -3,6 +3,7 @@
 #include "Ability.h"
 #include "GameObject.h"
 #include "AnimationManager.h"
+#include "Tile.h"
 class CUnit : public CGameObject
 {
 	int m_nHP;
@@ -32,6 +33,9 @@ class CUnit : public CGameObject
 public:
 	CUnit(UNIT_TYPE type);
 	~CUnit(void);
+
+	int GetNumWaypoints(void) { return m_vWaypoints.size();};
+	Vec2D GetLastWaypoint(void) { return m_vWaypoints.front()->GetPosition();};
 
 	int GetPortraitID(void);
 

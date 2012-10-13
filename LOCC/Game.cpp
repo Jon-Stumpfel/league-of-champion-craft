@@ -4,6 +4,7 @@
 #include "GameManager.h"
 #include "ObjectManager.h"
 #include "MessageSystem.h"
+#include "InputManager.h"
 #include "TileManager.h"
 #include "MainMenuState.h"
 #include "GameplayState.h"
@@ -26,7 +27,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_bIsWindowed = bIsWindowed;
 	m_hWnd = hWnd;
 
-	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE);
+	CInputManager::GetInstance()->Initialize(hWnd, hInstance);
 
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
@@ -58,6 +59,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\damageicon.png"), _T("damageicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\tilesmovedicon.png"), _T("tilesmovedicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\shieldicon.png"), _T("shieldicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\showcard.png"), _T("showcard"), 0UL);
 
 	m_dwCurrTime = GetTickCount();
 }
@@ -77,6 +79,7 @@ bool CGame::Main(void)
 void CGame::Shutdown(void)
 {
 	CScriptManager::DeleteInstance();
+	CInputManager::DeleteInstance();
 	CGraphicsManager::DeleteInstance();
 	CGameManager::DeleteInstance();
 	CObjectManager::DeleteInstance();
@@ -111,53 +114,9 @@ bool CGame::Input(void)
 
 	
 	// Working intercepting INputManager imeplenetation so that input is done here until then
-	if (pDI->KeyPressed(DIK_W))
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_UP);
-	}
-	else if (pDI->KeyPressed(DIK_S))
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_DOWN);
-	}
-	else if (pDI->KeyPressed(DIK_A))
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_LEFT);
-	}
-	else if (pDI->KeyPressed(DIK_D))
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_RIGHT);
-	}
-	if (pDI->MouseMovementX() < -nMouseSensitivity)
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_LEFT);
-	}
-	else if (pDI->MouseMovementX() > nMouseSensitivity)
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_RIGHT);
-	}
-	if (pDI->MouseMovementY() < -nMouseSensitivity)
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_UP);
-	}
-	else if (pDI->MouseMovementY() > nMouseSensitivity)
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CAM_DOWN);
-	}
 
-	if (pDI->KeyPressed(DIK_UP))
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_UP);
-	else if (pDI->KeyPressed(DIK_LEFT))
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
-	else if (pDI->KeyPressed(DIK_RIGHT))
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
-	else if (pDI->KeyPressed(DIK_DOWN))
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_DOWN);
-	else if (pDI->KeyPressed(DIK_RETURN))
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_ACCEPT);
-	else if (pDI->KeyPressed(DIK_Z))
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
 
-	return true;
+	return CInputManager::GetInstance()->Input();
 }
 void CGame::Update(void)
 {

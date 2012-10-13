@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Map mapID="-842150451" phaseNumber="0" phase="0" currPlayer="0">
+    <Players>
+        <Player id="0" ai="0" AP="26" wood="20" metal="20">
+            <Champion posX="4" posY="2" health="50" xp="0" facing="2" tilesMoved="0" hasAttacked="0" />
+            <Units numUnits="2">
+                <Unit posX="3" posY="2" unitType="2" health="12" facing="3" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="7" posY="4" unitType="3" health="20" facing="0" tilesMoved="0" hasAttacked="0" />
+            </Units>
+        </Player>
+        <Player id="1" ai="0" AP="30" wood="20" metal="20">
+            <Champion posX="4" posY="5" health="50" xp="0" facing="2" tilesMoved="0" hasAttacked="0" />
+            <Units numUnits="2">
+                <Unit posX="3" posY="5" unitType="2" health="12" facing="3" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="5" posY="5" unitType="3" health="20" facing="3" tilesMoved="0" hasAttacked="0" />
+            </Units>
+        </Player>
+    </Players>
+</Map>
