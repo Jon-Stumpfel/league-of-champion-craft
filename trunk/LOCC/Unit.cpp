@@ -60,6 +60,16 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	}
 	m_vAbilities.push_back(pAbility);
 
+	if (m_eType == UT_HERO)
+	{
+		pAbility = new CAbility();
+		pAbility->m_nAPCost = 0;
+		pAbility->m_nNumTargets = -1;
+		pAbility->m_szInterfaceIcon = TSTRING(_T("champspellicon"));
+		m_vAbilities.push_back(pAbility);
+	}
+
+
 	m_sAnimStruct = new UnitAnimation();
 	m_sAnimStruct->animationType = AT_WALK_W;
 	m_sAnimStruct->fCurrentTime = 0.0f;

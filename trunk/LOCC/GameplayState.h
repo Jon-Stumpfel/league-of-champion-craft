@@ -79,6 +79,12 @@ private:
 	float m_fCardOffsetLerp;
 	bool m_bShowingCard;
 
+	bool m_bSelectChampionAbility;
+	int m_nSelectedSpell;
+	int m_nSpellPanelOffsetY;
+	int m_nSpellPanelOffsetYMAX;
+	bool m_bShowSpellPanel;
+
 	int m_nSelectedAbility;
 	void UseAbility(CAbility* ability);
 

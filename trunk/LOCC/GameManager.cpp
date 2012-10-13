@@ -15,6 +15,10 @@
 
 CGameManager* CGameManager::s_Instance = nullptr;
 
+bool IntToBool(int n)
+{
+	return (n != 0);
+}
 CGameManager::CGameManager(void)
 {
 	m_nNewPlayerID = 0;
@@ -296,7 +300,7 @@ void CGameManager::LoadSave(int nSlot)
 			pPlayer->QueryIntAttribute("wood", &nWood);
 			pPlayer->QueryIntAttribute("AP", &nAP);
 			pPlayer->QueryIntAttribute("metal", &nMetal);
-			CPlayer* pplay = CreatePlayer((bool)nAIControlled);
+			CPlayer* pplay = CreatePlayer(IntToBool(nAIControlled));
 
 			pplay->SetWood(nWood);
 			pplay->SetAP(nAP);
@@ -318,7 +322,7 @@ void CGameManager::LoadSave(int nSlot)
 			pplay->SetExp(nXP);
 
 			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
-				nHealth, nTilesMoved, (bool)nHasAttacked);
+				nHealth, nTilesMoved, IntToBool(nAIControlled));
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 
@@ -340,7 +344,7 @@ void CGameManager::LoadSave(int nSlot)
 
 				CSpawnUnitMessage* pUnitMsg = 
 					new CSpawnUnitMessage(Vec2D(nUnitPosX, nUnitPosY), nPlayerID, (UNIT_TYPE)nUnitType, nUnitFacing, true, nUnitHealth,
-						nUnitTilesMoved,(bool)nUnitHasAttacked );
+						nUnitTilesMoved,IntToBool(nAIControlled) );
 				CMessageSystem::GetInstance()->SendMessageW(pUnitMsg);
 
 				pUnit = pUnit->NextSiblingElement("Unit");
