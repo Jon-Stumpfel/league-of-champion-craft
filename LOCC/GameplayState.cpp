@@ -1,4 +1,4 @@
- #include "StdAfx.h"
+#include "StdAfx.h"
 #include "GameplayState.h"
 #include "GameObject.h"
 #include "ObjectManager.h"
@@ -18,7 +18,7 @@
 #include "AbilityManager.h"
 #include "StateStack.h"
 #include "PauseState.h"
-
+#include "Hero.h"
 
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
@@ -63,16 +63,21 @@ void CGameplayState::Enter(void)
 
 	// INITIALIZATION SETUP
 
-	
+
 	m_bIsMoving = false;
 	m_bIsTargeting = false;
 	m_pSelectedUnit = nullptr;
 	m_pHighlightedUnit = nullptr;
-//	m_CameraPos = Vec2D(0, 0);
+	//	m_CameraPos = Vec2D(0, 0);
 	m_SelectionPos = Vec2D(0, 0);
 	m_bLerpingX = false;
 	m_bIsHighlighting = false;
 	m_nSelectedAbility = 0;
+	m_bSelectChampionAbility = false;
+	m_bShowSpellPanel = false;
+	m_nSelectedSpell = 0;
+	m_nSpellPanelOffsetY = CGame::GetInstance()->GetWindowHeight();
+	m_nSpellPanelOffsetYMAX =  CGame::GetInstance()->GetWindowHeight() - 120;
 	m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
 	m_nCardOffsetMaxX = CGame::GetInstance()->GetWindowWidth() - 230;
 	SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
@@ -105,7 +110,7 @@ void CGameplayState::SnapToPosition(Vec2D pPos)
 
 	//m_oldCamPixelPos = m_currCamPixelPos;
 	int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
-    int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
+	int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
 	//m_newCamPixelPos.nPosX = x;
 	//m_newCamPixelPos.nPosY = y;
 	//m_bLerpingX = true;
@@ -263,10 +268,19 @@ void CGameplayState::Input(INPUT_ENUM input)
 				//}
 				//else
 				{
-					// Champion ability is not pulled up, so just move the cursor on the main panel
-					m_nSelectedAbility--;
-					if (m_nSelectedAbility < 0)
-						m_nSelectedAbility = 2;
+					if (m_bSelectChampionAbility)
+					{
+						m_nSelectedSpell--;
+						if (m_nSelectedSpell < 0)
+							m_nSelectedSpell = 3;
+					}
+					else
+					{
+						// Champion ability is not pulled up, so just move the cursor on the main panel
+						m_nSelectedAbility--;
+						if (m_nSelectedAbility < 0)
+							m_nSelectedAbility = 2;
+					}
 				}
 			}
 			else
@@ -287,10 +301,19 @@ void CGameplayState::Input(INPUT_ENUM input)
 				//}
 				//else
 				{
-					// Champion ability is not pulled up, so just move the cursor on the main panel
-					m_nSelectedAbility++;
-					if (m_nSelectedAbility > 2)
-						m_nSelectedAbility = 0;
+					if (m_bSelectChampionAbility)
+					{
+						m_nSelectedSpell++;
+						if (m_nSelectedSpell > 3)
+							m_nSelectedSpell = 0;
+					}
+					else
+					{
+						// Champion ability is not pulled up, so just move the cursor on the main panel
+						m_nSelectedAbility++;
+						if (m_nSelectedAbility > 2)
+							m_nSelectedAbility = 0;
+					}
 				}
 			}
 			else
@@ -340,7 +363,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 				}
 				else
 				{
-					UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
+					if (m_bSelectChampionAbility)
+					{
+						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+						UseAbility(pHero->GetSpell(m_nSelectedSpell));
+					}
+					else
+					{
+						UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
+					}
 				}
 			}
 		}
@@ -362,10 +393,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 					m_bIsTargeting = false;
 					SnapToPosition(m_pSelectedUnit->GetPos());
 				}
+				else if (m_bSelectChampionAbility)
+				{
+					m_bSelectChampionAbility = false;
+					m_nSelectedSpell = 0;
+				}
 				else
 					ClearSelections();
 			}
-			
+
 
 		}
 		break;
@@ -400,6 +436,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 {
 	if (ability == nullptr)
 		return;
+	if (ability->m_nNumTargets == -1) // champion spell panel
+	{
+		m_bSelectChampionAbility = true;
+		return;
+	}
 	if (ability->m_nPhase != CGameManager::GetInstance()->GetCurrentPhase())
 		return;
 	// They used the movement ability
@@ -798,7 +839,24 @@ void CGameplayState::Update(float fElapsedTime)
 		if (m_nCardOffsetX > CGame::GetInstance()->GetWindowWidth())
 			m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
 	}
+	if (m_bSelectChampionAbility)
+	{
+		if (m_nSpellPanelOffsetY > m_nSpellPanelOffsetYMAX)
+		{
+			m_nSpellPanelOffsetY -= (int)(650 * fElapsedTime);
+		}
+		if (m_nSpellPanelOffsetY < m_nSpellPanelOffsetYMAX)
+			m_nSpellPanelOffsetY = m_nSpellPanelOffsetYMAX;
+		if (m_nCardOffsetX < CGame::GetInstance()->GetWindowHeight())
+			m_bShowSpellPanel = true;
 
+	}
+	else
+	{
+		m_nSpellPanelOffsetY += (int)(650 * fElapsedTime);
+		if (m_nSpellPanelOffsetY > CGame::GetInstance()->GetWindowHeight())
+			m_nSpellPanelOffsetY = CGame::GetInstance()->GetWindowHeight();
+	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
@@ -941,7 +999,7 @@ void CGameplayState::Render(void)
 		{
 			std::wostringstream moss;
 			CSGD_TextureManager::GetInstance()->Draw(m_pHighlightedUnit->GetPortraitID(), m_nCardOffsetX + 20, 244, 1.6f, 1.6f);
-			
+
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
 				m_nCardOffsetX + 150, 248, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetSpeed();
@@ -1053,6 +1111,32 @@ void CGameplayState::Render(void)
 		}
 		int n = CGame::GetInstance()->GetWindowWidth();
 		int y = CGame::GetInstance()->GetWindowHeight();
+
+		if (m_bShowSpellPanel)
+		{
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(_T("spellpanel")), 245, m_nSpellPanelOffsetY, 0.64f, 0.6f);
+
+			CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+			if (pHero != nullptr)
+			{
+				for (int i = 0; i <4; ++i)
+				{
+					CSGD_TextureManager::GetInstance()->Draw(
+						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
+						260 + (i * 78), m_nSpellPanelOffsetY + 42);
+					if (m_nSelectedSpell == i)
+					{
+						CSGD_TextureManager::GetInstance()->Draw(
+							CGraphicsManager::GetInstance()->GetID(_T("panelselect")), 
+							253 + (i * 78), m_nSpellPanelOffsetY + 36, 0.6f, 0.6f);
+					}
+
+				}
+			}
+
+
+		}
 	}
 	// MINI MAP TIME! Render this ontop of the interface thing. Will need to tweak when we go isometric
 
@@ -1225,33 +1309,33 @@ void CGameplayState::Render(void)
 			oss.str(_T(""));
 
 
-		oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
-			", Metal: " << pDebugPlayer->GetMetal() << '\n';
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
-		oss.str(_T(""));
-		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == 0)
-			oss << "PLAYER 1 ";
-		else 
-			oss << "PLAYER 2 ";
-		if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
-		{
-			oss << "MOVEMENT";
-		}
-		else
-			oss << "ATTACK";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 0, 255, 255, 255);
-		oss.str(_T(""));
-		int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
-		oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
+			oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
+				", Metal: " << pDebugPlayer->GetMetal() << '\n';
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
+			oss.str(_T(""));
+			if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == 0)
+				oss << "PLAYER 1 ";
+			else 
+				oss << "PLAYER 2 ";
+			if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+			{
+				oss << "MOVEMENT";
+			}
+			else
+				oss << "ATTACK";
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 0, 255, 255, 255);
+			oss.str(_T(""));
+			int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
+			oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
 
-		oss.str(_T(""));
-		oss << "Selected Unit: ";
-		if (m_pSelectedUnit != nullptr)
-		{
-			oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
-				m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP() << ", facing: " << m_pSelectedUnit->GetFacing();
-		}
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
+			oss.str(_T(""));
+			oss << "Selected Unit: ";
+			if (m_pSelectedUnit != nullptr)
+			{
+				oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
+					m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP() << ", facing: " << m_pSelectedUnit->GetFacing();
+			}
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 		}
 }
