@@ -18,6 +18,7 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 
 	if (m_eType != UT_ARCHER)
 	{
+		
 	pAbility = new CAbility();
 	pAbility->m_nAPCost = 1;
 	pAbility->m_bIsMove = false;

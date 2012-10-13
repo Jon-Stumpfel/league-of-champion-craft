@@ -67,11 +67,14 @@ void CGameplayState::Enter(void)
 	m_bIsMoving = false;
 	m_bIsTargeting = false;
 	m_pSelectedUnit = nullptr;
+	m_pHighlightedUnit = nullptr;
 //	m_CameraPos = Vec2D(0, 0);
 	m_SelectionPos = Vec2D(0, 0);
 	m_bLerpingX = false;
+	m_bIsHighlighting = false;
 	m_nSelectedAbility = 0;
-
+	m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
+	m_nCardOffsetMaxX = CGame::GetInstance()->GetWindowWidth() - 230;
 	SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
 
 }
@@ -97,14 +100,22 @@ void CGameplayState::SnapToPosition(Vec2D pPos)
 {
 	int nSelX = pPos.nPosX - m_SelectionPos.nPosX;
 	int nSelY = pPos.nPosY - m_SelectionPos.nPosY;
-	int nWindowTileWidth = CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth;
-	int nWindowTileHeight = CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight;
-	int nDesiredCamX = pPos.nPosX - m_CameraPos.nPosX;
-	int nDesiredCamY = pPos.nPosY - m_CameraPos.nPosY;
-	int camX = nDesiredCamX - m_CameraPos.nPosX;
-	int camY = nDesiredCamY - m_CameraPos.nPosY;
+
 	MoveCursor(nSelX, nSelY, false);
-	MoveCamera(nDesiredCamX, nDesiredCamY );
+
+	//m_oldCamPixelPos = m_currCamPixelPos;
+	int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
+    int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
+	//m_newCamPixelPos.nPosX = x;
+	//m_newCamPixelPos.nPosY = y;
+	//m_bLerpingX = true;
+
+
+	m_oldCamPixelPos = m_currCamPixelPos;
+	m_newCamPixelPos = Vec2D(x, y);
+	m_fLerpPercent = 1.0f;
+	m_bLerpingX = true;
+	//MoveCamera(nDesiredCamX, nDesiredCamY );
 }
 
 // Moves the selection cursor by deltaX and deltaY values. Lock when true locks the camera from moving, otherwise
@@ -113,6 +124,14 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 {
 	m_SelectionPos.nPosX += dX;
 	m_SelectionPos.nPosY += dY;
+
+	if (CGameManager::GetInstance()->FindUnit(m_SelectionPos))
+	{
+		m_bIsHighlighting = true;
+		m_pHighlightedUnit = CGameManager::GetInstance()->FindUnit(m_SelectionPos);
+	}
+	else
+		m_bIsHighlighting = false;
 
 	// If we're in moving mode, then calculate the best path
 	if (m_bIsMoving)
@@ -183,34 +202,36 @@ void CGameplayState::LerpCamera(float fElapsedTime)
 {
 	if (m_bLerpingX)
 	{
+		if (m_currCamPixelPos.nPosY > 2000)
+		{
+			int x = 9;
+		}
 		m_currCamPixelPos = Lerp(m_oldCamPixelPos, m_newCamPixelPos, m_fLerpPercent);
+
 		m_fLerpPercent -= nCameraScrollSpeed * fElapsedTime;
 	}
 	if (m_fLerpPercent < 0)
 	{
 		m_bLerpingX = false;
 		m_oldCamPixelPos = m_newCamPixelPos;
+		m_fLerpPercent = 0.0f;
 	}
 }
 
 // Moves the camera by dX and dY values (delta)
 void CGameplayState::MoveCamera(int dX, int dY)
 {
-	OffsetRect(&rCamRect, dX, dY);
-	m_fLerpPercent = 1;
-
 	m_oldCamPixelPos.nPosX = m_currCamPixelPos.nPosX;
 	m_oldCamPixelPos.nPosY = m_currCamPixelPos.nPosY;
-
-	m_CameraPos.nPosX += dX;
-	m_CameraPos.nPosY += dY;
-
-    int x = (nFakeTileWidth / 2 * (m_CameraPos.nPosX)) - (nFakeTileHeight / 2 * (m_CameraPos.nPosY));
-    int y = (nFakeTileWidth / 2 * (m_CameraPos.nPosX)) + (nFakeTileHeight  / 2 * (m_CameraPos.nPosY)) ;
-	m_newCamPixelPos.nPosX = x;
-	m_newCamPixelPos.nPosY = y;
+	if (dX > 0)
+		m_newCamPixelPos.nPosX = m_currCamPixelPos.nPosX  + 10;
+	else if (dX < 0)
+		m_newCamPixelPos.nPosX = m_currCamPixelPos.nPosX  -  10;
+	if (dY > 0)
+		m_newCamPixelPos.nPosY =  m_currCamPixelPos.nPosY  + 10;
+	else if (dY < 0)
+		m_newCamPixelPos.nPosY =  m_currCamPixelPos.nPosY  - 10;
 	m_bLerpingX = true;
-
 }
 void CGameplayState::Input(INPUT_ENUM input)
 {
@@ -328,8 +349,34 @@ void CGameplayState::Input(INPUT_ENUM input)
 		{
 			if (m_pSelectedUnit == nullptr)
 				CStateStack::GetInstance()->Push(CPauseState::GetInstance());
-			ClearSelections();
+			else if (m_pSelectedUnit != nullptr)
+			{
+				if (m_bIsMoving)
+				{
+					m_bIsMoving = false;
+					m_vWaypoints.clear();
+					SnapToPosition(m_pSelectedUnit->GetPos());
+				}
+				else if (m_bIsTargeting)
+				{
+					m_bIsTargeting = false;
+					SnapToPosition(m_pSelectedUnit->GetPos());
+				}
+				else
+					ClearSelections();
+			}
+			
 
+		}
+		break;
+	case INPUT_START:
+		{
+			CGameManager::GetInstance()->NextPhase();
+		}
+		break;
+	case INPUT_SELECT:
+		{
+			// spell scroll state here
 		}
 		break;
 	case INPUT_CAM_UP:
@@ -416,6 +463,8 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	CTile* pTargetTile = pTM->GetTile(nTilePosition.nPosX, nTilePosition.nPosY);
 
 	// Check if where we are going to is passable and occupied, if so, return out of function
+	if (pTargetTile == nullptr)
+		return;
 	if (pTargetTile->GetIfPassable() || pTargetTile->GetIfOccupied())
 	{
 		return;
@@ -720,8 +769,10 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile)
 void CGameplayState::ClearSelections(void)
 {
 	m_bIsMoving = false;
+	m_bIsTargeting = false;
 	m_pSelectedUnit = nullptr;
 	m_nSelectedAbility =0;
+	m_pHighlightedUnit = nullptr;
 	m_vWaypoints.clear();
 }
 void CGameplayState::Update(float fElapsedTime)
@@ -730,30 +781,24 @@ void CGameplayState::Update(float fElapsedTime)
 
 	LerpCamera(fElapsedTime);
 
+	if (m_bIsHighlighting == true)
+	{
+		if (m_nCardOffsetX > m_nCardOffsetMaxX)
+		{
+			m_nCardOffsetX -= (int)(450 * fElapsedTime);
+		}
+		if (m_nCardOffsetX < m_nCardOffsetMaxX)
+			m_nCardOffsetX = m_nCardOffsetMaxX;
+		if (m_nCardOffsetX < CGame::GetInstance()->GetWindowWidth())
+			m_bShowingCard = true;
+	}
+	else
+	{
+		m_nCardOffsetX += (int)(450 * fElapsedTime);
+		if (m_nCardOffsetX > CGame::GetInstance()->GetWindowWidth())
+			m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
+	}
 
-
-	if (pDI->KeyPressed(DIK_Y))
-	{
-		SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
-	}
-	else if (pDI->KeyPressed(DIK_I))
-	{
-		CGameManager* pGM = CGameManager::GetInstance();
-		pGM->NextPhase();
-	}
-	else if (pDI->KeyPressed(DIK_T))
-	{
-		if (m_pSelectedUnit != nullptr)
-			m_pSelectedUnit->SetHP(m_pSelectedUnit->GetHP() - 1);
-	}
-	else if (pDI->KeyPressed(DIK_O))
-	{
-		CGameManager::GetInstance()->SaveGame(1);
-	}
-	else if (pDI->KeyPressed(DIK_P))
-	{
-		CGameManager::GetInstance()->LoadSave(2);
-	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
@@ -886,6 +931,83 @@ void CGameplayState::Render(void)
 	// Render the UI Overlay
 	CSGD_TextureManager::GetInstance()->Draw(
 		CGraphicsManager::GetInstance()->GetID(_T("uioverlay")), 0, 0, 0.8f,0.6f);
+
+	if (m_bShowingCard)
+	{
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nCardOffsetX, 240, 1.0f, 0.8f);
+		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+		if (m_pHighlightedUnit != nullptr)
+		{
+			std::wostringstream moss;
+			CSGD_TextureManager::GetInstance()->Draw(m_pHighlightedUnit->GetPortraitID(), m_nCardOffsetX + 20, 244, 1.6f, 1.6f);
+			
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
+				m_nCardOffsetX + 150, 248, 0.5f, 0.5f);
+			moss << m_pHighlightedUnit->GetSpeed();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 255, 255, 255, 255);
+			moss.str(_T(""));
+
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
+				m_nCardOffsetX + 150, 288, 0.5f, 0.5f);
+			moss << m_pHighlightedUnit->GetAttack();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 295, 255, 255, 255);
+			moss.str(_T(""));
+
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
+				m_nCardOffsetX + 150, 338, 0.5f, 0.5f);
+			moss << m_pHighlightedUnit->GetRange();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 345, 255, 255, 255);
+			moss.str(_T(""));
+
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
+				m_nCardOffsetX + 150, 378, 0.5f, 0.5f);
+			moss << m_pHighlightedUnit->GetTilesMoved();
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
+			moss.str(_T(""));
+
+			float fhpPercent = (float)m_pHighlightedUnit->GetHP() / (float)m_pHighlightedUnit->GetMaxHP();
+
+			int colR = 0, colG = 255;
+			if (fhpPercent < 0.80f)
+			{
+				colR += 65; 
+				colG -= 65;
+			}
+			if (fhpPercent < 0.60f)
+			{
+				colR += 65; 
+				colG -= 65;
+			}
+			if (fhpPercent < 0.40f)
+			{
+				colR += 65; 
+				colG -= 65;
+			}
+			if (fhpPercent < 0.20f)
+			{
+				colR += 65; 
+				colG -= 65;
+			}
+			if (colR > 255)
+				colR = 255;
+			if (colG < 0)
+				colG = 0;
+			RECT hpRect = { m_nCardOffsetX + 20, 350, m_nCardOffsetX + 20 + (LONG)(102 * fhpPercent), 360 };
+			CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
+
+			// debuffs
+
+			for (int i = 0; i < m_pHighlightedUnit->GetNumDebuffs(); ++i)
+			{
+				CSGD_TextureManager::GetInstance()->Draw(
+					CGraphicsManager::GetInstance()->GetID(m_pHighlightedUnit->GetDebuff(i)->m_szInterfaceIcon), 
+					m_nCardOffsetX + 20 + (25*i), 370, 0.4f, 0.4f);
+			}
+
+
+		}
+	}
 
 	if (m_pSelectedUnit != nullptr)
 	{
@@ -1094,6 +1216,15 @@ void CGameplayState::Render(void)
 		std::wostringstream oss;
 		if (pDebugPlayer != nullptr)
 		{
+			oss << "CurrCamPixel X: " << m_currCamPixelPos.nPosX << " Y: " << m_currCamPixelPos.nPosY;
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 10, 250, 255, 255, 255);
+			oss.str(_T(""));
+			oss << "NewCamPixel X: " << m_newCamPixelPos.nPosX << " Y: " << m_newCamPixelPos.nPosY;
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 10, 270, 255, 255, 255);
+
+			oss.str(_T(""));
+
+
 		oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
 			", Metal: " << pDebugPlayer->GetMetal() << '\n';
 		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);

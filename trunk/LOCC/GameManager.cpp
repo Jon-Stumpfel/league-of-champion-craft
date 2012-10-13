@@ -237,8 +237,16 @@ void CGameManager::SaveGame(int nSlot)
 				TiXmlElement* pUnit = new TiXmlElement("Unit");
 				CUnit* puni = m_vUnits[j];
 				nNumUnits++;
+				if (puni->GetNumWaypoints() > 0)
+				{
+				pUnit->SetAttribute("posX", puni->GetLastWaypoint().nPosX);
+				pUnit->SetAttribute("posY", puni->GetLastWaypoint().nPosY);
+				}
+				else
+				{
 				pUnit->SetAttribute("posX", puni->GetPos().nPosX);
 				pUnit->SetAttribute("posY", puni->GetPos().nPosY);
+				}
 				pUnit->SetAttribute("unitType", (int)puni->GetType());
 				pUnit->SetAttribute("health", puni->GetHP());
 				pUnit->SetAttribute("facing", puni->GetFacing());
@@ -488,6 +496,8 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			CTile* tile = CTileManager::GetInstance()->GetTile(pSMSG->GetUnit()->GetPos().nPosX, pSMSG->GetUnit()->GetPos().nPosY);
 			int x = 9;
 			tile->SetIfOccupied(false);
+			if (pSMSG->GetUnit() == CGameplayState::GetInstance()->GetHighlighted())
+				CGameplayState::GetInstance()->ClearHighlighted();
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
 
 		}
