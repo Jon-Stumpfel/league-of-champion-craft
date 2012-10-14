@@ -4,19 +4,20 @@
 #include "Ability.h"
 #include "Unit.h"
 
+#define NUMSPELLS 1;
+
 class CAbilityManager
 {
-
-private:
+public:
 
 	static CAbilityManager* GetInstance(void);
 	static void DeleteInstance(void);	
 
 	bool UseAbility(CAbility* pToUse, CTile* pTargetTile);	
 
-	void Execute(CAbility* pToUse);
-	void Execute(CAbility* pToUse, CUnit* pTargetUnit);
-	void Execute(CAbility* pToUse, CTile* pTile);
+	void LoadAbilities( void );
+
+	void CastSpell( SPELL_TYPE );
 
 	void Initialize(void);
 	void Shutdown(void);
@@ -30,9 +31,6 @@ private:
 
 	static CAbilityManager* s_Instance;
 
-	std::vector<CAbility> m_vAbilities;
-	lua_State* m_pLuaState;
-
-
+	std::vector<std::pair<SPELL_TYPE, CAbility*>> m_vAbilities;
 };
 

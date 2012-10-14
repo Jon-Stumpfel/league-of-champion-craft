@@ -52,9 +52,9 @@ void CGameplayState::Enter(void)
 
 	pPM->LoadParticles( TEST, test );
 
-	//test.fVecX = 100;
-	//test.fVecY = 100;
-	//pPM->LoadParticles( TESTSECOND,	test );
+	CAbilityManager* pAM = CAbilityManager::GetInstance();
+
+	pAM->LoadAbilities();
 
 	CAnimationManager::GetInstance()->Load("Assets\\Animations\\TestAnimation.xml");
 
