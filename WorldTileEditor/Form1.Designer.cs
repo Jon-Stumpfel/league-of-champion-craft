@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.setPathToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +44,6 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.TilesetGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,6 +54,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ColumnsnumericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.RowsnumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.TilesetGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.MapGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -67,11 +73,58 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(696, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem1
+            // 
+            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem1,
+            this.loadToolStripMenuItem1,
+            this.saveToolStripMenuItem1,
+            this.setPathToolStripMenuItem1,
+            this.exitToolStripMenuItem1});
+            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(38, 21);
+            this.fileToolStripMenuItem1.Text = "&File";
+            // 
+            // newToolStripMenuItem1
+            // 
+            this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
+            this.newToolStripMenuItem1.Text = "&New";
+            // 
+            // loadToolStripMenuItem1
+            // 
+            this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
+            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
+            this.loadToolStripMenuItem1.Text = "&Load";
+            this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
+            // 
+            // saveToolStripMenuItem1
+            // 
+            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
+            this.saveToolStripMenuItem1.Text = "&Save";
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
+            // 
+            // setPathToolStripMenuItem1
+            // 
+            this.setPathToolStripMenuItem1.Name = "setPathToolStripMenuItem1";
+            this.setPathToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
+            this.setPathToolStripMenuItem1.Text = "Set &Path";
+            this.setPathToolStripMenuItem1.Click += new System.EventHandler(this.setPathToolStripMenuItem1_Click);
+            // 
+            // exitToolStripMenuItem1
+            // 
+            this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
+            this.exitToolStripMenuItem1.Text = "&Exit";
             // 
             // fileToolStripMenuItem
             // 
@@ -158,19 +211,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer2.Size = new System.Drawing.Size(327, 420);
-            this.splitContainer2.SplitterDistance = 143;
+            this.splitContainer2.SplitterDistance = 142;
             this.splitContainer2.TabIndex = 0;
-            // 
-            // TilesetGraphicsPanel
-            // 
-            this.TilesetGraphicsPanel.AutoScroll = true;
-            this.TilesetGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TilesetGraphicsPanel.Location = new System.Drawing.Point(0, 0);
-            this.TilesetGraphicsPanel.Name = "TilesetGraphicsPanel";
-            this.TilesetGraphicsPanel.Size = new System.Drawing.Size(325, 141);
-            this.TilesetGraphicsPanel.TabIndex = 0;
-            this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
-            this.TilesetGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TilesetGraphicsPanel_MouseClick);
             // 
             // groupBox2
             // 
@@ -180,7 +222,7 @@
             this.groupBox2.Controls.Add(this.WidthcomboBox1);
             this.groupBox2.Location = new System.Drawing.Point(12, 99);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(164, 98);
+            this.groupBox2.Size = new System.Drawing.Size(164, 84);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tile Size";
@@ -264,15 +306,30 @@
             this.RowsnumericUpDown1.Size = new System.Drawing.Size(76, 22);
             this.RowsnumericUpDown1.TabIndex = 0;
             // 
+            // TilesetGraphicsPanel
+            // 
+            this.TilesetGraphicsPanel.AutoScroll = true;
+            this.TilesetGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TilesetGraphicsPanel.Location = new System.Drawing.Point(0, 0);
+            this.TilesetGraphicsPanel.Name = "TilesetGraphicsPanel";
+            this.TilesetGraphicsPanel.Size = new System.Drawing.Size(325, 140);
+            this.TilesetGraphicsPanel.TabIndex = 0;
+            this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
+            this.TilesetGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TilesetGraphicsPanel_MouseClick);
+            // 
             // MapGraphicsPanel
             // 
             this.MapGraphicsPanel.AutoScroll = true;
+            this.MapGraphicsPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.MapGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MapGraphicsPanel.Location = new System.Drawing.Point(0, 0);
             this.MapGraphicsPanel.Name = "MapGraphicsPanel";
             this.MapGraphicsPanel.Size = new System.Drawing.Size(363, 418);
             this.MapGraphicsPanel.TabIndex = 0;
             this.MapGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MapGraphicsPanel_Paint);
+            this.MapGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MapGraphicsPanel_MouseClick);
+            this.MapGraphicsPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapGraphicsPanel_MouseClick);
+            this.MapGraphicsPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapGraphicsPanel_MouseClick);
             // 
             // Form1
             // 
@@ -283,7 +340,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "WorldTileEditor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -331,6 +388,12 @@
         private System.Windows.Forms.NumericUpDown RowsnumericUpDown1;
         private GraphicsPanel TilesetGraphicsPanel;
         private GraphicsPanel MapGraphicsPanel;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem setPathToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
     }
 }
 
