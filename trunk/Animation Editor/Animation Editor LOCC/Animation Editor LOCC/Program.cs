@@ -15,7 +15,17 @@ namespace Animation_Editor_LOCC
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Form1 THEFORM = new Form1();
+
+            THEFORM.Show();
+
+            while (THEFORM.Looping)
+            {
+                THEFORM.Update();
+                THEFORM.Render();
+
+                Application.DoEvents();
+            }
         }
     }
 }
