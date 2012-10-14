@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace WorldTileEditor
 {
-    enum TILE_TYPE { TT_PLAINS, TT_FOREST, TT_MOUNTAINS, TT_WATER, TT_FARM, TT_MILL, TT_MINE, TT_CASTLE };
+    enum TILE_TYPE { TT_PLAINS=0, TT_FOREST=1, TT_MOUNTAINS=2, TT_WATER=3, TT_FARM=4, TT_MILL=5, TT_MINE=6, TT_CASTLE=7 };
     class TileClass
     {
 
@@ -35,33 +35,6 @@ namespace WorldTileEditor
             set { m_sPos = value; }
         }
 
-        int m_nPixWidth;
-        public int PixWidth
-        {
-            get { return m_nPixWidth; }
-            set { m_nPixWidth = value; }
-        }
-
-        int m_nPixHeight;
-        public int PixHeight
-        {
-            get { return m_nPixHeight; }
-            set { m_nPixHeight = value; }
-        }
-
-        int m_nTileWidth;
-        public int TileWidth
-        {
-            get { return m_nTileWidth; }
-            set { m_nTileWidth = value; }
-        }
-
-        int m_nTileHeight;
-        public int TileHeight
-        {
-            get { return m_nTileHeight; }
-            set { m_nTileHeight = value; }
-        }
 
         Byte ucStatus;
         public Byte Status
@@ -119,6 +92,13 @@ namespace WorldTileEditor
             set { bisPassable = value; }
         }
 
+        Rectangle rect;
+        public Rectangle Rect
+        {
+            get { return rect; }
+            set { rect = value; }
+        }
+
         public TileClass()
         {
             TType = TILE_TYPE.TT_PLAINS;
@@ -132,6 +112,7 @@ namespace WorldTileEditor
             Captured = false;
             IsDead = false;
             IsPassable = false;
+            Rect = new Rectangle(0, 0, 64, 64);
         }
 
         public TileClass(TILE_TYPE eTile, bool bResouceTile, Point sPos)
@@ -147,21 +128,5 @@ namespace WorldTileEditor
             Position = sPos;
         }
 
-        public Rectangle CellAlgorithm(int id)
-        {
-            if (id >= 0 && id < 8)
-                return Rectangle.Empty;
-
-            Rectangle rSource = new Rectangle((id % 4) * PixWidth, (id / 4) * PixHeight, TileWidth, TileHeight);
-
-            //rSource.Left	= (id % 4) * m_nTileWidth;
-            //rSource.		= (id / 4) * m_nTileHeight;
-
-            //rSource.right	= rSource.left	+ m_nTileWidth;
-            //rSource.bottom	= rSource.top	+ m_nTileHeight;
-
-            return rSource;
-
-        }
     }
 }
