@@ -10,10 +10,10 @@ private:
 public:
 	std::string m_strLuaFile;
 	std::string m_strParticleFile;
+	std::string m_strName;
 
 	std::vector< Vec2D > m_vPattern;
 
-	int m_nDamage;
 	int m_nAPCost;
 	int m_nCooldown;
 	int m_nRange;
@@ -28,6 +28,8 @@ public:
 public:
 
 	CAbility(void);
+	CAbility(vector<Vec2D> vPattern, int nAP, int nCD, int nRange,
+				int nTarget, GAME_PHASE Phase, bool bAttack, string luaFile, string particleFile, string name);
 	~CAbility(void);
 
 };

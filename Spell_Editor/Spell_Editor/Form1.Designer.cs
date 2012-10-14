@@ -137,6 +137,7 @@
             this.loadParticleToolStripMenuItem.Name = "loadParticleToolStripMenuItem";
             this.loadParticleToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
             this.loadParticleToolStripMenuItem.Text = "Load Particle";
+            this.loadParticleToolStripMenuItem.Click += new System.EventHandler(this.loadParticleToolStripMenuItem_Click);
             // 
             // changePathToolStripMenuItem
             // 
@@ -359,6 +360,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Ability Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.exitToolStripMenuItem_Click);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

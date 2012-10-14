@@ -78,7 +78,6 @@ void CScriptManager::LoadScript( std::string szFilename, SCRIPT_TYPE eScript )
 			}
 			int x = 0;
 		}
-
 	}
 }
 

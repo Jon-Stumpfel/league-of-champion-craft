@@ -43,10 +43,11 @@ namespace Spell_Editor
 
             d3d.InitManagedDirect3D(panel1);
 
-            XElement xRoot = XElement.Load("Config.xml");
-
-            if (xRoot != null)
+            XElement xRoot;
+            if( File.Exists("Config.xml") )
             {
+                xRoot = XElement.Load("Config.xml");
+
                 XAttribute xPath = xRoot.Attribute("Path");
                 filepath = xPath.Value;
             }
@@ -77,7 +78,7 @@ namespace Spell_Editor
 
         private void MouseClick(MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Left)
             {
                 for (int x = 0; x < 9; x++)
                 {
@@ -95,11 +96,6 @@ namespace Spell_Editor
                 }
                 panel1.Invalidate();
             }
-        }
-
-        private void graphicsPanel1_MouseMove(object sender, MouseEventArgs e)
-        {
-            MouseClick(e);
         }
 
         private void graphicsPanel1_MouseDown(object sender, MouseEventArgs e)
@@ -159,54 +155,80 @@ namespace Spell_Editor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            XElement xRoot = new XElement("Ability");
-
-            XAttribute xRange = new XAttribute("Range", nudRange.Value);
-            xRoot.Add(xRange);
-            XAttribute xAP = new XAttribute("APCost", nudAP.Value);
-            xRoot.Add(xAP);
-            XAttribute xCD = new XAttribute("Cooldown", nudCD.Value);
-            xRoot.Add(xCD);
-            XAttribute xTarget = new XAttribute("Target", nudTarget.Value);
-            xRoot.Add(xTarget);
-            XAttribute xSpellName = new XAttribute("SpellName", tbSpellName.Text);
-            xRoot.Add(xSpellName);
-
-            XAttribute xAttack;
-            if( cbAttack.Checked )
-               xAttack = new XAttribute("Attack", 1);
-            else
-               xAttack = new XAttribute("Attack", 0);
-            xRoot.Add(xAttack);
-
-            XAttribute xPhase;
-            if ( rbAttackPhase.Checked == true)
-                xPhase = new XAttribute("Phase", 0);
-            else
-                xPhase = new XAttribute("Phase", 1);
-
-            xRoot.Add(xPhase);
-            for (int x = 0; x < 9; x++)
+            if (particlefile == null)
             {
-                for (int y = 0; y < 9; y++)
-                {
-                    if (grid[x, y].Selected == true)
-                    {
-                        XElement xTile = new XElement("Tile");
-                        xRoot.Add(xTile);
-
-                        XAttribute xPosX = new XAttribute("PosX", x - 4);
-                        xTile.Add(xPosX);
-
-                        XAttribute xPosY = new XAttribute("PosY", -y - 4);
-                        xTile.Add(xPosY);
-                    }
-                }
+                string s = "No Particle Selected";
+                DialogResult mb = MessageBox.Show(s);
+                return;
             }
 
-            xRoot.Save(filepath + "/" + tbSpellName.Text + ".xml");
+            Uri uri1;
+            SaveFileDialog sf = new SaveFileDialog();
+            if (DialogResult.OK == sf.ShowDialog())
+            {
+                uri1 = new Uri(Path.Combine(filepath, sf.FileName));
+                File.WriteAllText(uri1.LocalPath + ".lua", rtbLua.Text);
 
-            File.WriteAllText(filepath + "/" + tbSpellName.Text + ".lua", rtbLua.Text);
+
+                XElement xRoot = new XElement("Ability");
+
+                XAttribute xRange = new XAttribute("Range", nudRange.Value);
+                xRoot.Add(xRange);
+                XAttribute xAP = new XAttribute("APCost", nudAP.Value);
+                xRoot.Add(xAP);
+                XAttribute xCD = new XAttribute("Cooldown", nudCD.Value);
+                xRoot.Add(xCD);
+                XAttribute xTarget = new XAttribute("Target", nudTarget.Value);
+                xRoot.Add(xTarget);
+                XAttribute xSpellName = new XAttribute("SpellName", tbSpellName.Text);
+                xRoot.Add(xSpellName);
+
+                XAttribute xAttack;
+                if (cbAttack.Checked)
+                    xAttack = new XAttribute("Attack", 1);
+                else
+                    xAttack = new XAttribute("Attack", 0);
+                xRoot.Add(xAttack);
+
+                XAttribute xPhase;
+                if (rbAttackPhase.Checked == true)
+                    xPhase = new XAttribute("Phase", 0);
+                else
+                    xPhase = new XAttribute("Phase", 1);
+
+                xRoot.Add(xPhase);
+
+                Uri folder = new Uri(filepath);
+                Uri lua = new Uri(uri1.LocalPath);
+                Uri relative = folder.MakeRelativeUri(lua);
+                XAttribute xLUA = new XAttribute("LuaPath", relative + ".lua");
+                xRoot.Add(xLUA);
+
+                Uri particle = new Uri(particlefile);
+                Uri relative2 = folder.MakeRelativeUri(particle);
+                XAttribute xParticle = new XAttribute("ParticlePath", relative + ".xml");
+                xRoot.Add(xParticle);
+
+                for (int x = 0; x < 9; x++)
+                {
+                    for (int y = 0; y < 9; y++)
+                    {
+                        if (grid[x, y].Selected == true)
+                        {
+                            XElement xTile = new XElement("Tile");
+                            xRoot.Add(xTile);
+
+                            XAttribute xPosX = new XAttribute("PosX", x - 4);
+                            xTile.Add(xPosX);
+
+                            XAttribute xPosY = new XAttribute("PosY", -y + 4);
+                            xTile.Add(xPosY);
+                        }
+                    }
+                }
+
+                xRoot.Save(uri1.LocalPath + ".xml");
+            }
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -244,6 +266,7 @@ namespace Spell_Editor
                     cbAttack.Checked = true;
 
                 XAttribute xPhase = xRoot.Attribute("Phase");
+
                 val = int.Parse(xPhase.Value);
 
                 if (val == 0)
@@ -255,6 +278,13 @@ namespace Spell_Editor
                     rbMovePhase.Checked = true;
                 }
 
+                XAttribute xLUA = xRoot.Attribute("LuaPath");
+                Uri uri1 = new Uri(Path.Combine(filepath, xLUA.Value.Remove(0,5)));
+                rtbLua.LoadFile(uri1.LocalPath, RichTextBoxStreamType.PlainText);
+
+                XAttribute xParticle = xRoot.Attribute("ParticlePath");
+                Uri uri2 = new Uri(Path.Combine(filepath, xParticle.Value.Remove(0,5)));
+
                 IEnumerable<XElement> xTiles = xRoot.Elements();
 
                 foreach (XElement xTile in xTiles)
@@ -265,12 +295,8 @@ namespace Spell_Editor
                     XAttribute xPosY = xTile.Attribute("PosY");
                     int PosY = int.Parse(xPosY.Value);
 
-                    grid[PosX + 4, -PosY - 4].Selected = true;
+                    grid[PosX + 4, -PosY + 4].Selected = true;
                 }
-
-                OpenFileDialog lua = new OpenFileDialog();
-                lua.ShowDialog();
-                rtbLua.LoadFile(lua.FileName, RichTextBoxStreamType.PlainText);
 
                 panel1.Invalidate();
             }
@@ -281,7 +307,7 @@ namespace Spell_Editor
            XElement xRoot = new XElement("ChosenPath");
            XAttribute xPath = new XAttribute("Path", filepath);
            xRoot.Add(xPath);
-           xRoot.Save("../../Config.xml");
+           xRoot.Save("Config.xml");
 
             this.DestroyHandle();
         }
@@ -291,6 +317,15 @@ namespace Spell_Editor
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.ShowDialog();
             filepath = fbd.SelectedPath;
+        }
+
+        private void loadParticleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog of = new OpenFileDialog();
+            if (DialogResult.OK == of.ShowDialog())
+            {
+                particlefile = of.FileName;
+            }
         }
     }
 }
