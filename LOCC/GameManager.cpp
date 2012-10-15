@@ -231,10 +231,10 @@ void CGameManager::SaveGame(int nSlot)
 		pSpells->SetAttribute("numSpells", pHero->GetNumSpells());
 		pChampion->LinkEndChild(pSpells);
 
-		for (int i = 0; i < pHero->GetNumSpells(); ++i)
+		for (unsigned int n = 0; n < pHero->GetNumSpells(); ++n)
 		{
 			TiXmlElement* pSpell = new TiXmlElement("Spell");
-			pSpell->SetAttribute("sType", pHero->GetSpell(i)->GetType());
+			pSpell->SetAttribute("sType", pHero->GetSpell(n)->GetType());
 			pSpells->LinkEndChild(pSpell);
 		}
 
