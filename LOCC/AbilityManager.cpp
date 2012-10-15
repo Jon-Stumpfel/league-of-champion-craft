@@ -153,7 +153,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_bIsAttack = true;
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_nPhase = GP_ATTACK;
-	pAbility->m_nRange = 2;
+	pAbility->m_nRange = 3;
 	pAbility->m_nCooldown = 0;
 	pAbility->m_vPattern.push_back(Vec2D(-1, 0));
 	pAbility->m_vPattern.push_back(Vec2D(1, 0));

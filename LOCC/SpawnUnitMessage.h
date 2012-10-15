@@ -17,8 +17,10 @@ private:
 	bool m_bHasAttacked;
 	int m_nTilesMoved;
 	int m_nHealth;
+	std::vector<SPELL_TYPE> m_vSpells;
 public:
 
+	std::vector<SPELL_TYPE> GetSpells(void) { return m_vSpells;}
 	int GetPlayerID(void) { return m_nPlayerID;}
 	Vec2D GetPos(void) { return m_sPos;}
 	UNIT_TYPE GetUnitType(void) { return m_eType;}
@@ -29,6 +31,8 @@ public:
 	int GetTilesMoved(void) { return m_nTilesMoved;}
 	~CSpawnUnitMessage(void);
 	CSpawnUnitMessage(Vec2D sPos, int nPlayerID, UNIT_TYPE eTypeToSpawn, int nFacing, bool Loaded = false, 
+		int nHealth = 0, int nTilesMoved = 0, bool bHasAttacked = false);
+	CSpawnUnitMessage(std::vector<SPELL_TYPE> spells, Vec2D sPos, int nPlayerID, UNIT_TYPE eTypeToSpawn, int nFacing, bool Loaded = false, 
 		int nHealth = 0, int nTilesMoved = 0, bool bHasAttacked = false);
 
 };

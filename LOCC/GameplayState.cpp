@@ -479,31 +479,54 @@ void CGameplayState::UseAbility(CAbility* ability)
 			else if (m_bIsTargeting == true && m_pTargetedTile != nullptr)
 			{
 				// cast the spell!
-				for (decltype(ability->m_vPattern.size()) i = 0; i < ability->m_vPattern.size(); ++i)
+				if (ability->GetType() == SP_MELEEATTACK || SP_ARCHERRANGEDATTACK)
 				{
-					/*Vec2D hitPosition;
-					hitPosition.nPosX = m_pSelectedUnit->GetPos().nPosX + ability->m_vPattern[i].nPosX;
-					hitPosition.nPosY = m_pSelectedUnit->GetPos().nPosY + ability->m_vPattern[i].nPosY;
-
-					if (hitPosition == m_pTargetedTile->GetPosition())
+					int nDistance = abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
+						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY));
+					if (nDistance <= m_pSelectedUnit->GetRange())
 					{
+						CUnit* pUnit = CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition());
+						if (pUnit != nullptr)
+						{
+							pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+						}
+						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+						if (ability->m_bIsAttack)
+							m_pSelectedUnit->SetHasAttacked(true);
+						m_bIsTargeting = false;
+						m_pTargetedTile = nullptr;
+						m_pSelectedUnit = nullptr;
+					}
+				}
+				else
+				{
+					for (decltype(ability->m_vPattern.size()) i = 0; i < ability->m_vPattern.size(); ++i)
+					{
+						/*Vec2D hitPosition;
+						hitPosition.nPosX = m_pSelectedUnit->GetPos().nPosX + ability->m_vPattern[i].nPosX;
+						hitPosition.nPosY = m_pSelectedUnit->GetPos().nPosY + ability->m_vPattern[i].nPosY;
+
+						if (hitPosition == m_pTargetedTile->GetPosition())
+						{
 						CUnit* hitUnit = CGameManager::GetInstance()->FindUnit(hitPosition);
 						if (hitUnit != nullptr)
 						{
-							hitUnit->SetHP(hitUnit->GetHP() - m_pSelectedUnit->GetAttack());
+						hitUnit->SetHP(hitUnit->GetHP() - m_pSelectedUnit->GetAttack());
 						}
 						break;
-					}*/
-					CAbilityManager* pAM = CAbilityManager::GetInstance();
-					pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
+						}*/
+						CAbilityManager* pAM = CAbilityManager::GetInstance();
+						pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
 
+					}
+					CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+					if (ability->m_bIsAttack)
+						m_pSelectedUnit->SetHasAttacked(true);
+					m_bIsTargeting = false;
+					m_pTargetedTile = nullptr;
+					m_pSelectedUnit = nullptr;
 				}
-				CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
-				if (ability->m_bIsAttack)
-					m_pSelectedUnit->SetHasAttacked(true);
-				m_bIsTargeting = false;
-				m_pTargetedTile = nullptr;
-				m_pSelectedUnit = nullptr;
+
 			}
 		}
 	}	
@@ -955,6 +978,11 @@ void CGameplayState::Render(void)
 				int i = 0;
 			if (drawAbility != nullptr && !drawAbility->m_bIsMove)
 			{
+				if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() == SP_MELEEATTACK)
+				{
+
+					pattern = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());
+				}
 				// it's a real ability and it's not the move one
 				for (unsigned int i = 0; i < pattern.size(); ++i)
 				{
