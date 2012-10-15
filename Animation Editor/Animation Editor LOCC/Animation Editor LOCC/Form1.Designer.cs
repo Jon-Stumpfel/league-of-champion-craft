@@ -75,6 +75,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.SaveLoadBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.loadImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveFrameButton = new System.Windows.Forms.Button();
             this.PreviewBox = new Animation_Editor_LOCC.GraphicsPanel();
             this.SpriteSheet = new Animation_Editor_LOCC.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
@@ -193,6 +194,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.SaveFrameButton);
             this.splitContainer2.Panel1.Controls.Add(this.label2);
             this.splitContainer2.Panel1.Controls.Add(this.animname);
             this.splitContainer2.Panel1.Controls.Add(this.animlist);
@@ -226,7 +228,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer2.Size = new System.Drawing.Size(218, 758);
-            this.splitContainer2.SplitterDistance = 402;
+            this.splitContainer2.SplitterDistance = 435;
             this.splitContainer2.TabIndex = 0;
             // 
             // label2
@@ -265,7 +267,7 @@
             0});
             this.numofframesinanim.Name = "numofframesinanim";
             this.numofframesinanim.Size = new System.Drawing.Size(131, 20);
-            this.numofframesinanim.TabIndex = 34;
+            this.numofframesinanim.TabIndex = 0;
             this.numofframesinanim.ValueChanged += new System.EventHandler(this.numofframesinanim_ValueChanged);
             // 
             // label13
@@ -517,11 +519,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(37, 64);
+            this.label3.Location = new System.Drawing.Point(32, 64);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Frames";
+            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Frame #";
             // 
             // label1
             // 
@@ -550,8 +552,8 @@
             this.splitContainer3.Panel2.Controls.Add(this.button3);
             this.splitContainer3.Panel2.Controls.Add(this.button2);
             this.splitContainer3.Panel2.Controls.Add(this.button1);
-            this.splitContainer3.Size = new System.Drawing.Size(218, 352);
-            this.splitContainer3.SplitterDistance = 202;
+            this.splitContainer3.Size = new System.Drawing.Size(218, 319);
+            this.splitContainer3.SplitterDistance = 182;
             this.splitContainer3.TabIndex = 1;
             // 
             // button5
@@ -606,6 +608,16 @@
             this.loadImageToolStripMenuItem.Text = "Load Image";
             this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
+            // SaveFrameButton
+            // 
+            this.SaveFrameButton.Location = new System.Drawing.Point(12, 405);
+            this.SaveFrameButton.Name = "SaveFrameButton";
+            this.SaveFrameButton.Size = new System.Drawing.Size(185, 23);
+            this.SaveFrameButton.TabIndex = 38;
+            this.SaveFrameButton.Text = "Save Current Frame";
+            this.SaveFrameButton.UseVisualStyleBackColor = true;
+            this.SaveFrameButton.Click += new System.EventHandler(this.SaveFrameButton_Click);
+            // 
             // PreviewBox
             // 
             this.PreviewBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -613,11 +625,12 @@
             this.PreviewBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PreviewBox.Location = new System.Drawing.Point(0, 0);
             this.PreviewBox.Name = "PreviewBox";
-            this.PreviewBox.Size = new System.Drawing.Size(218, 202);
+            this.PreviewBox.Size = new System.Drawing.Size(218, 182);
             this.PreviewBox.TabIndex = 0;
             // 
             // SpriteSheet
             // 
+            this.SpriteSheet.AutoScroll = true;
             this.SpriteSheet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SpriteSheet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SpriteSheet.Location = new System.Drawing.Point(0, 0);
@@ -717,6 +730,7 @@
         private GraphicsPanel PreviewBox;
         private GraphicsPanel SpriteSheet;
         private System.Windows.Forms.ToolStripMenuItem loadImageToolStripMenuItem;
+        private System.Windows.Forms.Button SaveFrameButton;
     }
 }
 

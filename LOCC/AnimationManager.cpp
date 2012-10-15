@@ -208,13 +208,6 @@ bool CAnimationManager::Load(const char* strName)
 		int tempframe;
 		Animation->Attribute("CurrFrame", &tempframe);
 		tempanim.SetCurrFrame(tempframe);
-		TiXmlElement* Frames = Animation->FirstChildElement("Frames");
-		int maxframes;
-		while(Frames != nullptr)
-		{
-			Frames->Attribute("NumFrames", &maxframes);
-			Frames = Frames->NextSiblingElement("Frames");
-		}
 		TiXmlElement* Frame = Animation->FirstChildElement("Frame");
 		while(Frame != nullptr)
 		{
