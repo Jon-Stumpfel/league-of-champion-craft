@@ -227,9 +227,9 @@ namespace WorldTileEditor
             d3D.DeviceBegin();
             d3D.SpriteBegin();
 
-            for (int i = 0; i < Mapsize_RC.Height; ++i)
+            for (int i = 0; i < Mapsize_RC.Width; ++i)
             {
-                for (int j = 0; j < Mapsize_RC.Width; ++j)
+                for (int j = 0; j < Mapsize_RC.Height; ++j)
                 {
                     int TWidth= TilePixelSize.Width;
                     int THeight= TilePixelSize.Height;
@@ -293,12 +293,11 @@ namespace WorldTileEditor
                 }
             }
             d3D.Sprite.Flush();
-            for (int i = 0; i < Mapsize_RC.Height; ++i)
+            for (int i = 0; i < Mapsize_RC.Width; ++i)
             {
-                for (int j = 0; j < Mapsize_RC.Width; ++j)
+                for (int j = 0; j < Mapsize_RC.Height; ++j)
                 {
                     Point rectoffset=new Point(Map[i,j].Rect.Location.X+Mapoffset.X, Map[i,j].Rect.Location.Y+Mapoffset.Y);
-
                     Rectangle offsetrect = new Rectangle(rectoffset, Map[i, j].Rect.Size);
                     d3D.DrawEmptyRect(offsetrect, Color.Black);
                 }
@@ -431,6 +430,37 @@ namespace WorldTileEditor
             SaveFolderPath.FilterIndex = 1;
             SaveFolderPath.InitialDirectory = RelativePath;
             SaveFolderPath.ShowDialog();
+
+            XElement xRoot = new XElement ("Map");
+            XElement pTiles = new XElement("Tiles");
+            xRoot.Add(pTiles);
+
+            xRoot.Add( new XAttribute("Rows", Mapsize_RC.Width.ToString()));
+            xRoot.Add( new XAttribute("Columns", Mapsize_RC.Width.ToString()));
+
+                for (int x = 0; x < Mapsize_RC.Width; ++x)
+            	{
+                    for (int y = 0; y < Mapsize_RC.Height; ++y)
+            		{
+                        XElement xTile =new XElement ("Tile");
+                        pTiles.Add(xTile);
+
+                        xTile.Add(new XAttribute ("PosX", Map[x,y].Position.X.ToString()));
+                        xTile.Add(new XAttribute ("PosY", Map[x,y].Position.Y.ToString()));
+
+                        xTile.Add(new XAttribute("PixWidth", TilePixelSize.Width.ToString()));
+                        xTile.Add(new XAttribute("PixHeight", TilePixelSize.Height.ToString()));
+
+                        xTile.Add(new XAttribute("Status", Map[x, y].Status.ToString()));
+
+                        xTile.Add(new XAttribute("PlayerID", Map[x,y].PlayerID.ToString()));
+
+                        int enumval= Convert.ToInt32(Map[x, y].TType);
+
+                        xTile.Add(new XAttribute("TType",enumval.ToString()));
+            		}
+            	}
+                xRoot.Save(SaveFolderPath.FileName);
         }
 
         private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -447,7 +477,7 @@ namespace WorldTileEditor
                     String title = "Failure to Load";
                     String content = "Load Failed: xRoot== NUll";
                     MessageBox.Show(content, title, MessageBoxButtons.OK); 
-                     return;
+                    return;
                 }
  
             	XAttribute maprows= xRoot.Attribute("Rows");
@@ -455,7 +485,6 @@ namespace WorldTileEditor
 
                 Mapsize_RC.Width = Convert.ToInt32(mapcolumns.Value);
                 Mapsize_RC.Height = Convert.ToInt32(maprows.Value);
-
                 //THIS IS GOING TO BE A PROBLEM
             	//XAttribute texturefile= xRoot.Attribute("FileName");
                 //String filename=Convert.ToString(texturefile);
@@ -465,6 +494,15 @@ namespace WorldTileEditor
                 XElement xTile = (XElement) pTiles.FirstNode;
             
                 Map = new TileClass[Mapsize_RC.Width, Mapsize_RC.Height];
+                for (int x = 0; x < Mapsize_RC.Width; ++x)
+                {
+                    for (int y = 0; y < Mapsize_RC.Height; ++y)
+                    {
+                        Map[x, y] = new TileClass();
+                        Rectangle temprect = new Rectangle(x * TilePixelSize.Width, y * TilePixelSize.Height, TilePixelSize.Width, TilePixelSize.Height);
+                        Map[x, y].Rect = temprect;
+                    }
+                }
             
                 XAttribute tempdata1,tempdata2;
 
