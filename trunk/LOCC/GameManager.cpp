@@ -227,6 +227,17 @@ void CGameManager::SaveGame(int nSlot)
 		pChampion->SetAttribute("hasAttacked", (int)pHero->GetHasAttacked());
 		// TODO: setup spell saving here
 
+		TiXmlElement* pSpells = new TiXmlElement("Spells");
+		pSpells->SetAttribute("numSpells", pHero->GetNumSpells());
+		pChampion->LinkEndChild(pSpells);
+
+		for (int i = 0; i < pHero->GetNumSpells(); ++i)
+		{
+			TiXmlElement* pSpell = new TiXmlElement("Spell");
+			pSpell->SetAttribute("sType", pHero->GetSpell(i)->GetType());
+			pSpells->LinkEndChild(pSpell);
+		}
+
 		pPlayer->LinkEndChild(pChampion);
 
 		// Lets save the units!
@@ -243,13 +254,13 @@ void CGameManager::SaveGame(int nSlot)
 				nNumUnits++;
 				if (puni->GetNumWaypoints() > 0)
 				{
-				pUnit->SetAttribute("posX", puni->GetLastWaypoint().nPosX);
-				pUnit->SetAttribute("posY", puni->GetLastWaypoint().nPosY);
+					pUnit->SetAttribute("posX", puni->GetLastWaypoint().nPosX);
+					pUnit->SetAttribute("posY", puni->GetLastWaypoint().nPosY);
 				}
 				else
 				{
-				pUnit->SetAttribute("posX", puni->GetPos().nPosX);
-				pUnit->SetAttribute("posY", puni->GetPos().nPosY);
+					pUnit->SetAttribute("posX", puni->GetPos().nPosX);
+					pUnit->SetAttribute("posY", puni->GetPos().nPosY);
 				}
 				pUnit->SetAttribute("unitType", (int)puni->GetType());
 				pUnit->SetAttribute("health", puni->GetHP());
@@ -306,7 +317,6 @@ void CGameManager::LoadSave(int nSlot)
 			pplay->SetAP(nAP);
 			pplay->SetMetal(nMetal);
 
-
 			TiXmlElement* pChampion = pPlayer->FirstChildElement("Champion");
 
 			int nPosX, nPosY, nHealth, nXP, nFacing, nTilesMoved, nHasAttacked;
@@ -321,7 +331,20 @@ void CGameManager::LoadSave(int nSlot)
 
 			pplay->SetExp(nXP);
 
-			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
+			int nNumSpells;
+			TiXmlElement* pSpells = pChampion->FirstChildElement("Spells");
+			pSpells->QueryIntAttribute("numSpells", &nNumSpells);
+			std::vector<SPELL_TYPE> spells;
+			for (int i = 0; i < nNumSpells; ++i)
+			{
+				TiXmlElement* pSpell = pSpells->FirstChildElement("Spell");
+				int nType;
+				pSpell->QueryIntAttribute("sType", &nType);
+				spells.push_back((SPELL_TYPE)nType);
+
+			}
+
+			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(spells, Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
 				nHealth, nTilesMoved, IntToBool(nAIControlled));
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
