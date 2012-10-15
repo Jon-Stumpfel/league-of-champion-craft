@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="4" APCost="8" Cooldown="1" Target="1" SpellName="Fireball" Attack="1" Phase="0" LuaPath="SGP%20-%20Structure%20of%20Game%20Production/Repository/LOCC/Assets/Ability/fireball.lua" ParticlePath="SGP%20-%20Structure%20of%20Game%20Production/Repository/LOCC/Assets/Ability/fireball.xml">
+<Ability Range="4" APCost="8" Cooldown="1" Target="1" SpellName="Fireball" Attack="1" Phase="0" LuaPath="Assets/Ability/fireball.lua" ParticlePath="Assets/Ability/fireball.xml">
   <Tile PosX="0" PosY="0" />
 </Ability>

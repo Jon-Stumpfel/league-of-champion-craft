@@ -177,20 +177,17 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 	luaL_dofile(L, pAbility->GetLua().c_str());
 	lua_getglobal(L, "OnUse");
 
-	lua_call(L, 0, 1);
+	int i = 0;
+	i = lua_pcall(L, 0, 1, 0);
 
 	lua_getglobal(L, "tUnitData");
 	lua_pushnil(L);
 	
 	std::vector< std::pair<std::string, int> > tData;
 
-	while(lua_next(L, -2)) 
+	while(lua_next(L, -4))
 	{
 		std::pair<std::string, int> tmp;
-		if( lua_isstring(L, -1) )
-		{
-			tmp.first = (string)lua_tostring(L, -1);
-		}
 		if(lua_isnumber(L, -1))
 		{
 			tmp.second = (int)lua_tonumber(L, -1);
@@ -199,13 +196,13 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		lua_pop(L, 1);
 	}
 
-	int count = 0;
+	int count = affected.size()-1;
 	for( unsigned int i = 0; i < tData.size(); i++ )
 	{
-		if( tData[i].first == "health" )
+		if( i == 1 || i == 5 || i == 9 || i == 12 )
 		{
 			affected[count]->SetHP(tData[i].second);
-			count++;
+			count--;
 		}
 	}
 
