@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="3" APCost="5" Cooldown="1" Target="1" SpellName="test" Attack="1" Phase="0" LuaPath="LOCC/Assets/Ability/test.lua" ParticlePath="LOCC/Assets/Ability/test.xml">
+<Ability Range="3" APCost="5" Cooldown="1" Target="1" SpellName="test" Attack="1" Phase="0" LuaPath="Assets/Ability/test.lua" ParticlePath="Assets/Ability/test.xml">
   <Tile PosX="-1" PosY="0" />
   <Tile PosX="0" PosY="1" />
   <Tile PosX="0" PosY="0" />

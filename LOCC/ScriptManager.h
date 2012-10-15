@@ -3,7 +3,7 @@
 #include "Unit.h"
 class CTile;
 class CAbility;
-
+class CUnit;
 
 
 struct ScriptSpawnData
@@ -28,8 +28,7 @@ class CScriptManager
 public:
 
 	void LoadScript( std::string szFilename, SCRIPT_TYPE eScript );
-	void ExecuteTile( CAbility* pAbility, CTile* pTile );
-	void ExecuteUnit( CAbility* pAbility, CUnit* pUnit );
+	void Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster );
 	void Initialize( void );
 	void Shutdown( void );
 	

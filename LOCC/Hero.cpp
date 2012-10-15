@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Hero.h"
 #include "GameplayState.h"
+#include "AbilityManager.h"
 
 
 CHero::CHero(void) : CUnit(UT_HERO)
@@ -29,15 +30,11 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	SetShielded(true);
 	PushDebuff(pAbility);
 
+	// Finds specified spell for the Hero
+	CAbilityManager * pAM = CAbilityManager::GetInstance();
+	m_vSpells.push_back(pAM->GetAbility(SP_TESTSPELL));
 
-	pAbility = new CAbility();
-	pAbility->m_nAPCost = 3;
-	pAbility->m_nCooldown = 1;
-	pAbility->m_nPhase = GP_MOVE;
-	pAbility->m_nNumTargets = 1;
-	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));
-	m_vSpells.push_back(pAbility);
-	pAbility = new CAbility();
+	/*pAbility = new CAbility();
 	pAbility->m_nAPCost = 3;
 	pAbility->m_nCooldown = 1;
 	pAbility->m_nPhase = GP_MOVE;
@@ -59,18 +56,13 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));
-	m_vSpells.push_back(pAbility);
-
-
+	m_vSpells.push_back(pAbility);*/
 }
 
 
 CHero::~CHero(void)
 {
 	delete GetDebuff(0);
-	for (int i = 0; i < 4; ++i)
-		delete m_vSpells[i];
-
 }
 
 void CHero::Render(void)

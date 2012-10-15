@@ -13,11 +13,11 @@ public:
 	static CAbilityManager* GetInstance(void);
 	static void DeleteInstance(void);	
 
-	bool UseAbility(CAbility* pToUse, CTile* pTargetTile);	
-
+	void UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster);	
 	void LoadAbilities( void );
+	CAbility* GetAbility( SPELL_TYPE type );
 
-	void CastSpell( SPELL_TYPE );
+	std::vector< Vec2D > GetRange( int range );
 
 	void Initialize(void);
 	void Shutdown(void);
@@ -29,8 +29,15 @@ private:
 	CAbilityManager(const CAbilityManager&);
 	CAbilityManager& operator=(const CAbilityManager&);
 
+	void SetRanges( void );
+
 	static CAbilityManager* s_Instance;
 
 	std::vector<std::pair<SPELL_TYPE, CAbility*>> m_vAbilities;
+	std::vector< Vec2D > m_vRange1;	
+	std::vector< Vec2D > m_vRange2;
+	std::vector< Vec2D > m_vRange3;
+	std::vector< Vec2D > m_vRange4;
+
 };
 

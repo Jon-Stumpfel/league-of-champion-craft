@@ -201,12 +201,12 @@ namespace Spell_Editor
                 Uri folder = new Uri(filepath);
                 Uri lua = new Uri(uri1.LocalPath);
                 Uri relative = folder.MakeRelativeUri(lua);
-                XAttribute xLUA = new XAttribute("LuaPath", relative + ".lua");
+                XAttribute xLUA = new XAttribute("LuaPath", relative.ToString().Remove(0,5) + ".lua");
                 xRoot.Add(xLUA);
 
                 Uri particle = new Uri(particlefile);
                 Uri relative2 = folder.MakeRelativeUri(particle);
-                XAttribute xParticle = new XAttribute("ParticlePath", relative + ".xml");
+                XAttribute xParticle = new XAttribute("ParticlePath", relative.ToString().Remove(0, 5) + ".xml");
                 xRoot.Add(xParticle);
 
                 for (int x = 0; x < 9; x++)
@@ -279,11 +279,11 @@ namespace Spell_Editor
                 }
 
                 XAttribute xLUA = xRoot.Attribute("LuaPath");
-                Uri uri1 = new Uri(Path.Combine(filepath, xLUA.Value.Remove(0,5)));
+                Uri uri1 = new Uri(Path.Combine(filepath, xLUA.Value));
                 rtbLua.LoadFile(uri1.LocalPath, RichTextBoxStreamType.PlainText);
 
                 XAttribute xParticle = xRoot.Attribute("ParticlePath");
-                Uri uri2 = new Uri(Path.Combine(filepath, xParticle.Value.Remove(0,5)));
+                Uri uri2 = new Uri(Path.Combine(filepath, xParticle.Value));
 
                 IEnumerable<XElement> xTiles = xRoot.Elements();
 
