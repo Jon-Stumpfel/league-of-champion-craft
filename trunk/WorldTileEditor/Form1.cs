@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SGP;
+using System.Xml.Linq;
+
 
 namespace WorldTileEditor
 {
@@ -370,7 +372,32 @@ namespace WorldTileEditor
                 selectTileType = TILE_TYPE.TT_CASTLE;
             }
         }
-       
+              
+        private void MapGraphicsPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point offset = new Point(0, 0);
+                offset.X += MapGraphicsPanel.AutoScrollPosition.X;
+                offset.Y += MapGraphicsPanel.AutoScrollPosition.Y;
+
+                int x = (e.X - offset.X);
+                int y = (e.Y - offset.Y);
+
+                Point nuPpoint = new Point(x, y);
+
+                for (int i = 0; i < Mapsize_RC.Width; i++)
+                {
+                    for (int j = 0; j < Mapsize_RC.Height; j++)
+                    {
+                        if (Map[i, j].Rect.Contains(nuPpoint))
+                            Map[i, j].TType = SelectTileType;
+                    }
+                }
+            }
+            //UpdateMap();
+        }
+ 
         // updates for a whole new tile
         public void UpdateTileset()
         {
@@ -400,6 +427,8 @@ namespace WorldTileEditor
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             SaveFileDialog SaveFolderPath = new SaveFileDialog();
+            SaveFolderPath.Filter = "XML File(*.xml)|*.xml";
+            SaveFolderPath.FilterIndex = 1;
             SaveFolderPath.InitialDirectory = RelativePath;
             SaveFolderPath.ShowDialog();
         }
@@ -408,33 +437,81 @@ namespace WorldTileEditor
         {
             OpenFileDialog SaveFolderPath = new OpenFileDialog();
             SaveFolderPath.InitialDirectory = RelativePath;
-            SaveFolderPath.ShowDialog();
-        }
+            //SaveFolderPath.ShowDialog();
 
-        private void MapGraphicsPanel_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Point offset = new Point(0, 0);
-                offset.X += MapGraphicsPanel.AutoScrollPosition.X;
-                offset.Y += MapGraphicsPanel.AutoScrollPosition.Y;
-
-                int x = (e.X - offset.X);
-                int y = (e.Y - offset.Y);
-
-                Point nuPpoint = new Point(x, y);
-
-                for (int i = 0; i < Mapsize_RC.Width; i++)
+            if (DialogResult.OK==SaveFolderPath.ShowDialog())
+            {           	
+            	XElement xRoot = XElement.Load(SaveFolderPath.FileName);
+                if (xRoot==null)
                 {
-                    for (int j = 0; j < Mapsize_RC.Height; j++)
-                    {
-                        if (Map[i, j].Rect.Contains(nuPpoint))
-                            Map[i, j].TType = SelectTileType;
-                    }
+                    String title = "Failure to Load";
+                    String content = "Load Failed: xRoot== NUll";
+                    MessageBox.Show(content, title, MessageBoxButtons.OK); 
+                     return;
                 }
+ 
+            	XAttribute maprows= xRoot.Attribute("Rows");
+            	XAttribute mapcolumns= xRoot.Attribute("Columns");
+
+                Mapsize_RC.Width = Convert.ToInt32(mapcolumns.Value);
+                Mapsize_RC.Height = Convert.ToInt32(maprows.Value);
+
+                //THIS IS GOING TO BE A PROBLEM
+            	//XAttribute texturefile= xRoot.Attribute("FileName");
+                //String filename=Convert.ToString(texturefile);
+                //NormtextureId = tm.LoadTexture(SaveFolderPath.FileName, 0);
+            
+            	XElement pTiles = (XElement) xRoot.FirstNode;
+                XElement xTile = (XElement) pTiles.FirstNode;
+            
+                Map = new TileClass[Mapsize_RC.Width, Mapsize_RC.Height];
+            
+                XAttribute tempdata1,tempdata2;
+
+                for (int x = 0; x < Mapsize_RC.Width; ++x)
+            	{
+                    for (int y = 0; y < Mapsize_RC.Height; ++y)
+            		{
+                        tempdata1 = xTile.Attribute("PosX");
+                        tempdata2 = xTile.Attribute("PosY");
+            			Map[x,y].Position = new Point(Convert.ToInt32(tempdata1.Value),Convert.ToInt32(tempdata2.Value));
+
+                        tempdata1 = xTile.Attribute("PixWidth");
+                        tempdata2 = xTile.Attribute("PixHeight");
+                        TilePixelSize = new Size(Convert.ToInt32(tempdata1.Value), Convert.ToInt32(tempdata2.Value));
+
+                        //tempdata1 = xTile.Attribute("TileWidth");
+                        //tempdata2 = xTile.Attribute("TileHeight");
+
+                        tempdata1 = xTile.Attribute("Status");
+            			Map[x,y].Status = Convert.ToByte(tempdata1.Value);
+
+                        tempdata1 = xTile.Attribute("PlayerID");
+            			Map[x,y].PlayerID=(Convert.ToInt32(tempdata1.Value));
+
+                        tempdata1 = xTile.Attribute("TType");
+            			Map[x,y].TType = (TILE_TYPE)Convert.ToInt32(tempdata1.Value);
+            
+            			xTile = (XElement)xTile.NextNode;
+            		}
+            	}
             }
-            //UpdateMap();
         }
+
+
+
+        private void newToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            String title = "New Map Warning";
+            String content = "    You are about to delete your current work,\n\tdo you want to save?";
+            MessageBox.Show(content, title, MessageBoxButtons.YesNo);
+        }
+        private void fileToolStripMenuItem1_Click(object sender, EventArgs e){}
     }
 
 }
