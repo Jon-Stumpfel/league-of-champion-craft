@@ -8,7 +8,7 @@
 #include "TileManager.h"
 #include "MainMenuState.h"
 #include "GameplayState.h"
-
+#include "AbilityManager.h"
 #include "StateStack.h"
 
 CGame* CGame::GetInstance(void)
@@ -81,6 +81,7 @@ bool CGame::Main(void)
 void CGame::Shutdown(void)
 {
 	CScriptManager::DeleteInstance();
+	CAbilityManager::DeleteInstance();
 	CInputManager::DeleteInstance();
 	CGraphicsManager::DeleteInstance();
 	CGameManager::DeleteInstance();

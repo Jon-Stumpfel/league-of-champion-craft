@@ -28,11 +28,8 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 
 	if (m_eType == UT_HERO)
 	{
-		CAbility* pAbility = new CAbility();
-		pAbility->m_nAPCost = 0;
-		pAbility->m_nNumTargets = -1;
-		pAbility->m_szInterfaceIcon = TSTRING(_T("champspellicon"));
-		m_vAbilities.push_back(pAbility);
+		CAbilityManager * pAM = CAbilityManager::GetInstance();
+		m_vAbilities.push_back(pAM->GetAbility(SP_CHAMPSPELL));
 	}
 
 
