@@ -59,6 +59,8 @@ public:
 	void SetPos(Vec2D pos);
 	Vec2D GetPos(void) { return m_sGamePos;}
 
+
+
 	void SetTilesMoved(int t) { m_nTilesMoved = t;}
 	int GetTilesMoved(void) { return m_nTilesMoved;}
 

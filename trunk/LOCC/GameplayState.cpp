@@ -945,36 +945,39 @@ void CGameplayState::Render(void)
 				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(120,r, g, b));
 		}
 
+
 		// Draw the doohickeys on the ground to show the pattern
 		CAbility* drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
-		std::vector< Vec2D > pattern = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
-		if( drawAbility->GetApCost() == 5 )
-			int i = 0;
-		if (drawAbility != nullptr && !drawAbility->m_bIsMove)
+		if( drawAbility != nullptr )
 		{
-			// it's a real ability and it's not the move one
-			for (unsigned int i = 0; i < pattern.size(); ++i)
+			std::vector< Vec2D > pattern = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+			if( drawAbility->GetApCost() == 5 )
+				int i = 0;
+			if (drawAbility != nullptr && !drawAbility->m_bIsMove)
 			{
-				int x = pattern[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
-				int y = pattern[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
-
-				CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
-
-				if (pPatternTile != nullptr)
+				// it's a real ability and it's not the move one
+				for (unsigned int i = 0; i < pattern.size(); ++i)
 				{
-					int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
-					int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+					int x = pattern[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+					int y = pattern[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
 
-					int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
-					int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
-					CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-						x - GetCamOffsetX(),
-						y - GetCamOffsetY()
-						, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 0));
+					CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
+
+					if (pPatternTile != nullptr)
+					{
+						int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+						int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+
+						int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
+						int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
+						CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+							x - GetCamOffsetX(),
+							y - GetCamOffsetY()
+							, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 0));
+					}
 				}
 			}
 		}
-
 	}
 
 
