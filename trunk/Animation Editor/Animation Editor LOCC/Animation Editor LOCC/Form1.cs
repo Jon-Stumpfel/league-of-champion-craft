@@ -6,6 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
+
 namespace Animation_Editor_LOCC
 {
     public partial class Form1 : Form
@@ -115,7 +118,14 @@ namespace Animation_Editor_LOCC
 
         private void IsLoopingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (IsLoopingCheckBox.Checked == true)
+            {
+                //set looping to true
+            }
+            else
+            {
+                //set looping to false
+            }
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -123,7 +133,40 @@ namespace Animation_Editor_LOCC
             OpenFileDialog OpenThis = new OpenFileDialog();
             OpenThis.Filter = "XML Files|*xml";
             OpenThis.InitialDirectory = folderpath;
-            OpenThis.ShowDialog();
+            if (DialogResult.OK == OpenThis.ShowDialog())
+            {
+                XElement pRoot = XElement.Load(OpenThis.FileName);
+                IEnumerable<XElement> xAnimations = pRoot.Elements();
+                foreach (XElement Animation in xAnimations)
+                {
+                    CAnimation tempanim = new CAnimation();
+                    tempanim.UnitType = (int)Animation.Attribute("UnitType");
+                    tempanim.AnimType = (int)Animation.Attribute("AnimType");
+                    tempanim.AnimLooping = (bool)Animation.Attribute("IsLooping");
+                    tempanim.ImagePath = (string)Animation.Attribute("ImgName");
+                    tempanim.CurrFrame = (int)Animation.Attribute("CurrentFrame");
+                    tempanim.NameOfAnim = (string)Animation.Attribute("AnimationName");
+                    IEnumerable<XElement> xFrames = Animation.Elements();
+                    foreach (XElement Frame in xFrames)
+                    {
+                        CFrame tempframe = new CFrame();
+                        tempframe.FrameNum = (int)Frame.Attribute("FrameNumber");
+                        tempframe.TimePlayed = (int)Frame.Attribute("TimeForFrameToRun");
+                        Rectangle temprect = new Rectangle();
+                        temprect.Y = (int)Frame.Attribute("top");
+                        temprect.X = (int)Frame.Attribute("left");
+                        temprect.Width = (int)Frame.Attribute("right") - temprect.X;
+                        temprect.Height = (int)Frame.Attribute("bottom") - temprect.Y;
+                        tempframe.Rect = temprect;
+                        Point temppoint = new Point();
+                        temppoint.X = (int)Frame.Attribute("AnchorX");
+                        temppoint.Y = (int)Frame.Attribute("AnchorY");
+                        tempanim.FrameVec.Add(tempframe);
+                    }
+                    Animations.Add(tempanim);
+                    animlist.Items.Add(tempanim.NameOfAnim);
+                }
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -131,7 +174,40 @@ namespace Animation_Editor_LOCC
             SaveFileDialog SaveThis = new SaveFileDialog();
             SaveThis.Filter = "XML Files|*xml";
             SaveThis.InitialDirectory = folderpath;
-            SaveThis.ShowDialog();
+            if (DialogResult.OK == SaveThis.ShowDialog())
+            {
+                XElement pRoot = new XElement("Animations");
+                for (int i = 0; i < Animations.Count; i++)
+                {
+                    XElement Animation = new XElement("Animation");
+                    Animation.Add(new XAttribute("UnitType", Animations[i].UnitType.ToString()));
+                    Animation.Add(new XAttribute("AnimType", Animations[i].AnimType.ToString()));
+                    Animation.Add(new XAttribute("IsLooping", Animations[i].AnimLooping.ToString()));
+                    Animation.Add(new XAttribute("ImgName", Animations[i].ImagePath));
+                    Animation.Add(new XAttribute("CurrentFrame", Animations[i].CurrFrame.ToString()));
+                    Animation.Add(new XAttribute("AnimationName", Animations[i].NameOfAnim));
+                    for (int f = 0; f < Animations[i].FrameVec.Count; f++)
+                    {
+                        XElement Frame = new XElement("Frame");
+                        Frame.Add(new XAttribute("FrameNumber", Animations[i].FrameVec[f].FrameNum.ToString()));
+                        Frame.Add(new XAttribute("TimeForFrameToRun", Animations[i].FrameVec[f].TimePlayed.ToString()));
+                        Frame.Add(new XAttribute("top", Animations[i].FrameVec[f].Rect.Top.ToString()));
+                        Frame.Add(new XAttribute("right", Animations[i].FrameVec[f].Rect.Right.ToString()));
+                        Frame.Add(new XAttribute("bottom", Animations[i].FrameVec[f].Rect.Bottom.ToString()));
+                        Frame.Add(new XAttribute("left", Animations[i].FrameVec[f].Rect.Left.ToString()));
+                        Frame.Add(new XAttribute("AnchorX", Animations[i].FrameVec[f].AnchorPointX.ToString()));
+                        Frame.Add(new XAttribute("AnchorY", Animations[i].FrameVec[f].AnchorPointY.ToString()));
+                        Animation.Add(Frame);
+                    }
+                    pRoot.Add(Animation);
+                }
+                if(SaveThis.FileName.EndsWith(".xml"))
+                {
+                    pRoot.Save(SaveThis.FileName);
+                }
+                else
+                    pRoot.Save(SaveThis.FileName + ".xml");
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -146,7 +222,7 @@ namespace Animation_Editor_LOCC
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Xml.XmlDocument testxml = new System.Xml.XmlDocument();
+            //System.Xml.XmlDocument testxml = new System.Xml.XmlDocument();
         }
 
         private void setFileToSaveLoadFromToolStripMenuItem_Click(object sender, EventArgs e)
@@ -235,7 +311,7 @@ namespace Animation_Editor_LOCC
                 {
                     if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
                     {
-                        numofframesinanim.Maximum = animations[i].FrameVec.Capacity;
+                        numofframesinanim.Maximum = animations[i].FrameVec.Count-1;
                         numofframesinanim.Value = 0;
                     }
                 }
@@ -303,10 +379,15 @@ namespace Animation_Editor_LOCC
                 if (e.Y >= 0 && e.X >= 0 && e.X <= SpriteSheet.Size.Width && e.Y <= SpriteSheet.Size.Height)
                 {
                     RectTopPos.Value = e.Y;
-                }
-                if (e.Y >= 0 && e.X >= 0 && e.X <= SpriteSheet.Size.Width && e.Y <= SpriteSheet.Size.Height)
-                {
                     RectLeftPos.Value = e.X;
+                    if (selectionrect.Width == -1)
+                    {
+                        RectRightPos.Value = e.X;
+                    }
+                    if (selectionrect.Height == -1)
+                    {
+                        RectBottomPos.Value = e.Y;
+                    }
                 }
             }
             if (e.Button == MouseButtons.Left)
@@ -374,11 +455,11 @@ namespace Animation_Editor_LOCC
         {
             if (selectionrect.X != -1)
             {
-                int diff = selectionrect.Right - (int)RectRightPos.Value;
+                int diff = (selectionrect.X + selectionrect.Width) - (int)RectRightPos.Value;
                 Rectangle temp = new Rectangle();
                 temp.X = selectionrect.X;
                 temp.Y = selectionrect.Y;
-                temp.Width = diff + selectionrect.Right - selectionrect.Left;
+                temp.Width = selectionrect.Width - diff;
                 temp.Height = selectionrect.Height;
                 selectionrect = temp;
             }
@@ -386,20 +467,49 @@ namespace Animation_Editor_LOCC
 
         private void RectTopPos_ValueChanged(object sender, EventArgs e)
         {
-
+            if (selectionrect.Y != -1)
+            {
+                int diff = selectionrect.Y - (int)RectTopPos.Value;
+                Rectangle temp = new Rectangle();
+                temp.X = selectionrect.X;
+                temp.Y = selectionrect.Y - diff;
+                temp.Width = selectionrect.Width;
+                temp.Height = selectionrect.Height + diff;
+                selectionrect = temp;
+            }
         }
 
         private void RectBottomPos_ValueChanged(object sender, EventArgs e)
         {
-
+            if (selectionrect.Y != -1)
+            {
+                int diff = (selectionrect.Y + selectionrect.Height) - (int)RectBottomPos.Value;
+                Rectangle temp = new Rectangle();
+                temp.X = selectionrect.X;
+                temp.Y = selectionrect.Y;
+                temp.Width = selectionrect.Width;
+                temp.Height = selectionrect.Height - diff;
+                selectionrect = temp;
+            }
         }
 
         private void AnchorPosX_ValueChanged(object sender, EventArgs e)
         {
-
+            if (anchorx != -10)
+            {
+                anchorx = (int)AnchorPosX.Value;
+            }
         }
 
         private void AnchorPosY_ValueChanged(object sender, EventArgs e)
+        {
+            if (anchorx != -10)
+            {
+                anchory = (int)AnchorPosY.Value;
+            }
+        }
+
+        private void SaveFrameButton_Click(object sender, EventArgs e)
         {
 
         }
