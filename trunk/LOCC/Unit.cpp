@@ -42,7 +42,7 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 }
 	bool CUnit::CheckDodged(void)
 	{
-		float fChance = (rand() % RAND_MAX) / RAND_MAX;
+		float fChance = (float)((rand() % RAND_MAX) / RAND_MAX);
 		if (fChance > m_fDodgeChance)
 			return false;
 		else

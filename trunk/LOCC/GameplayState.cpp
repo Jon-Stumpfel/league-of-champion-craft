@@ -481,8 +481,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 				// cast the spell!
 				if (ability->GetType() == SP_MELEEATTACK || SP_ARCHERRANGEDATTACK)
 				{
-					int nDistance = abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
-						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY));
+					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
+						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
 					if (nDistance <= m_pSelectedUnit->GetRange())
 					{
 						CUnit* pUnit = CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition());
