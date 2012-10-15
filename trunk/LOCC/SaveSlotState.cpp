@@ -34,6 +34,9 @@ void CSaveSlotState::Exit(void)
 }
 void CSaveSlotState::Input(INPUT_ENUM input)
 {
+	std::wostringstream woss;
+	woss << "SaveState Input: " << input << " at " << GetTickCount() << "\n";
+	OutputDebugString(woss.str().c_str());
 	switch (input)
 	{
 	case INPUT_RIGHT:

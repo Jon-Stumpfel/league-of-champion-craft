@@ -9,7 +9,7 @@
 #include "Skeleton.h"
 #include "Hero.h"
 #include "Cavalry.h"
-
+#include "Player.h"
 CObjectManager* CObjectManager::s_Instance = nullptr;
 
 
@@ -24,7 +24,7 @@ CObjectManager::~CObjectManager(void)
 
 // Object Factory! Take in type, return a new version of whatever you make. This returns
 // CGAmeObject so make sure to cast it to archer or unit or whatever you want if you want to work on it
-CGameObject* CObjectManager::CreateObject(UNIT_TYPE type)
+CGameObject* CObjectManager::CreateObject(UNIT_TYPE type, int nPlayerID)
 {
 	CGameObject* pNewObject = nullptr;
 	switch (type)
@@ -55,6 +55,7 @@ CGameObject* CObjectManager::CreateObject(UNIT_TYPE type)
 		break;
 	}
 	CGameManager::GetInstance()->AddUnit((CUnit*)pNewObject);
+	((CUnit*)pNewObject)->SetPlayerID(nPlayerID);
 	AddObject(pNewObject);
 	return pNewObject;
 }
@@ -64,7 +65,10 @@ void CObjectManager::AddObject( CGameObject* pObject )
 {
 	assert(pObject != nullptr && "CObjectManager::AddObject - pObject is null!");
 	m_pObjectList.push_back(pObject);
-
+	
+	CUnit* pUnit = dynamic_cast<CUnit*>(pObject);
+	CPlayer* pGetPlayer = CGameManager::GetInstance()->GetPlayer(pUnit->GetPlayerID());
+	pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()+1);
 	pObject->AddRef();
 }
 
@@ -80,9 +84,13 @@ void CObjectManager::RemoveObject( CGameObject* pObject )
 	{
 		if ((*iter) == pObject)
 		{
+			CPlayer* pGetPlayer = CGameManager::GetInstance()->GetPlayer((dynamic_cast<CUnit*>((*iter)))->GetPlayerID());
+
+			pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()- 1);
 			m_pObjectList.erase(iter);
 
 			pObject->Release();
+
 			break;
 		}
 		else

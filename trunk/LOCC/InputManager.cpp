@@ -85,7 +85,7 @@ bool CInputManager::Input(void)
 
 	static int nYValue = 0;
 
-	nYValue += pDI->JoystickGetLStickYAmount(0);
+	nYValue += pDI->JoystickGetLStickYAmount(nCurrentPlayerID);
 	if (nYValue > 13000)
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_DOWN);
@@ -99,7 +99,7 @@ bool CInputManager::Input(void)
 
 	static int nXValue = 0;
 
-	nXValue += pDI->JoystickGetLStickXAmount(0);
+	nXValue += pDI->JoystickGetLStickXAmount(nCurrentPlayerID);
 	if (nXValue > 13000)
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
@@ -116,31 +116,31 @@ bool CInputManager::Input(void)
 		nYValue = 0;
 		nXValue = 0;
 	}
-	else if (pDI->KeyPressed(DIK_LEFT) || pDI->JoystickGetLStickDirPressed(DIR_LEFT, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_LEFT) || pDI->JoystickGetLStickDirPressed(DIR_LEFT, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
 				nYValue = 0;
 		nXValue = 0;
 	}
-	else if (pDI->KeyPressed(DIK_RIGHT) || pDI->JoystickGetLStickDirPressed(DIR_RIGHT, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_RIGHT) || pDI->JoystickGetLStickDirPressed(DIR_RIGHT, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
 				nYValue = 0;
 		nXValue = 0;
 	}
-	else if (pDI->KeyPressed(DIK_DOWN) || pDI->JoystickGetLStickDirPressed(DIR_DOWN, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_DOWN) || pDI->JoystickGetLStickDirPressed(DIR_DOWN, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_DOWN);
 				nYValue = 0;
 		nXValue = 0;
 	}
-	else if (pDI->KeyPressed(DIK_RETURN) || pDI->JoystickButtonPressed(0, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_RETURN) || pDI->JoystickButtonPressed(0, nCurrentPlayerID))
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_ACCEPT);
-	else if (pDI->KeyPressed(DIK_Z) || pDI->JoystickButtonPressed(1, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_Z) || pDI->JoystickButtonPressed(1, nCurrentPlayerID))
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
-	else if (pDI->KeyPressed(DIK_I) || pDI->JoystickButtonPressed(7, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_I) || pDI->JoystickButtonPressed(7, nCurrentPlayerID))
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_START);
-	else if (pDI->KeyPressed(DIK_SPACE) || pDI->JoystickButtonPressed(3, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_SPACE) || pDI->JoystickButtonPressed(3, nCurrentPlayerID))
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_SELECT);
 
 	return true;
