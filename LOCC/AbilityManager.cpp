@@ -26,8 +26,12 @@ CAbilityManager* CAbilityManager::GetInstance(void)
 
 void CAbilityManager::DeleteInstance(void)
 {
-	s_Instance->Shutdown();
-	delete s_Instance;
+	if (s_Instance != nullptr)
+	{
+		s_Instance->Shutdown();
+		delete s_Instance;
+	}
+	s_Instance = nullptr;
 }
 
 CAbility* CAbilityManager::GetAbility( SPELL_TYPE type )
@@ -183,6 +187,17 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.first = SP_MOVE;
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
+
+
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 0;
+	pAbility->m_nNumTargets = -1;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("champspellicon"));
+	pAbility->SetType(SP_CHAMPSPELL);
+	tmp.first = SP_CHAMPSPELL;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
+
 	SetRanges();
 }
 
