@@ -22,6 +22,8 @@ public:
 
 	TSTRING m_szInterfaceIcon;
 
+	SPELL_TYPE m_eType;
+
 	bool m_bIsAttack;
 	bool m_bIsMove; // SPECIFICALLY if this is the Move "spell"
 
@@ -32,6 +34,8 @@ public:
 				int nTarget, GAME_PHASE Phase, bool bAttack, string luaFile, string particleFile, string name);
 	~CAbility(void);
 
+	void SetType(SPELL_TYPE st) { m_eType = st;}
+	SPELL_TYPE GetType(void) { return m_eType;}
 	int GetApCost( void ) const { return m_nAPCost; }
 	int GetCoolDown( void ) const { return m_nCooldown; }
 	int GetRange( void ) const { return m_nRange; }

@@ -60,7 +60,7 @@ enum MSG_TYPE { MSG_SPAWNUNIT, MSG_DESPAWNUNIT, MSG_ADDRESOURCE };
 enum TILE_TYPE		{ TT_PLAINS, TT_FOREST, TT_MOUNTAINS, TT_WATER, TT_FARM, TT_MILL, TT_MINE, TT_CASTLE };
 enum TILE_STATUS	{ TS_FROZEN, TS_RESOURCETILE, TS_OCCUPIED, TS_CAPTURING, TS_CAPTURED, TS_IS_DEAD, TS_ISPASSABLE};
 
-enum SPELL_TYPE { SP_TESTSPELL };
+enum SPELL_TYPE { SP_TESTSPELL, SP_MELEEATTACK, SP_ARCHERRANGEDATTACK, SP_MOVE};
 
 enum SCRIPT_TYPE { ST_LEVEL };
 struct UnitAnimation
@@ -83,5 +83,5 @@ const int nStartingAP = 30;
 const int nFakeTileWidth = 64 +26;
 const int nFakeTileHeight = 64 + 27;
 
-const int nMouseSensitivity = 5;	
+const int nMouseSensitivity = 55555555;	
 const int nCameraScrollSpeed = 2;

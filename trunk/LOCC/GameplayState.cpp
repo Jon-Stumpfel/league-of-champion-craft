@@ -458,7 +458,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 	// They used the movement ability
 	if (m_pSelectedUnit->GetHasAttacked())
 		return;
-	if (ability->m_bIsMove)
+	if (ability->GetType() == SP_MOVE)
 	{
 		m_bIsMoving = true;
 		return;
