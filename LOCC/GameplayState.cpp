@@ -857,6 +857,12 @@ void CGameplayState::Update(float fElapsedTime)
 		if (m_nSpellPanelOffsetY > CGame::GetInstance()->GetWindowHeight())
 			m_nSpellPanelOffsetY = CGame::GetInstance()->GetWindowHeight();
 	}
+
+	if (pDI->KeyPressed(DIK_R))
+	{
+		CAddResourceMessage* pMsg = new CAddResourceMessage(TT_MILL, 0);
+		CMessageSystem::GetInstance()->SendMessageW(pMsg);
+	}
 	// Testing Particle Rendering
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);

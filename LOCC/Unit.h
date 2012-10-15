@@ -24,6 +24,9 @@ class CUnit : public CGameObject
 	bool m_bShielded;
 	bool m_bIsMoving;
 
+	float m_fDodgeChance;
+
+
 	UNIT_TYPE m_eType;
 
 	std::vector<CAbility*> m_vAbilities;
@@ -33,6 +36,8 @@ class CUnit : public CGameObject
 public:
 	CUnit(UNIT_TYPE type);
 	~CUnit(void);
+
+	bool CheckDodged(void);
 
 	int GetNumWaypoints(void) { return m_vWaypoints.size();};
 	Vec2D GetLastWaypoint(void) { return m_vWaypoints.front()->GetPosition();};

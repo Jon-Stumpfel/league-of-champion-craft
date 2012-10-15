@@ -17,7 +17,7 @@ public:
 	static CObjectManager* GetInstance( void );
 	static void DeleteInstance( void );
 
-	CGameObject* CreateObject(UNIT_TYPE type);
+	CGameObject* CreateObject(UNIT_TYPE type, int nPlayerID);
 private:
 
 	CObjectManager(void);

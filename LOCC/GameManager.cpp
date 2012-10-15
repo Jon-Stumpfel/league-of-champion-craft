@@ -413,14 +413,15 @@ void CGameManager::NewGame(void)
 {
 
 	Reset();
+	CreatePlayer(false); // player 1
+	CreatePlayer(false);
 	LoadLevel(string("level1"));
 	LoadMap(1);
 
 	m_nPhaseCount = 0;
 	// Player 1 and his units
 	m_nNewPlayerID = 0;
-	CreatePlayer(false); // player 1
-	CreatePlayer(false);
+
 
 	LoadUnitsFromScript();
 
@@ -478,7 +479,7 @@ void CGameManager::MessageProc(IMessage* pMsg)
 	case MSG_SPAWNUNIT:
 		{
 			CSpawnUnitMessage* pSMSG = dynamic_cast<CSpawnUnitMessage*>(pMsg);
-			CUnit* pUnit = (CUnit*)CObjectManager::GetInstance()->CreateObject(pSMSG->GetUnitType());
+			CUnit* pUnit = (CUnit*)CObjectManager::GetInstance()->CreateObject(pSMSG->GetUnitType(), pSMSG->GetPlayerID() );
 			pUnit->SetPos(pSMSG->GetPos());
 			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());

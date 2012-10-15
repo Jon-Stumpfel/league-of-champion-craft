@@ -74,8 +74,17 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	m_sAnimStruct->animationType = AT_WALK_W;
 	m_sAnimStruct->fCurrentTime = 0.0f;
 	m_sAnimStruct->unitType = m_eType;
-}
 
+	m_fDodgeChance = 0.0f;
+}
+	bool CUnit::CheckDodged(void)
+	{
+		float fChance = (rand() % RAND_MAX) / RAND_MAX;
+		if (fChance > m_fDodgeChance)
+			return false;
+		else
+			return true;
+	}
 int CUnit::GetPortraitID(void)
 {
 	switch(m_eType)
@@ -136,6 +145,22 @@ static bool CloseEnough(int n1, int n2)
 }
 void CUnit::Update(float fElapsedTime)
 {
+
+	CTile* pMyTile = CTileManager::GetInstance()->GetTile(GetPos().nPosX, GetPos().nPosY);
+	if (pMyTile != nullptr)
+	{
+		if (pMyTile->GetTileType() == TT_FOREST)
+			m_fDodgeChance = 0.25f;
+		else
+			m_fDodgeChance = 0.0f;
+		if (m_eType == UT_ARCHER)
+			if (pMyTile->GetTileType() == TT_MOUNTAINS)
+			{
+				SetRange(4);
+			}
+			else
+				SetRange(3);
+	}
 	if (m_nHP <= 0)
 	{
 		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
