@@ -5,64 +5,30 @@
 #include "Archer.h"
 #include "Tile.h"
 #include "DeSpawnUnitMessage.h"
+#include "AbilityManager.h"
 #include "MessageSystem.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_nTilesMoved = 0;
-	CAbility* pAbility = new CAbility();
-	pAbility->m_nAPCost = 0;
-	pAbility->m_bIsMove = true;
-	pAbility->m_nPhase = GP_MOVE;
-	pAbility->m_szInterfaceIcon = TSTRING(_T("moveicon"));
-	m_vAbilities.push_back(pAbility);
+
+	CAbilityManager * pAM = CAbilityManager::GetInstance();
+	m_vAbilities.push_back(pAM->GetAbility(SP_MOVE));
 
 	if (m_eType != UT_ARCHER)
 	{
-		
-	pAbility = new CAbility();
-	pAbility->m_nAPCost = 1;
-	pAbility->m_bIsMove = false;
-	pAbility->m_bIsAttack = true;
-	pAbility->m_nNumTargets = 1;
-	pAbility->m_nPhase = GP_ATTACK;
-	pAbility->m_nRange = 1;
-	pAbility->m_nCooldown = 0;
-	pAbility->m_vPattern.push_back(Vec2D(-1, 0));
-	pAbility->m_vPattern.push_back(Vec2D(1, 0));
-	pAbility->m_vPattern.push_back(Vec2D(0, -1));
-	pAbility->m_vPattern.push_back(Vec2D(0, 1));
-	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
+		CAbilityManager * pAM = CAbilityManager::GetInstance();
+		m_vAbilities.push_back(pAM->GetAbility(SP_MELEEATTACK));
 	}
 	else
 	{
-		pAbility = new CAbility();
-		pAbility->m_nAPCost = 1;
-		pAbility->m_bIsMove = false;
-		pAbility->m_bIsAttack = true;
-		pAbility->m_nNumTargets = 1;
-		pAbility->m_nPhase = GP_ATTACK;
-		pAbility->m_nRange = 2;
-		pAbility->m_nCooldown = 0;
-		pAbility->m_vPattern.push_back(Vec2D(-1, 0));
-		pAbility->m_vPattern.push_back(Vec2D(1, 0));
-		pAbility->m_vPattern.push_back(Vec2D(0, -1));
-		pAbility->m_vPattern.push_back(Vec2D(0, 1));
-		pAbility->m_vPattern.push_back(Vec2D(-2, 0));
-		pAbility->m_vPattern.push_back(Vec2D(2, 0));
-		pAbility->m_vPattern.push_back(Vec2D(0, -2));
-		pAbility->m_vPattern.push_back(Vec2D(0, 2));
-		pAbility->m_vPattern.push_back(Vec2D(-1, -1));
-		pAbility->m_vPattern.push_back(Vec2D(1, 1));
-		pAbility->m_vPattern.push_back(Vec2D(1, -1));
-		pAbility->m_vPattern.push_back(Vec2D(-1, 1));
-		pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
+		CAbilityManager * pAM = CAbilityManager::GetInstance();
+		m_vAbilities.push_back(pAM->GetAbility(SP_ARCHERRANGEDATTACK));
 
 	}
-	m_vAbilities.push_back(pAbility);
 
 	if (m_eType == UT_HERO)
 	{
-		pAbility = new CAbility();
+		CAbility* pAbility = new CAbility();
 		pAbility->m_nAPCost = 0;
 		pAbility->m_nNumTargets = -1;
 		pAbility->m_szInterfaceIcon = TSTRING(_T("champspellicon"));
@@ -116,8 +82,6 @@ int CUnit::GetPortraitID(void)
 
 CUnit::~CUnit(void)
 {
-	for (decltype(m_vAbilities.size()) i =0; i < m_vAbilities.size(); ++i)
-		delete m_vAbilities[i];
 	delete m_sAnimStruct;
 }
 

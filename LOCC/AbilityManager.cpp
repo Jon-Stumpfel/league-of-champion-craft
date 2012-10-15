@@ -117,6 +117,7 @@ void CAbilityManager::LoadAbilities( void )
 			{
 				ab->SetIsMove(false);
 				ab->SetIcon(TSTRING(_T("iceblockportrait")));
+				ab->SetType(SP_TESTSPELL);
 				std::pair<SPELL_TYPE, CAbility*> tmp;
 				tmp.first = SP_TESTSPELL;
 				tmp.second = ab;
@@ -126,6 +127,62 @@ void CAbilityManager::LoadAbilities( void )
 		}
 	}
 
+	// Custom melee/range attack abilities
+	CAbility* pAbility = new CAbility();
+	pAbility->m_nAPCost = 1;
+	pAbility->m_bIsMove = false;
+	pAbility->m_bIsAttack = true;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_nPhase = GP_ATTACK;
+	pAbility->m_nRange = 1;
+	pAbility->m_nCooldown = 0;
+	pAbility->m_vPattern.push_back(Vec2D(-1, 0));
+	pAbility->m_vPattern.push_back(Vec2D(1, 0));
+	pAbility->m_vPattern.push_back(Vec2D(0, -1));
+	pAbility->m_vPattern.push_back(Vec2D(0, 1));
+	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
+	pAbility->SetType(SP_MELEEATTACK);
+	std::pair<SPELL_TYPE, CAbility*> tmp;
+	tmp.first = SP_MELEEATTACK;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
+
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 1;
+	pAbility->m_bIsMove = false;
+	pAbility->m_bIsAttack = true;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_nPhase = GP_ATTACK;
+	pAbility->m_nRange = 2;
+	pAbility->m_nCooldown = 0;
+	pAbility->m_vPattern.push_back(Vec2D(-1, 0));
+	pAbility->m_vPattern.push_back(Vec2D(1, 0));
+	pAbility->m_vPattern.push_back(Vec2D(0, -1));
+	pAbility->m_vPattern.push_back(Vec2D(0, 1));
+	pAbility->m_vPattern.push_back(Vec2D(-2, 0));
+	pAbility->m_vPattern.push_back(Vec2D(2, 0));
+	pAbility->m_vPattern.push_back(Vec2D(0, -2));
+	pAbility->m_vPattern.push_back(Vec2D(0, 2));
+	pAbility->m_vPattern.push_back(Vec2D(-1, -1));
+	pAbility->m_vPattern.push_back(Vec2D(1, 1));
+	pAbility->m_vPattern.push_back(Vec2D(1, -1));
+	pAbility->m_vPattern.push_back(Vec2D(-1, 1));
+	pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
+	pAbility->SetType(SP_ARCHERRANGEDATTACK);
+	tmp.first = SP_ARCHERRANGEDATTACK;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
+
+
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 0;
+	pAbility->m_bIsMove = true;
+	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("moveicon"));
+	pAbility->SetType(SP_MOVE);
+	tmp.first = SP_MOVE;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
 	SetRanges();
 }
 
