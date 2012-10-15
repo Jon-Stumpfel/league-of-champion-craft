@@ -5,6 +5,7 @@
 #include "GraphicsManager.h"
 #include "GameplayState.h"
 #include "GameManager.h"
+#include "ObjectManager.h"
 CTileManager* CTileManager::s_Instance = nullptr;
 
 CTileManager::CTileManager(void)
@@ -245,7 +246,5 @@ CUnit* CTileManager::GetUnit( int x, int y )
 
 CUnit* CTileManager::GetUnit( CTile* Tile )
 {
-
-
 	return nullptr;
 }

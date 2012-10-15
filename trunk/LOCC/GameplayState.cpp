@@ -39,6 +39,9 @@ CGameplayState* CGameplayState::GetInstance(void)
 void CGameplayState::Enter(void)
 {
 	// test stuff
+	CAbilityManager* pAM = CAbilityManager::GetInstance();
+
+	pAM->LoadAbilities();
 
 	CGameManager::GetInstance()->NewGame();
 
@@ -52,9 +55,6 @@ void CGameplayState::Enter(void)
 
 	pPM->LoadParticles( TEST, test );
 
-	CAbilityManager* pAM = CAbilityManager::GetInstance();
-
-	pAM->LoadAbilities();
 
 	CAnimationManager::GetInstance()->Load("Assets\\Animations\\TestAnimation.xml");
 
@@ -62,7 +62,6 @@ void CGameplayState::Enter(void)
 		CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth, CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight);
 
 	// INITIALIZATION SETUP
-
 
 	m_bIsMoving = false;
 	m_bIsTargeting = false;
@@ -97,6 +96,7 @@ int CGameplayState::GetCamOffsetY(void)
 void CGameplayState::Exit(void)
 {
 	CAnimationManager::GetInstance()->Shutdown();
+	CAbilityManager::GetInstance()->DeleteInstance();
 }
 
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
@@ -271,8 +271,9 @@ void CGameplayState::Input(INPUT_ENUM input)
 					if (m_bSelectChampionAbility)
 					{
 						m_nSelectedSpell--;
+						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 						if (m_nSelectedSpell < 0)
-							m_nSelectedSpell = 3;
+							m_nSelectedSpell = pHero->GetNumSpells()-1;
 					}
 					else
 					{
@@ -304,13 +305,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 					if (m_bSelectChampionAbility)
 					{
 						m_nSelectedSpell++;
-						if (m_nSelectedSpell > 3)
+						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+						if (m_nSelectedSpell >= (int)pHero->GetNumSpells())
 							m_nSelectedSpell = 0;
 					}
 					else
 					{
 						// Champion ability is not pulled up, so just move the cursor on the main panel
 						m_nSelectedAbility++;
+						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 						if (m_nSelectedAbility > 2)
 							m_nSelectedAbility = 0;
 					}
@@ -357,9 +360,18 @@ void CGameplayState::Input(INPUT_ENUM input)
 				}
 				else if (m_bIsTargeting)
 				{
-					m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
-					if (m_pTargetedTile != nullptr)
-						UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
+					if (m_bSelectChampionAbility)
+					{
+						m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
+						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+						UseAbility(pHero->GetSpell(m_nSelectedSpell));
+					}
+					else
+					{
+						m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
+						if (m_pTargetedTile != nullptr)
+							UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
+					}
 				}
 				else
 				{
@@ -469,7 +481,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 				// cast the spell!
 				for (decltype(ability->m_vPattern.size()) i = 0; i < ability->m_vPattern.size(); ++i)
 				{
-					Vec2D hitPosition;
+					/*Vec2D hitPosition;
 					hitPosition.nPosX = m_pSelectedUnit->GetPos().nPosX + ability->m_vPattern[i].nPosX;
 					hitPosition.nPosY = m_pSelectedUnit->GetPos().nPosY + ability->m_vPattern[i].nPosY;
 
@@ -481,7 +493,9 @@ void CGameplayState::UseAbility(CAbility* ability)
 							hitUnit->SetHP(hitUnit->GetHP() - m_pSelectedUnit->GetAttack());
 						}
 						break;
-					}
+					}*/
+					CAbilityManager* pAM = CAbilityManager::GetInstance();
+					pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
 
 				}
 				CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
@@ -933,14 +947,18 @@ void CGameplayState::Render(void)
 
 		// Draw the doohickeys on the ground to show the pattern
 		CAbility* drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+		std::vector< Vec2D > pattern = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+		if( drawAbility->GetApCost() == 5 )
+			int i = 0;
 		if (drawAbility != nullptr && !drawAbility->m_bIsMove)
 		{
 			// it's a real ability and it's not the move one
-			for (decltype(drawAbility->m_vPattern.size()) i = 0; i < drawAbility->m_vPattern.size(); ++i)
+			for (unsigned int i = 0; i < pattern.size(); ++i)
 			{
-				CTile* pPatternTile = CTileManager::GetInstance()->GetTile(
-					m_pSelectedUnit->GetPos().nPosX + drawAbility->m_vPattern[i].nPosX,
-					m_pSelectedUnit->GetPos().nPosY + drawAbility->m_vPattern[i].nPosY);
+				int x = pattern[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+				int y = pattern[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+
+				CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
 
 				if (pPatternTile != nullptr)
 				{
@@ -989,8 +1007,6 @@ void CGameplayState::Render(void)
 	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
 	//else
 	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
-
-
 
 	// Render the UI Overlay
 	CSGD_TextureManager::GetInstance()->Draw(
@@ -1094,7 +1110,6 @@ void CGameplayState::Render(void)
 		CSGD_TextureManager::GetInstance()->Draw(
 			CGraphicsManager::GetInstance()->GetID(_T("panelselect")),  nCursorPosX, nCursorPosY, 0.6f, 0.6f);
 
-
 		// drawin icons. Could loop it, don't see a reason to
 
 		CAbility* pAbility = m_pSelectedUnit->GetAbility(0);
@@ -1126,7 +1141,7 @@ void CGameplayState::Render(void)
 			CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 			if (pHero != nullptr)
 			{
-				for (int i = 0; i <4; ++i)
+				for (unsigned int i = 0; i < pHero->GetNumSpells(); ++i)
 				{
 					CSGD_TextureManager::GetInstance()->Draw(
 						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),

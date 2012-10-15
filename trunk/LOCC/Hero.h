@@ -10,6 +10,7 @@ private:
 public:
 
 	CAbility* GetSpell(int i) { return m_vSpells[i];}
+	unsigned int GetNumSpells( void ) { return m_vSpells.size(); }
 	CHero(void);
 	~CHero(void);
 	void Render(void);

@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "AbilityManager.h"
 #include "Ability.h"
+#include "ScriptManager.h"
+#include "TileManager.h"
 
 CAbilityManager* CAbilityManager::s_Instance = nullptr;
 
@@ -11,6 +13,7 @@ CAbilityManager::CAbilityManager(void)
 
 CAbilityManager::~CAbilityManager(void)
 {
+	
 }
 
 CAbilityManager* CAbilityManager::GetInstance(void)
@@ -20,15 +23,30 @@ CAbilityManager* CAbilityManager::GetInstance(void)
 
 	return s_Instance;
 }
+
 void CAbilityManager::DeleteInstance(void)
 {
+	s_Instance->Shutdown();
+	delete s_Instance;
 }
 
-
-bool CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile)
+CAbility* CAbilityManager::GetAbility( SPELL_TYPE type )
 {
-	
-	return false;
+	// Finds the ability that is given
+	for( unsigned int i = 0; i < m_vAbilities.size(); i++ )
+	{
+		if( m_vAbilities[i].first == type )
+			return m_vAbilities[i].second;
+	}
+
+	return nullptr;
+}
+
+void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster)
+{
+	// Tells the scriptmanager to run the lua code for the specified spell
+	CScriptManager* pSM = CScriptManager::GetInstance();
+	pSM->Execute(pToUse, pTargetTile, pCaster);
 }
 
 void CAbilityManager::LoadAbilities( void )
@@ -75,7 +93,7 @@ void CAbilityManager::LoadAbilities( void )
 			pTile->Attribute("PosX", &p.nPosX);
 			pos.push_back(p);
 
-			pTile = pRoot->NextSiblingElement("Tile");
+			pTile = pTile->NextSiblingElement();
 		}
 
 		GAME_PHASE gPhase;
@@ -97,6 +115,8 @@ void CAbilityManager::LoadAbilities( void )
 		{
 		case SP_TESTSPELL:
 			{
+				ab->SetIsMove(false);
+				ab->SetIcon(TSTRING(_T("iceblockportrait")));
 				std::pair<SPELL_TYPE, CAbility*> tmp;
 				tmp.first = SP_TESTSPELL;
 				tmp.second = ab;
@@ -105,6 +125,102 @@ void CAbilityManager::LoadAbilities( void )
 			break;
 		}
 	}
+
+	SetRanges();
+}
+
+void CAbilityManager::SetRanges( void )
+{
+	// Set range of 1 pattern
+	m_vRange1.push_back(Vec2D(-1, 0));
+	m_vRange1.push_back(Vec2D(1, 0));
+	m_vRange1.push_back(Vec2D(0, -1));
+	m_vRange1.push_back(Vec2D(0, 1));
+
+	// Set range of 2 pattern
+	m_vRange2.push_back(Vec2D(-1, 0));
+	m_vRange2.push_back(Vec2D(1, 0));
+	m_vRange2.push_back(Vec2D(0, -1));
+	m_vRange2.push_back(Vec2D(0, 1));
+	m_vRange2.push_back(Vec2D(-2, 0));
+	m_vRange2.push_back(Vec2D(2, 0));
+	m_vRange2.push_back(Vec2D(0, -2));
+	m_vRange2.push_back(Vec2D(0, 2));
+	m_vRange2.push_back(Vec2D(-1, -1));
+	m_vRange2.push_back(Vec2D(1, 1));
+	m_vRange2.push_back(Vec2D(1, -1));
+	m_vRange2.push_back(Vec2D(-1, 1));
+
+	// Set range of 3 pattern
+	m_vRange3.push_back(Vec2D(-1, 0));
+	m_vRange3.push_back(Vec2D(1, 0));
+	m_vRange3.push_back(Vec2D(0, -1));
+	m_vRange3.push_back(Vec2D(0, 1));
+	m_vRange3.push_back(Vec2D(-2, 0));
+	m_vRange3.push_back(Vec2D(2, 0));
+	m_vRange3.push_back(Vec2D(0, -2));
+	m_vRange3.push_back(Vec2D(0, 2));
+	m_vRange3.push_back(Vec2D(-1, -1));
+	m_vRange3.push_back(Vec2D(1, 1));
+	m_vRange3.push_back(Vec2D(1, -1));
+	m_vRange3.push_back(Vec2D(-1, 1));
+
+	m_vRange3.push_back(Vec2D(-2, -1));
+	m_vRange3.push_back(Vec2D(-1, -2));
+	m_vRange3.push_back(Vec2D(0, -3));
+	m_vRange3.push_back(Vec2D(1, -2));
+	m_vRange3.push_back(Vec2D(2, -1));
+	m_vRange3.push_back(Vec2D(3, 0));
+	m_vRange3.push_back(Vec2D(2, 1));
+	m_vRange3.push_back(Vec2D(1, 2));
+	m_vRange3.push_back(Vec2D(0, 3));
+	m_vRange3.push_back(Vec2D(-1, 2));
+	m_vRange3.push_back(Vec2D(-2, 1));
+	m_vRange3.push_back(Vec2D(-3, 0));
+
+	// Set range of 4 pattern
+	m_vRange4.push_back(Vec2D(-1, 0));
+	m_vRange4.push_back(Vec2D(1, 0));
+	m_vRange4.push_back(Vec2D(0, -1));
+	m_vRange4.push_back(Vec2D(0, 1));
+	m_vRange4.push_back(Vec2D(-2, 0));
+	m_vRange4.push_back(Vec2D(2, 0));
+	m_vRange4.push_back(Vec2D(0, -2));
+	m_vRange4.push_back(Vec2D(0, 2));
+	m_vRange4.push_back(Vec2D(-1, -1));
+	m_vRange4.push_back(Vec2D(1, 1));
+	m_vRange4.push_back(Vec2D(1, -1));
+	m_vRange4.push_back(Vec2D(-1, 1));
+	m_vRange4.push_back(Vec2D(-2, -1));
+	m_vRange4.push_back(Vec2D(-1, -2));
+	m_vRange4.push_back(Vec2D(0, -3));
+	m_vRange4.push_back(Vec2D(1, -2));
+	m_vRange4.push_back(Vec2D(2, -1));
+	m_vRange4.push_back(Vec2D(3, 0));
+	m_vRange4.push_back(Vec2D(2, 1));
+	m_vRange4.push_back(Vec2D(1, 2));
+	m_vRange4.push_back(Vec2D(0, 3));
+	m_vRange4.push_back(Vec2D(-1, 2));
+	m_vRange4.push_back(Vec2D(-2, 1));
+	m_vRange4.push_back(Vec2D(-3, 0));
+	m_vRange4.push_back(Vec2D(0, 4));
+	m_vRange4.push_back(Vec2D(1, 3));
+	m_vRange4.push_back(Vec2D(2, 2));
+	m_vRange4.push_back(Vec2D(3, 1));
+	m_vRange4.push_back(Vec2D(4, 0));
+	m_vRange4.push_back(Vec2D(3, -1));
+	m_vRange4.push_back(Vec2D(2, -2));
+	m_vRange4.push_back(Vec2D(1, -3));
+	m_vRange4.push_back(Vec2D(0, -4));
+	m_vRange4.push_back(Vec2D(-1, -3));
+	m_vRange4.push_back(Vec2D(-2, -2));
+	m_vRange4.push_back(Vec2D(-3, -1));
+	m_vRange4.push_back(Vec2D(-4, 0));
+	m_vRange4.push_back(Vec2D(-3, 1));
+	m_vRange4.push_back(Vec2D(-2, 2));
+	m_vRange4.push_back(Vec2D(-1, 3));
+
+	// toally sucks...
 }
 
 void CAbilityManager::Initialize(void)
@@ -112,4 +228,23 @@ void CAbilityManager::Initialize(void)
 }
 void CAbilityManager::Shutdown(void)
 {
+	for( unsigned int i = 0; i < m_vAbilities.size(); i++ )
+	{
+		delete m_vAbilities[i].second;
+		m_vAbilities.erase(m_vAbilities.begin() + i);
+		i--;
+	}
+	int i =0;
+}
+
+std::vector< Vec2D > CAbilityManager::GetRange( int range )
+{
+	if( range == 1 )
+		return m_vRange1;
+	else if( range == 2 )
+		return m_vRange2;
+	else if( range == 3 )
+		return m_vRange3;
+	else
+		return m_vRange4;
 }
