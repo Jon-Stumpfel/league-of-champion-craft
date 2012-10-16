@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Map mapID="-842150451" phaseNumber="0" phase="0" currPlayer="0">
     <Players>
-        <Player id="0" ai="0" AP="30" wood="20" metal="20">
-            <Champion posX="4" posY="2" health="50" xp="0" facing="2" tilesMoved="0" hasAttacked="0">
+        <Player id="0" ai="0" AP="25" wood="20" metal="20">
+            <Champion posX="7" posY="0" health="50" xp="0" facing="1" tilesMoved="1" hasAttacked="0">
                 <Spells numSpells="1">
                     <Spell sType="0" />
                 </Spells>

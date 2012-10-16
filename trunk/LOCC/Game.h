@@ -37,7 +37,8 @@ private:
 	bool m_bIsWindowed;
 	DWORD m_dwCurrTime;
 	IGameState* currentState;
-
-
+	bool m_bUpdateFps;
+	unsigned int m_nFrameCount;
+	float m_fFrameElapsed;
 };
 

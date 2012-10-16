@@ -218,8 +218,16 @@ void CGameManager::SaveGame(int nSlot)
 
 		TiXmlElement* pChampion = new TiXmlElement("Champion");
 		CHero* pHero = dynamic_cast<CHero*>(GetChampion(m_vPlayers[i]->GetPlayerID()));
-		pChampion->SetAttribute("posX", pHero->GetPos().nPosX);
-		pChampion->SetAttribute("posY", pHero->GetPos().nPosY);
+		if (pHero->GetNumWaypoints() > 0)
+		{
+			pChampion->SetAttribute("posX", pHero->GetLastWaypoint().nPosX);
+			pChampion->SetAttribute("posY", pHero->GetLastWaypoint().nPosY);
+		}
+		else
+		{
+			pChampion->SetAttribute("posX", pHero->GetPos().nPosX);
+			pChampion->SetAttribute("posY", pHero->GetPos().nPosY);
+		}
 		pChampion->SetAttribute("health", pHero->GetHP());
 		pChampion->SetAttribute("xp", m_vPlayers[i]->GetExp());
 		pChampion->SetAttribute("facing", pHero->GetFacing());
@@ -428,6 +436,9 @@ void CGameManager::Reset(void)
 	m_nNewPlayerID = 0;
 	m_vScriptSpawns.clear();
 
+	CreatePlayer(false); // player 1
+	CreatePlayer(false);
+
 	CMessageSystem::GetInstance()->ProcessMessages();
 	CTileManager::GetInstance()->ShutDown();
 
@@ -436,8 +447,7 @@ void CGameManager::NewGame(void)
 {
 
 	Reset();
-	CreatePlayer(false); // player 1
-	CreatePlayer(false);
+
 	LoadLevel(string("level1"));
 	LoadMap(1);
 
