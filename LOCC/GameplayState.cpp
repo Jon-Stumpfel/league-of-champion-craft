@@ -970,10 +970,22 @@ void CGameplayState::Render(void)
 
 
 		// Draw the doohickeys on the ground to show the pattern
-		CAbility* drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+		CAbility* drawAbility ;
+		if (m_bSelectChampionAbility)
+			drawAbility = (dynamic_cast<CHero*>(m_pSelectedUnit))->GetSpell(m_nSelectedSpell);
+		else
+			drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
 		if( drawAbility != nullptr )
 		{
-			std::vector< Vec2D > pattern = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+			std::vector< Vec2D > pattern;
+			if (!m_bIsTargeting)
+			{
+				pattern = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+			}
+			else
+			{
+				pattern = drawAbility->GetPattern();
+			}
 			if( drawAbility->GetApCost() == 5 )
 				int i = 0;
 			if (drawAbility != nullptr && !drawAbility->m_bIsMove)
@@ -984,10 +996,14 @@ void CGameplayState::Render(void)
 					pattern = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());
 				}
 				// it's a real ability and it's not the move one
+				Vec2D targetVec = m_pSelectedUnit->GetPos();
+				if (m_bIsTargeting)
+					targetVec = m_SelectionPos;
 				for (unsigned int i = 0; i < pattern.size(); ++i)
 				{
-					int x = pattern[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
-					int y = pattern[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+					
+					int x = pattern[i].nPosX + targetVec.nPosX;
+					int y = pattern[i].nPosY + targetVec.nPosY;
 
 					CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
 
@@ -1352,13 +1368,13 @@ void CGameplayState::Render(void)
 		std::wostringstream oss;
 		if (pDebugPlayer != nullptr)
 		{
-			oss << "CurrCamPixel X: " << m_currCamPixelPos.nPosX << " Y: " << m_currCamPixelPos.nPosY;
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 10, 250, 255, 255, 255);
-			oss.str(_T(""));
-			oss << "NewCamPixel X: " << m_newCamPixelPos.nPosX << " Y: " << m_newCamPixelPos.nPosY;
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 10, 270, 255, 255, 255);
+			//oss << "CurrCamPixel X: " << m_currCamPixelPos.nPosX << " Y: " << m_currCamPixelPos.nPosY;
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 10, 250, 255, 255, 255);
+			//oss.str(_T(""));
+			//oss << "NewCamPixel X: " << m_newCamPixelPos.nPosX << " Y: " << m_newCamPixelPos.nPosY;
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 10, 270, 255, 255, 255);
 
-			oss.str(_T(""));
+			//oss.str(_T(""));
 
 
 			oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
