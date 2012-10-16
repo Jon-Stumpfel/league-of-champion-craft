@@ -11,6 +11,16 @@
 
 CScriptManager* CScriptManager::s_Instance = nullptr;
 
+
+Vec2Df TranslateToPixelF(Vec2D gamePosition)
+{
+	int x = (nFakeTileWidth / 2 * gamePosition.nPosX) - (nFakeTileHeight / 2 * gamePosition.nPosY) + nFakeTileWidth / 2;
+	int y = (nFakeTileWidth / 2 * gamePosition.nPosX) + (nFakeTileHeight  / 2 * gamePosition.nPosY) + nFakeTileHeight / 2;
+
+	return Vec2Df((float)x, (float)y);
+}
+
+
 CScriptManager::CScriptManager(void)
 {
 }
@@ -90,13 +100,11 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 	int face = pCaster->GetFacing();
 
 		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pAbility, pTile);
-		/*for( unsigned int i = 0; i < TilePos.size(); i++ )
+		for( unsigned int i = 0; i < TilePos.size(); i++ )
 		{
-			Vec2Df tmp;
-			tmp.fVecX = (float)TilePos[i].nPosX;
-			tmp.fVecY = (float)TilePos[i].nPosY;
-			CParticleManager::GetInstance()->LoadParticles(TEST, tmp)
-		}*/
+			Vec2Df tmp = TranslateToPixelF(TilePos[i]);
+			CParticleManager::GetInstance()->LoadParticles(TEST, tmp);
+		}
 
 		lua_getglobal(L, "OnUse");
 

@@ -94,3 +94,4 @@ Vec2D TranslateToPixel(Vec2D gamePosition)
 
 	return Vec2D(x, y);
 }
+
