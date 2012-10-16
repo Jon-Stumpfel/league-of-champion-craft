@@ -3,6 +3,8 @@
 #include "Ability.h"
 #include "ScriptManager.h"
 #include "TileManager.h"
+#include "GameplayState.h"
+#include "Unit.h"
 
 CAbilityManager* CAbilityManager::s_Instance = nullptr;
 
@@ -67,13 +69,18 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
+
+		case SP_CONE:
+			{
+				if( doc.LoadFile( "Assets/Ability/cone.xml") == false )
+					return;
+			}
+			break;
 		}
 
 		TiXmlElement* pRoot = doc.RootElement();
 		if( pRoot == nullptr )
 			return;
-
-		m_vAbilities.clear();
 
 		int phase, attack, target, cooldown, ap, range;
 		const char* spellname, *luaFile, *particleFile;
@@ -108,9 +115,9 @@ void CAbilityManager::LoadAbilities( void )
 
 		bool bAttack;
 		if( attack == 0 )
-			bAttack = true;
-		else
 			bAttack = false;
+		else
+			bAttack = true;
 
 		CAbility* ab = new CAbility(pos, ap, cooldown, range, target,
 			gPhase, bAttack, luaFile, particleFile, spellname);
@@ -120,10 +127,22 @@ void CAbilityManager::LoadAbilities( void )
 		case SP_TESTSPELL:
 			{
 				ab->SetIsMove(false);
-				ab->SetIcon(TSTRING(_T("iceblockportrait")));
+				ab->SetIcon(TSTRING(_T("meleeattackicon")));
 				ab->SetType(SP_TESTSPELL);
 				std::pair<SPELL_TYPE, CAbility*> tmp;
 				tmp.first = SP_TESTSPELL;
+				tmp.second = ab;
+				m_vAbilities.push_back(tmp);
+			}
+			break;
+
+			case SP_CONE:
+			{
+				ab->SetIsMove(false);
+				ab->SetIcon(TSTRING(_T("iceblockportrait")));
+				ab->SetType(SP_CONE);
+				std::pair<SPELL_TYPE, CAbility*> tmp;
+				tmp.first = SP_CONE;
 				tmp.second = ab;
 				m_vAbilities.push_back(tmp);
 			}
@@ -307,6 +326,63 @@ void CAbilityManager::Shutdown(void)
 		i--;
 	}
 	int i =0;
+}
+
+std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CUnit* pUnit, CAbility* pAbility )
+{
+	std::vector< Vec2D > pattern = pAbility->GetPattern();
+	std::vector< Vec2D > TilePos;
+
+	if( face == 0 ) // S
+	{
+		for( unsigned int i = 0; i < pattern.size(); i++ )
+		{
+			pattern[i].nPosX = -pattern[i].nPosX;
+			pattern[i].nPosY = -pattern[i].nPosY;
+			Vec2D tmp;
+			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
+			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+			TilePos.push_back(tmp);
+		}
+	}
+	else if( face == 1 ) // N
+	{
+		for( unsigned int i = 0; i < pattern.size(); i++ )
+		{
+			Vec2D tmp;
+			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
+			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+			TilePos.push_back(tmp);
+		}
+	}
+	else if( face == 2 ) // E
+	{
+		for( unsigned int i = 0; i < pattern.size(); i++ )
+		{
+			int x = pattern[i].nPosX;
+			pattern[i].nPosX = -pattern[i].nPosY;
+			pattern[i].nPosY = x;
+			Vec2D tmp;
+			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
+			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+			TilePos.push_back(tmp);
+		}
+	}
+	else if( face == 3 ) // W
+	{
+		for( unsigned int i = 0; i < pattern.size(); i++ )
+		{
+			int x = pattern[i].nPosX;
+			pattern[i].nPosX = pattern[i].nPosY;
+			pattern[i].nPosY = -x;
+			Vec2D tmp;
+			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
+			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+			TilePos.push_back(tmp);
+		}
+	}
+
+	return TilePos;
 }
 
 std::vector< Vec2D > CAbilityManager::GetRange( int range )

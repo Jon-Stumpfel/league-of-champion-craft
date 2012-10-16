@@ -36,6 +36,8 @@ public:
 	static void DeleteInstance(void);
 private:
 
+			lua_State* L;
+
 	CScriptManager(void);
 	~CScriptManager(void);
 	CScriptManager(const CScriptManager&);

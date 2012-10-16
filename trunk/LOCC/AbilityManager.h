@@ -4,7 +4,7 @@
 #include "Ability.h"
 #include "Unit.h"
 
-#define NUMSPELLS 1;
+#define NUMSPELLS 2;
 
 class CAbilityManager
 {
@@ -18,6 +18,8 @@ public:
 	CAbility* GetAbility( SPELL_TYPE type );
 
 	std::vector< Vec2D > GetRange( int range );
+
+	std::vector< Vec2D > GetProperFacing( int face, CUnit* pUnit, CAbility* pAbility  );
 
 	void Initialize(void);
 	void Shutdown(void);
