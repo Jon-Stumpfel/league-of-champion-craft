@@ -848,6 +848,7 @@ void CGameplayState::ClearSelections(void)
 {
 	m_bIsMoving = false;
 	m_bIsTargeting = false;
+	m_bSelectChampionAbility = false;
 	m_pSelectedUnit = nullptr;
 	m_nSelectedAbility =0;
 	m_pHighlightedUnit = nullptr;
@@ -884,7 +885,7 @@ void CGameplayState::Update(float fElapsedTime)
 		}
 		if (m_nSpellPanelOffsetY < m_nSpellPanelOffsetYMAX)
 			m_nSpellPanelOffsetY = m_nSpellPanelOffsetYMAX;
-		if (m_nCardOffsetX < CGame::GetInstance()->GetWindowHeight())
+		if (m_nSpellPanelOffsetY < CGame::GetInstance()->GetWindowHeight())
 			m_bShowSpellPanel = true;
 
 	}
@@ -977,28 +978,50 @@ void CGameplayState::Render(void)
 			drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
 		if( drawAbility != nullptr )
 		{
-			std::vector< Vec2D > pattern;
-			if (!m_bIsTargeting)
-			{
-				pattern = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
-			}
-			else
-			{
+			std::vector< Vec2D > pattern, range;
+				range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
 				pattern = drawAbility->GetPattern();
-			}
 			if( drawAbility->GetApCost() == 5 )
 				int i = 0;
 			if (drawAbility != nullptr && !drawAbility->m_bIsMove)
 			{
-				if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() == SP_MELEEATTACK)
-				{
+				//if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() == SP_MELEEATTACK)
+				//{
 
-					pattern = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());
-				}
+				//	pattern = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());
+				//}
 				// it's a real ability and it's not the move one
+
+				// Draw the range
+
+
+				for (unsigned int i = 0; i < range.size(); ++i)
+				{
+					
+					int x = range[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+					int y = range[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+
+					CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
+
+					if (pPatternTile != nullptr)
+					{
+						int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+						int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+
+						int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
+						int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
+						CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+							x - GetCamOffsetX(),
+							y - GetCamOffsetY()
+							, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 255));
+					}
+				}
+
+				// Draw the target pattern
 				Vec2D targetVec = m_pSelectedUnit->GetPos();
 				if (m_bIsTargeting)
 					targetVec = m_SelectionPos;
+
 				for (unsigned int i = 0; i < pattern.size(); ++i)
 				{
 					
