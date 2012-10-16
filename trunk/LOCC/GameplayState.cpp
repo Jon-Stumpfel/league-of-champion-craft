@@ -1043,15 +1043,6 @@ void CGameplayState::Render(void)
 		}
 	}
 
-
-	CObjectManager::GetInstance()->RenderAllObjects();
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-
-	//Render the map
-
-	// Testing particle rendering
-	CParticleManager::GetInstance()->Render();
-
 	int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
 	int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
 	// selection cursor
@@ -1067,6 +1058,16 @@ void CGameplayState::Render(void)
 		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 0, 0);
 	else
 		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 255, 255);
+
+	CObjectManager::GetInstance()->RenderAllObjects();
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
+	//Render the map
+
+	// Testing particle rendering
+	CParticleManager::GetInstance()->Render();
+
+
 
 
 	//if (m_bIsMoving)

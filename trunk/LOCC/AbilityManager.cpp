@@ -76,6 +76,14 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
+		case SP_FIREBALL:
+			{
+				if (doc.LoadFile("Assets/Ability/fireball.xml") == false)
+					return;
+			}
+			break;
+		default:
+			continue;
 		}
 
 		TiXmlElement* pRoot = doc.RootElement();
@@ -147,6 +155,17 @@ void CAbilityManager::LoadAbilities( void )
 				m_vAbilities.push_back(tmp);
 			}
 			break;
+			case SP_FIREBALL:
+				{
+					ab->SetIsMove(false);
+					ab->SetIcon(TSTRING(_T("fireballicon")));
+					ab->SetType(SP_FIREBALL);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_FIREBALL;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
 		}
 	}
 

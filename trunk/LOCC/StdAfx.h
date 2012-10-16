@@ -50,6 +50,7 @@ struct Vec2Df
 
 
 
+
 enum ANIM_TYPE { AT_IDLE, AT_WALK_N, AT_WALK_S, AT_WALK_E, AT_WALK_W, AT_ATTACK_N, 
 	AT_ATTACK_S, AT_ATTACK_E, AT_ATTACK_W, AT_ABILITY_N, AT_ABILITY_S, AT_ABILITY_E, AT_ABILITY_W };
 
@@ -60,7 +61,7 @@ enum MSG_TYPE { MSG_SPAWNUNIT, MSG_DESPAWNUNIT, MSG_ADDRESOURCE };
 enum TILE_TYPE		{ TT_PLAINS, TT_FOREST, TT_MOUNTAINS, TT_WATER, TT_FARM, TT_MILL, TT_MINE, TT_CASTLE };
 enum TILE_STATUS	{ TS_FROZEN, TS_RESOURCETILE, TS_OCCUPIED, TS_CAPTURING, TS_CAPTURED, TS_IS_DEAD, TS_ISPASSABLE};
 
-enum SPELL_TYPE { SP_TESTSPELL, SP_CONE, SP_MELEEATTACK, SP_ARCHERRANGEDATTACK, SP_MOVE, SP_CHAMPSPELL};
+enum SPELL_TYPE { SP_TESTSPELL, SP_CONE, SP_MELEEATTACK, SP_ARCHERRANGEDATTACK, SP_MOVE, SP_CHAMPSPELL, SP_FIREBALL, SP_NUMSPELLS};
 
 enum SCRIPT_TYPE { ST_LEVEL };
 struct UnitAnimation
@@ -85,3 +86,11 @@ const int nFakeTileHeight = 64 + 27;
 
 const int nMouseSensitivity = 55555555;	
 const int nCameraScrollSpeed = 2;
+
+Vec2D TranslateToPixel(Vec2D gamePosition)
+{
+	int x = (nFakeTileWidth / 2 * gamePosition.nPosX) - (nFakeTileHeight / 2 * gamePosition.nPosY);
+	int y = (nFakeTileWidth / 2 * gamePosition.nPosX) + (nFakeTileHeight  / 2 * gamePosition.nPosY);
+
+	return Vec2D(x, y);
+}

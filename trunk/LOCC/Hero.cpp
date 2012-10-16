@@ -32,8 +32,10 @@ CHero::CHero(void) : CUnit(UT_HERO)
 
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
-	m_vSpells.push_back(pAM->GetAbility(SP_TESTSPELL));
-	m_vSpells.push_back(pAM->GetAbility(SP_CONE));
+	GiveSpell(SP_TESTSPELL);
+	GiveSpell(SP_CONE);
+	GiveSpell(SP_FIREBALL);
+
 
 	
 }
@@ -51,8 +53,8 @@ void CHero::Render(void)
 {
 	Vec2D tempanchorpoint = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetAnchorPoint();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Champion"),
-		(m_sWorldPos.nPosX + 24)- (tempanchorpoint.nPosX/4*3) - CGameplayState::GetInstance()->GetCamOffsetX(),
-		(m_sWorldPos.nPosY - 6) - (tempanchorpoint.nPosY/4*3) - CGameplayState::GetInstance()->GetCamOffsetY(),
-		0.55f,0.55f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
+		(m_sWorldPos.nPosX + 24)- (tempanchorpoint.nPosX/4*3) - CGameplayState::GetInstance()->GetCamOffsetX() -20,
+		(m_sWorldPos.nPosY - 6) - (tempanchorpoint.nPosY/4*3) - CGameplayState::GetInstance()->GetCamOffsetY() - 20,
+		1.0f,1.0f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }
