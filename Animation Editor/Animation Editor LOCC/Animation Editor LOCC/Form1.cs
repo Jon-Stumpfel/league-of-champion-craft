@@ -20,6 +20,7 @@ namespace Animation_Editor_LOCC
         int anchorx = 0;
         int anchory = 0;
         int pictureid = -1;
+        bool pause = false;
         string folderpath = "C:\\";
         public string FolderPath
         {
@@ -81,10 +82,17 @@ namespace Animation_Editor_LOCC
                         if (animations[i].FrameVec[animations[i].CurrFrame].TimePlayed / 100 <= temptime.TotalSeconds
                             && animations[i].NameOfAnim == animlist.SelectedItem.ToString())
                         {
-                            if (animations[i].FrameVec.Count-1 == animations[i].CurrFrame)
-                                animations[i].CurrFrame = 0;
+                            if (pause == true)
+                            {
+
+                            }
                             else
-                                animations[i].CurrFrame += 1;
+                            {
+                                if (animations[i].FrameVec.Count - 1 == animations[i].CurrFrame)
+                                    animations[i].CurrFrame = 0;
+                                else
+                                    animations[i].CurrFrame += 1;
+                            }
                             timetocheckagainst = System.DateTime.Now;
                         }
                     }
@@ -131,10 +139,10 @@ namespace Animation_Editor_LOCC
                 tm.Draw(pictureid, 0, 0, 1.0f, 1.0f, therect, 0, 0, 0, Color.White.ToArgb());
             d3D.Sprite.Flush();
             Rectangle temprect = new Rectangle();
-            temprect.X = anchorx-5;
-            temprect.Y = anchory-5;
-            temprect.Width = 10;
-            temprect.Height = 10;
+            temprect.X = anchorx-2;
+            temprect.Y = anchory-2;
+            temprect.Width = 4;
+            temprect.Height = 4;
             d3D.DrawRect(temprect, Color.DarkGreen);
             d3D.DrawEmptyRect(selectionrect, Color.Blue);
             d3D.SpriteEnd();
@@ -213,7 +221,10 @@ namespace Animation_Editor_LOCC
                     XElement Animation = new XElement("Animation");
                     Animation.Add(new XAttribute("UnitType", Animations[i].UnitType.ToString()));
                     Animation.Add(new XAttribute("AnimType", Animations[i].AnimType.ToString()));
-                    Animation.Add(new XAttribute("IsLooping", Animations[i].AnimLooping.ToString()));
+                    if(animations[i].AnimLooping == true)
+                        Animation.Add(new XAttribute("IsLooping", 1));
+                    else
+                        Animation.Add(new XAttribute("IsLooping", 0));
                     Animation.Add(new XAttribute("ImgName", Animations[i].ImagePath));
                     Animation.Add(new XAttribute("CurrentFrame", Animations[i].CurrFrame.ToString()));
                     Animation.Add(new XAttribute("AnimationName", Animations[i].NameOfAnim));
@@ -362,7 +373,12 @@ namespace Animation_Editor_LOCC
                         pictureid = tm.LoadTexture(filedir, 0);
                         UnitType.SelectedIndex = animations[i].UnitType;
                         AnimType.SelectedIndex = animations[i].AnimType;
+                        AnchorPosY.Value = animations[i].FrameVec[animations[i].CurrFrame].AnchorPointY;
                         AnchorPosX.Value = animations[i].FrameVec[animations[i].CurrFrame].AnchorPointX;
+                        FrameDuration.Value = (decimal)animations[i].FrameVec[animations[i].CurrFrame].TimePlayed;
+                        RectLeftPos.Value = animations[i].FrameVec[animations[i].CurrFrame].Rect.X;
+                        RectTopPos.Value = animations[i].FrameVec[animations[i].CurrFrame].Rect.Y;
+                        IsLoopingCheckBox.Checked = Animations[i].AnimLooping;
                     }
                 }
             }
@@ -565,12 +581,61 @@ namespace Animation_Editor_LOCC
                     if (animations[i].NameOfAnim == animlist.SelectedItem.ToString()
                         && animlist.SelectedItem != null)
                     {
-                        animations[i].FrameVec[animations[i].CurrFrame].AnchorPointX = (int)AnchorPosX.Value;
-                        animations[i].FrameVec[animations[i].CurrFrame].AnchorPointY = (int)AnchorPosY.Value;
-                        animations[i].FrameVec[animations[i].CurrFrame].Rect = new Rectangle((int)RectLeftPos.Value, (int)RectTopPos.Value,
+                        animations[i].FrameVec[(int)numofframesinanim.Value].AnchorPointX = (int)AnchorPosX.Value;
+                        animations[i].FrameVec[(int)numofframesinanim.Value].AnchorPointY = (int)AnchorPosY.Value;
+                        animations[i].FrameVec[(int)numofframesinanim.Value].Rect = new Rectangle((int)RectLeftPos.Value, (int)RectTopPos.Value,
                             (int)RectRightPos.Value - (int)RectLeftPos.Value, (int)RectBottomPos.Value - (int)RectTopPos.Value);
-                        animations[i].FrameVec[animations[i].CurrFrame].TimePlayed = (int)FrameDuration.Value;
+                        animations[i].FrameVec[(int)numofframesinanim.Value].TimePlayed = (int)FrameDuration.Value;
                     }
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            pause = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            pause = false;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < animations.Count; i++)
+            {
+                if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                {
+                    animations[i].CurrFrame = 0;
+                }
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < animations.Count; i++)
+            {
+                if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                {
+                    if (animations[i].CurrFrame == 0)
+                        animations[i].CurrFrame = animations[i].FrameVec.Count - 1;
+                    else
+                        animations[i].CurrFrame--;
+                }
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < animations.Count; i++)
+            {
+                if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                {
+                    if (animations[i].CurrFrame == animations[i].FrameVec.Count-1)
+                        animations[i].CurrFrame = 0;
+                    else
+                        animations[i].CurrFrame++;
                 }
             }
         }
