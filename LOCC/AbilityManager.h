@@ -4,7 +4,7 @@
 #include "Ability.h"
 #include "Unit.h"
 
-#define NUMSPELLS 2;
+#define NUMSPELLS SP_NUMSPELLS;
 
 class CAbilityManager
 {

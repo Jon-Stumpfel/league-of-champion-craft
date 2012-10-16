@@ -34,9 +34,9 @@ void CArcher::Render(void)
 	//RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect();
 	Vec2D tempanchorpoint = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetAnchorPoint();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Archer"),
-		m_sWorldPos.nPosX - (tempanchorpoint.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX(),
-		m_sWorldPos.nPosY  - (tempanchorpoint.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY(),
-		1.00f,1.00f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
+		m_sWorldPos.nPosX - (tempanchorpoint.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() + 20,
+		m_sWorldPos.nPosY  - (tempanchorpoint.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY() + 5,
+		1.0f,1.0f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }
 

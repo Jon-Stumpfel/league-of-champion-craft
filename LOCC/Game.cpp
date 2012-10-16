@@ -62,6 +62,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\showcard.png"), _T("showcard"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\spellpanel.png"), _T("spellpanel"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\champspellicon.png"), _T("champspellicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\fireballicon.png"), _T("fireballicon"), 0UL);
 
 	m_dwCurrTime = GetTickCount();
 }
