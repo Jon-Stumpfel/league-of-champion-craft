@@ -143,7 +143,7 @@ namespace Animation_Editor_LOCC
             temprect.Y = anchory-2;
             temprect.Width = 4;
             temprect.Height = 4;
-            d3D.DrawRect(temprect, Color.DarkGreen);
+            d3D.DrawRect(temprect, Color.Red);
             d3D.DrawEmptyRect(selectionrect, Color.Blue);
             d3D.SpriteEnd();
             d3D.DeviceEnd();
@@ -172,10 +172,6 @@ namespace Animation_Editor_LOCC
             {
                 XElement pRoot = XElement.Load(OpenThis.FileName);
                 IEnumerable<XElement> xAnimations = pRoot.Elements();
-                if (Animations.Count >= 1)
-                {
-                    Animations.Clear();
-                }
                 foreach (XElement Animation in xAnimations)
                 {
                     CAnimation tempanim = new CAnimation();
@@ -388,9 +384,18 @@ namespace Animation_Editor_LOCC
         {
             OpenFileDialog OpenThis = new OpenFileDialog();
             OpenThis.InitialDirectory = folderpath;
-            OpenThis.ShowDialog();
-            string filedir = folderpath + "\\" + OpenThis.SafeFileName;
-            pictureid = tm.LoadTexture(filedir, 0);
+            if (DialogResult.OK == OpenThis.ShowDialog())
+            {
+                string filedir = folderpath + "\\" + OpenThis.SafeFileName;
+                pictureid = tm.LoadTexture(filedir, 0);
+                for (int i = 0; i < animations.Count; i++)
+                {
+                    if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                    {
+                        animations[i].ImagePath = OpenThis.SafeFileName;
+                    }
+                }
+            }
         }
 
         private void SpriteSheet_MouseUp(object sender, MouseEventArgs e)
@@ -638,6 +643,13 @@ namespace Animation_Editor_LOCC
                         animations[i].CurrFrame++;
                 }
             }
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            SaveLoadBrowser = new FolderBrowserDialog();
+            SaveLoadBrowser.ShowDialog();
+            folderpath = SaveLoadBrowser.SelectedPath;
         }
     }
 }

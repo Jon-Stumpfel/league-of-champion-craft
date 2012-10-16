@@ -85,7 +85,6 @@
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="IMessage.cpp" />
-    <ClCompile Include="BitmapFont.cpp" />
     <ClCompile Include="Castle.cpp" />
     <ClCompile Include="Cavalry.cpp" />
     <ClCompile Include="CreditsState.cpp" />

@@ -95,6 +95,7 @@ private:
 	CTile* m_pTargetedTile;
 	bool m_bIsMoving;
 	bool m_bIsTargeting;
+	CBitmapFont* m_pBitmapFont;
 //	static CGameplayState* s_Instance;
 
 };
