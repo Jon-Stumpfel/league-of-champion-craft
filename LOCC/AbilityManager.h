@@ -19,7 +19,7 @@ public:
 
 	std::vector< Vec2D > GetRange( int range );
 
-	std::vector< Vec2D > GetProperFacing( int face, CUnit* pUnit, CAbility* pAbility  );
+	std::vector< Vec2D > GetProperFacing( int face, CAbility* pAbility, CTile* pTile );
 
 	void Initialize(void);
 	void Shutdown(void);

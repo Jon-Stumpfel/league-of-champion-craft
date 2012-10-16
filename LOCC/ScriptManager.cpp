@@ -7,6 +7,7 @@
 #include "TileManager.h"
 #include "SGD Wrappers\tinyxml.h"
 #include "AbilityManager.h"
+#include "ParticleManager.h"
 
 CScriptManager* CScriptManager::s_Instance = nullptr;
 
@@ -88,9 +89,16 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 	// Finds the facing for the specified unit
 	int face = pCaster->GetFacing();
 
-	if( pAbility->GetType() == SP_TESTSPELL )
+	if( pAbility->GetType() == SP_TESTSPELL || pAbility->GetType() == SP_CONE )
 	{
-		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pCaster, pAbility);
+		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pAbility, pTile);
+		for( unsigned int i = 0; i < TilePos.size(); i++ )
+		{
+			Vec2Df tmp;
+			tmp.fVecX = (float)TilePos[i].nPosX;
+			tmp.fVecY = (float)TilePos[i].nPosY;
+			CParticleManager::GetInstance()->LoadParticles(TEST, tmp);
+		}
 
 		lua_getglobal(L, "OnUse");
 
