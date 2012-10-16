@@ -152,9 +152,22 @@ void CTileManager::Render( void )
 	{
 		for ( int j=0; j<m_nColumns;j++)
 		{
+			int camX = CGameplayState::GetInstance()->GetCamOffsetX();
+			int camY = CGameplayState::GetInstance()->GetCamOffsetY();
 
                 int x = (TWidth / 2 * i) - (THeight / 2 * j);
                 int y = (TWidth / 2 * i) + (THeight  / 2 * j);
+
+				// Tile culling
+				if (x > camX + 790)
+					continue;
+				if (x < camX - 90)
+					continue;
+				if (y > camY + 500)
+					continue;
+				if (y < camY - 90)
+					continue;
+
 			RECT Rsource= { 0,0,0,0}; 
 
 			float fRad = (float(45 * 3.14159286 / 180));

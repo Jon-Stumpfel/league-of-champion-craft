@@ -135,17 +135,22 @@ void CUnit::Update(float fElapsedTime)
 	// If we have any waypoints in our list of waypoints added in from GameplayState::MoveToTile, then we need to move across them
 
 			if (m_nFacing == 0)
-				m_sAnimStruct->animationType = AT_WALK_N; // S
-			else if (m_nFacing == 1)
-				m_sAnimStruct->animationType = AT_WALK_E; // N
-			else if (m_nFacing == 2)
-				m_sAnimStruct->animationType = AT_WALK_S; // E
-			else if (m_nFacing == 3)
-				m_sAnimStruct->animationType = AT_WALK_W; // W
+			m_sAnimStruct->animationType = AT_WALK_N; // S
+		else if (m_nFacing == 1)
+			m_sAnimStruct->animationType = AT_WALK_E; // N
+		else if (m_nFacing == 2)
+			m_sAnimStruct->animationType = AT_WALK_S; // E
+		else if (m_nFacing == 3)
+			m_sAnimStruct->animationType = AT_WALK_W; // W
+
+
+
 	if (m_vWaypoints.size() != 0)
 	{
 		// Set the tile we are moving off of's occupied to false.
 		CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY)->SetIfOccupied(false);
+
+
 
 		int xDistance = m_sGamePos.nPosX - m_vWaypoints.back()->GetPosition().nPosX;
 		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
