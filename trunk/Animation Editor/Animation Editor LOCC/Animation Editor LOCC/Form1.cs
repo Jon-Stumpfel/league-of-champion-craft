@@ -15,9 +15,10 @@ namespace Animation_Editor_LOCC
     {
         SGP.ManagedDirect3D d3D = SGP.ManagedDirect3D.Instance;
         SGP.ManagedTextureManager tm = SGP.ManagedTextureManager.Instance;
-
-        int anchorx = -10;
-        int anchory = -10;
+        DateTime timetocheckagainst = System.DateTime.Now;
+        DateTime timethatisconstantlyupdated = System.DateTime.Now;
+        int anchorx = 0;
+        int anchory = 0;
         int pictureid = -1;
         string folderpath = "C:\\";
         public string FolderPath
@@ -63,35 +64,61 @@ namespace Animation_Editor_LOCC
             tm.InitManagedTextureManager(d3D.Device, d3D.Sprite);
             this.FormClosing += Form1_FormClosing;
             this.animname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckKeys);
-            selectionrect.X = selectionrect.Y = selectionrect.Width = selectionrect.Height = -1;
+            selectionrect.X = selectionrect.Y = selectionrect.Width = selectionrect.Height = 0;
         }
 
         public void Update()
         {
+            timethatisconstantlyupdated = System.DateTime.Now;
+            TimeSpan temptime = timethatisconstantlyupdated - timetocheckagainst;
             if (animations != null)
             {
                 for (int i = 0; i < animations.Count; i++)
                 {
-                    //check the time on each animation's current frame, update to next frame if you need to.
+                    if (animlist.SelectedItem != null)
+                    {
+                        //check the time on each animation's current frame, update to next frame if you need to.
+                        if (animations[i].FrameVec[animations[i].CurrFrame].TimePlayed / 100 <= temptime.TotalSeconds
+                            && animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                        {
+                            if (animations[i].FrameVec.Count-1 == animations[i].CurrFrame)
+                                animations[i].CurrFrame = 0;
+                            else
+                                animations[i].CurrFrame += 1;
+                            timetocheckagainst = System.DateTime.Now;
+                        }
+                    }
                 }
             }
         }
 
         public void Render()
         {
-            d3D.Clear(PreviewBox, Color.Beige);
+            d3D.Clear(PreviewBox, Color.White);
 
             d3D.DeviceBegin();
             d3D.SpriteBegin();
 
             //Preview Box
-
+            if (animations != null)
+            {
+                for (int i = 0; i < animations.Count; i++)
+                {
+                    if (animlist.SelectedItem != null)
+                    {
+                        if (animations[i].NameOfAnim == animlist.SelectedItem.ToString() && pictureid != -1)
+                        {
+                            tm.Draw(pictureid, 50, 50, 1.0f, 1.0f, animations[i].FrameVec[animations[i].CurrFrame].Rect, 0, 0, 0, Color.White.ToArgb());
+                        }
+                    }
+                }
+            }
             d3D.SpriteEnd();
             d3D.DeviceEnd();
 
             d3D.Present();
 
-            d3D.Clear(SpriteSheet, Color.Beige);
+            d3D.Clear(SpriteSheet, Color.White);
 
             d3D.DeviceBegin();
             d3D.SpriteBegin();
@@ -101,7 +128,7 @@ namespace Animation_Editor_LOCC
             therect.Width = SpriteSheet.Size.Width;
             therect.Height = SpriteSheet.Size.Height;
             if (pictureid != -1)
-                tm.Draw(pictureid, 0, 0, 1.0f, 1.0f, therect, 0, 0, 0, 0);
+                tm.Draw(pictureid, 0, 0, 1.0f, 1.0f, therect, 0, 0, 0, Color.White.ToArgb());
             d3D.Sprite.Flush();
             Rectangle temprect = new Rectangle();
             temprect.X = anchorx-5;
@@ -137,6 +164,10 @@ namespace Animation_Editor_LOCC
             {
                 XElement pRoot = XElement.Load(OpenThis.FileName);
                 IEnumerable<XElement> xAnimations = pRoot.Elements();
+                if (Animations.Count >= 1)
+                {
+                    Animations.Clear();
+                }
                 foreach (XElement Animation in xAnimations)
                 {
                     CAnimation tempanim = new CAnimation();
@@ -283,7 +314,21 @@ namespace Animation_Editor_LOCC
 
         private void numofframesinanim_ValueChanged(object sender, EventArgs e)
         {
-            //this is the current frame, check the current frame and update all other boxes accordingly.
+            if (animations.Count > 0)
+            {
+                for (int i = 0; i < animations.Count; i++)
+                {
+                    if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                    {
+                        AnchorPosX.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].AnchorPointX;
+                        AnchorPosY.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].AnchorPointY;
+                        RectLeftPos.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].Rect.Left;
+                        RectRightPos.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].Rect.Right;
+                        RectTopPos.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].Rect.Top;
+                        RectBottomPos.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].Rect.Bottom;
+                    }
+                }
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -313,6 +358,11 @@ namespace Animation_Editor_LOCC
                     {
                         numofframesinanim.Maximum = animations[i].FrameVec.Count-1;
                         numofframesinanim.Value = 0;
+                        string filedir = folderpath + "\\" + animations[i].ImagePath;
+                        pictureid = tm.LoadTexture(filedir, 0);
+                        UnitType.SelectedIndex = animations[i].UnitType;
+                        AnimType.SelectedIndex = animations[i].AnimType;
+                        AnchorPosX.Value = animations[i].FrameVec[animations[i].CurrFrame].AnchorPointX;
                     }
                 }
             }
@@ -503,15 +553,26 @@ namespace Animation_Editor_LOCC
 
         private void AnchorPosY_ValueChanged(object sender, EventArgs e)
         {
-            if (anchorx != -10)
-            {
-                anchory = (int)AnchorPosY.Value;
-            }
+            anchory = (int)AnchorPosY.Value;
         }
 
         private void SaveFrameButton_Click(object sender, EventArgs e)
         {
-
+            if (animations != null)
+            {
+                for (int i = 0; i < animations.Count; i++)
+                {
+                    if (animations[i].NameOfAnim == animlist.SelectedItem.ToString()
+                        && animlist.SelectedItem != null)
+                    {
+                        animations[i].FrameVec[animations[i].CurrFrame].AnchorPointX = (int)AnchorPosX.Value;
+                        animations[i].FrameVec[animations[i].CurrFrame].AnchorPointY = (int)AnchorPosY.Value;
+                        animations[i].FrameVec[animations[i].CurrFrame].Rect = new Rectangle((int)RectLeftPos.Value, (int)RectTopPos.Value,
+                            (int)RectRightPos.Value - (int)RectLeftPos.Value, (int)RectBottomPos.Value - (int)RectTopPos.Value);
+                        animations[i].FrameVec[animations[i].CurrFrame].TimePlayed = (int)FrameDuration.Value;
+                    }
+                }
+            }
         }
     }
 }
