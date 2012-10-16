@@ -651,5 +651,17 @@ namespace Animation_Editor_LOCC
             SaveLoadBrowser.ShowDialog();
             folderpath = SaveLoadBrowser.SelectedPath;
         }
+
+        private void deletethis_Click(object sender, EventArgs e)
+        {
+            //for (int i = 0; i < animations.Count; i++)
+            //{
+            //    if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+            //    {
+            //        animations[i].FrameVec.Remove(animations[i].FrameVec[animations[i].CurrFrame]);
+            //        numofframesinanim.Maximum--;
+            //    }
+            //}
+        }
     }
 }

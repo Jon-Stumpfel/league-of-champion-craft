@@ -4,29 +4,29 @@ class CBitmapFont
 {
 private:
 	// Cell Algorithm
-	int		jcs_nCharWidth;		// 32
-	int		jcs_nCharHeight;		// 32
-	int		jcs_nNumRows;			// 6
-	int		jcs_nNumCols;			// 10
+	int		m_nCharWidth;		// 32
+	int		m_nCharHeight;		// 32
+	//int		jcs_nNumRows;			// 6
+	//int		jcs_nNumCols;			// 10
 
 	int		jcs_nImageID;
-	char	jcs_cFirstChar;		// ' '
+	//char	jcs_cFirstChar;		// ' '
 	bool	jcs_bOnlyUppercase;	// true
-	int		nCellWidth;
-	int		nCellHeight;
+	//int		nCellWidth;
+	//int		nCellHeight;
 	CSGD_TextureManager* pTM;
 	RECT rSource;
 public:
 	CBitmapFont()
 	{
 		rSource.left = rSource.top = rSource.right = rSource.bottom = 0;
-		nCellWidth = 32;
-		nCellHeight = 32;
-		jcs_nCharWidth = 32;	
-		jcs_nCharHeight = 32;
-		jcs_nNumRows = 6;	
-		jcs_nNumCols = 10;	
-		jcs_cFirstChar = ' ';
+		//nCellWidth = 32;
+		//nCellHeight = 32;
+		m_nCharWidth = 32;	
+		m_nCharHeight = 32;
+		//jcs_nNumRows = 6;	
+		//jcs_nNumCols = 10;	
+		//jcs_cFirstChar = ' ';
 		pTM = CSGD_TextureManager::GetInstance();
 		jcs_nImageID = pTM->LoadTexture(_T("Assets\\Menus\\Deutsch_gothic(whited).png"));
 	}
@@ -48,14 +48,27 @@ public:
 		{
 		case 65:
 			{
-			rSource.left = 16;
-			rSource.top = 83;
-			rSource.right = 58;
-			rSource.bottom = 128;
+				rSource.left = 16;
+				rSource.top = 83;
+				rSource.right = 58;
+				rSource.bottom = 128;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
 			}
 		case 66:
 			{
-
+				break;
+			}
+		case 97:
+			{
+				rSource.left = 17;
+				rSource.top = 425;
+				rSource.right = 37;
+				rSource.bottom = 470;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
 			}
 		}
 		return rSource;
@@ -78,13 +91,15 @@ public:
 			// Check for whitespace
 			if( ch == ' ' )
 			{
-				nX += jcs_nCharWidth * fScale;
+				float Scale = fScale*100;
+				nX += m_nCharWidth * (int)Scale/100;
 				continue;
 			}
 			else if( ch == '\n' )
 			{
+				float Scale = fScale*100;
 				nX = nColStart;
-				nY += jcs_nCharHeight * fScale;
+				nY += m_nCharHeight * (int)Scale/100;
 				continue;
 			}
 
@@ -106,7 +121,8 @@ public:
 						0.0f, 0.0f, 0.0f, dwColor );
 			
 			// Move to the next location on screen
-			nX += jcs_nCharWidth * fScale + 10;
+			float Scale = fScale*100;
+			//nX += m_nCharWidth * (int)Scale/100;
 		}
 
 	}
