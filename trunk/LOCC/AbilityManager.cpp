@@ -314,59 +314,59 @@ void CAbilityManager::Shutdown(void)
 	int i =0;
 }
 
-std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CUnit* pUnit, CAbility* pAbility )
+std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CAbility* pAbility, CTile* pTile )
 {
 	std::vector< Vec2D > pattern = pAbility->GetPattern();
 	std::vector< Vec2D > TilePos;
 
-	if( face == 0 ) // S
-	{
+	//if( face == 0 ) // S
+	//{
+	//	for( unsigned int i = 0; i < pattern.size(); i++ )
+	//	{
+	//		pattern[i].nPosX = -pattern[i].nPosX;
+	//		pattern[i].nPosY = -pattern[i].nPosY;
+	//		Vec2D tmp;
+	//		tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
+	//		tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+	//		TilePos.push_back(tmp);
+	//	}
+	//}
+	//else if( face == 1 ) // N
+	//{
 		for( unsigned int i = 0; i < pattern.size(); i++ )
 		{
-			pattern[i].nPosX = -pattern[i].nPosX;
-			pattern[i].nPosY = -pattern[i].nPosY;
 			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+			tmp.nPosX = pattern[i].nPosX + pTile->GetPosition().nPosX;
+			tmp.nPosY = pattern[i].nPosY + pTile->GetPosition().nPosY;
 			TilePos.push_back(tmp);
 		}
-	}
-	else if( face == 1 ) // N
-	{
-		for( unsigned int i = 0; i < pattern.size(); i++ )
-		{
-			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
-			TilePos.push_back(tmp);
-		}
-	}
-	else if( face == 2 ) // E
-	{
-		for( unsigned int i = 0; i < pattern.size(); i++ )
-		{
-			int x = pattern[i].nPosX;
-			pattern[i].nPosX = -pattern[i].nPosY;
-			pattern[i].nPosY = x;
-			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
-			TilePos.push_back(tmp);
-		}
-	}
-	else if( face == 3 ) // W
-	{
-		for( unsigned int i = 0; i < pattern.size(); i++ )
-		{
-			int x = pattern[i].nPosX;
-			pattern[i].nPosX = pattern[i].nPosY;
-			pattern[i].nPosY = -x;
-			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
-			TilePos.push_back(tmp);
-		}
-	}
+	//}
+	//else if( face == 2 ) // E
+	//{
+	//	for( unsigned int i = 0; i < pattern.size(); i++ )
+	//	{
+	//		int x = pattern[i].nPosX;
+	//		pattern[i].nPosX = -pattern[i].nPosY;
+	//		pattern[i].nPosY = x;
+	//		Vec2D tmp;
+	//		tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
+	//		tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+	//		TilePos.push_back(tmp);
+	//	}
+	//}
+	//else if( face == 3 ) // W
+	//{
+	//	for( unsigned int i = 0; i < pattern.size(); i++ )
+	//	{
+	//		int x = pattern[i].nPosX;
+	//		pattern[i].nPosX = pattern[i].nPosY;
+	//		pattern[i].nPosY = -x;
+	//		Vec2D tmp;
+	//		tmp.nPosX = pattern[i].nPosX + pUnit->GetPos().nPosX;
+	//		tmp.nPosY = pattern[i].nPosY + pUnit->GetPos().nPosY;
+	//		TilePos.push_back(tmp);
+	//	}
+	//}
 
 	return TilePos;
 }
