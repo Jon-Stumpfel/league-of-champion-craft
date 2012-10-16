@@ -2116,7 +2116,7 @@ CSGD_DIJoystick::CSGD_DIJoystick(LPDIRECTINPUT8 pDI, HWND hWnd, const DIDEVICEIN
 	_tcscpy_s(m_szJoyName, _countof(m_szJoyName), lpdidi->tszProductName);
 
 	// Remember if it is an Xbox 360 pad
-	m_bIsXbox360Pad = (_tcscmp(m_szJoyName, _T("Xbox 360 Wireless Receiver for Windows")) == 0 || _tcscmp(m_szJoyName, _T("Controller (XBOX 360 For Windows)")) == 0 || _tcscmp(m_szJoyName, _T("Controller (Xbox Airflo wired controller)")) == 0) ? true : false;
+	m_bIsXbox360Pad = (_tcscmp(m_szJoyName, _T("Xbox 360 Wireless Receiver for Windows")) == 0 || _tcscmp(m_szJoyName, _T("Controller (XBOX 360 For Windows)")) == 0 || _tcscmp(m_szJoyName, _T("Controller (Xbox Airflo wired controller)")) == 0 || _tcscmp(m_szJoyName, _T("Controller (Joytech 360 pad)")) == 0) ? true : false;
 
 	//	Create the Joystick Device.
 	if (FAILED( pDI->CreateDevice(lpdidi->guidInstance, &m_lpDevice, NULL) ))

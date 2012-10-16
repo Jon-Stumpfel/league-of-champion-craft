@@ -110,25 +110,25 @@ bool CInputManager::Input(void)
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
 		nXValue = 0;
 	}
-	if (pDI->KeyPressed(DIK_UP) || pDI->JoystickGetLStickDirPressed(DIR_UP, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_UP) || pDI->JoystickGetLStickDirPressed(DIR_UP, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_UP, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_UP);
 		nYValue = 0;
 		nXValue = 0;
 	}
-	if (pDI->KeyPressed(DIK_LEFT) || pDI->JoystickGetLStickDirPressed(DIR_LEFT, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_LEFT) || pDI->JoystickGetLStickDirPressed(DIR_LEFT, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_LEFT, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
 				nYValue = 0;
 		nXValue = 0;
 	}
-	if (pDI->KeyPressed(DIK_RIGHT) || pDI->JoystickGetLStickDirPressed(DIR_RIGHT, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_RIGHT) || pDI->JoystickGetLStickDirPressed(DIR_RIGHT, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_RIGHT, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
 				nYValue = 0;
 		nXValue = 0;
 	}
-	if (pDI->KeyPressed(DIK_DOWN) || pDI->JoystickGetLStickDirPressed(DIR_DOWN, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_DOWN) || pDI->JoystickGetLStickDirPressed(DIR_DOWN, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_DOWN, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_DOWN);
 				nYValue = 0;

@@ -136,13 +136,33 @@ void CGame::Update(void)
 	CMessageSystem* pMS = CMessageSystem::GetInstance();
 	pMS->ProcessMessages();
 	CStateStack::GetInstance()->UpdateStack(fElapsedTime);
+
+	static int nFrames = 0;
+	static DWORD dwLast = GetTickCount();
+	nFrames++;
+	if (abs(double(dwNow - dwLast)) > 1000)
+	{
+		m_fFrameElapsed = (float)nFrames * 1000 / abs(double(dwNow - dwLast));
+		dwLast = GetTickCount();
+		nFrames = 0;
+		m_bUpdateFps = true;
+	}
 }
 void CGame::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 255);
 	CSGD_Direct3D::GetInstance()->DeviceBegin();
 	CSGD_Direct3D::GetInstance()->SpriteBegin();
+
 	CStateStack::GetInstance()->RenderStack();
+	static std::wostringstream woss;
+	if (m_bUpdateFps)
+	{
+		woss.str(_T(""));
+		woss << "FPS: " << (int)m_fFrameElapsed;
+		m_bUpdateFps = false;
+	}
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 10, 5, 255, 0, 0);
 	CSGD_Direct3D::GetInstance()->SpriteEnd();
 	CSGD_Direct3D::GetInstance()->DeviceEnd();
 	CSGD_Direct3D::GetInstance()->Present();
