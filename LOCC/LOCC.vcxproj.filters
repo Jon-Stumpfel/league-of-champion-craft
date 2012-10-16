@@ -147,9 +147,6 @@
     <ClCompile Include="StateStack.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="BitmapFont.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Castle.cpp">
       <Filter>Units</Filter>
     </ClCompile>

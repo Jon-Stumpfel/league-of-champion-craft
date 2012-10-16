@@ -45,7 +45,7 @@ void CGameplayState::Enter(void)
 
 	CGameManager::GetInstance()->NewGame();
 
-
+	m_pBitmapFont = new CBitmapFont();
 	CGameManager* pGM = CGameManager::GetInstance();
 	CParticleManager* pPM = CParticleManager::GetInstance();
 
@@ -1096,7 +1096,8 @@ void CGameplayState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
 				m_nCardOffsetX + 150, 378, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetTilesMoved();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
+			m_pBitmapFont->Print((const char*)moss.str().c_str(),m_nCardOffsetX + 200, 385, 1.0f,(DWORD)(255,255,255));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
 			moss.str(_T(""));
 
 			float fhpPercent = (float)m_pHighlightedUnit->GetHP() / (float)m_pHighlightedUnit->GetMaxHP();
@@ -1401,7 +1402,10 @@ void CGameplayState::Render(void)
 			oss.str(_T(""));
 			int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
 			oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
+			//const char* tempchar = "CURRENT TURN:";
+			const char* tempchar = "AAAAA";
+			m_pBitmapFont->Print(tempchar,0,0,1.0f,D3DXCOLOR(255,0,0,255));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
 
 			oss.str(_T(""));
 			oss << "Selected Unit: ";
@@ -1410,6 +1414,7 @@ void CGameplayState::Render(void)
 				oss << m_pSelectedUnit->GetType() << ", X: " << m_pSelectedUnit->GetPos().nPosX << ", Y: " << 
 					m_pSelectedUnit->GetPos().nPosY << ", HP: " << m_pSelectedUnit->GetHP() << ", facing: " << m_pSelectedUnit->GetFacing();
 			}
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
+			//m_pBitmapFont->Print((const char*)oss.str().c_str(),0, 350, 1.0f,(DWORD)(255,255,255));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 		}
 }
