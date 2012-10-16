@@ -89,16 +89,14 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 	// Finds the facing for the specified unit
 	int face = pCaster->GetFacing();
 
-	if( pAbility->GetType() == SP_TESTSPELL || pAbility->GetType() == SP_CONE )
-	{
 		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pAbility, pTile);
-		for( unsigned int i = 0; i < TilePos.size(); i++ )
+		/*for( unsigned int i = 0; i < TilePos.size(); i++ )
 		{
 			Vec2Df tmp;
 			tmp.fVecX = (float)TilePos[i].nPosX;
 			tmp.fVecY = (float)TilePos[i].nPosY;
-			CParticleManager::GetInstance()->LoadParticles(TEST, tmp);
-		}
+			CParticleManager::GetInstance()->LoadParticles(TEST, tmp)
+		}*/
 
 		lua_getglobal(L, "OnUse");
 
@@ -128,10 +126,12 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			lua_pushstring(L, "speed");
 			lua_pushnumber(L, tmp->GetSpeed());
 			lua_settable(L, -3);
+			lua_pushstring(L, "sheilded");
+			lua_pushnumber(L, tmp->GetShielded());
+			lua_settable(L, -3);
 
 			lua_pushnumber(L, nCount+1);
 			nCount++;
-
 			lua_insert(L, -2);
 			lua_settable(L, -3);
 		}
@@ -142,10 +142,6 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		lua_getglobal(L, "OnUse");
 		
 		lua_call(L, 0, 0);
-		//int z = 0;
-		//z = lua_pcall(L, 0, 0, 0);
-		//if( z != 0 )
-		//	string err = lua_tostring(L, -1);
 
 		lua_getglobal(L, "tUnitData");
 		lua_pushnil(L);
@@ -164,8 +160,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 				{
 					if(lua_isnumber(L, -1))
 					{
-								std::pair<std::string, int> tmp;
-
+						std::pair<std::string, int> tmp;
 						tmp.first = lua_tostring(L, -2);
 						tmp.second = (int)lua_tonumber(L, -1);
 						tData.push_back(tmp);
@@ -177,8 +172,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			{
 				if(lua_isnumber(L, -1))
 				{
-							std::pair<std::string, int> tmp;
-
+					std::pair<std::string, int> tmp;
 					tmp.first = lua_tostring(L, -2);
 					tmp.second = (int)lua_tonumber(L, -1);
 					tData.push_back(tmp);
@@ -205,7 +199,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		{
 			x = 0;
 			y = 0;
-			for( unsigned int l = 0 + i*4; l < 4 + 4*i; l++ )
+			for( unsigned int l = 0 + i*5; l < 5 + 5*i; l++ )
 			{
 				if( tData[l].first == "health" )
 					affected[i]->SetHP(tData[l].second);
@@ -218,10 +212,12 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 
 				if( tData[l].first == "speed" )
 					affected[i]->SetSpeed(tData[l].second);
+
+				if( tData[l].first == "shielded" )
+					affected[i]->SetShielded(tData[l].second);
 			}
 			affected[i]->SetPos(x,y);
 		}
-	}
 }
 
 void CScriptManager::Initialize( void )

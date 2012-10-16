@@ -520,6 +520,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					m_bIsTargeting = false;
 					m_pTargetedTile = nullptr;
 					m_pSelectedUnit = nullptr;
+					m_bSelectChampionAbility = false;
 				}
 
 			}
