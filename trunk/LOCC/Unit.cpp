@@ -7,6 +7,7 @@
 #include "DeSpawnUnitMessage.h"
 #include "AbilityManager.h"
 #include "MessageSystem.h"
+#include "Hero.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_nTilesMoved = 0;
@@ -42,8 +43,9 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 }
 	bool CUnit::CheckDodged(void)
 	{
-		float fChance = (float)((rand() % RAND_MAX) / RAND_MAX);
-		if (fChance > m_fDodgeChance)
+		int n = rand() % RAND_MAX;
+		float atk = ((float)n / (float)RAND_MAX);
+		if (atk > m_fDodgeChance)
 			return false;
 		else
 			return true;
@@ -95,6 +97,8 @@ CAbility* CUnit::GetAbility(int index)
 		return nullptr;
 }
 
+
+
 // Just used for checking if two numbers are close enough together for waypoint moving. Used to be
 // 5 pixels, but left some weird off. Now it's just 0, so it's a relic function but it doesn't hurt leaving it
 static bool CloseEnough(int n1, int n2)
@@ -131,11 +135,11 @@ void CUnit::Update(float fElapsedTime)
 	// If we have any waypoints in our list of waypoints added in from GameplayState::MoveToTile, then we need to move across them
 
 			if (m_nFacing == 0)
-				m_sAnimStruct->animationType = AT_WALK_W; // S
+				m_sAnimStruct->animationType = AT_WALK_N; // S
 			else if (m_nFacing == 1)
-				m_sAnimStruct->animationType = AT_WALK_W; // N
+				m_sAnimStruct->animationType = AT_WALK_E; // N
 			else if (m_nFacing == 2)
-				m_sAnimStruct->animationType = AT_WALK_W; // E
+				m_sAnimStruct->animationType = AT_WALK_S; // E
 			else if (m_nFacing == 3)
 				m_sAnimStruct->animationType = AT_WALK_W; // W
 	if (m_vWaypoints.size() != 0)
@@ -145,14 +149,14 @@ void CUnit::Update(float fElapsedTime)
 
 		int xDistance = m_sGamePos.nPosX - m_vWaypoints.back()->GetPosition().nPosX;
 		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
-			if (yDistance == -1)
+			if (yDistance == 1)
 				m_nFacing = 0;
-			else if (yDistance == 1)
-				m_nFacing = 1;
-			else if (xDistance == -1)
+			else if (yDistance == -1)
 				m_nFacing = 2;
+			else if (xDistance == -1)
+				m_nFacing = 1;
 			else if (xDistance == 1)
-				m_nFacing = 3;
+				m_nFacing =3;
 
 
 
