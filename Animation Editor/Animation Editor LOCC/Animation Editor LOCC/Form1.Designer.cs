@@ -33,12 +33,14 @@
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setFileToSaveLoadFromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.SaveFrameButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.animname = new System.Windows.Forms.TextBox();
             this.animlist = new System.Windows.Forms.ComboBox();
@@ -74,10 +76,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.SaveLoadBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.loadImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SaveFrameButton = new System.Windows.Forms.Button();
-            this.PreviewBox = new Animation_Editor_LOCC.GraphicsPanel();
-            this.SpriteSheet = new Animation_Editor_LOCC.GraphicsPanel();
+            this.SpriteSheet = new System.Windows.Forms.PictureBox();
+            this.PreviewBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -99,6 +99,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SpriteSheet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PreviewBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -139,6 +141,13 @@
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.loadToolStripMenuItem.Text = "Load XML";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // loadImageToolStripMenuItem
+            // 
+            this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
+            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.loadImageToolStripMenuItem.Text = "Load Image";
+            this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -230,6 +239,16 @@
             this.splitContainer2.Size = new System.Drawing.Size(218, 758);
             this.splitContainer2.SplitterDistance = 435;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // SaveFrameButton
+            // 
+            this.SaveFrameButton.Location = new System.Drawing.Point(12, 405);
+            this.SaveFrameButton.Name = "SaveFrameButton";
+            this.SaveFrameButton.Size = new System.Drawing.Size(185, 23);
+            this.SaveFrameButton.TabIndex = 38;
+            this.SaveFrameButton.Text = "Save Current Frame";
+            this.SaveFrameButton.UseVisualStyleBackColor = true;
+            this.SaveFrameButton.Click += new System.EventHandler(this.SaveFrameButton_Click);
             // 
             // label2
             // 
@@ -601,45 +620,23 @@
             this.button1.TabIndex = 0;
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // loadImageToolStripMenuItem
-            // 
-            this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
-            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.loadImageToolStripMenuItem.Text = "Load Image";
-            this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
-            // 
-            // SaveFrameButton
-            // 
-            this.SaveFrameButton.Location = new System.Drawing.Point(12, 405);
-            this.SaveFrameButton.Name = "SaveFrameButton";
-            this.SaveFrameButton.Size = new System.Drawing.Size(185, 23);
-            this.SaveFrameButton.TabIndex = 38;
-            this.SaveFrameButton.Text = "Save Current Frame";
-            this.SaveFrameButton.UseVisualStyleBackColor = true;
-            this.SaveFrameButton.Click += new System.EventHandler(this.SaveFrameButton_Click);
-            // 
-            // PreviewBox
-            // 
-            this.PreviewBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PreviewBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PreviewBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PreviewBox.Location = new System.Drawing.Point(0, 0);
-            this.PreviewBox.Name = "PreviewBox";
-            this.PreviewBox.Size = new System.Drawing.Size(218, 182);
-            this.PreviewBox.TabIndex = 0;
-            // 
             // SpriteSheet
             // 
-            this.SpriteSheet.AutoScroll = true;
-            this.SpriteSheet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SpriteSheet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SpriteSheet.Location = new System.Drawing.Point(0, 0);
             this.SpriteSheet.Name = "SpriteSheet";
             this.SpriteSheet.Size = new System.Drawing.Size(511, 758);
             this.SpriteSheet.TabIndex = 0;
-            this.SpriteSheet.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SpriteSheet_MouseDown);
-            this.SpriteSheet.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SpriteSheet_MouseMove);
-            this.SpriteSheet.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SpriteSheet_MouseUp);
+            this.SpriteSheet.TabStop = false;
+            // 
+            // PreviewBox
+            // 
+            this.PreviewBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PreviewBox.Location = new System.Drawing.Point(0, 0);
+            this.PreviewBox.Name = "PreviewBox";
+            this.PreviewBox.Size = new System.Drawing.Size(218, 182);
+            this.PreviewBox.TabIndex = 0;
+            this.PreviewBox.TabStop = false;
             // 
             // Form1
             // 
@@ -675,6 +672,8 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SpriteSheet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PreviewBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -727,10 +726,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox animname;
         private System.Windows.Forms.ComboBox animlist;
-        private GraphicsPanel PreviewBox;
-        private GraphicsPanel SpriteSheet;
         private System.Windows.Forms.ToolStripMenuItem loadImageToolStripMenuItem;
         private System.Windows.Forms.Button SaveFrameButton;
+        private System.Windows.Forms.PictureBox SpriteSheet;
+        private System.Windows.Forms.PictureBox PreviewBox;
     }
 }
 
