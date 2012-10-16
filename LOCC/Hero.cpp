@@ -33,6 +33,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 	m_vSpells.push_back(pAM->GetAbility(SP_TESTSPELL));
+	m_vSpells.push_back(pAM->GetAbility(SP_CONE));
 
 	/*pAbility = new CAbility();
 	pAbility->m_nAPCost = 3;

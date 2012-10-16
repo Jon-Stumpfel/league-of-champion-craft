@@ -28,7 +28,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_hWnd = hWnd;
 
 	CInputManager::GetInstance()->Initialize(hWnd, hInstance);
-
+	CScriptManager::GetInstance()->Initialize();
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
 	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
@@ -142,7 +142,7 @@ void CGame::Update(void)
 	nFrames++;
 	if (abs(double(dwNow - dwLast)) > 1000)
 	{
-		m_fFrameElapsed = (float)nFrames * 1000 / abs(double(dwNow - dwLast));
+		m_fFrameElapsed = (float)nFrames * 1000 / (float)abs(double(dwNow - dwLast));
 		dwLast = GetTickCount();
 		nFrames = 0;
 		m_bUpdateFps = true;

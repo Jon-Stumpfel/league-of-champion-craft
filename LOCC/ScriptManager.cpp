@@ -6,6 +6,7 @@
 #include "Unit.h"
 #include "TileManager.h"
 #include "SGD Wrappers\tinyxml.h"
+#include "AbilityManager.h"
 
 CScriptManager* CScriptManager::s_Instance = nullptr;
 
@@ -86,135 +87,139 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 {
 	// Finds the facing for the specified unit
 	int face = pCaster->GetFacing();
-	std::vector< Vec2D > pattern = pAbility->GetPattern();
-	std::vector< Vec2D > TilePos;
 
-	if( face == 0 ) // S
+	if( pAbility->GetType() == SP_TESTSPELL )
 	{
-		for( unsigned int i = 0; i < pattern.size(); i++ )
-		{
-			pattern[i].nPosY = -pattern[i].nPosY;
-			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pTile->GetPosition().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pTile->GetPosition().nPosY;
-			TilePos.push_back(tmp);
-		}
-	}
-	else if( face == 1 ) // N
-	{
-		for( unsigned int i = 0; i < pattern.size(); i++ )
-		{
-			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pTile->GetPosition().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pTile->GetPosition().nPosY;
-			TilePos.push_back(tmp);
-		}
-	}
-	else if( face == 2 ) // E
-	{
-		for( unsigned int i = 0; i < pattern.size(); i++ )
-		{
-			int x = pattern[i].nPosX;
-			pattern[i].nPosX = -pattern[i].nPosY;
-			pattern[i].nPosY = x;
-			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pTile->GetPosition().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pTile->GetPosition().nPosY;
-			TilePos.push_back(tmp);
-		}
-	}
-	else if( face == 3 ) // W
-	{
-		for( unsigned int i = 0; i < pattern.size(); i++ )
-		{
-			int x = pattern[i].nPosX;
-			pattern[i].nPosX = pattern[i].nPosY;
-			pattern[i].nPosY = -x;
-			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX + pTile->GetPosition().nPosX;
-			tmp.nPosY = pattern[i].nPosY + pTile->GetPosition().nPosY;
-			TilePos.push_back(tmp);
-		}
-	}
+		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pCaster, pAbility);
 
-	lua_State* L;
-	L = lua_open();
-	luaL_openlibs(L);
-
-	lua_getglobal(L, "OnUse");
-
-	lua_newtable(L);
-	CGameManager* pGM = CGameManager::GetInstance();
-	vector< CUnit* > affected;
-	for( unsigned int i = 0; i < TilePos.size(); i++ )
-	{
-		CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
-		
-		if( tmp == nullptr )
-			continue;
-		affected.push_back( tmp );
+		lua_getglobal(L, "OnUse");
 
 		lua_newtable(L);
-		lua_pushstring(L, "posX");
-		lua_pushnumber(L, tmp->GetPos().nPosX);
-		lua_settable(L, -3);
-		lua_pushstring(L, "posY");
-		lua_pushnumber(L, tmp->GetPos().nPosY);
-		lua_settable(L, -3);
-		lua_pushstring(L, "health");
-		lua_pushnumber(L, tmp->GetHP());
-		lua_settable(L, -3);
-		lua_pushstring(L, "speed");
-		lua_pushnumber(L, tmp->GetSpeed());
+		CGameManager* pGM = CGameManager::GetInstance();
+		vector< CUnit* > affected;
+		for( unsigned int i = 0; i < TilePos.size(); i++ )
+		{
+			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
+		
+			if( tmp == nullptr )
+				continue;
 
-		lua_pushnumber(L, i+1);
-		lua_insert(L, -2);
-		lua_settable(L, -4);
-	}
+			affected.push_back( tmp );
 
-	lua_setglobal(L, "tUnitData");
+			lua_newtable(L);
+			lua_pushstring(L, "posX");
+			lua_pushnumber(L, tmp->GetPos().nPosX);
+			lua_settable(L, -3);
+			lua_pushstring(L, "posY");
+			lua_pushnumber(L, tmp->GetPos().nPosY);
+			lua_settable(L, -3);
+			lua_pushstring(L, "health");
+			lua_pushnumber(L, tmp->GetHP());
+			lua_settable(L, -3);
+			lua_pushstring(L, "speed");
+			lua_pushnumber(L, tmp->GetSpeed());
+			lua_settable(L, -3);
 
-	luaL_dofile(L, pAbility->GetLua().c_str());
-	lua_getglobal(L, "OnUse");
+			lua_pushnumber(L, i+1);
+			lua_insert(L, -2);
+			lua_settable(L, -3);
+		}
 
-	int i = 0;
-	i = lua_pcall(L, 0, 1, 0);
+		lua_setglobal(L, "tUnitData");
 
-	lua_getglobal(L, "tUnitData");
-	lua_pushnil(L);
+		luaL_dofile(L, pAbility->GetLua().c_str());
+		lua_getglobal(L, "OnUse");
+		
+		lua_call(L, 0, 0);
+		//int z = 0;
+		//z = lua_pcall(L, 0, 0, 0);
+		//if( z != 0 )
+		//	string err = lua_tostring(L, -1);
+
+		lua_getglobal(L, "tUnitData");
+		lua_pushnil(L);
 	
-	std::vector< std::pair<std::string, int> > tData;
+		vector<std::pair<std::string, int>> tData;
+	//	std::pair<std::string, int> tmp;
 
-	while(lua_next(L, -4))
-	{
-		std::pair<std::string, int> tmp;
-		if(lua_isnumber(L, -1))
+		tData.clear();
+
+		while(lua_next(L, -2) != 0) 
 		{
-			tmp.second = (int)lua_tonumber(L, -1);
-		}
-		tData.push_back(tmp);
-		lua_pop(L, 1);
-	}
+			if( lua_istable(L, -1) )
+			{
+				lua_pushnil(L);
+				while( lua_next(L, -2) )
+				{
+					if(lua_isnumber(L, -1))
+					{
+								std::pair<std::string, int> tmp;
 
-	int count = affected.size()-1;
-	for( unsigned int i = 0; i < tData.size(); i++ )
-	{
-		if( i == 1 || i == 5 || i == 9 || i == 12 )
+						tmp.first = lua_tostring(L, -2);
+						tmp.second = (int)lua_tonumber(L, -1);
+						tData.push_back(tmp);
+					}
+					lua_pop(L, 1);
+				}
+			}
+			else
+			{
+				if(lua_isnumber(L, -1))
+				{
+							std::pair<std::string, int> tmp;
+
+					tmp.first = lua_tostring(L, -2);
+					tmp.second = (int)lua_tonumber(L, -1);
+					tData.push_back(tmp);
+				}	
+			}
+			lua_pop(L, 1);
+		}
+
+		/*try
 		{
-			affected[count]->SetHP(tData[i].second);
-			count--;
+			lua_close(L);
+		}
+		catch (int e)
+		{
+			int x = 9;
+		}*/
+
+		//lua_close(L);
+
+		int x = 0;
+		int y = 0;
+
+		for( unsigned int i = 0; i < affected.size(); i++ )
+		{
+			x = 0;
+			y = 0;
+			for( unsigned int l = 0 + i*4; l < 4 + 4*i; l++ )
+			{
+				if( tData[l].first == "health" )
+					affected[i]->SetHP(tData[l].second);
+
+				if( tData[l].first == "posX" )
+					x = tData[l].second;
+
+				if( tData[l].first == "posY" )
+					y = tData[l].second;
+
+				if( tData[l].first == "speed" )
+					affected[i]->SetSpeed(tData[l].second);
+			}
+			affected[i]->SetPos(x,y);
 		}
 	}
-
-	lua_close(L);
 }
 
 void CScriptManager::Initialize( void )
 {
-
+		L = lua_open();
+		luaL_openlibs(L);
 }
 
 void CScriptManager::Shutdown( void )
 {
-
+	lua_close(L);
 }
