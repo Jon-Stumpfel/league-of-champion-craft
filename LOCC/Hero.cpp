@@ -35,32 +35,13 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	m_vSpells.push_back(pAM->GetAbility(SP_TESTSPELL));
 	m_vSpells.push_back(pAM->GetAbility(SP_CONE));
 
-	/*pAbility = new CAbility();
-	pAbility->m_nAPCost = 3;
-	pAbility->m_nCooldown = 1;
-	pAbility->m_nPhase = GP_MOVE;
-	pAbility->m_nNumTargets = 1;
-	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));	
-	m_vSpells.push_back(pAbility);
-
-	pAbility = new CAbility();
-	pAbility->m_nAPCost = 3;
-	pAbility->m_nCooldown = 1;
-	pAbility->m_nPhase = GP_MOVE;
-	pAbility->m_nNumTargets = 1;
-	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));	
-	m_vSpells.push_back(pAbility);
-
-	pAbility = new CAbility();
-	pAbility->m_nAPCost = 3;
-	pAbility->m_nCooldown = 1;
-	pAbility->m_nPhase = GP_MOVE;
-	pAbility->m_nNumTargets = 1;
-	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));
-	m_vSpells.push_back(pAbility);*/
+	
 }
 
-
+void CHero::GiveSpell(SPELL_TYPE type)
+{
+	m_vSpells.push_back(CAbilityManager::GetInstance()->GetAbility(type));
+}
 CHero::~CHero(void)
 {
 	delete GetDebuff(0);

@@ -38,7 +38,7 @@ public:
 	~CUnit(void);
 
 	bool CheckDodged(void);
-
+	float GetDodgeChance(void) { return m_fDodgeChance;}
 	int GetNumWaypoints(void) { return m_vWaypoints.size();};
 	Vec2D GetLastWaypoint(void) { return m_vWaypoints.front()->GetPosition();};
 
@@ -50,7 +50,6 @@ public:
 	void Render(void);
 
 	CAbility* GetAbility(int index);
-
 	void PushDebuff(CAbility* debuff) { m_vDebuffs.push_back(debuff);}
 	CAbility* GetDebuff(int i) { return m_vDebuffs[i];}
 	int GetNumDebuffs(void) { return m_vDebuffs.size();}

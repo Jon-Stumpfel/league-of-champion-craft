@@ -521,6 +521,13 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				pUnit->SetHP(pSMSG->GetHealth());
 				pUnit->SetTilesMoved(pSMSG->GetTilesMoved());
 				pUnit->SetHasAttacked(pSMSG->GetHasAttacked());
+				if (pSMSG->GetSpells().size() != 0)
+				{
+					for (unsigned int i = 0; i < pSMSG->GetSpells().size(); ++i)
+					{
+						((CHero*)pUnit)->GiveSpell(pSMSG->GetSpells()[i]);
+					}
+				}
 			}
 		}
 		break;

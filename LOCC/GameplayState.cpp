@@ -488,7 +488,19 @@ void CGameplayState::UseAbility(CAbility* ability)
 						CUnit* pUnit = CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition());
 						if (pUnit != nullptr)
 						{
-							pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+							if (ability->GetType() == SP_ARCHERRANGEDATTACK)
+							{
+								if (!pUnit->CheckDodged())
+								{
+									pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+								}
+								else
+								{
+									// miss!
+								}
+							}
+							else
+								pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
 						}
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 						if (ability->m_bIsAttack)
@@ -1100,6 +1112,13 @@ void CGameplayState::Render(void)
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
 			moss.str(_T(""));
 
+			if (m_pHighlightedUnit->GetDodgeChance() > 0.0f)
+			{
+				moss << "Dodge Chance: " << m_pHighlightedUnit->GetDodgeChance();
+				CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 15, 222, 255, 255, 255);
+				moss.str(_T(""));
+
+			}
 			float fhpPercent = (float)m_pHighlightedUnit->GetHP() / (float)m_pHighlightedUnit->GetMaxHP();
 
 			int colR = 0, colG = 255;
