@@ -19,8 +19,6 @@ void CGameObject::Render(void)
 {
 }
 
-
-
 void CGameObject::AddRef(void)
 {
 	// increase our reference count
