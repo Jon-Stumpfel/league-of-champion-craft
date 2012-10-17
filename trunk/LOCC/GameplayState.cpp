@@ -975,7 +975,7 @@ void CGameplayState::Render(void)
 		if( drawAbility != nullptr )
 		{
 			std::vector< Vec2D > pattern, range;
-			if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK)
+			if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || SP_MELEEATTACK)
 				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
 			else
 			{
