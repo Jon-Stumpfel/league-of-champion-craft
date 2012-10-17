@@ -81,6 +81,16 @@ void CAbilityManager::LoadAbilities( void )
 				if (doc.LoadFile("Assets/Ability/fireball.xml") == false)
 					return;
 			}
+		case SP_HEAL:
+			{
+				if (doc.LoadFile("Assets/Ability/Heal.xml") ==false)
+					return;
+			}
+		case SP_SHIELD:
+			{
+				if (doc.LoadFile("Assets/Ability/Shield.xml") ==false)
+					return;
+			}
 			break;
 		default:
 			continue;
@@ -155,6 +165,7 @@ void CAbilityManager::LoadAbilities( void )
 				m_vAbilities.push_back(tmp);
 			}
 			break;
+
 			case SP_FIREBALL:
 				{	
 					ab->SetIsMove(false);
@@ -162,6 +173,30 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_FIREBALL);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIREBALL;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_HEAL:
+				{
+					ab->SetIsMove(false);
+					ab->SetIcon(TSTRING(_T("healspellicon")));
+					ab->SetType(SP_HEAL);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_HEAL;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_SHIELD:
+				{
+					ab->SetIsMove(false);
+					ab->SetIcon(TSTRING(_T("shieldspellicon")));
+					ab->SetType(SP_SHIELD);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_SHIELD;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

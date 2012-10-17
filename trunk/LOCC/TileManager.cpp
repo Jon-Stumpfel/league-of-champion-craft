@@ -113,11 +113,11 @@ bool CTileManager::LoadSave( std::string sFilename )
 			m_pTileMap[x][y].SetPixHeight(tempdata1);
 			SetTileHieght(tempdata1);
 
-			pTile->Attribute("TileWidth",&tempdata1);
+			/*pTile->Attribute("TileWidth",&tempdata1);
 			m_pTileMap[x][y].SetTileWidth(tempdata1);
 
 			pTile->Attribute("TileHeight",&tempdata1);
-			m_pTileMap[x][y].SetTileHeight(tempdata1);
+			m_pTileMap[x][y].SetTileHeight(tempdata1);*/
 
 			pTile->Attribute("Status",&tempdata1);
 			m_pTileMap[x][y].SetStatus(tempdata1);
@@ -143,8 +143,8 @@ void CTileManager::Render( void )
 {
 	CSGD_TextureManager* pTM=CSGD_TextureManager::GetInstance();
 
-	int TWidth=m_pTileMap[0][0].GetTileWidth(),
-		THeight=m_pTileMap[0][0].GetTileHeight();
+	int TWidth=m_pTileMap[0][0].GetPixWidth(),
+		THeight=m_pTileMap[0][0].GetPixHeight();
 	
 			THeight += 27;
 			TWidth += 26;

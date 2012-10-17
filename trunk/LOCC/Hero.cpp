@@ -33,8 +33,9 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 	GiveSpell(SP_TESTSPELL);
-	GiveSpell(SP_CONE);
+	GiveSpell(SP_HEAL);
 	GiveSpell(SP_FIREBALL);
+	GiveSpell(SP_SHIELD);
 
 
 	

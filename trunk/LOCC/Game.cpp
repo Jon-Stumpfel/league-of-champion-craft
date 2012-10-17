@@ -64,7 +64,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\champspellicon.png"), _T("champspellicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\fireballicon.png"), _T("fireballicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\shieldspellicon.png"), _T("shieldspellicon"), 0UL);
-
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\healspellicon.png"), _T("healspellicon"), 0UL);
 
 
