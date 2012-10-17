@@ -46,7 +46,6 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.TilesetGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -57,6 +56,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ColumnsnumericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.RowsnumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.TilesetGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.MapGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -212,7 +212,7 @@
             this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Window;
             this.splitContainer1.Panel2.Controls.Add(this.MapGraphicsPanel);
             this.splitContainer1.Size = new System.Drawing.Size(696, 420);
-            this.splitContainer1.SplitterDistance = 327;
+            this.splitContainer1.SplitterDistance = 270;
             this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
@@ -232,21 +232,9 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(327, 420);
-            this.splitContainer2.SplitterDistance = 142;
+            this.splitContainer2.Size = new System.Drawing.Size(270, 420);
+            this.splitContainer2.SplitterDistance = 141;
             this.splitContainer2.TabIndex = 0;
-            // 
-            // TilesetGraphicsPanel
-            // 
-            this.TilesetGraphicsPanel.AutoScroll = true;
-            this.TilesetGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TilesetGraphicsPanel.Location = new System.Drawing.Point(0, 0);
-            this.TilesetGraphicsPanel.Name = "TilesetGraphicsPanel";
-            this.TilesetGraphicsPanel.Size = new System.Drawing.Size(325, 140);
-            this.TilesetGraphicsPanel.TabIndex = 0;
-            this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
-            this.TilesetGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TilesetGraphicsPanel_MouseClick);
-            this.TilesetGraphicsPanel.Resize += new System.EventHandler(this.TilesetGraphicsPanel_Resize);
             // 
             // groupBox2
             // 
@@ -254,7 +242,7 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.HeightcomboBox2);
             this.groupBox2.Controls.Add(this.WidthcomboBox1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 99);
+            this.groupBox2.Location = new System.Drawing.Point(12, 132);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(164, 84);
             this.groupBox2.TabIndex = 1;
@@ -344,6 +332,18 @@
             this.RowsnumericUpDown1.TabIndex = 0;
             this.RowsnumericUpDown1.ValueChanged += new System.EventHandler(this.RowsnumericUpDown1_ValueChanged);
             // 
+            // TilesetGraphicsPanel
+            // 
+            this.TilesetGraphicsPanel.AutoScroll = true;
+            this.TilesetGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TilesetGraphicsPanel.Location = new System.Drawing.Point(0, 0);
+            this.TilesetGraphicsPanel.Name = "TilesetGraphicsPanel";
+            this.TilesetGraphicsPanel.Size = new System.Drawing.Size(268, 139);
+            this.TilesetGraphicsPanel.TabIndex = 0;
+            this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
+            this.TilesetGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TilesetGraphicsPanel_MouseClick);
+            this.TilesetGraphicsPanel.Resize += new System.EventHandler(this.TilesetGraphicsPanel_Resize);
+            // 
             // MapGraphicsPanel
             // 
             this.MapGraphicsPanel.AutoScroll = true;
@@ -351,7 +351,7 @@
             this.MapGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MapGraphicsPanel.Location = new System.Drawing.Point(0, 0);
             this.MapGraphicsPanel.Name = "MapGraphicsPanel";
-            this.MapGraphicsPanel.Size = new System.Drawing.Size(363, 418);
+            this.MapGraphicsPanel.Size = new System.Drawing.Size(420, 418);
             this.MapGraphicsPanel.TabIndex = 0;
             this.MapGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MapGraphicsPanel_Paint);
             this.MapGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MapGraphicsPanel_MouseClick);

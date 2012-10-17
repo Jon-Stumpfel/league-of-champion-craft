@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace WorldTileEditor
 {
-    enum TILE_TYPE { TT_PLAINS=0, TT_FOREST=1, TT_MOUNTAINS=2, TT_WATER=3, TT_FARM=4, TT_MILL=5, TT_MINE=6, TT_CASTLE=7 };
+    enum TILE_TYPE { TT_PLAINS=0, TT_FOREST=1, TT_MOUNTAINS=2, TT_WATER=3, TT_FARM=4, TT_MILL=5, TT_MINE=6, TT_CASTLE=7, TT_NOSTATUS=8 };
     class TileClass
     {
 
