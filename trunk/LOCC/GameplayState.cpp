@@ -1121,7 +1121,7 @@ void CGameplayState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
 				m_nCardOffsetX + 150, 378, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetTilesMoved();
-			m_pBitmapFont->Print((const char*)moss.str().c_str(),m_nCardOffsetX + 200, 385, 1.0f,(DWORD)(255,255,255));
+			m_pBitmapFont->Print(moss.str().c_str(),m_nCardOffsetX + 200, 385, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
 			moss.str((""));
 
