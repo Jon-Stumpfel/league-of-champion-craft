@@ -512,7 +512,12 @@ void CGameplayState::UseAbility(CAbility* ability)
 								}
 							}
 							else
-								pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+							{
+								if( pUnit->GetShielded() == false )
+										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+								else
+									pUnit->SetShielded(0);
+							}
 						}
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 						if (ability->m_bIsAttack)

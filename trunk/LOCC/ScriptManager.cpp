@@ -222,7 +222,10 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 					affected[i]->SetSpeed(tData[l].second);
 
 				if( tData[l].first == "shielded" )
-					affected[i]->SetShielded(tData[l].second);
+				{
+					if( tData[l].second == 1 )
+						affected[i]->SetShielded(tData[l].second);
+				}
 			}
 			affected[i]->SetPos(x,y);
 		}
