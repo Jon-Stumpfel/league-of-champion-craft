@@ -352,6 +352,7 @@ namespace Animation_Editor_LOCC
                         RectRightPos.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].Rect.Right;
                         RectTopPos.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].Rect.Top;
                         RectBottomPos.Value = Animations[i].FrameVec[(int)numofframesinanim.Value].Rect.Bottom;
+                        animations[i].CurrFrame = (int)numofframesinanim.Value;
                     }
                 }
             }
@@ -671,18 +672,6 @@ namespace Animation_Editor_LOCC
             SaveLoadBrowser = new FolderBrowserDialog();
             SaveLoadBrowser.ShowDialog();
             folderpath = SaveLoadBrowser.SelectedPath;
-        }
-
-        private void deletethis_Click(object sender, EventArgs e)
-        {
-            //for (int i = 0; i < animations.Count; i++)
-            //{
-            //    if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
-            //    {
-            //        animations[i].FrameVec.Remove(animations[i].FrameVec[animations[i].CurrFrame]);
-            //        numofframesinanim.Maximum--;
-            //    }
-            //}
         }
     }
 }
