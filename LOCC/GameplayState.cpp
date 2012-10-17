@@ -63,7 +63,7 @@ void CGameplayState::Enter(void)
 	pPM->LoadParticles( TESTSECOND, test );
 
 
-	CAnimationManager::GetInstance()->Load("Assets\\Animations\\TestAnimation.xml");
+	CAnimationManager::GetInstance()->Load("Assets/Animations/TestAnimation.xml");
 
 	SetRect(&rCamRect, 0, 0, 
 		CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth, CGame::GetInstance()->GetWindowHeight() / nFakeTileHeight);

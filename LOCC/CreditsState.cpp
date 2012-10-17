@@ -28,7 +28,7 @@ void CCreditsState::Input(INPUT_ENUM input)
 	{
 	case INPUT_ACCEPT:
 		{
-			CStateStack::GetInstance()->Switch(CMainMenuState::GetInstance());
+			CStateStack::GetInstance()->Pop();
 		}
 	}
 }

@@ -48,22 +48,27 @@ void CMainMenuState::Input(INPUT_ENUM input)
 			else if(selected == 1)
 			{
 				CStateStack::GetInstance()->Push(CSaveSlotState::GetInstance());
+				CStateStack::GetInstance()->SetRenderTopOnly(true);
 			}
 			else if(selected == 2)
 			{
 				CStateStack::GetInstance()->Push(COptionsMenuState::GetInstance());
+				CStateStack::GetInstance()->SetRenderTopOnly(true);
 			}
 			else if(selected == 3)
 			{
 				CStateStack::GetInstance()->Push(CCreditsState::GetInstance());
+				CStateStack::GetInstance()->SetRenderTopOnly(true);
 			}
 			else if(selected == 4)
 			{
 				CStateStack::GetInstance()->Push(CHelpMenuState::GetInstance());
+				CStateStack::GetInstance()->SetRenderTopOnly(true);
 			}
 			else
 			{
 				CInputManager::GetInstance()->SetRunning(false);
+				CStateStack::GetInstance()->Pop();
 			}
 			break;
 		}
