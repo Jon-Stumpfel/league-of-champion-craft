@@ -94,6 +94,12 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
+		case SP_SPEED:
+			{
+				if(doc.LoadFile("Assets/Ability/Speed.xml") == false)
+					return;
+			}
+			break;
 		default:
 			continue;
 		}
@@ -199,6 +205,17 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_SHIELD);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SHIELD;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_SPEED:
+				{
+					ab->SetIsMove(false);
+					ab->SetIcon(TSTRING(_T("moveicon")));
+					ab->SetType(SP_SPEED);
+					std::pair<SPELL_TYPE,CAbility*> tmp;
+					tmp.first = SP_SPEED;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
