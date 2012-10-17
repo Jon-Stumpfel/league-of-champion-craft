@@ -297,6 +297,36 @@ public:
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
+		case 98:
+			{
+				rSource.left = 69;
+				rSource.top = 424;
+				rSource.right = 91;
+				rSource.bottom = 469;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
+		case 99:
+			{
+				rSource.left = 123;
+				rSource.top = 424;
+				rSource.right = 140;
+				rSource.bottom = 469;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
+		case 100:
+			{
+				rSource.left = 
+				rSource.top = 424;
+				rSource.right = 
+				rSource.bottom = 469;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
 		}
 		return rSource;
 	}
@@ -324,7 +354,8 @@ public:
 			RECT rTile = CellAlgorithm( id );
 			pTM->Draw( jcs_nImageID, nX, nY, fScale, fScale, &rTile,
 						0.0f, 0.0f, 0.0f, dwColor );
-			nX += m_nCharWidth/2;
+			float Scale = fScale*100;
+			nX += m_nCharWidth * (int)Scale/100;
 		}
 	}
 };
