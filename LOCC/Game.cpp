@@ -31,7 +31,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CScriptManager::GetInstance()->Initialize();
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
-	CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
+	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	long x = 0;

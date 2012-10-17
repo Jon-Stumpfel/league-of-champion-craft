@@ -66,8 +66,10 @@ void CPauseState::Input(INPUT_ENUM input)
 		}
 		break;
 	case INPUT_CANCEL:
-		CStateStack::GetInstance()->Pop();
-		break;
+		{
+			CStateStack::GetInstance()->Pop();
+			break;
+		}
 	}
 }
 void CPauseState::Update(float fElapsedTime)

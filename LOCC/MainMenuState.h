@@ -16,13 +16,15 @@ public:
 	static CMainMenuState* GetInstance();
 
 private:
-
-	
+	int selected;
+	int swordid;
+	int blueguyid;
+	int redguyid;
 	CMainMenuState(void);
 	virtual ~CMainMenuState(void);
 	CMainMenuState(const CMainMenuState&);
 	CMainMenuState* operator=( CMainMenuState& );
-
+	CBitmapFont* m_pBitmapFont;
 //	static CMainMenuState* s_Instance;
 
 	Vec2D m_sCursorPos;
