@@ -18,6 +18,7 @@ public:
 private:
 	int musicvolume;
 	int soundvolume;
+	int selected;
 	COptionsMenuState(void);
 	virtual ~COptionsMenuState(void);
 	COptionsMenuState(const COptionsMenuState&);
