@@ -33,6 +33,7 @@ void CInputManager::DeleteInstance(void)
 void CInputManager::Initialize(HWND hWnd, HINSTANCE hInstance)
 {
 	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE | DI_JOYSTICKS);
+	Running = true;
 }
 void CInputManager::Shutdown(void)
 {
@@ -143,5 +144,5 @@ bool CInputManager::Input(void)
 	if (pDI->KeyPressed(DIK_SPACE) || pDI->JoystickButtonPressed(3, nCurrentPlayerID))
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_SELECT);
 
-	return true;
+	return Running;
 }

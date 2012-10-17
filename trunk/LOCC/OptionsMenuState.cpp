@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "OptionsMenuState.h"
 #include "StateStack.h"
+
 //COptionsMenuState* COptionsMenuState::s_Instance = nullptr;
 
 COptionsMenuState::COptionsMenuState(void)
@@ -12,15 +13,17 @@ COptionsMenuState::~COptionsMenuState(void)
 {
 }
 
-
 void COptionsMenuState::Enter(void)
 {
-
+	CStateStack::GetInstance()->SetRenderTopOnly(true);
+	m_pBitmapFont = new CBitmapFont();
 }
 
 void COptionsMenuState::Exit(void)
 {
-
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
+	delete m_pBitmapFont;
+	m_pBitmapFont = nullptr;
 }
 
 void COptionsMenuState::Input(INPUT_ENUM input)

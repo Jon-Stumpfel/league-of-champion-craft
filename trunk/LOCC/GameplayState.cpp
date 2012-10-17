@@ -29,6 +29,8 @@ CGameplayState::CGameplayState(void)
 
 CGameplayState::~CGameplayState(void)
 {
+	m_pBitmapFont = nullptr;
+	delete m_pBitmapFont;
 }
 
 CGameplayState* CGameplayState::GetInstance(void)
@@ -98,7 +100,7 @@ void CGameplayState::Exit(void)
 {
 	CAnimationManager::GetInstance()->Shutdown();
 	CAbilityManager::GetInstance()->DeleteInstance();
-	m_pBitmapFont = NULL;
+	m_pBitmapFont = nullptr;
 	delete m_pBitmapFont;
 }
 
@@ -1448,7 +1450,7 @@ void CGameplayState::Render(void)
 			int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
 			oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
 			//const char* tempchar = "CURRENT TURN:";
-			const char* tempchar = "//\\";
+			const char* tempchar = "";
 			m_pBitmapFont->Print(tempchar,0,40,0.4f,D3DXCOLOR(0,255,0,255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
 

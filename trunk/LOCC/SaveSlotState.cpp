@@ -5,7 +5,7 @@
 #include "GraphicsManager.h"
 #include "Hero.h"
 #include "Player.h"
-
+#include "GameplayState.h"
 CSaveSlotState::CSaveSlotState(void)
 {
 }
@@ -121,7 +121,7 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 						case 0: // Load
 							{
 								CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
-								CStateStack::GetInstance()->Pop();
+								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 								m_nConfirmChoice = 0;
 								return;
 							}

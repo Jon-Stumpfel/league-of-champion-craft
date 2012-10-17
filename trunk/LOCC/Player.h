@@ -43,6 +43,5 @@ public:
 	void SetJoyNum(int j) { m_nJoystickNum = j;}
 
 	int GetPlayerID(void) { return m_nPlayerID;}
-
 };
 

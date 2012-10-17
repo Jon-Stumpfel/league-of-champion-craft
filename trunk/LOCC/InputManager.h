@@ -19,9 +19,9 @@ public:
 	void Initialize(HWND hWnd, HINSTANCE hInstance);
 
 	void Shutdown(void);
-
+	void SetRunning(bool running) {Running = running;}
 private:
-
+	bool Running;
 	CInputManager(void);
 	~CInputManager(void);
 	CInputManager(const CInputManager&);

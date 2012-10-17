@@ -1,7 +1,7 @@
 #pragma once
 
 #include "igamestate.h"
-
+#include "BitmapFont.h"
 class COptionsMenuState : public IGameState
 {
 
@@ -16,13 +16,13 @@ public:
 	static COptionsMenuState* GetInstance();
 
 private:
-
-	
+	int musicvolume;
+	int soundvolume;
 	COptionsMenuState(void);
 	virtual ~COptionsMenuState(void);
 	COptionsMenuState(const COptionsMenuState&);
 	COptionsMenuState& operator=(const COptionsMenuState&);
-
+	CBitmapFont* m_pBitmapFont;
 	//static COptionsMenuState* s_Instance;
 
 	Vec2D m_sCursorPos;
