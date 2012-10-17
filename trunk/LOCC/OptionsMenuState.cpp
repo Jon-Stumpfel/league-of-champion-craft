@@ -33,7 +33,9 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 	switch (input)
 	{
 	case INPUT_CANCEL:
+		{
 		CStateStack::GetInstance()->Pop();
+		}
 		break;
 	case INPUT_DOWN:
 		{

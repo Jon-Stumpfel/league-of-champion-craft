@@ -17,7 +17,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	SetShielded(false);
 	SetIsMoving(false);
 
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\champion.png",L"Champion",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/champion.png",L"Champion",D3DCOLOR_ARGB(255,255,255,255));
 
 
 	// TODO: Setup abilities when they are in place

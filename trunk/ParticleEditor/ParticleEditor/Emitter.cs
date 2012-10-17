@@ -412,8 +412,8 @@ namespace ParticleEditor
                 if (type == Shape.CIRCLE)
                 {
                     Vector2D ps;
-                    ps.x = pos.x + (rand.Next(0, (int)(radius)));
-                    ps.y = pos.y + (rand.Next(0, (int)(radius)));
+                    ps.x = pos.x + (rand.Next((int)(-radius-(tmp.Source.Right/2)), (int)(radius+(tmp.Source.Right/2))));
+                    ps.y = pos.y + (rand.Next((int)(-radius-(tmp.Source.Bottom/2)), (int)(radius+(tmp.Source.Bottom/2))));
                     tmp.Pos = ps;
                 }
                 else if (type == Shape.SQUARE)
@@ -431,9 +431,9 @@ namespace ParticleEditor
                     else
                         ps.x = (rand.Next((int)point.x, (int)point2.x));
 
-                    if( point.y > point2.y )
-                        ps.y = (rand.Next((int)point2.y, (int)point.y));
-                    else
+                   if( point.y > point2.y )
+                       ps.y = (rand.Next((int)point2.y, (int)point.y));
+                   else
                         ps.y = (rand.Next((int)point.x, (int)point2.y));
 
                     tmp.Pos = ps;

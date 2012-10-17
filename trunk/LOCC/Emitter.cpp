@@ -44,7 +44,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 	{
 	case TEST:
 		{
-			if( doc.LoadFile( "Assets/Particles/smokytest.xml" ) == false )
+			if( doc.LoadFile( "Assets/Particles/sparkletest.xml" ) == false )
 				return;
 
 			m_sSource.left = 0;

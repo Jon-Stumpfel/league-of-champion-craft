@@ -63,19 +63,6 @@ void CAbilityManager::LoadAbilities( void )
 		TiXmlDocument doc;
 		switch(i)
 		{
-		case SP_TESTSPELL:
-			{
-				if( doc.LoadFile( "Assets/Ability/test.xml") == false )
-					return;
-			}
-			break;
-
-		case SP_CONE:
-			{
-				if( doc.LoadFile( "Assets/Ability/cone.xml") == false )
-					return;
-			}
-			break;
 		case SP_FIREBALL:
 			{
 				if (doc.LoadFile("Assets/Ability/fireball.xml") == false)
@@ -150,30 +137,6 @@ void CAbilityManager::LoadAbilities( void )
 		
 		switch(i)
 		{
-		case SP_TESTSPELL:
-			{
-				ab->SetIsMove(false);
-				ab->SetIcon(TSTRING(_T("meleeattackicon")));
-				ab->SetType(SP_TESTSPELL);
-				std::pair<SPELL_TYPE, CAbility*> tmp;
-				tmp.first = SP_TESTSPELL;
-				tmp.second = ab;
-				m_vAbilities.push_back(tmp);
-			}
-			break;
-
-			case SP_CONE:
-			{
-				ab->SetIsMove(false);
-				ab->SetIcon(TSTRING(_T("iceblockportrait")));
-				ab->SetType(SP_CONE);
-				std::pair<SPELL_TYPE, CAbility*> tmp;
-				tmp.first = SP_CONE;
-				tmp.second = ab;
-				m_vAbilities.push_back(tmp);
-			}
-			break;
-
 			case SP_FIREBALL:
 				{	
 					ab->SetIsMove(false);
