@@ -194,27 +194,27 @@ void CSaveSlotState::Render(void)
 		std::ostringstream woss;
 		woss << "Load from Slot";
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 480, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 480, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 480, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 		woss.str((""));
 		woss << "Save to Slot";
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 500, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 500, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 		woss.str((""));
 		woss << "Delete Slot";
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 520, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 520, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 520, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 
 		if (m_bConfirm)
 		{
 			woss.str((""));
-			woss << "Are you sure?       No        Yes";
+			woss << "Are you sure?    No    Yes";
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 330, 550, 255, 255, 255);
-			m_pBitmapFont.Print(woss.str().c_str(), 330, 550, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont.Print(woss.str().c_str(), 330, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
-			CGraphicsManager::GetInstance()->DrawArrow(455 + (m_nConfirmChoice * 55), 560, 255, 255, 255);
+			CGraphicsManager::GetInstance()->DrawArrow(480 + (m_nConfirmChoice * 65), 560, 255, 255, 255);
 		}
 		else
 		{
@@ -361,7 +361,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 		woss.str((""));
 		woss << "  XP " << s.p1.nXP;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 290);
-		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 270, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 290, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 		woss.str((""));
 
@@ -379,7 +379,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 		woss.str((""));
 		woss << "  Metal " << s.p2.nMetal;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 370);
-		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 360, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 370, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 		woss.str((""));
 		woss << "  AP " << s.p2.nAP;

@@ -156,7 +156,7 @@ void CAbilityManager::LoadAbilities( void )
 			}
 			break;
 			case SP_FIREBALL:
-				{
+				{	
 					ab->SetIsMove(false);
 					ab->SetIcon(TSTRING(_T("fireballicon")));
 					ab->SetType(SP_FIREBALL);
