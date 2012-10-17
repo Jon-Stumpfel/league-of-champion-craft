@@ -45,7 +45,12 @@ void CInputManager::Update(float fElapsedTime)
 bool CInputManager::Input(void)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
-	int nCurrentPlayerID = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
+	int nCurrentPlayerID;
+	if( CGameManager::GetInstance()->GetCurrentPlayer() != nullptr )
+		nCurrentPlayerID = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
+	else
+		nCurrentPlayerID = 1;
+
 	int nRAmount = pDI->JoystickGetRStickYAmount(0);
 	if (nRAmount > 0)
 	{

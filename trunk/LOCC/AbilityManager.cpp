@@ -81,11 +81,13 @@ void CAbilityManager::LoadAbilities( void )
 				if (doc.LoadFile("Assets/Ability/fireball.xml") == false)
 					return;
 			}
+			break;
 		case SP_HEAL:
 			{
 				if (doc.LoadFile("Assets/Ability/Heal.xml") ==false)
 					return;
 			}
+			break;
 		case SP_SHIELD:
 			{
 				if (doc.LoadFile("Assets/Ability/Shield.xml") ==false)
@@ -350,7 +352,6 @@ void CAbilityManager::SetRanges( void )
 	m_vRange4.push_back(Vec2D(-3, 1));
 	m_vRange4.push_back(Vec2D(-2, 2));
 	m_vRange4.push_back(Vec2D(-1, 3));
-
 	// toally sucks...
 }
 

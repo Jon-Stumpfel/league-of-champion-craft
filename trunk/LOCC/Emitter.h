@@ -3,6 +3,8 @@
 #include "StdAfx.h"
 #include "ParticleManager.h"
 
+enum Shape { DOT, CIRCLE, SQUARE, LINE };
+
 class CParticle;
 
 class CEmitter
@@ -25,11 +27,6 @@ private:
 
 	void Loop( void );
 
-	int m_nSourceBlend;
-	int m_nDestBlend;
-	int m_nHeight;
-	int m_nWidth;
-
 	int m_nNumParticles;
 	
 	unsigned int m_nNumSpawned;
@@ -39,10 +36,14 @@ private:
 
 	Vec2Df m_sMinDir;
 	Vec2Df m_sMaxDir;
-	Vec2Df m_sStartVel;
-	Vec2Df m_sEndVel;
+	Vec2Df m_sStartVelMax;
+	Vec2Df m_sStartVelMin;
+	Vec2Df m_sEndVelMax;
+	Vec2Df m_sEndVelMin;
 	Vec2D m_sImgPos;
 	Vec2Df m_sEmitPos;
+
+	RECT m_sSource;
 
 	int m_nMinSpawnRate;	
 	int m_nMaxSpawnRate;
@@ -54,6 +55,13 @@ private:
 	float m_fMinLife;
 	float m_fMaxLife;
 	float m_fSpawnTimer;
+
+	float Radius;
+	Vec2D m_sPoint;
+	Vec2D m_sPoint2;
+	int m_nHeight;
+	int m_nWidth;
+	Shape m_eType;
 
 	bool m_bLooping;
 

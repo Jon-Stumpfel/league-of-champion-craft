@@ -184,7 +184,7 @@ void CGameManager::LoadUnitsFromScript(void)
 void CGameManager::LoadMap(int nLevelNum)
 {
 	CTileManager* pTM=CTileManager::GetInstance();
-	string filename= "Assets\\Tiles\\TestMap2.xml";
+	string filename= "Assets\\Tiles\\TestMap.xml";
 	pTM->LoadSave(filename);
 	// Attempting to load fake level 1 script
 }
@@ -432,6 +432,7 @@ void CGameManager::Reset(void)
 	{
 		delete m_vPlayers[i];
 	}
+
 	m_vPlayers.clear();
 	m_nNewPlayerID = 0;
 	m_vScriptSpawns.clear();

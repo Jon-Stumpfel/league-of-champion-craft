@@ -11,7 +11,7 @@ public:
 	CParticle(void);
 	~CParticle(void);
 
-	CParticle( Vec2Df sPos, Vec2Df sDir, Vec2Df sVel, float fScale, 
+	CParticle( Vec2Df sPos, Vec2Df sVelEnd, Vec2Df sVelStart, float fScale, 
 				float fLife, Color sColor, float fRot, RECT sSource);
 
 	void Update( float fElapsedTime );
@@ -24,8 +24,8 @@ public:
 	Color GetColor( void ) const { return m_sColor; }
 	float GetRotation( void ) const { return m_fRot; }
 	RECT GetRect( void ) const { return m_sSource; }
-	Vec2Df GetVel( void ) const { return m_sVel; }
-	Vec2Df GetDir( void ) const { return m_sDir; }
+	Vec2Df GetVelStart( void ) const { return m_sVelStart; }
+	Vec2Df GetVelEnd( void ) const { return m_sVelEnd; }
 
 	void SetScale( float fScale ) { m_fScale = fScale; }
 	void SetCurTime( float fTime ) { m_fCurTime = fTime; }	
@@ -33,14 +33,15 @@ public:
 	void SetColor( Color sColor ) { m_sColor = sColor; }
 	void SetRotation( float fRot ) { m_fRot = fRot; }
 	void SetRect( RECT sSource ) { m_sSource = sSource; }
-	void SetVel( Vec2Df sVel ) { m_sVel = sVel; }
-	void SetDir( Vec2Df sDir ) { m_sDir = sDir; }
+	void SetVelStart( Vec2Df sVel ) { m_sVelStart = sVel; }
+	void SetVelEnd( Vec2Df sVel ) { m_sVelEnd = sVel; }
 
 private:
 
 	Vec2Df m_sPos;
+	Vec2Df m_sVelStart;
+	Vec2Df m_sVelEnd;
 	Vec2Df m_sVel;
-	Vec2Df m_sDir;
 	float m_fScale;
 	float m_fRot;
 	float m_fCurTime;
