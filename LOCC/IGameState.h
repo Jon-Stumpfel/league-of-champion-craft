@@ -1,6 +1,5 @@
 #pragma once
 
-#include "StdAfx.h"
 #include "InputManager.h"
 class IGameState
 {

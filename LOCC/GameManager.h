@@ -1,5 +1,4 @@
 #pragma once
-#include "StdAfx.h"
 #include "Unit.h"
 #include "ScriptManager.h"
 #include "IMessage.h"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "StdAfx.h"
 #include "ParticleManager.h"
 
 enum Shape { DOT, CIRCLE, SQUARE, LINE };

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "StdAfx.h"
 
 class CTile;
 class CUnit;

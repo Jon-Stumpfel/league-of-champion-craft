@@ -1,6 +1,5 @@
 #pragma once
 
-#include "StdAfx.h"
 #include "Message.h"
 #include "Unit.h"
 

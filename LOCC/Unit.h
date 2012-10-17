@@ -1,5 +1,4 @@
 #pragma once
-#include "StdAfx.h"
 #include "Ability.h"
 #include "GameObject.h"
 #include "AnimationManager.h"
