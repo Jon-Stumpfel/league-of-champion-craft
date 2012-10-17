@@ -355,7 +355,7 @@ public:
 			pTM->Draw( jcs_nImageID, nX, nY, fScale, fScale, &rTile,
 						0.0f, 0.0f, 0.0f, dwColor );
 			float Scale = fScale*100;
-			nX += m_nCharWidth * (int)Scale/100;
+			nX += (int)(m_nCharWidth * fScale) + 2;
 		}
 	}
 };
