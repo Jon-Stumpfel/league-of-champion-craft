@@ -98,6 +98,8 @@ void CGameplayState::Exit(void)
 {
 	CAnimationManager::GetInstance()->Shutdown();
 	CAbilityManager::GetInstance()->DeleteInstance();
+	m_pBitmapFont = NULL;
+	delete m_pBitmapFont;
 }
 
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
@@ -1446,7 +1448,7 @@ void CGameplayState::Render(void)
 			int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
 			oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
 			//const char* tempchar = "CURRENT TURN:";
-			const char* tempchar = "VW XY Z";
+			const char* tempchar = "abcdefghijklmnopqrstuvwxyz";
 			m_pBitmapFont->Print(tempchar,40,40,0.4f,D3DXCOLOR(255,0,0,255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
 
