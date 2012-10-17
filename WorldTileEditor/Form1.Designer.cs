@@ -35,6 +35,8 @@
             this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.setPathToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadTilesetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +76,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem1});
+            this.fileToolStripMenuItem1,
+            this.optionsToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(696, 25);
@@ -127,6 +130,22 @@
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
             this.exitToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
             this.exitToolStripMenuItem1.Text = "&Exit";
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            // 
+            // optionsToolStripMenuItem1
+            // 
+            this.optionsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadTilesetToolStripMenuItem});
+            this.optionsToolStripMenuItem1.Name = "optionsToolStripMenuItem1";
+            this.optionsToolStripMenuItem1.Size = new System.Drawing.Size(67, 21);
+            this.optionsToolStripMenuItem1.Text = "&Options";
+            // 
+            // loadTilesetToolStripMenuItem
+            // 
+            this.loadTilesetToolStripMenuItem.Name = "loadTilesetToolStripMenuItem";
+            this.loadTilesetToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.loadTilesetToolStripMenuItem.Text = "Load &Tileset";
+            this.loadTilesetToolStripMenuItem.Click += new System.EventHandler(this.loadTilesetToolStripMenuItem_Click);
             // 
             // fileToolStripMenuItem
             // 
@@ -227,6 +246,7 @@
             this.TilesetGraphicsPanel.TabIndex = 0;
             this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
             this.TilesetGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TilesetGraphicsPanel_MouseClick);
+            this.TilesetGraphicsPanel.Resize += new System.EventHandler(this.TilesetGraphicsPanel_Resize);
             // 
             // groupBox2
             // 
@@ -266,6 +286,7 @@
             this.HeightcomboBox2.Name = "HeightcomboBox2";
             this.HeightcomboBox2.Size = new System.Drawing.Size(76, 24);
             this.HeightcomboBox2.TabIndex = 1;
+            this.HeightcomboBox2.SelectedIndexChanged += new System.EventHandler(this.HeightcomboBox2_SelectedIndexChanged);
             // 
             // WidthcomboBox1
             // 
@@ -274,6 +295,7 @@
             this.WidthcomboBox1.Name = "WidthcomboBox1";
             this.WidthcomboBox1.Size = new System.Drawing.Size(76, 24);
             this.WidthcomboBox1.TabIndex = 0;
+            this.WidthcomboBox1.SelectedIndexChanged += new System.EventHandler(this.WidthcomboBox1_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -312,6 +334,7 @@
             this.ColumnsnumericUpDown2.Name = "ColumnsnumericUpDown2";
             this.ColumnsnumericUpDown2.Size = new System.Drawing.Size(76, 22);
             this.ColumnsnumericUpDown2.TabIndex = 1;
+            this.ColumnsnumericUpDown2.ValueChanged += new System.EventHandler(this.ColumnsnumericUpDown2_ValueChanged);
             // 
             // RowsnumericUpDown1
             // 
@@ -319,6 +342,7 @@
             this.RowsnumericUpDown1.Name = "RowsnumericUpDown1";
             this.RowsnumericUpDown1.Size = new System.Drawing.Size(76, 22);
             this.RowsnumericUpDown1.TabIndex = 0;
+            this.RowsnumericUpDown1.ValueChanged += new System.EventHandler(this.RowsnumericUpDown1_ValueChanged);
             // 
             // MapGraphicsPanel
             // 
@@ -333,6 +357,7 @@
             this.MapGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MapGraphicsPanel_MouseClick);
             this.MapGraphicsPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapGraphicsPanel_MouseClick);
             this.MapGraphicsPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapGraphicsPanel_MouseClick);
+            this.MapGraphicsPanel.Resize += new System.EventHandler(this.MapGraphicsPanel_Resize);
             // 
             // Form1
             // 
@@ -397,6 +422,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem setPathToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem loadTilesetToolStripMenuItem;
     }
 }
 
