@@ -21,7 +21,6 @@ CMainMenuState::~CMainMenuState(void)
 void CMainMenuState::Enter(void)
 {
 	selected = 0;
-	CGameManager::GetInstance()->NewGame();
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
 	swordid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\main_menu_bg.png"),D3DXCOLOR(0,0,0,255));
 	blueguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_blue.png"),D3DXCOLOR(0,0,0,255));

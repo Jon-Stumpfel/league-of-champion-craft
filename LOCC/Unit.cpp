@@ -111,6 +111,12 @@ static bool CloseEnough(int n1, int n2)
 void CUnit::Update(float fElapsedTime)
 {
 
+	if( m_eType == UT_SWORDSMAN )
+	{
+		int i = 0;
+		m_bShielded;
+	}
+
 	CTile* pMyTile = CTileManager::GetInstance()->GetTile(GetPos().nPosX, GetPos().nPosY);
 	if (pMyTile != nullptr)
 	{

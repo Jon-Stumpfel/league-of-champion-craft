@@ -278,11 +278,6 @@ namespace ParticleEditor
             emitter.InitParticle();
         }
 
-        private void ParticleEditor_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            alive = false;
-        }
-
         private void btStopPrev_Click(object sender, EventArgs e)
         {
             emitter.Clear();
@@ -362,100 +357,233 @@ namespace ParticleEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (particlefile == null)
+            if (emitter.Imgpath == null)
             {
                 string s = "No Particle Selected";
                 DialogResult mb = MessageBox.Show(s);
                 return;
             }
 
-            Uri uri1;
             SaveFileDialog sf = new SaveFileDialog();
-            if (DialogResult.OK == sf.ShowDialog())
-            {
-                uri1 = new Uri(Path.Combine(filepath, sf.FileName));
-                File.WriteAllText(uri1.LocalPath + ".lua", rtbLua.Text);
+            sf.ShowDialog();
+            
+            XElement xRoot = new XElement("Particle");
+            Uri folder = new Uri(filepath);
+            Uri img = new Uri(emitter.Imgpath);
+            Uri rel = folder.MakeRelativeUri(img);
 
+            XAttribute xImage = new XAttribute("Image", rel.ToString().Remove(0,5));
+            xRoot.Add(xImage);
 
-                XElement xRoot = new XElement("Ability");
+            XAttribute xColorStartA = new XAttribute("ColorStartA", nudStartAlpha.Value);
+            xRoot.Add(xColorStartA);
+            XAttribute xColorStartR = new XAttribute("ColorStartR", btColorStart.BackColor.R);
+            xRoot.Add(xColorStartR);
+            XAttribute xColorStartG = new XAttribute("ColorStartG", btColorStart.BackColor.G);
+            xRoot.Add(xColorStartG);
+            XAttribute xColorStartB = new XAttribute("ColorStartB", btColorStart.BackColor.B);
+            xRoot.Add(xColorStartB);
 
-                XAttribute xRange = new XAttribute("Range", nudRange.Value);
-                xRoot.Add(xRange);
-                XAttribute xAP = new XAttribute("APCost", nudAP.Value);
-                xRoot.Add(xAP);
-                XAttribute xCD = new XAttribute("Cooldown", nudCD.Value);
-                xRoot.Add(xCD);
-                XAttribute xTarget = new XAttribute("Target", nudTarget.Value);
-                xRoot.Add(xTarget);
-                XAttribute xSpellName = new XAttribute("SpellName", tbSpellName.Text);
-                xRoot.Add(xSpellName);
+            XAttribute xColorEndA = new XAttribute("ColorEndA", nudEndAlpha.Value);
+            xRoot.Add(xColorEndA);
+            XAttribute xColorEndR = new XAttribute("ColorEndR", btColorEnd.BackColor.R);
+            xRoot.Add(xColorEndR);
+            XAttribute xColorEndG = new XAttribute("ColorEndG", btColorEnd.BackColor.G);
+            xRoot.Add(xColorEndG);
+            XAttribute xColorEndB = new XAttribute("ColorEndB", btColorEnd.BackColor.B);
+            xRoot.Add(xColorEndB);
 
-                XAttribute xAttack;
-                if (cbAttack.Checked)
-                    xAttack = new XAttribute("Attack", 1);
-                else
-                    xAttack = new XAttribute("Attack", 0);
-                xRoot.Add(xAttack);
+            XAttribute xScaleStart = new XAttribute("ScaleStart", nudScaleStart.Value);
+            xRoot.Add(xScaleStart);
+            XAttribute xScaleEnd = new XAttribute("ScaleEnd", nudScaleEnd.Value);
+            xRoot.Add(xScaleEnd);
 
-                XAttribute xPhase;
-                if (rbAttackPhase.Checked == true)
-                    xPhase = new XAttribute("Phase", 0);
-                else
-                    xPhase = new XAttribute("Phase", 1);
+            XAttribute xRotationStart = new XAttribute("RotStart", nudRotStart.Value);
+            xRoot.Add(xRotationStart);
+            XAttribute xRotationEnd = new XAttribute("RotEnd", nudRotEnd.Value);
+            xRoot.Add(xRotationEnd);
 
-                xRoot.Add(xPhase);
+            XAttribute xShape = new XAttribute("Shape", cbShape.SelectedIndex);
+            xRoot.Add(xShape);
 
-                Uri folder = new Uri(filepath);
-                Uri lua = new Uri(uri1.LocalPath);
-                Uri relative = folder.MakeRelativeUri(lua);
-                XAttribute xLUA = new XAttribute("LuaPath", relative.ToString().Remove(0, 5) + ".lua");
-                xRoot.Add(xLUA);
+            XAttribute xLoop = new XAttribute("Looping", cbLooping.Checked ? 1 : 0);
+            xRoot.Add(xLoop);
 
-                Uri particle = new Uri(particlefile);
-                Uri relative2 = folder.MakeRelativeUri(particle);
-                XAttribute xParticle = new XAttribute("ParticlePath", relative.ToString().Remove(0, 5) + ".xml");
-                xRoot.Add(xParticle);
+            XAttribute xRadius = new XAttribute("Radius", nudRad.Value);
+            xRoot.Add(xRadius);
 
-                for (int x = 0; x < 9; x++)
-                {
-                    for (int y = 0; y < 9; y++)
-                    {
-                        if (grid[x, y].Selected == true)
-                        {
-                            XElement xTile = new XElement("Tile");
-                            xRoot.Add(xTile);
+            XAttribute xHeight = new XAttribute("Height", nudHeight.Value);
+            xRoot.Add(xHeight);
 
-                            XAttribute xPosX = new XAttribute("PosX", x - 4);
-                            xTile.Add(xPosX);
+            XAttribute xWidth = new XAttribute("Width", nudWidth.Value);
+            xRoot.Add(xWidth);
 
-                            XAttribute xPosY = new XAttribute("PosY", -y + 4);
-                            xTile.Add(xPosY);
-                        }
-                    }
-                }
+            XAttribute xPointX = new XAttribute("PointX", nudPointX.Value);
+            xRoot.Add(xPointX);
+            XAttribute xPointY = new XAttribute("PointY", nudPointY.Value);
+            xRoot.Add(xPointY);
+            XAttribute xPoint2X = new XAttribute("Point2X", nudPoint2X.Value);
+            xRoot.Add(xPoint2X);
+            XAttribute xPoint2Y = new XAttribute("Point2Y", nudPoint2Y.Value);
+            xRoot.Add(xPoint2Y);
 
-                xRoot.Save(uri1.LocalPath + ".xml");
-            }
+            XAttribute xParticleNum = new XAttribute("NumParticles", nudParticleNum.Value);
+            xRoot.Add(xParticleNum);
+
+            XAttribute xSpawnMax = new XAttribute("SpawnMax", nudSpawnMax.Value);
+            xRoot.Add(xSpawnMax);
+            XAttribute xSpawnMin = new XAttribute("SpawnMin", nudSpawnMin.Value);
+            xRoot.Add(xSpawnMin);
+
+            XAttribute xLifeMax = new XAttribute("LifeMax", nudLifeMax.Value);
+            xRoot.Add(xLifeMax);
+            XAttribute xLifeMin = new XAttribute("LifeMin", nudLifeMin.Value);
+            xRoot.Add(xLifeMin);
+
+            XAttribute xVelStartMaxX = new XAttribute("VelStartMaxX", nudVelMaxStartX.Value);
+            xRoot.Add(xVelStartMaxX);
+            XAttribute xVelStartMaxY = new XAttribute("VelStartMaxY", nudVelMaxStartY.Value);
+            xRoot.Add(xVelStartMaxY);
+            XAttribute xVelStartMinX = new XAttribute("VelStartMinX", nudVelMinStartX.Value);
+            xRoot.Add(xVelStartMinX);
+            XAttribute xVelStartMinY = new XAttribute("VelStartMinY", nudVelMinStartY.Value);
+            xRoot.Add(xVelStartMinY);
+
+            XAttribute xVelEndMaxX = new XAttribute("VelEndMaxX", nudVelMaxEndX.Value);
+                xRoot.Add(xVelEndMaxX);                                       
+            XAttribute xVelEndMaxY = new XAttribute("VelEndMaxY", nudVelMaxEndY.Value);
+                xRoot.Add(xVelEndMaxY);                                       
+            XAttribute xVelEndMinX = new XAttribute("VelEndMinX", nudVelMinEndX.Value);
+                xRoot.Add(xVelEndMinX);                                       
+            XAttribute xVelEndMinY = new XAttribute("VelEndMinY", nudVelMinEndY.Value);
+                xRoot.Add(xVelEndMinY);
+
+            xRoot.Save(sf.FileName + ".xml");
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Xml Files|*.xml";
+            dlg.FilterIndex = 2;
+            dlg.InitialDirectory = filepath;
 
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                XElement xRoot = XElement.Load(dlg.FileName); ;
+
+                XAttribute xImage = xRoot.Attribute("Image");
+                Uri uri = new Uri(Path.Combine(filepath, xImage.Value));
+                emitter.Imgpath = uri.LocalPath;
+
+                XAttribute xColorStartA = xRoot.Attribute("ColorStartA");
+                nudStartAlpha.Value = int.Parse(xColorStartA.Value);
+                XAttribute xColorStartR = xRoot.Attribute("ColorStartR");
+                int r = int.Parse(xColorStartR.Value);
+                XAttribute xColorStartG = xRoot.Attribute("ColorStartG");
+                int g = int.Parse(xColorStartG.Value);
+                XAttribute xColorStartB = xRoot.Attribute("ColorStartB");
+                int b = int.Parse(xColorStartB.Value);
+
+                btColorStart.BackColor = Color.FromArgb(255, r, g, b);
+
+                XAttribute xColorEndA = xRoot.Attribute("ColorEndA");
+                nudStartAlpha.Value = int.Parse(xColorStartA.Value);
+                XAttribute xColorEndR = xRoot.Attribute("ColorEndR");
+                r = int.Parse(xColorEndR.Value);
+                XAttribute xColorEndG = xRoot.Attribute("ColorEndG");
+                g = int.Parse(xColorEndG.Value);
+                XAttribute xColorEndB = xRoot.Attribute("ColorEndB");
+                b = int.Parse(xColorEndB.Value);
+                btColorEnd.BackColor = Color.FromArgb(255, r, g, b);
+
+                XAttribute xScaleStart = xRoot.Attribute("ScaleStart");
+                nudScaleStart.Value = int.Parse(xScaleStart.Value);
+                XAttribute xScaleEnd = xRoot.Attribute("ScaleEnd");
+                nudScaleEnd.Value = decimal.Parse(xScaleEnd.Value);
+
+                XAttribute xRotationStart = xRoot.Attribute("RotStart");
+                nudRotStart.Value = int.Parse(xRotationStart.Value);
+                XAttribute xRotationEnd = xRoot.Attribute("RotEnd");
+                nudRotEnd.Value = int.Parse(xRotationEnd.Value);
+                XAttribute xShape = xRoot.Attribute("Shape");
+                cbShape.SelectedIndex = int.Parse(xShape.Value);
+
+                XAttribute xLoop = xRoot.Attribute("Looping");
+                int baba = int.Parse(xLoop.Value);
+                if (baba == 0)
+                    cbLooping.Checked = false;
+                else
+                    cbLooping.Checked = true;
+
+                XAttribute xRadius = xRoot.Attribute("Radius");
+                nudRad.Value = int.Parse(xRadius.Value);
+                XAttribute xHeight = xRoot.Attribute("Height");
+                nudHeight.Value = int.Parse(xHeight.Value);
+                XAttribute xWidth = xRoot.Attribute("Width");
+                nudWidth.Value = int.Parse(xWidth.Value);
+
+                XAttribute xPointX = xRoot.Attribute("PointX");
+                nudPointX.Value = int.Parse(xPointX.Value);
+                XAttribute xPointY = xRoot.Attribute("PointY");
+                nudPointY.Value = int.Parse(xPointY.Value);
+                XAttribute xPoint2X = xRoot.Attribute("Point2X");
+                nudPoint2X.Value = int.Parse(xPoint2X.Value);
+                XAttribute xPoint2Y = xRoot.Attribute("Point2Y");
+                nudPoint2Y.Value = int.Parse(xPoint2Y.Value);
+
+                XAttribute xParticleNum = xRoot.Attribute("NumParticles");
+                nudParticleNum.Value = int.Parse(xParticleNum.Value);
+
+                XAttribute xSpawnMax = xRoot.Attribute("SpawnMax");
+                nudSpawnMax.Value = decimal.Parse(xSpawnMax.Value);
+                XAttribute xSpawnMin = xRoot.Attribute("SpawnMin");
+                nudSpawnMin.Value = int.Parse(xSpawnMin.Value);
+
+                XAttribute xLifeMax = xRoot.Attribute("LifeMax");
+                nudLifeMax.Value = int.Parse(xLifeMax.Value);
+                XAttribute xLifeMin = xRoot.Attribute("LifeMin");
+                nudLifeMin.Value = int.Parse(xLifeMin.Value);
+
+                XAttribute xVelStartMaxX = xRoot.Attribute("VelStartMaxX");
+                nudVelMaxStartX.Value = int.Parse(xVelStartMaxX.Value);
+                XAttribute xVelStartMaxY = xRoot.Attribute("VelStartMaxY");
+                nudVelMaxStartY.Value = int.Parse(xVelStartMaxY.Value);
+                XAttribute xVelStartMinX = xRoot.Attribute("VelStartMinX");
+                nudVelMinStartX.Value = int.Parse(xVelStartMinX.Value);
+                XAttribute xVelStartMinY = xRoot.Attribute("VelStartMinY");
+                nudVelMinStartY.Value = int.Parse(xVelStartMinY.Value);
+
+                XAttribute xVelEndMaxX = xRoot.Attribute("VelEndMaxX");
+                nudVelMaxEndX.Value = int.Parse(xVelEndMaxX.Value);
+                XAttribute xVelEndMaxY = xRoot.Attribute("VelEndMaxY");
+                nudVelMaxEndY.Value = int.Parse(xVelEndMaxY.Value);
+                XAttribute xVelEndMinX = xRoot.Attribute("VelEndMinX");
+                nudVelMinEndX.Value = int.Parse(xVelEndMinX.Value);
+                XAttribute xVelEndMinY = xRoot.Attribute("VelEndMinY");
+                nudVelMinEndY.Value = int.Parse(xVelEndMinY.Value);
+            }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        public void ExitSave()
         {
             XElement xRoot = new XElement("ChosenPath");
             XAttribute xPath = new XAttribute("Path", filepath);
             xRoot.Add(xPath);
             xRoot.Save("Config.xml");
-
-            this.DestroyHandle();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, FormClosingEventArgs e)
+        private void changePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.ShowDialog();
+            filepath = fbd.SelectedPath;
+        }
 
+        private void ParticleEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ExitSave();
+            alive = false;
         }
     }
 }

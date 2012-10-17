@@ -3,12 +3,14 @@
 
 #include "ParticleManager.h"
 #include "Particle.h"
-#include "GraphicsManager.h"
+#include "GraphicsManager.h"  
 #include "SGD Wrappers\CSGD_Direct3D.h"
 #include <ctime>
 
 CEmitter::CEmitter(void)
 {
+	srand( unsigned int(time(0)) );
+	rand();
 }
 
 
@@ -35,9 +37,6 @@ void CEmitter::Clear( void )
 
 void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 {
-	srand( unsigned int(time(0)) );
-	rand();
-
 	TiXmlDocument doc;
 
 	// Loads the file for the specific particle7
@@ -45,15 +44,25 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 	{
 	case TEST:
 		{
-			if( doc.LoadFile( "Assets/Particles/Test.xml" ) == false )
+			if( doc.LoadFile( "Assets/Particles/smokytest.xml" ) == false )
 				return;
+
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
 		}
 		break;
 
 	case TESTSECOND:
 		{
-			if( doc.LoadFile( "Assets/Particles/Test2.xml" ) == false )
+			if( doc.LoadFile( "Assets/Particles/othertest.xml" ) == false )
 				return;
+
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
 		}
 		break;
 	};
@@ -70,109 +79,130 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 
 	m_vAliveParticles.clear();
 
-	TiXmlElement* pImageData = pRoot->FirstChildElement( "ImageData" );
-
-	m_szPath = pImageData->Attribute( "ImagePath" );
-	pImageData->Attribute( "Height", &m_nHeight );
-	pImageData->Attribute( "Width", &m_nWidth );
-	pImageData->Attribute( "PosX", &m_sImgPos.nPosX );
-	pImageData->Attribute( "PosY", &m_sImgPos.nPosY );
-
-	pImageData->Attribute( "NumParticles", &m_nNumParticles );
-	pImageData->QueryFloatAttribute( "MinLife", &m_fMinLife );
-	pImageData->QueryFloatAttribute( "MaxLife", &m_fMaxLife );
+	pRoot->Attribute( "Height", &m_nHeight );
+	pRoot->Attribute( "Width", &m_nWidth );
+	pRoot->Attribute( "NumParticles", &m_nNumParticles );
+	pRoot->QueryFloatAttribute( "LifeMin", &m_fMinLife );
+	pRoot->QueryFloatAttribute( "LifeMax", &m_fMaxLife );
 
 	int tmp;
-	pImageData->Attribute( "IsLooping", &tmp);
+	pRoot->Attribute("Looping", &tmp);
 	if( tmp > 0 )
 		m_bLooping = true;
 	else
 		m_bLooping = false;
 
 	float min, max;
-	pImageData->QueryFloatAttribute( "MinSpawnRate", &min );
-	pImageData->QueryFloatAttribute( "MaxSpawnRate", &max );
+	pRoot->QueryFloatAttribute( "SpawnMin", &min );
+	pRoot->QueryFloatAttribute( "SpawnMax", &max );
 	m_nMaxSpawnRate = int(max * 100);
 	m_nMinSpawnRate = int(min * 100);
 
-	/*pImageData->Attribute( "SourceBlend", &m_nSourceBlend );
-	pImageData->Attribute( "DestBlend", &m_nDestBlend );*/
+	pRoot->Attribute( "ColorStartA", &m_sStartColor.a );
+	pRoot->Attribute( "ColorEndA", &m_sEndColor.a );
+	pRoot->Attribute( "ColorStartR", &m_sStartColor.r );
+	pRoot->Attribute( "ColorEndR", &m_sEndColor.r );
+	pRoot->Attribute( "ColorStartG", &m_sStartColor.g );
+	pRoot->Attribute( "ColorEndG", &m_sEndColor.g );
+	pRoot->Attribute( "ColorStartB", &m_sStartColor.b );
+	pRoot->Attribute( "ColorEndB", &m_sEndColor.b );
 
-	pImageData->Attribute( "StartingA", &m_sStartColor.a );
-	pImageData->Attribute( "EndingA", &m_sEndColor.a );
+	pRoot->QueryFloatAttribute( "RotStart", &m_fStartRot );
+	pRoot->QueryFloatAttribute( "RotEnd", &m_fEndRot );
+	pRoot->QueryFloatAttribute( "ScaleStart", &m_fStartScale );
+	pRoot->QueryFloatAttribute( "ScaleEnd", &m_fEndScale );
 
-	pImageData->Attribute( "StartingR", &m_sStartColor.r );
-	pImageData->Attribute( "EndingR", &m_sEndColor.r );
+	Vec2D sMax, sMin, eMax, eMin;
 
-	pImageData->Attribute( "StartingG", &m_sStartColor.g );
-	pImageData->Attribute( "EndingG", &m_sEndColor.g );
+	pRoot->Attribute( "VelStartMaxX", &sMax.nPosX );
+	pRoot->Attribute( "VelStartMaxY", &sMax.nPosY );
+	pRoot->Attribute( "VelStartMinX", &sMin.nPosX );
+	pRoot->Attribute( "VelStartMinY", &sMin.nPosY );
 
-	pImageData->Attribute( "StartingB", &m_sStartColor.b );
-	pImageData->Attribute( "EndingB", &m_sEndColor.b );
+	m_sStartVelMax.fVecX = (float)sMax.nPosX;
+	m_sStartVelMax.fVecY = (float)sMax.nPosY;
 
-	pImageData->QueryFloatAttribute( "StartingRotation", &m_fStartRot );
-	pImageData->QueryFloatAttribute( "EndingRotation", &m_fEndRot );
-	pImageData->QueryFloatAttribute( "StartingScale", &m_fStartScale );
-	pImageData->QueryFloatAttribute( "EndingScale", &m_fEndScale );
-	pImageData->QueryFloatAttribute( "MinDirX", &m_sMinDir.fVecX );
-	pImageData->QueryFloatAttribute( "MaxDirX", &m_sMaxDir.fVecX );
-	pImageData->QueryFloatAttribute( "MinDirY", &m_sMinDir.fVecY );
-	pImageData->QueryFloatAttribute( "MaxDirY", &m_sMaxDir.fVecY );
+	m_sStartVelMin.fVecX = (float)sMin.nPosX;
+	m_sStartVelMin.fVecY = (float)sMin.nPosY;
 
-	float s, e;
+	pRoot->Attribute( "VelEndMaxX", &eMax.nPosX );
+	pRoot->Attribute( "VelEndMaxY", &eMax.nPosY );
+	pRoot->Attribute( "VelEndMinX", &eMin.nPosX );
+	pRoot->Attribute( "VelEndMinY", &eMin.nPosY );
 
-	pImageData->QueryFloatAttribute( "StartVel", &s );
-	pImageData->QueryFloatAttribute( "EndVel", &e );
+	m_sEndVelMax.fVecX = (float)eMax.nPosX;
+	m_sEndVelMax.fVecY = (float)eMax.nPosY;
+	m_sEndVelMin.fVecX = (float)eMin.nPosX;	
+	m_sEndVelMin.fVecY = (float)eMin.nPosY;
 
-	m_sStartVel.fVecX = s;
-	m_sStartVel.fVecY = s;
+	m_szPath = pRoot->Attribute( "Image" );
 
-	m_sEndVel.fVecX = e;
-	m_sEndVel.fVecY = e;
+	int i = 0;
+	pRoot->Attribute("Shape", &i);
+	if( i == 0 )
+		m_eType = DOT;
+	else if( i == 1 )
+		m_eType = CIRCLE;
+	else if( i == 2 )
+		m_eType = SQUARE;
+	else
+		m_eType = LINE;
 
 	// tell the graphics manager where the image for each particle is
 	CGraphicsManager* pGM = CGraphicsManager::GetInstance();
 	TCHAR conversion[100];
 
 	mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
-
 	TSTRING file = conversion;
-
-	pGM->LoadImageW( file, _T("Particle"), D3DCOLOR_ARGB(1, 1, 1, 1) );
-
-	m_fSpawnRate = (rand() % (m_nMinSpawnRate - m_nMaxSpawnRate) + 1 + m_nMinSpawnRate)/100.0f;
+	pGM->LoadImageW( file, _T("Particle"), D3DCOLOR_ARGB(255, 255, 255, 255) );
+	m_fSpawnRate = (rand() % ((m_nMinSpawnRate - m_nMaxSpawnRate) + 1) + m_nMinSpawnRate)/100.0f;
 
 	// Populates the list of AliveParticles
 	for( int i = 0; i < m_nNumParticles; i++ )
 	{
+		Vec2Df Pos;
+		if( m_eType == DOT )
+			Pos = m_sEmitPos;
+		else if( m_eType == CIRCLE )
+		{
+			Pos.fVecX = float(m_sEmitPos.fVecX + (rand() % (int)Radius + 1));
+			Pos.fVecY = float(m_sEmitPos.fVecY + (rand() % (int)Radius + 1));
+		}
+		else if( m_eType == SQUARE )	
+		{
+			Pos.fVecX = float((m_sEmitPos.fVecX-m_nWidth/2) + (rand() % (int)m_nWidth+1));
+			Pos.fVecY = float((m_sEmitPos.fVecY-m_nHeight/2) + (rand() % (int)m_nHeight+1));
+		}
+		else if( m_eType == LINE )
+		{
+			if( m_sPoint.nPosX > m_sPoint2.nPosX)
+				Pos.fVecX = float((rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1)));
+			else
+				Pos.fVecX = float((rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1)));
+
+			if( m_sPoint.nPosY > m_sPoint2.nPosY)
+				Pos.fVecY = float((rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1)));
+			else
+				Pos.fVecY = float((rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1)));
+		}
+
 		// Finds the random life time
 		int maxLife = int(m_fMaxLife * 100);
 		int minLife = int(m_fMinLife * 100);
 
-		float tmp = float((rand() % (maxLife - minLife) + 1) + minLife);
+		float tmp = float(rand() % (maxLife - minLife + 1) + minLife);
 		
 		float life = float(tmp / 100.0f);
 
-		// Finds a random velocity
-		int maxDirX = int(m_sMaxDir.fVecX);
-		int maxDirY = int(m_sMaxDir.fVecY);
-		int minDirX = int(m_sMinDir.fVecX);
-		int minDirY = int(m_sMinDir.fVecY);
+		Vec2Df start;
+		start.fVecX = float((rand() % int((m_sStartVelMax.fVecX - m_sStartVelMin.fVecX)+1) + m_sStartVelMin.fVecX));
+		start.fVecY = float((rand() % int((m_sStartVelMax.fVecY - m_sStartVelMin.fVecY)+1) + m_sStartVelMin.fVecY));
 
-		int DirX = rand() % (maxDirX - minDirX + 1) + minDirX;
-		int DirY = rand() % (maxDirY - minDirY + 1) + minDirY;
+		Vec2Df end;
+		end.fVecX = float((rand() % int((m_sEndVelMax.fVecX - m_sEndVelMin.fVecX)+1) + m_sEndVelMin.fVecX));
+		end.fVecY = float((rand() % int((m_sEndVelMax.fVecY - m_sEndVelMin.fVecY)+1) + m_sEndVelMin.fVecY));
 
-		Vec2Df Dir;
-		Dir.fVecX = float(DirX);
-		Dir.fVecY = float(DirY);
-
-		Vec2Df start = m_sStartVel;
-		start.fVecX *= Dir.fVecX;	
-		start.fVecY *= Dir.fVecY;
-
-		RECT src = { m_sImgPos.nPosX, m_sImgPos.nPosY, m_sImgPos.nPosX + m_nWidth, m_sImgPos.nPosY + m_nHeight };
-
-		CParticle* tParticle = new CParticle(m_sEmitPos, Dir, start, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
+		CParticle* tParticle = new CParticle(Pos, end, start, m_fStartScale, life, m_sStartColor, m_fStartRot, m_sSource );
 
 		m_vAliveParticles.push_back( tParticle );
 	}
@@ -193,7 +223,7 @@ void CEmitter::Update( float fElapsedTime )
 		if( m_vAliveParticles.size() > m_nNumSpawned )
 			m_nNumSpawned++;
 		m_fSpawnTimer = 0;
-		m_fSpawnRate = (rand() % (m_nMinSpawnRate - m_nMaxSpawnRate) + 1 + m_nMinSpawnRate)/100.0f;
+		m_fSpawnRate = (rand() % (m_nMinSpawnRate - m_nMaxSpawnRate + 1)+ m_nMinSpawnRate)/100.0f;
 	}
 
 	m_fSpawnTimer += fElapsedTime;
@@ -267,22 +297,6 @@ void CEmitter::Update( float fElapsedTime )
 		float newScale = dtScale + oldScale;
 		m_vAliveParticles[i]->SetScale( newScale );
 
-		// Changes the Velocity over time
-		Vec2Df oldVel = m_vAliveParticles[i]->GetVel();
-		// Change the start velocity to the partciles direction
-		float startX = m_sStartVel.fVecX * m_vAliveParticles[i]->GetDir().fVecX;
-		float startY = m_sStartVel.fVecY * m_vAliveParticles[i]->GetDir().fVecY;
-		// Change the end velocity to the particles direction
-		float endX = m_sEndVel.fVecX * m_vAliveParticles[i]->GetDir().fVecX;
-		float endY = m_sEndVel.fVecY * m_vAliveParticles[i]->GetDir().fVecY;
-
-		// delta(v) / time
-		float dtX = (endX - startX) / time;
-		float dtY = (endY - startY) / time;
-
-		// set the new velocity 
-		Vec2Df newVel(dtX + oldVel.fVecX, dtY + oldVel.fVecY);
-		m_vAliveParticles[i]->SetVel( newVel );
 	}
 }
 
@@ -299,27 +313,16 @@ void CEmitter::Loop( void )
 		
 		float life = float(tmp / 100.0f);
 
-		// Finds a random velocity
-		int maxDirX = int(m_sMaxDir.fVecX);
-		int maxDirY = int(m_sMaxDir.fVecY);
-		int minDirX = int(m_sMinDir.fVecX);
-		int minDirY = int(m_sMinDir.fVecY);
+		Vec2Df start;
+		start.fVecX = float((rand() % int((m_sStartVelMax.fVecX - m_sStartVelMin.fVecX)+1) + m_sStartVelMin.fVecX));
+		start.fVecY = float((rand() % int((m_sStartVelMax.fVecY - m_sStartVelMin.fVecY)+1) + m_sStartVelMin.fVecY));
 
-		int DirX = rand() % (maxDirX - minDirX + 1) + minDirX;
-		int DirY = rand() % (maxDirY - minDirY + 1) + minDirY;
-
-		Vec2Df Dir;
-		Dir.fVecX = float(DirX);
-		Dir.fVecY = float(DirY);
-
-		Vec2Df start = m_sStartVel;
-		start.fVecX *= Dir.fVecX;	
-		start.fVecY *= Dir.fVecY;
+		Vec2Df end;
+		start.fVecX = float((rand() % int((m_sEndVelMax.fVecX - m_sEndVelMin.fVecX)+1) + m_sEndVelMin.fVecX));
+		start.fVecY = float((rand() % int((m_sEndVelMax.fVecY - m_sEndVelMin.fVecY)+1) + m_sEndVelMin.fVecY));
 
 		RECT src = { m_sImgPos.nPosX, m_sImgPos.nPosY, m_sImgPos.nPosX + m_nWidth, m_sImgPos.nPosY + m_nHeight };
 
-		CParticle* tParticle = new CParticle(m_sEmitPos, Dir, start, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
-
-		m_vAliveParticles.push_back( tParticle );
+		CParticle* tParticle = new CParticle(m_sEmitPos, end, start, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
 	}
 }

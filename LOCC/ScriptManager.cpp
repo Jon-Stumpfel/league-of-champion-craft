@@ -134,7 +134,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			lua_pushstring(L, "speed");
 			lua_pushnumber(L, tmp->GetSpeed());
 			lua_settable(L, -3);
-			lua_pushstring(L, "sheilded");
+			lua_pushstring(L, "shielded");
 			lua_pushnumber(L, tmp->GetShielded());
 			lua_settable(L, -3);
 

@@ -8,10 +8,6 @@
 
 CParticle::CParticle(void)
 {
-	m_sVel.fVecX = 0;
-	m_sVel.fVecY = 0;
-	m_sDir.fVecX = 0;
-	m_sDir.fVecY = 0;
 }
 
 
@@ -19,12 +15,13 @@ CParticle::~CParticle(void)
 {
 }
 
-CParticle::CParticle( Vec2Df sPos, Vec2Df sDir, Vec2Df sVel, float fScale, 
+CParticle::CParticle( Vec2Df sPos, Vec2Df sVelEnd, Vec2Df sVelStart, float fScale, 
 						float fLife, Color sColor, float fRot, RECT sSource)
 {
 	m_sPos = sPos;
-	m_sVel = sVel;
-	m_sDir = sDir;
+	m_sVelStart = sVelStart;
+	m_sVelEnd = sVelEnd;
+	m_sVel = sVelStart;
 	m_fScale = fScale;
 	m_fCurTime = 0;
 	m_fEndTime = fLife;

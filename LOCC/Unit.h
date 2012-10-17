@@ -93,7 +93,7 @@ public:
 	void SetHasAttacked(bool b) { m_bHasAttacked = b;}
 	bool GetHasAttacked(void) { return m_bHasAttacked;}
 
-	void SetShielded(int b) {m_bShielded = b == 0 ? false : true;}
+	void SetShielded(int b) {m_bShielded = (b == 0 ? false : true);}
 	bool GetShielded(void) { return m_bShielded;}
 
 	void SetIsMoving(bool b) { m_bIsMoving = b;}

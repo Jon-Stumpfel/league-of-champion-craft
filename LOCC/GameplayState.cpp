@@ -58,6 +58,10 @@ void CGameplayState::Enter(void)
 
 	pPM->LoadParticles( TEST, test );
 
+	test.fVecX = 200;
+	test.fVecY = 300;
+	pPM->LoadParticles( TESTSECOND, test );
+
 
 	CAnimationManager::GetInstance()->Load("Assets\\Animations\\TestAnimation.xml");
 
@@ -497,7 +501,10 @@ void CGameplayState::UseAbility(CAbility* ability)
 							{
 								if (!pUnit->CheckDodged())
 								{
-									pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+									if( pUnit->GetShielded() == false )
+										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+									else
+										pUnit->SetShielded(0);
 								}
 								else
 								{
