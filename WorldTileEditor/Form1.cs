@@ -481,10 +481,15 @@ namespace WorldTileEditor
                         xTile.Add(new XAttribute("PixWidth", TilePixelSize.Width.ToString()));
                         xTile.Add(new XAttribute("PixHeight", TilePixelSize.Height.ToString()));
                         if (Map[x,y].TType== TILE_TYPE.TT_WATER)
-                            xTile.Add(new XAttribute("Status", 64.ToString()));
+                            xTile.Add(new XAttribute("Status", 64.ToString())); 
+                        else if (Map[x,y].TType==TILE_TYPE.TT_FARM ||           //sets the tiles status to resource tile for the
+                            Map[x,y].TType==TILE_TYPE.TT_MILL ||                //the farm  the lumber mill, the metal mine
+                            Map[x,y].TType==TILE_TYPE.TT_MINE)                  
+                            xTile.Add(new XAttribute("Status",2.ToString()));   
                         else
-                            xTile.Add(new XAttribute("Status", 32.ToString()));
-
+                        {   int NOStatus =0;
+                            xTile.Add(new XAttribute("Status", NOStatus.ToString()));
+                        }
                         xTile.Add(new XAttribute("PlayerID", Map[x, y].PlayerID.ToString()));
 
                         int enumval = Convert.ToInt32(Map[x, y].TType);
@@ -523,7 +528,7 @@ namespace WorldTileEditor
             	XAttribute texturefile= xRoot.Attribute("FileName");
                 
                 Uri filename=new Uri(Path.Combine(StartPath, texturefile.Value));
-                NormtextureId = tm.LoadTexture(SaveFolderPath.FileName, 0);
+                NormtextureId = tm.LoadTexture(filename.LocalPath, 0);
             
             	XElement pTiles = (XElement) xRoot.FirstNode;
                 XElement xTile = (XElement) pTiles.FirstNode;
@@ -620,7 +625,19 @@ namespace WorldTileEditor
                 }
             }
         }
-        
+
+        private void TilesetRowsnumericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            Size nusize =new Size((int)RowsnumericUpDown1.Value, TileSetSize_RC.Height);
+            TileSetSize_RC = nusize;
+        }
+
+        private void TilesetColumnsnumericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            Size nusize = new Size(TileSetSize_RC.Width,(int)RowsnumericUpDown1.Value);
+            TileSetSize_RC = nusize;
+        }
+
         private void TilesetGraphicsPanel_Resize(object sender, EventArgs e)
         {
             d3D.ChangeDisplayParam(TilesetGraphicsPanel, TilesetGraphicsPanel.Size.Width, TilesetGraphicsPanel.Size.Height, false);
@@ -679,5 +696,7 @@ namespace WorldTileEditor
             
             looping = false;
         }
+
+
 }
 }
