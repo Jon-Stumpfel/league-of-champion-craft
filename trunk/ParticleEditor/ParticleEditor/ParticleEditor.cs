@@ -477,7 +477,7 @@ namespace ParticleEditor
                 emitter.Imgpath = uri.LocalPath;
 
                 XAttribute xColorStartA = xRoot.Attribute("ColorStartA");
-                nudStartAlpha.Value = int.Parse(xColorStartA.Value);
+                nudStartAlpha.Value = decimal.Parse(xColorStartA.Value);
                 XAttribute xColorStartR = xRoot.Attribute("ColorStartR");
                 int r = int.Parse(xColorStartR.Value);
                 XAttribute xColorStartG = xRoot.Attribute("ColorStartG");
@@ -498,14 +498,14 @@ namespace ParticleEditor
                 btColorEnd.BackColor = Color.FromArgb(255, r, g, b);
 
                 XAttribute xScaleStart = xRoot.Attribute("ScaleStart");
-                nudScaleStart.Value = int.Parse(xScaleStart.Value);
+                nudScaleStart.Value = decimal.Parse(xScaleStart.Value);
                 XAttribute xScaleEnd = xRoot.Attribute("ScaleEnd");
                 nudScaleEnd.Value = decimal.Parse(xScaleEnd.Value);
 
                 XAttribute xRotationStart = xRoot.Attribute("RotStart");
-                nudRotStart.Value = int.Parse(xRotationStart.Value);
+                nudRotStart.Value = decimal.Parse(xRotationStart.Value);
                 XAttribute xRotationEnd = xRoot.Attribute("RotEnd");
-                nudRotEnd.Value = int.Parse(xRotationEnd.Value);
+                nudRotEnd.Value = decimal.Parse(xRotationEnd.Value);
                 XAttribute xShape = xRoot.Attribute("Shape");
                 cbShape.SelectedIndex = int.Parse(xShape.Value);
 
@@ -517,51 +517,51 @@ namespace ParticleEditor
                     cbLooping.Checked = true;
 
                 XAttribute xRadius = xRoot.Attribute("Radius");
-                nudRad.Value = int.Parse(xRadius.Value);
+                nudRad.Value = decimal.Parse(xRadius.Value);
                 XAttribute xHeight = xRoot.Attribute("Height");
-                nudHeight.Value = int.Parse(xHeight.Value);
+                nudHeight.Value = decimal.Parse(xHeight.Value);
                 XAttribute xWidth = xRoot.Attribute("Width");
-                nudWidth.Value = int.Parse(xWidth.Value);
+                nudWidth.Value = decimal.Parse(xWidth.Value);
 
                 XAttribute xPointX = xRoot.Attribute("PointX");
-                nudPointX.Value = int.Parse(xPointX.Value);
+                nudPointX.Value = decimal.Parse(xPointX.Value);
                 XAttribute xPointY = xRoot.Attribute("PointY");
-                nudPointY.Value = int.Parse(xPointY.Value);
+                nudPointY.Value = decimal.Parse(xPointY.Value);
                 XAttribute xPoint2X = xRoot.Attribute("Point2X");
-                nudPoint2X.Value = int.Parse(xPoint2X.Value);
+                nudPoint2X.Value = decimal.Parse(xPoint2X.Value);
                 XAttribute xPoint2Y = xRoot.Attribute("Point2Y");
-                nudPoint2Y.Value = int.Parse(xPoint2Y.Value);
+                nudPoint2Y.Value = decimal.Parse(xPoint2Y.Value);
 
                 XAttribute xParticleNum = xRoot.Attribute("NumParticles");
-                nudParticleNum.Value = int.Parse(xParticleNum.Value);
+                nudParticleNum.Value = decimal.Parse(xParticleNum.Value);
 
                 XAttribute xSpawnMax = xRoot.Attribute("SpawnMax");
                 nudSpawnMax.Value = decimal.Parse(xSpawnMax.Value);
                 XAttribute xSpawnMin = xRoot.Attribute("SpawnMin");
-                nudSpawnMin.Value = int.Parse(xSpawnMin.Value);
+                nudSpawnMin.Value = decimal.Parse(xSpawnMin.Value);
 
                 XAttribute xLifeMax = xRoot.Attribute("LifeMax");
-                nudLifeMax.Value = int.Parse(xLifeMax.Value);
+                nudLifeMax.Value = decimal.Parse(xLifeMax.Value);
                 XAttribute xLifeMin = xRoot.Attribute("LifeMin");
-                nudLifeMin.Value = int.Parse(xLifeMin.Value);
+                nudLifeMin.Value = decimal.Parse(xLifeMin.Value);
 
                 XAttribute xVelStartMaxX = xRoot.Attribute("VelStartMaxX");
-                nudVelMaxStartX.Value = int.Parse(xVelStartMaxX.Value);
+                nudVelMaxStartX.Value = decimal.Parse(xVelStartMaxX.Value);
                 XAttribute xVelStartMaxY = xRoot.Attribute("VelStartMaxY");
-                nudVelMaxStartY.Value = int.Parse(xVelStartMaxY.Value);
+                nudVelMaxStartY.Value = decimal.Parse(xVelStartMaxY.Value);
                 XAttribute xVelStartMinX = xRoot.Attribute("VelStartMinX");
-                nudVelMinStartX.Value = int.Parse(xVelStartMinX.Value);
+                nudVelMinStartX.Value = decimal.Parse(xVelStartMinX.Value);
                 XAttribute xVelStartMinY = xRoot.Attribute("VelStartMinY");
-                nudVelMinStartY.Value = int.Parse(xVelStartMinY.Value);
+                nudVelMinStartY.Value = decimal.Parse(xVelStartMinY.Value);
 
                 XAttribute xVelEndMaxX = xRoot.Attribute("VelEndMaxX");
-                nudVelMaxEndX.Value = int.Parse(xVelEndMaxX.Value);
+                nudVelMaxEndX.Value = decimal.Parse(xVelEndMaxX.Value);
                 XAttribute xVelEndMaxY = xRoot.Attribute("VelEndMaxY");
-                nudVelMaxEndY.Value = int.Parse(xVelEndMaxY.Value);
+                nudVelMaxEndY.Value = decimal.Parse(xVelEndMaxY.Value);
                 XAttribute xVelEndMinX = xRoot.Attribute("VelEndMinX");
-                nudVelMinEndX.Value = int.Parse(xVelEndMinX.Value);
+                nudVelMinEndX.Value = decimal.Parse(xVelEndMinX.Value);
                 XAttribute xVelEndMinY = xRoot.Attribute("VelEndMinY");
-                nudVelMinEndY.Value = int.Parse(xVelEndMinY.Value);
+                nudVelMinEndY.Value = decimal.Parse(xVelEndMinY.Value);
             }
         }
 

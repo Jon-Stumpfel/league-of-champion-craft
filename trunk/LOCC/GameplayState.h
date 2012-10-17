@@ -1,5 +1,4 @@
 #pragma once
-#include "StdAfx.h"
 #include "igamestate.h"
 #include "Ability.h"
 #include "InputManager.h"
