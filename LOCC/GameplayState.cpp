@@ -19,6 +19,7 @@
 #include "StateStack.h"
 #include "PauseState.h"
 #include "Hero.h"
+#include "BitmapFont.h"
 
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
@@ -975,7 +976,7 @@ void CGameplayState::Render(void)
 		if( drawAbility != nullptr )
 		{
 			std::vector< Vec2D > pattern, range;
-			if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || SP_MELEEATTACK)
+			if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() ==SP_MELEEATTACK)
 				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
 			else
 			{
@@ -1089,39 +1090,46 @@ void CGameplayState::Render(void)
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 		if (m_pHighlightedUnit != nullptr)
 		{
-			std::wostringstream moss;
+			std::ostringstream moss;
 			CSGD_TextureManager::GetInstance()->Draw(m_pHighlightedUnit->GetPortraitID(), m_nCardOffsetX + 20, 244, 1.6f, 1.6f);
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
 				m_nCardOffsetX + 150, 248, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetSpeed();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 255, 255, 255, 255);
-			moss.str(_T(""));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 255, 255, 255, 255);
+			m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 255, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			moss.str((""));
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
 				m_nCardOffsetX + 150, 288, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetAttack();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 295, 255, 255, 255);
-			moss.str(_T(""));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 295, 255, 255, 255);
+			m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 295, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+			moss.str((""));
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
 				m_nCardOffsetX + 150, 338, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetRange();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 345, 255, 255, 255);
-			moss.str(_T(""));
+		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 345, 255, 255, 255);
+			m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 345, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+			moss.str((""));
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
 				m_nCardOffsetX + 150, 378, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetTilesMoved();
 			m_pBitmapFont->Print((const char*)moss.str().c_str(),m_nCardOffsetX + 200, 385, 1.0f,(DWORD)(255,255,255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
-			moss.str(_T(""));
+			moss.str((""));
 
 			if (m_pHighlightedUnit->GetDodgeChance() > 0.0f)
 			{
 				moss << "Dodge Chance: " << m_pHighlightedUnit->GetDodgeChance();
-				CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 15, 222, 255, 255, 255);
-				moss.str(_T(""));
+			//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 15, 222, 255, 255, 255);
+				m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 15, 222, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+				moss.str((""));
 
 			}
 			float fhpPercent = (float)m_pHighlightedUnit->GetHP() / (float)m_pHighlightedUnit->GetMaxHP();
@@ -1325,32 +1333,40 @@ void CGameplayState::Render(void)
 		// UNIT CARD STUFF HOORAY
 		if (m_pSelectedUnit != nullptr)
 		{
-			std::wostringstream woss;
+			std::ostringstream woss;
 			CSGD_TextureManager::GetInstance()->Draw(m_pSelectedUnit->GetPortraitID(), 578, 435, 1.6f, 1.6f);
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
 				710, 440, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetSpeed();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 445, 255, 255, 255);
-			woss.str(_T(""));
+		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 445, 255, 255, 255);
+			m_pBitmapFont->Print(woss.str().c_str(), 755, 445, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+			woss.str((""));
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
 				710, 480, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetAttack();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 485, 255, 255, 255);
-			woss.str(_T(""));
+		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 485, 255, 255, 255);
+			m_pBitmapFont->Print(woss.str().c_str(), 755, 485, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+			woss.str((""));
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
 				710, 520, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetRange();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 525, 255, 255, 255);
-			woss.str(_T(""));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 525, 255, 255, 255);
+			m_pBitmapFont->Print(woss.str().c_str(), 755, 525, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+			woss.str((""));
 
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
 				710, 560, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetTilesMoved();
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 565, 255, 255, 255);
-			woss.str(_T(""));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 565, 255, 255, 255);
+			m_pBitmapFont->Print(woss.str().c_str(), 755, 565, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+			woss.str((""));
 
 			float fhpPercent = (float)m_pSelectedUnit->GetHP() / (float)m_pSelectedUnit->GetMaxHP();
 
@@ -1396,7 +1412,7 @@ void CGameplayState::Render(void)
 
 		// DEBUG STUFF
 		CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
-		std::wostringstream oss;
+		std::ostringstream oss;
 		if (pDebugPlayer != nullptr)
 		{
 			//oss << "CurrCamPixel X: " << m_currCamPixelPos.nPosX << " Y: " << m_currCamPixelPos.nPosY;
@@ -1410,8 +1426,10 @@ void CGameplayState::Render(void)
 
 			oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
 				", Metal: " << pDebugPlayer->GetMetal() << '\n';
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
-			oss.str(_T(""));
+			m_pBitmapFont->Print(oss.str().c_str(), 258, 486, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		///	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
+			oss.str((""));
 			if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == 0)
 				oss << "PLAYER 1 ";
 			else 
@@ -1422,8 +1440,9 @@ void CGameplayState::Render(void)
 			}
 			else
 				oss << "ATTACK";
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 0, 255, 255, 255);
-			oss.str(_T(""));
+			m_pBitmapFont->Print(oss.str().c_str(), 580, 10, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 0, 255, 255, 255);
+			oss.str((""));
 			int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
 			oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
 			//const char* tempchar = "CURRENT TURN:";
@@ -1431,7 +1450,7 @@ void CGameplayState::Render(void)
 			m_pBitmapFont->Print(tempchar,40,40,0.4f,D3DXCOLOR(255,0,0,255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
 
-			oss.str(_T(""));
+			oss.str((""));
 			oss << "Selected Unit: ";
 			if (m_pSelectedUnit != nullptr)
 			{

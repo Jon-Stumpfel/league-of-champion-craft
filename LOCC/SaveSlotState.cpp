@@ -28,9 +28,13 @@ void CSaveSlotState::Enter(void)
 	m_nConfirmChoice = 0;
 	m_nHighlightedSlot = 1;
 	m_nMenuChoice = 0;
+
+	CStateStack::GetInstance()->SetRenderTopOnly(true);
 }
 void CSaveSlotState::Exit(void)
 {
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
+
 }
 void CSaveSlotState::Input(INPUT_ENUM input)
 {
@@ -180,27 +184,36 @@ void CSaveSlotState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
 
+	CBitmapFont m_pBitmapFont;
 
 	ReadSlot(1);
 	ReadSlot(2);
 	ReadSlot(3);
 	if (m_bShowMenu)
 	{
-		std::wostringstream woss;
+		std::ostringstream woss;
 		woss << "Load from Slot";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 480, 255, 255, 255);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 480, 255, 255, 255);
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 480, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "Save to Slot";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 500, 255, 255, 255);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 500, 255, 255, 255);
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 500, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "Delete Slot";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 520, 255, 255, 255);
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 520, 255, 255, 255);
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 520, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
 
 		if (m_bConfirm)
 		{
-			woss.str(_T(""));
+			woss.str((""));
 			woss << "Are you sure?       No        Yes";
-			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 330, 550, 255, 255, 255);
+			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 330, 550, 255, 255, 255);
+			m_pBitmapFont.Print(woss.str().c_str(), 330, 550, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
 			CGraphicsManager::GetInstance()->DrawArrow(455 + (m_nConfirmChoice * 55), 560, 255, 255, 255);
 		}
 		else
@@ -236,6 +249,8 @@ struct SlotDataStruct
 };
 void CSaveSlotState::ReadSlot(int nSlot)
 {
+
+	CBitmapFont m_pBitmapFont;
 	std::ostringstream oss;
 	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
 	TiXmlDocument doc;
@@ -288,74 +303,110 @@ void CSaveSlotState::ReadSlot(int nSlot)
 
 
 
-		std::wostringstream woss;
+		std::ostringstream woss;
 		woss << "Slot " << nSlot;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 150 + xOffset , 80);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 150 + xOffset , 80);
+		m_pBitmapFont.Print(woss.str().c_str(), 150 + xOffset, 80, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "Map ID: "<< s.nMapID;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 100);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 100);
+		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 100, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "Current Player: " << s.nCurrPlayer + 1;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 120);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 120);
+		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 120, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "Current Turn: " << (s.nPhaseCount / 4) + 1;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 140);
-		woss.str(_T(""));
+	//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 140);
+		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 140, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "Current Phase: ";
 		if (s.nCurrPhase == 0)
 			woss << "Movement";
 		else
 			woss << "Attack";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 160);
-		woss.str(_T(""));
+	//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 160);
+		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 160, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 
 		woss << "Player 1 ";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 190);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 190);
+		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 190, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  Wood " << s.p1.nWood;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 210);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 210);
+		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 210, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  Metal " << s.p1.nMetal;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 230);
-		woss.str(_T(""));
+	//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 230);
+		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 230, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  AP " << s.p1.nAP;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 250); // last one
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 250); // last one
+		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 250, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  Units " << s.p1.nNumUnits;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 270);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 270);
+		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 270, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  XP " << s.p1.nXP;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 290);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 290);
+		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 270, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 
 
 
 		woss << "Player 2 ";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 210 + xOffset, 330); // + 40 from last
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 210 + xOffset, 330); // + 40 from last
+		m_pBitmapFont.Print(woss.str().c_str(), 210 + xOffset, 330, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  Wood " << s.p2.nWood;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 350);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 350);
+		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 350, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  Metal " << s.p2.nMetal;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 370);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 370);
+		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 360, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  AP " << s.p2.nAP;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 390);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 390);
+		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 390, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  Units " << s.p2.nNumUnits;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 410);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 410);
+		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 410, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 		woss << "  XP " << s.p2.nXP;
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 430);
-		woss.str(_T(""));
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 430);
+		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 430, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
+		woss.str((""));
 
 
 	}
 	else
 	{
-		std::wostringstream woss;
+		std::ostringstream woss;
 		woss << "NO SAVE";
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 330);
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 330);
+		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 330, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+
 	}
 
 		int r,g,b;
