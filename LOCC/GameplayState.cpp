@@ -975,7 +975,12 @@ void CGameplayState::Render(void)
 		if( drawAbility != nullptr )
 		{
 			std::vector< Vec2D > pattern, range;
+			if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK)
+				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
+			else
+			{
 				range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+			}
 				pattern = drawAbility->GetPattern();
 			if( drawAbility->GetApCost() == 5 )
 				int i = 0;
@@ -989,8 +994,6 @@ void CGameplayState::Render(void)
 				// it's a real ability and it's not the move one
 
 				// Draw the range
-
-
 				for (unsigned int i = 0; i < range.size(); ++i)
 				{
 					
