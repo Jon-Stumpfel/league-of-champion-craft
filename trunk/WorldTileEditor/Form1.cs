@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using SGP;
 using System.Xml.Linq;
+using System.IO;
 
 
 namespace WorldTileEditor
@@ -23,12 +24,21 @@ namespace WorldTileEditor
             get { return looping; }
             set { looping = value; }
         }
-        String relativePath = "C:/";
-        public String RelativePath
+
+        String startPath;
+        public String StartPath
         {
-            get { return relativePath; }
-            set { relativePath = value; }
+            get { return startPath; }
+            set { startPath = value; }
         }
+
+        String maptilsetFilename;
+        public String MaptilsetFilename
+        {
+            get { return maptilsetFilename; }
+            set { maptilsetFilename = value; }
+        }
+
         public struct Tileset
         {
             Rectangle rect;
@@ -127,12 +137,25 @@ namespace WorldTileEditor
 
         public Form1()
         {
+            if (File.Exists("Config.xml"))
+            {
+                XElement xRoot = XElement.Load("Config.xml");
+                XAttribute filepath = xRoot.Attribute("Path");
+                StartPath = filepath.Value;
+            }
+            FolderBrowserDialog fbdlg = new FolderBrowserDialog();
+            fbdlg.Description = "Please Navigate to where you would like Save";
+            if (DialogResult.OK == fbdlg.ShowDialog())
+            {
+                StartPath = fbdlg.SelectedPath;
+            }
+
             Looping = true;
             InitializeComponent();
-
-            this.WidthcomboBox1.DataSource = System.Enum.GetValues(typeof(TileSize));
-            WidthcomboBox1.SelectedItem = TileSize.__64;
             this.HeightcomboBox2.DataSource = System.Enum.GetValues(typeof(TileSize));
+            this.WidthcomboBox1.DataSource = System.Enum.GetValues(typeof(TileSize));
+
+            WidthcomboBox1.SelectedItem = TileSize.__64;
             HeightcomboBox2.SelectedItem = TileSize.__64;
             
             d3D.InitManagedDirect3D(TilesetGraphicsPanel);
@@ -144,14 +167,10 @@ namespace WorldTileEditor
             Size minsize = new Size(TilePixelSize.Width * TileSetSize_RC.Width, TilePixelSize.Width * TileSetSize_RC.Height);
             TilesetGraphicsPanel.AutoScrollMinSize= minsize;
 
-            String filename = "MapEditorTiles.png";
-            NormtextureId= tm.LoadTexture(filename, 0);
-
-            //MapGraphicsPanel.HorizontalScroll.Minimum=-200;
-            //MapGraphicsPanel.AutoScrollPosition = new Point(0, 0);
-
-
+            RowsnumericUpDown1.Value = 10;
+            ColumnsnumericUpDown2.Value = 10;
             Map = new TileClass[10, 10];
+
             for (int x = 0;x < Mapsize_RC.Width; ++x)
             {
                 for (int y = 0; y < Mapsize_RC.Height; ++y)
@@ -161,6 +180,7 @@ namespace WorldTileEditor
                     Map[x, y].Rect = temprect;
                 }
             }
+            NormtextureId = -1;
         }
 
         public void UpdateTool()
@@ -181,9 +201,11 @@ namespace WorldTileEditor
             d3D.SpriteBegin();  
             
             Rectangle fulltileset = new Rectangle(0, 0, TilePixelSize.Width * TileSetSize_RC.Width, TilePixelSize.Height * TileSetSize_RC.Height);
+            if (NormtextureId!=-1)
             tm.Draw(NormtextureId, Tilesetoffset.X, Tilesetoffset.Y, 1.0f, 1.0f, fulltileset, 0, 0, 0.0f, 0);
             d3D.Sprite.Flush();
 
+            //render the b
             for (int i = 0; i < TileSetSize_RC.Height; ++i)
             {
                 for (int j = 0; j < TileSetSize_RC.Width; ++j)
@@ -210,13 +232,14 @@ namespace WorldTileEditor
             Mapoffset.X += MapGraphicsPanel.AutoScrollPosition.X;
             Mapoffset.Y += MapGraphicsPanel.AutoScrollPosition.Y;
             Size minsize = new Size(MapPixelSize.Width * Mapsize_RC.Width, MapPixelSize.Height * Mapsize_RC.Height);
-            //a2+b2=c2
-            minsize.Width *= minsize.Width;
-            minsize.Height *= minsize.Height;
-            int a2b2 = minsize.Width + minsize.Height;
+            
+            ////a2+b2=c2
+            //minsize.Width *= minsize.Width;
+            //minsize.Height *= minsize.Height;
+            //int a2b2 = minsize.Width + minsize.Height;
 
-            minsize.Width = (int)Math.Sqrt(a2b2);
-            minsize.Height = (int)Math.Sqrt(a2b2);
+            //minsize.Width = (int)Math.Sqrt(a2b2);
+            //minsize.Height = (int)Math.Sqrt(a2b2);
 
             MapGraphicsPanel.AutoScrollMinSize = minsize;
 
@@ -238,79 +261,77 @@ namespace WorldTileEditor
 			        Rectangle Rsource= new Rectangle (0,0,0,0);
 
                     float fRad = 0.0f;//(float)(45 * 3.14159286 / 180);
-                   
-                    switch(Map[i,j].TType)
-                        {	
-                    case TILE_TYPE.TT_PLAINS:
+                    if (NormtextureId != -1)
+                    {
+                        switch (Map[i, j].TType)
                         {
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_PLAINS);
-                                        tm.Draw(NormtextureId,x+Mapoffset.X,y+Mapoffset.Y,1.0F,1.0F,Rsource, (TWidth / 2), (THeight/ 2), fRad,Color.White);
-                    	}
-                    	break;
-                    case TILE_TYPE.TT_FOREST:
-                    	{
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_FOREST);
-                            tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
-                    	}
-                    	break;
-                    case TILE_TYPE.TT_MOUNTAINS:
-                    	{
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_MOUNTAINS);
-                            tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
-                    	}
-                    	break;
-                    case TILE_TYPE.TT_WATER:
-                    	{
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_WATER);
-                            tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
-                    	}
-                    	break;
-                    case TILE_TYPE.TT_FARM:
-                    	{
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_FARM);
-                            tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
-                    	}
-                    	break;
-                    case TILE_TYPE.TT_MILL:
-                    	{
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_MILL);
-                            tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
-           	            }
-                    	break;
-                    case TILE_TYPE.TT_MINE:
-                    	{
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_MINE);
-                            tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
-                	    }
-                    	break;
-                    case TILE_TYPE.TT_CASTLE:
-                    	{
-                    		Rsource = CellAlgorithm((int)TILE_TYPE.TT_CASTLE);
-                            tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
-             	        }
-				        break;
-			            }
+                            case TILE_TYPE.TT_PLAINS:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_PLAINS);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                            case TILE_TYPE.TT_FOREST:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_FOREST);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                            case TILE_TYPE.TT_MOUNTAINS:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_MOUNTAINS);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                            case TILE_TYPE.TT_WATER:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_WATER);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                            case TILE_TYPE.TT_FARM:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_FARM);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                            case TILE_TYPE.TT_MILL:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_MILL);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                            case TILE_TYPE.TT_MINE:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_MINE);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                            case TILE_TYPE.TT_CASTLE:
+                                {
+                                    Rsource = CellAlgorithm((int)TILE_TYPE.TT_CASTLE);
+                                    tm.Draw(NormtextureId, x + Mapoffset.X, y + Mapoffset.Y, 1.0F, 1.0F, Rsource, (TWidth / 2), (THeight / 2), fRad, Color.White);
+                                }
+                                break;
+                        }
+                    }
                 }
             }
+
             d3D.Sprite.Flush();
             for (int i = 0; i < Mapsize_RC.Width; ++i)
             {
                 for (int j = 0; j < Mapsize_RC.Height; ++j)
                 {
                     Point rectoffset=new Point(Map[i,j].Rect.Location.X+Mapoffset.X, Map[i,j].Rect.Location.Y+Mapoffset.Y);
-                    Rectangle offsetrect = new Rectangle(rectoffset, Map[i, j].Rect.Size);
+                    Rectangle offsetrect = new Rectangle(rectoffset, TilePixelSize);
                     d3D.DrawEmptyRect(offsetrect, Color.Black);
                 }
             }
             d3D.SpriteEnd();
             d3D.DeviceEnd();
             d3D.Present();
-           
         }
-
-        private void MapGraphicsPanel_Paint(object sender, PaintEventArgs e) {}
-
-        private void TilesetGraphicsPanel_Paint(object sender, PaintEventArgs e) {}
 
         private void TilesetGraphicsPanel_MouseClick(object sender, MouseEventArgs e)
         {
@@ -397,30 +418,31 @@ namespace WorldTileEditor
             //UpdateMap();
         }
  
-        // updates for a whole new tile
+        // update for a  tile
         public void UpdateTileset()
         {
 
         }
 
-        // OR showing more tiles on the map
+        // update for a  tile
         public void UpdateMap()
         {
 
         }
 
-        private void Form1_Load(object sender, EventArgs e){}
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             looping = false;
+            XElement xRoot = new XElement("FilePath");
+            xRoot.Add( new XAttribute("Path" ,StartPath));
+            xRoot.Save("Config.xml");
         }
 
         private void setPathToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog SaveFolderPath = new FolderBrowserDialog();
             SaveFolderPath.ShowDialog();
-            RelativePath = SaveFolderPath.SelectedPath;
+            StartPath = SaveFolderPath.SelectedPath;
         }
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -428,45 +450,56 @@ namespace WorldTileEditor
             SaveFileDialog SaveFolderPath = new SaveFileDialog();
             SaveFolderPath.Filter = "XML File(*.xml)|*.xml";
             SaveFolderPath.FilterIndex = 1;
-            SaveFolderPath.InitialDirectory = RelativePath;
-            SaveFolderPath.ShowDialog();
+            SaveFolderPath.InitialDirectory = StartPath;
 
-            XElement xRoot = new XElement ("Map");
-            XElement pTiles = new XElement("Tiles");
-            xRoot.Add(pTiles);
+            if (DialogResult.OK == SaveFolderPath.ShowDialog())
+            {
+                XElement xRoot = new XElement("Map");
+                XElement pTiles = new XElement("Tiles");
+                xRoot.Add(pTiles);
 
-            xRoot.Add( new XAttribute("Rows", Mapsize_RC.Width.ToString()));
-            xRoot.Add( new XAttribute("Columns", Mapsize_RC.Width.ToString()));
+                xRoot.Add(new XAttribute("Rows", Mapsize_RC.Width.ToString()));
+                xRoot.Add(new XAttribute("Columns", Mapsize_RC.Width.ToString()));
+
+                Uri startpath = new Uri(StartPath);
+                Uri filepath = new Uri(MaptilsetFilename);
+
+                Uri Relative_Path = startpath.MakeRelativeUri(filepath);
+
+                xRoot.Add(new XAttribute("FileName", Relative_Path.ToString().Remove(0, 5)));
 
                 for (int x = 0; x < Mapsize_RC.Width; ++x)
-            	{
+                {
                     for (int y = 0; y < Mapsize_RC.Height; ++y)
-            		{
-                        XElement xTile =new XElement ("Tile");
+                    {
+                        XElement xTile = new XElement("Tile");
                         pTiles.Add(xTile);
 
-                        xTile.Add(new XAttribute ("PosX", Map[x,y].Position.X.ToString()));
-                        xTile.Add(new XAttribute ("PosY", Map[x,y].Position.Y.ToString()));
+                        xTile.Add(new XAttribute("PosX", x.ToString()));
+                        xTile.Add(new XAttribute("PosY", y.ToString()));
 
                         xTile.Add(new XAttribute("PixWidth", TilePixelSize.Width.ToString()));
                         xTile.Add(new XAttribute("PixHeight", TilePixelSize.Height.ToString()));
+                        if (Map[x,y].TType== TILE_TYPE.TT_WATER)
+                            xTile.Add(new XAttribute("Status", 64.ToString()));
+                        else
+                            xTile.Add(new XAttribute("Status", 32.ToString()));
 
-                        xTile.Add(new XAttribute("Status", Map[x, y].Status.ToString()));
+                        xTile.Add(new XAttribute("PlayerID", Map[x, y].PlayerID.ToString()));
 
-                        xTile.Add(new XAttribute("PlayerID", Map[x,y].PlayerID.ToString()));
+                        int enumval = Convert.ToInt32(Map[x, y].TType);
 
-                        int enumval= Convert.ToInt32(Map[x, y].TType);
-
-                        xTile.Add(new XAttribute("TType",enumval.ToString()));
-            		}
-            	}
+                        xTile.Add(new XAttribute("TType", enumval.ToString()));
+                    }
+                }
                 xRoot.Save(SaveFolderPath.FileName);
+            }
         }
 
         private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog SaveFolderPath = new OpenFileDialog();
-            SaveFolderPath.InitialDirectory = RelativePath;
+            //SaveFolderPath.InitialDirectory = StartPath;
             //SaveFolderPath.ShowDialog();
 
             if (DialogResult.OK==SaveFolderPath.ShowDialog())
@@ -475,7 +508,7 @@ namespace WorldTileEditor
                 if (xRoot==null)
                 {
                     String title = "Failure to Load";
-                    String content = "Load Failed: xRoot== NUll";
+                    String content = "Load Failed: xRoot is null";
                     MessageBox.Show(content, title, MessageBoxButtons.OK); 
                     return;
                 }
@@ -485,10 +518,12 @@ namespace WorldTileEditor
 
                 Mapsize_RC.Width = Convert.ToInt32(mapcolumns.Value);
                 Mapsize_RC.Height = Convert.ToInt32(maprows.Value);
+
                 //THIS IS GOING TO BE A PROBLEM
-            	//XAttribute texturefile= xRoot.Attribute("FileName");
-                //String filename=Convert.ToString(texturefile);
-                //NormtextureId = tm.LoadTexture(SaveFolderPath.FileName, 0);
+            	XAttribute texturefile= xRoot.Attribute("FileName");
+                
+                Uri filename=new Uri(Path.Combine(StartPath, texturefile.Value));
+                NormtextureId = tm.LoadTexture(SaveFolderPath.FileName, 0);
             
             	XElement pTiles = (XElement) xRoot.FirstNode;
                 XElement xTile = (XElement) pTiles.FirstNode;
@@ -518,9 +553,6 @@ namespace WorldTileEditor
                         tempdata2 = xTile.Attribute("PixHeight");
                         TilePixelSize = new Size(Convert.ToInt32(tempdata1.Value), Convert.ToInt32(tempdata2.Value));
 
-                        //tempdata1 = xTile.Attribute("TileWidth");
-                        //tempdata2 = xTile.Attribute("TileHeight");
-
                         tempdata1 = xTile.Attribute("Status");
             			Map[x,y].Status = Convert.ToByte(tempdata1.Value);
 
@@ -536,8 +568,6 @@ namespace WorldTileEditor
             }
         }
 
-
-
         private void newToolStripMenuItem2_Click(object sender, EventArgs e)
         {
 
@@ -549,7 +579,105 @@ namespace WorldTileEditor
             String content = "    You are about to delete your current work,\n\tdo you want to save?";
             MessageBox.Show(content, title, MessageBoxButtons.YesNo);
         }
-        private void fileToolStripMenuItem1_Click(object sender, EventArgs e){}
-    }
 
+        private void MapGraphicsPanel_Resize(object sender, EventArgs e)
+        {
+            d3D.ChangeDisplayParam(MapGraphicsPanel, MapGraphicsPanel.Size.Width, MapGraphicsPanel.Size.Height,false);
+        }
+
+        private void RowsnumericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            Mapsize_RC.Width = (int)RowsnumericUpDown1.Value;
+            Map = new TileClass[Mapsize_RC.Width, Mapsize_RC.Height];
+            for (int x = 0; x < Mapsize_RC.Width; ++x)
+            {
+                for (int y = 0; y < Mapsize_RC.Height; ++y)
+                {
+                    if (Map != null)
+                    {
+                        Map[x, y] = new TileClass();
+                        Rectangle temprect = new Rectangle(x * TilePixelSize.Width, y * TilePixelSize.Height, TilePixelSize.Width, TilePixelSize.Height);
+                        Map[x, y].Rect = temprect;
+                    }
+                }
+            }
+        }
+
+        private void ColumnsnumericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            Mapsize_RC.Height = (int)ColumnsnumericUpDown2.Value;
+            Map = new TileClass[Mapsize_RC.Width, Mapsize_RC.Height];
+            for (int x = 0; x < Mapsize_RC.Width; ++x)
+            {
+                for (int y = 0; y < Mapsize_RC.Height; ++y)
+                {
+                    if (Map != null)
+                    {
+                        Map[x, y] = new TileClass();
+                        Rectangle temprect = new Rectangle(x * TilePixelSize.Width, y * TilePixelSize.Height, TilePixelSize.Width, TilePixelSize.Height);
+                        Map[x, y].Rect = temprect;
+                    }
+                }
+            }
+        }
+        
+        private void TilesetGraphicsPanel_Resize(object sender, EventArgs e)
+        {
+            d3D.ChangeDisplayParam(TilesetGraphicsPanel, TilesetGraphicsPanel.Size.Width, TilesetGraphicsPanel.Size.Height, false);
+        }
+
+        private void WidthcomboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TilePixelSize = new Size((int)WidthcomboBox1.Items[WidthcomboBox1.SelectedIndex],TilePixelSize.Height);
+
+            for (int x = 0; x < Mapsize_RC.Width; ++x)
+            {
+                for (int y = 0; y < Mapsize_RC.Height; ++y)
+                {
+                    if (Map != null)
+                        Map[x, y].Rect = new Rectangle(new Point(x*TilePixelSize.Width,y*TilePixelSize.Height), new Size(TilePixelSize.Width, TilePixelSize.Height));
+                }
+            }
+        }
+
+        private void HeightcomboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TilePixelSize = new Size(TilePixelSize.Width, (int)HeightcomboBox2.Items[HeightcomboBox2.SelectedIndex]);
+
+            for (int x = 0; x < Mapsize_RC.Width; ++x)
+            {
+                for (int y = 0; y < Mapsize_RC.Height; ++y)
+               {
+                   if (Map != null)
+                       Map[x, y].Rect = new Rectangle(new Point(x * TilePixelSize.Width, y * TilePixelSize.Height), new Size(TilePixelSize.Width, TilePixelSize.Height));
+               }
+            }
+        }
+
+        private void loadTilesetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofdlg = new OpenFileDialog();
+            ofdlg.InitialDirectory = StartPath;
+            if (DialogResult.OK == ofdlg.ShowDialog())
+            {
+                MaptilsetFilename = ofdlg.FileName;
+                NormtextureId = tm.LoadTexture(MaptilsetFilename, 0);                
+            }
+        }
+        
+        
+        private void Form1_Load(object sender, EventArgs e){}
+        private void fileToolStripMenuItem1_Click(object sender, EventArgs e){}
+        private void MapGraphicsPanel_Paint(object sender, PaintEventArgs e) {}
+        private void TilesetGraphicsPanel_Paint(object sender, PaintEventArgs e) {}
+
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //tm.ReleaseTexture(NormtextureId);
+            tm.ShutdownManagedTextureManager();
+            d3D.Shutdown();
+            
+            looping = false;
+        }
+}
 }
