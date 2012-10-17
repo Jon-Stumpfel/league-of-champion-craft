@@ -1448,8 +1448,8 @@ void CGameplayState::Render(void)
 			int nTurn = CGameManager::GetInstance()->GetCurrentTurn();
 			oss << "Current Turn: " << CGameManager::GetInstance()->GetCurrentTurn();
 			//const char* tempchar = "CURRENT TURN:";
-			const char* tempchar = "abcdefghijklmnopqrstuvwxyz";
-			m_pBitmapFont->Print(tempchar,40,40,0.4f,D3DXCOLOR(255,0,0,255));
+			const char* tempchar = "//\\";
+			m_pBitmapFont->Print(tempchar,0,40,0.4f,D3DXCOLOR(0,255,0,255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 30, 255, 255, 255);
 
 			oss.str((""));
