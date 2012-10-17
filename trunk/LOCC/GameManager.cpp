@@ -446,6 +446,7 @@ void CGameManager::Reset(void)
 }
 void CGameManager::NewGame(void)
 {
+	LoadLevel(string("level1"));
 
 	Reset();
 
