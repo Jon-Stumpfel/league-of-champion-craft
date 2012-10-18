@@ -53,6 +53,11 @@ void CTileManager::ShutDown(void)
 	//}	
 
 }
+
+	void CTileManager::Init()
+	{
+		m_pTileMap = nullptr;
+	}
 bool CTileManager::LoadSave( std::string sFilename )
 {
 	TiXmlDocument doc;
