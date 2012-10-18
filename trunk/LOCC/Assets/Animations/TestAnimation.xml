@@ -66,6 +66,18 @@
   <Animation UnitType="0" AnimType="4" IsLooping="1" ImgName="castle.png" CurrentFrame="0" AnimationName="CastleBeingCastle">
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="300" bottom="300" left="0" AnchorX="0" AnchorY="0" />
   </Animation>
+<Animation UnitType="0" AnimType="3" IsLooping="1" ImgName="castle.png" CurrentFrame="0" AnimationName="CastleBeingCastle">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="300" bottom="300" left="0" AnchorX="0" AnchorY="0" />
+  </Animation>
+<Animation UnitType="0" AnimType="2" IsLooping="1" ImgName="castle.png" CurrentFrame="0" AnimationName="CastleBeingCastle">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="300" bottom="300" left="0" AnchorX="0" AnchorY="0" />
+  </Animation>
+<Animation UnitType="0" AnimType="1" IsLooping="1" ImgName="castle.png" CurrentFrame="0" AnimationName="CastleBeingCastle">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="300" bottom="300" left="0" AnchorX="0" AnchorY="0" />
+  </Animation>
+<Animation UnitType="0" AnimType="0" IsLooping="1" ImgName="castle.png" CurrentFrame="0" AnimationName="CastleBeingCastle">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="300" bottom="300" left="0" AnchorX="0" AnchorY="0" />
+  </Animation>
   <Animation UnitType="1" AnimType="1" IsLooping="1" ImgName="champion.png" CurrentFrame="1" AnimationName="ChampionWalkNorth">
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="3" right="180" bottom="82" left="101" AnchorX="0" AnchorY="0" />
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="86" right="183" bottom="164" left="102" AnchorX="0" AnchorY="0" />
