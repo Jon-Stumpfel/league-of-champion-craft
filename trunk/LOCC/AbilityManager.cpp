@@ -186,7 +186,7 @@ void CAbilityManager::LoadAbilities( void )
 		}
 	}
 
-	// Custom melee/range attack abilities
+	// Custom melee attack
 	CAbility* pAbility = new CAbility();
 	pAbility->m_nAPCost = 1;
 	pAbility->m_bIsMove = false;
@@ -203,6 +203,7 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
 
+	// Custom range attack
 	pAbility = new CAbility();
 	pAbility->m_nAPCost = 1;
 	pAbility->m_bIsMove = false;
@@ -218,7 +219,7 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
 
-
+	// Custom move ability
 	pAbility = new CAbility();
 	pAbility->m_nAPCost = 0;
 	pAbility->m_bIsMove = true;
@@ -229,13 +230,52 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
 
-
+	// custom champ bar ability
 	pAbility = new CAbility();
 	pAbility->m_nAPCost = 0;
 	pAbility->m_nNumTargets = -1;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("champspellicon"));
 	pAbility->SetType(SP_CHAMPSPELL);
 	tmp.first = SP_CHAMPSPELL;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
+
+	// custom archer spawn ability
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 1;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_nRange = 2;
+	pAbility->m_bIsMove = false;
+	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("archerportrait"));
+	pAbility->SetType(SP_SPAWNARCHER);
+	tmp.first = SP_SPAWNARCHER;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
+
+	// custom swordsman spawn ability
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 1;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_bIsMove = false;
+	pAbility->m_nRange = 2;
+	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("swordsmanportrait"));
+	pAbility->SetType(SP_SPAWNSWORD);
+	tmp.first = SP_SPAWNSWORD;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
+
+	// custom calvery spawn ability
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 1;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_nRange = 2;
+	pAbility->m_bIsMove = false;
+	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("cavalryportrait"));
+	pAbility->SetType(SP_SPAWNCALV);
+	tmp.first = SP_SPAWNCALV;
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
 

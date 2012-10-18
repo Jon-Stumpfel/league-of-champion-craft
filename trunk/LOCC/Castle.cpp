@@ -15,8 +15,8 @@ CCastle::CCastle(void) : CUnit(UT_CASTLE)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\castle.png",L"Castle",D3DCOLOR_ARGB(255,255,255,255));
-	// TODO: Setup abilities when they are in place
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/castle.png",L"Castle",D3DCOLOR_ARGB(255,255,255,255));
+	// TODO: Setup abilities when they are in place	
 }
 
 
@@ -30,12 +30,6 @@ void CCastle::Render( void )
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Castle"),
 		(m_sWorldPos.nPosX + 16)- (tempanchorpoint.nPosX/4*3) - CGameplayState::GetInstance()->GetCamOffsetX(),
 		(m_sWorldPos.nPosY - 6) - (tempanchorpoint.nPosY/4*3) - CGameplayState::GetInstance()->GetCamOffsetY(),
-		0.25f,0.25f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
+		0.5f,0.5f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
 }
-
-void CCastle::Update( float fElapsedTime )
-{
-
-}
-
