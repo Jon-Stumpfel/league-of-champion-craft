@@ -463,20 +463,21 @@ void CGameManager::NewGame(void)
 {
 	LoadLevel(string("level1"));
 
+
 	Reset();
 
+
+	
 	LoadLevel(string("level1"));
+	
+	
 	LoadMap(1);
 
 	m_nPhaseCount = 0;
 	// Player 1 and his units
 	m_nNewPlayerID = 0;
 
-
 	LoadUnitsFromScript();
-
-
-
 	m_nCurrentPhase = GP_MOVE;
 }
 

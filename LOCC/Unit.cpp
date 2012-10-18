@@ -11,25 +11,29 @@
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_nTilesMoved = 0;
-
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
-	m_vAbilities.push_back(pAM->GetAbility(SP_MOVE));
 
-	if (m_eType != UT_ARCHER)
+	if( m_eType != UT_CASTLE )
+		m_vAbilities.push_back(pAM->GetAbility(SP_MOVE));
+	
+	if (m_eType == UT_CASTLE)
 	{
-		CAbilityManager * pAM = CAbilityManager::GetInstance();
+		m_vAbilities.push_back(pAM->GetAbility(SP_SPAWNARCHER));
+		m_vAbilities.push_back(pAM->GetAbility(SP_SPAWNSWORD));
+		m_vAbilities.push_back(pAM->GetAbility(SP_SPAWNCALV));
+	}
+	else if (m_eType != UT_ARCHER)
+	{
 		m_vAbilities.push_back(pAM->GetAbility(SP_MELEEATTACK));
 	}
 	else
 	{
-		CAbilityManager * pAM = CAbilityManager::GetInstance();
 		m_vAbilities.push_back(pAM->GetAbility(SP_ARCHERRANGEDATTACK));
 
 	}
 
 	if (m_eType == UT_HERO)
 	{
-		CAbilityManager * pAM = CAbilityManager::GetInstance();
 		m_vAbilities.push_back(pAM->GetAbility(SP_CHAMPSPELL));
 	}
 

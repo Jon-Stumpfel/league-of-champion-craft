@@ -104,7 +104,6 @@ void CGameplayState::Exit(void)
 {
 	CAnimationManager::GetInstance()->Shutdown();
 	CAbilityManager::GetInstance()->DeleteInstance();
-	m_pBitmapFont = nullptr;
 	delete m_pBitmapFont;
 }
 
@@ -488,7 +487,60 @@ void CGameplayState::UseAbility(CAbility* ability)
 			else if (m_bIsTargeting == true && m_pTargetedTile != nullptr)
 			{
 				// cast the spell!
-				if (ability->GetType() == SP_MELEEATTACK || ability->GetType() == SP_ARCHERRANGEDATTACK)
+				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
+				{
+					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
+						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
+					if (nDistance <= ability->GetRange() && !(m_pTargetedTile->GetPosition() == m_pSelectedUnit->GetPos()))
+					{
+						int cur = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
+						int ap = CGameManager::GetInstance()->GetCurrentPlayer()->GetAP();
+						if(  ap == 0 )
+							return;
+						else
+							CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(ap - ability->GetApCost());
+
+						CSpawnUnitMessage* msg;
+						switch(ability->GetType())
+						{
+						case SP_SPAWNARCHER:
+							{
+								if( cur == 0 )
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 2, false, 12);
+								else
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 0, false, 12);
+
+								CMessageSystem::GetInstance()->SendMessageW(msg);
+							}
+							break;
+
+						case SP_SPAWNSWORD:
+							{
+								if( cur == 0 )
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 2, false, 20);
+								else
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 0, false, 20);
+								CMessageSystem::GetInstance()->SendMessageW(msg);
+							}
+							break;
+
+						case SP_SPAWNCALV:
+							{
+								if( cur == 0 )
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 2, false, 22);
+								else
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 0, false, 22);
+								CMessageSystem::GetInstance()->SendMessageW(msg);
+							}
+							break;
+						}
+						
+						m_pTargetedTile = nullptr;
+						m_pSelectedUnit = nullptr;
+						m_bIsTargeting = false;
+					}
+				}
+				else if (ability->GetType() == SP_MELEEATTACK || ability->GetType() == SP_ARCHERRANGEDATTACK)
 				{
 					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
 						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
