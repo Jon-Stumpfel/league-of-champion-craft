@@ -25,7 +25,7 @@ const int	g_nWINDOW_HEIGHT		= 600;							//	Window Height.
 #ifdef _DEBUG
 	const BOOL	g_bIS_WINDOWED			= TRUE;						
 #else
-	const BOOL	g_bIS_WINDOWED			= FALSE;
+	const BOOL	g_bIS_WINDOWED			= TRUE;
 #endif
 
 //const BOOL g_bIS_WINDOWED = TRUE;

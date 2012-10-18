@@ -206,6 +206,7 @@ void CGameManager::SaveGame(int nSlot)
 
 	TiXmlElement* pPlayers = new TiXmlElement("Players");
 	pRoot->LinkEndChild(pPlayers);
+
 	for (int i = 0; i < 2; ++i)
 	{
 		TiXmlElement* pPlayer = new TiXmlElement("Player");
@@ -218,6 +219,13 @@ void CGameManager::SaveGame(int nSlot)
 
 		TiXmlElement* pChampion = new TiXmlElement("Champion");
 		CHero* pHero = dynamic_cast<CHero*>(GetChampion(m_vPlayers[i]->GetPlayerID()));
+		if (pHero == nullptr)
+		{
+			// Why are you here?
+			MessageBoxA(0, "How did you get here? Why are you saving when hero is dead? Go away. Don't save after you won",
+				"ERROR:", MB_OK);
+			continue;
+		}
 		if (pHero->GetNumWaypoints() > 0)
 		{
 			pChampion->SetAttribute("posX", pHero->GetLastWaypoint().nPosX);
@@ -228,6 +236,7 @@ void CGameManager::SaveGame(int nSlot)
 			pChampion->SetAttribute("posX", pHero->GetPos().nPosX);
 			pChampion->SetAttribute("posY", pHero->GetPos().nPosY);
 		}
+
 		pChampion->SetAttribute("health", pHero->GetHP());
 		pChampion->SetAttribute("xp", m_vPlayers[i]->GetExp());
 		pChampion->SetAttribute("facing", pHero->GetFacing());
@@ -252,6 +261,7 @@ void CGameManager::SaveGame(int nSlot)
 		TiXmlElement* pUnits = new TiXmlElement("Units");
 		pPlayer->LinkEndChild(pUnits);
 		int nNumUnits = 0;
+
 		for (decltype(m_vUnits.size()) j = 0; j < m_vUnits.size(); ++j)
 		{
 			// this is our unit, lets save it!
@@ -278,22 +288,27 @@ void CGameManager::SaveGame(int nSlot)
 				pUnits->LinkEndChild(pUnit);
 			}
 		}
+
 		pUnits->SetAttribute("numUnits", nNumUnits);
 	}
 
 	std::ostringstream oss;
 	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
+
 	doc.SaveFile(oss.str().c_str());
+
 }
 void CGameManager::LoadSave(int nSlot)
 {
 	Reset();
 	std::ostringstream oss;
 	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
+
 	TiXmlDocument doc;
 	if (doc.LoadFile(oss.str().c_str()))
 	{
 		TiXmlElement* pRoot = doc.RootElement();
+
 
 		if (pRoot == nullptr)
 			return;

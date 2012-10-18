@@ -26,6 +26,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_nHeight = nScreenHeight;
 	m_bIsWindowed = bIsWindowed;
 	m_hWnd = hWnd;
+	CTileManager::GetInstance()->Init();
 	
 	CInputManager::GetInstance()->Initialize(hWnd, hInstance);
 	CScriptManager::GetInstance()->Initialize();
