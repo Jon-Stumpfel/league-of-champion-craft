@@ -368,15 +368,16 @@ namespace ParticleEditor
 
         public void InitParticle()
         {
-            if( particles.Count != 0 )
+            if( particles.Count > 0 )
                 particles.Clear();
+
             Random rand = new Random();
             rand.Next();
             for (int i = 0; i < particleCount; i++)
             {
                 // Sets values to the starting values
                 Particle tmp = new Particle();
-                tmp.Id = tm.LoadTexture(imgpath, Color.FromArgb(255, 255, 255, 255).ToArgb());
+                tmp.Id = tm.LoadTexture(imgpath, 0);
 
                 tmp.Color = colorStart;
                 tmp.Rotation = rotationStart;

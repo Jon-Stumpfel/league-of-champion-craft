@@ -35,7 +35,7 @@ void CEmitter::Clear( void )
 	}
 }
 
-void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
+void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 {
 	TiXmlDocument doc;
 
@@ -44,7 +44,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 	{
 	case TEST:
 		{
-			if( doc.LoadFile( "Assets/Particles/sparkletest.xml" ) == false )
+			if( doc.LoadFile( "Assets/Particles/Test.xml" ) == false )
 				return;
 
 			m_sSource.left = 0;
@@ -56,7 +56,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 
 	case TESTSECOND:
 		{
-			if( doc.LoadFile( "Assets/Particles/othertest.xml" ) == false )
+			//if( doc.LoadFile( "Assets/Particles/othertest.xml" ) == false )
 				return;
 
 			m_sSource.left = 0;
@@ -150,40 +150,58 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 
 	// tell the graphics manager where the image for each particle is
 	CGraphicsManager* pGM = CGraphicsManager::GetInstance();
-	TCHAR conversion[100];
-
-	mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
-	TSTRING file = conversion;
-	pGM->LoadImageW( file, _T("Particle"), D3DCOLOR_ARGB(255, 255, 255, 255) );
 	m_fSpawnRate = (rand() % ((m_nMinSpawnRate - m_nMaxSpawnRate) + 1) + m_nMinSpawnRate)/100.0f;
+
+	switch( eType )
+	{
+	case TEST:
+		{
+			TCHAR conversion[100];	
+			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
+			TSTRING file = conversion;
+			pGM->LoadImageW(_T("Assets/Particles/") + file, _T("Test"), D3DCOLOR_ARGB(255, 255, 255, 255) );
+			m_nImgID = pGM->GetID(_T("Test"));
+		}
+		break;
+
+	case TESTSECOND:
+		{
+			TCHAR conversion[100];	
+			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
+			TSTRING file = conversion;
+			pGM->LoadImageW( _T("Assets/Particles/") + file, _T("Test2"), D3DCOLOR_ARGB(255, 255, 255, 255) );
+			m_nImgID = pGM->GetID(_T("Test2"));
+		}
+		break;
+	}
 
 	// Populates the list of AliveParticles
 	for( int i = 0; i < m_nNumParticles; i++ )
 	{
-		Vec2Df Pos;
+		Vec2D Pos;
 		if( m_eType == DOT )
 			Pos = m_sEmitPos;
 		else if( m_eType == CIRCLE )
 		{
-			Pos.fVecX = float(m_sEmitPos.fVecX + (rand() % (int)Radius + 1));
-			Pos.fVecY = float(m_sEmitPos.fVecY + (rand() % (int)Radius + 1));
+			Pos.nPosX = m_sEmitPos.nPosX + (rand() % (int)Radius + 1);
+			Pos.nPosY = m_sEmitPos.nPosY + (rand() % (int)Radius + 1);
 		}
 		else if( m_eType == SQUARE )	
 		{
-			Pos.fVecX = float((m_sEmitPos.fVecX-m_nWidth/2) + (rand() % (int)m_nWidth+1));
-			Pos.fVecY = float((m_sEmitPos.fVecY-m_nHeight/2) + (rand() % (int)m_nHeight+1));
+			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1);
+			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1);
 		}
 		else if( m_eType == LINE )
 		{
 			if( m_sPoint.nPosX > m_sPoint2.nPosX)
-				Pos.fVecX = float((rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1)));
+				Pos.nPosX = (rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1));
 			else
-				Pos.fVecX = float((rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1)));
+				Pos.nPosX = (rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1));
 
 			if( m_sPoint.nPosY > m_sPoint2.nPosY)
-				Pos.fVecY = float((rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1)));
+				Pos.nPosY = (rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1));
 			else
-				Pos.fVecY = float((rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1)));
+				Pos.nPosY = (rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1));
 		}
 
 		// Finds the random life time
@@ -202,7 +220,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2Df sPos )
 		end.fVecX = float((rand() % int((m_sEndVelMax.fVecX - m_sEndVelMin.fVecX)+1) + m_sEndVelMin.fVecX));
 		end.fVecY = float((rand() % int((m_sEndVelMax.fVecY - m_sEndVelMin.fVecY)+1) + m_sEndVelMin.fVecY));
 
-		CParticle* tParticle = new CParticle(Pos, end, start, m_fStartScale, life, m_sStartColor, m_fStartRot, m_sSource );
+		CParticle* tParticle = new CParticle(Pos, end, start, m_fStartScale, life, m_sStartColor, m_fStartRot, m_sSource, m_nImgID);
 
 		m_vAliveParticles.push_back( tParticle );
 	}
@@ -305,11 +323,37 @@ void CEmitter::Loop( void )
 	// Populates the list of AliveParticles
 	for( int i = 0; i < m_nNumParticles; i++ )
 	{
+		Vec2D Pos;
+		if( m_eType == DOT )
+			Pos = m_sEmitPos;
+		else if( m_eType == CIRCLE )
+		{
+			Pos.nPosX = m_sEmitPos.nPosX + (rand() % (int)Radius + 1);
+			Pos.nPosY = m_sEmitPos.nPosY + (rand() % (int)Radius + 1);
+		}
+		else if( m_eType == SQUARE )	
+		{
+			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1);
+			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1);
+		}
+		else if( m_eType == LINE )
+		{
+			if( m_sPoint.nPosX > m_sPoint2.nPosX)
+				Pos.nPosX = (rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1));
+			else
+				Pos.nPosX = (rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1));
+
+			if( m_sPoint.nPosY > m_sPoint2.nPosY)
+				Pos.nPosY = (rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1));
+			else
+				Pos.nPosY = (rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1));
+		}
+
 		// Finds the random life time
 		int maxLife = int(m_fMaxLife * 100);
 		int minLife = int(m_fMinLife * 100);
 
-		float tmp = float((rand() % (maxLife - minLife) + 1) + minLife);
+		float tmp = float(rand() % (maxLife - minLife + 1) + minLife);
 		
 		float life = float(tmp / 100.0f);
 
@@ -318,11 +362,11 @@ void CEmitter::Loop( void )
 		start.fVecY = float((rand() % int((m_sStartVelMax.fVecY - m_sStartVelMin.fVecY)+1) + m_sStartVelMin.fVecY));
 
 		Vec2Df end;
-		start.fVecX = float((rand() % int((m_sEndVelMax.fVecX - m_sEndVelMin.fVecX)+1) + m_sEndVelMin.fVecX));
-		start.fVecY = float((rand() % int((m_sEndVelMax.fVecY - m_sEndVelMin.fVecY)+1) + m_sEndVelMin.fVecY));
+		end.fVecX = float((rand() % int((m_sEndVelMax.fVecX - m_sEndVelMin.fVecX)+1) + m_sEndVelMin.fVecX));
+		end.fVecY = float((rand() % int((m_sEndVelMax.fVecY - m_sEndVelMin.fVecY)+1) + m_sEndVelMin.fVecY));
 
-		RECT src = { m_sImgPos.nPosX, m_sImgPos.nPosY, m_sImgPos.nPosX + m_nWidth, m_sImgPos.nPosY + m_nHeight };
+		CParticle* tParticle = new CParticle(Pos, end, start, m_fStartScale, life, m_sStartColor, m_fStartRot, m_sSource, m_nImgID);
 
-		CParticle* tParticle = new CParticle(m_sEmitPos, end, start, m_fStartScale, life, m_sStartColor, m_fStartRot, src );
+		m_vAliveParticles.push_back( tParticle );
 	}
 }

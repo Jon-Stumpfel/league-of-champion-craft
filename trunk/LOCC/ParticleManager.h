@@ -2,8 +2,6 @@
 
 class CEmitter;
 
-enum PRTCL_TYPE { TEST, TESTSECOND };
-
 struct Color
 {
 	int a, r, g, b;
@@ -16,7 +14,7 @@ public:
 
 	void Update( float fElapsedTime );
 	void Render( void );
-	void LoadParticles( PRTCL_TYPE eType, Vec2Df sPos );
+	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos );
 
 	static CParticleManager* GetInstance( void );
 

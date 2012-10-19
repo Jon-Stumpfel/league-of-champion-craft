@@ -35,7 +35,7 @@ namespace Spell_Editor
 
         public int GridWidth = 52, GridHeight = 52;
 
-        public string filepath, particlefile;
+        public string filepath, particlefile, iconfile, soundfile;
 
         public Form1()
         {
@@ -164,6 +164,7 @@ namespace Spell_Editor
 
             Uri uri1;
             SaveFileDialog sf = new SaveFileDialog();
+            sf.InitialDirectory = filepath;
             if (DialogResult.OK == sf.ShowDialog())
             {
                 uri1 = new Uri(Path.Combine(filepath, sf.FileName));
@@ -195,19 +196,21 @@ namespace Spell_Editor
                     xPhase = new XAttribute("Phase", 0);
                 else
                     xPhase = new XAttribute("Phase", 1);
+                string rel;
 
-                xRoot.Add(xPhase);
+                if (sf.FileName.Contains(filepath))
+                {
+                    rel = sf.FileName.Remove(0, filepath.Count()+1);
+                    xRoot.Add(xPhase);
+                    XAttribute xLUA = new XAttribute("LuaPath", rel + ".lua");
+                    xRoot.Add(xLUA);
 
-                Uri folder = new Uri(filepath);
-                Uri lua = new Uri(uri1.LocalPath);
-                Uri relative = folder.MakeRelativeUri(lua);
-                XAttribute xLUA = new XAttribute("LuaPath", relative.ToString().Remove(0,5) + ".lua");
-                xRoot.Add(xLUA);
+                    XAttribute xParticle = new XAttribute("ParticlePath", particlefile);
+                    xRoot.Add(xParticle);
 
-                Uri particle = new Uri(particlefile);
-                Uri relative2 = folder.MakeRelativeUri(particle);
-                XAttribute xParticle = new XAttribute("ParticlePath", relative.ToString().Remove(0, 5) + ".xml");
-                xRoot.Add(xParticle);
+                    XAttribute xIcon = new XAttribute("IconPath", iconfile);
+                    xRoot.Add(xIcon);
+                }
 
                 for (int x = 0; x < 9; x++)
                 {
@@ -283,7 +286,10 @@ namespace Spell_Editor
                 rtbLua.LoadFile(uri1.LocalPath, RichTextBoxStreamType.PlainText);
 
                 XAttribute xParticle = xRoot.Attribute("ParticlePath");
-                Uri uri2 = new Uri(Path.Combine(filepath, xParticle.Value));
+                particlefile = xParticle.Value;
+
+                XAttribute xIcon = xRoot.Attribute("IconPath");
+                iconfile = xIcon.Value;
 
                 IEnumerable<XElement> xTiles = xRoot.Elements();
 
@@ -324,7 +330,16 @@ namespace Spell_Editor
             OpenFileDialog of = new OpenFileDialog();
             if (DialogResult.OK == of.ShowDialog())
             {
-                particlefile = of.FileName;
+                particlefile = of.SafeFileName;
+            }
+        }
+
+        private void loadIconToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog of = new OpenFileDialog();
+            if (DialogResult.OK == of.ShowDialog())
+            {
+                iconfile = of.SafeFileName;
             }
         }
     }

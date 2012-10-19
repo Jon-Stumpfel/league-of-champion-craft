@@ -52,17 +52,6 @@ void CGameplayState::Enter(void)
 	CGameManager* pGM = CGameManager::GetInstance();
 	CParticleManager* pPM = CParticleManager::GetInstance();
 
-	Vec2Df test;
-	test.fVecX = 400;
-	test.fVecY = 300;
-
-	pPM->LoadParticles( TEST, test );
-
-	test.fVecX = 200;
-	test.fVecY = 300;
-	pPM->LoadParticles( TESTSECOND, test );
-
-
 	CAnimationManager::GetInstance()->Load("Assets/Animations/TestAnimation.xml");
 
 	SetRect(&rCamRect, 0, 0, 
@@ -513,6 +502,18 @@ void CGameplayState::UseAbility(CAbility* ability)
 			}
 			else if (m_bIsTargeting == true && m_pTargetedTile != nullptr)
 			{
+				std::vector<Vec2D> vec = ability->GetPattern();
+				for( unsigned int i = 0; i < vec.size(); i++ )
+				{
+					Vec2D t;
+					t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+					t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+					Vec2D tmp = TranslateToPixel(t);
+					tmp.nPosX += 65;
+					tmp.nPosY += 5;
+					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+				}
+
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
 				{
@@ -608,11 +609,18 @@ void CGameplayState::UseAbility(CAbility* ability)
 				}
 				else
 				{
+					if( ability->GetType() == SP_CHARGE )
+					{
+						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
+							return;
+					}
 					CAbilityManager* pAM = CAbilityManager::GetInstance();
 					pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
 					CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 					if (ability->m_bIsAttack)
 						m_pSelectedUnit->SetHasAttacked(true);
+					if( ability->GetType() == SP_CHARGE )
+						MoveToTile(m_pTargetedTile->GetPosition());
 					m_bIsTargeting = false;
 					m_pTargetedTile = nullptr;
 					m_pSelectedUnit = nullptr;
@@ -1079,9 +1087,14 @@ void CGameplayState::Render(void)
 				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
 			else
 			{
-				range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+				if( drawAbility->GetType() == SP_CHARGE )
+					range = drawAbility->GetPattern();
+				else
+					range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
 			}
+			if( drawAbility->GetType() != SP_CHARGE )
 				pattern = drawAbility->GetPattern();
+
 			if( drawAbility->GetApCost() == 5 )
 				int i = 0;
 			if (drawAbility != nullptr && !drawAbility->m_bIsMove)
@@ -1315,6 +1328,7 @@ void CGameplayState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(
 				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522);
 		}
+
 		int n = CGame::GetInstance()->GetWindowWidth();
 		int y = CGame::GetInstance()->GetWindowHeight();
 
@@ -1337,11 +1351,8 @@ void CGameplayState::Render(void)
 							CGraphicsManager::GetInstance()->GetID(_T("panelselect")), 
 							253 + (i * 78), m_nSpellPanelOffsetY + 36, 0.6f, 0.6f);
 					}
-
 				}
 			}
-
-
 		}
 	}
 	// MINI MAP TIME! Render this ontop of the interface thing. Will need to tweak when we go isometric
