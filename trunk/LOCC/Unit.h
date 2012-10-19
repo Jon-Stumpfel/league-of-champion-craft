@@ -22,6 +22,7 @@ class CUnit : public CGameObject
 	bool m_bHasAttacked;
 	bool m_bShielded;
 	bool m_bIsMoving;
+	bool m_bIsFleeing;
 
 	float m_fDodgeChance;
 
@@ -36,6 +37,8 @@ public:
 	CUnit(UNIT_TYPE type);
 	~CUnit(void);
 
+	bool GetFleeing(void){ return m_bIsFleeing;}
+	void SetFleeing(bool b) { m_bIsFleeing = b;}
 	bool CheckDodged(void);
 	float GetDodgeChance(void) { return m_fDodgeChance;}
 	int GetNumWaypoints(void) { return m_vWaypoints.size();};
