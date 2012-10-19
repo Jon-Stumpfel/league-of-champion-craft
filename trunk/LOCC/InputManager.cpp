@@ -34,6 +34,7 @@ void CInputManager::Initialize(HWND hWnd, HINSTANCE hInstance)
 {
 	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE | DI_JOYSTICKS);
 	Running = true;
+	m_bInMenu = false;
 }
 void CInputManager::Shutdown(void)
 {
@@ -50,7 +51,8 @@ bool CInputManager::Input(void)
 		nCurrentPlayerID = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
 	else
 		nCurrentPlayerID = 1;
-
+	if (m_bInMenu)
+		nCurrentPlayerID = 0;
 	int nRAmount = pDI->JoystickGetRStickYAmount(0);
 	if (nRAmount > 0)
 	{
