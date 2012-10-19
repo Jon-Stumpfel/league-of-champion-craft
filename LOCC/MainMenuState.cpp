@@ -107,8 +107,6 @@ void CMainMenuState::Render(void)
 	{
 		const char* Play = "Start";
 		m_pBitmapFont->Print(Play,360,200,0.7f,D3DXCOLOR(150,150,0,255));
-		const char* test = "ABCDEFGHIJKLMNOPQRSTUVWXYZ:/\\";
-		m_pBitmapFont->Print(test,0,0,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
