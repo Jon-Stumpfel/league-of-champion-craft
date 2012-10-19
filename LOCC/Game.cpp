@@ -11,6 +11,7 @@
 #include "AbilityManager.h"
 #include "StateStack.h"
 #include "AIManager.h"
+#include "FloatingText.h"
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -35,6 +36,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
 	CAbilityManager::GetInstance()->LoadAbilities();
 	CAIManager::GetInstance()->Initialize();
+	CFloatingText::GetInstance()->Initialize();
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	long x = 0;
@@ -87,6 +89,8 @@ bool CGame::Main(void)
 }
 void CGame::Shutdown(void)
 {
+	CStateStack::DeleteInstance();
+	CFloatingText::DeleteInstance();
 	CAIManager::DeleteInstance();
 	CScriptManager::DeleteInstance();
 	CAbilityManager::DeleteInstance();
@@ -94,10 +98,11 @@ void CGame::Shutdown(void)
 	CGraphicsManager::DeleteInstance();
 	CGameManager::DeleteInstance();
 	CObjectManager::DeleteInstance();
-	CStateStack::DeleteInstance();
 	CMessageSystem::DeleteInstance();
 	CTileManager::DeleteInstance();
-	CStateStack::GetInstance()->ClearStack();
+	//CStateStack::DeleteInstance();
+
+
 }
 
 CGame::CGame(void)
