@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "GameplayState.h"
 #include "ObjectManager.h"
+#include "AIManager.h"
 #include "SpawnUnitMessage.h"
 #include "TileManager.h"
 #include "ScriptManager.h"
@@ -37,6 +38,7 @@ void CGameManager::NextPhase(void)
 	m_nPhaseCount++;
 	if (m_nCurrentPhase == GP_MOVE)
 	{
+		CAIManager::GetInstance()->BeginAttack();
 		m_nCurrentPhase = GP_ATTACK;
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
@@ -53,6 +55,7 @@ void CGameManager::NextPhase(void)
 			CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos());
 		}
 		m_pCurrentPlayer->SetAP(nStartingAP);
+		CAIManager::GetInstance()->BeginMovement();
 
 		for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)
 		{
@@ -118,7 +121,7 @@ CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 {
 	CPlayer* pPlayer = new CPlayer(m_nNewPlayerID++);
 	// TODO if bAIControlled add cplayer to list of AI controlled stuff
-	// CAIManager::PushPlayerID(pPlayer->GetPLayerID());
+	 CAIManager::GetInstance()->PushPlayerID(pPlayer->GetPlayerID());
 	if (bAIControlled)
 	{
 		pPlayer->SetAI(true);
@@ -324,6 +327,13 @@ void CGameManager::LoadSave(int nSlot)
 		TiXmlElement* pPlayers = pRoot->FirstChildElement("Players");
 		TiXmlElement* pPlayer = pPlayers->FirstChildElement("Player");
 
+		for (decltype(m_vPlayers.size()) i = 0; i < m_vPlayers.size(); ++i)
+		{
+	
+			delete m_vPlayers[i];
+		}
+		m_vPlayers.clear();
+		m_nNewPlayerID = 0;
 		for (int np = 0; np < 2; ++np)
 		{
 			int nAIControlled;
@@ -358,13 +368,14 @@ void CGameManager::LoadSave(int nSlot)
 			TiXmlElement* pSpells = pChampion->FirstChildElement("Spells");
 			pSpells->QueryIntAttribute("numSpells", &nNumSpells);
 			std::vector<SPELL_TYPE> spells;
+			TiXmlElement* pSpell = pSpells->FirstChildElement("Spell");
+
 			for (int i = 0; i < nNumSpells; ++i)
 			{
-				TiXmlElement* pSpell = pSpells->FirstChildElement("Spell");
 				int nType;
 				pSpell->QueryIntAttribute("sType", &nType);
 				spells.push_back((SPELL_TYPE)nType);
-
+				pSpell = pSpell->NextSiblingElement("Spell");
 			}
 
 			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(spells, Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
@@ -406,7 +417,7 @@ void CGameManager::LoadSave(int nSlot)
 			SetNextPlayer(0);
 		SetPhaseCount(nPhaseCount);
 		SetCurrentPhase((GAME_PHASE)nCurrPhase);
-
+		CMessageSystem::GetInstance()->ProcessMessages();
 	}
 }
 
@@ -445,6 +456,7 @@ void CGameManager::Reset(void)
 
 	for (decltype(m_vPlayers.size()) i = 0; i < m_vPlayers.size(); ++i)
 	{
+
 		delete m_vPlayers[i];
 	}
 
@@ -452,8 +464,8 @@ void CGameManager::Reset(void)
 	m_nNewPlayerID = 0;
 	m_vScriptSpawns.clear();
 
-	CreatePlayer(false); // player 1
-	CreatePlayer(false);
+	CreatePlayer(true); // player 1
+	CreatePlayer(true);
 
 	CMessageSystem::GetInstance()->ProcessMessages();
 	CTileManager::GetInstance()->ShutDown();
@@ -478,6 +490,10 @@ void CGameManager::NewGame(void)
 	m_nNewPlayerID = 0;
 
 	LoadUnitsFromScript();
+
+	CAIManager::GetInstance()->BeginMovement();
+
+
 	m_nCurrentPhase = GP_MOVE;
 }
 

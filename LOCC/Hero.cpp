@@ -29,7 +29,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));
 	SetShielded(true);
 	PushDebuff(pAbility);
-
+	 
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 	GiveSpell(SP_SPEED);

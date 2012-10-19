@@ -31,6 +31,8 @@ public:
 
 	CUnit* GetHighlighted(void) { return m_pHighlightedUnit;}
 	void ClearHighlighted(void) { m_pHighlightedUnit = nullptr;}
+
+	Vec2D GetSelectionPos(void) { return m_SelectionPos;}
 private:
 
 	class ASNode

@@ -9,6 +9,7 @@
 #include "SpawnUnitMessage.h"
 #include "AddResourceMessage.h"
 #include "DeSpawnUnitMessage.h"
+#include "AIManager.h"
 #include "Unit.h"
 #include "ParticleManager.h"
 #include "Player.h"
@@ -44,9 +45,8 @@ void CGameplayState::Enter(void)
 	// test stuff
 	CAbilityManager* pAM = CAbilityManager::GetInstance();
 
-	pAM->LoadAbilities();
 
-	CGameManager::GetInstance()->NewGame();
+	//CGameManager::GetInstance()->NewGame();
 
 	m_pBitmapFont = new CBitmapFont();
 	CGameManager* pGM = CGameManager::GetInstance();
@@ -86,6 +86,7 @@ void CGameplayState::Enter(void)
 	m_nSpellPanelOffsetYMAX =  CGame::GetInstance()->GetWindowHeight() - 120;
 	m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
 	m_nCardOffsetMaxX = CGame::GetInstance()->GetWindowWidth() - 230;
+	pGM;
 	SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
 
 }
@@ -103,7 +104,6 @@ int CGameplayState::GetCamOffsetY(void)
 void CGameplayState::Exit(void)
 {
 	CAnimationManager::GetInstance()->Shutdown();
-	CAbilityManager::GetInstance()->DeleteInstance();
 	delete m_pBitmapFont;
 }
 
@@ -446,6 +446,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_CAM_RIGHT:
 		MoveCamera(1, 0);
+		break;
+	case INPUT_AI_CLEAR: // AI specific to clear selected so we dont fudge stuff up
+		ClearSelections();
+		break;
+	case INPUT_AI_SELECTABILITY_1:
+		m_nSelectedAbility = 0;
+		break;
+	case INPUT_AI_SELECTABILITY_2:
+		m_nSelectedAbility = 1;
 		break;
 	default:
 		break;
@@ -914,6 +923,7 @@ void CGameplayState::ClearSelections(void)
 	m_bIsMoving = false;
 	m_bIsTargeting = false;
 	m_bSelectChampionAbility = false;
+	m_pTargetedTile = nullptr;
 	m_pSelectedUnit = nullptr;
 	m_nSelectedAbility =0;
 	m_pHighlightedUnit = nullptr;
@@ -924,6 +934,7 @@ void CGameplayState::Update(float fElapsedTime)
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
 	LerpCamera(fElapsedTime);
+
 
 	if (m_bIsHighlighting == true)
 	{
@@ -967,6 +978,8 @@ void CGameplayState::Update(float fElapsedTime)
 		CMessageSystem::GetInstance()->SendMessageW(pMsg);
 	}
 	// Testing Particle Rendering
+	CAIManager::GetInstance()->UpdateAI(fElapsedTime);
+
 	CParticleManager::GetInstance()->Update(fElapsedTime);
 	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
 	CAnimationManager::GetInstance()->Update(fElapsedTime);
@@ -1379,7 +1392,7 @@ void CGameplayState::Render(void)
 			case TT_MINE:
 			case TT_FARM:
 				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("minitriangle")),
-					(int)tileRect.left + 15, (int)tileRect.top, 1.0f, 1.0f,(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r,g,b));
+					(int)tileRect.left + 1, (int)tileRect.top + 1, 1.0f, 1.0f,(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r,g,b));
 				break;
 			}
 		}
@@ -1528,4 +1541,51 @@ void CGameplayState::Render(void)
 			//m_pBitmapFont->Print((const char*)oss.str().c_str(),0, 350, 1.0f,(DWORD)(255,255,255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 0, 350, 255, 255, 255);
 		}
+
+
+
+		// AI debug render input queue
+		//int nY = 70;
+		//for (unsigned int i = 0; i < CAIManager::GetInstance()->m_vInputQueue.size(); ++i)
+		//{
+		//	std::wostringstream woss;
+		//	switch (CAIManager::GetInstance()->m_vInputQueue[i])
+		//	{
+		//	case INPUT_UP:
+		//		woss << "AI UP";
+		//		break;
+		//	case INPUT_DOWN:
+		//		woss << "AI DOWN";
+		//		break;
+		//	case INPUT_LEFT:
+		//		woss << "AI LEFT";
+		//		break;
+		//	case INPUT_RIGHT:
+		//		woss << "AI RIGHT";
+		//		break;
+		//	case INPUT_ACCEPT:
+		//		woss << "AI ACCEPT";
+		//		break;
+		//	case INPUT_AI_CLEAR:
+		//		woss << "AI CLEAR";
+		//		break;
+		//	case INPUT_AI_SELECTED:
+		//		woss << "AI SELECTED";
+		//		break;
+		//	case INPUT_AI_MOVED:
+		//		woss << "AI MOVED";
+		//		break;
+		//	case INPUT_AI_ATTACKED:
+		//		woss << "AI ATTACKED";
+		//		break;
+		//	case INPUT_AI_SELECTABILITY_1:
+		//		woss << "AI SELECTABILITY 1";
+		//		break;
+		//	case INPUT_AI_SELECTABILITY_2:
+		//		woss << "AI SELECTABILITY 2";
+		//		break;
+		//	}
+		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 50, nY, 255, 255, 255);
+		//	nY += 25;
+		//}
 }

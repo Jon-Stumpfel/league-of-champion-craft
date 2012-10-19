@@ -10,7 +10,7 @@
 #include "GameplayState.h"
 #include "AbilityManager.h"
 #include "StateStack.h"
-
+#include "AIManager.h"
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -33,6 +33,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
 	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
+	CAbilityManager::GetInstance()->LoadAbilities();
+	CAIManager::GetInstance()->Initialize();
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	long x = 0;
@@ -85,6 +87,7 @@ bool CGame::Main(void)
 }
 void CGame::Shutdown(void)
 {
+	CAIManager::DeleteInstance();
 	CScriptManager::DeleteInstance();
 	CAbilityManager::DeleteInstance();
 	CInputManager::DeleteInstance();

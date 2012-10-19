@@ -43,6 +43,7 @@ void CMainMenuState::Input(INPUT_ENUM input)
 		{
 			if(selected == 0)
 			{
+				CGameManager::GetInstance()->NewGame();
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(selected == 1)
