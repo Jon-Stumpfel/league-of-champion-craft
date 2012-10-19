@@ -58,640 +58,640 @@ public:
 			}
 		case 48:
 			{
-				rSource.left = 15;
-				rSource.top = 627;
-				rSource.right = 42;
-				rSource.bottom = 665;
+				rSource.left = 18;
+				rSource.top = 628;
+				rSource.right = 52;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 49:
 			{
-				rSource.left = 76;
-				rSource.top = 627;
-				rSource.right = 87;
-				rSource.bottom = 665;
+				rSource.left = 94;
+				rSource.top = 628;
+				rSource.right = 108;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 50:
 			{
-				rSource.left = 120;
-				rSource.top = 627;
-				rSource.right = 147;
-				rSource.bottom = 665;
+				rSource.left = 147;
+				rSource.top = 628;
+				rSource.right = 182;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 51:
 			{
-				rSource.left = 180;
-				rSource.top = 627;
-				rSource.right = 208;
-				rSource.bottom = 665;
+				rSource.left = 222;
+				rSource.top = 628;
+				rSource.right = 256;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 52:
 			{
-				rSource.left = 212;
-				rSource.top = 618;
-				rSource.right = 240;
-				rSource.bottom = 656;
+				rSource.left = 296;
+				rSource.top = 628;
+				rSource.right = 331;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 53:
 			{
-				rSource.left = 266;
-				rSource.top = 618;
-				rSource.right = 285;
-				rSource.bottom = 656;
+				rSource.left = 370;
+				rSource.top = 628;
+				rSource.right = 405;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 54:
 			{
-				rSource.left = 311;
-				rSource.top = 618;
-				rSource.right = 337;
-				rSource.bottom = 656;
+				rSource.left = 444;
+				rSource.top = 628;
+				rSource.right = 480;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 55:
 			{
-				rSource.left = 362;
-				rSource.top = 618;
-				rSource.right = 383;
-				rSource.bottom = 656;
+				rSource.left = 518;
+				rSource.top = 628;
+				rSource.right = 554;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 56:
 			{
-				rSource.left = 408;
-				rSource.top = 618;
-				rSource.right = 434;
-				rSource.bottom = 656;
+				rSource.left = 594;
+				rSource.top = 628;
+				rSource.right = 628;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 57:
 			{
-				rSource.left = 459;
-				rSource.top = 618;
-				rSource.right = 484;
-				rSource.bottom = 656;
+				rSource.left = 668;
+				rSource.top = 628;
+				rSource.right = 702;
+				rSource.bottom = 666;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 58:
 			{
-				rSource.left = 426;
-				rSource.top = 909;
-				rSource.right = 434;
-				rSource.bottom = 933;
+				rSource.left = 805;
+				rSource.top = 910;
+				rSource.right = 815;
+				rSource.bottom = 955;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 65:
 			{
-				rSource.left = 15;
-				rSource.top = 69;
-				rSource.right = 56;
-				rSource.bottom = 106;
+				rSource.left = 20;
+				rSource.top = 64;
+				rSource.right = 54;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 66:
 			{
-				rSource.left = 82;
-				rSource.top = 69;
-				rSource.right = 114;
-				rSource.bottom = 106;
+				rSource.left = 93;
+				rSource.top = 64;
+				rSource.right = 128;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 67:
 			{
-				rSource.left = 140;
-				rSource.top = 68;
-				rSource.right = 173;
-				rSource.bottom = 111;
+				rSource.left = 168;
+				rSource.top = 64;
+				rSource.right = 202;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 68:
 			{
-				rSource.left = 199;
-				rSource.top = 69;
-				rSource.right = 233;
-				rSource.bottom = 106;
+				rSource.left = 242;
+				rSource.top = 64;
+				rSource.right = 277;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 69:
 			{
-				rSource.left = 261;
-				rSource.top = 69;
-				rSource.right = 294;
-				rSource.bottom = 111;
+				rSource.left = 316;
+				rSource.top = 64;
+				rSource.right = 351;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 70:
 			{
-				rSource.left = 320;
-				rSource.top = 69;
-				rSource.right = 350;
-				rSource.bottom = 106;
+				rSource.left = 390;
+				rSource.top = 64;
+				rSource.right = 425;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 71:
 			{
-				rSource.left = 376;
-				rSource.top = 68;
-				rSource.right = 407;
-				rSource.bottom = 106;
+				rSource.left = 464;
+				rSource.top = 64;
+				rSource.right = 498;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 72:
 			{
-				rSource.left = 433;
-				rSource.top = 66;
-				rSource.right = 466;
-				rSource.bottom = 111;
+				rSource.left = 539;
+				rSource.top = 64;
+				rSource.right = 574;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 73:
 			{
-				rSource.left = 492;
-				rSource.top = 69;
-				rSource.right = 514;
-				rSource.bottom = 106;
+				rSource.left = 614;
+				rSource.top = 64;
+				rSource.right = 622;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 74:
 			{
-				rSource.left = 540;
-				rSource.top = 69;
-				rSource.right = 569;
-				rSource.bottom = 106;
+				rSource.left = 662;
+				rSource.top = 64;
+				rSource.right = 690;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 75:
 			{
-				rSource.left = 595;
-				rSource.top = 68;
-				rSource.right = 631;
-				rSource.bottom = 112;
+				rSource.left = 730;
+				rSource.top = 64;
+				rSource.right = 765;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 76:
 			{
-				rSource.left = 657;
-				rSource.top = 68;
-				rSource.right = 686;
-				rSource.bottom = 106;
+				rSource.left = 804;
+				rSource.top = 64;
+				rSource.right = 832;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 77:
 			{
-				rSource.left = 714;
-				rSource.top = 69;
-				rSource.right = 760;
-				rSource.bottom = 106;
+				rSource.left = 872;
+				rSource.top = 64;
+				rSource.right = 920;
+				rSource.bottom = 104;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 78:
 			{
-				rSource.left = 14;
-				rSource.top = 196;
-				rSource.right = 47;
-				rSource.bottom = 239;
+				rSource.left = 18;
+				rSource.top = 192;
+				rSource.right = 61;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 79:
 			{
-				rSource.left = 75;
-				rSource.top = 196;
-				rSource.right = 108;
-				rSource.bottom = 233;
+				rSource.left = 100;
+				rSource.top = 192;
+				rSource.right = 134;
+				rSource.bottom = 231;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 80:
 			{
-				rSource.left = 134;
-				rSource.top = 196;
-				rSource.right = 166;
-				rSource.bottom = 233;
+				rSource.left = 174;
+				rSource.top = 192;
+				rSource.right = 208;
+				rSource.bottom = 231;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 81:
 			{
-				rSource.left = 193;
-				rSource.top = 196;
-				rSource.right = 231;
-				rSource.bottom = 237;
+				rSource.left = 248;
+				rSource.top = 192;
+				rSource.right = 284;
+				rSource.bottom = 236;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 82:
 			{
-				rSource.left = 257;
-				rSource.top = 196;
-				rSource.right = 293;
-				rSource.bottom = 240;
+				rSource.left = 322;
+				rSource.top = 192;
+				rSource.right = 357;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 83:
 			{
-				rSource.left = 319;
-				rSource.top = 196;
-				rSource.right = 348;
-				rSource.bottom = 241;
+				rSource.left = 396;
+				rSource.top = 192;
+				rSource.right = 431;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 84:
 			{
-				rSource.left = 373;
-				rSource.top = 196;
-				rSource.right = 403;
-				rSource.bottom = 234;
+				rSource.left = 470;
+				rSource.top = 192;
+				rSource.right = 506;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 85:
 			{
-				rSource.left = 429;
-				rSource.top = 196;
-				rSource.right = 460;
-				rSource.bottom = 234;
+				rSource.left = 544;
+				rSource.top = 192;
+				rSource.right = 581;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 86:
 			{
-				rSource.left = 487;
-				rSource.top = 196;
-				rSource.right = 524;
-				rSource.bottom = 234;
+				rSource.left = 620;
+				rSource.top = 192;
+				rSource.right = 654;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 87:
 			{
-				rSource.left = 550;
-				rSource.top = 196;
-				rSource.right = 594;
-				rSource.bottom = 234;
+				rSource.left = 694;
+				rSource.top = 192;
+				rSource.right = 743;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 88:
 			{
-				rSource.left = 620;
-				rSource.top = 196;
-				rSource.right = 657;
-				rSource.bottom = 234;
+				rSource.left = 782;
+				rSource.top = 192;
+				rSource.right = 817;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 89:
 			{
-				rSource.left = 683;
-				rSource.top = 196;
-				rSource.right = 713;
-				rSource.bottom = 236;
+				rSource.left = 856;
+				rSource.top = 192;
+				rSource.right = 890;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 90:
 			{
-				rSource.left = 739;
-				rSource.top = 196;
-				rSource.right = 767;
-				rSource.bottom = 234;
+				rSource.left = 930;
+				rSource.top = 192;
+				rSource.right = 966;
+				rSource.bottom = 232;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 92:
 			{
-				rSource.left = 626;
-				rSource.top = 897;
-				rSource.right = 645;
-				rSource.bottom = 938;
+				rSource.left = 115;
+				rSource.top = 1036;
+				rSource.right = 150;
+				rSource.bottom = 1076;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 97:
 			{
-				rSource.left = 14;
-				rSource.top = 343;
-				rSource.right = 35;
-				rSource.bottom = 381;
+				rSource.left = 19;
+				rSource.top = 344;
+				rSource.right = 52;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 98:
 			{
-				rSource.left = 69;
-				rSource.top = 422;
-				rSource.right = 91;
-				rSource.bottom = 469;
+				rSource.left = 93;
+				rSource.top = 344;
+				rSource.right = 128;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 99:
 			{
-				rSource.left = 123;
-				rSource.top = 422;
-				rSource.right = 140;
-				rSource.bottom = 469;
+				rSource.left = 168;
+				rSource.top = 344;
+				rSource.right = 202;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 100:
 			{
-				rSource.left = 173;
-				rSource.top = 422;
-				rSource.right = 194;
-				rSource.bottom = 469;
+				rSource.left = 242;
+				rSource.top = 344;
+				rSource.right = 276;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 101:
 			{
-				rSource.left = 228;
-				rSource.top = 422;
-				rSource.right = 245;
-				rSource.bottom = 469;
+				rSource.left = 316;
+				rSource.top = 344;
+				rSource.right = 350;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 102:
 			{
-				rSource.left = 277;
-				rSource.top = 422;
-				rSource.right = 292;
-				rSource.bottom = 469;
+				rSource.left = 391;
+				rSource.top = 344;
+				rSource.right = 418;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 103:
 			{
-				rSource.left = 324;
-				rSource.top = 422;
-				rSource.right = 348;
-				rSource.bottom = 481;
+				rSource.left = 459;
+				rSource.top = 344;
+				rSource.right = 493;
+				rSource.bottom = 396;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 104:
 			{
-				rSource.left = 380;
-				rSource.top = 422;
-				rSource.right = 401;
-				rSource.bottom = 474;
+				rSource.left = 532;
+				rSource.top = 344;
+				rSource.right = 568;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 105:
 			{
-				rSource.left = 433;
-				rSource.top = 422;
-				rSource.right = 445;
-				rSource.bottom = 469;
+				rSource.left = 607;
+				rSource.top = 344;
+				rSource.right = 616;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 106:
 			{
-				rSource.left = 477;
-				rSource.top = 422;
-				rSource.right = 488;
-				rSource.bottom = 478;
+				rSource.left = 654;
+				rSource.top = 344;
+				rSource.right = 670;
+				rSource.bottom = 396;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 107:
 			{
-				rSource.left = 520;
-				rSource.top = 422;
-				rSource.right = 540;
-				rSource.bottom = 469;
+				rSource.left = 710;
+				rSource.top = 344;
+				rSource.right = 746;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 108:
 			{
-				rSource.left = 573;
-				rSource.top = 422;
-				rSource.right = 582;
-				rSource.bottom = 469;
+				rSource.left = 784;
+				rSource.top = 344;
+				rSource.right = 792;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 109:
 			{
-				rSource.left = 614;
-				rSource.top = 422;
-				rSource.right = 645;
-				rSource.bottom = 469;
+				rSource.left = 834;
+				rSource.top = 344;
+				rSource.right = 881;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 110:
 			{
-				rSource.left = 677;
-				rSource.top = 422;
-				rSource.right = 698;
-				rSource.bottom = 470;
+				rSource.left = 920;
+				rSource.top = 344;
+				rSource.right = 956;
+				rSource.bottom = 384;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 111:
 			{
-				rSource.left = 732;
-				rSource.top = 422;
-				rSource.right = 752;
-				rSource.bottom = 469;
+				rSource.left = 18;
+				rSource.top = 474;
+				rSource.right = 53;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 112:
 			{
-				rSource.left = 786;
-				rSource.top = 422;
-				rSource.right = 811;
-				rSource.bottom = 478;
+				rSource.left = 94;
+				rSource.top = 474;
+				rSource.right = 128;
+				rSource.bottom = 524;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 113:
 			{
-				rSource.left = 842;
-				rSource.top = 422;
-				rSource.right = 863;
-				rSource.bottom = 477;
+				rSource.left = 168;
+				rSource.top = 474;
+				rSource.right = 202;
+				rSource.bottom = 522;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 114:
 			{
-				rSource.left = 895;
-				rSource.top = 422;
-				rSource.right = 913;
-				rSource.bottom = 469;
+				rSource.left = 241;
+				rSource.top = 474;
+				rSource.right = 270;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 115:
 			{
-				rSource.left = 946;
-				rSource.top = 422;
-				rSource.right = 963;
-				rSource.bottom = 470;
+				rSource.left = 310;
+				rSource.top = 474;
+				rSource.right = 345;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 116:
 			{
-				rSource.left = 17;
-				rSource.top = 580;
-				rSource.right = 30;
-				rSource.bottom = 628;
+				rSource.left = 384;
+				rSource.top = 474;
+				rSource.right = 413;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 117:
 			{
-				rSource.left = 64;
-				rSource.top = 580;
-				rSource.right = 85;
-				rSource.bottom = 628;
+				rSource.left = 452;
+				rSource.top = 474;
+				rSource.right = 488;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 118:
 			{
-				rSource.left = 119;
-				rSource.top = 580;
-				rSource.right = 137;
-				rSource.bottom = 628;
+				rSource.left = 527;
+				rSource.top = 474;
+				rSource.right = 561;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 119:
 			{
-				rSource.left = 170;
-				rSource.top = 580;
-				rSource.right = 198;
-				rSource.bottom = 628;
+				rSource.left = 600;
+				rSource.top = 474;
+				rSource.right = 649;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 120:
 			{
-				rSource.left = 232;
-				rSource.top = 580;
-				rSource.right = 250;
-				rSource.bottom = 628;
+				rSource.left = 689;
+				rSource.top = 474;
+				rSource.right = 724;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 121:
 			{
-				rSource.left = 284;
-				rSource.top = 580;
-				rSource.right = 305;
-				rSource.bottom = 640;
+				rSource.left = 763;
+				rSource.top = 474;
+				rSource.right = 798;
+				rSource.bottom = 524;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
 		case 122:
 			{
-				rSource.left = 337;
-				rSource.top = 580;
-				rSource.right = 358;
-				rSource.bottom = 628;
+				rSource.left = 838;
+				rSource.top = 474;
+				rSource.right = 872;
+				rSource.bottom = 514;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
