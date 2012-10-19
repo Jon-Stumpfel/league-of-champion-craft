@@ -581,7 +581,7 @@ public:
 				rSource.left = 18;
 				rSource.top = 474;
 				rSource.right = 53;
-				rSource.bottom = 514;
+				rSource.bottom = 512;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
@@ -641,7 +641,7 @@ public:
 				rSource.left = 452;
 				rSource.top = 474;
 				rSource.right = 488;
-				rSource.bottom = 514;
+				rSource.bottom = 512;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
