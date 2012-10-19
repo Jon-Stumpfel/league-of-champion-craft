@@ -583,7 +583,13 @@ void CGameplayState::UseAbility(CAbility* ability)
 								if (!pUnit->CheckDodged())
 								{
 									if( pUnit->GetShielded() == false )
+									{
 										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+										CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(pixelPos.nPosX, pixelPos.nPosY), 
+											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 100, 100));
+
+									}
 									else
 										pUnit->SetShielded(0);
 								}
@@ -966,7 +972,12 @@ void CGameplayState::Update(float fElapsedTime)
 	{
 		int xRand = rand() % 800;
 		int yRand = rand() % 600;
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2D(50, 100), Vec2D(0, -50), 5.0f);
+		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, -50.0f), 5.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
+		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, 50.0f), 5.0f, 0.5f);
+		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(50.0f, 0.0f), 5.0f, 0.5f);
+		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(-50.0f, 0.0f), 5.0f, 0.5f);
+
+
 	}
 	if (m_bIsHighlighting == true)
 	{
