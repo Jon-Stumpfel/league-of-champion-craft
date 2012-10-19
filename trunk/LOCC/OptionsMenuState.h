@@ -19,6 +19,7 @@ private:
 	int musicvolume;
 	int soundvolume;
 	int selected;
+	bool fullscreen;
 	COptionsMenuState(void);
 	virtual ~COptionsMenuState(void);
 	COptionsMenuState(const COptionsMenuState&);

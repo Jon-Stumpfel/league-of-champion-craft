@@ -26,6 +26,7 @@ void CMainMenuState::Enter(void)
 	blueguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_blue.png"),D3DXCOLOR(0,0,0,255));
 	redguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_red.png"),D3DXCOLOR(0,0,0,255));
 	m_pBitmapFont = new CBitmapFont();
+	CInputManager::GetInstance()->SetInMenu(true);
 }
 
 void CMainMenuState::Exit(void)
@@ -33,6 +34,7 @@ void CMainMenuState::Exit(void)
 	delete m_pBitmapFont;
 	m_pBitmapFont = nullptr;
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
+	CInputManager::GetInstance()->SetInMenu(false);
 }
 
 void CMainMenuState::Input(INPUT_ENUM input)

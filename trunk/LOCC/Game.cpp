@@ -97,6 +97,7 @@ void CGame::Shutdown(void)
 	CStateStack::DeleteInstance();
 	CMessageSystem::DeleteInstance();
 	CTileManager::DeleteInstance();
+	CStateStack::GetInstance()->ClearStack();
 }
 
 CGame::CGame(void)
