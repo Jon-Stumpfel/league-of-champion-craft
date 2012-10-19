@@ -121,10 +121,10 @@ CPlayer* CGameManager::CreatePlayer(bool bAIControlled)
 {
 	CPlayer* pPlayer = new CPlayer(m_nNewPlayerID++);
 	// TODO if bAIControlled add cplayer to list of AI controlled stuff
-	 CAIManager::GetInstance()->PushPlayerID(pPlayer->GetPlayerID());
 	if (bAIControlled)
 	{
 		pPlayer->SetAI(true);
+		 CAIManager::GetInstance()->PushPlayerID(pPlayer->GetPlayerID());
 	}
 	else
 		pPlayer->SetAI(false);
@@ -464,7 +464,7 @@ void CGameManager::Reset(void)
 	m_nNewPlayerID = 0;
 	m_vScriptSpawns.clear();
 
-	CreatePlayer(true); // player 1
+	CreatePlayer(false); // player 1
 	CreatePlayer(true);
 
 	CMessageSystem::GetInstance()->ProcessMessages();

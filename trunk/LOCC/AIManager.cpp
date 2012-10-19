@@ -6,6 +6,7 @@
 #include "GameplayState.h"
 #include "TileManager.h"
 #include "Unit.h"
+#include "Hero.h"
 
 CAIManager* CAIManager::s_Instance = nullptr;
 
@@ -107,8 +108,16 @@ void CAIManager::SelectUnit(CUnit* pToSelect)
 
 void CAIManager::BeginMovement(void)
 {
-	if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+	bool bAITurn = false;
+	for (unsigned int i = 0; i < m_vPlayerIDs.size(); ++i)
+	{
+		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == m_vPlayerIDs[i])
+			bAITurn = true;
+	}
+	if (!bAITurn)
 		return;
+	//if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+	//	return;
 	m_vUnitsToHandle.clear();
 	m_vInputQueue.clear();
 	m_bMoved = true;
@@ -125,8 +134,16 @@ void CAIManager::BeginMovement(void)
 }
 void CAIManager::BeginAttack(void)
 {
-	if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+	bool bAITurn = false;
+	for (unsigned int i = 0; i < m_vPlayerIDs.size(); ++i)
+	{
+		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == m_vPlayerIDs[i])
+			bAITurn = true;
+	}
+	if (!bAITurn)
 		return;
+	//if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+	//	return;
 	m_vUnitsToHandle.clear();
 	m_vInputQueue.clear();
 	m_bMoved = true;
@@ -325,6 +342,37 @@ Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, CUnit* pSelectedUnit)
 }
 void CAIManager::MoveUnit(CUnit* pMoveUnit)
 {
+
+	if (pMoveUnit->GetType() == UT_HERO)
+	{
+		// hero stuff
+		// Am I under 25% hp?
+		if (pMoveUnit->GetHP() / pMoveUnit->GetMaxHP() < 0.25f)
+		{
+			CHero* pHero = dynamic_cast<CHero*>(pMoveUnit);
+			if (pHero != nullptr)
+			{
+				int nFoundIndex = -1;
+				for (int i = 0; i < 4; ++i)
+				{
+					CAbility* pAbility = pHero->GetSpell(i);
+					if (pAbility != nullptr)
+					{
+						if (pAbility->GetType() == SP_HEAL)
+							nFoundIndex = i;
+					}
+				}
+				if (nFoundIndex != -1) // we found the heal spell!
+				{
+				//	m_vInputQueue.push_back(INPUT_AI_CHAMPSPELL);
+
+				}
+
+			}
+			
+		}
+
+	}
 	CUnit* pNearestEnemy;
 	int lowestDistance = INT_MAX;
 	int nNumToMove = INT_MAX;
@@ -406,6 +454,17 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 
 void CAIManager::AttackUnit(CUnit* pAttackUnit)
 {
+
+	if (pAttackUnit->GetType() == UT_HERO)
+	{
+		// hero stuff
+		// Am I under 25% hp?
+		if (pAttackUnit->GetHP() / pAttackUnit->GetMaxHP() < 0.25f)
+		{
+
+		}
+
+	}
 	CUnit* pNearestEnemy;
 	int lowestDistance = INT_MAX;
 	int nNumToMove = INT_MAX;
@@ -465,8 +524,18 @@ void CAIManager::AttackUnit(CUnit* pAttackUnit)
 
 void CAIManager::UpdateAI(float fElapsedTime)
 {
-	if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() ==CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+	bool bAITurn = false;
+	for (unsigned int i = 0; i < m_vPlayerIDs.size(); ++i)
 	{
+		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == m_vPlayerIDs[i])
+			bAITurn = true;
+	}
+	if (!bAITurn)
+		return;
+	if (bAITurn)
+	{
+	//if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() ==CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+	//{
 		if (CheckInputQueue(fElapsedTime))
 			return;
 
