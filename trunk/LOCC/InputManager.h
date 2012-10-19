@@ -23,8 +23,11 @@ public:
 
 	void Shutdown(void);
 	void SetRunning(bool running) {Running = running;}
+	void SetInMenu(bool b) { m_bInMenu = b;}
 private:
 	bool Running;
+
+	bool m_bInMenu;
 	CInputManager(void);
 	~CInputManager(void);
 	CInputManager(const CInputManager&);
