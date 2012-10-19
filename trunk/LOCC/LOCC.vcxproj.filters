@@ -192,6 +192,9 @@
     <ClCompile Include="SaveSlotState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="FloatingText.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -361,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="PauseState.h">
       <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatingText.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

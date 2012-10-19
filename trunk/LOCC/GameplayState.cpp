@@ -21,6 +21,7 @@
 #include "PauseState.h"
 #include "Hero.h"
 #include "BitmapFont.h"
+#include "FloatingText.h"
 
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
@@ -961,7 +962,12 @@ void CGameplayState::Update(float fElapsedTime)
 
 	LerpCamera(fElapsedTime);
 
-
+	if (pDI->KeyPressed(DIK_J))
+	{
+		int xRand = rand() % 800;
+		int yRand = rand() % 600;
+		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2D(50, 100), Vec2D(0, -50), 5.0f);
+	}
 	if (m_bIsHighlighting == true)
 	{
 		if (m_nCardOffsetX > m_nCardOffsetMaxX)
@@ -1010,6 +1016,7 @@ void CGameplayState::Update(float fElapsedTime)
 	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
 	CAnimationManager::GetInstance()->Update(fElapsedTime);
 	CGameManager::GetInstance()->Update(fElapsedTime);
+	CFloatingText::GetInstance()->Update(fElapsedTime);
 
 }
 
@@ -1635,4 +1642,7 @@ void CGameplayState::Render(void)
 			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 20, nY, 255, 255, 255);
 			nY += 20;
 		}
+
+
+		CFloatingText::GetInstance()->Render();
 }

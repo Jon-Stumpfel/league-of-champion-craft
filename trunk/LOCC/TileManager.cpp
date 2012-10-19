@@ -22,7 +22,7 @@ CTileManager::~CTileManager(void)
 CTileManager* CTileManager::GetInstance( void )
 {
 	if( s_Instance == nullptr )
-		s_Instance = new CTileManager;
+		s_Instance = new CTileManager();
 
 	return s_Instance;
 }
@@ -43,6 +43,7 @@ void CTileManager::ShutDown(void)
 		delete[] m_pTileMap[x];
 	}
 	delete[] m_pTileMap;
+	m_pTileMap = nullptr;
 	//for (int x = 0; x<m_nRows; ++x)
 	//{
 	//	for (int y=0; y<m_nColumns;++y)
@@ -54,10 +55,10 @@ void CTileManager::ShutDown(void)
 
 }
 
-	void CTileManager::Init()
-	{
-		m_pTileMap = nullptr;
-	}
+void CTileManager::Init()
+{
+	m_pTileMap = nullptr;
+}
 bool CTileManager::LoadSave( std::string sFilename )
 {
 	TiXmlDocument doc;
