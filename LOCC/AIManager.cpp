@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "AIManager.h"
+#include "AbilityManager.h"
 #include "StateStack.h"
 #include "Player.h"
 #include "GameManager.h"
@@ -52,7 +53,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.1f)
+		if (fTimeToPop > 0.2f)
 		{
 			if (m_vInputQueue.back() == INPUT_AI_ATTACKED)
 			{
@@ -127,6 +128,8 @@ void CAIManager::BeginMovement(void)
 	{
 		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 		{
+			if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE)
+				continue;
 			m_vUnitsToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
 		}
 
@@ -153,6 +156,8 @@ void CAIManager::BeginAttack(void)
 	{
 		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() ==CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 		{
+			if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE)
+				continue;
 			m_vUnitsToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
 		}
 	}
@@ -342,37 +347,6 @@ Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, CUnit* pSelectedUnit)
 }
 void CAIManager::MoveUnit(CUnit* pMoveUnit)
 {
-
-	if (pMoveUnit->GetType() == UT_HERO)
-	{
-		// hero stuff
-		// Am I under 25% hp?
-		if (pMoveUnit->GetHP() / pMoveUnit->GetMaxHP() < 0.25f)
-		{
-			CHero* pHero = dynamic_cast<CHero*>(pMoveUnit);
-			if (pHero != nullptr)
-			{
-				int nFoundIndex = -1;
-				for (int i = 0; i < 4; ++i)
-				{
-					CAbility* pAbility = pHero->GetSpell(i);
-					if (pAbility != nullptr)
-					{
-						if (pAbility->GetType() == SP_HEAL)
-							nFoundIndex = i;
-					}
-				}
-				if (nFoundIndex != -1) // we found the heal spell!
-				{
-				//	m_vInputQueue.push_back(INPUT_AI_CHAMPSPELL);
-
-				}
-
-			}
-			
-		}
-
-	}
 	CUnit* pNearestEnemy;
 	int lowestDistance = INT_MAX;
 	int nNumToMove = INT_MAX;
@@ -390,6 +364,10 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 				pNearestEnemy = pWorkUnit;
 			}
 		}
+	}
+	if (pMoveUnit->GetType() != UT_HERO || pMoveUnit->GetFleeing() == true)
+	{
+		pNearestEnemy = CGameManager::GetInstance()->GetChampion(pMoveUnit->GetPlayerID());
 	}
 	Vec2D nearest;
 	int xDistance = pNearestEnemy->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
@@ -421,12 +399,7 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 	xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
 	yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
 
-	//if ((abs(double(xDistance)) + abs(double(yDistance))) == 1)
-	//{
-	//	m_vInputQueue.push_back(INPUT_AI_CLEAR);
-	//	m_vInputQueue.push_back(INPUT_AI_MOVED);
-	//	return;
-	//}
+	m_vInputQueue.push_back(INPUT_AI_CLEAR);
 	m_vInputQueue.push_back(INPUT_AI_MOVED);
 	m_vInputQueue.push_back(INPUT_ACCEPT);
 
@@ -450,24 +423,140 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 	}
 	m_vInputQueue.push_back(INPUT_ACCEPT);
 	m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_1);
+
+
+	// These perform first.  
+	if (pMoveUnit->GetType() == UT_HERO)
+	{
+		// hero stuff
+		// Am I under 25% hp?
+		int nFoundIndex = -1;
+
+		if ((float)((float)(pMoveUnit->GetHP()) / (float)pMoveUnit->GetMaxHP()) <= 0.25f)
+		{
+			CHero* pHero = dynamic_cast<CHero*>(pMoveUnit);
+			if (pHero != nullptr)
+			{
+				for (int i = 0; i < 4; ++i)
+				{
+					CAbility* pAbility = pHero->GetSpell(i);
+					if (pAbility != nullptr)
+					{
+						if (pAbility->GetType() == SP_HEAL)
+							nFoundIndex = i;
+					}
+				}
+				if (nFoundIndex != -1) // we found the heal spell!
+				{
+					m_vInputQueue.push_back(INPUT_AI_CLEAR);
+					m_vInputQueue.push_back(INPUT_ACCEPT);
+					m_vInputQueue.push_back(INPUT_ACCEPT);
+					switch (nFoundIndex)
+					{
+					case 0:
+						m_vInputQueue.push_back(INPUT_AI_SELECTSPELL1);
+						break;
+					case 1:
+						m_vInputQueue.push_back(INPUT_AI_SELECTSPELL2);
+						break;
+					case 2:
+						m_vInputQueue.push_back(INPUT_AI_SELECTSPELL3);
+
+						break;
+					case 3:
+						m_vInputQueue.push_back(INPUT_AI_SELECTSPELL4);
+						break;
+					}
+					m_vInputQueue.push_back(INPUT_ACCEPT);
+					m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+					m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				}
+			}
+		}
+		else
+		{
+			// Is anyone else under 25% hp?
+			std::vector<CUnit*> vUnitsUnder25;
+			for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
+			{
+				CUnit* pWorkUnit = CGameManager::GetInstance()->GetUnits()[i];
+				if (pWorkUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+				{
+					if (pWorkUnit->GetType() == UT_HERO || pWorkUnit->GetType() == UT_CASTLE)
+					{
+						continue;
+					}
+					if ((float)((float)pWorkUnit->GetHP() / (float)pWorkUnit->GetMaxHP()) <= 0.25f)
+					{
+						vUnitsUnder25.push_back(pWorkUnit);
+					}
+				}
+			}
+
+			for (unsigned int i = 0; i < vUnitsUnder25.size(); ++i)
+			{
+				int xDistance = vUnitsUnder25[i]->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+				int yDistance = vUnitsUnder25[i]->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
+				{
+					if (xDistance < 0)
+						m_vInputQueue.push_back(INPUT_LEFT);
+					if (xDistance > 0)
+						m_vInputQueue.push_back(INPUT_RIGHT);
+					else
+						continue;
+				}
+				for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
+				{
+					if (yDistance < 0)
+						m_vInputQueue.push_back(INPUT_UP);
+					if (yDistance > 0)
+						m_vInputQueue.push_back(INPUT_DOWN);
+					else
+						continue;
+				}
+
+
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				switch (nFoundIndex)
+				{
+				case 0:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL1);
+					break;
+				case 1:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL2);
+					break;
+				case 2:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL3);
+
+					break;
+				case 3:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL4);
+					break;
+				}
+				//m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+				SelectUnit(pMoveUnit);
+			}
+		}
+
+	}
+
 }
 
 void CAIManager::AttackUnit(CUnit* pAttackUnit)
 {
 
-	if (pAttackUnit->GetType() == UT_HERO)
-	{
-		// hero stuff
-		// Am I under 25% hp?
-		if (pAttackUnit->GetHP() / pAttackUnit->GetMaxHP() < 0.25f)
-		{
-
-		}
-
-	}
 	CUnit* pNearestEnemy;
 	int lowestDistance = INT_MAX;
 	int nNumToMove = INT_MAX;
+	int nFoundIndex = -1;
 	for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
 	{
 		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() !=CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
@@ -484,42 +573,163 @@ void CAIManager::AttackUnit(CUnit* pAttackUnit)
 		}
 	}
 	Vec2D nearest = pNearestEnemy->GetPos();
+	// cast fireball on the nearest enemy if it's under 50% hp to try to burst it down
 
-	int xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
-	int yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
-
-
-	if (abs(double(xDistance + yDistance)) > pAttackUnit->GetRange())
+	if (pAttackUnit->GetType() == UT_HERO)
 	{
+		CHero* pHero = dynamic_cast<CHero*>(pAttackUnit);
+		if (pHero != nullptr)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				CAbility* pAbility = pHero->GetSpell(i);
+				if (pAbility != nullptr)
+				{
+					if (pAbility->GetType() == SP_FIREBALL)
+						nFoundIndex = i;
+				}
+			}
+		}
+
+		if ((float)((float)pNearestEnemy->GetHP() / (float)pNearestEnemy->GetMaxHP()) < 0.5f)
+		{
+			int xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+			int yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+
+
+			if (abs(double(xDistance + yDistance)) < CAbilityManager::GetInstance()->GetAbility(SP_FIREBALL)->GetRange())
+			{
+				int xDistance = pNearestEnemy->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+				int yDistance = pNearestEnemy->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
+				{
+					if (xDistance < 0)
+						m_vInputQueue.push_back(INPUT_LEFT);
+					if (xDistance > 0)
+						m_vInputQueue.push_back(INPUT_RIGHT);
+					else
+						continue;
+				}
+				for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
+				{
+					if (yDistance < 0)
+						m_vInputQueue.push_back(INPUT_UP);
+					if (yDistance > 0)
+						m_vInputQueue.push_back(INPUT_DOWN);
+					else
+						continue;
+				}
+
+
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				switch (nFoundIndex)
+				{
+				case 0:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL1);
+					break;
+				case 1:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL2);
+					break;
+				case 2:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL3);
+
+					break;
+				case 3:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL4);
+					break;
+				}
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+				SelectUnit(pAttackUnit);
+			}
+		}
+		else
+		{
+
+			int xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+			int yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+
+
+			if (abs(double(xDistance + yDistance)) > pAttackUnit->GetRange())
+			{
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+
+				m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+				return;
+			}
+			m_vInputQueue.push_back(INPUT_AI_CLEAR);
+			m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+			m_vInputQueue.push_back(INPUT_ACCEPT);
+
+			for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
+			{
+				if (xDistance < 0)
+					m_vInputQueue.push_back(INPUT_LEFT);
+				if (xDistance > 0)
+					m_vInputQueue.push_back(INPUT_RIGHT);
+				else
+					continue;
+			}
+			for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
+			{
+				if (yDistance < 0)
+					m_vInputQueue.push_back(INPUT_UP);
+				if (yDistance > 0)
+					m_vInputQueue.push_back(INPUT_DOWN);
+				else
+					continue;
+			}
+			m_vInputQueue.push_back(INPUT_ACCEPT);
+			m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_2);
+		}
+	}
+	else
+	{
+
+		int xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+		int yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+
+
+		if (abs(double(xDistance + yDistance)) > pAttackUnit->GetRange())
+		{
+			m_vInputQueue.push_back(INPUT_AI_CLEAR);
+
+			m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+			return;
+		}
 		m_vInputQueue.push_back(INPUT_AI_CLEAR);
-
 		m_vInputQueue.push_back(INPUT_AI_ATTACKED);
-		return;
-	}
-	m_vInputQueue.push_back(INPUT_AI_CLEAR);
-	m_vInputQueue.push_back(INPUT_AI_ATTACKED);
-	m_vInputQueue.push_back(INPUT_ACCEPT);
+		m_vInputQueue.push_back(INPUT_ACCEPT);
 
-	for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
-	{
-		if (xDistance < 0)
-			m_vInputQueue.push_back(INPUT_LEFT);
-		if (xDistance > 0)
-			m_vInputQueue.push_back(INPUT_RIGHT);
-		else
-			continue;
+		for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
+		{
+			if (xDistance < 0)
+				m_vInputQueue.push_back(INPUT_LEFT);
+			if (xDistance > 0)
+				m_vInputQueue.push_back(INPUT_RIGHT);
+			else
+				continue;
+		}
+		for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
+		{
+			if (yDistance < 0)
+				m_vInputQueue.push_back(INPUT_UP);
+			if (yDistance > 0)
+				m_vInputQueue.push_back(INPUT_DOWN);
+			else
+				continue;
+		}
+		m_vInputQueue.push_back(INPUT_ACCEPT);
+		m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_2);
+
 	}
-	for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
-	{
-		if (yDistance < 0)
-			m_vInputQueue.push_back(INPUT_UP);
-		if (yDistance > 0)
-			m_vInputQueue.push_back(INPUT_DOWN);
-		else
-			continue;
-	}
-	m_vInputQueue.push_back(INPUT_ACCEPT);
-	m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_2);
+
 }
 
 void CAIManager::UpdateAI(float fElapsedTime)
@@ -534,8 +744,8 @@ void CAIManager::UpdateAI(float fElapsedTime)
 		return;
 	if (bAITurn)
 	{
-	//if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() ==CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
-	//{
+		//if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() ==CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+		//{
 		if (CheckInputQueue(fElapsedTime))
 			return;
 

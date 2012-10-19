@@ -456,6 +456,24 @@ void CGameplayState::Input(INPUT_ENUM input)
 	case INPUT_AI_SELECTABILITY_2:
 		m_nSelectedAbility = 1;
 		break;
+	case INPUT_AI_SELECTABILITY_3:
+		m_nSelectedAbility = 2;
+		break;
+	case INPUT_AI_CHAMPSPELL:
+		m_bSelectChampionAbility = true;
+		break;
+	case INPUT_AI_SELECTSPELL1:
+		m_nSelectedSpell = 0;
+		break;
+	case INPUT_AI_SELECTSPELL2:
+		m_nSelectedSpell = 1;
+		break;
+	case INPUT_AI_SELECTSPELL3:
+		m_nSelectedSpell = 2;
+		break;
+	case INPUT_AI_SELECTSPELL4:
+		m_nSelectedSpell = 3;
+		break;
 	default:
 		break;
 	}
@@ -1545,47 +1563,65 @@ void CGameplayState::Render(void)
 
 
 		// AI debug render input queue
-		//int nY = 70;
-		//for (unsigned int i = 0; i < CAIManager::GetInstance()->m_vInputQueue.size(); ++i)
-		//{
-		//	std::wostringstream woss;
-		//	switch (CAIManager::GetInstance()->m_vInputQueue[i])
-		//	{
-		//	case INPUT_UP:
-		//		woss << "AI UP";
-		//		break;
-		//	case INPUT_DOWN:
-		//		woss << "AI DOWN";
-		//		break;
-		//	case INPUT_LEFT:
-		//		woss << "AI LEFT";
-		//		break;
-		//	case INPUT_RIGHT:
-		//		woss << "AI RIGHT";
-		//		break;
-		//	case INPUT_ACCEPT:
-		//		woss << "AI ACCEPT";
-		//		break;
-		//	case INPUT_AI_CLEAR:
-		//		woss << "AI CLEAR";
-		//		break;
-		//	case INPUT_AI_SELECTED:
-		//		woss << "AI SELECTED";
-		//		break;
-		//	case INPUT_AI_MOVED:
-		//		woss << "AI MOVED";
-		//		break;
-		//	case INPUT_AI_ATTACKED:
-		//		woss << "AI ATTACKED";
-		//		break;
-		//	case INPUT_AI_SELECTABILITY_1:
-		//		woss << "AI SELECTABILITY 1";
-		//		break;
-		//	case INPUT_AI_SELECTABILITY_2:
-		//		woss << "AI SELECTABILITY 2";
-		//		break;
-		//	}
-		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 50, nY, 255, 255, 255);
-		//	nY += 25;
-		//}
+		int nY = 40;
+		for (unsigned int i = 0; i < CAIManager::GetInstance()->m_vInputQueue.size(); ++i)
+		{
+			std::wostringstream woss;
+			switch (CAIManager::GetInstance()->m_vInputQueue[i])
+			{
+			case INPUT_UP:
+				woss << "AI UP";
+				break;
+			case INPUT_DOWN:
+				woss << "AI DOWN";
+				break;
+			case INPUT_LEFT:
+				woss << "AI LEFT";
+				break;
+			case INPUT_RIGHT:
+				woss << "AI RIGHT";
+				break;
+			case INPUT_ACCEPT:
+				woss << "AI ACCEPT";
+				break;
+			case INPUT_AI_CLEAR:
+				woss << "AI CLEAR";
+				break;
+			case INPUT_AI_SELECTED:
+				woss << "AI SELECTED";
+				break;
+			case INPUT_AI_MOVED:
+				woss << "AI MOVED";
+				break;
+			case INPUT_AI_ATTACKED:
+				woss << "AI ATTACKED";
+				break;
+			case INPUT_AI_SELECTABILITY_1:
+				woss << "AI SELECTABILITY 1";
+				break;
+			case INPUT_AI_SELECTABILITY_2:
+				woss << "AI SELECTABILITY 2";
+				break;
+			case INPUT_AI_SELECTABILITY_3:
+				woss << "AI SELECTABILITY 3";
+				break;
+			case INPUT_AI_CHAMPSPELL:
+				woss << "AI CHAMPSPELL";
+				break;
+			case INPUT_AI_SELECTSPELL1:
+				woss << "AI SELECTSPELL 1";
+				break;
+			case INPUT_AI_SELECTSPELL2:
+				woss << "AI SELECTSPELL 2";
+				break;
+			case INPUT_AI_SELECTSPELL3:
+				woss << "AI SELECTSPELL 3";
+				break;
+			case INPUT_AI_SELECTSPELL4:
+				woss << "AI SELECTSPELL 4";
+				break;
+			}
+			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 20, nY, 255, 255, 255);
+			nY += 20;
+		}
 }

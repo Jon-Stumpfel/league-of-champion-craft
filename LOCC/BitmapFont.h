@@ -721,6 +721,8 @@ public:
 			int id = ch;
 			// Get the source rect using the Cell Algorithm
 			RECT rTile = CellAlgorithm( id );
+			pTM->Draw( jcs_nImageID, nX + 2, nY + 2, fScale, fScale, &rTile,
+						0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(0, 0, 0) );
 			pTM->Draw( jcs_nImageID, nX, nY, fScale, fScale, &rTile,
 						0.0f, 0.0f, 0.0f, dwColor );
 			float Scale = fScale*100;

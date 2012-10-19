@@ -114,6 +114,12 @@ static bool CloseEnough(int n1, int n2)
 }
 void CUnit::Update(float fElapsedTime)
 {
+	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.25f))
+	{
+		m_bIsFleeing = true;
+	}
+	else
+		m_bIsFleeing = false;
 
 	if( m_eType == UT_SWORDSMAN )
 	{
