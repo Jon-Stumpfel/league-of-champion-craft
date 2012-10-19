@@ -25,11 +25,13 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	else if (m_eType != UT_ARCHER)
 	{
 		m_vAbilities.push_back(pAM->GetAbility(SP_MELEEATTACK));
+		if( m_eType == UT_CAVALRY )
+			m_vAbilities.push_back(pAM->GetAbility(SP_CHARGE));
 	}
 	else
 	{
 		m_vAbilities.push_back(pAM->GetAbility(SP_ARCHERRANGEDATTACK));
-
+		//m_vAbilities.push_back(pAM->GetAbility(SP_CHARGE));
 	}
 
 	if (m_eType == UT_HERO)

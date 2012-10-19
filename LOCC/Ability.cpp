@@ -13,7 +13,7 @@ CAbility::~CAbility(void)
 }
 
 CAbility::CAbility(vector<Vec2D> vPattern, int nAP, int nCD, int nRange,
-				int nTarget, GAME_PHASE Phase, bool bAttack, string luaFile, string particleFile, string name)
+				int nTarget, GAME_PHASE Phase, bool bAttack, string luaFile, string particleFile, string name, int ID)
 {
 	m_vPattern = vPattern;
 	m_nAPCost = nAP;
@@ -25,4 +25,5 @@ CAbility::CAbility(vector<Vec2D> vPattern, int nAP, int nCD, int nRange,
 	m_strLuaFile = luaFile;
 	m_strParticleFile = particleFile;
 	m_strName = name;
+	m_nIconID = ID;
 }

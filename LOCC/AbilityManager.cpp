@@ -4,6 +4,7 @@
 #include "ScriptManager.h"
 #include "TileManager.h"
 #include "GameplayState.h"
+#include "GraphicsManager.h"
 #include "Unit.h"
 
 CAbilityManager* CAbilityManager::s_Instance = nullptr;
@@ -63,7 +64,7 @@ void CAbilityManager::LoadAbilities( void )
 		TiXmlDocument doc;
 		switch(i)
 		{
-		case SP_FIREBALL:
+		/*case SP_FIREBALL:
 			{
 				if (doc.LoadFile("Assets/Ability/fireball.xml") == false)
 					return;
@@ -86,7 +87,22 @@ void CAbilityManager::LoadAbilities( void )
 				if(doc.LoadFile("Assets/Ability/Speed.xml") == false)
 					return;
 			}
+			break;*/
+
+		case SP_TEST:
+			{
+				if(doc.LoadFile("Assets/Ability/test.xml") == false)
+					return;
+			}
 			break;
+
+		case SP_CHARGE:
+			{
+				if(doc.LoadFile("Assets/Ability/Charge.xml") == false)
+					return;
+			}
+			break;
+
 		default:
 			continue;
 		}
@@ -95,8 +111,8 @@ void CAbilityManager::LoadAbilities( void )
 		if( pRoot == nullptr )
 			return;
 
-		int phase, attack, target, cooldown, ap, range;
-		const char* spellname, *luaFile, *particleFile;
+		int phase, attack, target, cooldown, ap, range, ID;
+		const char* spellname, *luaFile, *particleFile, *iconFile;
 
 		pRoot->Attribute("Phase", &phase);
 		pRoot->Attribute("Attack", &attack);
@@ -107,6 +123,7 @@ void CAbilityManager::LoadAbilities( void )
 		pRoot->Attribute("Range", &range);
 		luaFile = pRoot->Attribute("LuaPath");
 		particleFile = pRoot->Attribute("ParticlePath");
+		iconFile = pRoot->Attribute("IconPath");
 		vector<Vec2D> pos;
 		TiXmlElement* pTile = pRoot->FirstChildElement("Tile");
 
@@ -119,6 +136,19 @@ void CAbilityManager::LoadAbilities( void )
 
 			pTile = pTile->NextSiblingElement();
 		}
+
+		
+		CGraphicsManager *pGM = CGraphicsManager::GetInstance();
+		TCHAR conversion[100];	
+		mbstowcs_s(nullptr, conversion, iconFile, _TRUNCATE);
+		TSTRING img = conversion;
+
+		TCHAR conversion2[100];	
+		mbstowcs_s(nullptr, conversion2, spellname, _TRUNCATE);
+		TSTRING name = conversion2;
+
+		pGM->LoadImageW( _T("Assets/HUD/") + img, name, D3DCOLOR_ARGB(255, 255, 255, 255) );
+		ID = pGM->GetID(name);
 
 		GAME_PHASE gPhase;
 		if( phase == 0 )
@@ -133,15 +163,16 @@ void CAbilityManager::LoadAbilities( void )
 			bAttack = true;
 
 		CAbility* ab = new CAbility(pos, ap, cooldown, range, target,
-			gPhase, bAttack, luaFile, particleFile, spellname);
-		
+			gPhase, bAttack, luaFile, particleFile, spellname, ID);
+
 		switch(i)
 		{
 			case SP_FIREBALL:
 				{	
 					ab->SetIsMove(false);
-					ab->SetIcon(TSTRING(_T("fireballicon")));
 					ab->SetType(SP_FIREBALL);
+						ab->m_szInterfaceIcon = name;
+					ab->SetParticleType(TEST);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIREBALL;
 					tmp.second = ab;
@@ -152,8 +183,9 @@ void CAbilityManager::LoadAbilities( void )
 			case SP_HEAL:
 				{
 					ab->SetIsMove(false);
-					ab->SetIcon(TSTRING(_T("healspellicon")));
 					ab->SetType(SP_HEAL);
+					ab->SetParticleType(TEST);
+					ab->m_szInterfaceIcon = name;
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEAL;
 					tmp.second = ab;
@@ -164,8 +196,9 @@ void CAbilityManager::LoadAbilities( void )
 			case SP_SHIELD:
 				{
 					ab->SetIsMove(false);
-					ab->SetIcon(TSTRING(_T("shieldspellicon")));
 					ab->SetType(SP_SHIELD);
+					ab->SetParticleType(TEST);
+					ab->m_szInterfaceIcon = name;
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SHIELD;
 					tmp.second = ab;
@@ -175,10 +208,37 @@ void CAbilityManager::LoadAbilities( void )
 			case SP_SPEED:
 				{
 					ab->SetIsMove(false);
-					ab->SetIcon(TSTRING(_T("moveicon")));
 					ab->SetType(SP_SPEED);
+					ab->SetParticleType(TEST);
+					ab->m_szInterfaceIcon = name;
 					std::pair<SPELL_TYPE,CAbility*> tmp;
 					tmp.first = SP_SPEED;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_TEST:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_TEST);
+					ab->SetParticleType(TEST);
+					ab->m_szInterfaceIcon = name;
+					std::pair<SPELL_TYPE,CAbility*> tmp;
+					tmp.first = SP_TEST;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_CHARGE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_CHARGE);
+					ab->SetParticleType(TEST);
+					ab->m_szInterfaceIcon = name;
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_CHARGE;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
@@ -198,6 +258,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
 	pAbility->SetType(SP_MELEEATTACK);
+	pAbility->SetParticleType(TEST);
 	std::pair<SPELL_TYPE, CAbility*> tmp;
 	tmp.first = SP_MELEEATTACK;
 	tmp.second = pAbility;
@@ -212,6 +273,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nPhase = GP_ATTACK;
 	pAbility->m_nRange = 3;
 	pAbility->m_nCooldown = 0;
+	pAbility->SetParticleType(TEST);
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
 	pAbility->SetType(SP_ARCHERRANGEDATTACK);
@@ -235,6 +297,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nAPCost = 0;
 	pAbility->m_nNumTargets = -1;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("champspellicon"));
+	pAbility->SetParticleType(TEST);
 	pAbility->SetType(SP_CHAMPSPELL);
 	tmp.first = SP_CHAMPSPELL;
 	tmp.second = pAbility;
@@ -247,6 +310,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nRange = 2;
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
+	pAbility->SetParticleType(TEST);
 	pAbility->m_szInterfaceIcon = TSTRING(_T("archerportrait"));
 	pAbility->SetType(SP_SPAWNARCHER);
 	tmp.first = SP_SPAWNARCHER;
@@ -259,6 +323,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_bIsMove = false;
 	pAbility->m_nRange = 2;
+	pAbility->SetParticleType(TEST);
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("swordsmanportrait"));
 	pAbility->SetType(SP_SPAWNSWORD);
@@ -273,6 +338,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nRange = 2;
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
+	pAbility->SetParticleType(TEST);
 	pAbility->m_szInterfaceIcon = TSTRING(_T("cavalryportrait"));
 	pAbility->SetType(SP_SPAWNCALV);
 	tmp.first = SP_SPAWNCALV;

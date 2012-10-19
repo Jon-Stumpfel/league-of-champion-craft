@@ -193,7 +193,7 @@ namespace ParticleEditor
             }
 
             Alive = true;
-            emitter.Circlejpg = tm.LoadTexture("circle.png", Color.FromArgb(255, 255, 255, 255).ToArgb());
+            emitter.Circlejpg = tm.LoadTexture("../../circle.png", Color.FromArgb(255, 255, 255, 255).ToArgb());
             Vector2D pos = new Vector2D();
             pos.Init(230, 270);
             emitter.Pos = pos;
@@ -368,11 +368,8 @@ namespace ParticleEditor
             sf.ShowDialog();
             
             XElement xRoot = new XElement("Particle");
-            Uri folder = new Uri(filepath);
-            Uri img = new Uri(emitter.Imgpath);
-            Uri rel = folder.MakeRelativeUri(img);
 
-            XAttribute xImage = new XAttribute("Image", rel.ToString().Remove(0,5));
+            XAttribute xImage = new XAttribute("Image", emitter.Imgpath.Remove(0,filepath.Count()+1));
             xRoot.Add(xImage);
 
             XAttribute xColorStartA = new XAttribute("ColorStartA", nudStartAlpha.Value);
@@ -470,7 +467,7 @@ namespace ParticleEditor
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
-                XElement xRoot = XElement.Load(dlg.FileName); ;
+                XElement xRoot = XElement.Load(dlg.FileName);
 
                 XAttribute xImage = xRoot.Attribute("Image");
                 Uri uri = new Uri(Path.Combine(filepath, xImage.Value));

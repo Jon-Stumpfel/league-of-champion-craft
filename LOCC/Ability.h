@@ -17,7 +17,9 @@ public:
 	int m_nCooldown;
 	int m_nRange;
 	int m_nNumTargets;
+	int m_nIconID;
 	GAME_PHASE m_nPhase;
+	PRTCL_TYPE m_nParticle;
 
 	TSTRING m_szInterfaceIcon;
 
@@ -30,7 +32,7 @@ public:
 
 	CAbility(void);
 	CAbility(vector<Vec2D> vPattern, int nAP, int nCD, int nRange,
-				int nTarget, GAME_PHASE Phase, bool bAttack, string luaFile, string particleFile, string name);
+				int nTarget, GAME_PHASE Phase, bool bAttack, string luaFile, string particleFile, string name, int ID);
 	~CAbility(void);
 
 	void SetType(SPELL_TYPE st) { m_eType = st;}
@@ -44,11 +46,15 @@ public:
 	bool GetIfAttack( void ) const { return m_bIsAttack; }
 	bool GetIfMove( void ) const { return m_bIsMove; }
 	std::vector< Vec2D > GetPattern( void ) const { return m_vPattern; }
+	Vec2D GetPatternPos( int i ) const { return m_vPattern[i]; }
 	std::string GetName( void ) const { return m_strName; }
 	std::string GetLua( void ) const { return m_strLuaFile; }
-	std::string GetParticle( void ) const { return m_strParticleFile; }
+	std::string GetParticleFile( void ) const { return m_strParticleFile; }
+	PRTCL_TYPE GetParticleType( void ) const { return m_nParticle; }
 
 	void SetIcon( TSTRING icon ) { m_szInterfaceIcon = icon; }
 	void SetIsMove( bool bMove ) { m_bIsMove = bMove; }
+	void SetParticleFile( std::string part ) { m_strParticleFile = part; }
+	void SetParticleType( PRTCL_TYPE type ) { m_nParticle = type; }
 };
 

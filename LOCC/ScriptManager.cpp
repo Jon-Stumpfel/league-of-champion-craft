@@ -100,11 +100,6 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 	int face = pCaster->GetFacing();
 
 		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pAbility, pTile);
-		for( unsigned int i = 0; i < TilePos.size(); i++ )
-		{
-			Vec2Df tmp = TranslateToPixelF(TilePos[i]);
-			CParticleManager::GetInstance()->LoadParticles(TEST, tmp);
-		}
 
 		lua_getglobal(L, "OnUse");
 
@@ -146,7 +141,8 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 
 		lua_setglobal(L, "tUnitData");
 
-		luaL_dofile(L, pAbility->GetLua().c_str());
+		std::string path = "Assets/Ability/" + pAbility->GetLua();
+		luaL_dofile(L, path.c_str());
 		lua_getglobal(L, "OnUse");
 		
 		lua_call(L, 0, 0);
