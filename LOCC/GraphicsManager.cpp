@@ -56,6 +56,7 @@ void CGraphicsManager::RemoveImage(TSTRING szReferenceName, int ID)
 {
 
 }
+
 CGraphicsManager* CGraphicsManager::GetInstance( void )
 {
 	if (s_Instance == nullptr)

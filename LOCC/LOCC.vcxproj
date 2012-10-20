@@ -141,6 +141,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpawnUnitMessage.cpp" />
     <ClCompile Include="SpellScrollState.cpp" />
     <ClCompile Include="StateStack.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="SGD Wrappers\tinystr.h" />
     <ClInclude Include="SGD Wrappers\tinyxml.h" />
     <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpawnUnitMessage.h" />
     <ClInclude Include="SpellScrollState.h" />
     <ClInclude Include="StateStack.h" />

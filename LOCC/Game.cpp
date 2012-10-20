@@ -12,6 +12,8 @@
 #include "StateStack.h"
 #include "AIManager.h"
 #include "FloatingText.h"
+#include "SGD Wrappers\CSGD_XAudio2.h"
+#include "SoundManager.h"
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -29,6 +31,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_hWnd = hWnd;
 	CTileManager::GetInstance()->Init();
 	
+	CSGD_XAudio2::GetInstance()->InitXAudio2();
 	CInputManager::GetInstance()->Initialize(hWnd, hInstance);
 	CScriptManager::GetInstance()->Initialize();
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
@@ -72,6 +75,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/healspellicon.png"), _T("healspellicon"), 0UL);
 
 
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
+
 	m_dwCurrTime = GetTickCount();
 }
 
@@ -100,6 +105,7 @@ void CGame::Shutdown(void)
 	CObjectManager::DeleteInstance();
 	CMessageSystem::DeleteInstance();
 	CTileManager::DeleteInstance();
+	CSoundManager::DeleteInstance();
 	//CStateStack::DeleteInstance();
 
 
