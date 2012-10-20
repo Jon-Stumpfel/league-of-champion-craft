@@ -154,7 +154,6 @@ bool CGame::Input(void)
 }
 void CGame::Update(void)
 {
-	CSGD_Direct3D::GetInstance()->ChangeDisplayParam(m_nWidth, m_nHeight, m_bIsWindowed);
 	DWORD	dwNow =  GetTickCount();
 	float fElapsedTime = (dwNow - m_dwCurrTime) * 0.001f;
 
