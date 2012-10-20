@@ -13,6 +13,7 @@ public:
 
 	void AddText(std::string str, Vec2Df position, Vec2Df velocity, float fLife, float fScale, DWORD color = D3DCOLOR_XRGB(255, 255, 255));
 
+	static int AddText(lua_State *L);
 private:
 
 	struct FloatText
