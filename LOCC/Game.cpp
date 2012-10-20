@@ -27,7 +27,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 {
 	m_nWidth = nScreenWidth;
 	m_nHeight = nScreenHeight;
-	m_bIsWindowed = bIsWindowed;
+	//m_bIsWindowed = bIsWindowed;
 	m_hWnd = hWnd;
 	CTileManager::GetInstance()->Init();
 	
@@ -73,11 +73,23 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/fireballicon.png"), _T("fireballicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/shieldspellicon.png"), _T("shieldspellicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/healspellicon.png"), _T("healspellicon"), 0UL);
-
-
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 
 	m_dwCurrTime = GetTickCount();
+	TiXmlDocument doc;
+	doc.LoadFile("Assets\\Menus\\Options.xml");
+	TiXmlElement* pRoot = doc.RootElement();
+	TiXmlElement* Option = pRoot->FirstChildElement("Option");
+	while(Option != nullptr)
+	{
+		int temp = 0;
+		Option->Attribute("Fullscreen", &temp);
+		if(temp == 0)
+			m_bIsWindowed	= false;	
+		else
+			m_bIsWindowed	= true;
+		Option = Option->NextSiblingElement("Option");
+	}
 }
 
 bool CGame::Main(void)
@@ -134,7 +146,6 @@ bool CGame::Input(void)
 			return true;
 		}
 	}
-
 	
 	// Working intercepting INputManager imeplenetation so that input is done here until then
 
@@ -143,8 +154,7 @@ bool CGame::Input(void)
 }
 void CGame::Update(void)
 {
-
-
+	CSGD_Direct3D::GetInstance()->ChangeDisplayParam(m_nWidth, m_nHeight, m_bIsWindowed);
 	DWORD	dwNow =  GetTickCount();
 	float fElapsedTime = (dwNow - m_dwCurrTime) * 0.001f;
 
