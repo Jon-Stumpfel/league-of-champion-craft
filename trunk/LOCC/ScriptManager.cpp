@@ -231,7 +231,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			Vec2D pixelPos = TranslateToPixel(affected[i]->GetPos());
 			std::ostringstream oss;
 			oss << "Spell Hit!";
-			CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX + 38, pixelPos.nPosY), 
+			CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
 				Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 255));
 
 		}

@@ -22,6 +22,7 @@
 #include "Hero.h"
 #include "BitmapFont.h"
 #include "FloatingText.h"
+#include "SoundManager.h"
 
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
@@ -471,6 +472,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 
 void CGameplayState::UseAbility(CAbility* ability)
 {
+	CSoundManager* pSM = CSoundManager::GetInstance();
 	if (ability == nullptr)
 		return;
 	if (ability->m_nNumTargets == -1) // champion spell panel
@@ -585,12 +587,12 @@ void CGameplayState::UseAbility(CAbility* ability)
 									if( pUnit->GetShielded() == false )
 									{
 										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+										pSM->Play(pSM->GetID(_T("hurt")), false, false);
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << m_pSelectedUnit->GetAttack();
-										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX + 38, pixelPos.nPosY), 
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
 											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
-
 									}
 									else
 									{
@@ -598,7 +600,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << "Shielded!";
-										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX, pixelPos.nPosY), 
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX, (float)pixelPos.nPosY), 
 											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 									}
 								}
@@ -615,7 +617,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 											Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << m_pSelectedUnit->GetAttack();
-										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX + 38, pixelPos.nPosY), 
+										pSM->Play(pSM->GetID(_T("hurt")), false, false);
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
 											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
 								}
 								else
@@ -624,7 +627,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << "Shielded!";
-										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX, pixelPos.nPosY), 
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX, (float)pixelPos.nPosY), 
 											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 								}
