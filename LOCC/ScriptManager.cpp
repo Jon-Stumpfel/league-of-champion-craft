@@ -8,7 +8,7 @@
 #include "SGD Wrappers\tinyxml.h"
 #include "AbilityManager.h"
 #include "ParticleManager.h"
-
+#include "FloatingText.h"
 CScriptManager* CScriptManager::s_Instance = nullptr;
 
 
@@ -224,6 +224,16 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 				}
 			}
 			affected[i]->SetPos(x,y);
+		}
+
+		for (unsigned int i = 0; i < affected.size(); ++i)
+		{
+			Vec2D pixelPos = TranslateToPixel(affected[i]->GetPos());
+			std::ostringstream oss;
+			oss << "Spell Hit!";
+			CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX + 38, pixelPos.nPosY), 
+				Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 255));
+
 		}
 }
 

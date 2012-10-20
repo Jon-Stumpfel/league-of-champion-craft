@@ -44,8 +44,10 @@ void CFloatingText::AddText(std::string str, Vec2Df position, Vec2Df velocity, f
 	txt.position = position;
 	txt.velocity = velocity;
 	txt.fLife = fLife;
+	txt.fMaxlife = fLife;
 	txt.color = color;
 	txt.fScale = fScale;
+	txt.color.a = 255;
 	m_vText.push_back(txt);
 }
 
@@ -62,6 +64,7 @@ void CFloatingText::Update(float fElapsedTime)
 		m_vText[i].position.fVecX = (m_vText[i].position.fVecX + (m_vText[i].velocity.fVecX * fElapsedTime));
 		m_vText[i].position.fVecY = (m_vText[i].position.fVecY + (m_vText[i].velocity.fVecY * fElapsedTime));
 
+		m_vText[i].color.a = 3.0f * (m_vText[i].fLife / m_vText[i].fMaxlife);
 		if (m_vText[i].fLife <= 0.0f)
 		{
 			m_vText.erase(m_vText.begin() + i--);

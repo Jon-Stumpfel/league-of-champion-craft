@@ -586,12 +586,21 @@ void CGameplayState::UseAbility(CAbility* ability)
 									{
 										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
-										CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(pixelPos.nPosX, pixelPos.nPosY), 
-											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 100, 100));
+										std::ostringstream oss;
+										oss << m_pSelectedUnit->GetAttack();
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX + 38, pixelPos.nPosY), 
+											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
 
 									}
 									else
+									{
 										pUnit->SetShielded(0);
+										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+										std::ostringstream oss;
+										oss << "Shielded!";
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX, pixelPos.nPosY), 
+											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+									}
 								}
 								else
 								{
@@ -601,9 +610,24 @@ void CGameplayState::UseAbility(CAbility* ability)
 							else
 							{
 								if( pUnit->GetShielded() == false )
+								{
 										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+											Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+										std::ostringstream oss;
+										oss << m_pSelectedUnit->GetAttack();
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX + 38, pixelPos.nPosY), 
+											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
+								}
 								else
+								{
 									pUnit->SetShielded(0);
+										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+										std::ostringstream oss;
+										oss << "Shielded!";
+										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df(pixelPos.nPosX, pixelPos.nPosY), 
+											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+
+								}
 							}
 						}
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);

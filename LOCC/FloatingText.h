@@ -20,9 +20,11 @@ private:
 		Vec2Df position;
 		Vec2Df velocity;
 		std::string str;
-		DWORD color;
+		D3DXCOLOR color;
 		float fLife;
+		float fMaxlife;
 		float fScale;
+		int nAlpha;
 	};
 
 	CFloatingText(void);
