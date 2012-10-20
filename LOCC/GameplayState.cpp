@@ -624,12 +624,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 								else
 								{
 									pUnit->SetShielded(0);
-										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
-										std::ostringstream oss;
-										oss << "Shielded!";
-										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX, (float)pixelPos.nPosY), 
-											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
-
+									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+									std::ostringstream oss;
+									oss << "Shielded!";
+									CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX, (float)pixelPos.nPosY), 
+										Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 								}
 							}
 						}

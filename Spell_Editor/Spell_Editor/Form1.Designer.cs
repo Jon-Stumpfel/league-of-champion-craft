@@ -36,6 +36,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadParticleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -56,7 +57,7 @@
             this.cbAttack = new System.Windows.Forms.CheckBox();
             this.nudAP = new System.Windows.Forms.NumericUpDown();
             this.rtbLua = new System.Windows.Forms.RichTextBox();
-            this.loadIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -129,6 +130,7 @@
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadParticleToolStripMenuItem,
             this.loadIconToolStripMenuItem,
+            this.loadSoundToolStripMenuItem,
             this.changePathToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
@@ -140,6 +142,13 @@
             this.loadParticleToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
             this.loadParticleToolStripMenuItem.Text = "Load Particle";
             this.loadParticleToolStripMenuItem.Click += new System.EventHandler(this.loadParticleToolStripMenuItem_Click);
+            // 
+            // loadIconToolStripMenuItem
+            // 
+            this.loadIconToolStripMenuItem.Name = "loadIconToolStripMenuItem";
+            this.loadIconToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
+            this.loadIconToolStripMenuItem.Text = "Load Icon";
+            this.loadIconToolStripMenuItem.Click += new System.EventHandler(this.loadIconToolStripMenuItem_Click);
             // 
             // changePathToolStripMenuItem
             // 
@@ -352,12 +361,12 @@
             this.rtbLua.TabIndex = 0;
             this.rtbLua.Text = "";
             // 
-            // loadIconToolStripMenuItem
+            // loadSoundToolStripMenuItem
             // 
-            this.loadIconToolStripMenuItem.Name = "loadIconToolStripMenuItem";
-            this.loadIconToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
-            this.loadIconToolStripMenuItem.Text = "Load Icon";
-            this.loadIconToolStripMenuItem.Click += new System.EventHandler(this.loadIconToolStripMenuItem_Click);
+            this.loadSoundToolStripMenuItem.Name = "loadSoundToolStripMenuItem";
+            this.loadSoundToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
+            this.loadSoundToolStripMenuItem.Text = "Load Sound";
+            this.loadSoundToolStripMenuItem.Click += new System.EventHandler(this.loadSoundToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -424,6 +433,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem loadIconToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadSoundToolStripMenuItem;
     }
 }
 

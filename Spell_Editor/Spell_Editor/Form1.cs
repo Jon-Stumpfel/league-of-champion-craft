@@ -342,5 +342,14 @@ namespace Spell_Editor
                 iconfile = of.SafeFileName;
             }
         }
+
+        private void loadSoundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog of = new OpenFileDialog();
+            if (DialogResult.OK == of.ShowDialog())
+            {
+                soundfile = of.SafeFileName;
+            }
+        }
     }
 }
