@@ -210,6 +210,8 @@ namespace Spell_Editor
 
                     XAttribute xIcon = new XAttribute("IconPath", iconfile);
                     xRoot.Add(xIcon);
+
+                    XAttribute xSound = new XAttribute("SoundPath", iconfile);
                 }
 
                 for (int x = 0; x < 9; x++)
