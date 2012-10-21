@@ -365,9 +365,12 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 			}
 		}
 	}
-	if (pMoveUnit->GetType() != UT_HERO || pMoveUnit->GetFleeing() == true)
+	if (pMoveUnit->GetType() != UT_HERO && pMoveUnit->GetFleeing() == true)
 	{
-		pNearestEnemy = CGameManager::GetInstance()->GetChampion(pMoveUnit->GetPlayerID());
+		
+		CUnit* pChampion = CGameManager::GetInstance()->GetChampion(pMoveUnit->GetPlayerID());
+		if (pChampion != nullptr)
+			pNearestEnemy = pChampion;
 	}
 	Vec2D nearest;
 	int xDistance = pNearestEnemy->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
