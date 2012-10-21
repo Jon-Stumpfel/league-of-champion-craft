@@ -1054,7 +1054,6 @@ void CGameplayState::Update(float fElapsedTime)
 	CAnimationManager::GetInstance()->Update(fElapsedTime);
 	CGameManager::GetInstance()->Update(fElapsedTime);
 	CFloatingText::GetInstance()->Update(fElapsedTime);
-
 }
 
 RECT CellAlgorithm( int id )

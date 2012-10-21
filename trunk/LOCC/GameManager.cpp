@@ -578,7 +578,11 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			if (pSMSG->GetUnit() == CGameplayState::GetInstance()->GetHighlighted())
 				CGameplayState::GetInstance()->ClearHighlighted();
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
-
+			if(pSMSG->GetUnit()->GetType() == UT_HERO)
+			{
+				CGameOverState::GetInstance()->SetPlayer(pSMSG->GetUnit()->GetPlayerID());
+				CStateStack::GetInstance()->Push(CGameOverState::GetInstance());
+			}
 		}
 		break;
 	case MSG_ADDRESOURCE:

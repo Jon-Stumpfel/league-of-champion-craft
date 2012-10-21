@@ -146,6 +146,7 @@ void CUnit::Update(float fElapsedTime)
 	}
 	if (m_nHP <= 0)
 	{
+		m_sAnimStruct->animationType = AT_DEATH;
 		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 		CMessageSystem::GetInstance()->SendMessageW(pMsg);
 	}
