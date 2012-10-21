@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="3" APCost="3" Cooldown="2" Target="1" SpellName="Shield" Attack="0" Phase="1" LuaPath="Assets/Ability/Shield.lua" ParticlePath="Assets/Ability/Shield.xml">
+<Ability Range="3" APCost="3" Cooldown="2" Target="1" SpellName="Shield" Attack="0" Phase="1" LuaPath="Shield.lua" ParticlePath="Shield.xml" IconPath="shieldspellicon.png" SoundPath="thunder2.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>

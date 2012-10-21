@@ -9,6 +9,7 @@
 #include "AbilityManager.h"
 #include "ParticleManager.h"
 #include "FloatingText.h"
+#include "SoundManager.h"
 CScriptManager* CScriptManager::s_Instance = nullptr;
 
 
@@ -233,8 +234,10 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			oss << "Spell Hit!";
 			CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
 				Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 255));
-
 		}
+		
+		CSoundManager* pSM = CSoundManager::GetInstance();
+		pSM->Play(pAbility->GetSound(), false, false);
 }
 
 void CScriptManager::Initialize( void )

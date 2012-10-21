@@ -6,6 +6,7 @@
 #include "GameplayState.h"
 #include "GraphicsManager.h"
 #include "Unit.h"
+#include "SoundManager.h"
 
 CAbilityManager* CAbilityManager::s_Instance = nullptr;
 
@@ -64,7 +65,7 @@ void CAbilityManager::LoadAbilities( void )
 		TiXmlDocument doc;
 		switch(i)
 		{
-		/*case SP_FIREBALL:
+		case SP_FIREBALL:
 			{
 				if (doc.LoadFile("Assets/Ability/fireball.xml") == false)
 					return;
@@ -87,7 +88,7 @@ void CAbilityManager::LoadAbilities( void )
 				if(doc.LoadFile("Assets/Ability/Speed.xml") == false)
 					return;
 			}
-			break;*/
+			break;
 
 		case SP_TEST:
 			{
@@ -112,7 +113,7 @@ void CAbilityManager::LoadAbilities( void )
 			return;
 
 		int phase, attack, target, cooldown, ap, range, ID;
-		const char* spellname, *luaFile, *particleFile, *iconFile;
+		const char* spellname, *luaFile, *particleFile, *iconFile, *soundFile;
 
 		pRoot->Attribute("Phase", &phase);
 		pRoot->Attribute("Attack", &attack);
@@ -124,6 +125,7 @@ void CAbilityManager::LoadAbilities( void )
 		luaFile = pRoot->Attribute("LuaPath");
 		particleFile = pRoot->Attribute("ParticlePath");
 		iconFile = pRoot->Attribute("IconPath");
+		soundFile = pRoot->Attribute("SoundPath");
 		vector<Vec2D> pos;
 		TiXmlElement* pTile = pRoot->FirstChildElement("Tile");
 
@@ -149,6 +151,13 @@ void CAbilityManager::LoadAbilities( void )
 
 		pGM->LoadImageW( _T("Assets/HUD/") + img, name, D3DCOLOR_ARGB(255, 255, 255, 255) );
 		ID = pGM->GetID(name);
+		
+		TCHAR conversion3[100];	
+		mbstowcs_s(nullptr, conversion3, soundFile, _TRUNCATE);
+		TSTRING sound = conversion3;
+
+		CSoundManager* pSM = CSoundManager::GetInstance();
+		pSM->LoadSound(_T("Assets/Sounds/") + sound, name, false);
 
 		GAME_PHASE gPhase;
 		if( phase == 0 )
@@ -164,6 +173,8 @@ void CAbilityManager::LoadAbilities( void )
 
 		CAbility* ab = new CAbility(pos, ap, cooldown, range, target,
 			gPhase, bAttack, luaFile, particleFile, spellname, ID);
+
+		ab->SetSound(pSM->GetID(name));
 
 		switch(i)
 		{

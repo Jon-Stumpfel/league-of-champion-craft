@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="3" APCost="4" Cooldown="0" Target="1" SpellName="Heal" Attack="0" Phase="1" LuaPath="Assets/Ability/Heal.lua" ParticlePath="Assets/Ability/Heal.xml">
+<Ability Range="3" APCost="4" Cooldown="0" Target="1" SpellName="Heal" Attack="0" Phase="1" LuaPath="Heal.lua" ParticlePath="Heal.xml" IconPath="healspellicon.png" SoundPath="thunder2.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>

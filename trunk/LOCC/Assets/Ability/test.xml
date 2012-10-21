@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="2" APCost="5" Cooldown="1" Target="1" SpellName="test" Attack="1" Phase="0" LuaPath="test.lua" ParticlePath="Test.xml" IconPath="iceblockportrait.png">
+<Ability Range="2" APCost="5" Cooldown="1" Target="1" SpellName="test" Attack="1" Phase="0" LuaPath="test.lua" ParticlePath="Test.xml" IconPath="iceblockportrait.png" SoundPath="thunder2.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>
