@@ -26,6 +26,16 @@ public:
 	{
 		switch (id)
 		{
+		case 33:
+			{
+				rSource.left = 68;
+				rSource.top = 1036;
+				rSource.right = 75;
+				rSource.bottom = 1075;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
 		case 44:
 			{
 				rSource.left = 518;

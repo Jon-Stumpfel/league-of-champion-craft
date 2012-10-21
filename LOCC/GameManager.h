@@ -2,6 +2,8 @@
 #include "Unit.h"
 #include "ScriptManager.h"
 #include "IMessage.h"
+#include "StateStack.h"
+#include "GameOverState.h"
 class CPlayer;
 
 class CGameManager

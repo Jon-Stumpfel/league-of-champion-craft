@@ -461,6 +461,18 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					}
 					break;
 				}
+			case AT_DEATH:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_DEATH)
+						{
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
+						}
+					}
+					break;
+				}
 			}
 			break;
 		}
@@ -618,6 +630,18 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
+						}
+					}
+					break;
+				}
+			case AT_DEATH:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_DEATH)
 						{
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
@@ -787,6 +811,18 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					}
 					break;
 				}
+			case AT_DEATH:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_DEATH)
+						{
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
+						}
+					}
+					break;
+				}
 			}
 			break;
 		}
@@ -944,6 +980,18 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
+						}
+					}
+					break;
+				}
+			case AT_DEATH:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_DEATH)
 						{
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}
@@ -1113,6 +1161,18 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					}
 					break;
 				}
+			case AT_DEATH:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_DEATH)
+						{
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
+						}
+					}
+					break;
+				}
 			}
 			break;
 		}
@@ -1276,6 +1336,18 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					}
 					break;
 				}
+			case AT_DEATH:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_DEATH)
+						{
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
+						}
+					}
+					break;
+				}
 			}
 			break;
 		}
@@ -1433,6 +1505,18 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_ABILITY_W)
+						{
+							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
+						}
+					}
+					break;
+				}
+			case AT_DEATH:
+				{
+					std::vector<CAnimation>::iterator tempiter;
+					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					{
+						if(tempiter->GetAnimType() == AT_DEATH)
 						{
 							return tempiter->GetFrameVec()[tempiter->GetCurrFrame()];
 						}

@@ -21,7 +21,7 @@ namespace Animation_Editor_LOCC
             set { animlooping = value; }
         }
 
-        string imagepath = "footman.png";
+        string imagepath = "";
         public string ImagePath
         {
             get { return imagepath; }

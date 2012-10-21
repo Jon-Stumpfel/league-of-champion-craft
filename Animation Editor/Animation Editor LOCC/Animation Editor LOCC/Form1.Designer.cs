@@ -305,7 +305,8 @@
             "AT_ABILITY_N",
             "AT_ABILITY_S",
             "AT_ABILITY_E",
-            "AT_ABILITY_W"});
+            "AT_ABILITY_W",
+            "AT_DEATH"});
             this.AnimType.Location = new System.Drawing.Point(84, 354);
             this.AnimType.Name = "AnimType";
             this.AnimType.Size = new System.Drawing.Size(131, 21);

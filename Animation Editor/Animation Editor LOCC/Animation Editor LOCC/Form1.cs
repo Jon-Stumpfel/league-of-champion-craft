@@ -227,23 +227,26 @@ namespace Animation_Editor_LOCC
                 for (int i = 0; i < Animations.Count; i++)
                 {
                     XElement Animation = new XElement("Animation");
-                    if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                    if (animlist.SelectedItem != null)
                     {
-                        Animation.Add(new XAttribute("UnitType", UnitType.SelectedIndex));
-                        Animation.Add(new XAttribute("AnimType", AnimType.SelectedIndex));
-                        if (IsLoopingCheckBox.Checked == true)
-                            Animation.Add(new XAttribute("IsLooping", 1));
+                        if (animations[i].NameOfAnim == animlist.SelectedItem.ToString())
+                        {
+                            Animation.Add(new XAttribute("UnitType", UnitType.SelectedIndex));
+                            Animation.Add(new XAttribute("AnimType", AnimType.SelectedIndex));
+                            if (IsLoopingCheckBox.Checked == true)
+                                Animation.Add(new XAttribute("IsLooping", 1));
+                            else
+                                Animation.Add(new XAttribute("IsLooping", 0));
+                        }
                         else
-                            Animation.Add(new XAttribute("IsLooping", 0));
-                    }
-                    else
-                    {
-                        Animation.Add(new XAttribute("UnitType", Animations[i].UnitType.ToString()));
-                        Animation.Add(new XAttribute("AnimType", Animations[i].AnimType.ToString()));
-                        if (animations[i].AnimLooping == true)
-                            Animation.Add(new XAttribute("IsLooping", 1));
-                        else
-                            Animation.Add(new XAttribute("IsLooping", 0));
+                        {
+                            Animation.Add(new XAttribute("UnitType", Animations[i].UnitType.ToString()));
+                            Animation.Add(new XAttribute("AnimType", Animations[i].AnimType.ToString()));
+                            if (animations[i].AnimLooping == true)
+                                Animation.Add(new XAttribute("IsLooping", 1));
+                            else
+                                Animation.Add(new XAttribute("IsLooping", 0));
+                        }
                     }
                     Animation.Add(new XAttribute("ImgName", Animations[i].ImagePath));
                     Animation.Add(new XAttribute("CurrentFrame", Animations[i].CurrFrame.ToString()));
@@ -330,7 +333,7 @@ namespace Animation_Editor_LOCC
                 tempframe.AnchorPointX = 0;
                 tempframe.AnchorPointY = 0;
                 tempanim.FrameVec.Add(tempframe);
-                tempanim.ImagePath = "footman.png";
+                tempanim.ImagePath = "";
                 tempanim.UnitType = 0;
                 tempanim.NameOfAnim = animname.Text;
                 animations.Add(tempanim);
@@ -613,6 +616,7 @@ namespace Animation_Editor_LOCC
                         animations[i].FrameVec[(int)numofframesinanim.Value].Rect = new Rectangle((int)RectLeftPos.Value, (int)RectTopPos.Value,
                             (int)RectRightPos.Value - (int)RectLeftPos.Value, (int)RectBottomPos.Value - (int)RectTopPos.Value);
                         animations[i].FrameVec[(int)numofframesinanim.Value].TimePlayed = (int)FrameDuration.Value;
+                        animations[i].FrameVec[(int)numofframesinanim.Value].FrameNum = (int)numofframesinanim.Value;
                     }
                 }
             }
