@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="4" APCost="8" Cooldown="1" Target="1" SpellName="Fireball" Attack="0" Phase="0" LuaPath="Assets/Ability/fireball.lua" ParticlePath="Assets/Ability/fireball.xml">
+<Ability Range="4" APCost="8" Cooldown="1" Target="1" SpellName="Fireball" Attack="0" Phase="0" LuaPath="fireball.lua" ParticlePath="fireball.xml" IconPath="fireballicon.png" SoundPath="thunder2.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>

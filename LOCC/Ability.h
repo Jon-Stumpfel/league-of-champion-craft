@@ -18,6 +18,7 @@ public:
 	int m_nRange;
 	int m_nNumTargets;
 	int m_nIconID;
+	int m_nSoundID;
 	GAME_PHASE m_nPhase;
 	PRTCL_TYPE m_nParticle;
 
@@ -51,10 +52,12 @@ public:
 	std::string GetLua( void ) const { return m_strLuaFile; }
 	std::string GetParticleFile( void ) const { return m_strParticleFile; }
 	PRTCL_TYPE GetParticleType( void ) const { return m_nParticle; }
+	int GetSound( void ) const { return m_nSoundID; }
 
 	void SetIcon( TSTRING icon ) { m_szInterfaceIcon = icon; }
 	void SetIsMove( bool bMove ) { m_bIsMove = bMove; }
 	void SetParticleFile( std::string part ) { m_strParticleFile = part; }
 	void SetParticleType( PRTCL_TYPE type ) { m_nParticle = type; }
+	void SetSound( int ID ) { m_nSoundID = ID; }
 };
 

@@ -211,7 +211,8 @@ namespace Spell_Editor
                     XAttribute xIcon = new XAttribute("IconPath", iconfile);
                     xRoot.Add(xIcon);
 
-                    XAttribute xSound = new XAttribute("SoundPath", iconfile);
+                    XAttribute xSound = new XAttribute("SoundPath", soundfile);
+                    xRoot.Add(xSound);
                 }
 
                 for (int x = 0; x < 9; x++)
@@ -293,7 +294,18 @@ namespace Spell_Editor
                 XAttribute xIcon = xRoot.Attribute("IconPath");
                 iconfile = xIcon.Value;
 
+                XAttribute XSound = xRoot.Attribute("SoundPath");
+                soundfile = XSound.Value;
+
                 IEnumerable<XElement> xTiles = xRoot.Elements();
+
+                for (int x = 0; x < 9; x++)
+                {
+                    for (int y = 0; y < 9; y++)
+                    {
+                        grid[x, y].Selected = false;
+                    }
+                }
 
                 foreach (XElement xTile in xTiles)
                 {
