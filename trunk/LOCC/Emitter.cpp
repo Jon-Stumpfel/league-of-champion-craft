@@ -117,10 +117,14 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 	pRoot->Attribute( "ColorStartB", &m_sStartColor.b );
 	pRoot->Attribute( "ColorEndB", &m_sEndColor.b );
 
-	pRoot->QueryFloatAttribute( "RotStart", &m_fStartRot );
-	pRoot->QueryFloatAttribute( "RotEnd", &m_fEndRot );
+	float startRot, endRot;
+	pRoot->QueryFloatAttribute( "RotStart", &startRot );
+	pRoot->QueryFloatAttribute( "RotEnd", &endRot );
 	pRoot->QueryFloatAttribute( "ScaleStart", &m_fStartScale );
 	pRoot->QueryFloatAttribute( "ScaleEnd", &m_fEndScale );
+
+	m_fStartRot = float(startRot * 3.1415926 / 180);
+	m_fEndRot = float(endRot * 3.1415926 / 180);
 
 	Vec2D sMax, sMin, eMax, eMin;
 
@@ -263,7 +267,7 @@ void CEmitter::Update( float fElapsedTime )
 				m_nNumSpawned++;
 			else
 				break;
-			m_fSpawnTimer - m_fSpawnRate;
+			m_fSpawnTimer -= m_fSpawnRate;
 		}
 
 		m_fSpawnTimer = 0;
