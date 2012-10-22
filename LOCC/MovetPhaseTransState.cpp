@@ -20,13 +20,13 @@ CMovetPhaseTransState::~CMovetPhaseTransState(void)
 
 void CMovetPhaseTransState::Enter(void)
 {
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	m_MovingUp=CGame::GetInstance()->GetWindowHeight();
 	m_fTimer = 1.5f;
 }
 
 void CMovetPhaseTransState::Exit(void)
 {
-
 }
 
 CMovetPhaseTransState* CMovetPhaseTransState::GetInstance(void)
