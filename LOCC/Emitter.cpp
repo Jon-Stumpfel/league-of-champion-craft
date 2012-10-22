@@ -268,6 +268,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 
 		m_vAliveParticles.push_back( tParticle );
 	}
+	m_nNumSpawned = 1;
 }
 
 void CEmitter::Render( void )
@@ -292,7 +293,7 @@ void CEmitter::Update( float fElapsedTime )
 		}
 
 		m_fSpawnTimer = 0;
-		m_fSpawnRate = (rand() % (m_nMinSpawnRate - m_nMaxSpawnRate + 1)+ m_nMinSpawnRate)/100.0f;
+		m_fSpawnRate = (rand() % (m_nMinSpawnRate - m_nMaxSpawnRate + 1) + m_nMinSpawnRate)/100.0f;
 	}
 
 	m_fSpawnTimer += fElapsedTime;
@@ -344,7 +345,6 @@ void CEmitter::Update( float fElapsedTime )
 		newColor.r = int(oldColor.r + dtR);
 		newColor.g = int(oldColor.g + dtG);
 		newColor.b = int(oldColor.b + dtB);
-
 		m_vAliveParticles[i]->SetColor( newColor );
 
 		// Changes the rotation over time
@@ -365,7 +365,6 @@ void CEmitter::Update( float fElapsedTime )
 		// set the new value
 		float newScale = dtScale + oldScale;
 		m_vAliveParticles[i]->SetScale( newScale );
-
 	}
 }
 
@@ -420,4 +419,5 @@ void CEmitter::Loop( void )
 
 		m_vAliveParticles.push_back( tParticle );
 	}
+	m_nNumSpawned = 1;
 }
