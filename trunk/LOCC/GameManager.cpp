@@ -8,6 +8,7 @@
 #include "ScriptManager.h"
 #include "MessageSystem.h"
 #include "DeSpawnUnitMessage.h"
+#include "FloatingText.h"
 #include "AddResourceMessage.h"
 #include "Tile.h"
 #include "Unit.h"
@@ -42,6 +43,8 @@ void CGameManager::NextPhase(void)
 	{
 		CAIManager::GetInstance()->BeginAttack();
 		m_nCurrentPhase = GP_ATTACK;
+		CStateStack::GetInstance()->Push(CAttackPhaseTransState::GetInstance());
+
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
 	{
@@ -67,7 +70,6 @@ void CGameManager::NextPhase(void)
 				m_vUnits[i]->SetHasAttacked(false);
 			}
 		}
-		CStateStack::GetInstance()->Push(CAttackPhaseTransState::GetInstance());
 	}
 	
 
@@ -192,8 +194,11 @@ void CGameManager::LoadUnitsFromScript(void)
 void CGameManager::LoadMap(int nLevelNum)
 {
 	CTileManager* pTM=CTileManager::GetInstance();
+	std::ostringstream oss;
+	oss << "Assets\\Tiles\\TestMap" << nLevelNum << ".xml";
 	string filename= "Assets\\Tiles\\TestMap2.xml";
-	pTM->LoadSave(filename);
+	pTM->LoadSave(oss.str());
+	m_nCurrentLevel = nLevelNum;
 	// Attempting to load fake level 1 script
 }
 
@@ -478,17 +483,17 @@ void CGameManager::Reset(void)
 }
 void CGameManager::NewGame(void)
 {
-	LoadLevel(string("level1"));
+	LoadLevel(string("level2"));
 
 
 	Reset();
 
 
 	
-	LoadLevel(string("level1"));
+	LoadLevel(string("level2"));
 	
 	
-	LoadMap(1);
+	LoadMap(2);
 
 	m_nPhaseCount = 0;
 	// Player 1 and his units
