@@ -101,6 +101,7 @@ void CMainMenuState::Update(float fElapsedTime)
 void CMainMenuState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(50, 50, 50);
+
 	CSGD_TextureManager::GetInstance()->Draw(blueguyid,0,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	CSGD_TextureManager::GetInstance()->Draw(redguyid,290,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	CSGD_TextureManager::GetInstance()->Draw(swordid,15,-5,0.7f,0.7f,0,0,0,0,D3DXCOLOR(255,255,255,255));
@@ -164,6 +165,7 @@ void CMainMenuState::Render(void)
 		const char* Exit = "Exit";
 		m_pBitmapFont->Print(Exit,364,450,0.7f,D3DXCOLOR(255,255,255,255));
 	}
+
 }
 
 CMainMenuState* CMainMenuState::GetInstance()
