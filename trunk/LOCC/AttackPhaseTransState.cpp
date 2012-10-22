@@ -23,8 +23,8 @@ void CAttackPhaseTransState::Enter(void)
 {
 	m_MovingR=0;
 	m_MovingL=CGame::GetInstance()->GetWindowWidth();
-
 	m_fTimer = 1.5f;
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
 }
 
 void CAttackPhaseTransState::Exit(void)
