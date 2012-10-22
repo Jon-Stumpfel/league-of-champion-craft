@@ -53,7 +53,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.8f)
+		if (fTimeToPop > 0.2f)
 		{
 			if (m_vInputQueue.back() == INPUT_AI_ATTACKED)
 			{
@@ -66,6 +66,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 			if (m_vInputQueue.back() == INPUT_AI_MOVED)
 			{
 				m_bMoved = true;
+				m_bSelected = false;
 			}
 			CStateStack::GetInstance()->GetTop()->Input(m_vInputQueue.back());
 			if (m_vInputQueue.size() != 0)
@@ -408,6 +409,7 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		int yDistance = pNearestEnemy->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
 		if ((abs(double(xDistance)) + abs(double(yDistance))) == 1)
 		{
+			bSkipMove = false;
 			m_vInputQueue.push_back(INPUT_AI_CLEAR);
 			m_vInputQueue.push_back(INPUT_AI_MOVED);
 			return;
@@ -416,6 +418,7 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		{
 			if (lowestDistance <= 3)
 			{
+			bSkipMove = false;
 				m_vInputQueue.push_back(INPUT_AI_CLEAR);
 				m_vInputQueue.push_back(INPUT_AI_MOVED);
 				return;
@@ -433,6 +436,7 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
 		yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
 
+		bSkipMove = false;
 		m_vInputQueue.push_back(INPUT_AI_CLEAR);
 		m_vInputQueue.push_back(INPUT_AI_MOVED);
 		m_vInputQueue.push_back(INPUT_ACCEPT);
@@ -514,15 +518,12 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		else
 		{
 			// Is anyone else under 25% hp?
-
-
 			for (unsigned int i = 0; i < vUnitsUnder25.size(); ++i)
 			{
 				int xDistance = vUnitsUnder25[i]->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
 				int yDistance = vUnitsUnder25[i]->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
 				m_vInputQueue.push_back(INPUT_AI_CLEAR);
-			m_vInputQueue.push_back(INPUT_AI_MOVED);
-
+				m_vInputQueue.push_back(INPUT_AI_MOVED);
 				m_vInputQueue.push_back(INPUT_ACCEPT);
 
 				for (int i = 0; i < (int)(abs(double(xDistance))); ++i)

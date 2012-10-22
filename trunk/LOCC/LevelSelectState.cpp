@@ -86,7 +86,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			else if(selected == 1)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-				CGameManager::GetInstance()->NewGame("level1", 2);
+				CGameManager::GetInstance()->NewGame("level2", 2);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			break;
@@ -278,6 +278,7 @@ void LevelSelectState::Render(void)
 	ostringstream boss;
 	boss<<"You are now surrounded by water!";
 	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255), 210);
+
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 
