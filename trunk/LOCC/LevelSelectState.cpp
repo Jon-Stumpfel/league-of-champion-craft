@@ -61,16 +61,23 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				CGameManager::GetInstance()->NewGame("level1", 2);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
+			break;
 		}
 	case INPUT_LEFT:
 		{
 			if(selected == 1)
 				selected--;
+			break;
 		}
 	case INPUT_RIGHT:
 		{
 			if(selected == 0)
 				selected++;
+			break;
+		}
+	case INPUT_CANCEL:
+		{
+			CStateStack::GetInstance()->Pop();
 		}
 	}
 }
@@ -83,7 +90,7 @@ void LevelSelectState::Update(float fElapsedTime)
 void LevelSelectState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(0,100,255);
-	int nMiniMapOffsetX = 10;
+	int nMiniMapOffsetX = 60;
 	int nMiniMapOffsetY = 50;
 	CTileManager* pTM=CTileManager::GetInstance();
 	string filename= "Assets\\Tiles\\TestMap.xml";
@@ -155,9 +162,12 @@ void LevelSelectState::Render(void)
 				break;
 			}
 		}
+		ostringstream woss;
+		woss<<"Basic test map";
+		tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	nMiniMapOffsetX = 400;
+	nMiniMapOffsetX = 500;
 	nMiniMapOffsetY = 50;
 	filename= "Assets\\Tiles\\TestMap2.xml";
 	pTM->LoadSave(filename);
@@ -228,6 +238,15 @@ void LevelSelectState::Render(void)
 				break;
 			}
 		}
+		ostringstream boss;
+		boss<<"You are now";
+		tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
+		ostringstream toss;
+		toss<<"surrounded by";
+		tempfont.Print(toss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 182, 0.5f, D3DXCOLOR(255,255,255,255));
+		ostringstream soss;
+		soss<<"water!";
+		tempfont.Print(soss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 202, 0.5f, D3DXCOLOR(255,255,255,255));
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 }
 

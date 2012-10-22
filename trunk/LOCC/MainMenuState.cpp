@@ -45,7 +45,7 @@ void CMainMenuState::Input(INPUT_ENUM input)
 		{
 			if(selected == 0)
 			{
-				CStateStack::GetInstance()->Switch(LevelSelectState::GetInstance());
+				CStateStack::GetInstance()->Push(LevelSelectState::GetInstance());
 			}
 			else if(selected == 1)
 			{

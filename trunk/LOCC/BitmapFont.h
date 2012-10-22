@@ -727,11 +727,6 @@ public:
 				nX += 10;
 				continue;
 			}
-			if(ch == '\n')
-			{
-				nY += m_nCharHeight;
-				continue;
-			}
 			// Calculate the tile id for this character
 			int id = ch;
 			// Get the source rect using the Cell Algorithm
