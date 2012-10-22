@@ -11,12 +11,6 @@ LevelSelectState::~LevelSelectState(void)
 
 RECT LevelSelectState::CellAlgorithm( int id )
 {
-
-	// quick fix for rendering the wrong tiles
-	//if (id == 1)
-	//	id = 2;
-	//else if (id == 2)
-	//	id = 1;
 	RECT rSource;
 
 	rSource.left	= (id % 4) * (nFakeTileWidth - 26);
@@ -48,16 +42,12 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			if(selected == 0)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-				string filename= "Assets\\Tiles\\TestMap.xml";
-				pTM->LoadSave(filename);
 				CGameManager::GetInstance()->NewGame("level1", 1);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(selected == 1)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-				string filename= "Assets\\Tiles\\TestMap2.xml";
-				pTM->LoadSave(filename);
 				CGameManager::GetInstance()->NewGame("level1", 2);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -93,7 +83,7 @@ void LevelSelectState::Render(void)
 	int nMiniMapOffsetX = 60;
 	int nMiniMapOffsetY = 50;
 	CTileManager* pTM=CTileManager::GetInstance();
-	string filename= "Assets\\Tiles\\TestMap.xml";
+	string filename= "Assets\\Tiles\\TestMap1.xml";
 	pTM->LoadSave(filename);
 	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY, nMiniMapOffsetX + 225, nMiniMapOffsetY + 152};
 	RECT selectedrect = {nMiniMapOffsetX-5, nMiniMapOffsetY-5, nMiniMapOffsetX + 230, nMiniMapOffsetY + 157};
@@ -109,6 +99,7 @@ void LevelSelectState::Render(void)
 
 	// Render the tiles. Only using colored blocks for now
 	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
+	{
 		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
 		{
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
@@ -162,15 +153,16 @@ void LevelSelectState::Render(void)
 				break;
 			}
 		}
-		ostringstream woss;
-		woss<<"Basic test map";
-		tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
-		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+	}
+	ostringstream woss;
+	woss<<"Basic test map";
+	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	nMiniMapOffsetX = 500;
 	nMiniMapOffsetY = 50;
-	filename= "Assets\\Tiles\\TestMap2.xml";
-	pTM->LoadSave(filename);
+	string thefilename= "Assets\\Tiles\\TestMap2.xml";
+	pTM->LoadSave(thefilename);
 	miniR.left = nMiniMapOffsetX; miniR.top = nMiniMapOffsetY; miniR.right = nMiniMapOffsetX + 225; miniR.bottom = nMiniMapOffsetY + 152;
 	selectedrect.left = nMiniMapOffsetX-5; selectedrect.top = nMiniMapOffsetY-5; selectedrect.right = nMiniMapOffsetX + 230; selectedrect.bottom = nMiniMapOffsetY + 157;
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
@@ -185,6 +177,7 @@ void LevelSelectState::Render(void)
 
 	// Render the tiles. Only using colored blocks for now
 	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
+	{
 		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
 		{
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
@@ -238,16 +231,17 @@ void LevelSelectState::Render(void)
 				break;
 			}
 		}
-		ostringstream boss;
-		boss<<"You are now";
-		tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
-		ostringstream toss;
-		toss<<"surrounded by";
-		tempfont.Print(toss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 182, 0.5f, D3DXCOLOR(255,255,255,255));
-		ostringstream soss;
-		soss<<"water!";
-		tempfont.Print(soss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 202, 0.5f, D3DXCOLOR(255,255,255,255));
-		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+	}
+	ostringstream boss;
+	boss<<"You are now";
+	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
+	ostringstream toss;
+	toss<<"surrounded by";
+	tempfont.Print(toss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 182, 0.5f, D3DXCOLOR(255,255,255,255));
+	ostringstream soss;
+	soss<<"water!";
+	tempfont.Print(soss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 202, 0.5f, D3DXCOLOR(255,255,255,255));
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 }
 
 LevelSelectState* LevelSelectState::GetInstance()

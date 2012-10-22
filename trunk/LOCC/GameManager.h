@@ -13,12 +13,10 @@ public:
 
 	static CGameManager* GetInstance(void);
 	static void DeleteInstance(void);	
-
 	CPlayer* CreatePlayer(bool bAIControlled = false);
 	CPlayer* GetCurrentPlayer(void);
 	void SetCurrentPlayer(int nPlayerID) { m_pCurrentPlayer = m_vPlayers[nPlayerID];}
 	CPlayer* GetPlayer(int nPlayerID);
-
 	void SetCurrentPhase(GAME_PHASE phase) { m_nCurrentPhase = phase;}
 	void SetPhaseCount(int count) { m_nPhaseCount = count;}
 
