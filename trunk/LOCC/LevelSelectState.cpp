@@ -278,11 +278,6 @@ void LevelSelectState::Render(void)
 	ostringstream boss;
 	boss<<"You are now surrounded by water!";
 	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255), 210);
-
-	soss.str("");
-	soss<<"LEAGUE OF WHACKAMOLE";
-	tempfont.Print(soss.str().c_str(), 50, 350, 1.0f, D3DXCOLOR(255,255,255,255));
-
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 

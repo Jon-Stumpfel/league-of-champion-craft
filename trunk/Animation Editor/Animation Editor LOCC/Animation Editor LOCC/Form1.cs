@@ -116,7 +116,10 @@ namespace Animation_Editor_LOCC
                     {
                         if (animations[i].NameOfAnim == animlist.SelectedItem.ToString() && pictureid != -1)
                         {
-                            tm.Draw(pictureid, 50, 50, 1.0f, 1.0f, animations[i].FrameVec[animations[i].CurrFrame].Rect, 0, 0, 0, Color.White.ToArgb());
+                            Point AnchorOffset = new Point();
+                            AnchorOffset.X = animations[i].FrameVec[animations[i].CurrFrame].Rect.X - animations[i].FrameVec[animations[i].CurrFrame].AnchorPointX;
+                            AnchorOffset.Y = animations[i].FrameVec[animations[i].CurrFrame].Rect.Y - animations[i].FrameVec[animations[i].CurrFrame].AnchorPointY;
+                            tm.Draw(pictureid, 50-AnchorOffset.X, 50-AnchorOffset.Y, 1.0f, 1.0f, animations[i].FrameVec[animations[i].CurrFrame].Rect, 0, 0, 0, Color.White.ToArgb());
                         }
                     }
                 }

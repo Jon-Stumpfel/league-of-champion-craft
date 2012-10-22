@@ -198,3 +198,8 @@ void CGame::Render(void)
 	CSGD_Direct3D::GetInstance()->DeviceEnd();
 	CSGD_Direct3D::GetInstance()->Present();
 }
+void CGame::SetIsWindowed(bool win)
+{
+	m_bIsWindowed = win;
+	CSGD_Direct3D::GetInstance()->ChangeDisplayParam(m_nWidth, m_nHeight, m_bIsWindowed);
+}
