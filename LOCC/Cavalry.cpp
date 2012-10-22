@@ -25,10 +25,13 @@ CCavalry::~CCavalry(void)
 }
 void CCavalry::Render(void)
 {
+	D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255);
+	if (GetHasAttacked())
+		color = D3DCOLOR_XRGB(90, 90, 90);
 	Vec2D tempanchorpoint = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetAnchorPoint();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Cavalry"),
 		(m_sWorldPos.nPosX + 16)- (tempanchorpoint.nPosX/4*3) - CGameplayState::GetInstance()->GetCamOffsetX(),
 		(m_sWorldPos.nPosY - 8) - (tempanchorpoint.nPosY/4*3) - CGameplayState::GetInstance()->GetCamOffsetY(),
 		1.0f,1.0f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
-		0,0,D3DCOLOR_ARGB(255,255,255,255));
+		0,0,color);
 }

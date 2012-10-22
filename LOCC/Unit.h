@@ -42,7 +42,7 @@ public:
 	static int SetFreeMove(lua_State* L);
 	static int Shield(lua_State* L);
 	static int Speed(lua_State* L);
-
+	static int DoDamage(lua_State* L);
 
 
 

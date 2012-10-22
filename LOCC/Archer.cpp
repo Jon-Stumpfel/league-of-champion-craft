@@ -27,6 +27,10 @@ void CArcher::Render(void)
 {
 	               //   int x = (nFakeTileWidth / 2 * GetPos().nPosX) - (nFakeTileHeight / 2 * GetPos().nPosY);
                   //  int y = (nFakeTileWidth / 2 * GetPos().nPosX) + (nFakeTileHeight  / 2 * GetPos().nPosY);
+
+		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255);
+	if (GetHasAttacked())
+		color = D3DCOLOR_XRGB(90, 90, 90);
 	RECT soldierRect = {m_sWorldPos.nPosX + 24, 
 						m_sWorldPos.nPosY - 6, 
 						0, 
@@ -37,6 +41,6 @@ void CArcher::Render(void)
 		m_sWorldPos.nPosX - (tempanchorpoint.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() + 20,
 		m_sWorldPos.nPosY  - (tempanchorpoint.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY() + 5,
 		1.0f,1.0f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
-		0,0,D3DCOLOR_ARGB(255,255,255,255));
+		0,0,color);
 }
 

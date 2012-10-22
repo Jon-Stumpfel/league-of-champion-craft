@@ -126,12 +126,18 @@ bool CInputManager::Input(void)
 	}
 	if (pDI->KeyPressed(DIK_LEFT) || pDI->JoystickGetLStickDirPressed(DIR_LEFT, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_LEFT, nCurrentPlayerID))
 	{
+		std::wostringstream oss;
+		oss << "InputManager: Left Key @ " << GetTickCount() << '\n';
+		OutputDebugString((LPCWSTR)oss.str().c_str());
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
 				nYValue = 0;
 		nXValue = 0;
 	}
 	if (pDI->KeyPressed(DIK_RIGHT) || pDI->JoystickGetLStickDirPressed(DIR_RIGHT, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_RIGHT, nCurrentPlayerID))
 	{
+		std::wostringstream oss;
+		oss << "InputManager: Right Key @ " << GetTickCount() << '\n';
+		OutputDebugString((LPCWSTR)oss.str().c_str());
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
 				nYValue = 0;
 		nXValue = 0;
