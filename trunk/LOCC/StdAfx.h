@@ -88,6 +88,20 @@ using std::string;
 
 		return Vec2D(x, y);
 	}
+	inline int TranslateToPixel(lua_State* L)
+	{
+		int n = lua_gettop(L);
+		int x = (int)lua_tonumber(L, 1);
+		int y = (int)lua_tonumber(L, 2);
+
+		Vec2D vec = TranslateToPixel(Vec2D(x, y));
+
+		lua_pushnumber(L, vec.nPosX);
+		lua_pushnumber(L, vec.nPosY);
+
+		return 2;
+
+	}
 
 	struct UnitAnimation
 	{

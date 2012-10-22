@@ -227,23 +227,16 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			affected[i]->SetPos(x,y);
 		}
 
-		for (unsigned int i = 0; i < affected.size(); ++i)
-		{
-			Vec2D pixelPos = TranslateToPixel(affected[i]->GetPos());
-			std::ostringstream oss;
-			oss << "Spell Hit!";
-			CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
-				Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 255));
-		}
-		
 		CSoundManager* pSM = CSoundManager::GetInstance();
 		pSM->Play(pAbility->GetSound(), false, false);
 }
 
 void CScriptManager::Initialize( void )
 {
-		L = lua_open();
-		luaL_openlibs(L);
+	L = lua_open();
+	luaL_openlibs(L);
+	lua_register(L, "AddText", CFloatingText::AddText);
+	lua_register(L, "TranslateToPixel", TranslateToPixel);
 }
 
 void CScriptManager::Shutdown( void )
