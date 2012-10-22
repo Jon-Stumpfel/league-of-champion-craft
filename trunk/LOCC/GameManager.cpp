@@ -590,15 +590,18 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				CGameOverState::GetInstance()->SetPlayer(pSMSG->GetUnit()->GetPlayerID());
 				CStateStack::GetInstance()->Push(CGameOverState::GetInstance());
 			}
-			if(pSMSG->GetUnit()->GetType() == UT_CAVALRY)
+			for(int i = 0; i < UT_ICEBLOCK; i++)
 			{
-				if(pSMSG->GetUnit()->GetPlayerID() == pThis->GetCurrentPlayer()->GetPlayerID())
+				if(pSMSG->GetUnit()->GetType() == i)
 				{
-					pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp());
-				}
-				else
-				{
-					pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp()+pSMSG->GetUnit()->GetEXPValue());
+					if(pSMSG->GetUnit()->GetPlayerID() == pThis->GetCurrentPlayer()->GetPlayerID())
+					{
+						pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp());
+					}
+					else
+					{
+						pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp()+pSMSG->GetUnit()->GetEXPValue());
+					}
 				}
 			}
 		}

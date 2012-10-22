@@ -22,5 +22,11 @@ private:
 	LevelSelectState(const LevelSelectState&);
 	LevelSelectState* operator=(LevelSelectState&);
 	CBitmapFont tempfont;
+	CTile** m_ptempmap;
+	CTile** m_p2ndtempmap;
+	int m_pRows;
+	int m_pColumns;
+	int m_p2ndRows;
+	int m_p2ndColumns;
 };
 
