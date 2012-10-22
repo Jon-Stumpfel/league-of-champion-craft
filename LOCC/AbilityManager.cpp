@@ -367,7 +367,10 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetDamage(0);
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
+	pAbility->SetDescription("");
 	pAbility->m_szInterfaceIcon = TSTRING(_T("archerportrait"));
+	zz = CGraphicsManager::GetInstance()->GetID(_T("archerportrait"));
+	pAbility->SetIconID(zz);
 	pAbility->SetType(SP_SPAWNARCHER);
 	tmp.first = SP_SPAWNARCHER;
 	tmp.second = pAbility;
@@ -383,6 +386,9 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetParticleType(TEST);
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("swordsmanportrait"));
+	pAbility->SetDescription("");
+	zz = CGraphicsManager::GetInstance()->GetID(_T("swordsmanportrait"));
+	pAbility->SetIconID(zz);
 	pAbility->SetType(SP_SPAWNSWORD);
 	tmp.first = SP_SPAWNSWORD;
 	tmp.second = pAbility;
@@ -398,6 +404,9 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
 	pAbility->m_szInterfaceIcon = TSTRING(_T("cavalryportrait"));
+	pAbility->SetDescription("");
+	zz = CGraphicsManager::GetInstance()->GetID(_T("cavalryportrait"));
+	pAbility->SetIconID(zz);
 	pAbility->SetType(SP_SPAWNCALV);
 	tmp.first = SP_SPAWNCALV;
 	tmp.second = pAbility;
