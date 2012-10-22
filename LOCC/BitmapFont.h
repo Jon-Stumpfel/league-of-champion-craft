@@ -710,11 +710,12 @@ public:
 		return rSource;
 	}
 	void Print(		const char*	szText,		int nX, int nY,
-					float fScale,			DWORD dwColor )
+					float fScale,			DWORD dwColor, int nMaxWidth = -1 )
 	{
 		// Iterate through the string 1 character at a time
 		int nLength = strlen( szText );
-
+		int nMovedWidth = 0;
+		int nStoredX = nX;
 		for( int i = 0; i < nLength; i++ )
 		{
 			// Get char out of the string
@@ -738,7 +739,21 @@ public:
 			pTM->Draw( jcs_nImageID, nX, nY, fScale, fScale, &rTile,
 						0.0f, 0.0f, 0.0f, dwColor );
 			float Scale = fScale*100;
+			int nMovedAmount = (int)(m_nCharWidth * fScale) + 2;
 			nX += (int)(m_nCharWidth * fScale) + 2;
+			if (nMaxWidth != -1)
+				
+			
+			if (nMaxWidth != -1)
+			{
+				nMovedWidth += nMovedAmount;
+				if (nMovedWidth >= nMaxWidth)
+				{
+					nY += m_nCharHeight * fScale;
+					nX = nStoredX;
+					nMovedWidth = 0;
+				}
+			}
 		}
 	}
 };
