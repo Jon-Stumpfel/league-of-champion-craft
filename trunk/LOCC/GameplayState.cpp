@@ -77,6 +77,8 @@ void CGameplayState::Enter(void)
 	m_nSpellPanelOffsetYMAX =  CGame::GetInstance()->GetWindowHeight() - 120;
 	m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
 	m_nCardOffsetMaxX = CGame::GetInstance()->GetWindowWidth() - 230;
+	m_nTooltipOffsetX = -50;
+	m_nTooltipOffsetMaxX = 0;
 	pGM;
 	SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
 
@@ -1025,9 +1027,8 @@ void CGameplayState::Update(float fElapsedTime)
 		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, 50.0f), 5.0f, 0.5f);
 		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(50.0f, 0.0f), 5.0f, 0.5f);
 		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(-50.0f, 0.0f), 5.0f, 0.5f);
-
-
 	}
+
 	if (m_bIsHighlighting == true)
 	{
 		if (m_nCardOffsetX > m_nCardOffsetMaxX)
@@ -1045,6 +1046,24 @@ void CGameplayState::Update(float fElapsedTime)
 		if (m_nCardOffsetX > CGame::GetInstance()->GetWindowWidth())
 			m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
 	}
+
+	if (m_pSelectedUnit != nullptr)
+	{
+		if (m_nTooltipOffsetX < m_nTooltipOffsetMaxX)
+		{
+			m_nTooltipOffsetX += (int)(450 * fElapsedTime);
+		}
+
+		if (m_nTooltipOffsetX > m_nTooltipOffsetMaxX)
+			m_nTooltipOffsetX = m_nTooltipOffsetMaxX;
+	}
+	else
+	{
+		m_nTooltipOffsetX -= (int)(450 * fElapsedTime);
+		if (m_nTooltipOffsetX < -300)
+			m_nTooltipOffsetX = -300;
+	}
+
 	if (m_bSelectChampionAbility)
 	{
 		if (m_nSpellPanelOffsetY > m_nSpellPanelOffsetYMAX)
@@ -1397,6 +1416,9 @@ void CGameplayState::Render(void)
 
 		int n = CGame::GetInstance()->GetWindowWidth();
 		int y = CGame::GetInstance()->GetWindowHeight();
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nTooltipOffsetX - 50, 240, 1.0f, 0.8f);
+			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 		if (m_bShowSpellPanel)
 		{
@@ -1418,8 +1440,80 @@ void CGameplayState::Render(void)
 							253 + (i * 78), m_nSpellPanelOffsetY + 36, 0.6f, 0.6f);
 					}
 				}
+					
+					std::ostringstream tt;
+					CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
+					CGraphicsManager* pGM = CGraphicsManager::GetInstance();
+					CAbility* pA = pHero->GetSpell(m_nSelectedSpell);
+					pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
+
+					pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
+					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
+			
+					if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+					{
+						tt.str("");
+						tt << pHero->GetAttack();
+					}
+
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(255,0,0) : D3DCOLOR_XRGB(0,0,255));
+					tt.str("");
+
+					pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
+					tt << pA->GetRange();
+
+					if( pA->GetType() == SP_MOVE )
+					{
+						tt.str("");
+						tt << pHero->GetSpeed();
+					}
+
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 150);
 			}
 		}
+		else 
+		{
+			std::ostringstream tt;
+			CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
+			CGraphicsManager* pGM = CGraphicsManager::GetInstance();
+			CAbility* pA = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+			pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
+
+			pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
+			tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
+			
+			if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+			{
+				tt.str("");
+				tt << m_pSelectedUnit->GetAttack();
+			}
+
+			m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(255,0,0) : D3DCOLOR_XRGB(0,0,255));
+			tt.str("");
+
+			pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
+			tt << pA->GetRange();
+
+			if( pA->GetType() == SP_MOVE )
+			{
+				tt.str("");
+				tt << m_pSelectedUnit->GetSpeed();
+			}
+
+			m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
+			tt.str("");
+
+			m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 150);
+		}
+	}
+	else
+	{
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nTooltipOffsetX, 240, 1.0f, 0.8f);
+			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	}
 	// MINI MAP TIME! Render this ontop of the interface thing. Will need to tweak when we go isometric
 
