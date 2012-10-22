@@ -32,6 +32,12 @@ namespace ParticleEditor
 
     class Particle
     {
+        Emitter.MyColor myColor;
+        public Emitter.MyColor GetMyColor
+        {
+            get { return myColor; }
+            set { myColor = value; }
+        }
         private Color color;
 
         public Color Color
