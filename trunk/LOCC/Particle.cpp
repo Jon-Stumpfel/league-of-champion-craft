@@ -53,7 +53,19 @@ void CParticle::Render( void )
 	float nWidth = (m_sSource.right - m_sSource.left) * m_fScale * .5f;
 	float nHeight = (m_sSource.bottom - m_sSource.top) * m_fScale * .5f;
 
+	if( m_sColor.a < 0 )
+		m_sColor.a = 0;
+
+	if( m_sColor.r < 0 )
+		m_sColor.r = 0;
+
+	if( m_sColor.g < 0 )
+		m_sColor.g = 0;
+
+	if( m_sColor.b < 0 )
+		m_sColor.b = 0;
+
 	pTM->Draw( m_nImgID, int((x - nWidth)-pGP->GetCamOffsetX()) - 25, int((y - nHeight)-pGP->GetCamOffsetY()) + 9, m_fScale, m_fScale, &m_sSource,
 				float(m_sSource.right - m_sSource.left)/2.0f, float(m_sSource.bottom - m_sSource.top)/2.0f,
-				m_fRot, D3DCOLOR_ARGB(m_sColor.a, m_sColor.r, m_sColor.g, m_sColor.b ) );
+				m_fRot, D3DCOLOR_ARGB(m_sColor.a, m_sColor.r, m_sColor.g, m_sColor.b) );
 }

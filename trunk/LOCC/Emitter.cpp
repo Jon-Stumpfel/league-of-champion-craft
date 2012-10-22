@@ -83,7 +83,6 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 			m_sSource.top = 0;
 			m_sSource.right = 128;
 			m_sSource.bottom = 128;
-
 		}
 		break;
 	};
@@ -173,51 +172,15 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 	else
 		m_eType = LINE;
 
-	// tell the graphics manager where the image for each particle is
 	CGraphicsManager* pGM = CGraphicsManager::GetInstance();
+	TCHAR conversion[100];	
+	mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
+	TSTRING file = conversion;
+	pGM->LoadImageW( _T("Assets/Particles/") + file, file, D3DCOLOR_ARGB(255, 255, 255, 255) );
+	m_nImgID = pGM->GetID(file);
+
+	// tell the graphics manager where the image for each particle is
 	m_fSpawnRate = (rand() % ((m_nMinSpawnRate - m_nMaxSpawnRate) + 1) + m_nMinSpawnRate)/100.0f;
-
-	switch( eType )
-	{
-	case TEST:
-		{
-			TCHAR conversion[100];	
-			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
-			TSTRING file = conversion;
-			pGM->LoadImageW(_T("Assets/Particles/") + file, _T("Test"), D3DCOLOR_ARGB(255, 255, 255, 255) );
-			m_nImgID = pGM->GetID(_T("Test"));
-		}
-		break;
-
-	case TESTSECOND:
-		{
-			TCHAR conversion[100];	
-			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
-			TSTRING file = conversion;
-			pGM->LoadImageW( _T("Assets/Particles/") + file, _T("Test2"), D3DCOLOR_ARGB(255, 255, 255, 255) );
-			m_nImgID = pGM->GetID(_T("Test2"));
-		}
-		break;
-	case PT_FIRE:
-		{
-			TCHAR conversion[100];	
-			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
-			TSTRING file = conversion;
-			pGM->LoadImageW( _T("Assets/Particles/") + file, _T("fire"), D3DCOLOR_ARGB(255, 255, 255, 255) );
-			m_nImgID = pGM->GetID(_T("fire"));
-		}
-		break;
-	case PT_CARTOGRAPHY:
-		{
-			TCHAR conversion[100];	
-			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
-			TSTRING file = conversion;
-			pGM->LoadImageW( _T("Assets/Particles/") + file, _T("cartography"), D3DCOLOR_ARGB(255, 255, 255, 255) );
-			m_nImgID = pGM->GetID(_T("cartography"));
-		}
-
-		break;
-	}
 
 	// Populates the list of AliveParticles
 	for( int i = 0; i < m_nNumParticles; i++ )
