@@ -75,6 +75,17 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 			m_sSource.bottom = 128;
 		}
 		break;
+	case PT_CARTOGRAPHY:
+		{
+			if( doc.LoadFile( "Assets/Particles/cartography.xml" ) == false )
+				return;
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
+
+		}
+		break;
 	};
 
 	m_sEmitPos = sPos;
@@ -195,6 +206,16 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 			pGM->LoadImageW( _T("Assets/Particles/") + file, _T("fire"), D3DCOLOR_ARGB(255, 255, 255, 255) );
 			m_nImgID = pGM->GetID(_T("fire"));
 		}
+		break;
+	case PT_CARTOGRAPHY:
+		{
+			TCHAR conversion[100];	
+			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
+			TSTRING file = conversion;
+			pGM->LoadImageW( _T("Assets/Particles/") + file, _T("cartography"), D3DCOLOR_ARGB(255, 255, 255, 255) );
+			m_nImgID = pGM->GetID(_T("cartography"));
+		}
+
 		break;
 	}
 

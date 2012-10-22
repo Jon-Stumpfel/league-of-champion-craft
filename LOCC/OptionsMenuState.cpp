@@ -134,7 +134,6 @@ void COptionsMenuState::Update(float fElapsedTime)
 {
 	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
 	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
-	CGame::GetInstance()->SetIsWindowed(windowed);
 }
 
 void COptionsMenuState::Render(void)

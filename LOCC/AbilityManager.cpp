@@ -275,8 +275,10 @@ void CAbilityManager::LoadAbilities( void )
 				{
 					ab->SetIsMove(false);
 					ab->SetType(SP_CARTOGRAPHY);
-					ab->SetParticleType(TEST);
+					ab->SetParticleType(PT_CARTOGRAPHY);
 					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Create a map and give it to target unit, letting the unit move through forests and mountains with ease");
+					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CARTOGRAPHY;
 					tmp.second = ab;
