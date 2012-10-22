@@ -84,6 +84,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="Archer.cpp" />
+    <ClCompile Include="AttackPhaseTransState.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="FloatingText.cpp" />
     <ClCompile Include="IMessage.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="Archer.h" />
+    <ClInclude Include="AttackPhaseTransState.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="FloatingText.h" />
     <ClInclude Include="IMessage.h" />

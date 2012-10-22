@@ -460,13 +460,7 @@ namespace WorldTileEditor
 
                 xRoot.Add(new XAttribute("Rows", Mapsize_RC.Width.ToString()));
                 xRoot.Add(new XAttribute("Columns", Mapsize_RC.Width.ToString()));
-
-                Uri startpath = new Uri(StartPath);
-                Uri filepath = new Uri(MaptilsetFilename);
-
-                Uri Relative_Path = startpath.MakeRelativeUri(filepath);
-
-                xRoot.Add(new XAttribute("FileName", Relative_Path.ToString().Remove(0, 5)));
+                xRoot.Add(new XAttribute("FileName", MaptilsetFilename.Remove(0,StartPath.Count())));
 
                 for (int x = 0; x < Mapsize_RC.Width; ++x)
                 {

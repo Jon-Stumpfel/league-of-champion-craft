@@ -73,6 +73,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/fireballicon.png"), _T("fireballicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/shieldspellicon.png"), _T("shieldspellicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/healspellicon.png"), _T("healspellicon"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Sword.png"), _T("AttackSword"), 0UL);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 
 	m_dwCurrTime = GetTickCount();
@@ -89,7 +90,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 		else
 			m_bIsWindowed	= true;
 		Option = Option->NextSiblingElement("Option");
-	}
+}
 }
 
 bool CGame::Main(void)
@@ -120,7 +121,6 @@ void CGame::Shutdown(void)
 	CSoundManager::DeleteInstance();
 	//CStateStack::DeleteInstance();
 
-
 }
 
 CGame::CGame(void)
@@ -146,7 +146,7 @@ bool CGame::Input(void)
 			return true;
 		}
 	}
-	
+
 	// Working intercepting INputManager imeplenetation so that input is done here until then
 
 

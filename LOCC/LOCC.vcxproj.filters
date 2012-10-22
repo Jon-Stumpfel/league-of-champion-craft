@@ -198,6 +198,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="AttackPhaseTransState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackPhaseTransState.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
