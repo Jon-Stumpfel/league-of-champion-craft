@@ -55,12 +55,18 @@ void LevelSelectState::Input(INPUT_ENUM input)
 		}
 	case INPUT_LEFT:
 		{
+			std::wostringstream oss;
+			oss << "LevelState: INPUT_LEFT @ " << GetTickCount() << '\n';
+			OutputDebugString((LPCWSTR)oss.str().c_str());
 			if(selected == 1)
 				selected--;
 			break;
 		}
 	case INPUT_RIGHT:
 		{
+			std::wostringstream oss;
+			oss << "LevelState: INPUT_RIGHT @ " << GetTickCount() << '\n';
+			OutputDebugString((LPCWSTR)oss.str().c_str());
 			if(selected == 0)
 				selected++;
 			break;
@@ -241,7 +247,14 @@ void LevelSelectState::Render(void)
 	ostringstream soss;
 	soss<<"water!";
 	tempfont.Print(soss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 202, 0.5f, D3DXCOLOR(255,255,255,255));
+
+	soss.str("");
+	soss<<"LEAGUE OF WHACKAMOLE";
+	tempfont.Print(soss.str().c_str(), 50, 350, 1.0f, D3DXCOLOR(255,255,255,255));
+
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
+
 }
 
 LevelSelectState* LevelSelectState::GetInstance()

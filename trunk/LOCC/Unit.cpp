@@ -376,3 +376,14 @@ int CUnit::Speed(lua_State* L)
 	}
 	return 0;
 }
+
+int CUnit::DoDamage(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		pUnit->SetHP(pUnit->GetHP() - (int)lua_tonumber(L, 2));
+	}
+	return 0;
+}

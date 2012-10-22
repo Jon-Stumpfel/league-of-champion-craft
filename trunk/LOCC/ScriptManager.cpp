@@ -148,7 +148,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		luaL_dofile(L, path.c_str());
 		lua_getglobal(L, "OnUse");
 		
-		lua_call(L, 0, 0);
+		lua_pcall(L, 0, 0, 0);
 
 		lua_getglobal(L, "tUnitData");
 		lua_pushnil(L);
@@ -202,32 +202,32 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		int x = 0;
 		int y = 0;
 
-		for( unsigned int i = 0; i < affected.size(); i++ )
-		{
-			x = 0;
-			y = 0;
-			for( unsigned int l = 0 + i*5; l < 5 + 5*i; l++ )
-			{
-				if( tData[l].first == "health" )
-					affected[i]->SetHP(tData[l].second);
+		//for( unsigned int i = 0; i < affected.size(); i++ )
+		//{
+		//	x = 0;
+		//	y = 0;
+		//	for( unsigned int l = 0 + i*5; l < 5 + 5*i; l++ )
+		//	{
+		//		if( tData[l].first == "health" )
+		//			affected[i]->SetHP(tData[l].second);
 
-				if( tData[l].first == "posX" )
-					x = tData[l].second;
+		//		if( tData[l].first == "posX" )
+		//			x = tData[l].second;
 
-				if( tData[l].first == "posY" )
-					y = tData[l].second;
+		//		if( tData[l].first == "posY" )
+		//			y = tData[l].second;
 
-				if( tData[l].first == "speed" )
-					affected[i]->SetSpeed(tData[l].second);
+		//		if( tData[l].first == "speed" )
+		//			affected[i]->SetSpeed(tData[l].second);
 
-				if( tData[l].first == "shielded" )
-				{
-					if( tData[l].second == 1 )
-						affected[i]->SetShielded(tData[l].second);
-				}
-			}
-			affected[i]->SetPos(x,y);
-		}
+		//		if( tData[l].first == "shielded" )
+		//		{
+		//			if( tData[l].second == 1 )
+		//				affected[i]->SetShielded(tData[l].second);
+		//		}
+		//	}
+		//	affected[i]->SetPos(x,y);
+		//}
 
 		CSoundManager* pSM = CSoundManager::GetInstance();
 		pSM->Play(pAbility->GetSound(), false, false);
@@ -242,6 +242,7 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "SetFreeMove", CUnit::SetFreeMove);
 	lua_register(L, "Shield", CUnit::Shield);
 	lua_register(L, "Speed", CUnit::Speed);
+	lua_register(L, "DoDamage", CUnit::DoDamage);
 }
 
 void CScriptManager::Shutdown( void )
