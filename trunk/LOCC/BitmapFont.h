@@ -726,44 +726,99 @@ public:
 		int nLength = strlen( szText );
 		int nMovedWidth = 0;
 		int nStoredX = nX;
-		for( int i = 0; i < nLength; i++ )
-		{
-			// Get char out of the string
-			char ch = szText[ i ];
 
-			// Check for whitespace
-			if( ch == ' ' )
-			{
-				//float Scale = fScale*100;
-				nX += 10;
-				continue;
-			}
-			// Calculate the tile id for this character
-			int id = ch;
-			// Get the source rect using the Cell Algorithm
-			RECT rTile = CellAlgorithm( id );
-			D3DXCOLOR black = dwColor;
-			black.r = black.g = black.b = 0;
-			pTM->Draw( jcs_nImageID, nX + 2, nY + 2, fScale, fScale, &rTile,
-						0.0f, 0.0f, 0.0f,black );
-			pTM->Draw( jcs_nImageID, nX, nY, fScale, fScale, &rTile,
-						0.0f, 0.0f, 0.0f, dwColor );
-			float Scale = fScale*100;
-			int nMovedAmount = (int)(m_nCharWidth * fScale) + 2;
-			nX += (int)(m_nCharWidth * fScale) + 2;
-			if (nMaxWidth != -1)
-				
-			
+		std::stringstream ss(szText);
+		std::string buffer;
+		vector<std::string> words;
+		int nWordToDraw = 0;
+		while (ss >> buffer)
+		{
+			words.push_back(buffer);
+		}
+
+		for (int i = 0; i < words.size(); ++i)
+		{
+			int jLength = strlen(words[i].c_str());
+			int nWordLength = 0;
 			if (nMaxWidth != -1)
 			{
-				nMovedWidth += nMovedAmount;
-				if (nMovedWidth >= nMaxWidth)
+				for (int nI = 0; nI < jLength; ++nI)
+				{
+					RECT rTile = CellAlgorithm(words[i].c_str()[nI]);
+					nWordLength += (int)(m_nCharWidth * fScale) + 2;
+				}
+				if (nWordLength + nMovedWidth > nMaxWidth)
 				{
 					nY += m_nCharHeight * fScale;
 					nX = nStoredX;
 					nMovedWidth = 0;
 				}
 			}
+			for (int j = 0; j < jLength; ++j)
+			{
+				char ch = words[i].c_str()[j];
+
+				int id = ch;
+				RECT rTile = CellAlgorithm(id);
+				D3DXCOLOR black = dwColor;
+				black.r = black.g = black.b = 0;
+				pTM->Draw( jcs_nImageID, nX + 2, nY + 2, fScale, fScale, &rTile,
+							0.0f, 0.0f, 0.0f,black );
+				pTM->Draw( jcs_nImageID, nX, nY, fScale, fScale, &rTile,
+							0.0f, 0.0f, 0.0f, dwColor );
+				float Scale = fScale*100;
+				int nMovedAmount = (int)(m_nCharWidth * fScale) + 2;
+				nX += (int)(m_nCharWidth * fScale) + 2;
+				if (nMaxWidth != -1)
+				{
+					nMovedWidth += nMovedAmount;
+					if (nMovedWidth >= nMaxWidth)
+					{
+						nY += m_nCharHeight * fScale;
+						nX = nStoredX;
+						nMovedWidth = 0;
+					}	
+				}
+			}
+			nX += 10;
 		}
+
+		//for( int i = 0; i < nLength; i++ )
+		//{
+		//	// Get char out of the string
+		//	char ch = szText[ i ];
+
+		//	// Check for whitespace
+		//	if( ch == ' ' )
+		//	{
+		//		//float Scale = fScale*100;
+		//		nX += 10;
+		//		continue;
+		//	}
+		//	// Calculate the tile id for this character
+		//	int id = ch;
+		//	// Get the source rect using the Cell Algorithm
+		//	RECT rTile = CellAlgorithm( id );
+		//	D3DXCOLOR black = dwColor;
+		//	black.r = black.g = black.b = 0;
+		//	pTM->Draw( jcs_nImageID, nX + 2, nY + 2, fScale, fScale, &rTile,
+		//				0.0f, 0.0f, 0.0f,black );
+		//	pTM->Draw( jcs_nImageID, nX, nY, fScale, fScale, &rTile,
+		//				0.0f, 0.0f, 0.0f, dwColor );
+		//	float Scale = fScale*100;
+		//	int nMovedAmount = (int)(m_nCharWidth * fScale) + 2;
+		//	nX += (int)(m_nCharWidth * fScale) + 2;
+		//	
+		//	if (nMaxWidth != -1)
+		//	{
+		//		nMovedWidth += nMovedAmount;
+		//		if (nMovedWidth >= nMaxWidth)
+		//		{
+		//			nY += m_nCharHeight * fScale;
+		//			nX = nStoredX;
+		//			nMovedWidth = 0;
+		//		}
+		//	}
+		//}
 	}
 };
