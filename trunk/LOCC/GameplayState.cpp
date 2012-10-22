@@ -1704,4 +1704,6 @@ void CGameplayState::Render(void)
 
 
 		CFloatingText::GetInstance()->Render();
+
+
 }
