@@ -104,6 +104,7 @@
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Iceblock.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LevelSelectState.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MessageSystem.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Iceblock.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LevelSelectState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageSystem.h" />

@@ -388,8 +388,11 @@ namespace Animation_Editor_LOCC
                     {
                         numofframesinanim.Maximum = animations[i].FrameVec.Count-1;
                         numofframesinanim.Value = 0;
-                        string filedir = folderpath + "\\" + animations[i].ImagePath;
-                        pictureid = tm.LoadTexture(filedir, 0);
+                        if (animations[i].ImagePath != "")
+                        {
+                            string filedir = folderpath + "\\" + animations[i].ImagePath;
+                            pictureid = tm.LoadTexture(filedir, 0);
+                        }
                         UnitType.SelectedIndex = animations[i].UnitType;
                         AnimType.SelectedIndex = animations[i].AnimType;
                         AnchorPosY.Value = animations[i].FrameVec[animations[i].CurrFrame].AnchorPointY;

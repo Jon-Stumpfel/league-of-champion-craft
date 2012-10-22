@@ -481,19 +481,15 @@ void CGameManager::Reset(void)
 	CTileManager::GetInstance()->ShutDown();
 
 }
-void CGameManager::NewGame(void)
+void CGameManager::NewGame(string levelstring, int mapint)
 {
-	LoadLevel(string("level2"));
-
+	LoadLevel(levelstring);
 
 	Reset();
 
-
+	LoadLevel(levelstring);
 	
-	LoadLevel(string("level2"));
-	
-	
-	LoadMap(2);
+	LoadMap(mapint);
 
 	m_nPhaseCount = 0;
 	// Player 1 and his units

@@ -35,7 +35,7 @@ public:
 	void LoadSave(int nSlot);
 
 	void Reset(void);
-	void NewGame(void);
+	void NewGame(string levelstring, int mapint);
 	void NextPhase(void);
 
 	int GetCurrentTurn(void); // This splits it up so a "turn" is techcnially 1 phase

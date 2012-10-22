@@ -24,6 +24,7 @@ CPauseState* CPauseState::GetInstance()
 void CPauseState::Enter(void)
 {
 	m_nVerticalChoice = 0;
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
 }
 void CPauseState::Exit(void)
 {

@@ -198,6 +198,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="LevelSelectState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
     <ClCompile Include="AttackPhaseTransState.cpp">
       <Filter>States</Filter>
     </ClCompile>
@@ -376,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSelectState.h">
+      <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="AttackPhaseTransState.h">
       <Filter>States</Filter>
