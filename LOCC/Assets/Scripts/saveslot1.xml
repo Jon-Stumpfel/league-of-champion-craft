@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Map mapID="-842150451" phaseNumber="1" phase="1" currPlayer="0">
+<Map mapID="1" phaseNumber="0" phase="0" currPlayer="0">
     <Players>
-        <Player id="0" ai="0" AP="8" wood="20" metal="20">
-            <Champion posX="4" posY="4" health="20" xp="0" facing="2" tilesMoved="2" hasAttacked="0">
+        <Player id="0" ai="0" AP="30" wood="20" metal="20">
+            <Champion posX="4" posY="2" health="50" xp="0" facing="2" tilesMoved="0" hasAttacked="0">
                 <Spells numSpells="4">
+                    <Spell sType="8" />
                     <Spell sType="6" />
-                    <Spell sType="4" />
                     <Spell sType="0" />
-                    <Spell sType="5" />
+                    <Spell sType="7" />
                 </Spells>
             </Champion>
             <Units numUnits="3">
@@ -19,10 +19,10 @@
         <Player id="1" ai="1" AP="30" wood="20" metal="20">
             <Champion posX="4" posY="5" health="50" xp="0" facing="0" tilesMoved="0" hasAttacked="0">
                 <Spells numSpells="4">
+                    <Spell sType="8" />
                     <Spell sType="6" />
-                    <Spell sType="4" />
                     <Spell sType="0" />
-                    <Spell sType="5" />
+                    <Spell sType="7" />
                 </Spells>
             </Champion>
             <Units numUnits="3">

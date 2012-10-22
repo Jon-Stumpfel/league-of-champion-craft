@@ -473,6 +473,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 void CGameplayState::UseAbility(CAbility* ability)
 {
 	CSoundManager* pSM = CSoundManager::GetInstance();
+
 	if (ability == nullptr)
 		return;
 	if (ability->m_nNumTargets == -1) // champion spell panel
