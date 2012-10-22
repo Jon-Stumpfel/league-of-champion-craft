@@ -439,20 +439,20 @@ namespace ParticleEditor
 
             XAttribute xVelStartMaxX = new XAttribute("VelStartMaxX", nudVelMaxStartX.Value);
             xRoot.Add(xVelStartMaxX);
-            XAttribute xVelStartMaxY = new XAttribute("VelStartMaxY", nudVelMaxStartY.Value);
+            XAttribute xVelStartMaxY = new XAttribute("VelStartMaxY", -nudVelMaxStartY.Value);
             xRoot.Add(xVelStartMaxY);
             XAttribute xVelStartMinX = new XAttribute("VelStartMinX", nudVelMinStartX.Value);
             xRoot.Add(xVelStartMinX);
-            XAttribute xVelStartMinY = new XAttribute("VelStartMinY", nudVelMinStartY.Value);
+            XAttribute xVelStartMinY = new XAttribute("VelStartMinY", -nudVelMinStartY.Value);
             xRoot.Add(xVelStartMinY);
 
             XAttribute xVelEndMaxX = new XAttribute("VelEndMaxX", nudVelMaxEndX.Value);
                 xRoot.Add(xVelEndMaxX);                                       
-            XAttribute xVelEndMaxY = new XAttribute("VelEndMaxY", nudVelMaxEndY.Value);
+            XAttribute xVelEndMaxY = new XAttribute("VelEndMaxY", -nudVelMaxEndY.Value);
                 xRoot.Add(xVelEndMaxY);                                       
             XAttribute xVelEndMinX = new XAttribute("VelEndMinX", nudVelMinEndX.Value);
                 xRoot.Add(xVelEndMinX);                                       
-            XAttribute xVelEndMinY = new XAttribute("VelEndMinY", nudVelMinEndY.Value);
+            XAttribute xVelEndMinY = new XAttribute("VelEndMinY", -nudVelMinEndY.Value);
                 xRoot.Add(xVelEndMinY);
 
             xRoot.Save(sf.FileName + ".xml");
@@ -545,20 +545,20 @@ namespace ParticleEditor
                 XAttribute xVelStartMaxX = xRoot.Attribute("VelStartMaxX");
                 nudVelMaxStartX.Value = decimal.Parse(xVelStartMaxX.Value);
                 XAttribute xVelStartMaxY = xRoot.Attribute("VelStartMaxY");
-                nudVelMaxStartY.Value = decimal.Parse(xVelStartMaxY.Value);
+                nudVelMaxStartY.Value = -decimal.Parse(xVelStartMaxY.Value);
                 XAttribute xVelStartMinX = xRoot.Attribute("VelStartMinX");
                 nudVelMinStartX.Value = decimal.Parse(xVelStartMinX.Value);
                 XAttribute xVelStartMinY = xRoot.Attribute("VelStartMinY");
-                nudVelMinStartY.Value = decimal.Parse(xVelStartMinY.Value);
+                nudVelMinStartY.Value = -decimal.Parse(xVelStartMinY.Value);
 
                 XAttribute xVelEndMaxX = xRoot.Attribute("VelEndMaxX");
                 nudVelMaxEndX.Value = decimal.Parse(xVelEndMaxX.Value);
                 XAttribute xVelEndMaxY = xRoot.Attribute("VelEndMaxY");
-                nudVelMaxEndY.Value = decimal.Parse(xVelEndMaxY.Value);
+                nudVelMaxEndY.Value = -decimal.Parse(xVelEndMaxY.Value);
                 XAttribute xVelEndMinX = xRoot.Attribute("VelEndMinX");
                 nudVelMinEndX.Value = decimal.Parse(xVelEndMinX.Value);
                 XAttribute xVelEndMinY = xRoot.Attribute("VelEndMinY");
-                nudVelMinEndY.Value = decimal.Parse(xVelEndMinY.Value);
+                nudVelMinEndY.Value = -decimal.Parse(xVelEndMinY.Value);
             }
         }
 

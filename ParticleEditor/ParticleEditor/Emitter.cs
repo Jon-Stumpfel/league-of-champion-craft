@@ -35,6 +35,37 @@ namespace ParticleEditor
             set { pos = value; }
         }
 
+        public class MyColor
+        {
+            float a;
+
+            public float A
+            {
+                get { return a; }
+                set { a = value; }
+            }
+            float r;
+
+            public float R
+            {
+                get { return r; }
+                set { r = value; }
+            }
+            float g;
+
+            public float G
+            {
+                get { return g; }
+                set { g = value; }
+            }
+            float b;
+
+            public float B
+            {
+                get { return b; }
+                set { b = value; }
+            }
+        };
         private Color colorStart, colorEnd;
 
         public Color ColorEnd
@@ -254,16 +285,17 @@ namespace ParticleEditor
                 Color oldColor = particles[i].Color;
                 float dtA, dtR, dtG, dtB;
 
-                dtA = (float)(colorEnd.A - colorStart.A) / time;
-                dtR = (float)(colorEnd.R - colorStart.R) / time;
-                dtG = (float)(colorEnd.G - colorStart.G) / time;
-                dtB = (float)(colorEnd.B - colorStart.B) / time;
+                dtA = (float)((colorEnd.A - colorStart.A) / time);
+                dtR = (float)((colorEnd.R - colorStart.R) / time);
+                dtG = (float)((colorEnd.G - colorStart.G) / time);
+                dtB = (float)((colorEnd.B - colorStart.B) / time);
                 dtA *= fElapsedTime;
                 dtR *= fElapsedTime; 
                 dtG *= fElapsedTime;
                 dtB *= fElapsedTime;
+                
 
-                Color newColor = Color.FromArgb((int)dtA + (int)oldColor.A, (int)dtR + (int)oldColor.R, (int)dtG + (int)oldColor.G, (int)dtB + (int)oldColor.B);
+                Color newColor = Color.FromArgb((int)(dtA + oldColor.A), (int)(dtR + oldColor.R), (int)(dtG + oldColor.G), (int)(dtB + oldColor.B));
                 particles[i].Color = newColor;
 
                 // Rotation changing over time
