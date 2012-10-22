@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "StateStack.h"
 #include "AttackPhaseTransState.h"
+#include "MovetPhaseTransState.h"
 
 CGameManager* CGameManager::s_Instance = nullptr;
 
@@ -44,7 +45,6 @@ void CGameManager::NextPhase(void)
 		CAIManager::GetInstance()->BeginAttack();
 		m_nCurrentPhase = GP_ATTACK;
 		CStateStack::GetInstance()->Push(CAttackPhaseTransState::GetInstance());
-
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
 	{
@@ -70,6 +70,8 @@ void CGameManager::NextPhase(void)
 				m_vUnits[i]->SetHasAttacked(false);
 			}
 		}
+		CStateStack::GetInstance()->Push(CMovetPhaseTransState::GetInstance());
+		
 	}
 	
 
@@ -488,9 +490,9 @@ void CGameManager::NewGame(string levelstring, int mapint)
 	Reset();
 
 	LoadLevel(levelstring);
-	
-	LoadMap(mapint);
 
+	LoadMap(mapint);
+	
 	m_nPhaseCount = 0;
 	// Player 1 and his units
 	m_nNewPlayerID = 0;

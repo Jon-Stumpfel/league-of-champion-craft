@@ -107,6 +107,7 @@
     <ClCompile Include="LevelSelectState.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MessageSystem.cpp" />
+    <ClCompile Include="MovetPhaseTransState.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="OptionsMenuState.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageSystem.h" />
+    <ClInclude Include="MovetPhaseTransState.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OptionsMenuState.h" />
     <ClInclude Include="Particle.h" />
