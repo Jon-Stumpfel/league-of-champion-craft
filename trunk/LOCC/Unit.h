@@ -23,6 +23,7 @@ class CUnit : public CGameObject
 	bool m_bShielded;
 	bool m_bIsMoving;
 	bool m_bIsFleeing;
+	bool m_bFreeMove;
 
 	float m_fDodgeChance;
 
@@ -30,12 +31,20 @@ class CUnit : public CGameObject
 	UNIT_TYPE m_eType;
 
 	std::vector<CAbility*> m_vAbilities;
-	std::vector< CAbility* > m_vDebuffs;
+	std::vector< CAbility* > m_vEffects;
 	std::vector<CTile*> m_vWaypoints;
 	
 public:
 	CUnit(UNIT_TYPE type);
 	~CUnit(void);
+
+	// LUA Helper functions!
+	static int SetFreeMove(lua_State* L);
+	static int Shield(lua_State* L);
+	static int Speed(lua_State* L);
+
+
+
 
 	bool GetFleeing(void){ return m_bIsFleeing;}
 	void SetFleeing(bool b) { m_bIsFleeing = b;}
@@ -52,15 +61,17 @@ public:
 	void Render(void);
 
 	CAbility* GetAbility(int index);
-	void PushDebuff(CAbility* debuff) { m_vDebuffs.push_back(debuff);}
-	CAbility* GetDebuff(int i) { return m_vDebuffs[i];}
-	int GetNumDebuffs(void) { return m_vDebuffs.size();}
+	void PushEffect(CAbility* effect);
+	void RemoveEffect(SPELL_TYPE spType);
+	CAbility* GetEffect(int i) { return m_vEffects[i];}
+	int GetNumEffects(void) { return m_vEffects.size();}
 
 	void SetPos(int posX, int posY);
 	void SetPos(Vec2D pos);
 	Vec2D GetPos(void) { return m_sGamePos;}
 
-
+	void SetFreeMove(bool b) { m_bFreeMove = b;}
+	bool GetFreeMove(void) { return m_bFreeMove;}
 
 	void SetTilesMoved(int t) { m_nTilesMoved = t;}
 	int GetTilesMoved(void) { return m_nTilesMoved;}
