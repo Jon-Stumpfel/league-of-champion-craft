@@ -53,7 +53,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.2f)
+		if (fTimeToPop > 0.8f)
 		{
 			if (m_vInputQueue.back() == INPUT_AI_ATTACKED)
 			{
@@ -350,84 +350,114 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 	CUnit* pNearestEnemy;
 	int lowestDistance = INT_MAX;
 	int nNumToMove = INT_MAX;
-	for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
+	bool bSkipMove = false;
+
+	std::vector<CUnit*> vUnitsUnder25;
+
+
+	if (pMoveUnit->GetType() == UT_HERO)
 	{
-		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+		if ((float)((float)pMoveUnit->GetHP() / (float)pMoveUnit->GetMaxHP() <= 0.25f))
+		{
+			bSkipMove = true;
+		}
+		for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
 		{
 			CUnit* pWorkUnit = CGameManager::GetInstance()->GetUnits()[i];
-			int xDist = (pWorkUnit->GetPos().nPosX - pMoveUnit->GetPos().nPosX);
-			int yDist = (pWorkUnit->GetPos().nPosY - pMoveUnit->GetPos().nPosY);
-			int dist = (int)(abs((double)xDist) + abs((double)yDist));
-			if (dist < lowestDistance)
+			if (pWorkUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 			{
-				lowestDistance = dist;
-				pNearestEnemy = pWorkUnit;
+				if (pWorkUnit->GetType() == UT_HERO || pWorkUnit->GetType() == UT_CASTLE)
+				{
+					continue;
+				}
+				if ((float)((float)pWorkUnit->GetHP() / (float)pWorkUnit->GetMaxHP()) <= 0.25f)
+				{
+					vUnitsUnder25.push_back(pWorkUnit);
+				}
 			}
 		}
+		if (vUnitsUnder25.size() >= 1)
+			bSkipMove = true;
 	}
-	if (pMoveUnit->GetType() != UT_HERO && pMoveUnit->GetFleeing() == true)
+	if (!bSkipMove)
 	{
-		
-		CUnit* pChampion = CGameManager::GetInstance()->GetChampion(pMoveUnit->GetPlayerID());
-		if (pChampion != nullptr)
-			pNearestEnemy = pChampion;
-	}
-	Vec2D nearest;
-	int xDistance = pNearestEnemy->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
-	int yDistance = pNearestEnemy->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
-	if ((abs(double(xDistance)) + abs(double(yDistance))) == 1)
-	{
-		m_vInputQueue.push_back(INPUT_AI_CLEAR);
-		m_vInputQueue.push_back(INPUT_AI_MOVED);
-		return;
-	}
-	if (pMoveUnit->GetType() == UT_ARCHER)
-	{
-		if (lowestDistance <= 3)
+		for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
+		{
+			if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+			{
+				CUnit* pWorkUnit = CGameManager::GetInstance()->GetUnits()[i];
+				int xDist = (pWorkUnit->GetPos().nPosX - pMoveUnit->GetPos().nPosX);
+				int yDist = (pWorkUnit->GetPos().nPosY - pMoveUnit->GetPos().nPosY);
+				int dist = (int)(abs((double)xDist) + abs((double)yDist));
+				if (dist < lowestDistance)
+				{
+					lowestDistance = dist;
+					pNearestEnemy = pWorkUnit;
+				}
+			}
+		}
+		if (pMoveUnit->GetType() != UT_HERO && pMoveUnit->GetFleeing() == true)
+		{
+
+			CUnit* pChampion = CGameManager::GetInstance()->GetChampion(pMoveUnit->GetPlayerID());
+			if (pChampion != nullptr)
+				pNearestEnemy = pChampion;
+		}
+		Vec2D nearest;
+		int xDistance = pNearestEnemy->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+		int yDistance = pNearestEnemy->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+		if ((abs(double(xDistance)) + abs(double(yDistance))) == 1)
 		{
 			m_vInputQueue.push_back(INPUT_AI_CLEAR);
 			m_vInputQueue.push_back(INPUT_AI_MOVED);
 			return;
 		}
-		else
+		if (pMoveUnit->GetType() == UT_ARCHER)
 		{
-			nearest = NearestOpen(pNearestEnemy, pMoveUnit);
+			if (lowestDistance <= 3)
+			{
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_AI_MOVED);
+				return;
+			}
+			else
+			{
+				nearest = NearestOpen(pNearestEnemy, pMoveUnit);
+			}
+
 		}
-
-	}
-	else
-		nearest = NearestOpen(pNearestEnemy, pMoveUnit);
-
-	int x = 9;
-	xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
-	yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
-
-	m_vInputQueue.push_back(INPUT_AI_CLEAR);
-	m_vInputQueue.push_back(INPUT_AI_MOVED);
-	m_vInputQueue.push_back(INPUT_ACCEPT);
-
-	for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
-	{
-		if (xDistance < 0)
-			m_vInputQueue.push_back(INPUT_LEFT);
-		if (xDistance > 0)
-			m_vInputQueue.push_back(INPUT_RIGHT);
 		else
-			continue;
-	}
-	for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
-	{
-		if (yDistance < 0)
-			m_vInputQueue.push_back(INPUT_UP);
-		if (yDistance > 0)
-			m_vInputQueue.push_back(INPUT_DOWN);
-		else
-			continue;
-	}
-	m_vInputQueue.push_back(INPUT_ACCEPT);
-	m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_1);
+			nearest = NearestOpen(pNearestEnemy, pMoveUnit);
 
+		int x = 9;
+		xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+		yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
 
+		m_vInputQueue.push_back(INPUT_AI_CLEAR);
+		m_vInputQueue.push_back(INPUT_AI_MOVED);
+		m_vInputQueue.push_back(INPUT_ACCEPT);
+		for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
+		{
+			if (xDistance < 0)
+				m_vInputQueue.push_back(INPUT_LEFT);
+			if (xDistance > 0)
+				m_vInputQueue.push_back(INPUT_RIGHT);
+			else
+				continue;
+		}
+		for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
+		{
+			if (yDistance < 0)
+				m_vInputQueue.push_back(INPUT_UP);
+			if (yDistance > 0)
+				m_vInputQueue.push_back(INPUT_DOWN);
+			else
+				continue;
+		}
+		m_vInputQueue.push_back(INPUT_ACCEPT);
+		m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_1);
+		SelectUnit(pMoveUnit);
+	}
 	// These perform first.  
 	if (pMoveUnit->GetType() == UT_HERO)
 	{
@@ -451,7 +481,10 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 				}
 				if (nFoundIndex != -1) // we found the heal spell!
 				{
+					bSkipMove = false;
 					m_vInputQueue.push_back(INPUT_AI_CLEAR);
+			m_vInputQueue.push_back(INPUT_AI_MOVED);
+
 					m_vInputQueue.push_back(INPUT_ACCEPT);
 					m_vInputQueue.push_back(INPUT_ACCEPT);
 					switch (nFoundIndex)
@@ -472,7 +505,8 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 					}
 					m_vInputQueue.push_back(INPUT_ACCEPT);
 					m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
-					m_vInputQueue.push_back(INPUT_ACCEPT);
+					//m_vInputQueue.push_back(INPUT_ACCEPT);
+					SelectUnit(pMoveUnit);
 
 				}
 			}
@@ -480,28 +514,15 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		else
 		{
 			// Is anyone else under 25% hp?
-			std::vector<CUnit*> vUnitsUnder25;
-			for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
-			{
-				CUnit* pWorkUnit = CGameManager::GetInstance()->GetUnits()[i];
-				if (pWorkUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
-				{
-					if (pWorkUnit->GetType() == UT_HERO || pWorkUnit->GetType() == UT_CASTLE)
-					{
-						continue;
-					}
-					if ((float)((float)pWorkUnit->GetHP() / (float)pWorkUnit->GetMaxHP()) <= 0.25f)
-					{
-						vUnitsUnder25.push_back(pWorkUnit);
-					}
-				}
-			}
+
 
 			for (unsigned int i = 0; i < vUnitsUnder25.size(); ++i)
 			{
 				int xDistance = vUnitsUnder25[i]->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
 				int yDistance = vUnitsUnder25[i]->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
 				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+			m_vInputQueue.push_back(INPUT_AI_MOVED);
+
 				m_vInputQueue.push_back(INPUT_ACCEPT);
 
 				for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
@@ -522,8 +543,21 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 					else
 						continue;
 				}
+				CHero* pHero = dynamic_cast<CHero*>(pMoveUnit);
+				if (pHero != nullptr)
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						CAbility* pAbility = pHero->GetSpell(i);
+						if (pAbility != nullptr)
+						{
+							if (pAbility->GetType() == SP_HEAL)
+								nFoundIndex = i;
+						}
+					}
+				}
 
-
+				bSkipMove = false;
 				m_vInputQueue.push_back(INPUT_ACCEPT);
 				switch (nFoundIndex)
 				{
@@ -550,7 +584,6 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		}
 
 	}
-
 }
 
 void CAIManager::AttackUnit(CUnit* pAttackUnit)
@@ -645,7 +678,6 @@ void CAIManager::AttackUnit(CUnit* pAttackUnit)
 					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL4);
 					break;
 				}
-				m_vInputQueue.push_back(INPUT_ACCEPT);
 				m_vInputQueue.push_back(INPUT_ACCEPT);
 
 				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);

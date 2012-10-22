@@ -87,20 +87,18 @@ void CFloatingText::Render(void)
 int CFloatingText::AddText(lua_State *L)
 {
 	int n = lua_gettop(L);
-	double sum = 0;
-	int i;
 
 	std::string str = lua_tostring(L, 1); // catch the text
-	float fPosX = lua_tonumber(L, 2); // catch posX
-	float fPosY = lua_tonumber(L, 3); // catch posX
-	float fVecX = lua_tonumber(L, 4); // catch posX
-	float fVecY = lua_tonumber(L, 5); // catch posX
-	float fLife = lua_tonumber(L, 6); // catch posX
-	float fScale = lua_tonumber(L, 7); // catch posX
-	int nRed = lua_tonumber(L, 8); // catch posX
-	int nGreen = lua_tonumber(L, 9); // catch posX
-	int nBlue = lua_tonumber(L, 10); // catch posX
+	float fPosX = (float)lua_tonumber(L, 2); // catch posX
+	float fPosY = (float)lua_tonumber(L, 3); // catch posX
+	float fVecX = (float)lua_tonumber(L, 4); // catch posX
+	float fVecY = (float)lua_tonumber(L, 5); // catch posX
+	float fLife = (float)lua_tonumber(L, 6); // catch posX
+	float fScale = (float)lua_tonumber(L, 7); // catch posX
+	int nRed = (int)lua_tonumber(L, 8); // catch posX
+	int nGreen = (int)lua_tonumber(L, 9); // catch posX
+	int nBlue = (int)lua_tonumber(L, 10); // catch posX
 
-	CFloatingText::GetInstance()->AddText(str, Vec2Df(fPosX, fPosY), Vec2Df(fVecX, fVecY), fLife, fScale, D3DCOLOR_XRGB(nRed, nGreen, nBlue));
+	CFloatingText::GetInstance()->AddText(str, Vec2Df(fPosX + 38, fPosY), Vec2Df(fVecX, fVecY), fLife, fScale, D3DCOLOR_XRGB(nRed, nGreen, nBlue));
 	return 0;
 }
