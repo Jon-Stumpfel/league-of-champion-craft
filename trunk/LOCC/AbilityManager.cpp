@@ -188,7 +188,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetIsMove(false);
 					ab->SetType(SP_FIREBALL);
 						ab->m_szInterfaceIcon = name;
-					ab->SetParticleType(TEST);
+					ab->SetParticleType(PT_FIRE);
 					ab->SetDamage(15);
 					ab->SetDescription("You Know it, You love it, The fireball! This ones burns up most targets.");
 					std::pair<SPELL_TYPE, CAbility*> tmp;

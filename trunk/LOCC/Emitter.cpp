@@ -65,6 +65,16 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 			m_sSource.bottom = 128;
 		}
 		break;
+	case PT_FIRE:
+		{
+			if( doc.LoadFile( "Assets/Particles/fire.xml" ) == false )
+				return;
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
+		}
+		break;
 	};
 
 	m_sEmitPos = sPos;
@@ -173,6 +183,15 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 			m_nImgID = pGM->GetID(_T("Test2"));
 		}
 		break;
+	case PT_FIRE:
+		{
+			TCHAR conversion[100];	
+			mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
+			TSTRING file = conversion;
+			pGM->LoadImageW( _T("Assets/Particles/") + file, _T("fire"), D3DCOLOR_ARGB(255, 255, 255, 255) );
+			m_nImgID = pGM->GetID(_T("fire"));
+		}
+		break;
 	}
 
 	// Populates the list of AliveParticles
@@ -238,8 +257,15 @@ void CEmitter::Update( float fElapsedTime )
 	// then adds one to the number spawned
 	if( m_fSpawnTimer > m_fSpawnRate )
 	{
-		if( m_vAliveParticles.size() > m_nNumSpawned )
-			m_nNumSpawned++;
+		while (m_fSpawnTimer > m_fSpawnRate)
+		{
+			if( m_vAliveParticles.size() > m_nNumSpawned )
+				m_nNumSpawned++;
+			else
+				break;
+			m_fSpawnTimer - m_fSpawnRate;
+		}
+
 		m_fSpawnTimer = 0;
 		m_fSpawnRate = (rand() % (m_nMinSpawnRate - m_nMaxSpawnRate + 1)+ m_nMinSpawnRate)/100.0f;
 	}

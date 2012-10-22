@@ -46,7 +46,7 @@ using std::string;
 
 	enum SCRIPT_TYPE { ST_LEVEL };
 
-	enum PRTCL_TYPE { TEST, TESTSECOND };
+	enum PRTCL_TYPE { TEST, TESTSECOND, PT_FIRE };
 
 	enum GAME_PHASE { GP_MOVE, GP_ATTACK };
 
