@@ -409,6 +409,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 				else if (m_bSelectChampionAbility)
 				{
 					m_bSelectChampionAbility = false;
+					m_bShowSpellPanel = false;
 					m_nSelectedSpell = 0;
 				}
 				else
@@ -677,7 +678,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					m_pSelectedUnit = nullptr;
 					m_bSelectChampionAbility = false;
 				}
-
+				ClearSelections();
 			}
 		}
 	}	
@@ -1011,6 +1012,7 @@ void CGameplayState::ClearSelections(void)
 	m_nSelectedAbility =0;
 	m_pHighlightedUnit = nullptr;
 	m_bIsHighlighting = false;
+	m_bShowSpellPanel = false;
 	m_vWaypoints.clear();
 }
 void CGameplayState::Update(float fElapsedTime)
@@ -1456,7 +1458,7 @@ void CGameplayState::Render(void)
 						tt << pHero->GetAttack();
 					}
 
-					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(255,0,0) : D3DCOLOR_XRGB(0,0,255));
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 					tt.str("");
 
 					pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
@@ -1485,13 +1487,15 @@ void CGameplayState::Render(void)
 			pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
 			tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
 			
+			int damage = pA->GetDamage();
 			if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
 			{
 				tt.str("");
 				tt << m_pSelectedUnit->GetAttack();
+				damage = m_pSelectedUnit->GetAttack();
 			}
 
-			m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(255,0,0) : D3DCOLOR_XRGB(0,0,255));
+			m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, damage < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 			tt.str("");
 
 			pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);

@@ -289,13 +289,23 @@ namespace ParticleEditor
                 dtR = (float)((colorEnd.R - colorStart.R) / time);
                 dtG = (float)((colorEnd.G - colorStart.G) / time);
                 dtB = (float)((colorEnd.B - colorStart.B) / time);
+
                 dtA *= fElapsedTime;
                 dtR *= fElapsedTime; 
                 dtG *= fElapsedTime;
                 dtB *= fElapsedTime;
-                
 
-                Color newColor = Color.FromArgb((int)(dtA + oldColor.A), (int)(dtR + oldColor.R), (int)(dtG + oldColor.G), (int)(dtB + oldColor.B));
+                particles[i].myColor.A += dtA / 255;
+                particles[i].myColor.R += dtR / 255;
+                particles[i].myColor.G += dtG / 255;
+                particles[i].myColor.B += dtB / 255;
+
+                float a = particles[i].myColor.A;
+                float r = particles[i].myColor.R;
+                float g = particles[i].myColor.G;
+                float b = particles[i].myColor.B;
+
+                Color newColor = Color.FromArgb((int)(a * 255), (int)(r * 255), (int)(g * 255), (int)(b * 255));
                 particles[i].Color = newColor;
 
                 // Rotation changing over time
@@ -400,8 +410,7 @@ namespace ParticleEditor
 
         public void InitParticle()
         {
-            if( particles.Count > 0 )
-                particles.Clear();
+            Clear();
 
             Random rand = new Random();
             rand.Next();
@@ -416,6 +425,13 @@ namespace ParticleEditor
                 tmp.Scale = scaleStart;
                 tmp.Rotation = rotationStart;
                 tmp.Source = new Rectangle(0, 0, tm.GetTextureWidth(tmp.Id), tm.GetTextureHeight(tmp.Id));
+
+                tmp.myColor = new MyColor();
+                tmp.myColor.A = colorStart.A / 255;
+                tmp.myColor.R = colorStart.R / 255;
+                tmp.myColor.G = colorStart.G / 255;
+                tmp.myColor.B = colorStart.B / 255;
+
 
                 // Finds random values
                 //double theta = double.Parse(angle.ToString());
