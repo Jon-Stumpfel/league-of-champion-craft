@@ -26,11 +26,49 @@ void LevelSelectState::Enter(void)
 {
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
 	selected = 0;
+	m_ptempmap = new CTile*();
+	m_p2ndtempmap = new CTile*();
+	CTileManager* pTM=CTileManager::GetInstance();
+	string filename= "Assets\\Tiles\\TestMap1.xml";
+	pTM->LoadSave(filename);
+	m_pRows = pTM->GetNumRows();
+	m_pColumns = pTM->GetNumColumns();
+	m_ptempmap= new CTile*[m_pRows];
+	for (int x = 0; x< m_pRows; ++x)
+	{
+		m_ptempmap[x]= new CTile[m_pColumns];
+	}
+	for(int i = 0; i < m_pRows; i++)
+	{
+		for(int j = 0; j < m_pColumns; j++)
+		{
+			m_ptempmap[i][j] = *pTM->GetTile(i,j);
+		}
+	}
+	string thefilename= "Assets\\Tiles\\TestMap2.xml";
+	pTM->LoadSave(thefilename);
+	m_p2ndRows = pTM->GetNumRows();
+	m_p2ndColumns = pTM->GetNumColumns();
+	m_p2ndtempmap= new CTile*[m_pRows];
+	for (int x = 0; x< m_pRows; ++x)
+	{
+		m_p2ndtempmap[x]= new CTile[m_pColumns];
+	}
+	for(int i = 0; i < m_p2ndRows; i++)
+	{
+		for(int j = 0; j < m_p2ndColumns; j++)
+		{
+			m_p2ndtempmap[i][j] = *pTM->GetTile(i,j);
+		}
+	}
 }
 
 void LevelSelectState::Exit(void)
 {
-
+	m_ptempmap = nullptr;
+	delete m_ptempmap;
+	m_p2ndtempmap = nullptr;
+	delete m_p2ndtempmap;
 }
 
 void LevelSelectState::Input(INPUT_ENUM input)
@@ -60,6 +98,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			OutputDebugString((LPCWSTR)oss.str().c_str());
 			if(selected == 1)
 				selected--;
+			else
+				selected++;
 			break;
 		}
 	case INPUT_RIGHT:
@@ -69,6 +109,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			OutputDebugString((LPCWSTR)oss.str().c_str());
 			if(selected == 0)
 				selected++;
+			else
+				selected--;
 			break;
 		}
 	case INPUT_CANCEL:
@@ -88,9 +130,6 @@ void LevelSelectState::Render(void)
 	CSGD_Direct3D::GetInstance()->Clear(0,100,255);
 	int nMiniMapOffsetX = 60;
 	int nMiniMapOffsetY = 50;
-	CTileManager* pTM=CTileManager::GetInstance();
-	string filename= "Assets\\Tiles\\TestMap1.xml";
-	pTM->LoadSave(filename);
 	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY, nMiniMapOffsetX + 225, nMiniMapOffsetY + 152};
 	RECT selectedrect = {nMiniMapOffsetX-5, nMiniMapOffsetY-5, nMiniMapOffsetX + 230, nMiniMapOffsetY + 157};
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
@@ -100,13 +139,13 @@ void LevelSelectState::Render(void)
 
 	float nMiniMapWidth = 225.0f;
 	float nMiniMapHeight = 152.0f;
-	float nMiniTileWidth = nMiniMapWidth / CTileManager::GetInstance()->GetNumRows();
-	float nMiniTileHeight = nMiniMapHeight / CTileManager::GetInstance()->GetNumColumns();
+	float nMiniTileWidth = nMiniMapWidth / m_pRows;
+	float nMiniTileHeight = nMiniMapHeight / m_pColumns;
 
 	// Render the tiles. Only using colored blocks for now
-	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
+	for (int i = 0; i < m_pRows; ++i)
 	{
-		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
+		for (int j = 0; j < m_pColumns; ++j)
 		{
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
@@ -115,7 +154,7 @@ void LevelSelectState::Render(void)
 			int r = 0;
 			int g = 0;
 			int b = 0;
-			CTile* pTile = CTileManager::GetInstance()->GetTile(i, j);
+			CTile* pTile = &m_ptempmap[i][j];
 			RECT rSrc;
 			switch (pTile->GetTileType())
 			{
@@ -167,8 +206,6 @@ void LevelSelectState::Render(void)
 
 	nMiniMapOffsetX = 500;
 	nMiniMapOffsetY = 50;
-	string thefilename= "Assets\\Tiles\\TestMap2.xml";
-	pTM->LoadSave(thefilename);
 	miniR.left = nMiniMapOffsetX; miniR.top = nMiniMapOffsetY; miniR.right = nMiniMapOffsetX + 225; miniR.bottom = nMiniMapOffsetY + 152;
 	selectedrect.left = nMiniMapOffsetX-5; selectedrect.top = nMiniMapOffsetY-5; selectedrect.right = nMiniMapOffsetX + 230; selectedrect.bottom = nMiniMapOffsetY + 157;
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
@@ -178,13 +215,13 @@ void LevelSelectState::Render(void)
 
 	nMiniMapWidth = 225.0f;
 	nMiniMapHeight = 152.0f;
-	nMiniTileWidth = nMiniMapWidth / CTileManager::GetInstance()->GetNumRows();
-	nMiniTileHeight = nMiniMapHeight / CTileManager::GetInstance()->GetNumColumns();
+	nMiniTileWidth = nMiniMapWidth / m_p2ndRows;
+	nMiniTileHeight = nMiniMapHeight / m_p2ndColumns;
 
 	// Render the tiles. Only using colored blocks for now
-	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
+	for (int i = 0; i < m_p2ndRows; ++i)
 	{
-		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
+		for (int j = 0; j < m_p2ndColumns; ++j)
 		{
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
@@ -193,7 +230,7 @@ void LevelSelectState::Render(void)
 			int r = 0;
 			int g = 0;
 			int b = 0;
-			CTile* pTile = CTileManager::GetInstance()->GetTile(i, j);
+			CTile* pTile = &m_p2ndtempmap[i][j];
 			RECT rSrc;
 			switch (pTile->GetTileType())
 			{
@@ -239,14 +276,8 @@ void LevelSelectState::Render(void)
 		}
 	}
 	ostringstream boss;
-	boss<<"You are now";
-	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
-	ostringstream toss;
-	toss<<"surrounded by";
-	tempfont.Print(toss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 182, 0.5f, D3DXCOLOR(255,255,255,255));
-	ostringstream soss;
-	soss<<"water!";
-	tempfont.Print(soss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 202, 0.5f, D3DXCOLOR(255,255,255,255));
+	boss<<"You are now surrounded by water!";
+	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255), 210);
 
 	soss.str("");
 	soss<<"LEAGUE OF WHACKAMOLE";

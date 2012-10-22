@@ -1697,7 +1697,8 @@ void CGameplayState::Render(void)
 			oss << "AP: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
 				", Metal: " << pDebugPlayer->GetMetal() << '\n';
 			m_pBitmapFont->Print(oss.str().c_str(), 258, 486, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
-
+			ostringstream woss;
+			//woss<<"EXP: "<< 
 		///	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
 			oss.str((""));
 			if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == 0)

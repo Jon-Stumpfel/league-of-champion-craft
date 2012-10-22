@@ -21,8 +21,7 @@ public:
 	static void DeleteInstance(void);
 
 	int GetNumRows (void)		{return m_nRows;};
-	int GetNumColumns (void)	{return m_nColumns;};	
-
+	int GetNumColumns (void)	{return m_nColumns;};
 private:
 
 	RECT CTileManager::CellAlgorithm( int id )
