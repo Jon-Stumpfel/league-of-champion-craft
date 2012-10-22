@@ -516,6 +516,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					tmp.nPosY += 5;
 					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 				}
+				//CoolDown Check here..
 
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )

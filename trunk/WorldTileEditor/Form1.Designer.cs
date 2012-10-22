@@ -46,6 +46,7 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.TilesetGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,7 +57,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ColumnsnumericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.RowsnumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.TilesetGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.MapGraphicsPanel = new WorldTileEditor.GraphicsPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -236,6 +236,18 @@
             this.splitContainer2.SplitterDistance = 141;
             this.splitContainer2.TabIndex = 0;
             // 
+            // TilesetGraphicsPanel
+            // 
+            this.TilesetGraphicsPanel.AutoScroll = true;
+            this.TilesetGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TilesetGraphicsPanel.Location = new System.Drawing.Point(0, 0);
+            this.TilesetGraphicsPanel.Name = "TilesetGraphicsPanel";
+            this.TilesetGraphicsPanel.Size = new System.Drawing.Size(268, 139);
+            this.TilesetGraphicsPanel.TabIndex = 0;
+            this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
+            this.TilesetGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TilesetGraphicsPanel_MouseClick);
+            this.TilesetGraphicsPanel.Resize += new System.EventHandler(this.TilesetGraphicsPanel_Resize);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label4);
@@ -331,18 +343,6 @@
             this.RowsnumericUpDown1.Size = new System.Drawing.Size(76, 22);
             this.RowsnumericUpDown1.TabIndex = 0;
             this.RowsnumericUpDown1.ValueChanged += new System.EventHandler(this.RowsnumericUpDown1_ValueChanged);
-            // 
-            // TilesetGraphicsPanel
-            // 
-            this.TilesetGraphicsPanel.AutoScroll = true;
-            this.TilesetGraphicsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TilesetGraphicsPanel.Location = new System.Drawing.Point(0, 0);
-            this.TilesetGraphicsPanel.Name = "TilesetGraphicsPanel";
-            this.TilesetGraphicsPanel.Size = new System.Drawing.Size(268, 139);
-            this.TilesetGraphicsPanel.TabIndex = 0;
-            this.TilesetGraphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.TilesetGraphicsPanel_Paint);
-            this.TilesetGraphicsPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TilesetGraphicsPanel_MouseClick);
-            this.TilesetGraphicsPanel.Resize += new System.EventHandler(this.TilesetGraphicsPanel_Resize);
             // 
             // MapGraphicsPanel
             // 

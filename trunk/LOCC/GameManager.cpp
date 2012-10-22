@@ -13,6 +13,8 @@
 #include "Unit.h"
 #include "Hero.h"
 #include "Player.h"
+#include "StateStack.h"
+#include "AttackPhaseTransState.h"
 
 CGameManager* CGameManager::s_Instance = nullptr;
 
@@ -65,7 +67,10 @@ void CGameManager::NextPhase(void)
 				m_vUnits[i]->SetHasAttacked(false);
 			}
 		}
+		CStateStack::GetInstance()->Push(CAttackPhaseTransState::GetInstance());
 	}
+	
+
 }
 
 // Get the player's champion unit. Searches through the unit list to find a unit that matches
@@ -187,7 +192,7 @@ void CGameManager::LoadUnitsFromScript(void)
 void CGameManager::LoadMap(int nLevelNum)
 {
 	CTileManager* pTM=CTileManager::GetInstance();
-	string filename= "Assets\\Tiles\\TestMap.xml";
+	string filename= "Assets\\Tiles\\TestMap2.xml";
 	pTM->LoadSave(filename);
 	// Attempting to load fake level 1 script
 }
