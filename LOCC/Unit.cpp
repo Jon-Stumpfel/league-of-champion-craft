@@ -5,6 +5,7 @@
 #include "Archer.h"
 #include "Tile.h"
 #include "DeSpawnUnitMessage.h"
+#include "GameManager.h"
 #include "AbilityManager.h"
 #include "MessageSystem.h"
 #include "Hero.h"
@@ -45,7 +46,11 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	m_sAnimStruct->fCurrentTime = 0.0f;
 	m_sAnimStruct->unitType = m_eType;
 
+	m_nUniqueID = CGameManager::GetInstance()->GenerateUniqueUnitID();
+
 	m_fDodgeChance = 0.0f;
+	m_bFreeMove = false;
+	m_bIsFleeing = false;
 }
 	bool CUnit::CheckDodged(void)
 	{
@@ -116,6 +121,62 @@ static bool CloseEnough(int n1, int n2)
 }
 void CUnit::Update(float fElapsedTime)
 {
+	// reset basic stuff
+	m_bFreeMove = false;
+	m_bShielded = false;
+	m_nSpeed = m_nSpeed;
+	switch (m_eType)
+	{
+	case UT_ARCHER:
+		m_nSpeed = 4;
+		break;
+	case UT_SWORDSMAN:
+		m_nSpeed = 3;
+		break;
+	case UT_CAVALRY:
+		m_nSpeed = 5;
+		break;
+	case UT_HERO:
+		m_nSpeed = 4;
+		break;
+	case UT_CASTLE:
+		m_nSpeed = 0;
+		break;
+	case UT_SKELETON:
+		m_nSpeed = 2;
+		break;
+	case UT_ICEBLOCK:
+		m_nSpeed = 0;
+		break;
+	}
+	// do stuff to the unit based on their buffs/debuffs
+	for (unsigned int i = 0; i < m_vEffects.size(); ++i)
+	{
+		switch (m_vEffects[i]->GetType())
+		{
+		case SP_SHIELD:
+			m_bShielded = true;
+			break;
+		case SP_CARTOGRAPHY:
+			m_bFreeMove = true;
+			break;
+		case SP_SPEED:
+			{
+				switch (m_eType)
+				{
+				case UT_ICEBLOCK:
+				case UT_CASTLE:
+					break;
+				default:
+					m_nSpeed = m_nSpeed + 1;
+
+				}
+
+
+			}
+			break;
+		}
+	}
 	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.25f))
 	{
 		m_bIsFleeing = true;
@@ -257,4 +318,61 @@ void CUnit::SetPos(int posX, int posY)
 void CUnit::SetPos(Vec2D pos)
 {
 	SetPos(pos.nPosX, pos.nPosY);
+}
+void CUnit::RemoveEffect(SPELL_TYPE spType)
+{
+	for (unsigned int i = 0; i < m_vEffects.size(); ++i)
+	{
+		if (m_vEffects[i]->GetType() == spType)
+		{
+			m_vEffects.erase(m_vEffects.begin() + i--);
+			return;
+		}
+
+	}
+}
+
+	void CUnit::PushEffect(CAbility* effect)
+	{
+		for (unsigned int i = 0; i < m_vEffects.size(); ++i)
+		{
+			if (m_vEffects[i]->GetType() == effect->GetType())
+			{
+				return; // it's already on, so just overwrite it. Update duration here?
+			}
+		}
+		m_vEffects.push_back(effect);
+	}
+
+int CUnit::SetFreeMove(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_CARTOGRAPHY));
+	}
+	return 0;
+}
+
+int CUnit::Shield(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SHIELD));
+	}
+	return 0;
+}
+
+int CUnit::Speed(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SPEED));
+	}
+	return 0;
 }

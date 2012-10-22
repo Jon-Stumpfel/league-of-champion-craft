@@ -19,7 +19,7 @@
 #include "MovetPhaseTransState.h"
 
 CGameManager* CGameManager::s_Instance = nullptr;
-
+int CGameManager::m_nUniqueUnitID = 0;
 bool IntToBool(int n)
 {
 	return (n != 0);
@@ -477,7 +477,7 @@ void CGameManager::Reset(void)
 	m_vScriptSpawns.clear();
 
 	CreatePlayer(false); // player 1
-	CreatePlayer(true);
+	CreatePlayer(false);
 
 	CMessageSystem::GetInstance()->ProcessMessages();
 	CTileManager::GetInstance()->ShutDown();
@@ -628,3 +628,14 @@ void CGameManager::MessageProc(IMessage* pMsg)
 	}
 }
 
+
+CUnit* CGameManager::GetUnitByID(int nID)
+{
+	for (unsigned int i = 0; i < m_vUnits.size(); ++i)
+	{
+		if (m_vUnits[i]->GetUniqueID() == nID)
+			return m_vUnits[i];
+
+	}
+	return nullptr;
+}

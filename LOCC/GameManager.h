@@ -58,6 +58,9 @@ public:
 	void AddScriptSpawn(ScriptedSpawn data) { m_vScriptSpawns.push_back(data);}
 
 	void SaveGame(int nSlot);
+
+	int GenerateUniqueUnitID(void) { return m_nUniqueUnitID++;}
+	CUnit* GetUnitByID(int nID);
 private:
 
 	CGameManager(void);
@@ -88,6 +91,8 @@ private:
 
 
 	int m_nNewPlayerID;
+
+	static int m_nUniqueUnitID;
 
 	
 };

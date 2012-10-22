@@ -506,6 +506,19 @@ void CGameplayState::UseAbility(CAbility* ability)
 			}
 			else if (m_bIsTargeting == true && m_pTargetedTile != nullptr)
 			{
+				// not enough AP to cast!
+				if (CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() < ability->GetApCost()) 
+				{
+					m_bIsTargeting = false;
+					m_pTargetedTile = nullptr;
+					return;
+				}
+				if (m_pSelectedUnit->GetHasAttacked())
+				{
+					m_bIsTargeting = false;
+					m_pTargetedTile = nullptr;
+					return;
+				}
 				std::vector<Vec2D> vec = ability->GetPattern();
 				for( unsigned int i = 0; i < vec.size(); i++ )
 				{
@@ -598,7 +611,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 									}
 									else
 									{
-										pUnit->SetShielded(0);
+										pUnit->RemoveEffect(SP_SHIELD);
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << "Shielded!";
@@ -625,7 +638,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 								}
 								else
 								{
-									pUnit->SetShielded(0);
+									pUnit->RemoveEffect(SP_SHIELD);
+								//	pUnit->SetShielded(0);
 									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 									std::ostringstream oss;
 									oss << "Shielded!";
@@ -701,7 +715,13 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	int nMoveCount = 0;
 	for (int i = m_vWaypoints.size() - 1; i >= 0 ; --i)
 	{
-		nTotalAPCost+= m_vWaypoints[i]->GetAPCost();
+		if (m_pSelectedUnit->GetFreeMove())
+		{
+			nTotalAPCost += 1;
+		}
+		else
+			nTotalAPCost+= m_vWaypoints[i]->GetAPCost();
+
 		nMoveCount++;
 		if (nMoveCount == (m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved()))
 		{
@@ -988,6 +1008,7 @@ void CGameplayState::ClearSelections(void)
 	m_pSelectedUnit = nullptr;
 	m_nSelectedAbility =0;
 	m_pHighlightedUnit = nullptr;
+	m_bIsHighlighting = false;
 	m_vWaypoints.clear();
 }
 void CGameplayState::Update(float fElapsedTime)
@@ -1321,10 +1342,10 @@ void CGameplayState::Render(void)
 
 			// debuffs
 
-			for (int i = 0; i < m_pHighlightedUnit->GetNumDebuffs(); ++i)
+			for (int i = 0; i < m_pHighlightedUnit->GetNumEffects(); ++i)
 			{
 				CSGD_TextureManager::GetInstance()->Draw(
-					CGraphicsManager::GetInstance()->GetID(m_pHighlightedUnit->GetDebuff(i)->m_szInterfaceIcon), 
+					CGraphicsManager::GetInstance()->GetID(m_pHighlightedUnit->GetEffect(i)->m_szInterfaceIcon), 
 					m_nCardOffsetX + 20 + (25*i), 370, 0.4f, 0.4f);
 			}
 
@@ -1555,10 +1576,10 @@ void CGameplayState::Render(void)
 
 			// debuffs
 
-			for (int i = 0; i < m_pSelectedUnit->GetNumDebuffs(); ++i)
+			for (int i = 0; i < m_pSelectedUnit->GetNumEffects(); ++i)
 			{
 				CSGD_TextureManager::GetInstance()->Draw(
-					CGraphicsManager::GetInstance()->GetID(m_pSelectedUnit->GetDebuff(i)->m_szInterfaceIcon), 580 + (25*i), 560, 0.4f, 0.4f);
+					CGraphicsManager::GetInstance()->GetID(m_pSelectedUnit->GetEffect(i)->m_szInterfaceIcon), 580 + (25*i), 560, 0.4f, 0.4f);
 			}
 		}
 
@@ -1579,7 +1600,7 @@ void CGameplayState::Render(void)
 			//oss.str(_T(""));
 
 
-			oss << "Action Points: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
+			oss << "AP: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
 				", Metal: " << pDebugPlayer->GetMetal() << '\n';
 			m_pBitmapFont->Print(oss.str().c_str(), 258, 486, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 

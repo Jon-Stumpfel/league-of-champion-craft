@@ -21,18 +21,11 @@ CHero::CHero(void) : CUnit(UT_HERO)
 
 
 	// TODO: Setup abilities when they are in place
-	CAbility* pAbility = new CAbility();
-	pAbility->m_nAPCost = 3;
-	pAbility->m_nCooldown = 1;
-	pAbility->m_nPhase = GP_MOVE;
-	pAbility->m_nNumTargets = 1;
-	pAbility->m_szInterfaceIcon = TSTRING(_T("shieldicon"));
-	SetShielded(true);
-	PushDebuff(pAbility);
 	 
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 	//GiveSpell(SP_TEST);
+	//GiveSpell(SP_CARTOGRAPHY);
 	GiveSpell(SP_SPEED);
 	GiveSpell(SP_HEAL);
 	GiveSpell(SP_FIREBALL);
@@ -45,7 +38,6 @@ void CHero::GiveSpell(SPELL_TYPE type)
 }
 CHero::~CHero(void)
 {
-	delete GetDebuff(0);
 }
 
 void CHero::Render(void)

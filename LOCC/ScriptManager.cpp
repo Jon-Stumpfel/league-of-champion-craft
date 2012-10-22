@@ -133,7 +133,9 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			lua_pushstring(L, "shielded");
 			lua_pushnumber(L, tmp->GetShielded());
 			lua_settable(L, -3);
-
+			lua_pushstring(L, "uniqueID");
+			lua_pushnumber(L, tmp->GetUniqueID());
+			lua_settable(L, -3);
 			lua_pushnumber(L, nCount+1);
 			nCount++;
 			lua_insert(L, -2);
@@ -237,6 +239,9 @@ void CScriptManager::Initialize( void )
 	luaL_openlibs(L);
 	lua_register(L, "AddText", CFloatingText::AddText);
 	lua_register(L, "TranslateToPixel", TranslateToPixel);
+	lua_register(L, "SetFreeMove", CUnit::SetFreeMove);
+	lua_register(L, "Shield", CUnit::Shield);
+	lua_register(L, "Speed", CUnit::Speed);
 }
 
 void CScriptManager::Shutdown( void )
