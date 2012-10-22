@@ -547,7 +547,6 @@ CUnit* CGameManager::FindUnit(Vec2D pos)
 void CGameManager::MessageProc(IMessage* pMsg)
 {
 	CGameManager* pThis = CGameManager::GetInstance();
-
 	// MESSAGE HANDLING
 	switch (pMsg->GetMessageID())
 	{
@@ -590,6 +589,17 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			{
 				CGameOverState::GetInstance()->SetPlayer(pSMSG->GetUnit()->GetPlayerID());
 				CStateStack::GetInstance()->Push(CGameOverState::GetInstance());
+			}
+			if(pSMSG->GetUnit()->GetType() == UT_CAVALRY)
+			{
+				if(pSMSG->GetUnit()->GetPlayerID() == pThis->GetCurrentPlayer()->GetPlayerID())
+				{
+					pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp());
+				}
+				else
+				{
+					pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp()+pSMSG->GetUnit()->GetEXPValue());
+				}
 			}
 		}
 		break;
