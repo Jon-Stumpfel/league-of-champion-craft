@@ -8,7 +8,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 {
 	SetHP(50);
 	SetMaxHP(50);
-	SetAttack(9);
+	SetAttack(900);
 	SetSpeed(4);
 	SetRange(1);
 	SetEXPValue(0);

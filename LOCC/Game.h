@@ -14,7 +14,7 @@ public:
 
 	bool Main(void);
 	void Shutdown(void);
-	void SetIsWindowed(bool win) {m_bIsWindowed = win;}
+	void SetIsWindowed(bool win);
 	int GetWindowWidth(void) { return m_nWidth;}
 	int GetWindowHeight(void) { return m_nHeight;}
 private:
