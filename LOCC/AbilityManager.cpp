@@ -189,6 +189,8 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_FIREBALL);
 						ab->m_szInterfaceIcon = name;
 					ab->SetParticleType(TEST);
+					ab->SetDamage(15);
+					ab->SetDescription("You Know it, You love it, The fireball! This ones burns up most targets.");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIREBALL;
 					tmp.second = ab;
@@ -202,6 +204,8 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_HEAL);
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
+					ab->SetDamage(-8);
+					ab->SetDescription("The Champion closes the wounds of a select unit, channeling the  healing mysticism");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEAL;
 					tmp.second = ab;
@@ -215,6 +219,8 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_SHIELD);
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
+					ab->SetDamage(0);
+					ab->SetDescription("The Champion puts a magical barrier around a unit, protecting it from damage");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SHIELD;
 					tmp.second = ab;
@@ -226,7 +232,9 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetIsMove(false);
 					ab->SetType(SP_SPEED);
 					ab->SetParticleType(TEST);
+					ab->SetDamage(0);
 					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The Champion shifts the ground under his unit's feet, causing them to be able to move faster");
 					std::pair<SPELL_TYPE,CAbility*> tmp;
 					tmp.first = SP_SPEED;
 					tmp.second = ab;
@@ -240,6 +248,8 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_TEST);
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
+					ab->SetDamage(10);
+					ab->SetDescription("Test spell for testing");
 					std::pair<SPELL_TYPE,CAbility*> tmp;
 					tmp.first = SP_TEST;
 					tmp.second = ab;
@@ -253,6 +263,8 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_CHARGE);
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
+					ab->SetDamage(6);
+					ab->SetDescription("CHARGE!!! The Cavalry rushes straight into the enemy ranks, crushing many units as they speed up");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CHARGE;
 					tmp.second = ab;
@@ -287,6 +299,9 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
 	pAbility->SetType(SP_MELEEATTACK);
 	pAbility->SetParticleType(TEST);
+	pAbility->SetDescription("I don't know what to say. Invoking Unit's damage and range is used to caluaute the range of attack as well as the damage done");
+	int zz = CGraphicsManager::GetInstance()->GetID(_T("meleeattackicon"));
+	pAbility->SetIconID(zz);
 	std::pair<SPELL_TYPE, CAbility*> tmp;
 	tmp.first = SP_MELEEATTACK;
 	tmp.second = pAbility;
@@ -305,6 +320,9 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
 	pAbility->SetType(SP_ARCHERRANGEDATTACK);
+	pAbility->SetDescription("I don't know what to say. Invoking Unit's damage and range is used to caluaute the range of attack as well as the damage done");
+	zz = CGraphicsManager::GetInstance()->GetID(_T("rangeattackicon"));
+	pAbility->SetIconID(zz);
 	tmp.first = SP_ARCHERRANGEDATTACK;
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
@@ -316,6 +334,10 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("moveicon"));
 	pAbility->SetType(SP_MOVE);
+	pAbility->SetDamage(0);
+	pAbility->SetDescription("Allows you to move things from places");
+	zz = CGraphicsManager::GetInstance()->GetID(_T("moveicon"));
+	pAbility->SetIconID(zz);
 	tmp.first = SP_MOVE;
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
@@ -327,6 +349,11 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_szInterfaceIcon = TSTRING(_T("champspellicon"));
 	pAbility->SetParticleType(TEST);
 	pAbility->SetType(SP_CHAMPSPELL);
+	pAbility->SetDamage(0);
+	pAbility->SetDescription("The delicous pie of spells");
+	pAbility->m_nRange = 0;
+	zz = CGraphicsManager::GetInstance()->GetID(_T("champspellicon"));
+	pAbility->SetIconID(zz);
 	tmp.first = SP_CHAMPSPELL;
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
@@ -337,6 +364,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_nRange = 2;
 	pAbility->m_bIsMove = false;
+	pAbility->SetDamage(0);
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
 	pAbility->m_szInterfaceIcon = TSTRING(_T("archerportrait"));
@@ -350,6 +378,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nAPCost = 1;
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_bIsMove = false;
+	pAbility->SetDamage(0);
 	pAbility->m_nRange = 2;
 	pAbility->SetParticleType(TEST);
 	pAbility->m_nPhase = GP_MOVE;
@@ -364,6 +393,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nAPCost = 1;
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_nRange = 2;
+	pAbility->SetDamage(0);
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);

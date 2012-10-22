@@ -37,7 +37,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
 	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
-	CAbilityManager::GetInstance()->LoadAbilities();
 	CAIManager::GetInstance()->Initialize();
 	CFloatingText::GetInstance()->Initialize();
 	POINT cursorPos;
@@ -78,6 +77,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Castle.png"), _T("MoveCastle"), 0UL);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 
+	CAbilityManager::GetInstance()->LoadAbilities();
 	m_dwCurrTime = GetTickCount();
 	TiXmlDocument doc;
 	doc.LoadFile("Assets\\Menus\\Options.xml");
