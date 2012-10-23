@@ -243,6 +243,8 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "Shield", CUnit::Shield);
 	lua_register(L, "Speed", CUnit::Speed);
 	lua_register(L, "DoDamage", CUnit::DoDamage);
+	lua_register(L, "GetSelectedTile", CTileManager::GetSelectedTile);
+	lua_register(L, "DestroyForest", CTileManager::DestroyForest);
 }
 
 void CScriptManager::Shutdown( void )

@@ -22,6 +22,9 @@ public:
 
 	int GetNumRows (void)		{return m_nRows;};
 	int GetNumColumns (void)	{return m_nColumns;};
+
+	static int GetSelectedTile(lua_State* L);
+	static int DestroyForest(lua_State* L);
 private:
 
 	RECT CTileManager::CellAlgorithm( int id )

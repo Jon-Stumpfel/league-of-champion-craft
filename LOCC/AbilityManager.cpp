@@ -109,6 +109,19 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
+		case SP_DESTROYFOREST:
+			{
+				if(doc.LoadFile("Assets/Ability/destroyforest.xml") == false)
+					return;
+			}
+			break;
+		case SP_HEALBURST:
+			{
+				if(doc.LoadFile("Assets/Ability/healburst.xml") == false)
+					return;
+			}
+			break;
+
 		default:
 			continue;
 		}
@@ -283,6 +296,35 @@ void CAbilityManager::LoadAbilities( void )
 					tmp.first = SP_CARTOGRAPHY;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_DESTROYFOREST:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_DESTROYFOREST);
+					ab->SetParticleType(PT_DESTROYFOREST);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Chop down a forest to raze it down to simple plains");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_DESTROYFOREST;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_HEALBURST:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_HEALBURST);
+					ab->SetParticleType(PT_HEALCROSS);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Release a burst of holy energy, healing all units around you");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_HEALBURST;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+
 				}
 				break;
 		}

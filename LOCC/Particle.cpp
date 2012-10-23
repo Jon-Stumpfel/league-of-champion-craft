@@ -52,7 +52,8 @@ void CParticle::Render( void )
 
 	float nWidth = (m_sSource.right - m_sSource.left) * m_fScale * .5f;
 	float nHeight = (m_sSource.bottom - m_sSource.top) * m_fScale * .5f;
-
+	if (m_sColor.a <= 0)
+		m_sColor.a = 0;
 	if( m_sColor.a < 0 )
 		m_sColor.a = 0;
 

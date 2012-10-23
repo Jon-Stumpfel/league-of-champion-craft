@@ -3,6 +3,7 @@
 #include "Unit.h"
 #include "Tile.h"
 #include "GraphicsManager.h"
+#include "ParticleManager.h"
 #include "GameplayState.h"
 #include "GameManager.h"
 #include "ObjectManager.h"
@@ -266,4 +267,36 @@ CUnit* CTileManager::GetUnit( int x, int y )
 CUnit* CTileManager::GetUnit( CTile* Tile )
 {
 	return nullptr;
+}
+
+
+int CTileManager::GetSelectedTile(lua_State* L)
+{
+	CTile* selectedTile = CTileManager::GetInstance()->GetTile(CGameplayState::GetInstance()->GetSelectionPos().nPosX, 
+		CGameplayState::GetInstance()->GetSelectionPos().nPosY);
+
+	if (selectedTile != nullptr)
+	{
+		lua_pushnumber(L, selectedTile->GetPosition().nPosX);
+		lua_pushnumber(L, selectedTile->GetPosition().nPosY);
+	}
+	return 2;
+}
+
+int CTileManager::DestroyForest(lua_State* L)
+{
+	int posX = lua_tonumber(L, 1);
+	int posY = lua_tonumber(L, 2);
+
+	CTile* selectedTile = CTileManager::GetInstance()->GetTile(CGameplayState::GetInstance()->GetSelectionPos().nPosX, 
+		CGameplayState::GetInstance()->GetSelectionPos().nPosY);
+	if( selectedTile != nullptr )
+	{	
+		if (selectedTile->GetTileType() == TT_FOREST)
+		{
+			selectedTile->SetTileType(TT_PLAINS);
+		}
+	}
+
+	return 0;
 }

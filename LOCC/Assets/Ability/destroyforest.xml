@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="2" APCost="3" Cooldown="1" Target="1" SpellName="Destroy Forest" Attack="0" Phase="1" LuaPath="destroyforest.lua" ParticlePath="axe.xml" IconPath="destroyforesticon.png" SoundPath="zombiehurt2.ogg.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>
