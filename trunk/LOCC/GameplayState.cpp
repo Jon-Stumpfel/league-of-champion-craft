@@ -681,6 +681,19 @@ void CGameplayState::UseAbility(CAbility* ability)
 				ClearSelections();
 			}
 		}
+		else if (ability->m_nNumTargets == 0) // AOE spell
+		{
+			CAbilityManager* pAM = CAbilityManager::GetInstance();
+			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
+				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
+			CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+			if (ability->m_bIsAttack)
+				m_pSelectedUnit->SetHasAttacked(true);
+			m_bIsTargeting = false;
+			m_pTargetedTile = nullptr;
+			m_pSelectedUnit = nullptr;
+			m_bSelectChampionAbility = false;
+		}
 	}	
 }
 

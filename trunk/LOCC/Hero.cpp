@@ -27,7 +27,9 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	//GiveSpell(SP_TEST);
 	GiveSpell(SP_CARTOGRAPHY);
 	//GiveSpell(SP_SPEED);
-	GiveSpell(SP_HEAL);
+	//GiveSpell(SP_HEAL);
+	GiveSpell(SP_HEALBURST);
+	//GiveSpell(SP_DESTROYFOREST);
 	GiveSpell(SP_FIREBALL);
 	GiveSpell(SP_SHIELD);
 }

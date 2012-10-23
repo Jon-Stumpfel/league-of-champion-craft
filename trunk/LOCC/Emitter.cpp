@@ -85,6 +85,27 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 			m_sSource.bottom = 128;
 		}
 		break;
+	case PT_DESTROYFOREST:
+		{
+			if( doc.LoadFile( "Assets/Particles/axe.xml" ) == false )
+				return;
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
+		}
+		break;
+	case PT_HEALCROSS:
+		{
+			if( doc.LoadFile( "Assets/Particles/healcross.xml" ) == false )
+				return;
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
+
+		}
+		break;
 	};
 
 	m_sEmitPos = sPos;
