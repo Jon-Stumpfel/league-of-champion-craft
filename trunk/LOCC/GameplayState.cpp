@@ -694,9 +694,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 				tmp.nPosY += 5;
 				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 			}
-
-
-
 			CAbilityManager* pAM = CAbilityManager::GetInstance();
 			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
 				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
