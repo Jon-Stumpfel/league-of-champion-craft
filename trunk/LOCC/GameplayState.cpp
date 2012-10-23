@@ -683,6 +683,20 @@ void CGameplayState::UseAbility(CAbility* ability)
 		}
 		else if (ability->m_nNumTargets == 0) // AOE spell
 		{
+			std::vector<Vec2D> vec = ability->GetPattern();
+			for( unsigned int i = 0; i < vec.size(); i++ )
+			{
+				Vec2D t;
+				t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+				t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+				Vec2D tmp = TranslateToPixel(t);
+				tmp.nPosX += 65;
+				tmp.nPosY += 5;
+				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+			}
+
+
+
 			CAbilityManager* pAM = CAbilityManager::GetInstance();
 			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
 				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
