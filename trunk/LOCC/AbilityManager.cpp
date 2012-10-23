@@ -461,6 +461,8 @@ void CAbilityManager::LoadAbilities( void )
 
 void CAbilityManager::SetRanges( void )
 {
+	// Set range of 0 pattern
+	m_vRange0.push_back(Vec2D(0, 0));
 	// Set range of 1 pattern
 	m_vRange1.push_back(Vec2D(-1, 0));
 	m_vRange1.push_back(Vec2D(1, 0));
@@ -631,6 +633,10 @@ std::vector< Vec2D > CAbilityManager::GetRange( int range )
 		return m_vRange2;
 	else if( range == 3 )
 		return m_vRange3;
-	else
+	else if (range == 4 )
 		return m_vRange4;
+	else if (range == 0 )
+		return m_vRange0;
+	else 
+		return m_vRange0;
 }
