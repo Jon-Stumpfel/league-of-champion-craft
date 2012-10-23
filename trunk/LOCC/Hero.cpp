@@ -25,10 +25,10 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 	//GiveSpell(SP_TEST);
-	//GiveSpell(SP_PATHFINDER);
-	//GiveSpell(SP_SPEED);
-	GiveSpell(SP_RAISEMOUNTAIN);
-	GiveSpell(SP_DESTROYFOREST);
+	GiveSpell(SP_PATHFINDER);
+	GiveSpell(SP_SPEED);
+	//GiveSpell(SP_RAISEMOUNTAIN);
+	//GiveSpell(SP_DESTROYFOREST);
 	GiveSpell(SP_FIREBALL);
 	GiveSpell(SP_SHIELD);
 
@@ -69,3 +69,9 @@ void CHero::ChillCooldown(void)
 			m_ncooldown[i]-=1;
 	}
 }
+	CAbility* CHero::GetSpell(int i)
+	{
+		if ((unsigned int)(i + 1) > m_vSpells.size())
+			return nullptr;
+		return m_vSpells[i];
+	}

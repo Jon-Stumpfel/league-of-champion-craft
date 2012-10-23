@@ -30,8 +30,10 @@ class CUnit : public CGameObject
 
 	UNIT_TYPE m_eType;
 
+	typedef std::pair<int, CAbility*> Effect;
+
 	std::vector<CAbility*> m_vAbilities;
-	std::vector< CAbility* > m_vEffects;
+	std::vector< Effect > m_vEffects;
 	std::vector<CTile*> m_vWaypoints;
 	
 public:
@@ -45,6 +47,11 @@ public:
 	static int DoDamage(lua_State* L);
 	static int Rally(lua_State* L);
 	static int Pathfind(lua_State* L);
+
+
+	void UpdateEffects(void);
+
+
 
 	bool GetFleeing(void){ return m_bIsFleeing;}
 	void SetFleeing(bool b) { m_bIsFleeing = b;}
@@ -61,9 +68,9 @@ public:
 	void Render(void);
 
 	CAbility* GetAbility(int index);
-	void PushEffect(CAbility* effect);
+	void PushEffect(CAbility* effect, int nDuration);
 	void RemoveEffect(SPELL_TYPE spType);
-	CAbility* GetEffect(int i) { return m_vEffects[i];}
+	CAbility* GetEffect(int i) { return m_vEffects[i].second;}
 	int GetNumEffects(void) { return m_vEffects.size();}
 
 	void SetPos(int posX, int posY);
