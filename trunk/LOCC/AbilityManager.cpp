@@ -121,7 +121,12 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
-
+		case SP_RALLY:
+			{
+				if(doc.LoadFile("Assets/Ability/rally.xml") == false)
+					return;
+			}
+			break;
 		default:
 			continue;
 		}
@@ -318,13 +323,27 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_HEALBURST);
 					ab->SetParticleType(PT_HEALCROSS);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Release a burst of holy energy, healing all units around you");
+					ab->SetDescription("Release a burst of holy energy, healing all units around you. Heals 8 HP to all units in range.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEALBURST;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 
+				}
+				break;
+			case SP_RALLY:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_RALLY);
+					ab->SetParticleType(PT_RALLY);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Give a rousing speech to motivate units to fight harder! +2 Damage to all friendly units in range.");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_RALLY;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
 				}
 				break;
 		}

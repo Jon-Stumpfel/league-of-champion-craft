@@ -107,6 +107,17 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 
 		}
 		break;
+	case PT_RALLY:
+		{
+			if( doc.LoadFile( "Assets/Particles/rally.xml" ) == false )
+				return;
+
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
+		}
+		break;
 	};
 
 	m_sEmitPos = sPos;

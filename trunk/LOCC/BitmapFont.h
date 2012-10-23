@@ -736,7 +736,7 @@ public:
 			words.push_back(buffer);
 		}
 
-		for (int i = 0; i < words.size(); ++i)
+		for (unsigned int i = 0; i < words.size(); ++i)
 		{
 			int jLength = strlen(words[i].c_str());
 			int nWordLength = 0;
@@ -749,7 +749,7 @@ public:
 				}
 				if (nWordLength + nMovedWidth > nMaxWidth)
 				{
-					nY += m_nCharHeight * fScale;
+					nY += (int)(m_nCharHeight * fScale);
 					nX = nStoredX;
 					nMovedWidth = 0;
 				}
@@ -774,7 +774,7 @@ public:
 					nMovedWidth += nMovedAmount;
 					if (nMovedWidth >= nMaxWidth)
 					{
-						nY += m_nCharHeight * fScale;
+						nY += (int)(m_nCharHeight * fScale);
 						nX = nStoredX;
 						nMovedWidth = 0;
 					}	
