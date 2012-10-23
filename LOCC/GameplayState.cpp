@@ -564,8 +564,9 @@ void CGameplayState::UseAbility(CAbility* ability)
 					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 				}
 				//CoolDown Check here
-				if (Champ->GetCooldown(m_nSelectedSpell)<0)
-					return;
+				if (Champ != nullptr)
+					if (Champ->GetCooldown(m_nSelectedSpell)<0)
+						return;
 
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
