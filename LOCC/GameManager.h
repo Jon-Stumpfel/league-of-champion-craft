@@ -59,6 +59,8 @@ public:
 
 	int GenerateUniqueUnitID(void) { return m_nUniqueUnitID++;}
 	CUnit* GetUnitByID(int nID);
+
+	void AddModification(MapModification mod);
 private:
 
 	CGameManager(void);
@@ -92,6 +94,6 @@ private:
 
 	static int m_nUniqueUnitID;
 
-	
+	std::vector<MapModification> m_vMapMods;
 };
 

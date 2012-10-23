@@ -25,6 +25,7 @@ public:
 
 	static int GetSelectedTile(lua_State* L);
 	static int DestroyForest(lua_State* L);
+	static int RaiseMountain(lua_State* L);
 private:
 
 	RECT CTileManager::CellAlgorithm( int id )

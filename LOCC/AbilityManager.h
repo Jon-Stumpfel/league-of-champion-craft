@@ -12,7 +12,7 @@ public:
 	static CAbilityManager* GetInstance(void);
 	static void DeleteInstance(void);	
 
-	void UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster, CTile* TargetTile = nullptr);	
+	void UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster);	
 	void LoadAbilities( void );
 	CAbility* GetAbility( SPELL_TYPE type );
 

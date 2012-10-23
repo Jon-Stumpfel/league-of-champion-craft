@@ -219,6 +219,20 @@ void CGameManager::SaveGame(int nSlot)
 	pRoot->SetAttribute("phase", m_nCurrentPhase);
 	pRoot->SetAttribute("currPlayer", m_pCurrentPlayer->GetPlayerID());
 
+	TiXmlElement* pMapMods = new TiXmlElement("MapModifications");
+	pMapMods->SetAttribute("numModifications", m_vMapMods.size());
+	pRoot->LinkEndChild(pMapMods);
+
+
+	for (unsigned int i = 0; i < m_vMapMods.size(); ++i)
+	{
+		TiXmlElement* pMapMod = new TiXmlElement("MapModification");
+		pMapMod->SetAttribute("modType", m_vMapMods[i].modType);
+		pMapMod->SetAttribute("modPosX", m_vMapMods[i].posX);
+		pMapMod->SetAttribute("modPosY", m_vMapMods[i].posY);
+		pMapMods->LinkEndChild(pMapMod);
+	}
+
 	TiXmlElement* pPlayers = new TiXmlElement("Players");
 	pRoot->LinkEndChild(pPlayers);
 
@@ -300,6 +314,11 @@ void CGameManager::SaveGame(int nSlot)
 				pUnit->SetAttribute("facing", puni->GetFacing());
 				pUnit->SetAttribute("tilesMoved", puni->GetTilesMoved());
 				pUnit->SetAttribute("hasAttacked", (int)puni->GetHasAttacked());
+
+				// Effects/debuffs on the unit
+				TiXmlElement* pEffects = new TiXmlElement("Effects");
+				pEffects->SetAttribute("numEffects", puni->GetNumEffects());
+
 				pUnits->LinkEndChild(pUnit);
 			}
 		}
@@ -336,6 +355,58 @@ void CGameManager::LoadSave(int nSlot)
 
 
 		LoadMap(nMapID);
+
+		// Map modifcations! Weeeeeeeee
+		int nNumMapModifications;
+		TiXmlElement* pMapMods = pRoot->FirstChildElement("MapModifications");
+		pMapMods->QueryIntAttribute("numModifications", &nNumMapModifications);
+		TiXmlElement* pMapModification = pMapMods->FirstChildElement("MapModification");
+		for (int i = 0; i < nNumMapModifications; ++i)
+		{
+			MapModification mod;
+			int nType;
+			pMapModification->QueryIntAttribute("modType", &nType);
+			mod.modType = (SPELL_TYPE)nType;
+			pMapModification->QueryIntAttribute("modPosX", &mod.posX);
+			pMapModification->QueryIntAttribute("modPosY", &mod.posY);
+
+			switch (mod.modType)
+			{
+			case SP_RAISEMOUNTAIN:
+				{
+					CTile* selectedTile = CTileManager::GetInstance()->GetTile(mod.posX, mod.posY);
+					if( selectedTile != nullptr )
+					{	
+						if (selectedTile->GetTileType() != TT_FARM && selectedTile->GetTileType() != TT_MILL &&
+							selectedTile->GetTileType() != TT_MINE)
+						{
+							selectedTile->SetTileType(TT_MOUNTAINS);
+							selectedTile->SetIfPassable(false);
+							CGameManager::GetInstance()->AddModification(mod);
+						}
+					}
+				}
+				break;
+			case SP_DESTROYFOREST:
+				{
+					CTile* selectedTile = CTileManager::GetInstance()->GetTile(mod.posX, mod.posY);
+					if( selectedTile != nullptr )
+					{	
+						if (selectedTile->GetTileType() == TT_FOREST)
+						{
+							selectedTile->SetTileType(TT_PLAINS);
+							CGameManager::GetInstance()->AddModification(mod);
+						}
+					}
+				}
+				break;
+			}
+
+			pMapModification = pMapModification->NextSiblingElement("MapModification");
+
+		}
+
+
 		TiXmlElement* pPlayers = pRoot->FirstChildElement("Players");
 		TiXmlElement* pPlayer = pPlayers->FirstChildElement("Player");
 
@@ -651,4 +722,10 @@ CUnit* CGameManager::GetUnitByID(int nID)
 
 	}
 	return nullptr;
+}
+
+void CGameManager::AddModification(MapModification mod)
+{
+	m_vMapMods.push_back(mod);
+
 }

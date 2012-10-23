@@ -19,6 +19,12 @@ struct ScriptMessageData
 	std::string szMessage;
 };
 
+struct MapModification
+{
+	int posX;
+	int posY;
+	SPELL_TYPE modType;
+};
 typedef std::pair<int, ScriptSpawnData> ScriptedSpawn;
 typedef std::pair<int, ScriptMessageData> ScriptedMessage;
 
@@ -28,7 +34,7 @@ class CScriptManager
 public:
 
 	void LoadScript( std::string szFilename, SCRIPT_TYPE eScript );
-	void Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster, CTile* TargetTile = nullptr );
+	void Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster);
 	void Initialize( void );
 	void Shutdown( void );
 	
