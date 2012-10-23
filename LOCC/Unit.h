@@ -101,7 +101,7 @@ public:
 	int GetUniqueID(void) { return m_nUniqueID;}
 
 	void SetPlayerID(int pID) {  m_nPlayerID = pID;}
-	int GetPlayerID(void) { return m_nPlayerID;}
+	int GetPlayerID(void) {return m_nPlayerID;}
 
 	void SetHasAttacked(bool b) { m_bHasAttacked = b;}
 	bool GetHasAttacked(void) { return m_bHasAttacked;}

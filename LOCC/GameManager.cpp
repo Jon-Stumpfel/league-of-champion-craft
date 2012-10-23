@@ -35,16 +35,24 @@ CGameManager::CGameManager(void)
 
 CGameManager::~CGameManager(void)
 {
+
 }
 
 void CGameManager::NextPhase(void)
 {
+	int numcols= CTileManager::GetInstance()->GetNumColumns();
+	int numrows= CTileManager::GetInstance()->GetNumRows();
+
 	m_nPhaseCount++;
 	if (m_nCurrentPhase == GP_MOVE)
 	{
 		CAIManager::GetInstance()->BeginAttack();
 		m_nCurrentPhase = GP_ATTACK;
+		//Attack!!!(Attack Phase Transition)-DG
 		CStateStack::GetInstance()->Push(CAttackPhaseTransState::GetInstance());
+		//Chilling the cooldown: this function does the cooldowndown each turn  -DG
+		CHero* Hero =  dynamic_cast <CHero*>(GetChampion(m_pCurrentPlayer->GetPlayerID()));
+		Hero->ChillCooldown();
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
 	{
@@ -53,7 +61,9 @@ void CGameManager::NextPhase(void)
 		m_pCurrentPlayer = m_pNextPlayer;
 		m_pNextPlayer = pTemp;
 
-
+		//Look At That, TileManager Takeing car of business! this added resoruces based on the tiles -DG
+		CTileManager::GetInstance()->EvaluateResources(m_pCurrentPlayer->GetPlayerID());
+		
 		CGameplayState::GetInstance()->ClearSelections();
 		if (GetChampion(m_pCurrentPlayer->GetPlayerID()) != nullptr)
 		{
@@ -70,11 +80,9 @@ void CGameManager::NextPhase(void)
 				m_vUnits[i]->SetHasAttacked(false);
 			}
 		}
-		CStateStack::GetInstance()->Push(CMovetPhaseTransState::GetInstance());
-		
+		//RAISE THE CASTLE WALLS!!!(Do the movement transition)-DG
+		CStateStack::GetInstance()->Push(CMovetPhaseTransState::GetInstance());	
 	}
-	
-
 }
 
 // Get the player's champion unit. Searches through the unit list to find a unit that matches
@@ -95,7 +103,6 @@ CGameManager* CGameManager::GetInstance(void)
 	if (s_Instance == nullptr)
 		s_Instance = new CGameManager();
 	return s_Instance;
-
 }
 
 

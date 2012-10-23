@@ -350,7 +350,6 @@ void CGameplayState::Input(INPUT_ENUM input)
 					{
 						m_pSelectedUnit = nullptr;
 					}
-
 				}
 			}
 			else
@@ -379,7 +378,11 @@ void CGameplayState::Input(INPUT_ENUM input)
 					if (m_bSelectChampionAbility)
 					{
 						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
-						UseAbility(pHero->GetSpell(m_nSelectedSpell));
+						//if the spell is in cooldown you can't use it-DG
+						if (pHero->GetCooldown(m_nSelectedSpell)==0)
+						{
+							UseAbility(pHero->GetSpell(m_nSelectedSpell));							
+						}
 					}
 					else
 					{
@@ -476,6 +479,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 void CGameplayState::UseAbility(CAbility* ability)
 {
 	CSoundManager* pSM = CSoundManager::GetInstance();
+	CHero* Champ= dynamic_cast<CHero*>(m_pSelectedUnit);
 
 	if (ability == nullptr)
 		return;
@@ -525,10 +529,10 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 				if( ability->GetType() == SP_CHARGE )
 				{
-					std::vector<Vec2D> vec = ability->GetPattern();
-					for( unsigned int i = 0; i < vec.size(); i++ )
-					{
-						Vec2D t;
+				std::vector<Vec2D> vec = ability->GetPattern();
+				for( unsigned int i = 0; i < vec.size(); i++ )
+				{
+					Vec2D t;
 						t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
 						t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
 						Vec2D tmp = TranslateToPixel(t);
@@ -543,15 +547,16 @@ void CGameplayState::UseAbility(CAbility* ability)
 					for( unsigned int i = 0; i < vec.size(); i++ )
 					{
 						Vec2D t;
-						t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
-						t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
-						Vec2D tmp = TranslateToPixel(t);
-						tmp.nPosX += 65;
-						tmp.nPosY += 5;
-						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-					}
+					t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+					t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+					Vec2D tmp = TranslateToPixel(t);
+					tmp.nPosX += 65;
+					tmp.nPosY += 5;
+					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 				}
-				//CoolDown Check here..
+				//CoolDown Check here
+				if (Champ->GetCooldown(m_nSelectedSpell)<0)
+					return;
 
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
@@ -694,9 +699,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 						pAM->UseAbility(ability, pTM->GetTile( m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY) , m_pSelectedUnit);
 					}
 					else
-						pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
+					pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
 
 					CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+
+
 					if (ability->m_bIsAttack)
 						m_pSelectedUnit->SetHasAttacked(true);
 
@@ -704,6 +711,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 					m_pTargetedTile = nullptr;
 					m_pSelectedUnit = nullptr;
 					m_bSelectChampionAbility = false;
+					Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+
 				}
 				ClearSelections();
 			}
@@ -725,6 +734,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 			CAbilityManager* pAM = CAbilityManager::GetInstance();
 			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
 				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
+			
 			CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 			if (ability->m_bIsAttack)
 				m_pSelectedUnit->SetHasAttacked(true);
@@ -732,6 +742,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 			m_pTargetedTile = nullptr;
 			m_pSelectedUnit = nullptr;
 			m_bSelectChampionAbility = false;
+			Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+
 		}
 	}	
 }
@@ -775,7 +787,7 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 			nTotalAPCost += 1;
 		}
 		else
-			nTotalAPCost+= m_vWaypoints[i]->GetAPCost();
+		nTotalAPCost+= m_vWaypoints[i]->GetAPCost();
 
 		nMoveCount++;
 		if (nMoveCount == (m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved()))
@@ -799,13 +811,21 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	{
 		m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
 	}
-
 	// After we hit enter we want to cancel and clear, either we're moving or we're not.
+
+
+	if (pTargetTile->GetIfResourceTile())
+	{
+		if (!pTargetTile->GetIfCapturing())
+		{
+			pTargetTile->SetIfCapturing(true);
+			pTargetTile->SetPlayerID( m_pSelectedUnit->GetPlayerID());
+		}
+	}
 	m_bIsMoving = false;
 	m_pSelectedUnit = nullptr;
 	m_vWaypoints.clear();
 	return;
-
 }
 
 // Uses A* pathfinding algorithm to find a cheap route from startTile to targetTile
@@ -1508,7 +1528,7 @@ void CGameplayState::Render(void)
 					{
 						tt.str("");
 						tt << pHero->GetAttack();
-					}
+			}
 
 					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 					tt.str("");
@@ -1520,13 +1540,13 @@ void CGameplayState::Render(void)
 					{
 						tt.str("");
 						tt << pHero->GetSpeed();
-					}
+		}
 
 					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
 					tt.str("");
 
 					m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 150);
-			}
+	}
 		}
 		else 
 		{

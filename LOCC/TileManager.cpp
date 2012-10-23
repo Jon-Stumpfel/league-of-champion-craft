@@ -7,6 +7,11 @@
 #include "GameplayState.h"
 #include "GameManager.h"
 #include "ObjectManager.h"
+#include "Message.h"
+#include "AddResourceMessage.h"
+#include "GameManager.h"
+#include "MessageSystem.h"
+
 CTileManager* CTileManager::s_Instance = nullptr;
 
 CTileManager::CTileManager(void)
@@ -45,21 +50,13 @@ void CTileManager::ShutDown(void)
 	}
 	delete[] m_pTileMap;
 	m_pTileMap = nullptr;
-	//for (int x = 0; x<m_nRows; ++x)
-	//{
-	//	for (int y=0; y<m_nColumns;++y)
-	//	{
-	//		delete [] m_pTileMap[y];
-	//	}
-	//	delete[] m_pTileMap[x];
-	//}	
-
 }
 
 void CTileManager::Init()
 {
 	m_pTileMap = nullptr;
 }
+
 bool CTileManager::LoadSave( std::string sFilename )
 {
 	TiXmlDocument doc;
@@ -267,6 +264,29 @@ CUnit* CTileManager::GetUnit( int x, int y )
 CUnit* CTileManager::GetUnit( CTile* Tile )
 {
 	return nullptr;
+}
+
+void CTileManager::EvaluateResources(int nPlayerID)
+{
+	for (int x = 0; x < m_nRows; x++)
+	{
+		for (int y = 0; y < m_nColumns; y++)
+       {
+		   if (m_pTileMap[x][y].GetIfCaptured())
+		   {
+			   if (m_pTileMap[x][y].GetPlayerID()==nPlayerID)
+			   {
+					CAddResourceMessage* pMsg = new CAddResourceMessage((TILE_TYPE)m_pTileMap[x][y].GetTileType(),nPlayerID);
+					CMessageSystem::GetInstance()->SendMessageW(pMsg);
+			   }
+		   }
+		   if (m_pTileMap[x][y].GetIfCapturing())
+		   {
+			   m_pTileMap[x][y].SetIfCaptured(true);
+			   m_pTileMap[x][y].SetIfCapturing(false);
+		   }
+	   }
+	}
 }
 
 
