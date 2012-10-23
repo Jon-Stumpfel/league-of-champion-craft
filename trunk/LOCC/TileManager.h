@@ -22,6 +22,7 @@ public:
 
 	int GetNumRows (void)		{return m_nRows;};
 	int GetNumColumns (void)	{return m_nColumns;};
+	void EvaluateResources( int nPlayerID);
 
 	static int GetSelectedTile(lua_State* L);
 	static int DestroyForest(lua_State* L);
@@ -31,7 +32,6 @@ private:
 	RECT CTileManager::CellAlgorithm( int id )
 	{
 		assert( id >= 0 && id < m_nColumns * m_nRows && "CellAlgorithm - id out of range!" );
-		
 
 		// quick fix for rendering the wrong tiles
 		//if (id == 1)

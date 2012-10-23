@@ -8,7 +8,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 {
 	SetHP(50);
 	SetMaxHP(50);
-	SetAttack(9000);
+	SetAttack(9);
 	SetSpeed(4);
 	SetRange(1);
 	SetEXPValue(0);
@@ -31,6 +31,9 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	GiveSpell(SP_DESTROYFOREST);
 	GiveSpell(SP_FIREBALL);
 	GiveSpell(SP_SHIELD);
+
+	for (int i=0; i<4;++i)
+		m_ncooldown[i]=0;
 }
 
 void CHero::GiveSpell(SPELL_TYPE type)
@@ -39,6 +42,7 @@ void CHero::GiveSpell(SPELL_TYPE type)
 }
 CHero::~CHero(void)
 {
+
 }
 
 void CHero::Render(void)
@@ -55,4 +59,13 @@ void CHero::Render(void)
 		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-60,
 		0.9f,0.9f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,color);
+}
+
+void CHero::ChillCooldown(void)
+{
+	for (int i=0; i<4;++i)
+	{
+		if(m_ncooldown[i]!=0)
+			m_ncooldown[i]-=1;
+	}
 }
