@@ -3,7 +3,7 @@
   <Messages numMessages="0">
     <Message czText="" DisplayOnTurn=""/>
   </Messages>
-  <UnitSpawns numSpawns="14">
+  <UnitSpawns numSpawns="16">
     <UnitSpawn unitType="4" facing="2" posX="3" posY="1" playerID="0" TurnToSpawn="2"/>
     <UnitSpawn unitType="2" facing="2" posX="3" posY="2" playerID="0" TurnToSpawn="1"/>
     <UnitSpawn unitType="1" facing="2" posX="4" posY="2" playerID="0" TurnToSpawn="1"/>
@@ -13,6 +13,7 @@
     <UnitSpawn unitType="0" facing="2" posX="4" posY="0" playerID="0" TurnToSpawn="1"/>
     <UnitSpawn unitType="5" facing="2" posX="5" posY="0" playerID="0" TurnToSpawn="1"/>
     <UnitSpawn unitType="6" facing="1" posX="0" posY="0" playerID="0" TurnToSpawn="1"/>
+    
     <UnitSpawn unitType="4" facing="0" posX="3" posY="6" playerID="1" TurnToSpawn="2"/>
     <UnitSpawn unitType="2" facing="0" posX="3" posY="5" playerID="1" TurnToSpawn="1"/>
     <UnitSpawn unitType="1" facing="0" posX="4" posY="5" playerID="1" TurnToSpawn="1"/>
