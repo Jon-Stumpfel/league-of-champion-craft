@@ -27,7 +27,6 @@ namespace Animation_Editor_LOCC
             get { return folderpath; }
             set { folderpath = value; }
         }
-
         bool looping = true;
         public bool Looping
         {
@@ -139,7 +138,7 @@ namespace Animation_Editor_LOCC
             therect.Width = SpriteSheet.Size.Width;
             therect.Height = SpriteSheet.Size.Height;
             if (pictureid != -1)
-                tm.Draw(pictureid, 0, 0, 1.0f, 1.0f, therect, 0, 0, 0, Color.White.ToArgb());
+                tm.Draw(pictureid, 100, 0, 1.0f, 1.0f, therect, 0, 0, 0, Color.White.ToArgb());
             d3D.Sprite.Flush();
             Rectangle temprect = new Rectangle();
             temprect.X = anchorx-2;

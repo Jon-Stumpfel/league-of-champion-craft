@@ -15,8 +15,10 @@ public:
 	virtual void Render(void);
 	static CGameOverState* GetInstance();
 	void SetPlayer(int temp) {Player = temp;}
+	void SetAI(bool ai)  {AI = ai;}
 private:
 	int Player;
+	bool AI;
 	CGameOverState(void);
 	virtual ~CGameOverState(void);
 	CGameOverState(const CGameOverState&);
