@@ -160,7 +160,7 @@ void CUnit::Update(float fElapsedTime)
 	// do stuff to the unit based on their buffs/debuffs
 	for (unsigned int i = 0; i < m_vEffects.size(); ++i)
 	{
-		switch (m_vEffects[i]->GetType())
+		switch (m_vEffects[i].second->GetType())
 		{
 		case SP_SHIELD:
 			m_bShielded = true;
@@ -340,26 +340,39 @@ void CUnit::RemoveEffect(SPELL_TYPE spType)
 {
 	for (unsigned int i = 0; i < m_vEffects.size(); ++i)
 	{
-		if (m_vEffects[i]->GetType() == spType)
+		if (m_vEffects[i].second->GetType() == spType)
 		{
 			m_vEffects.erase(m_vEffects.begin() + i--);
 			return;
 		}
-
 	}
 }
-
-	void CUnit::PushEffect(CAbility* effect)
+void CUnit::UpdateEffects(void)
+{
+	for (unsigned int i = 0; i < m_vEffects.size(); ++i)
 	{
-		for (unsigned int i = 0; i < m_vEffects.size(); ++i)
+		m_vEffects[i].first -= 1;
+		if (m_vEffects[i].first <= 0)
 		{
-			if (m_vEffects[i]->GetType() == effect->GetType())
-			{
-				return; // it's already on, so just overwrite it. Update duration here?
-			}
+			m_vEffects.erase(m_vEffects.begin() + i--);
 		}
-		m_vEffects.push_back(effect);
 	}
+}
+void CUnit::PushEffect(CAbility* effect, int nDuration)
+{
+	Effect eff;
+	eff.first = nDuration;
+	eff.second = effect;
+	for (unsigned int i = 0; i < m_vEffects.size(); ++i)
+	{
+		if (m_vEffects[i].second->GetType() == effect->GetType())
+		{
+			m_vEffects[i].first = nDuration;
+			return; // it's already on, so just overwrite it. Update duration here? - DONE
+		}
+	}
+	m_vEffects.push_back(eff);
+}
 
 int CUnit::SetFreeMove(lua_State* L)
 {
@@ -367,7 +380,7 @@ int CUnit::SetFreeMove(lua_State* L)
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	if (pUnit != nullptr)
 	{
-		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_CARTOGRAPHY));
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_CARTOGRAPHY), 1);
 	}
 	return 0;
 }
@@ -378,7 +391,7 @@ int CUnit::Shield(lua_State* L)
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	if (pUnit != nullptr)
 	{
-		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SHIELD));
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SHIELD), INT_MAX);
 	}
 	return 0;
 }
@@ -389,7 +402,7 @@ int CUnit::Speed(lua_State* L)
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	if (pUnit != nullptr)
 	{
-		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SPEED));
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SPEED), 1);
 	}
 	return 0;
 }
@@ -416,7 +429,7 @@ int CUnit::Rally(lua_State* L)
 	if (pUnit != nullptr)
 	{
 		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
-			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_RALLY));
+			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_RALLY), 1);
 	}
 	return 0;
 
@@ -429,7 +442,7 @@ int CUnit::Pathfind(lua_State* L)
 	if (pUnit != nullptr)
 	{
 		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
-			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_PATHFINDER));
+			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_PATHFINDER),1);
 	}
 	return 0;
 }

@@ -17,7 +17,7 @@ public:
 	void ChillCooldown(void);
 
 	void GiveSpell(SPELL_TYPE type);
-	CAbility* GetSpell(int i) { return m_vSpells[i];}
+	CAbility* GetSpell(int i);
 	unsigned int GetNumSpells( void ) { return m_vSpells.size(); }
 	CHero(void);
 	~CHero(void);

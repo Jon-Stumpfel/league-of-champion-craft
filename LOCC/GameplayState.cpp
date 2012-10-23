@@ -274,7 +274,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 						m_nSelectedSpell--;
 						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 						if (m_nSelectedSpell < 0)
-							m_nSelectedSpell = pHero->GetNumSpells()-1;
+						{
+							if (pHero->GetNumSpells() == 0)
+								m_nSelectedSpell = 0;
+							else
+								m_nSelectedSpell = pHero->GetNumSpells()-1;
+						}
 					}
 					else
 					{
@@ -529,10 +534,10 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 				if( ability->GetType() == SP_CHARGE )
 				{
-				std::vector<Vec2D> vec = ability->GetPattern();
-				for( unsigned int i = 0; i < vec.size(); i++ )
-				{
-					Vec2D t;
+					std::vector<Vec2D> vec = ability->GetPattern();
+					for( unsigned int i = 0; i < vec.size(); i++ )
+					{
+						Vec2D t;
 						t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
 						t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
 						Vec2D tmp = TranslateToPixel(t);
@@ -547,97 +552,125 @@ void CGameplayState::UseAbility(CAbility* ability)
 					for( unsigned int i = 0; i < vec.size(); i++ )
 					{
 						Vec2D t;
-					t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
-					t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
-					Vec2D tmp = TranslateToPixel(t);
-					tmp.nPosX += 65;
-					tmp.nPosY += 5;
-					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-				}
-				//CoolDown Check here
-				if (Champ->GetCooldown(m_nSelectedSpell)<0)
-					return;
-
-				// cast the spell!
-				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
-				{
-					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
-						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
-					if (nDistance <= ability->GetRange() && !(m_pTargetedTile->GetPosition() == m_pSelectedUnit->GetPos()))
-					{
-						int cur = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
-						int ap = CGameManager::GetInstance()->GetCurrentPlayer()->GetAP();
-						if(  ap == 0 )
-							return;
-						else
-							CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(ap - ability->GetApCost());
-
-						CSpawnUnitMessage* msg;
-						switch(ability->GetType())
-						{
-						case SP_SPAWNARCHER:
-							{
-								if( cur == 0 )
-									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 2, false, 12);
-								else
-									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 0, false, 12);
-
-								CMessageSystem::GetInstance()->SendMessageW(msg);
-							}
-							break;
-
-						case SP_SPAWNSWORD:
-							{
-								if( cur == 0 )
-									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 2, false, 20);
-								else
-									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 0, false, 20);
-								CMessageSystem::GetInstance()->SendMessageW(msg);
-							}
-							break;
-
-						case SP_SPAWNCALV:
-							{
-								if( cur == 0 )
-									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 2, false, 22);
-								else
-									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 0, false, 22);
-								CMessageSystem::GetInstance()->SendMessageW(msg);
-							}
-							break;
-						}
-						
-						m_pTargetedTile = nullptr;
-						m_pSelectedUnit = nullptr;
-						m_bIsTargeting = false;
+						t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+						t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+						Vec2D tmp = TranslateToPixel(t);
+						tmp.nPosX += 65;
+						tmp.nPosY += 5;
+						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 					}
-				}
-				else if (ability->GetType() == SP_MELEEATTACK || ability->GetType() == SP_ARCHERRANGEDATTACK)
-				{
-					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
-						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
-					if (nDistance <= m_pSelectedUnit->GetRange())
+					//CoolDown Check here
+					if (Champ->GetCooldown(m_nSelectedSpell)<0)
+						return;
+
+					// cast the spell!
+					if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
 					{
-						CUnit* pUnit = CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition());
-						if (pUnit != nullptr)
+						int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
+							abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
+						if (nDistance <= ability->GetRange() && !(m_pTargetedTile->GetPosition() == m_pSelectedUnit->GetPos()))
 						{
-							if (ability->GetType() == SP_ARCHERRANGEDATTACK)
+							int cur = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
+							int ap = CGameManager::GetInstance()->GetCurrentPlayer()->GetAP();
+							if(  ap == 0 )
+								return;
+							else
+								CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(ap - ability->GetApCost());
+
+							CSpawnUnitMessage* msg;
+							switch(ability->GetType())
 							{
-								if (!pUnit->CheckDodged())
+							case SP_SPAWNARCHER:
+								{
+									if( cur == 0 )
+										msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 2, false, 12);
+									else
+										msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 0, false, 12);
+
+									CMessageSystem::GetInstance()->SendMessageW(msg);
+								}
+								break;
+
+							case SP_SPAWNSWORD:
+								{
+									if( cur == 0 )
+										msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 2, false, 20);
+									else
+										msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 0, false, 20);
+									CMessageSystem::GetInstance()->SendMessageW(msg);
+								}
+								break;
+
+							case SP_SPAWNCALV:
+								{
+									if( cur == 0 )
+										msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 2, false, 22);
+									else
+										msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 0, false, 22);
+									CMessageSystem::GetInstance()->SendMessageW(msg);
+								}
+								break;
+							}
+
+							m_pTargetedTile = nullptr;
+							m_pSelectedUnit = nullptr;
+							m_bIsTargeting = false;
+						}
+					}
+					else if (ability->GetType() == SP_MELEEATTACK || ability->GetType() == SP_ARCHERRANGEDATTACK)
+					{
+						int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
+							abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
+						if (nDistance <= m_pSelectedUnit->GetRange())
+						{
+							CUnit* pUnit = CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition());
+							if (pUnit != nullptr)
+							{
+								if (ability->GetType() == SP_ARCHERRANGEDATTACK)
+								{
+									if (!pUnit->CheckDodged())
+									{
+										if( pUnit->GetShielded() == false )
+										{
+											pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+											pSM->Play(pSM->GetID(_T("hurt")), false, false);
+											Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+											std::ostringstream oss;
+											oss << m_pSelectedUnit->GetAttack();
+											CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+												Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
+										}
+										else
+										{
+											pUnit->RemoveEffect(SP_SHIELD);
+											Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+											std::ostringstream oss;
+											oss << "Shielded!";
+											CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX, (float)pixelPos.nPosY), 
+												Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+										}
+									}
+									else
+									{
+										// miss!
+									}
+								}
+								else
 								{
 									if( pUnit->GetShielded() == false )
 									{
 										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
-										pSM->Play(pSM->GetID(_T("hurt")), false, false);
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << m_pSelectedUnit->GetAttack();
+										pSM->Play(pSM->GetID(_T("hurt")), false, false);
 										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
 											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
 									}
 									else
 									{
 										pUnit->RemoveEffect(SP_SHIELD);
+										//	pUnit->SetShielded(0);
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << "Shielded!";
@@ -645,951 +678,930 @@ void CGameplayState::UseAbility(CAbility* ability)
 											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 									}
 								}
-								else
-								{
-									// miss!
-								}
 							}
-							else
-							{
-								if( pUnit->GetShielded() == false )
-								{
-										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
-											Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
-										std::ostringstream oss;
-										oss << m_pSelectedUnit->GetAttack();
-										pSM->Play(pSM->GetID(_T("hurt")), false, false);
-										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
-											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
-								}
-								else
-								{
-									pUnit->RemoveEffect(SP_SHIELD);
-								//	pUnit->SetShielded(0);
-									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
-									std::ostringstream oss;
-									oss << "Shielded!";
-									CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX, (float)pixelPos.nPosY), 
-										Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
-								}
-							}
+							CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+							if (ability->m_bIsAttack)
+								m_pSelectedUnit->SetHasAttacked(true);
+							m_bIsTargeting = false;
+							m_pTargetedTile = nullptr;
+							m_pSelectedUnit = nullptr;
 						}
+					}
+					else
+					{
+						if( ability->GetType() == SP_CHARGE )
+						{
+							if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
+								return;
+						}
+						CAbilityManager* pAM = CAbilityManager::GetInstance();
+
+						if( ability->GetType() == SP_CHARGE )
+						{
+							CTileManager* pTM = CTileManager::GetInstance();
+							m_bIsMoving = true;
+							m_pSelectedUnit->AddWaypoint(m_pTargetedTile);
+							pAM->UseAbility(ability, pTM->GetTile( m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY) , m_pSelectedUnit);
+						}
+						else
+							pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
+
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+
+
 						if (ability->m_bIsAttack)
 							m_pSelectedUnit->SetHasAttacked(true);
+
 						m_bIsTargeting = false;
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
+						m_bSelectChampionAbility = false;
+						Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+
 					}
+					ClearSelections();
 				}
-				else
-				{
-					if( ability->GetType() == SP_CHARGE )
-					{
-						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
-							return;
-					}
-					CAbilityManager* pAM = CAbilityManager::GetInstance();
-
-					if( ability->GetType() == SP_CHARGE )
-					{
-						CTileManager* pTM = CTileManager::GetInstance();
-						m_bIsMoving = true;
-						m_pSelectedUnit->AddWaypoint(m_pTargetedTile);
-						pAM->UseAbility(ability, pTM->GetTile( m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY) , m_pSelectedUnit);
-					}
-					else
-					pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
-
-					CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
-
-
-					if (ability->m_bIsAttack)
-						m_pSelectedUnit->SetHasAttacked(true);
-
-					m_bIsTargeting = false;
-					m_pTargetedTile = nullptr;
-					m_pSelectedUnit = nullptr;
-					m_bSelectChampionAbility = false;
-					Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
-
-				}
-				ClearSelections();
 			}
-		}
-		else if (ability->m_nNumTargets == 0) // AOE spell
-		{
-			std::vector<Vec2D> vec = ability->GetPattern();
-			for( unsigned int i = 0; i < vec.size(); i++ )
+			else if (ability->m_nNumTargets == 0) // AOE spell
 			{
-				Vec2D t;
-				t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
-				t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
-				Vec2D tmp = TranslateToPixel(t);
-				tmp.nPosX += 65;
-				tmp.nPosY += 5;
-				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+				std::vector<Vec2D> vec = ability->GetPattern();
+				for( unsigned int i = 0; i < vec.size(); i++ )
+				{
+					Vec2D t;
+					t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+					t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+					Vec2D tmp = TranslateToPixel(t);
+					tmp.nPosX += 65;
+					tmp.nPosY += 5;
+					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+				}
+
+				CAbilityManager* pAM = CAbilityManager::GetInstance();
+				pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
+					m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
+
+				CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+				if (ability->m_bIsAttack)
+					m_pSelectedUnit->SetHasAttacked(true);
+				m_bIsTargeting = false;
+				m_pTargetedTile = nullptr;
+				m_pSelectedUnit = nullptr;
+				m_bSelectChampionAbility = false;
+				Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+
 			}
-
-			CAbilityManager* pAM = CAbilityManager::GetInstance();
-			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
-				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
-			
-			CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
-			if (ability->m_bIsAttack)
-				m_pSelectedUnit->SetHasAttacked(true);
-			m_bIsTargeting = false;
-			m_pTargetedTile = nullptr;
-			m_pSelectedUnit = nullptr;
-			m_bSelectChampionAbility = false;
-			Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
-
-		}
-	}	
-}
-
-// Attempts to move the selectedUnit to the tile at position nTilePosition
-void CGameplayState::MoveToTile(Vec2D nTilePosition)
-{
-	// Cheapest movement algorithm hooray
-	CTileManager* pTM = CTileManager::GetInstance();
-	CTile* pStartTile = pTM->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY);
-	CTile* pTargetTile = pTM->GetTile(nTilePosition.nPosX, nTilePosition.nPosY);
-
-	// Check if where we are going to is passable and occupied, if so, return out of function
-	if (pTargetTile == nullptr)
-		return;
-	if (pTargetTile->GetIfPassable() || pTargetTile->GetIfOccupied())
-	{
-		return;
+		}	
 	}
-
-	// Check if the unit has already moved a number of tiles this turn up to their speed, if so, return out and clear stuff
-	if (m_pSelectedUnit->GetTilesMoved() == m_pSelectedUnit->GetSpeed())
+	}
+	// Attempts to move the selectedUnit to the tile at position nTilePosition
+	void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	{
+		// Cheapest movement algorithm hooray
+		CTileManager* pTM = CTileManager::GetInstance();
+		CTile* pStartTile = pTM->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY);
+		CTile* pTargetTile = pTM->GetTile(nTilePosition.nPosX, nTilePosition.nPosY);
+
+		// Check if where we are going to is passable and occupied, if so, return out of function
+		if (pTargetTile == nullptr)
+			return;
+		if (pTargetTile->GetIfPassable() || pTargetTile->GetIfOccupied())
+		{
+			return;
+		}
+
+		// Check if the unit has already moved a number of tiles this turn up to their speed, if so, return out and clear stuff
+		if (m_pSelectedUnit->GetTilesMoved() == m_pSelectedUnit->GetSpeed())
+		{
+			m_bIsMoving = false;
+			m_pSelectedUnit = nullptr;
+			m_vWaypoints.clear();
+			// error sound?
+			return;
+		}
+
+
+		// Calculate total number of moves this will take as well as total AP cost for the path. If the path ends
+		// up taking us past our speed (or available tiles left to move), break out early and only count what we will make 
+		// it to
+		int nTotalAPCost = 0;
+		int nMoveCount = 0;
+		for (int i = m_vWaypoints.size() - 1; i >= 0 ; --i)
+		{
+			if (m_pSelectedUnit->GetFreeMove())
+			{
+				nTotalAPCost += 1;
+			}
+			else
+				nTotalAPCost+= m_vWaypoints[i]->GetAPCost();
+
+			nMoveCount++;
+			if (nMoveCount == (m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved()))
+			{
+				break;
+			}
+		}
+
+		// If the total AP cost of the move is more than we have, return out. We can't afford to move
+		if (nTotalAPCost > CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP())
+		{
+			// play error sound?
+			return;
+		}
+		// If we're here, we're movin. Subtract the cost of the move from the player's AP
+		CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->SetAP(
+			CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP() - nTotalAPCost);
+
+		// Add the tile waypoints to the unit so that he can slide along them neatly
+		for (unsigned int i = 0; i < m_vWaypoints.size(); ++i)
+		{
+			m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
+		}
+		// After we hit enter we want to cancel and clear, either we're moving or we're not.
+
+
+		if (pTargetTile->GetIfResourceTile())
+		{
+			if (!pTargetTile->GetIfCapturing())
+			{
+				pTargetTile->SetIfCapturing(true);
+				pTargetTile->SetPlayerID( m_pSelectedUnit->GetPlayerID());
+			}
+		}
 		m_bIsMoving = false;
 		m_pSelectedUnit = nullptr;
 		m_vWaypoints.clear();
-		// error sound?
 		return;
 	}
 
-
-	// Calculate total number of moves this will take as well as total AP cost for the path. If the path ends
-	// up taking us past our speed (or available tiles left to move), break out early and only count what we will make 
-	// it to
-	int nTotalAPCost = 0;
-	int nMoveCount = 0;
-	for (int i = m_vWaypoints.size() - 1; i >= 0 ; --i)
+	// Uses A* pathfinding algorithm to find a cheap route from startTile to targetTile
+	bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile)
 	{
-		if (m_pSelectedUnit->GetFreeMove())
+		// If either of the tiles are null or we can't move into the last tile, don't calculate anything.
+		if (startTile == nullptr || targetTile == nullptr || targetTile->GetIfOccupied() || targetTile->GetIfPassable())
+			return false;
+
+		// Create our lists that we will work inside and add the initial tile to the closed list
+		CTileManager* pTM = CTileManager::GetInstance();
+		std::list<ASNode*> openList;
+		std::list<ASNode*> closedList;
+		typedef std::list<ASNode*>::iterator closedIter;
+		m_vWaypoints.clear();
+		ASNode* n = new ASNode();
+		n->pTile = startTile;
+		n->nCost = 0;
+
+		int safeCheck = 0;
+		closedList.push_back(n);
+		openList.remove(n);
+
+		int nEstimatedTileCost = 3;
+
+		while (true && (safeCheck < 1000))
 		{
-			nTotalAPCost += 1;
-		}
-		else
-		nTotalAPCost+= m_vWaypoints[i]->GetAPCost();
+			// This loop will go through and check all tiles adjacent to our active tile. If they are legit tiles
+			// I.E not null, are passable and are not occupied, then we add them to our openList of available tiles to move
+			// we calculate the estimated cost on how much that tile will take us to get to our target if we go that way
+			// Once we added all adjacent tiles, we find which of those tiles on the openList has the cheapest estimated route
+			// we make the cheapest one our active tile, then repeat the process adding the tiles adjacent to the active tile.
+			// We do this until we find our target tile and when we do, we break out of the loop.
+			// We go to our targetTile node and see which tile we had set as it's parent in the path, then go to that. Then we loop
+			// through parents until we get back to the start and we then have our path
 
-		nMoveCount++;
-		if (nMoveCount == (m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved()))
-		{
-			break;
-		}
-	}
-
-	// If the total AP cost of the move is more than we have, return out. We can't afford to move
-	if (nTotalAPCost > CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP())
-	{
-		// play error sound?
-		return;
-	}
-	// If we're here, we're movin. Subtract the cost of the move from the player's AP
-	CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->SetAP(
-		CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP() - nTotalAPCost);
-
-	// Add the tile waypoints to the unit so that he can slide along them neatly
-	for (unsigned int i = 0; i < m_vWaypoints.size(); ++i)
-	{
-		m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
-	}
-	// After we hit enter we want to cancel and clear, either we're moving or we're not.
-
-
-	if (pTargetTile->GetIfResourceTile())
-	{
-		if (!pTargetTile->GetIfCapturing())
-		{
-			pTargetTile->SetIfCapturing(true);
-			pTargetTile->SetPlayerID( m_pSelectedUnit->GetPlayerID());
-		}
-	}
-	m_bIsMoving = false;
-	m_pSelectedUnit = nullptr;
-	m_vWaypoints.clear();
-	return;
-}
-
-// Uses A* pathfinding algorithm to find a cheap route from startTile to targetTile
-bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile)
-{
-	// If either of the tiles are null or we can't move into the last tile, don't calculate anything.
-	if (startTile == nullptr || targetTile == nullptr || targetTile->GetIfOccupied() || targetTile->GetIfPassable())
-		return false;
-
-	// Create our lists that we will work inside and add the initial tile to the closed list
-	CTileManager* pTM = CTileManager::GetInstance();
-	std::list<ASNode*> openList;
-	std::list<ASNode*> closedList;
-	typedef std::list<ASNode*>::iterator closedIter;
-	m_vWaypoints.clear();
-	ASNode* n = new ASNode();
-	n->pTile = startTile;
-	n->nCost = 0;
-
-	int safeCheck = 0;
-	closedList.push_back(n);
-	openList.remove(n);
-
-	int nEstimatedTileCost = 3;
-
-	while (true && (safeCheck < 1000))
-	{
-		// This loop will go through and check all tiles adjacent to our active tile. If they are legit tiles
-		// I.E not null, are passable and are not occupied, then we add them to our openList of available tiles to move
-		// we calculate the estimated cost on how much that tile will take us to get to our target if we go that way
-		// Once we added all adjacent tiles, we find which of those tiles on the openList has the cheapest estimated route
-		// we make the cheapest one our active tile, then repeat the process adding the tiles adjacent to the active tile.
-		// We do this until we find our target tile and when we do, we break out of the loop.
-		// We go to our targetTile node and see which tile we had set as it's parent in the path, then go to that. Then we loop
-		// through parents until we get back to the start and we then have our path
-
-		if (n->pTile->GetPosition().nPosY -1 >= 0) // check north
-		{
-			CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY -1);
-			if (pTestTile == nullptr)
+			if (n->pTile->GetPosition().nPosY -1 >= 0) // check north
 			{
-				int x = 9;
-			}
-			std::list<ASNode*>::iterator iter;
-			iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
-			{
-				return (node->pTile == pTestTile);
-			});
-			bool pPass = !(pTestTile->GetIfPassable());
-			bool pOcc = !(pTestTile->GetIfOccupied());
-			if (iter == closedList.end() && !(pTestTile->GetIfPassable()) && !(pTestTile->GetIfOccupied()))
-			{
-				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
+				CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY -1);
+				if (pTestTile == nullptr)
+				{
+					int x = 9;
+				}
+				std::list<ASNode*>::iterator iter;
+				iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
 				{
 					return (node->pTile == pTestTile);
 				});
-				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+				bool pPass = !(pTestTile->GetIfPassable());
+				bool pOcc = !(pTestTile->GetIfOccupied());
+				if (iter == closedList.end() && !(pTestTile->GetIfPassable()) && !(pTestTile->GetIfOccupied()))
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
-				}
-				else // it's not.
-				{
-					ASNode* newNode = new ASNode();
-					newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY -1);
-					if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+					iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 					{
-						int x = 9;
+						return (node->pTile == pTestTile);
+					});
+					if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+					{
+						(*iter)->parent = n;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
 					}
-					newNode->parent = n;
-					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
-					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
-					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
-					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
-					openList.push_back(newNode);
+					else // it's not.
+					{
+						ASNode* newNode = new ASNode();
+						newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY -1);
+						if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+						{
+							int x = 9;
+						}
+						newNode->parent = n;
+						newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
+						int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
+						int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
+						newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+						newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
+						openList.push_back(newNode);
+					}
 				}
 			}
-		}
-		if (n->pTile->GetPosition().nPosY + 1 < pTM->GetNumColumns()) // check south
-		{
-			CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY + 1);
-			std::list<ASNode*>::iterator iter;
-			iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
+			if (n->pTile->GetPosition().nPosY + 1 < pTM->GetNumColumns()) // check south
 			{
-				return (node->pTile == pTestTile);
-			});
-			if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
-			{
-				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
+				CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY + 1);
+				std::list<ASNode*>::iterator iter;
+				iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
 				{
 					return (node->pTile == pTestTile);
 				});
-				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+				if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
-				}
-				else // it's not.
-				{
-					ASNode* newNode = new ASNode();
-					newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY +1);
-					if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+					iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 					{
-						int x = 9;
+						return (node->pTile == pTestTile);
+					});
+					if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+					{
+						(*iter)->parent = n;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
 					}
-					newNode->parent = n;
-					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
-					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
-					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
-					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
-					openList.push_back(newNode);
+					else // it's not.
+					{
+						ASNode* newNode = new ASNode();
+						newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX, n->pTile->GetPosition().nPosY +1);
+						if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+						{
+							int x = 9;
+						}
+						newNode->parent = n;
+						newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
+						int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
+						int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
+						newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+						newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
+						openList.push_back(newNode);
+					}
 				}
 			}
-		}
-		if (n->pTile->GetPosition().nPosX -1 >= 0) // check West
-		{
-			CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX - 1, n->pTile->GetPosition().nPosY);
-			std::list<ASNode*>::iterator iter;
-			iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
+			if (n->pTile->GetPosition().nPosX -1 >= 0) // check West
 			{
-				return (node->pTile == pTestTile);
-			});
-			if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
-			{
-				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
+				CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX - 1, n->pTile->GetPosition().nPosY);
+				std::list<ASNode*>::iterator iter;
+				iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
 				{
 					return (node->pTile == pTestTile);
 				});
-				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+				if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
-				}
-				else // it's not.
-				{
-					ASNode* newNode = new ASNode();
-					newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX -1, n->pTile->GetPosition().nPosY);
-					if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+					iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 					{
-						int x = 9;
+						return (node->pTile == pTestTile);
+					});
+					if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+					{
+						(*iter)->parent = n;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
 					}
-					newNode->parent = n;
-					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
-					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
-					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
-					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
-					openList.push_back(newNode);
+					else // it's not.
+					{
+						ASNode* newNode = new ASNode();
+						newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX -1, n->pTile->GetPosition().nPosY);
+						if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+						{
+							int x = 9;
+						}
+						newNode->parent = n;
+						newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
+						int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
+						int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
+						newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+						newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
+						openList.push_back(newNode);
+					}
 				}
 			}
-		}
-		if (n->pTile->GetPosition().nPosX +1 < pTM->GetNumRows()) // check east
-		{
-			CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX + 1, n->pTile->GetPosition().nPosY);
-			std::list<ASNode*>::iterator iter;
-			iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
+			if (n->pTile->GetPosition().nPosX +1 < pTM->GetNumRows()) // check east
 			{
-				return (node->pTile == pTestTile);
-			});
-			if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
-			{
-				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
+				CTile* pTestTile = pTM->GetTile(n->pTile->GetPosition().nPosX + 1, n->pTile->GetPosition().nPosY);
+				std::list<ASNode*>::iterator iter;
+				iter = std::find_if(closedList.begin(), closedList.end(), [&pTestTile](const ASNode* node)
 				{
 					return (node->pTile == pTestTile);
 				});
-				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+				if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
-				}
-				else // it's not.
-				{
-					ASNode* newNode = new ASNode();
-					newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX + 1, n->pTile->GetPosition().nPosY);
-					if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+					iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 					{
-						int x = 9;
+						return (node->pTile == pTestTile);
+					});
+					if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
+					{
+						(*iter)->parent = n;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
 					}
-					newNode->parent = n;
-					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
-					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
-					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
-					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
-					openList.push_back(newNode);
+					else // it's not.
+					{
+						ASNode* newNode = new ASNode();
+						newNode->pTile = pTM->GetTile(n->pTile->GetPosition().nPosX + 1, n->pTile->GetPosition().nPosY);
+						if (newNode->pTile->GetPosition().nPosY == 400 || newNode->pTile->GetPosition().nPosX < -5000)
+						{
+							int x = 9;
+						}
+						newNode->parent = n;
+						newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
+						int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
+						int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
+						newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+						newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
+						openList.push_back(newNode);
+					}
 				}
 			}
+
+			// find which one in the open list has the cheapest cost and make it our active tile, and add it to the closed list
+			ASNode* lowestF = nullptr;
+			int nLowestF = INT_MAX;
+			std::list<ASNode*>::iterator listIter;
+			for (listIter = openList.begin(); listIter != openList.end(); ++listIter)
+			{
+				if ((*listIter)->nF < nLowestF)
+				{
+					nLowestF = (*listIter)->nF;
+					lowestF = (*listIter);
+				}
+			}
+
+			if (lowestF == nullptr)
+				break;
+			openList.remove(lowestF);
+			closedList.push_back(lowestF);
+
+			// if the lowest cost is our target tile, we're done!
+			if (lowestF->pTile == targetTile)
+			{
+				break;
+			}
+			n = lowestF;
+			safeCheck++;
 		}
 
-		// find which one in the open list has the cheapest cost and make it our active tile, and add it to the closed list
-		ASNode* lowestF = nullptr;
-		int nLowestF = INT_MAX;
+		// if we didnt find anything, get out of here
+		if (closedList.size() == 0)
+		{
+			return false;
+		}
+
+		// Go through the list of found tiles and add them to our waypoints of our path
+		ASNode* nNode = closedList.back();
+		safeCheck = 0;
+		while (nNode->parent != nullptr && (safeCheck < 5000))
+		{
+			m_vWaypoints.push_back(nNode->pTile);
+			nNode = nNode->parent;
+		}
+
+		// CLEANUP. delete all memory we made
 		std::list<ASNode*>::iterator listIter;
 		for (listIter = openList.begin(); listIter != openList.end(); ++listIter)
 		{
-			if ((*listIter)->nF < nLowestF)
+			delete (*listIter);
+		}
+		for (listIter = closedList.begin(); listIter != closedList.end(); ++listIter)
+		{
+			delete (*listIter);
+		}
+
+		// return that it worked fine
+		return true;
+	}
+
+	void CGameplayState::ClearSelections(void)
+	{
+		m_bIsMoving = false;
+		m_bIsTargeting = false;
+		m_bSelectChampionAbility = false;
+		m_pTargetedTile = nullptr;
+		m_pSelectedUnit = nullptr;
+		m_nSelectedAbility =0;
+		m_pHighlightedUnit = nullptr;
+		m_bIsHighlighting = false;
+		m_bShowSpellPanel = false;
+		m_vWaypoints.clear();
+	}
+	void CGameplayState::Update(float fElapsedTime)
+	{
+		CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
+
+		LerpCamera(fElapsedTime);
+
+		if (pDI->KeyPressed(DIK_J))
+		{
+			int xRand = rand() % 800;
+			int yRand = rand() % 600;
+			CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, -50.0f), 5.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
+			CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, 50.0f), 5.0f, 0.5f);
+			CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(50.0f, 0.0f), 5.0f, 0.5f);
+			CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(-50.0f, 0.0f), 5.0f, 0.5f);
+		}
+
+		if (m_bIsHighlighting == true)
+		{
+			if (m_nCardOffsetX > m_nCardOffsetMaxX)
 			{
-				nLowestF = (*listIter)->nF;
-				lowestF = (*listIter);
+				m_nCardOffsetX -= (int)(450 * fElapsedTime);
 			}
+			if (m_nCardOffsetX < m_nCardOffsetMaxX)
+				m_nCardOffsetX = m_nCardOffsetMaxX;
+			if (m_nCardOffsetX < CGame::GetInstance()->GetWindowWidth())
+				m_bShowingCard = true;
 		}
-
-		if (lowestF == nullptr)
-			break;
-		openList.remove(lowestF);
-		closedList.push_back(lowestF);
-
-		// if the lowest cost is our target tile, we're done!
-		if (lowestF->pTile == targetTile)
-		{
-			break;
-		}
-		n = lowestF;
-		safeCheck++;
-	}
-
-	// if we didnt find anything, get out of here
-	if (closedList.size() == 0)
-	{
-		return false;
-	}
-
-	// Go through the list of found tiles and add them to our waypoints of our path
-	ASNode* nNode = closedList.back();
-	safeCheck = 0;
-	while (nNode->parent != nullptr && (safeCheck < 5000))
-	{
-		m_vWaypoints.push_back(nNode->pTile);
-		nNode = nNode->parent;
-	}
-
-	// CLEANUP. delete all memory we made
-	std::list<ASNode*>::iterator listIter;
-	for (listIter = openList.begin(); listIter != openList.end(); ++listIter)
-	{
-		delete (*listIter);
-	}
-	for (listIter = closedList.begin(); listIter != closedList.end(); ++listIter)
-	{
-		delete (*listIter);
-	}
-
-	// return that it worked fine
-	return true;
-}
-
-void CGameplayState::ClearSelections(void)
-{
-	m_bIsMoving = false;
-	m_bIsTargeting = false;
-	m_bSelectChampionAbility = false;
-	m_pTargetedTile = nullptr;
-	m_pSelectedUnit = nullptr;
-	m_nSelectedAbility =0;
-	m_pHighlightedUnit = nullptr;
-	m_bIsHighlighting = false;
-	m_bShowSpellPanel = false;
-	m_vWaypoints.clear();
-}
-void CGameplayState::Update(float fElapsedTime)
-{
-	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
-
-	LerpCamera(fElapsedTime);
-
-	if (pDI->KeyPressed(DIK_J))
-	{
-		int xRand = rand() % 800;
-		int yRand = rand() % 600;
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, -50.0f), 5.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, 50.0f), 5.0f, 0.5f);
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(50.0f, 0.0f), 5.0f, 0.5f);
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(-50.0f, 0.0f), 5.0f, 0.5f);
-	}
-
-	if (m_bIsHighlighting == true)
-	{
-		if (m_nCardOffsetX > m_nCardOffsetMaxX)
-		{
-			m_nCardOffsetX -= (int)(450 * fElapsedTime);
-		}
-		if (m_nCardOffsetX < m_nCardOffsetMaxX)
-			m_nCardOffsetX = m_nCardOffsetMaxX;
-		if (m_nCardOffsetX < CGame::GetInstance()->GetWindowWidth())
-			m_bShowingCard = true;
-	}
-	else
-	{
-		m_nCardOffsetX += (int)(450 * fElapsedTime);
-		if (m_nCardOffsetX > CGame::GetInstance()->GetWindowWidth())
-			m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
-	}
-
-	if (m_pSelectedUnit != nullptr)
-	{
-		if (m_nTooltipOffsetX < m_nTooltipOffsetMaxX)
-		{
-			m_nTooltipOffsetX += (int)(450 * fElapsedTime);
-		}
-
-		if (m_nTooltipOffsetX > m_nTooltipOffsetMaxX)
-			m_nTooltipOffsetX = m_nTooltipOffsetMaxX;
-	}
-	else
-	{
-		m_nTooltipOffsetX -= (int)(450 * fElapsedTime);
-		if (m_nTooltipOffsetX < -300)
-			m_nTooltipOffsetX = -300;
-	}
-
-	if (m_bSelectChampionAbility)
-	{
-		if (m_nSpellPanelOffsetY > m_nSpellPanelOffsetYMAX)
-		{
-			m_nSpellPanelOffsetY -= (int)(650 * fElapsedTime);
-		}
-		if (m_nSpellPanelOffsetY < m_nSpellPanelOffsetYMAX)
-			m_nSpellPanelOffsetY = m_nSpellPanelOffsetYMAX;
-		if (m_nSpellPanelOffsetY < CGame::GetInstance()->GetWindowHeight())
-			m_bShowSpellPanel = true;
-
-	}
-	else
-	{
-		m_nSpellPanelOffsetY += (int)(650 * fElapsedTime);
-		if (m_nSpellPanelOffsetY > CGame::GetInstance()->GetWindowHeight())
-			m_nSpellPanelOffsetY = CGame::GetInstance()->GetWindowHeight();
-	}
-
-	if (pDI->KeyPressed(DIK_R))
-	{
-		CAddResourceMessage* pMsg = new CAddResourceMessage(TT_MILL, 0);
-		CMessageSystem::GetInstance()->SendMessageW(pMsg);
-	}
-	// Testing Particle Rendering
-	CAIManager::GetInstance()->UpdateAI(fElapsedTime);
-
-	CParticleManager::GetInstance()->Update(fElapsedTime);
-	CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
-	CAnimationManager::GetInstance()->Update(fElapsedTime);
-	CGameManager::GetInstance()->Update(fElapsedTime);
-	CFloatingText::GetInstance()->Update(fElapsedTime);
-}
-
-RECT CellAlgorithm( int id )
-{
-
-	// quick fix for rendering the wrong tiles
-	//if (id == 1)
-	//	id = 2;
-	//else if (id == 2)
-	//	id = 1;
-	RECT rSource;
-
-	rSource.left	= (id % 4) * (nFakeTileWidth - 26);
-	rSource.top		= (id / 4) * (nFakeTileHeight - 27);
-
-	rSource.right	= rSource.left	+ (nFakeTileWidth - 26) +1;
-	rSource.bottom	= rSource.top	+ (nFakeTileHeight - 27);
-
-	return rSource;
-
-}
-void CGameplayState::Render(void)
-{
-	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
-	CTileManager::GetInstance()->Render();
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-
-	// render the waypoints?
-	if (m_pSelectedUnit != nullptr)
-	{
-		int nTilesCanMove = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
-		int nAPCost = 0;
-		int r = 0;
-		int g = 255;
-		int b = 0;
-
-		for (int i = m_vWaypoints.size() - 1; i >= 0; --i)
-		{
-			nAPCost += m_vWaypoints[i]->GetAPCost();
-			nTilesCanMove--;
-			CPlayer* pPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
-			if (nAPCost > CGameManager::GetInstance()->GetCurrentPlayer()->GetAP())
-			{
-				r = 255;
-				g = 0;
-			}
-			if (nTilesCanMove < 0)
-			{
-				r = 255;
-				g = 0;
-			}
-
-			int x = (nFakeTileWidth / 2 * m_vWaypoints[i]->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints[i]->GetPosition().nPosY);
-			int y = (nFakeTileWidth / 2 * m_vWaypoints[i]->GetPosition().nPosX ) + (nFakeTileHeight  / 2 * m_vWaypoints[i]->GetPosition().nPosY);
-			RECT tileRect = { x - GetCamOffsetX(), 
-				y - GetCamOffsetY(),  
-				nFakeTileWidth, nFakeTileHeight};
-			//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(120,r, g, b));
-		}
-
-
-		// Draw the doohickeys on the ground to show the pattern
-		CAbility* drawAbility ;
-		if (m_bSelectChampionAbility)
-			drawAbility = (dynamic_cast<CHero*>(m_pSelectedUnit))->GetSpell(m_nSelectedSpell);
 		else
-			drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
-		if( drawAbility != nullptr )
 		{
-			std::vector< Vec2D > pattern, range;
-			if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() ==SP_MELEEATTACK)
-				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
-			else
+			m_nCardOffsetX += (int)(450 * fElapsedTime);
+			if (m_nCardOffsetX > CGame::GetInstance()->GetWindowWidth())
+				m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
+		}
+
+		if (m_pSelectedUnit != nullptr)
+		{
+			if (m_nTooltipOffsetX < m_nTooltipOffsetMaxX)
 			{
-				if( drawAbility->GetType() == SP_CHARGE )
-					range = drawAbility->GetPattern();
-				else
-					range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+				m_nTooltipOffsetX += (int)(450 * fElapsedTime);
 			}
-			if( drawAbility->GetType() != SP_CHARGE )
-				pattern = drawAbility->GetPattern();
 
-			if( drawAbility->GetApCost() == 5 )
-				int i = 0;
-			if (drawAbility != nullptr && !drawAbility->m_bIsMove)
+			if (m_nTooltipOffsetX > m_nTooltipOffsetMaxX)
+				m_nTooltipOffsetX = m_nTooltipOffsetMaxX;
+		}
+		else
+		{
+			m_nTooltipOffsetX -= (int)(450 * fElapsedTime);
+			if (m_nTooltipOffsetX < -300)
+				m_nTooltipOffsetX = -300;
+		}
+
+		if (m_bSelectChampionAbility)
+		{
+			if (m_nSpellPanelOffsetY > m_nSpellPanelOffsetYMAX)
 			{
-				//if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() == SP_MELEEATTACK)
-				//{
+				m_nSpellPanelOffsetY -= (int)(650 * fElapsedTime);
+			}
+			if (m_nSpellPanelOffsetY < m_nSpellPanelOffsetYMAX)
+				m_nSpellPanelOffsetY = m_nSpellPanelOffsetYMAX;
+			if (m_nSpellPanelOffsetY < CGame::GetInstance()->GetWindowHeight())
+				m_bShowSpellPanel = true;
 
-				//	pattern = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());
-				//}
-				// it's a real ability and it's not the move one
+		}
+		else
+		{
+			m_nSpellPanelOffsetY += (int)(650 * fElapsedTime);
+			if (m_nSpellPanelOffsetY > CGame::GetInstance()->GetWindowHeight())
+				m_nSpellPanelOffsetY = CGame::GetInstance()->GetWindowHeight();
+		}
 
-				// Draw the range
-				for (unsigned int i = 0; i < range.size(); ++i)
+		if (pDI->KeyPressed(DIK_R))
+		{
+			CAddResourceMessage* pMsg = new CAddResourceMessage(TT_MILL, 0);
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		// Testing Particle Rendering
+		CAIManager::GetInstance()->UpdateAI(fElapsedTime);
+
+		CParticleManager::GetInstance()->Update(fElapsedTime);
+		CObjectManager::GetInstance()->UpdateAllObjects(fElapsedTime);
+		CAnimationManager::GetInstance()->Update(fElapsedTime);
+		CGameManager::GetInstance()->Update(fElapsedTime);
+		CFloatingText::GetInstance()->Update(fElapsedTime);
+	}
+
+	RECT CellAlgorithm( int id )
+	{
+
+		// quick fix for rendering the wrong tiles
+		//if (id == 1)
+		//	id = 2;
+		//else if (id == 2)
+		//	id = 1;
+		RECT rSource;
+
+		rSource.left	= (id % 4) * (nFakeTileWidth - 26);
+		rSource.top		= (id / 4) * (nFakeTileHeight - 27);
+
+		rSource.right	= rSource.left	+ (nFakeTileWidth - 26) +1;
+		rSource.bottom	= rSource.top	+ (nFakeTileHeight - 27);
+
+		return rSource;
+
+	}
+	void CGameplayState::Render(void)
+	{
+		CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
+		CTileManager::GetInstance()->Render();
+		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
+		// render the waypoints?
+		if (m_pSelectedUnit != nullptr)
+		{
+			int nTilesCanMove = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
+			int nAPCost = 0;
+			int r = 0;
+			int g = 255;
+			int b = 0;
+
+			for (int i = m_vWaypoints.size() - 1; i >= 0; --i)
+			{
+				nAPCost += m_vWaypoints[i]->GetAPCost();
+				nTilesCanMove--;
+				CPlayer* pPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
+				if (nAPCost > CGameManager::GetInstance()->GetCurrentPlayer()->GetAP())
 				{
-					
-					int x = range[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
-					int y = range[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
-
-					CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
-
-					if (pPatternTile != nullptr)
-					{
-						int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
-						int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
-
-						int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
-						int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
-						CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-							x - GetCamOffsetX(),
-							y - GetCamOffsetY()
-							, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 255));
-					}
+					r = 255;
+					g = 0;
+				}
+				if (nTilesCanMove < 0)
+				{
+					r = 255;
+					g = 0;
 				}
 
-				// Draw the target pattern
-				Vec2D targetVec = m_pSelectedUnit->GetPos();
-				if (m_bIsTargeting)
-					targetVec = m_SelectionPos;
+				int x = (nFakeTileWidth / 2 * m_vWaypoints[i]->GetPosition().nPosX ) - (nFakeTileHeight / 2 * m_vWaypoints[i]->GetPosition().nPosY);
+				int y = (nFakeTileWidth / 2 * m_vWaypoints[i]->GetPosition().nPosX ) + (nFakeTileHeight  / 2 * m_vWaypoints[i]->GetPosition().nPosY);
+				RECT tileRect = { x - GetCamOffsetX(), 
+					y - GetCamOffsetY(),  
+					nFakeTileWidth, nFakeTileHeight};
+				//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+					tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(120,r, g, b));
+			}
 
-				for (unsigned int i = 0; i < pattern.size(); ++i)
+
+			// Draw the doohickeys on the ground to show the pattern
+			CAbility* drawAbility ;
+			if (m_bSelectChampionAbility)
+				drawAbility = (dynamic_cast<CHero*>(m_pSelectedUnit))->GetSpell(m_nSelectedSpell);
+			else
+				drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+			if( drawAbility != nullptr )
+			{
+				std::vector< Vec2D > pattern, range;
+				if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() ==SP_MELEEATTACK)
+					range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
+				else
 				{
-					
-					int x = pattern[i].nPosX + targetVec.nPosX;
-					int y = pattern[i].nPosY + targetVec.nPosY;
+					if( drawAbility->GetType() == SP_CHARGE )
+						range = drawAbility->GetPattern();
+					else
+						range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
+				}
+				if( drawAbility->GetType() != SP_CHARGE )
+					pattern = drawAbility->GetPattern();
 
-					CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
+				if( drawAbility->GetApCost() == 5 )
+					int i = 0;
+				if (drawAbility != nullptr && !drawAbility->m_bIsMove)
+				{
+					//if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() == SP_MELEEATTACK)
+					//{
 
-					if (pPatternTile != nullptr)
+					//	pattern = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());
+					//}
+					// it's a real ability and it's not the move one
+
+					// Draw the range
+					for (unsigned int i = 0; i < range.size(); ++i)
 					{
-						int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
-						int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
 
-						int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
-						int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
-						CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
-							x - GetCamOffsetX(),
-							y - GetCamOffsetY()
-							, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 0));
+						int x = range[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+						int y = range[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+
+						CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
+
+						if (pPatternTile != nullptr)
+						{
+							int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+							int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+
+							int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
+							int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
+							CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+								x - GetCamOffsetX(),
+								y - GetCamOffsetY()
+								, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 255));
+						}
+					}
+
+					// Draw the target pattern
+					Vec2D targetVec = m_pSelectedUnit->GetPos();
+					if (m_bIsTargeting)
+						targetVec = m_SelectionPos;
+
+					for (unsigned int i = 0; i < pattern.size(); ++i)
+					{
+
+						int x = pattern[i].nPosX + targetVec.nPosX;
+						int y = pattern[i].nPosY + targetVec.nPosY;
+
+						CTile* pPatternTile = CTileManager::GetInstance()->GetTile(x, y);
+
+						if (pPatternTile != nullptr)
+						{
+							int r = 255 * !(drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+							int g = 255 * (drawAbility->m_nPhase == CGameManager::GetInstance()->GetCurrentPhase());
+
+							int x = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) - (nFakeTileHeight / 2 * pPatternTile->GetPosition().nPosY);
+							int y = (nFakeTileWidth / 2 * pPatternTile->GetPosition().nPosX) + (nFakeTileHeight  / 2 * pPatternTile->GetPosition().nPosY);
+							CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
+								x - GetCamOffsetX(),
+								y - GetCamOffsetY()
+								, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(90, r, g, 0));
+						}
 					}
 				}
 			}
 		}
-	}
 
-	int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
-	int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
-	// selection cursor
-	RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth - GetCamOffsetX(), m_SelectionPos.nPosY * nFakeTileHeight - GetCamOffsetY(),  
-		nFakeTileWidth, nFakeTileHeight};
-	x -= 1;
-	y-=18;
-	RECT diamondRect = {x- GetCamOffsetX(), y -GetCamOffsetY(), nFakeTileWidth, nFakeTileHeight };
+		int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
+		int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
+		// selection cursor
+		RECT selectRect = { m_SelectionPos.nPosX * nFakeTileWidth - GetCamOffsetX(), m_SelectionPos.nPosY * nFakeTileHeight - GetCamOffsetY(),  
+			nFakeTileWidth, nFakeTileHeight};
+		x -= 1;
+		y-=18;
+		RECT diamondRect = {x- GetCamOffsetX(), y -GetCamOffsetY(), nFakeTileWidth, nFakeTileHeight };
 
-	if (m_bIsMoving)
-		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 0, 255, 0);
-	else if (m_bIsTargeting)
-		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 0, 0);
-	else
-		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 255, 255);
+		if (m_bIsMoving)
+			CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 0, 255, 0);
+		else if (m_bIsTargeting)
+			CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 0, 0);
+		else
+			CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 255, 255);
 
-	CObjectManager::GetInstance()->RenderAllObjects();
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-
-	//Render the map
-
-	// Testing particle rendering
-	CParticleManager::GetInstance()->Render();
-
-
-
-
-	//if (m_bIsMoving)
-	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
-	//else
-	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
-
-	// Render the UI Overlay
-	CSGD_TextureManager::GetInstance()->Draw(
-		CGraphicsManager::GetInstance()->GetID(_T("uioverlay")), 0, 0, 0.8f,0.6f);
-
-	if (m_bShowingCard)
-	{
-		CSGD_TextureManager::GetInstance()->Draw(
-			CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nCardOffsetX, 240, 1.0f, 0.8f);
+		CObjectManager::GetInstance()->RenderAllObjects();
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-		if (m_pHighlightedUnit != nullptr)
+
+		//Render the map
+
+		// Testing particle rendering
+		CParticleManager::GetInstance()->Render();
+
+
+
+
+		//if (m_bIsMoving)
+		//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
+		//else
+		//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 255, 255, 255);
+
+		// Render the UI Overlay
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("uioverlay")), 0, 0, 0.8f,0.6f);
+
+		if (m_bShowingCard)
 		{
-			std::ostringstream moss;
-			CSGD_TextureManager::GetInstance()->Draw(m_pHighlightedUnit->GetPortraitID(), m_nCardOffsetX + 20, 244, 1.6f, 1.6f);
-
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
-				m_nCardOffsetX + 150, 248, 0.5f, 0.5f);
-			moss << m_pHighlightedUnit->GetSpeed();
-			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 255, 255, 255, 255);
-			m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 255, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
-			moss.str((""));
-
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
-				m_nCardOffsetX + 150, 288, 0.5f, 0.5f);
-			moss << m_pHighlightedUnit->GetAttack();
-			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 295, 255, 255, 255);
-			m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 295, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
-
-			moss.str((""));
-
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
-				m_nCardOffsetX + 150, 338, 0.5f, 0.5f);
-			moss << m_pHighlightedUnit->GetRange();
-		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 345, 255, 255, 255);
-			m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 345, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
-
-			moss.str((""));
-
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
-				m_nCardOffsetX + 150, 378, 0.5f, 0.5f);
-			moss << m_pHighlightedUnit->GetTilesMoved();
-			m_pBitmapFont->Print(moss.str().c_str(),m_nCardOffsetX + 200, 385, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
-			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
-			moss.str((""));
-
-			if (m_pHighlightedUnit->GetDodgeChance() > 0.0f)
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nCardOffsetX, 240, 1.0f, 0.8f);
+			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+			if (m_pHighlightedUnit != nullptr)
 			{
-				moss << "Dodge Chance: " << m_pHighlightedUnit->GetDodgeChance();
-			//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 15, 222, 255, 255, 255);
-				m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 15, 222, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+				std::ostringstream moss;
+				CSGD_TextureManager::GetInstance()->Draw(m_pHighlightedUnit->GetPortraitID(), m_nCardOffsetX + 20, 244, 1.6f, 1.6f);
+
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
+					m_nCardOffsetX + 150, 248, 0.5f, 0.5f);
+				moss << m_pHighlightedUnit->GetSpeed();
+				//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 255, 255, 255, 255);
+				m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 255, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+				moss.str((""));
+
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
+					m_nCardOffsetX + 150, 288, 0.5f, 0.5f);
+				moss << m_pHighlightedUnit->GetAttack();
+				//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 295, 255, 255, 255);
+				m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 295, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 				moss.str((""));
 
-			}
-			float fhpPercent = (float)m_pHighlightedUnit->GetHP() / (float)m_pHighlightedUnit->GetMaxHP();
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
+					m_nCardOffsetX + 150, 338, 0.5f, 0.5f);
+				moss << m_pHighlightedUnit->GetRange();
+				//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 345, 255, 255, 255);
+				m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 200, 345, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
-			int colR = 0, colG = 255;
-			if (fhpPercent < 0.80f)
-			{
-				colR += 65; 
-				colG -= 65;
-			}
-			if (fhpPercent < 0.60f)
-			{
-				colR += 65; 
-				colG -= 65;
-			}
-			if (fhpPercent < 0.40f)
-			{
-				colR += 65; 
-				colG -= 65;
-			}
-			if (fhpPercent < 0.20f)
-			{
-				colR += 65; 
-				colG -= 65;
-			}
-			if (colR > 255)
-				colR = 255;
-			if (colG < 0)
-				colG = 0;
-			RECT hpRect = { m_nCardOffsetX + 20, 350, m_nCardOffsetX + 20 + (LONG)(102 * fhpPercent), 360 };
-			CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
+				moss.str((""));
 
-			// debuffs
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
+					m_nCardOffsetX + 150, 378, 0.5f, 0.5f);
+				moss << m_pHighlightedUnit->GetTilesMoved();
+				m_pBitmapFont->Print(moss.str().c_str(),m_nCardOffsetX + 200, 385, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+				//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
+				moss.str((""));
 
-			for (int i = 0; i < m_pHighlightedUnit->GetNumEffects(); ++i)
-			{
-				CSGD_TextureManager::GetInstance()->Draw(
-					CGraphicsManager::GetInstance()->GetID(m_pHighlightedUnit->GetEffect(i)->m_szInterfaceIcon), 
-					m_nCardOffsetX + 20 + (25*i), 370, 0.4f, 0.4f);
-			}
+				if (m_pHighlightedUnit->GetDodgeChance() > 0.0f)
+				{
+					moss << "Dodge Chance: " << (m_pHighlightedUnit->GetDodgeChance() * 100) << "%";
+					//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 15, 222, 255, 255, 255);
+					m_pBitmapFont->Print(moss.str().c_str(), m_nCardOffsetX + 15, 222, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
+					moss.str((""));
 
-		}
-	}
+				}
+				float fhpPercent = (float)m_pHighlightedUnit->GetHP() / (float)m_pHighlightedUnit->GetMaxHP();
 
-	if (m_pSelectedUnit != nullptr)
-	{
-		int nCursorPosX = 0;
-		int nCursorPosY = 515;
-		switch (m_nSelectedAbility)
-		{
-		default:
-		case 0:
-			nCursorPosX = 280;
-			break;
-		case 1:
-			nCursorPosX = 375;
-			break;
-		case 2:
-			nCursorPosX = 470;
-			break;
-		}
+				int colR = 0, colG = 255;
+				if (fhpPercent < 0.80f)
+				{
+					colR += 65; 
+					colG -= 65;
+				}
+				if (fhpPercent < 0.60f)
+				{
+					colR += 65; 
+					colG -= 65;
+				}
+				if (fhpPercent < 0.40f)
+				{
+					colR += 65; 
+					colG -= 65;
+				}
+				if (fhpPercent < 0.20f)
+				{
+					colR += 65; 
+					colG -= 65;
+				}
+				if (colR > 255)
+					colR = 255;
+				if (colG < 0)
+					colG = 0;
+				RECT hpRect = { m_nCardOffsetX + 20, 350, m_nCardOffsetX + 20 + (LONG)(102 * fhpPercent), 360 };
+				CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
 
-		CSGD_TextureManager::GetInstance()->Draw(
-			CGraphicsManager::GetInstance()->GetID(_T("panelselect")),  nCursorPosX, nCursorPosY, 0.6f, 0.6f);
+				// debuffs
 
-		// drawin icons. Could loop it, don't see a reason to
-
-		CAbility* pAbility = m_pSelectedUnit->GetAbility(0);
-		if (pAbility != nullptr)
-		{
-			CSGD_TextureManager::GetInstance()->Draw(
-				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 287, 522);
-		}
-		pAbility = m_pSelectedUnit->GetAbility(1);
-		if (pAbility != nullptr)
-		{
-			CSGD_TextureManager::GetInstance()->Draw(
-				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 382, 522);
-		}
-		pAbility = m_pSelectedUnit->GetAbility(2);
-		if (pAbility != nullptr)
-		{
-			CSGD_TextureManager::GetInstance()->Draw(
-				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522);
-		}
-
-		int n = CGame::GetInstance()->GetWindowWidth();
-		int y = CGame::GetInstance()->GetWindowHeight();
-		CSGD_TextureManager::GetInstance()->Draw(
-			CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nTooltipOffsetX - 50, 240, 1.0f, 0.8f);
-			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-
-		if (m_bShowSpellPanel)
-		{
-			CSGD_TextureManager::GetInstance()->Draw(
-				CGraphicsManager::GetInstance()->GetID(_T("spellpanel")), 245, m_nSpellPanelOffsetY, 0.64f, 0.6f);
-
-			CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
-			if (pHero != nullptr)
-			{
-				for (unsigned int i = 0; i < pHero->GetNumSpells(); ++i)
+				for (int i = 0; i < m_pHighlightedUnit->GetNumEffects(); ++i)
 				{
 					CSGD_TextureManager::GetInstance()->Draw(
-						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
-						260 + (i * 78), m_nSpellPanelOffsetY + 42);
-					if (m_nSelectedSpell == i)
+						CGraphicsManager::GetInstance()->GetID(m_pHighlightedUnit->GetEffect(i)->m_szInterfaceIcon), 
+						m_nCardOffsetX + 20 + (25*i), 370, 0.4f, 0.4f);
+				}
+
+
+			}
+		}
+
+		if (m_pSelectedUnit != nullptr)
+		{
+			int nCursorPosX = 0;
+			int nCursorPosY = 515;
+			switch (m_nSelectedAbility)
+			{
+			default:
+			case 0:
+				nCursorPosX = 280;
+				break;
+			case 1:
+				nCursorPosX = 375;
+				break;
+			case 2:
+				nCursorPosX = 470;
+				break;
+			}
+
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(_T("panelselect")),  nCursorPosX, nCursorPosY, 0.6f, 0.6f);
+
+			// drawin icons. Could loop it, don't see a reason to
+
+			CAbility* pAbility = m_pSelectedUnit->GetAbility(0);
+			if (pAbility != nullptr)
+			{
+				CSGD_TextureManager::GetInstance()->Draw(
+					CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 287, 522);
+			}
+			pAbility = m_pSelectedUnit->GetAbility(1);
+			if (pAbility != nullptr)
+			{
+				CSGD_TextureManager::GetInstance()->Draw(
+					CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 382, 522);
+			}
+			pAbility = m_pSelectedUnit->GetAbility(2);
+			if (pAbility != nullptr)
+			{
+				CSGD_TextureManager::GetInstance()->Draw(
+					CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522);
+			}
+
+			int n = CGame::GetInstance()->GetWindowWidth();
+			int y = CGame::GetInstance()->GetWindowHeight();
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nTooltipOffsetX - 50, 240, 1.0f, 0.8f);
+			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
+			if (m_bShowSpellPanel)
+			{
+				CSGD_TextureManager::GetInstance()->Draw(
+					CGraphicsManager::GetInstance()->GetID(_T("spellpanel")), 245, m_nSpellPanelOffsetY, 0.64f, 0.6f);
+
+				CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+				if (pHero != nullptr)
+				{
+					for (unsigned int i = 0; i < pHero->GetNumSpells(); ++i)
 					{
 						CSGD_TextureManager::GetInstance()->Draw(
-							CGraphicsManager::GetInstance()->GetID(_T("panelselect")), 
-							253 + (i * 78), m_nSpellPanelOffsetY + 36, 0.6f, 0.6f);
+							CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
+							260 + (i * 78), m_nSpellPanelOffsetY + 42);
+						if (m_nSelectedSpell == i)
+						{
+							CSGD_TextureManager::GetInstance()->Draw(
+								CGraphicsManager::GetInstance()->GetID(_T("panelselect")), 
+								253 + (i * 78), m_nSpellPanelOffsetY + 36, 0.6f, 0.6f);
+						}
 					}
-				}
-					
+
 					std::ostringstream tt;
 					CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
 					CGraphicsManager* pGM = CGraphicsManager::GetInstance();
 					CAbility* pA = pHero->GetSpell(m_nSelectedSpell);
-					pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
-
-					pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
-					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
-			
-					if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+					if (pA != nullptr)
 					{
+						pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
+
+						pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
+						tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
+
+						if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+						{
+							tt.str("");
+							tt << pHero->GetAttack();
+						}
+
+						m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 						tt.str("");
 						tt << pHero->GetAttack();
-			}
 
-					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
-					tt.str("");
+						pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
+						tt << pA->GetRange();
 
-					pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
-					tt << pA->GetRange();
+						if( pA->GetType() == SP_MOVE )
+						{
+							tt.str("");
+							tt << pHero->GetSpeed();
+						}
 
-					if( pA->GetType() == SP_MOVE )
-					{
+						m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
 						tt.str("");
-						tt << pHero->GetSpeed();
-		}
 
-					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
-					tt.str("");
-
-					m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 150);
-	}
-		}
+						m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 150);
+					}
+				}
+			}
 		else 
 		{
 			std::ostringstream tt;
 			CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
 			CGraphicsManager* pGM = CGraphicsManager::GetInstance();
 			CAbility* pA = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
-			pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
-
-			pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
-			tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
-			
-			int damage = pA->GetDamage();
-			if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+			if (pA != nullptr)
 			{
+				pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
+
+				pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
+				tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
+
+				int damage = pA->GetDamage();
+				if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+				{
+					tt.str("");
+					tt << m_pSelectedUnit->GetAttack();
+					damage = m_pSelectedUnit->GetAttack();
+				}
+
+				m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, damage < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 				tt.str("");
-				tt << m_pSelectedUnit->GetAttack();
-				damage = m_pSelectedUnit->GetAttack();
-			}
 
-			m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, damage < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
-			tt.str("");
+				pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
+				tt << pA->GetRange();
 
-			pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
-			tt << pA->GetRange();
+				if( pA->GetType() == SP_MOVE )
+				{
+					tt.str("");
+					tt << m_pSelectedUnit->GetSpeed();
+				}
 
-			if( pA->GetType() == SP_MOVE )
-			{
+				m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
 				tt.str("");
-				tt << m_pSelectedUnit->GetSpeed();
+
+				m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 170);
 			}
-
-			m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
-			tt.str("");
-
-			m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 170);
 		}
 	}
 	else
 	{
 		CSGD_TextureManager::GetInstance()->Draw(
 			CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nTooltipOffsetX, 240, 1.0f, 0.8f);
-			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	}
 	// MINI MAP TIME! Render this ontop of the interface thing. Will need to tweak when we go isometric
 
@@ -1685,7 +1697,7 @@ void CGameplayState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
 				710, 440, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetSpeed();
-		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 445, 255, 255, 255);
+			//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 445, 255, 255, 255);
 			m_pBitmapFont->Print(woss.str().c_str(), 755, 445, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 			woss.str((""));
@@ -1693,7 +1705,7 @@ void CGameplayState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
 				710, 480, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetAttack();
-		//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 485, 255, 255, 255);
+			//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 485, 255, 255, 255);
 			m_pBitmapFont->Print(woss.str().c_str(), 755, 485, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 			woss.str((""));
@@ -1776,7 +1788,7 @@ void CGameplayState::Render(void)
 			ostringstream woss;
 			woss<<"EXP: "<< CGameManager::GetInstance()->GetCurrentPlayer()->GetExp();
 			m_pBitmapFont->Print(woss.str().c_str(),10,10,0.5f,D3DXCOLOR(255,255,255,255));
-		///	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
+			///	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
 			oss.str((""));
 			if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == 0)
 				oss << "PLAYER 1 ";

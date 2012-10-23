@@ -6,6 +6,7 @@
 #include "SpawnUnitMessage.h"
 #include "TileManager.h"
 #include "ScriptManager.h"
+#include "AbilityManager.h"
 #include "MessageSystem.h"
 #include "DeSpawnUnitMessage.h"
 #include "FloatingText.h"
@@ -78,6 +79,7 @@ void CGameManager::NextPhase(void)
 			{
 				m_vUnits[i]->SetTilesMoved(0);
 				m_vUnits[i]->SetHasAttacked(false);
+				m_vUnits[i]->UpdateEffects();
 			}
 		}
 		//RAISE THE CASTLE WALLS!!!(Do the movement transition)-DG
@@ -290,6 +292,15 @@ void CGameManager::SaveGame(int nSlot)
 			pSpell->SetAttribute("sType", pHero->GetSpell(n)->GetType());
 			pSpells->LinkEndChild(pSpell);
 		}
+		TiXmlElement* pEffects = new TiXmlElement("Effects");
+		pChampion->LinkEndChild(pEffects);
+		pEffects->SetAttribute("numEffects", pHero->GetNumEffects());
+		for (int x = 0; x < pHero->GetNumEffects(); ++x)
+		{
+			TiXmlElement* pEffect = new TiXmlElement("Effect");
+			pEffect->SetAttribute("ability", pHero->GetEffect(i)->GetType());
+			pEffects->LinkEndChild(pEffect);
+		}
 
 		pPlayer->LinkEndChild(pChampion);
 
@@ -324,7 +335,14 @@ void CGameManager::SaveGame(int nSlot)
 
 				// Effects/debuffs on the unit
 				TiXmlElement* pEffects = new TiXmlElement("Effects");
+				pUnit->LinkEndChild(pEffects);
 				pEffects->SetAttribute("numEffects", puni->GetNumEffects());
+				for (int i = 0; i < puni->GetNumEffects(); ++i)
+				{
+					TiXmlElement* pEffect = new TiXmlElement("Effect");
+					pEffect->SetAttribute("ability", puni->GetEffect(i)->GetType());
+					pEffects->LinkEndChild(pEffect);
+				}
 
 				pUnits->LinkEndChild(pUnit);
 			}
@@ -468,7 +486,20 @@ void CGameManager::LoadSave(int nSlot)
 				pSpell = pSpell->NextSiblingElement("Spell");
 			}
 
-			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(spells, Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
+			int nNumEffects;
+			TiXmlElement* pEffects = pChampion->FirstChildElement("Effects");
+			pEffects->QueryIntAttribute("numEffects", &nNumEffects);
+			std::vector<SPELL_TYPE> effects;
+			TiXmlElement* pEffect = pEffects->FirstChildElement("Effect");
+			for (int i = 0; i < nNumEffects; ++i)
+			{
+				int nType;
+				pEffect->QueryIntAttribute("ability", &nType);
+				effects.push_back((SPELL_TYPE)nType);
+				pEffect = pEffect->NextSiblingElement("Effect");
+			}
+
+			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(spells, effects, Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
 				nHealth, nTilesMoved, IntToBool(nAIControlled));
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
@@ -488,9 +519,21 @@ void CGameManager::LoadSave(int nSlot)
 				pUnit->QueryIntAttribute("facing", &nUnitFacing);
 				pUnit->QueryIntAttribute("tilesMoved", &nUnitTilesMoved);
 				pUnit->QueryIntAttribute("hasAttacked", &nUnitHasAttacked);
-
+				std::vector<SPELL_TYPE> spells;
+				int nNumEffects;
+				TiXmlElement* pEffects = pUnit->FirstChildElement("Effects");
+				pEffects->QueryIntAttribute("numEffects", &nNumEffects);
+				std::vector<SPELL_TYPE> effects;
+				TiXmlElement* pEffect = pEffects->FirstChildElement("Effect");
+				for (int i = 0; i < nNumEffects; ++i)
+				{
+					int nType;
+					pEffect->QueryIntAttribute("ability", &nType);
+					effects.push_back((SPELL_TYPE)nType);
+					pEffect = pEffect->NextSiblingElement("Effect");
+				}
 				CSpawnUnitMessage* pUnitMsg = 
-					new CSpawnUnitMessage(Vec2D(nUnitPosX, nUnitPosY), nPlayerID, (UNIT_TYPE)nUnitType, nUnitFacing, true, nUnitHealth,
+					new CSpawnUnitMessage(spells, effects, Vec2D(nUnitPosX, nUnitPosY), nPlayerID, (UNIT_TYPE)nUnitType, nUnitFacing, true, nUnitHealth,
 						nUnitTilesMoved,IntToBool(nAIControlled) );
 				CMessageSystem::GetInstance()->SendMessageW(pUnitMsg);
 
@@ -646,6 +689,14 @@ void CGameManager::MessageProc(IMessage* pMsg)
 					{
 						((CHero*)pUnit)->GiveSpell(pSMSG->GetSpells()[i]);
 					}
+				}
+				if (pSMSG->GetEffects().size() != 0)
+				{
+					for (unsigned int i = 0; i < pSMSG->GetEffects().size(); ++i)
+					{
+						pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(pSMSG->GetEffects()[i]),1);
+					}
+
 				}
 			}
 		}
