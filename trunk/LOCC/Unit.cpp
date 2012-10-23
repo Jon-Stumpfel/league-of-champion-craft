@@ -166,6 +166,7 @@ void CUnit::Update(float fElapsedTime)
 			m_bShielded = true;
 			break;
 		case SP_CARTOGRAPHY:
+		case SP_PATHFINDER:
 			m_bFreeMove = true;
 			break;
 		case SP_SPEED:
@@ -419,4 +420,16 @@ int CUnit::Rally(lua_State* L)
 	}
 	return 0;
 
+}
+
+int CUnit::Pathfind(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_PATHFINDER));
+	}
+	return 0;
 }

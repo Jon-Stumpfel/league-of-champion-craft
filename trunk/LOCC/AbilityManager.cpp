@@ -50,11 +50,11 @@ CAbility* CAbilityManager::GetAbility( SPELL_TYPE type )
 	return nullptr;
 }
 
-void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster, CTile* TargetTile )
+void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster)
 {
 	// Tells the scriptmanager to run the lua code for the specified spell
 	CScriptManager* pSM = CScriptManager::GetInstance();
-	pSM->Execute(pToUse, pTargetTile, pCaster, TargetTile);
+	pSM->Execute(pToUse, pTargetTile, pCaster);
 }
 
 void CAbilityManager::LoadAbilities( void )
@@ -124,6 +124,18 @@ void CAbilityManager::LoadAbilities( void )
 		case SP_RALLY:
 			{
 				if(doc.LoadFile("Assets/Ability/rally.xml") == false)
+					return;
+			}
+			break;
+		case SP_PATHFINDER:
+			{
+				if(doc.LoadFile("Assets/Ability/pathfinder.xml") == false)
+					return;
+			}
+			break;
+		case SP_RAISEMOUNTAIN:
+			{
+				if(doc.LoadFile("Assets/Ability/raisemountain.xml") == false)
 					return;
 			}
 			break;
@@ -344,6 +356,36 @@ void CAbilityManager::LoadAbilities( void )
 					tmp.first = SP_RALLY;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_PATHFINDER:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_PATHFINDER);
+					ab->SetParticleType(PT_PATHFINDER);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Teaches nearby units the art of locating ideal paths through rough terrain. Friendly units in range move through forest and mountain for 1 AP.");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_PATHFINDER;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+
+				}
+				break;
+			case SP_RAISEMOUNTAIN:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_RAISEMOUNTAIN);
+					ab->SetParticleType(PT_RAISEMOUNTAIN);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Calls forth the rock and the dirt from the earth, raising a mountain from any non-resource tile.");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_RAISEMOUNTAIN;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+
 				}
 				break;
 		}

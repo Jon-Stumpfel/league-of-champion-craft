@@ -44,7 +44,7 @@ public:
 	static int Speed(lua_State* L);
 	static int DoDamage(lua_State* L);
 	static int Rally(lua_State* L);
-
+	static int Pathfind(lua_State* L);
 
 	bool GetFleeing(void){ return m_bIsFleeing;}
 	void SetFleeing(bool b) { m_bIsFleeing = b;}

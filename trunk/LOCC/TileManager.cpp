@@ -295,8 +295,38 @@ int CTileManager::DestroyForest(lua_State* L)
 		if (selectedTile->GetTileType() == TT_FOREST)
 		{
 			selectedTile->SetTileType(TT_PLAINS);
+			MapModification mod;
+			mod.posX = selectedTile->GetPosition().nPosX;
+			mod.posY = selectedTile->GetPosition().nPosY;
+			mod.modType = SP_DESTROYFOREST;
+			CGameManager::GetInstance()->AddModification(mod);
 		}
 	}
 
 	return 0;
+}
+int CTileManager::RaiseMountain(lua_State* L)
+{
+	int posX = (int)lua_tonumber(L, 1);
+	int posY = (int)lua_tonumber(L, 2);
+
+	CTile* selectedTile = CTileManager::GetInstance()->GetTile(CGameplayState::GetInstance()->GetSelectionPos().nPosX, 
+		CGameplayState::GetInstance()->GetSelectionPos().nPosY);
+	if( selectedTile != nullptr )
+	{	
+		if (selectedTile->GetTileType() != TT_FARM && selectedTile->GetTileType() != TT_MILL &&
+			selectedTile->GetTileType() != TT_MINE)
+		{
+			selectedTile->SetTileType(TT_MOUNTAINS);
+			selectedTile->SetIfPassable(false);
+			MapModification mod;
+			mod.posX = selectedTile->GetPosition().nPosX;
+			mod.posY = selectedTile->GetPosition().nPosY;
+			mod.modType = SP_RAISEMOUNTAIN;
+			CGameManager::GetInstance()->AddModification(mod);
+		}
+	}
+
+	return 0;
+
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Map mapID="1" phaseNumber="2" phase="0" currPlayer="1">
+    <MapModifications numModifications="4">
+        <MapModification modType="14" modPosX="2" modPosY="3" />
+        <MapModification modType="14" modPosX="3" modPosY="3" />
+        <MapModification modType="18" modPosX="1" modPosY="4" />
+        <MapModification modType="18" modPosX="1" modPosY="5" />
+    </MapModifications>
+    <Players>
+        <Player id="0" ai="0" AP="6" wood="20" metal="20">
+            <Champion posX="2" posY="4" health="50" xp="0" facing="3" tilesMoved="4" hasAttacked="0">
+                <Spells numSpells="4">
+                    <Spell sType="18" />
+                    <Spell sType="14" />
+                    <Spell sType="0" />
+                    <Spell sType="7" />
+                </Spells>
+            </Champion>
+            <Units numUnits="3">
+                <Unit posX="3" posY="2" unitType="2" health="12" facing="2" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="5" posY="2" unitType="3" health="20" facing="2" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="4" posY="0" unitType="0" health="500" facing="2" tilesMoved="0" hasAttacked="0" />
+            </Units>
+        </Player>
+        <Player id="1" ai="0" AP="17" wood="20" metal="20">
+            <Champion posX="2" posY="6" health="50" xp="0" facing="3" tilesMoved="3" hasAttacked="0">
+                <Spells numSpells="4">
+                    <Spell sType="18" />
+                    <Spell sType="14" />
+                    <Spell sType="0" />
+                    <Spell sType="7" />
+                </Spells>
+            </Champion>
+            <Units numUnits="3">
+                <Unit posX="3" posY="5" unitType="2" health="12" facing="0" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="5" posY="5" unitType="3" health="20" facing="0" tilesMoved="0" hasAttacked="0" />
+                <Unit posX="4" posY="7" unitType="0" health="500" facing="0" tilesMoved="0" hasAttacked="0" />
+            </Units>
+        </Player>
+    </Players>
+</Map>
