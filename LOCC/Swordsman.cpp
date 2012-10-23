@@ -29,9 +29,12 @@ void CSwordsman::Render(void)
 	if (GetHasAttacked())
 		color = D3DCOLOR_XRGB(90, 90, 90);
 	Vec2D tempanchorpoint = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetAnchorPoint();
+	Vec2D tempoffset;
+	tempoffset.nPosX = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect().left - tempanchorpoint.nPosX;
+	tempoffset.nPosY = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect().top - tempanchorpoint.nPosY;
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Swordsman"),
-		(m_sWorldPos.nPosX + 24)- (tempanchorpoint.nPosX/4*3)- CGameplayState::GetInstance()->GetCamOffsetX(),
-		m_sWorldPos.nPosY - (tempanchorpoint.nPosY/4*3)- CGameplayState::GetInstance()->GetCamOffsetY(),
+		(m_sWorldPos.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() - (tempoffset.nPosX)+0,
+		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-20,
 		1.0f,1.0f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,color);	
 }

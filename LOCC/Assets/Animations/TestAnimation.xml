@@ -1,160 +1,242 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Animations>
-  <Animation UnitType="5" AnimType="4" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="3" AnimationName="SkeletonBlueWalkWest">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="3" right="52" bottom="48" left="26" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="46" right="56" bottom="91" left="25" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="144" right="53" bottom="186" left="20" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="241" right="55" bottom="288" left="14" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="25" top="340" right="55" bottom="387" left="12" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="5" AnimType="4" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="4" AnimationName="SkeletonBlueWalkWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="3" right="52" bottom="48" left="26" AnchorX="37" AnchorY="36" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="46" right="56" bottom="91" left="25" AnchorX="39" AnchorY="78" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="144" right="53" bottom="186" left="20" AnchorX="28" AnchorY="176" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="241" right="55" bottom="288" left="14" AnchorX="19" AnchorY="273" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="340" right="55" bottom="387" left="12" AnchorX="9" AnchorY="374" />
   </Animation>
-  <Animation UnitType="4" AnimType="4" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="0" AnimationName="CalvaryBlueWalkWest">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="3" right="67" bottom="67" left="14" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="78" right="68" bottom="140" left="15" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="154" right="70" bottom="211" left="14" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="231" right="70" bottom="292" left="18" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="25" top="302" right="72" bottom="370" left="14" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="4" AnimType="4" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="1" AnimationName="CalvaryBlueWalkWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="3" right="67" bottom="67" left="14" AnchorX="42" AnchorY="41" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="78" right="68" bottom="140" left="15" AnchorX="45" AnchorY="117" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="154" right="70" bottom="211" left="14" AnchorX="42" AnchorY="194" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="231" right="68" bottom="288" left="18" AnchorX="44" AnchorY="270" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="302" right="68" bottom="364" left="14" AnchorX="42" AnchorY="345" />
   </Animation>
-  <Animation UnitType="3" AnimType="4" IsLooping="1" ImgName="Footman(Blue).png" CurrentFrame="0" AnimationName="FootmanBlueWalkWest">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="56" bottom="54" left="24" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="62" right="59" bottom="111" left="16" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="120" right="58" bottom="166" left="21" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="175" right="58" bottom="219" left="19" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="25" top="223" right="55" bottom="267" left="19" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="3" AnimType="4" IsLooping="1" ImgName="Footman(Blue).png" CurrentFrame="3" AnimationName="FootmanBlueWalkWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="56" bottom="54" left="24" AnchorX="42" AnchorY="42" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="62" right="59" bottom="111" left="16" AnchorX="31" AnchorY="90" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="120" right="58" bottom="166" left="21" AnchorX="35" AnchorY="147" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="175" right="58" bottom="219" left="19" AnchorX="36" AnchorY="210" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="223" right="55" bottom="267" left="19" AnchorX="35" AnchorY="256" />
   </Animation>
-  <Animation UnitType="2" AnimType="4" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="2" AnimationName="ArcherBlueWalkWest">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="49" bottom="51" left="5" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="77" right="48" bottom="123" left="5" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="150" right="49" bottom="198" left="6" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="218" right="53" bottom="271" left="6" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="25" top="295" right="49" bottom="343" left="6" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="2" AnimType="4" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="0" AnimationName="ArcherBlueWalkWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="49" bottom="51" left="5" AnchorX="31" AnchorY="29" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="77" right="48" bottom="123" left="5" AnchorX="31" AnchorY="108" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="150" right="49" bottom="198" left="6" AnchorX="29" AnchorY="179" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="220" right="51" bottom="269" left="9" AnchorX="32" AnchorY="251" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="295" right="49" bottom="343" left="6" AnchorX="31" AnchorY="325" />
   </Animation>
   <Animation UnitType="2" AnimType="3" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="4" AnimationName="ArcherBlueWalkEast">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="3" right="231" bottom="52" left="182" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="82" right="233" bottom="124" left="174" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="154" right="227" bottom="200" left="179" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="225" right="236" bottom="262" left="181" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="25" top="298" right="232" bottom="346" left="184" AnchorX="0" AnchorY="0" />
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="229" bottom="48" left="184" AnchorX="203" AnchorY="29" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="83" right="223" bottom="122" left="182" AnchorX="199" AnchorY="104" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="156" right="225" bottom="196" left="182" AnchorX="203" AnchorY="176" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="227" right="230" bottom="266" left="186" AnchorX="205" AnchorY="248" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="302" right="230" bottom="342" left="185" AnchorX="204" AnchorY="324" />
   </Animation>
-  <Animation UnitType="2" AnimType="2" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="0" AnimationName="ArcherBlueWalkSouth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="6" right="172" bottom="54" left="122" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="82" right="177" bottom="130" left="125" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="155" right="174" bottom="201" left="124" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="225" right="170" bottom="275" left="120" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="25" top="302" right="173" bottom="349" left="120" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="2" AnimType="2" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="1" AnimationName="ArcherBlueWalkSouth">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="9" right="167" bottom="49" left="122" AnchorX="149" AnchorY="28" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="85" right="169" bottom="124" left="129" AnchorX="154" AnchorY="101" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="157" right="169" bottom="198" left="127" AnchorX="150" AnchorY="176" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="231" right="166" bottom="267" left="122" AnchorX="148" AnchorY="247" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="305" right="166" bottom="343" left="122" AnchorX="148" AnchorY="323" />
   </Animation>
-  <Animation UnitType="2" AnimType="1" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="1" AnimationName="ArcherBlueWalkNorth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="110" bottom="51" left="64" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="77" right="110" bottom="123" left="64" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="150" right="110" bottom="198" left="64" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="218" right="110" bottom="271" left="64" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="25" top="295" right="110" bottom="343" left="64" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="2" AnimType="1" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="0" AnimationName="ArcherBlueWalkNorth">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="111" bottom="48" left="64" AnchorX="90" AnchorY="21" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="76" right="110" bottom="120" left="68" AnchorX="91" AnchorY="93" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="150" right="110" bottom="194" left="67" AnchorX="91" AnchorY="164" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="218" right="109" bottom="267" left="64" AnchorX="90" AnchorY="236" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="294" right="108" bottom="340" left="66" AnchorX="91" AnchorY="311" />
   </Animation>
-  <Animation UnitType="1" AnimType="4" IsLooping="1" ImgName="champion(Blue).png" CurrentFrame="3" AnimationName="ChampionBlueWalkWest">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="88" bottom="82" left="8" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="25" top="85" right="85" bottom="165" left="8" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="25" top="167" right="84" bottom="249" left="9" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="25" top="249" right="82" bottom="333" left="6" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="1" AnimType="4" IsLooping="1" ImgName="champion(Blue).png" CurrentFrame="2" AnimationName="ChampionBlueWalkWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="88" bottom="82" left="8" AnchorX="48" AnchorY="53" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="85" right="85" bottom="165" left="8" AnchorX="47" AnchorY="135" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="167" right="79" bottom="245" left="9" AnchorX="45" AnchorY="214" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="249" right="77" bottom="332" left="6" AnchorX="47" AnchorY="297" />
   </Animation>
   <Animation UnitType="0" AnimType="4" IsLooping="1" ImgName="castle(Blue).png" CurrentFrame="0" AnimationName="CastleBlueBeingCastle">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="300" bottom="300" left="0" AnchorX="0" AnchorY="0" />
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="138" bottom="131" left="0" AnchorX="70" AnchorY="56" />
   </Animation>
-  <Animation UnitType="1" AnimType="1" IsLooping="1" ImgName="champion(Blue).png" CurrentFrame="2" AnimationName="ChampionBlueWalkNorth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="3" right="180" bottom="82" left="101" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="86" right="183" bottom="164" left="102" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="168" right="189" bottom="246" left="103" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="250" right="183" bottom="335" left="109" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="0" AnimType="3" IsLooping="1" ImgName="castle(Blue).png" CurrentFrame="0" AnimationName="CastleBlueBeingCastle">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="138" bottom="131" left="0" AnchorX="70" AnchorY="56" />
   </Animation>
-  <Animation UnitType="1" AnimType="3" IsLooping="1" ImgName="champion(Blue).png" CurrentFrame="3" AnimationName="ChampionBlueWalkEast">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="6" right="392" bottom="87" left="307" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="88" right="397" bottom="170" left="313" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="179" right="391" bottom="252" left="314" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="270" right="384" bottom="336" left="312" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="0" AnimType="2" IsLooping="1" ImgName="castle(Blue).png" CurrentFrame="0" AnimationName="CastleBlueBeingCastle">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="138" bottom="131" left="0" AnchorX="70" AnchorY="56" />
+  </Animation>
+  <Animation UnitType="0" AnimType="1" IsLooping="1" ImgName="castle(Blue).png" CurrentFrame="0" AnimationName="CastleBlueBeingCastle">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="138" bottom="131" left="0" AnchorX="70" AnchorY="56" />
+  </Animation>
+  <Animation UnitType="1" AnimType="1" IsLooping="1" ImgName="champion(Blue).png" CurrentFrame="3" AnimationName="ChampionBlueWalkNorth">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="4" right="175" bottom="79" left="107" AnchorX="142" AnchorY="50" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="87" right="177" bottom="161" left="104" AnchorX="142" AnchorY="132" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="167" right="175" bottom="243" left="109" AnchorX="143" AnchorY="213" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="250" right="175" bottom="332" left="109" AnchorX="142" AnchorY="296" />
+  </Animation>
+  <Animation UnitType="1" AnimType="3" IsLooping="1" ImgName="champion(Blue).png" CurrentFrame="2" AnimationName="ChampionBlueWalkEast">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="387" bottom="83" left="312" AnchorX="352" AnchorY="53" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="88" right="386" bottom="165" left="313" AnchorX="357" AnchorY="132" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="179" right="386" bottom="245" left="314" AnchorX="361" AnchorY="231" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="273" right="387" bottom="331" left="313" AnchorX="363" AnchorY="337" />
   </Animation>
   <Animation UnitType="1" AnimType="2" IsLooping="1" ImgName="champion(Blue).png" CurrentFrame="2" AnimationName="ChampionBlueWalkSouth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="4" right="283" bottom="85" left="200" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="87" right="282" bottom="172" left="200" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="178" right="285" bottom="248" left="201" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="266" right="283" bottom="336" left="203" AnchorX="0" AnchorY="0" />
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="283" bottom="80" left="207" AnchorX="243" AnchorY="50" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="90" right="278" bottom="166" left="207" AnchorX="244" AnchorY="131" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="177" right="278" bottom="244" left="207" AnchorX="239" AnchorY="229" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="274" right="281" bottom="332" left="206" AnchorX="242" AnchorY="337" />
   </Animation>
-  <Animation UnitType="3" AnimType="1" IsLooping="1" ImgName="footman(Blue).png" CurrentFrame="1" AnimationName="FootmanBlueWalkNorth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="135" bottom="54" left="89" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="63" right="137" bottom="108" left="93" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="121" right="135" bottom="167" left="89" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="173" right="134" bottom="218" left="92" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="222" right="133" bottom="267" left="92" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="3" AnimType="1" IsLooping="1" ImgName="footman(Blue).png" CurrentFrame="2" AnimationName="FootmanBlueWalkNorth">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="8" right="125" bottom="50" left="99" AnchorX="130" AnchorY="26" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="63" right="134" bottom="107" left="93" AnchorX="122" AnchorY="75" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="122" right="127" bottom="164" left="94" AnchorX="126" AnchorY="137" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="177" right="131" bottom="217" left="93" AnchorX="125" AnchorY="195" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="223" right="131" bottom="264" left="97" AnchorX="130" AnchorY="238" />
   </Animation>
-  <Animation UnitType="3" AnimType="3" IsLooping="1" ImgName="footman(Blue).png" CurrentFrame="1" AnimationName="FootmanBlueWalkEast">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="8" right="284" bottom="51" left="240" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="71" right="285" bottom="117" left="238" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="124" right="287" bottom="171" left="239" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="173" right="282" bottom="215" left="241" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="223" right="281" bottom="267" left="240" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="3" AnimType="3" IsLooping="1" ImgName="footman(Blue).png" CurrentFrame="3" AnimationName="FootmanBlueWalkEast">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="11" right="285" bottom="49" left="243" AnchorX="260" AnchorY="32" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="71" right="284" bottom="114" left="238" AnchorX="258" AnchorY="94" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="127" right="285" bottom="166" left="240" AnchorX="261" AnchorY="149" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="175" right="281" bottom="213" left="242" AnchorX="260" AnchorY="198" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="224" right="283" bottom="259" left="243" AnchorX="260" AnchorY="246" />
   </Animation>
-  <Animation UnitType="3" AnimType="2" IsLooping="1" ImgName="footman(Blue).png" CurrentFrame="1" AnimationName="FootmanBlueWalkSouth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="209" bottom="53" left="163" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="71" right="213" bottom="118" left="167" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="127" right="210" bottom="172" left="165" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="177" right="208" bottom="218" left="167" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="224" right="209" bottom="265" left="166" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="3" AnimType="2" IsLooping="1" ImgName="footman(Blue).png" CurrentFrame="0" AnimationName="FootmanBlueWalkSouth">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="13" right="207" bottom="51" left="164" AnchorX="190" AnchorY="34" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="74" right="211" bottom="117" left="167" AnchorX="193" AnchorY="97" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="129" right="208" bottom="169" left="165" AnchorX="193" AnchorY="151" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="177" right="207" bottom="215" left="167" AnchorX="198" AnchorY="198" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="227" right="207" bottom="261" left="166" AnchorX="195" AnchorY="251" />
   </Animation>
-  <Animation UnitType="4" AnimType="3" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="3" AnimationName="CalvaryBlueWalkEast">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="18" right="290" bottom="67" left="239" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="88" right="292" bottom="136" left="235" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="163" right="292" bottom="213" left="238" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="236" right="289" bottom="295" left="234" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="309" right="287" bottom="365" left="234" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="4" AnimType="3" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="4" AnimationName="CalvaryBlueWalkEast">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="18" right="288" bottom="62" left="239" AnchorX="261" AnchorY="41" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="91" right="288" bottom="135" left="237" AnchorX="261" AnchorY="116" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="165" right="287" bottom="210" left="240" AnchorX="262" AnchorY="189" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="238" right="286" bottom="293" left="234" AnchorX="256" AnchorY="260" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="313" right="287" bottom="364" left="237" AnchorX="261" AnchorY="338" />
   </Animation>
-  <Animation UnitType="4" AnimType="1" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="3" AnimationName="CalvaryBlueWalkNorth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="6" right="147" bottom="68" left="89" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="83" right="144" bottom="138" left="89" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="156" right="143" bottom="212" left="88" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="230" right="142" bottom="288" left="87" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="303" right="143" bottom="367" left="87" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="4" AnimType="1" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="0" AnimationName="CalvaryBlueWalkNorth">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="142" bottom="67" left="92" AnchorX="131" AnchorY="25" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="83" right="141" bottom="138" left="89" AnchorX="124" AnchorY="104" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="156" right="140" bottom="209" left="88" AnchorX="124" AnchorY="173" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="233" right="139" bottom="289" left="88" AnchorX="122" AnchorY="254" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="302" right="142" bottom="366" left="89" AnchorX="123" AnchorY="318" />
   </Animation>
-  <Animation UnitType="4" AnimType="2" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="2" AnimationName="CalvaryBlueWalkSouth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="16" right="208" bottom="65" left="158" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="87" right="209" bottom="137" left="157" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="164" right="208" bottom="212" left="159" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="238" right="212" bottom="295" left="159" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="312" right="210" bottom="364" left="158" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="4" AnimType="2" IsLooping="1" ImgName="calvary(Blue).png" CurrentFrame="4" AnimationName="CalvaryBlueWalkSouth">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="16" right="207" bottom="63" left="158" AnchorX="186" AnchorY="40" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="93" right="209" bottom="135" left="158" AnchorX="186" AnchorY="121" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="166" right="210" bottom="212" left="160" AnchorX="191" AnchorY="195" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="239" right="214" bottom="295" left="163" AnchorX="194" AnchorY="270" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="314" right="210" bottom="364" left="160" AnchorX="191" AnchorY="342" />
   </Animation>
   <Animation UnitType="5" AnimType="1" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="0" AnimationName="SkeletonWalkNorth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="6" right="132" bottom="46" left="98" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="47" right="128" bottom="89" left="91" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="144" right="128" bottom="185" left="97" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="243" right="138" bottom="284" left="92" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="345" right="136" bottom="388" left="95" AnchorX="0" AnchorY="0" />
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="9" right="125" bottom="43" left="103" AnchorX="113" AnchorY="34" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="47" right="125" bottom="88" left="97" AnchorX="108" AnchorY="65" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="148" right="126" bottom="185" left="100" AnchorX="111" AnchorY="168" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="245" right="134" bottom="287" left="99" AnchorX="112" AnchorY="265" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="345" right="135" bottom="386" left="97" AnchorX="112" AnchorY="365" />
   </Animation>
-  <Animation UnitType="5" AnimType="3" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="1" AnimationName="SkeletonWalkEast">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="9" right="214" bottom="48" left="172" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="52" right="212" bottom="94" left="171" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="152" right="215" bottom="190" left="174" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="246" right="209" bottom="287" left="175" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="344" right="210" bottom="386" left="176" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="5" AnimType="3" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="3" AnimationName="SkeletonWalkEast">
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="10" right="206" bottom="44" left="175" AnchorX="191" AnchorY="33" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="54" right="211" bottom="92" left="173" AnchorX="191" AnchorY="75" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="152" right="214" bottom="190" left="174" AnchorX="193" AnchorY="174" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="246" right="208" bottom="284" left="175" AnchorX="192" AnchorY="268" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="347" right="202" bottom="384" left="177" AnchorX="195" AnchorY="367" />
   </Animation>
   <Animation UnitType="5" AnimType="2" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="0" AnimationName="SkeletonWalkSouth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="9" right="290" bottom="45" left="250" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="52" right="287" bottom="94" left="248" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="154" right="283" bottom="192" left="245" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="248" right="286" bottom="288" left="249" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="346" right="288" bottom="386" left="251" AnchorX="0" AnchorY="0" />
+    <Frame FrameNumber="0" TimeForFrameToRun="25" top="11" right="282" bottom="45" left="252" AnchorX="268" AnchorY="35" />
+    <Frame FrameNumber="1" TimeForFrameToRun="25" top="55" right="285" bottom="92" left="246" AnchorX="256" AnchorY="82" />
+    <Frame FrameNumber="2" TimeForFrameToRun="25" top="155" right="283" bottom="190" left="246" AnchorX="259" AnchorY="182" />
+    <Frame FrameNumber="3" TimeForFrameToRun="25" top="248" right="281" bottom="285" left="249" AnchorX="269" AnchorY="275" />
+    <Frame FrameNumber="4" TimeForFrameToRun="25" top="348" right="281" bottom="385" left="254" AnchorX="275" AnchorY="377" />
   </Animation>
-  <Animation UnitType="6" AnimType="3" IsLooping="1" ImgName="iceblock.png" CurrentFrame="1" AnimationName="IceBlockWest">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="62" right="391" bottom="119" left="338" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="49" bottom="56" left="0" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="107" bottom="55" left="58" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="166" bottom="55" left="115" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="223" bottom="55" left="170" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="60" right="451" bottom="116" left="399" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="6" AnimType="1" IsLooping="1" ImgName="iceblock.png" CurrentFrame="1" AnimationName="IceBlockWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="10" top="523" right="59" bottom="579" left="8" AnchorX="35" AnchorY="558" />
+    <Frame FrameNumber="1" TimeForFrameToRun="10" top="462" right="61" bottom="518" left="9" AnchorX="35" AnchorY="496" />
+    <Frame FrameNumber="2" TimeForFrameToRun="10" top="402" right="59" bottom="459" left="8" AnchorX="35" AnchorY="436" />
+    <Frame FrameNumber="3" TimeForFrameToRun="10" top="340" right="61" bottom="395" left="10" AnchorX="37" AnchorY="375" />
+    <Frame FrameNumber="4" TimeForFrameToRun="10" top="283" right="60" bottom="339" left="8" AnchorX="34" AnchorY="317" />
+    <Frame FrameNumber="5" TimeForFrameToRun="10" top="227" right="58" bottom="283" left="6" AnchorX="32" AnchorY="261" />
+    <Frame FrameNumber="6" TimeForFrameToRun="10" top="169" right="58" bottom="226" left="6" AnchorX="32" AnchorY="203" />
+    <Frame FrameNumber="7" TimeForFrameToRun="10" top="111" right="59" bottom="168" left="7" AnchorX="33" AnchorY="145" />
+    <Frame FrameNumber="8" TimeForFrameToRun="10" top="54" right="61" bottom="110" left="9" AnchorX="35" AnchorY="89" />
+    <Frame FrameNumber="9" TimeForFrameToRun="10" top="0" right="62" bottom="55" left="10" AnchorX="36" AnchorY="36" />
+    <Frame FrameNumber="10" TimeForFrameToRun="10" top="532" right="121" bottom="588" left="69" AnchorX="95" AnchorY="566" />
+    <Frame FrameNumber="11" TimeForFrameToRun="10" top="471" right="121" bottom="528" left="69" AnchorX="95" AnchorY="505" />
+    <Frame FrameNumber="12" TimeForFrameToRun="10" top="411" right="123" bottom="468" left="71" AnchorX="97" AnchorY="445" />
+    <Frame FrameNumber="13" TimeForFrameToRun="10" top="353" right="123" bottom="410" left="71" AnchorX="97" AnchorY="387" />
+    <Frame FrameNumber="14" TimeForFrameToRun="10" top="297" right="124" bottom="354" left="72" AnchorX="98" AnchorY="331" />
+    <Frame FrameNumber="15" TimeForFrameToRun="10" top="236" right="124" bottom="293" left="72" AnchorX="98" AnchorY="270" />
+    <Frame FrameNumber="16" TimeForFrameToRun="10" top="174" right="124" bottom="231" left="72" AnchorX="98" AnchorY="208" />
+    <Frame FrameNumber="17" TimeForFrameToRun="10" top="114" right="123" bottom="171" left="71" AnchorX="97" AnchorY="148" />
+    <Frame FrameNumber="18" TimeForFrameToRun="10" top="56" right="124" bottom="112" left="72" AnchorX="98" AnchorY="91" />
+    <Frame FrameNumber="19" TimeForFrameToRun="10" top="522" right="59" bottom="579" left="7" AnchorX="33" AnchorY="556" />
   </Animation>
-  <Animation UnitType="6" AnimType="1" IsLooping="1" ImgName="iceblock.png" CurrentFrame="4" AnimationName="IceBlockNorth">
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="52" bottom="54" left="0" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="1" right="112" bottom="58" left="53" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="168" bottom="57" left="116" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="227" bottom="57" left="171" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="0" TimeForFrameToRun="25" top="60" right="393" bottom="122" left="337" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="6" AnimType="2" IsLooping="1" ImgName="iceblock.png" CurrentFrame="1" AnimationName="IceBlockWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="10" top="523" right="59" bottom="579" left="8" AnchorX="35" AnchorY="558" />
+    <Frame FrameNumber="1" TimeForFrameToRun="10" top="462" right="61" bottom="518" left="9" AnchorX="35" AnchorY="496" />
+    <Frame FrameNumber="2" TimeForFrameToRun="10" top="402" right="59" bottom="459" left="8" AnchorX="35" AnchorY="436" />
+    <Frame FrameNumber="3" TimeForFrameToRun="10" top="340" right="61" bottom="395" left="10" AnchorX="37" AnchorY="375" />
+    <Frame FrameNumber="4" TimeForFrameToRun="10" top="283" right="60" bottom="339" left="8" AnchorX="34" AnchorY="317" />
+    <Frame FrameNumber="5" TimeForFrameToRun="10" top="227" right="58" bottom="283" left="6" AnchorX="32" AnchorY="261" />
+    <Frame FrameNumber="6" TimeForFrameToRun="10" top="169" right="58" bottom="226" left="6" AnchorX="32" AnchorY="203" />
+    <Frame FrameNumber="7" TimeForFrameToRun="10" top="111" right="59" bottom="168" left="7" AnchorX="33" AnchorY="145" />
+    <Frame FrameNumber="8" TimeForFrameToRun="10" top="54" right="61" bottom="110" left="9" AnchorX="35" AnchorY="89" />
+    <Frame FrameNumber="9" TimeForFrameToRun="10" top="0" right="62" bottom="55" left="10" AnchorX="36" AnchorY="36" />
+    <Frame FrameNumber="10" TimeForFrameToRun="10" top="532" right="121" bottom="588" left="69" AnchorX="95" AnchorY="566" />
+    <Frame FrameNumber="11" TimeForFrameToRun="10" top="471" right="121" bottom="528" left="69" AnchorX="95" AnchorY="505" />
+    <Frame FrameNumber="12" TimeForFrameToRun="10" top="411" right="123" bottom="468" left="71" AnchorX="97" AnchorY="445" />
+    <Frame FrameNumber="13" TimeForFrameToRun="10" top="353" right="123" bottom="410" left="71" AnchorX="97" AnchorY="387" />
+    <Frame FrameNumber="14" TimeForFrameToRun="10" top="297" right="124" bottom="354" left="72" AnchorX="98" AnchorY="331" />
+    <Frame FrameNumber="15" TimeForFrameToRun="10" top="236" right="124" bottom="293" left="72" AnchorX="98" AnchorY="270" />
+    <Frame FrameNumber="16" TimeForFrameToRun="10" top="174" right="124" bottom="231" left="72" AnchorX="98" AnchorY="208" />
+    <Frame FrameNumber="17" TimeForFrameToRun="10" top="114" right="123" bottom="171" left="71" AnchorX="97" AnchorY="148" />
+    <Frame FrameNumber="18" TimeForFrameToRun="10" top="56" right="124" bottom="112" left="72" AnchorX="98" AnchorY="91" />
+    <Frame FrameNumber="19" TimeForFrameToRun="10" top="522" right="59" bottom="579" left="7" AnchorX="33" AnchorY="556" />
   </Animation>
-  <Animation UnitType="6" AnimType="2" IsLooping="1" ImgName="iceblock.png" CurrentFrame="3" AnimationName="IceBlockSouth">
+  <Animation UnitType="6" AnimType="3" IsLooping="1" ImgName="iceblock.png" CurrentFrame="3" AnimationName="IceBlockWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="10" top="523" right="59" bottom="579" left="8" AnchorX="35" AnchorY="558" />
+    <Frame FrameNumber="1" TimeForFrameToRun="10" top="462" right="61" bottom="518" left="9" AnchorX="35" AnchorY="496" />
+    <Frame FrameNumber="2" TimeForFrameToRun="10" top="402" right="59" bottom="459" left="8" AnchorX="35" AnchorY="436" />
+    <Frame FrameNumber="3" TimeForFrameToRun="10" top="340" right="61" bottom="395" left="10" AnchorX="37" AnchorY="375" />
+    <Frame FrameNumber="4" TimeForFrameToRun="10" top="283" right="60" bottom="339" left="8" AnchorX="34" AnchorY="317" />
+    <Frame FrameNumber="5" TimeForFrameToRun="10" top="227" right="58" bottom="283" left="6" AnchorX="32" AnchorY="261" />
+    <Frame FrameNumber="6" TimeForFrameToRun="10" top="169" right="58" bottom="226" left="6" AnchorX="32" AnchorY="203" />
+    <Frame FrameNumber="7" TimeForFrameToRun="10" top="111" right="59" bottom="168" left="7" AnchorX="33" AnchorY="145" />
+    <Frame FrameNumber="8" TimeForFrameToRun="10" top="54" right="61" bottom="110" left="9" AnchorX="35" AnchorY="89" />
+    <Frame FrameNumber="9" TimeForFrameToRun="10" top="0" right="62" bottom="55" left="10" AnchorX="36" AnchorY="36" />
+    <Frame FrameNumber="10" TimeForFrameToRun="10" top="532" right="121" bottom="588" left="69" AnchorX="95" AnchorY="566" />
+    <Frame FrameNumber="11" TimeForFrameToRun="10" top="471" right="121" bottom="528" left="69" AnchorX="95" AnchorY="505" />
+    <Frame FrameNumber="12" TimeForFrameToRun="10" top="411" right="123" bottom="468" left="71" AnchorX="97" AnchorY="445" />
+    <Frame FrameNumber="13" TimeForFrameToRun="10" top="353" right="123" bottom="410" left="71" AnchorX="97" AnchorY="387" />
+    <Frame FrameNumber="14" TimeForFrameToRun="10" top="297" right="124" bottom="354" left="72" AnchorX="98" AnchorY="331" />
+    <Frame FrameNumber="15" TimeForFrameToRun="10" top="236" right="124" bottom="293" left="72" AnchorX="98" AnchorY="270" />
+    <Frame FrameNumber="16" TimeForFrameToRun="10" top="174" right="124" bottom="231" left="72" AnchorX="98" AnchorY="208" />
+    <Frame FrameNumber="17" TimeForFrameToRun="10" top="114" right="123" bottom="171" left="71" AnchorX="97" AnchorY="148" />
+    <Frame FrameNumber="18" TimeForFrameToRun="10" top="56" right="124" bottom="112" left="72" AnchorX="98" AnchorY="91" />
+    <Frame FrameNumber="19" TimeForFrameToRun="10" top="522" right="59" bottom="579" left="7" AnchorX="33" AnchorY="556" />
+  </Animation>
+  <Animation UnitType="6" AnimType="4" IsLooping="1" ImgName="iceblock.png" CurrentFrame="3" AnimationName="IceBlockWest">
+    <Frame FrameNumber="0" TimeForFrameToRun="10" top="523" right="59" bottom="579" left="8" AnchorX="35" AnchorY="558" />
+    <Frame FrameNumber="1" TimeForFrameToRun="10" top="462" right="61" bottom="518" left="9" AnchorX="35" AnchorY="496" />
+    <Frame FrameNumber="2" TimeForFrameToRun="10" top="402" right="59" bottom="459" left="8" AnchorX="35" AnchorY="436" />
+    <Frame FrameNumber="3" TimeForFrameToRun="10" top="340" right="61" bottom="395" left="10" AnchorX="37" AnchorY="375" />
+    <Frame FrameNumber="4" TimeForFrameToRun="10" top="283" right="60" bottom="339" left="8" AnchorX="34" AnchorY="317" />
+    <Frame FrameNumber="5" TimeForFrameToRun="10" top="227" right="58" bottom="283" left="6" AnchorX="32" AnchorY="261" />
+    <Frame FrameNumber="6" TimeForFrameToRun="10" top="169" right="58" bottom="226" left="6" AnchorX="32" AnchorY="203" />
+    <Frame FrameNumber="7" TimeForFrameToRun="10" top="111" right="59" bottom="168" left="7" AnchorX="33" AnchorY="145" />
+    <Frame FrameNumber="8" TimeForFrameToRun="10" top="54" right="61" bottom="110" left="9" AnchorX="35" AnchorY="89" />
+    <Frame FrameNumber="9" TimeForFrameToRun="10" top="0" right="62" bottom="55" left="10" AnchorX="36" AnchorY="36" />
+    <Frame FrameNumber="10" TimeForFrameToRun="10" top="532" right="121" bottom="588" left="69" AnchorX="95" AnchorY="566" />
+    <Frame FrameNumber="11" TimeForFrameToRun="10" top="471" right="121" bottom="528" left="69" AnchorX="95" AnchorY="505" />
+    <Frame FrameNumber="12" TimeForFrameToRun="10" top="411" right="123" bottom="468" left="71" AnchorX="97" AnchorY="445" />
+    <Frame FrameNumber="13" TimeForFrameToRun="10" top="353" right="123" bottom="410" left="71" AnchorX="97" AnchorY="387" />
+    <Frame FrameNumber="14" TimeForFrameToRun="10" top="297" right="124" bottom="354" left="72" AnchorX="98" AnchorY="331" />
+    <Frame FrameNumber="15" TimeForFrameToRun="10" top="236" right="124" bottom="293" left="72" AnchorX="98" AnchorY="270" />
+    <Frame FrameNumber="16" TimeForFrameToRun="10" top="174" right="124" bottom="231" left="72" AnchorX="98" AnchorY="208" />
+    <Frame FrameNumber="17" TimeForFrameToRun="10" top="114" right="123" bottom="171" left="71" AnchorX="97" AnchorY="148" />
+    <Frame FrameNumber="18" TimeForFrameToRun="10" top="56" right="124" bottom="112" left="72" AnchorX="98" AnchorY="91" />
+    <Frame FrameNumber="19" TimeForFrameToRun="10" top="522" right="59" bottom="579" left="7" AnchorX="33" AnchorY="556" />
+  </Animation>
+  <Animation UnitType="6" AnimType="2" IsLooping="1" ImgName="iceblock.png" CurrentFrame="4" AnimationName="IceBlockSouth">
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="53" bottom="55" left="0" AnchorX="0" AnchorY="0" />
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="2" right="112" bottom="56" left="55" AnchorX="0" AnchorY="0" />
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="165" bottom="55" left="116" AnchorX="0" AnchorY="0" />
@@ -177,15 +259,26 @@
     <Frame FrameNumber="0" TimeForFrameToRun="50" top="16" right="214" bottom="71" left="156" AnchorX="0" AnchorY="0" />
     <Frame FrameNumber="0" TimeForFrameToRun="50" top="90" right="211" bottom="140" left="158" AnchorX="0" AnchorY="0" />
   </Animation>
-  <Animation UnitType="5" AnimType="0" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="0" AnimationName="SkeletonIdle">
+  <Animation UnitType="5" AnimType="0" IsLooping="1" ImgName="skeleton(Blue).png" CurrentFrame="1" AnimationName="SkeletonIdle">
     <Frame FrameNumber="0" TimeForFrameToRun="50" top="5" right="289" bottom="50" left="245" AnchorX="0" AnchorY="0" />
     <Frame FrameNumber="0" TimeForFrameToRun="50" top="347" right="287" bottom="385" left="247" AnchorX="0" AnchorY="0" />
   </Animation>
-  <Animation UnitType="5" AnimType="13" IsLooping="0" ImgName="skeleton(Red).png" CurrentFrame="2" AnimationName="SkeletonDeath">
-    <Frame FrameNumber="0" TimeForFrameToRun="10" top="437" right="44" bottom="481" left="8" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="1" TimeForFrameToRun="10" top="437" right="103" bottom="482" left="65" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="2" TimeForFrameToRun="10" top="439" right="167" bottom="479" left="126" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="3" TimeForFrameToRun="10" top="445" right="227" bottom="482" left="185" AnchorX="0" AnchorY="0" />
-    <Frame FrameNumber="4" TimeForFrameToRun="10" top="451" right="285" bottom="484" left="244" AnchorX="0" AnchorY="0" />
+  <Animation UnitType="5" AnimType="13" IsLooping="0" ImgName="skeleton(Red).png" CurrentFrame="0" AnimationName="SkeletonDeath">
+    <Frame FrameNumber="0" TimeForFrameToRun="10" top="437" right="44" bottom="481" left="8" AnchorX="25" AnchorY="473" />
+    <Frame FrameNumber="1" TimeForFrameToRun="10" top="437" right="103" bottom="482" left="65" AnchorX="83" AnchorY="475" />
+    <Frame FrameNumber="2" TimeForFrameToRun="10" top="439" right="167" bottom="479" left="126" AnchorX="139" AnchorY="474" />
+    <Frame FrameNumber="3" TimeForFrameToRun="10" top="445" right="227" bottom="482" left="185" AnchorX="198" AnchorY="475" />
+    <Frame FrameNumber="4" TimeForFrameToRun="10" top="451" right="285" bottom="484" left="244" AnchorX="256" AnchorY="479" />
+  </Animation>
+  <Animation UnitType="1" AnimType="13" IsLooping="0" ImgName="champion(Blue).png" CurrentFrame="3" AnimationName="ChampionBlueDeath">
+    <Frame FrameNumber="0" TimeForFrameToRun="10" top="583" right="79" bottom="648" left="7" AnchorX="53" AnchorY="624" />
+    <Frame FrameNumber="1" TimeForFrameToRun="10" top="588" right="158" bottom="649" left="88" AnchorX="136" AnchorY="634" />
+    <Frame FrameNumber="2" TimeForFrameToRun="10" top="591" right="234" bottom="650" left="161" AnchorX="213" AnchorY="633" />
+    <Frame FrameNumber="3" TimeForFrameToRun="10" top="591" right="317" bottom="657" left="246" AnchorX="294" AnchorY="636" />
+    <Frame FrameNumber="4" TimeForFrameToRun="10" top="585" right="408" bottom="657" left="332" AnchorX="381" AnchorY="624" />
+    <Frame FrameNumber="5" TimeForFrameToRun="10" top="653" right="84" bottom="696" left="7" AnchorX="40" AnchorY="712" />
+  </Animation>
+  <Animation UnitType="0" AnimType="0" IsLooping="0" ImgName="" CurrentFrame="0" AnimationName="CavalryBlueDeath">
+    <Frame FrameNumber="0" TimeForFrameToRun="0" top="0" right="0" bottom="0" left="0" AnchorX="0" AnchorY="0" />
   </Animation>
 </Animations>

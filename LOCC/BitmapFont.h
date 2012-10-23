@@ -36,12 +36,32 @@ public:
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
+		case 37:
+			{
+				rSource.left = 884;
+				rSource.top = 781;
+				rSource.right = 931;
+				rSource.bottom = 819;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
 		case 39:
 			{
 				rSource.left = 181;
 				rSource.top = 909;
 				rSource.right = 188;
 				rSource.bottom = 920;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
+		case 43:
+			{
+				rSource.left = 465;
+				rSource.top = 786;
+				rSource.right = 500;
+				rSource.bottom = 814;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
@@ -749,7 +769,7 @@ public:
 				}
 				if (nWordLength + nMovedWidth > nMaxWidth)
 				{
-					nY += (int)(m_nCharHeight * fScale);
+					nY += int(m_nCharHeight * fScale);
 					nX = nStoredX;
 					nMovedWidth = 0;
 				}
@@ -774,7 +794,7 @@ public:
 					nMovedWidth += nMovedAmount;
 					if (nMovedWidth >= nMaxWidth)
 					{
-						nY += (int)(m_nCharHeight * fScale);
+						nY += int(m_nCharHeight * fScale);
 						nX = nStoredX;
 						nMovedWidth = 0;
 					}	
