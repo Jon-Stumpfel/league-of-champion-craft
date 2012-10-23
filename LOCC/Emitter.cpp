@@ -99,6 +99,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 		{
 			if( doc.LoadFile( "Assets/Particles/healcross.xml" ) == false )
 				return;
+
 			m_sSource.left = 0;
 			m_sSource.top = 0;
 			m_sSource.right = 128;
@@ -197,7 +198,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 	TCHAR conversion[100];	
 	mbstowcs_s(nullptr, conversion, m_szPath, _TRUNCATE);
 	TSTRING file = conversion;
-	pGM->LoadImageW( _T("Assets/Particles/") + file, file, D3DCOLOR_ARGB(255, 255, 255, 255) );
+	pGM->LoadImageW( _T("Assets/Particles/") + file, file, D3DCOLOR_ARGB(0, 0, 0, 0 ) );
 	m_nImgID = pGM->GetID(file);
 
 	// tell the graphics manager where the image for each particle is
@@ -222,14 +223,14 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 		else if( m_eType == LINE )
 		{
 			if( m_sPoint.nPosX > m_sPoint2.nPosX)
-				Pos.nPosX = (rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1));
+				Pos.nPosX = (rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1)) + m_sEmitPos.nPosX;
 			else
-				Pos.nPosX = (rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1));
+				Pos.nPosX = (rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1)) + m_sEmitPos.nPosX;
 
 			if( m_sPoint.nPosY > m_sPoint2.nPosY)
-				Pos.nPosY = (rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1));
+				Pos.nPosY = (rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1)) + m_sEmitPos.nPosY;
 			else
-				Pos.nPosY = (rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1));
+				Pos.nPosY = (rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1)) + m_sEmitPos.nPosY;
 		}
 
 		// Finds the random life time
