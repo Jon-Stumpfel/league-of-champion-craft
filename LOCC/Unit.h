@@ -43,7 +43,7 @@ public:
 	static int Shield(lua_State* L);
 	static int Speed(lua_State* L);
 	static int DoDamage(lua_State* L);
-
+	static int Rally(lua_State* L);
 
 
 	bool GetFleeing(void){ return m_bIsFleeing;}

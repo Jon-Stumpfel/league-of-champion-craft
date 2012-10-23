@@ -285,8 +285,8 @@ int CTileManager::GetSelectedTile(lua_State* L)
 
 int CTileManager::DestroyForest(lua_State* L)
 {
-	int posX = lua_tonumber(L, 1);
-	int posY = lua_tonumber(L, 2);
+	int posX = (int)lua_tonumber(L, 1);
+	int posY = (int)lua_tonumber(L, 2);
 
 	CTile* selectedTile = CTileManager::GetInstance()->GetTile(CGameplayState::GetInstance()->GetSelectionPos().nPosX, 
 		CGameplayState::GetInstance()->GetSelectionPos().nPosY);

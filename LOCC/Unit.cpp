@@ -7,6 +7,7 @@
 #include "DeSpawnUnitMessage.h"
 #include "GameManager.h"
 #include "AbilityManager.h"
+#include "Player.h"
 #include "MessageSystem.h"
 #include "Hero.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
@@ -129,24 +130,31 @@ void CUnit::Update(float fElapsedTime)
 	{
 	case UT_ARCHER:
 		m_nSpeed = 4;
+		m_nAttack = 6;
 		break;
 	case UT_SWORDSMAN:
 		m_nSpeed = 3;
+		m_nAttack = 8;
 		break;
 	case UT_CAVALRY:
 		m_nSpeed = 5;
+		m_nAttack = 6;
 		break;
 	case UT_HERO:
 		m_nSpeed = 4;
+		m_nAttack = 10;
 		break;
 	case UT_CASTLE:
 		m_nSpeed = 0;
+		m_nAttack = 0;
 		break;
 	case UT_SKELETON:
 		m_nSpeed = 2;
+		m_nAttack = 4;
 		break;
 	case UT_ICEBLOCK:
 		m_nSpeed = 0;
+		m_nAttack = 0;
 		break;
 	}
 	// do stuff to the unit based on their buffs/debuffs
@@ -169,12 +177,20 @@ void CUnit::Update(float fElapsedTime)
 					break;
 				default:
 					m_nSpeed = m_nSpeed + 1;
-
 				}
-
-
 			}
 			break;
+		case SP_RALLY:
+			{
+				switch (m_eType)
+				{
+				case UT_ICEBLOCK:
+				case UT_CASTLE:
+					break;
+				default:
+					SetAttack(GetAttack() + 2);
+				}
+			}
 		}
 	}
 	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.25f))
@@ -384,6 +400,23 @@ int CUnit::DoDamage(lua_State* L)
 	if (pUnit != nullptr)
 	{
 		pUnit->SetHP(pUnit->GetHP() - (int)lua_tonumber(L, 2));
+		if (pUnit->GetHP() > pUnit->GetMaxHP())
+		{
+			pUnit->SetHP(pUnit->GetMaxHP());
+		}
 	}
 	return 0;
+}
+
+int CUnit::Rally(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_RALLY));
+	}
+	return 0;
+
 }
