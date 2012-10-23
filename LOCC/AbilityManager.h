@@ -39,6 +39,6 @@ private:
 	std::vector< Vec2D > m_vRange2;
 	std::vector< Vec2D > m_vRange3;
 	std::vector< Vec2D > m_vRange4;
-
+	std::vector<Vec2D> m_vRange0;
 };
 
