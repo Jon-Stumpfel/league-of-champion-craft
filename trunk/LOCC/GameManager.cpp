@@ -656,9 +656,12 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			if (pSMSG->GetUnit() == CGameplayState::GetInstance()->GetHighlighted())
 				CGameplayState::GetInstance()->ClearHighlighted();
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
-			if(pSMSG->GetUnit()->GetType() == UT_HERO)
+			if(pSMSG->GetUnit()->GetType() == UT_HERO || pSMSG->GetUnit()->GetType() == UT_CASTLE)
 			{
-				CGameOverState::GetInstance()->SetPlayer(pSMSG->GetUnit()->GetPlayerID());
+				if(pSMSG->GetUnit()->GetPlayerID() == 0)
+					CGameOverState::GetInstance()->SetPlayer(2);
+				else if(pSMSG->GetUnit()->GetPlayerID() == 1)
+					CGameOverState::GetInstance()->SetPlayer(1);
 				CStateStack::GetInstance()->Push(CGameOverState::GetInstance());
 			}
 			for(int i = 0; i < UT_ICEBLOCK; i++)

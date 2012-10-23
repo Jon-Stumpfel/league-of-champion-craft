@@ -208,9 +208,8 @@ namespace Animation_Editor_LOCC
                         temprect.Width = (int)Frame.Attribute("right") - temprect.X;
                         temprect.Height = (int)Frame.Attribute("bottom") - temprect.Y;
                         tempframe.Rect = temprect;
-                        Point temppoint = new Point();
-                        temppoint.X = (int)Frame.Attribute("AnchorX");
-                        temppoint.Y = (int)Frame.Attribute("AnchorY");
+                        tempframe.AnchorPointX = (int)Frame.Attribute("AnchorX");
+                        tempframe.AnchorPointY = (int)Frame.Attribute("AnchorY");
                         tempanim.FrameVec.Add(tempframe);
                     }
                     Animations.Add(tempanim);
