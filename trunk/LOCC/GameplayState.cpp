@@ -522,16 +522,34 @@ void CGameplayState::UseAbility(CAbility* ability)
 					m_pTargetedTile = nullptr;
 					return;
 				}
-				std::vector<Vec2D> vec = ability->GetPattern();
-				for( unsigned int i = 0; i < vec.size(); i++ )
+
+				if( ability->GetType() == SP_CHARGE )
 				{
-					Vec2D t;
-					t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
-					t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
-					Vec2D tmp = TranslateToPixel(t);
-					tmp.nPosX += 65;
-					tmp.nPosY += 5;
-					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+					std::vector<Vec2D> vec = ability->GetPattern();
+					for( unsigned int i = 0; i < vec.size(); i++ )
+					{
+						Vec2D t;
+						t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+						t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+						Vec2D tmp = TranslateToPixel(t);
+						tmp.nPosX += 65;
+						tmp.nPosY += 5;
+						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+					}
+				}
+				else 
+				{
+					std::vector<Vec2D> vec = ability->GetPattern();
+					for( unsigned int i = 0; i < vec.size(); i++ )
+					{
+						Vec2D t;
+						t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+						t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+						Vec2D tmp = TranslateToPixel(t);
+						tmp.nPosX += 65;
+						tmp.nPosY += 5;
+						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+					}
 				}
 				//CoolDown Check here..
 
@@ -667,12 +685,21 @@ void CGameplayState::UseAbility(CAbility* ability)
 							return;
 					}
 					CAbilityManager* pAM = CAbilityManager::GetInstance();
-					pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
+
+					if( ability->GetType() == SP_CHARGE )
+					{
+						CTileManager* pTM = CTileManager::GetInstance();
+						m_bIsMoving = true;
+						m_pSelectedUnit->AddWaypoint(m_pTargetedTile);
+						pAM->UseAbility(ability, pTM->GetTile( m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY) , m_pSelectedUnit, m_pTargetedTile);
+					}
+					else
+						pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
+
 					CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 					if (ability->m_bIsAttack)
 						m_pSelectedUnit->SetHasAttacked(true);
-					if( ability->GetType() == SP_CHARGE )
-						MoveToTile(m_pTargetedTile->GetPosition());
+
 					m_bIsTargeting = false;
 					m_pTargetedTile = nullptr;
 					m_pSelectedUnit = nullptr;

@@ -50,11 +50,11 @@ CAbility* CAbilityManager::GetAbility( SPELL_TYPE type )
 	return nullptr;
 }
 
-void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster)
+void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster, CTile* TargetTile )
 {
 	// Tells the scriptmanager to run the lua code for the specified spell
 	CScriptManager* pSM = CScriptManager::GetInstance();
-	pSM->Execute(pToUse, pTargetTile, pCaster);
+	pSM->Execute(pToUse, pTargetTile, pCaster, TargetTile);
 }
 
 void CAbilityManager::LoadAbilities( void )

@@ -95,10 +95,10 @@ void CScriptManager::LoadScript( std::string szFilename, SCRIPT_TYPE eScript )
 	}
 }
 
-void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
+void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster, CTile* TargetTile )
 {
 	// Finds the facing for the specified unit
-	int face = pCaster->GetFacing();
+		int face = pCaster->GetFacing();
 
 		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pAbility, pTile);
 
@@ -107,48 +107,123 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		lua_newtable(L);
 		CGameManager* pGM = CGameManager::GetInstance();
 		vector< CUnit* > affected;
-		int nCount = 0;
-		for( unsigned int i = 0; i < TilePos.size(); i++ )
+
+		if( pAbility->GetType() == SP_CHARGE )
 		{
-			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
+			int count = 0;
+			std::vector< Vec2D > pat = pAbility->GetPattern();
+
+			if( face == 2 )
+			{
+				int nCount = 0;
+				bool worked = false;
+				int size = (int)pat.size();
+				for(int i = size-1; i >= 0; --i)
+				{
+					worked = false;
+					CUnit* tmp = pGM->FindUnit(pat[i].nPosX + pTile->GetPosition().nPosX, pat[i].nPosY + pTile->GetPosition().nPosY);
+
+					if( tmp == nullptr )
+					{
+						count++;
+						continue;
+					}
+
+					if( pat[i].nPosY == count )
+					{
+						count++;
+						if( tmp == pCaster || TargetTile->GetPosition().nPosY + 1 == pat[i].nPosY + pTile->GetPosition().nPosY )
+						{
+							continue;
+						}
+						affected.push_back( tmp );
+						
+						//i = -1;
+						worked = true;
+						continue;
+					}
+
+					if( worked == false )
+					{
+						count++;
+						continue;
+					}
+
+					lua_newtable(L);
+					lua_pushstring(L, "posX");
+					lua_pushnumber(L, tmp->GetPos().nPosX);
+					lua_settable(L, -3);
+					lua_pushstring(L, "posY");
+					lua_pushnumber(L, tmp->GetPos().nPosY);
+					lua_settable(L, -3);
+					lua_pushstring(L, "health");
+					lua_pushnumber(L, tmp->GetHP());
+					lua_settable(L, -3);
+					lua_pushstring(L, "speed");
+					lua_pushnumber(L, tmp->GetSpeed());
+					lua_settable(L, -3);
+					lua_pushstring(L, "shielded");
+					lua_pushnumber(L, tmp->GetShielded());
+					lua_settable(L, -3);
+					lua_pushstring(L, "uniqueID");
+					lua_pushnumber(L, tmp->GetUniqueID());
+					lua_settable(L, -3);
+					lua_pushnumber(L, nCount+1);
+					nCount++;
+					lua_insert(L, -2);
+					lua_settable(L, -3);
+				}
+			}
+		}
+		else
+		{
+			int nCount = 0;
+			for( unsigned int i = 0; i > TilePos.size() ; i++ )
+			{
+				CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
 		
-			if( tmp == nullptr )
-				continue;
+				if( tmp == nullptr )
+					continue;
 
-			affected.push_back( tmp );
+				affected.push_back( tmp );
 
-			lua_newtable(L);
-			lua_pushstring(L, "posX");
-			lua_pushnumber(L, tmp->GetPos().nPosX);
-			lua_settable(L, -3);
-			lua_pushstring(L, "posY");
-			lua_pushnumber(L, tmp->GetPos().nPosY);
-			lua_settable(L, -3);
-			lua_pushstring(L, "health");
-			lua_pushnumber(L, tmp->GetHP());
-			lua_settable(L, -3);
-			lua_pushstring(L, "speed");
-			lua_pushnumber(L, tmp->GetSpeed());
-			lua_settable(L, -3);
-			lua_pushstring(L, "shielded");
-			lua_pushnumber(L, tmp->GetShielded());
-			lua_settable(L, -3);
-			lua_pushstring(L, "uniqueID");
-			lua_pushnumber(L, tmp->GetUniqueID());
-			lua_settable(L, -3);
-			lua_pushnumber(L, nCount+1);
-			nCount++;
-			lua_insert(L, -2);
-			lua_settable(L, -3);
+				lua_newtable(L);
+				lua_pushstring(L, "posX");
+				lua_pushnumber(L, tmp->GetPos().nPosX);
+				lua_settable(L, -3);
+				lua_pushstring(L, "posY");
+				lua_pushnumber(L, tmp->GetPos().nPosY);
+				lua_settable(L, -3);
+				lua_pushstring(L, "health");
+				lua_pushnumber(L, tmp->GetHP());
+				lua_settable(L, -3);
+				lua_pushstring(L, "speed");
+				lua_pushnumber(L, tmp->GetSpeed());
+				lua_settable(L, -3);
+				lua_pushstring(L, "shielded");
+				lua_pushnumber(L, tmp->GetShielded());
+				lua_settable(L, -3);
+				lua_pushstring(L, "uniqueID");
+				lua_pushnumber(L, tmp->GetUniqueID());
+				lua_settable(L, -3);
+				lua_pushnumber(L, nCount+1);
+				nCount++;
+				lua_insert(L, -2);
+				lua_settable(L, -3);
+			}
 		}
 
 		lua_setglobal(L, "tUnitData");
 
-		std::string path = "Assets/Ability/" + pAbility->GetLua();
+		std::string path = "Assets/Ability/fireball.lua";
 		luaL_dofile(L, path.c_str());
 		lua_getglobal(L, "OnUse");
 		
-		lua_pcall(L, 0, 0, 0);
+		int err = lua_pcall(L, 0, 0, 0);
+		if (err > 0)
+		{
+			std::string strerr = lua_tostring(L,1);
+		}
 
 		lua_getglobal(L, "tUnitData");
 		lua_pushnil(L);

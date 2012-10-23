@@ -28,7 +28,7 @@ class CScriptManager
 public:
 
 	void LoadScript( std::string szFilename, SCRIPT_TYPE eScript );
-	void Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster );
+	void Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster, CTile* TargetTile = nullptr );
 	void Initialize( void );
 	void Shutdown( void );
 	
