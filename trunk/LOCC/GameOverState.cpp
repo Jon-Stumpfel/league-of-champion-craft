@@ -43,7 +43,16 @@ void CGameOverState::Update(float fElapsedTime)
 void CGameOverState::Render(void)
 {
 	ostringstream temp;
-	temp<<"Player  "<<Player<<"  Wins!";
+	if(AI)
+	{
+		temp<<"AI Wins!";
+		//PUT_SOUND_HERE("AIwins")
+	}
+	else
+	{
+		temp<<"Player  "<<Player<<"  Wins!";
+		//PUT_SOUND_HERE("GenericWin")
+	}
 	tempfont.Print(temp.str().c_str(),200,50,1.0f,D3DXCOLOR(255,255,255,255));
 }
 

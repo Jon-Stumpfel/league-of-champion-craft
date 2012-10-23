@@ -111,7 +111,7 @@
             this.setFileToSaveLoadFromToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(733, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(740, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -180,9 +180,10 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.SpriteSheet);
-            this.splitContainer1.Size = new System.Drawing.Size(733, 758);
-            this.splitContainer1.SplitterDistance = 218;
+            this.splitContainer1.Size = new System.Drawing.Size(740, 858);
+            this.splitContainer1.SplitterDistance = 220;
             this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
@@ -227,8 +228,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(218, 758);
-            this.splitContainer2.SplitterDistance = 432;
+            this.splitContainer2.Size = new System.Drawing.Size(220, 858);
+            this.splitContainer2.SplitterDistance = 488;
             this.splitContainer2.TabIndex = 0;
             // 
             // SaveFrameButton
@@ -563,8 +564,8 @@
             this.splitContainer3.Panel2.Controls.Add(this.button3);
             this.splitContainer3.Panel2.Controls.Add(this.button2);
             this.splitContainer3.Panel2.Controls.Add(this.button1);
-            this.splitContainer3.Size = new System.Drawing.Size(218, 322);
-            this.splitContainer3.SplitterDistance = 174;
+            this.splitContainer3.Size = new System.Drawing.Size(220, 366);
+            this.splitContainer3.SplitterDistance = 197;
             this.splitContainer3.TabIndex = 1;
             // 
             // PreviewBox
@@ -572,7 +573,7 @@
             this.PreviewBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PreviewBox.Location = new System.Drawing.Point(0, 0);
             this.PreviewBox.Name = "PreviewBox";
-            this.PreviewBox.Size = new System.Drawing.Size(218, 174);
+            this.PreviewBox.Size = new System.Drawing.Size(220, 197);
             this.PreviewBox.TabIndex = 0;
             this.PreviewBox.TabStop = false;
             // 
@@ -631,7 +632,7 @@
             this.SpriteSheet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SpriteSheet.Location = new System.Drawing.Point(0, 0);
             this.SpriteSheet.Name = "SpriteSheet";
-            this.SpriteSheet.Size = new System.Drawing.Size(511, 758);
+            this.SpriteSheet.Size = new System.Drawing.Size(516, 858);
             this.SpriteSheet.TabIndex = 0;
             this.SpriteSheet.TabStop = false;
             this.SpriteSheet.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SpriteSheet_MouseDown);
@@ -642,7 +643,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(733, 782);
+            this.ClientSize = new System.Drawing.Size(740, 882);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

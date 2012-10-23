@@ -665,10 +665,17 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
 			if(pSMSG->GetUnit()->GetType() == UT_HERO || pSMSG->GetUnit()->GetType() == UT_CASTLE)
 			{
-				if(pSMSG->GetUnit()->GetPlayerID() == 0)
-					CGameOverState::GetInstance()->SetPlayer(2);
-				else if(pSMSG->GetUnit()->GetPlayerID() == 1)
-					CGameOverState::GetInstance()->SetPlayer(1);
+				if(pThis->GetCurrentPlayer()->GetAI())
+				{
+
+				}
+				else
+				{
+					if(pSMSG->GetUnit()->GetPlayerID() == 0)
+						CGameOverState::GetInstance()->SetPlayer(2);
+					else if(pSMSG->GetUnit()->GetPlayerID() == 1)
+						CGameOverState::GetInstance()->SetPlayer(1);
+				}
 				CStateStack::GetInstance()->Push(CGameOverState::GetInstance());
 			}
 			for(int i = 0; i < UT_ICEBLOCK; i++)
