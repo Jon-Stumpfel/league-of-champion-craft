@@ -427,19 +427,21 @@ int CUnit::DoDamage(lua_State* L)
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	if (pUnit != nullptr)
 	{
-		if( pUnit->GetEffect(SP_STAND) == false )
-			pUnit->SetHP(pUnit->GetHP() - (int)lua_tonumber(L, 2));
-		else
-		{
-			pUnit->SetHP(pUnit->GetHP() - (int)lua_tonumber(L, 2) / 2);
-			pUnit->RemoveEffect(SP_STAND);
-		}
+		int damage = (int)lua_tonumber(L, 2);
+		if( pUnit->GetEffect(SP_STAND) == true )
+			damage = damage / 2;
+
+		pUnit->SetHP(pUnit->GetHP() - damage);
+
+		pUnit->RemoveEffect(SP_STAND);
+		
 		if (pUnit->GetHP() > pUnit->GetMaxHP())
 		{
 			pUnit->SetHP(pUnit->GetMaxHP());
 		}
+		lua_pushnumber(L, damage);
 	}
-	return 0;
+	return 1;
 }
 
 int CUnit::Rally(lua_State* L)
