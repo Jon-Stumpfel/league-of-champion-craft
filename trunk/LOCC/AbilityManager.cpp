@@ -431,7 +431,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription("shit being shot at other shit");
-					ab->SetDamage(0);
+					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_VOLLEY;
 					tmp.second = ab;
