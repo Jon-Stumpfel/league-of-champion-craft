@@ -510,8 +510,13 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 	if (ability->GetType() == SP_MOVE)
 	{
-		m_bIsMoving = true;
-		return;
+		if( m_pSelectedUnit->GetEffect(SP_STAND) == false )
+		{
+			m_bIsMoving = true;
+			return;
+		}
+		else 
+			return;
 	}
 	else
 	{
@@ -693,6 +698,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
 							return;
 					}
+
 					CAbilityManager* pAM = CAbilityManager::GetInstance();
 
 					if( ability->GetType() == SP_CHARGE )

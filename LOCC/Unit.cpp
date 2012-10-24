@@ -37,7 +37,7 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	else
 	{
 		m_vAbilities.push_back(pAM->GetAbility(SP_ARCHERRANGEDATTACK));
-		//m_vAbilities.push_back(pAM->GetAbility(SP_CHARGE));
+		m_vAbilities.push_back(pAM->GetAbility(SP_VOLLEY));
 	}
 
 	if (m_eType == UT_HERO)
@@ -113,7 +113,16 @@ CAbility* CUnit::GetAbility(int index)
 		return nullptr;
 }
 
+bool CUnit::GetEffect(SPELL_TYPE p)
+{
+	for( unsigned int i = 0; i < m_vEffects.size(); i++ )
+	{
+		if( m_vEffects[i].second->GetType() == p )
+			return true;
+	}
 
+	return false;
+}
 
 // Just used for checking if two numbers are close enough together for waypoint moving. Used to be
 // 5 pixels, but left some weird off. Now it's just 0, so it's a relic function but it doesn't hurt leaving it
