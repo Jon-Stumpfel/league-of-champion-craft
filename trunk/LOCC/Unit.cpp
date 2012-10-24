@@ -290,6 +290,8 @@ void CUnit::Update(float fElapsedTime)
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
+			//CMessageSystem::GetInstance()->SendMessageW(pMsg);
+
 	}
 
 	if (m_vWaypoints.size() != 0)
@@ -469,6 +471,30 @@ int CUnit::DoDamage(lua_State* L)
 
 		pUnit->SetHP(pUnit->GetHP() - damage);
 
+		// STATS RECORDING
+		CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(pUnit->GetPlayerID());
+		switch (pUnit->GetType())
+		{
+		case UT_SWORDSMAN:
+			pPlayer->GetStats()->nSwordsmanDamageDone+=damage;
+			break;
+		case UT_ARCHER:
+			pPlayer->GetStats()->nArcherDamageDone+=damage;
+			break;
+		case UT_CAVALRY:
+			pPlayer->GetStats()->nCalvaryDamageDone+=damage;
+			break;
+		case UT_HERO:
+			{
+				if (damage > 0)
+					pPlayer->GetStats()->nChampionDamageDone+=damage;
+				else if (damage < 0)
+					pPlayer->GetStats()->nChampionHealingDone+=damage;
+
+			}
+			break;
+
+		}
 		pUnit->RemoveEffect(SP_STAND);
 		
 		if (pUnit->GetHP() > pUnit->GetMaxHP())

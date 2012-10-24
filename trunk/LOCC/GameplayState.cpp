@@ -613,6 +613,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 											//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap() + 1 );
 											pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 5 );
 											pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 15 );
+
+											// Stats saving!
+											pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=5;
+											pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=15;
+
 										}
 										else
 											return;
@@ -641,6 +646,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 									{
 										//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
 										pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 20 );
+											// Stats saving!
+											pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=20;
 									}
 									else
 										return;
@@ -668,6 +675,9 @@ void CGameplayState::UseAbility(CAbility* ability)
 											//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
 											pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 10 );
 											pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 10 );
+											// Stats saving!
+											pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=10;
+											pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=10;
 										}
 										else
 											return;
@@ -692,7 +702,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 							return;
 						else
 							CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(ap - ability->GetApCost());
-
+									// STATS SAVING
+						CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
 						m_bIsTargeting = false;
@@ -713,6 +724,24 @@ void CGameplayState::UseAbility(CAbility* ability)
 								{
 									if( pUnit->GetShielded() == false )
 									{
+										// STATS SAVING
+										CPlayer* pSavePlayer = CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID());
+										switch (pUnit->GetType())
+										{
+										case UT_ARCHER:
+											pSavePlayer->GetStats()->nArcherDamageDone+=m_pSelectedUnit->GetAttack();
+											break;
+										case UT_SWORDSMAN:
+											pSavePlayer->GetStats()->nSwordsmanDamageDone+=m_pSelectedUnit->GetAttack();
+											break;
+										case UT_CAVALRY:
+											pSavePlayer->GetStats()->nCalvaryDamageDone+=m_pSelectedUnit->GetAttack();
+											break;
+										case UT_HERO:
+											pSavePlayer->GetStats()->nChampionDamageDone+=m_pSelectedUnit->GetAttack();
+											break;
+										}
+
 										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
 										pSM->Play(pSM->GetID(_T("hurt")), false, false);
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
@@ -740,6 +769,23 @@ void CGameplayState::UseAbility(CAbility* ability)
 							{
 								if( pUnit->GetShielded() == false )
 								{
+										// STATS SAVING
+									CPlayer* pSavePlayer = CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID());
+									switch (pUnit->GetType())
+									{
+									case UT_ARCHER:
+										pSavePlayer->GetStats()->nArcherDamageDone+=m_pSelectedUnit->GetAttack();
+										break;
+									case UT_SWORDSMAN:
+										pSavePlayer->GetStats()->nSwordsmanDamageDone+=m_pSelectedUnit->GetAttack();
+										break;
+									case UT_CAVALRY:
+										pSavePlayer->GetStats()->nCalvaryDamageDone+=m_pSelectedUnit->GetAttack();
+										break;
+									case UT_HERO:
+										pSavePlayer->GetStats()->nChampionDamageDone+=m_pSelectedUnit->GetAttack();
+										break;
+										}
 									pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
 									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 									std::ostringstream oss;
@@ -760,6 +806,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 								}
 							}
 						}
+						// STATS SAVING
+						CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 						if (ability->m_bIsAttack)
 							m_pSelectedUnit->SetHasAttacked(true);
@@ -788,6 +836,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 					else
 						pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
 
+					// STATS SAVING
+					CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
 					CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 
 					if (ability->m_bIsAttack)
@@ -822,6 +872,10 @@ void CGameplayState::UseAbility(CAbility* ability)
 				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
 
 			CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+
+			// STATS SAVING
+			CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
+
 			if (ability->m_bIsAttack)
 				m_pSelectedUnit->SetHasAttacked(true);
 

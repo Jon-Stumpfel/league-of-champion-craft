@@ -9,8 +9,11 @@
 #include "ObjectManager.h"
 #include "Message.h"
 #include "AddResourceMessage.h"
+#include "FloatingText.h"
 #include "GameManager.h"
 #include "MessageSystem.h"
+#include "Player.h"
+
 
 CTileManager* CTileManager::s_Instance = nullptr;
 
@@ -327,6 +330,8 @@ CUnit* CTileManager::GetUnit( CTile* Tile )
 
 void CTileManager::EvaluateResources(int nPlayerID)
 {
+	int nTotalMetal = 0;
+	int nTotalWood = 0;
 	for (int x = 0; x < m_nRows; x++)
 	{
 		for (int y = 0; y < m_nColumns; y++)
@@ -337,15 +342,45 @@ void CTileManager::EvaluateResources(int nPlayerID)
 			   {
 					CAddResourceMessage* pMsg = new CAddResourceMessage((TILE_TYPE)m_pTileMap[x][y].GetTileType(),nPlayerID);
 					CMessageSystem::GetInstance()->SendMessageW(pMsg);
+					switch (m_pTileMap[x][y].GetTileType())
+					{
+					case (TT_MILL):
+						nTotalWood+= WOOD_PER_MILL;
+						break;
+					case (TT_MINE):
+						nTotalMetal+= METAL_PER_MINE;
+						break;
+					}
 			   }
 		   }
 		   if (m_pTileMap[x][y].GetIfCapturing())
 		   {
-			   m_pTileMap[x][y].SetIfCaptured(true);
-			   m_pTileMap[x][y].SetIfCapturing(false);
+			   if (m_pTileMap[x][y].GetIfOccupied())
+			   {
+				   if ((CGameManager::GetInstance()->FindUnit(Vec2D(x, y))->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID()))
+				   {
+					   m_pTileMap[x][y].SetIfCaptured(true);
+					   m_pTileMap[x][y].SetIfCapturing(false);
+				   }
+			   }
+			   else
+			   {
+				   m_pTileMap[x][y].SetIfCapturing(false);
+				   m_pTileMap[x][y].SetPlayerID(-1);
+			   }
 		   }
 	   }
 	}
+	std::ostringstream oss;
+	oss << "+" << nTotalWood;
+	CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(510, 480), Vec2Df(0, -10), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+
+	CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalWood;
+	oss.str("");
+	oss << "+" << nTotalMetal;
+	CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(610, 480), Vec2Df(0, -10), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+	CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalMetal;
+
 }
 
 

@@ -51,6 +51,20 @@ void CFloatingText::AddText(std::string str, Vec2Df position, Vec2Df velocity, f
 	m_vText.push_back(txt);
 }
 
+void CFloatingText::AddScreenText(std::string str, Vec2Df position, Vec2Df velocity, float fLife, float fScale, DWORD color)
+{
+	FloatText txt;
+	txt.str = str;
+	txt.position = position;
+	txt.velocity = velocity;
+	txt.fLife = fLife;
+	txt.fMaxlife = fLife;
+	txt.color = color;
+	txt.fScale = fScale;
+	txt.color.a = 255;
+	m_vScreenText.push_back(txt);
+}
+
 void CFloatingText::Update(float fElapsedTime)
 {
 	for (unsigned int i = 0; i < m_vText.size(); ++i)
@@ -71,6 +85,22 @@ void CFloatingText::Update(float fElapsedTime)
 			continue;
 		}
 	}
+
+	for (unsigned int i = 0; i < m_vScreenText.size(); ++i)
+	{
+		m_vScreenText[i].fLife -= fElapsedTime;
+		m_vScreenText[i].velocity.fVecX;
+
+		m_vScreenText[i].position.fVecX = (m_vScreenText[i].position.fVecX + (m_vScreenText[i].velocity.fVecX * fElapsedTime));
+		m_vScreenText[i].position.fVecY = (m_vScreenText[i].position.fVecY + (m_vScreenText[i].velocity.fVecY * fElapsedTime));
+
+		m_vScreenText[i].color.a = 3.0f * (m_vScreenText[i].fLife / m_vScreenText[i].fMaxlife);
+		if (m_vScreenText[i].fLife <= 0.0f)
+		{
+			m_vScreenText.erase(m_vScreenText.begin() + i--);
+			continue;
+		}
+	}
 }
 
 void CFloatingText::Render(void)
@@ -80,6 +110,11 @@ void CFloatingText::Render(void)
 	{
 		tBitmapFont.Print(m_vText[i].str.c_str(), (int)m_vText[i].position.fVecX - CGameplayState::GetInstance()->GetCamOffsetX(), 
 			(int)m_vText[i].position.fVecY - CGameplayState::GetInstance()->GetCamOffsetY(), m_vText[i].fScale, m_vText[i].color);
+	}
+	for (unsigned int i = 0; i < m_vScreenText.size(); ++i)
+	{
+		tBitmapFont.Print(m_vScreenText[i].str.c_str(), (int)m_vScreenText[i].position.fVecX, m_vScreenText[i].position.fVecY,
+			m_vScreenText[i].fScale, m_vScreenText[i].color);
 	}
 }
 
@@ -102,3 +137,5 @@ int CFloatingText::AddText(lua_State *L)
 	CFloatingText::GetInstance()->AddText(str, Vec2Df(fPosX + 38, fPosY), Vec2Df(fVecX, fVecY), fLife, fScale, D3DCOLOR_XRGB(nRed, nGreen, nBlue));
 	return 0;
 }
+
+

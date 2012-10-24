@@ -1,5 +1,28 @@
 #pragma once
 
+struct GameStats
+{
+	int nChampionDamageDone;
+	int nChampionHealingDone;
+	int nPlayerEXPEarned;
+	int nPlayerWoodEarned;
+	int nPlayerMetalEarned;
+	int nPlayerWoodSpent;
+	int nPlayerMetalSpent;
+	int nPlayerAPSpent;
+
+	int nSwordsmanCreated;
+	int nArcherCreated;
+	int nCalvaryCreated;
+
+	int nSwordsmanDamageDone;
+	int nArcherDamageDone;
+	int nCalvaryDamageDone;
+
+	int nSwordsmanKilled;
+	int nArcherKilled;
+	int nCavalryKilled;
+};
 class CPlayer
 {
 private:
@@ -13,10 +36,14 @@ private:
 	int m_nExp;
 	int m_nJoystickNum;
 	bool m_bAI;
+
+	GameStats m_tStats;
 public:
 
 	CPlayer(int nPlayerID);
 	~CPlayer(void);
+
+	GameStats* GetStats(void) { return &m_tStats;}
 
 	bool GetAI(void) { return m_bAI;}
 	void SetAI(bool b) { m_bAI = b;}
