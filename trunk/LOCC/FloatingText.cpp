@@ -59,7 +59,7 @@ void CFloatingText::Update(float fElapsedTime)
 		m_vText[i].velocity.fVecX;
 		std::wostringstream woss;
 		woss << "PosY: " << m_vText[i].position.fVecY << ", Vel Y: " << m_vText[i].velocity.fVecY << ", fElapsedtime: " << fElapsedTime << ", Change: " << (m_vText[i].velocity.fVecY * fElapsedTime) << '\n';
-		OutputDebugString(woss.str().c_str());
+		//OutputDebugString(woss.str().c_str());
 
 		m_vText[i].position.fVecX = (m_vText[i].position.fVecX + (m_vText[i].velocity.fVecX * fElapsedTime));
 		m_vText[i].position.fVecY = (m_vText[i].position.fVecY + (m_vText[i].velocity.fVecY * fElapsedTime));
