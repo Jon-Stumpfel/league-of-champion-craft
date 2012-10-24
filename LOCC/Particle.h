@@ -26,6 +26,7 @@ public:
 	RECT GetRect( void ) const { return m_sSource; }
 	Vec2Df GetVelStart( void ) const { return m_sVelStart; }
 	Vec2Df GetVelEnd( void ) const { return m_sVelEnd; }
+	Vec2Df GetCurVel( void ) const { return m_sVel; }
 
 	void SetScale( float fScale ) { m_fScale = fScale; }
 	void SetCurTime( float fTime ) { m_fCurTime = fTime; }	
@@ -35,6 +36,7 @@ public:
 	void SetRect( RECT sSource ) { m_sSource = sSource; }
 	void SetVelStart( Vec2Df sVel ) { m_sVelStart = sVel; }
 	void SetVelEnd( Vec2Df sVel ) { m_sVelEnd = sVel; }
+	void SetVel( Vec2Df sVel ) { m_sVel = sVel; }
 
 private:
 
