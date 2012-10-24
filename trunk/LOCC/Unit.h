@@ -47,11 +47,9 @@ public:
 	static int DoDamage(lua_State* L);
 	static int Rally(lua_State* L);
 	static int Pathfind(lua_State* L);
-
+	static int StandGround(lua_State* L);
 
 	void UpdateEffects(void);
-
-
 
 	bool GetFleeing(void){ return m_bIsFleeing;}
 	void SetFleeing(bool b) { m_bIsFleeing = b;}

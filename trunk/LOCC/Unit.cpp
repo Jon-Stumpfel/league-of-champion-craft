@@ -27,8 +27,12 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	else if (m_eType != UT_ARCHER)
 	{
 		m_vAbilities.push_back(pAM->GetAbility(SP_MELEEATTACK));
+
 		if( m_eType == UT_CAVALRY )
 			m_vAbilities.push_back(pAM->GetAbility(SP_CHARGE));
+		
+		if( m_eType == UT_SWORDSMAN )
+			m_vAbilities.push_back(pAM->GetAbility(SP_STAND));
 	}
 	else
 	{
@@ -454,6 +458,18 @@ int CUnit::Pathfind(lua_State* L)
 	{
 		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_PATHFINDER),1);
+	}
+	return 0;
+}
+
+int CUnit::StandGround(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L,1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if( pUnit != nullptr )
+	{
+		if( pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_STAND), 1);
 	}
 	return 0;
 }

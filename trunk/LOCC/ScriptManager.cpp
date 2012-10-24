@@ -248,6 +248,7 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "Rally", CUnit::Rally);
 	lua_register(L, "Pathfind", CUnit::Pathfind);
 	lua_register(L, "RaiseMountain", CTileManager::RaiseMountain);
+	lua_register(L, "StandGround", CUnit::StandGround);
 }
 
 void CScriptManager::Shutdown( void )
