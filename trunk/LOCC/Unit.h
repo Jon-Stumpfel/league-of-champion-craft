@@ -69,7 +69,6 @@ public:
 	void PushEffect(CAbility* effect, int nDuration);
 	void RemoveEffect(SPELL_TYPE spType);
 	CAbility* GetEffect(int i) { return m_vEffects[i].second;}
-	bool GetEffect(SPELL_TYPE a);
 	int GetNumEffects(void) { return m_vEffects.size();}
 
 	void SetPos(int posX, int posY);

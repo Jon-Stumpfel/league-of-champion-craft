@@ -140,13 +140,6 @@ void CAbilityManager::LoadAbilities( void )
 			}
 			break;
 
-		case SP_VOLLEY:
-			{
-				if( doc.LoadFile("Assets/Ability/volley.xml") == false)
-					return;
-			}
-			break;
-
 		case SP_STAND:
 			{
 				if( doc.LoadFile("Assets/Ability/Stand.xml") == false )
@@ -400,21 +393,7 @@ void CAbilityManager::LoadAbilities( void )
 					tmp.first = SP_RAISEMOUNTAIN;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
-				}
-				break;
 
-			case SP_VOLLEY:
-				{
-					ab->SetIsMove(false);
-					ab->SetType(SP_VOLLEY);
-					ab->SetParticleType(PT_BLOOD);
-					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Guy shoots arrows and stuff");
-					ab->SetDamage(12);
-					std::pair<SPELL_TYPE, CAbility*> tmp;
-					tmp.first = SP_VOLLEY;
-					tmp.second = ab;
-					m_vAbilities.push_back(tmp);
 				}
 				break;
 
