@@ -56,6 +56,16 @@ void CStateStack::Switch( IGameState* pState )
 	// Push the new one.
 	Push(pState);
 }
+	bool  CStateStack::FindState(IGameState* pState)
+	{
+		for (unsigned int i = 0; i < m_vCurStates.size(); ++i)
+		{
+			if (pState == m_vCurStates[i])
+				return true;
+		}
+
+		return false;
+	}
 
 IGameState* CStateStack::GetTop(void)
 {

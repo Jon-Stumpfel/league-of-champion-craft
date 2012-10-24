@@ -72,10 +72,9 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/fireballicon.png"), _T("fireballicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/shieldspellicon.png"), _T("shieldspellicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/healspellicon.png"), _T("healspellicon"), 0UL);
+
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Sword.png"), _T("AttackSword"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Castle.png"), _T("MoveCastle"), 0UL);
-
-
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 
 	CAbilityManager::GetInstance()->LoadAbilities();

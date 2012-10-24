@@ -20,6 +20,8 @@ public:
 	void	RenderStack(void);
 
 	void	SetRenderTopOnly(bool b) { m_bRenderTopOnly = b;}
+
+	bool FindState(IGameState* pState);
 private:
 
 	CStateStack(void);

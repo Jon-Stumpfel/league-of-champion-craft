@@ -37,7 +37,7 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	else
 	{
 		m_vAbilities.push_back(pAM->GetAbility(SP_ARCHERRANGEDATTACK));
-		m_vAbilities.push_back(pAM->GetAbility(SP_VOLLEY));
+		//m_vAbilities.push_back(pAM->GetAbility(SP_CHARGE));
 	}
 
 	if (m_eType == UT_HERO)
@@ -146,7 +146,7 @@ void CUnit::Update(float fElapsedTime)
 		break;
 	case UT_HERO:
 		m_nSpeed = 4;
-		m_nAttack = 10;
+		m_nAttack = 999999;
 		break;
 	case UT_CASTLE:
 		m_nSpeed = 0;
@@ -376,17 +376,6 @@ void CUnit::PushEffect(CAbility* effect, int nDuration)
 		}
 	}
 	m_vEffects.push_back(eff);
-}
-
-bool CUnit::GetEffect(SPELL_TYPE a)
-{
-	for( unsigned int i = 0; i < m_vEffects.size(); i++ )
-	{
-		if( m_vEffects[i].second->GetType() == a )
-			return true;
-	}
-
-	return false;
 }
 
 int CUnit::SetFreeMove(lua_State* L)

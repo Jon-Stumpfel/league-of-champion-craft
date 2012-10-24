@@ -23,6 +23,7 @@ private:
 	bool m_bConfirm;
 	void ReadSlot(int nSlot);
 
+	bool m_bFromMainMenu;
 	CSaveSlotState(void);
 	virtual ~CSaveSlotState(void);
 	CSaveSlotState(const CSaveSlotState&);

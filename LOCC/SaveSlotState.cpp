@@ -27,8 +27,19 @@ void CSaveSlotState::Enter(void)
 	m_bConfirm = false;
 	m_nConfirmChoice = 0;
 	m_nHighlightedSlot = 1;
-	m_nMenuChoice = 0;
 
+
+	if (CStateStack::GetInstance()->FindState(CMainMenuState::GetInstance()))
+	{
+		m_bFromMainMenu = true;
+	}
+	else
+		m_bFromMainMenu = false;
+
+	if (m_bFromMainMenu)
+		m_nMenuChoice = 1;
+	else
+		m_nMenuChoice = 0;
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
 }
 void CSaveSlotState::Exit(void)
@@ -87,8 +98,16 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 			if (m_bShowMenu)
 			{
 				m_nMenuChoice--;
-				if (m_nMenuChoice < 0)
-					m_nMenuChoice = 2;
+				if (m_bFromMainMenu)
+				{
+					if (m_nMenuChoice < 1)
+						m_nMenuChoice = 2;
+				}
+				else
+				{
+					if (m_nMenuChoice < 0)
+						m_nMenuChoice = 2;
+				}
 			}
 		}
 		break;
@@ -97,8 +116,16 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 			if (m_bShowMenu)
 			{
 				m_nMenuChoice++;
-				if (m_nMenuChoice > 2)
-					m_nMenuChoice = 0;
+				if (m_bFromMainMenu)
+				{
+					if (m_nMenuChoice > 2)
+						m_nMenuChoice = 1;
+				}
+				else
+				{
+					if (m_nMenuChoice > 2)
+						m_nMenuChoice = 0;
+				}
 			}
 		}
 		break;
@@ -118,7 +145,7 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 						// execute whatever we are on in menu choice
 						switch (m_nMenuChoice)
 						{
-						case 0: // Load
+						case 1: // Load
 							{
 								CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
 								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
@@ -126,7 +153,7 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 								return;
 							}
 							break;
-						case 1: // Save!
+						case 0: // Save!
 							{
 								CGameManager::GetInstance()->SaveGame(m_nHighlightedSlot);
 								m_nConfirmChoice = 0;
@@ -194,12 +221,18 @@ void CSaveSlotState::Render(void)
 		std::ostringstream woss;
 		woss << "Load from Slot";
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 480, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 480, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 		woss.str((""));
+
+		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255);
+		if (m_bFromMainMenu)
+		{
+			color = D3DCOLOR_XRGB(120, 120, 120);
+		}
 		woss << "Save to Slot";
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 500, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 370, 480, 0.4f, color);
 
 		woss.str((""));
 		woss << "Delete Slot";
@@ -210,11 +243,17 @@ void CSaveSlotState::Render(void)
 		if (m_bConfirm)
 		{
 			woss.str((""));
-			woss << "Are you sure?    No    Yes";
+			woss << "Are you sure?";
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 330, 550, 255, 255, 255);
-			m_pBitmapFont.Print(woss.str().c_str(), 330, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont.Print(woss.str().c_str(), 290, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
-			CGraphicsManager::GetInstance()->DrawArrow(480 + (m_nConfirmChoice * 65), 560, 255, 255, 255);
+			woss.str((""));
+			woss << "No";
+			m_pBitmapFont.Print(woss.str().c_str(), 515, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			woss.str((""));
+			woss << "Yes";
+			m_pBitmapFont.Print(woss.str().c_str(), 590, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			CGraphicsManager::GetInstance()->DrawArrow(495 + (m_nConfirmChoice * 75), 560, 255, 255, 255);
 		}
 		else
 		{
