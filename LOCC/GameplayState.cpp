@@ -764,6 +764,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 								{
 									// miss!
 								}
+
+
 							}
 							else
 							{
@@ -947,6 +949,9 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	// If we're here, we're movin. Subtract the cost of the move from the player's AP
 	CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->SetAP(
 		CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP() - nTotalAPCost);
+
+	// STATS SAVING
+	CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetStats()->nPlayerAPSpent += nTotalAPCost;
 
 	// Add the tile waypoints to the unit so that he can slide along them neatly
 	for (unsigned int i = 0; i < m_vWaypoints.size(); ++i)

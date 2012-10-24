@@ -2,9 +2,13 @@
 <Map mapID="1" phaseNumber="0" phase="0" currPlayer="0">
     <MapModifications numModifications="0" />
     <Players>
-        <Player id="0" ai="0" AP="30" wood="20" metal="20">
+        <Player id="0" ai="0" AP="27" wood="20" metal="20">
             <Champion posX="4" posY="2" health="50" xp="0" facing="2" tilesMoved="0" hasAttacked="0">
-                <Spells numSpells="4">
+                <Spells numSpells="8">
+                    <Spell sType="21" />
+                    <Spell sType="7" />
+                    <Spell sType="8" />
+                    <Spell sType="0" />
                     <Spell sType="17" />
                     <Spell sType="8" />
                     <Spell sType="0" />
@@ -14,7 +18,9 @@
             </Champion>
             <Units numUnits="5">
                 <Unit posX="3" posY="2" unitType="2" health="12" facing="2" tilesMoved="0" hasAttacked="0">
-                    <Effects numEffects="0" />
+                    <Effects numEffects="1">
+                        <Effect ability="7" />
+                    </Effects>
                 </Unit>
                 <Unit posX="5" posY="2" unitType="3" health="20" facing="2" tilesMoved="0" hasAttacked="0">
                     <Effects numEffects="0" />
@@ -32,7 +38,11 @@
         </Player>
         <Player id="1" ai="0" AP="30" wood="20" metal="20">
             <Champion posX="4" posY="5" health="50" xp="0" facing="0" tilesMoved="0" hasAttacked="0">
-                <Spells numSpells="4">
+                <Spells numSpells="8">
+                    <Spell sType="21" />
+                    <Spell sType="7" />
+                    <Spell sType="8" />
+                    <Spell sType="0" />
                     <Spell sType="17" />
                     <Spell sType="8" />
                     <Spell sType="0" />
