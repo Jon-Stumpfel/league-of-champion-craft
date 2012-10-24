@@ -1676,5 +1676,6 @@ CAnimation CAnimationManager::GetAnimation(UNIT_TYPE ut, ANIM_TYPE at)
 			}
 			break;
 		}
+	return m_vIceBlockAnims[0];
 	}
 }

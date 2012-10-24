@@ -252,35 +252,42 @@ void CUnit::Update(float fElapsedTime)
 	if (m_nHP <= 0)
 	{
 		m_sAnimStruct->animationType = AT_DEATH;
-		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
-		if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
+		if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 2
 			&& m_sAnimStruct->unitType == UT_ARCHER && CAnimationManager::GetInstance()->GetAnimation(UT_ARCHER,AT_DEATH).GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed()-0.5f)
 		{
+			CAnimation tempanim = CAnimationManager::GetInstance()->GetAnimation(UT_ARCHER,AT_DEATH);
+			int tempframe = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame();
+			float temptime = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed();
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
 		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
 			&& m_sAnimStruct->unitType == UT_CAVALRY && CAnimationManager::GetInstance()->GetAnimation(UT_CAVALRY,AT_DEATH).GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed()-0.5f)
 		{
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
 		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 4
 			&& m_sAnimStruct->unitType == UT_SKELETON && CAnimationManager::GetInstance()->GetAnimation(UT_SKELETON,AT_DEATH).GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed()-0.5f)
 		{
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
 		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 5
 			&& m_sAnimStruct->unitType == UT_HERO && CAnimationManager::GetInstance()->GetAnimation(UT_HERO,AT_DEATH).GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed()-0.5f)
 		{
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
 		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
 			&& m_sAnimStruct->unitType == UT_SWORDSMAN && CAnimationManager::GetInstance()->GetAnimation(UT_SWORDSMAN,AT_DEATH).GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed()-2)
 		{
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
 	}
