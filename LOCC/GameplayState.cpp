@@ -549,7 +549,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					if (Champ->GetCooldown(m_nSelectedSpell)<0)
 						return;
 				}
-			
+
 				std::vector<Vec2D> vec = ability->GetPattern();
 				for( unsigned int i = 0; i < vec.size(); i++ )
 				{
@@ -561,7 +561,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					tmp.nPosY += 5;
 					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 				}
-				
+
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
 				{
@@ -610,7 +610,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 							}
 							break;
 						}
-						
+
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
 						m_bIsTargeting = false;
@@ -658,18 +658,18 @@ void CGameplayState::UseAbility(CAbility* ability)
 							{
 								if( pUnit->GetShielded() == false )
 								{
-										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
-											Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
-										std::ostringstream oss;
-										oss << m_pSelectedUnit->GetAttack();
-										pSM->Play(pSM->GetID(_T("hurt")), false, false);
-										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
-											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
+									pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+									std::ostringstream oss;
+									oss << m_pSelectedUnit->GetAttack();
+									pSM->Play(pSM->GetID(_T("hurt")), false, false);
+									CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+										Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
 								}
 								else
 								{
 									pUnit->RemoveEffect(SP_SHIELD);
-								//	pUnit->SetShielded(0);
+									//	pUnit->SetShielded(0);
 									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 									std::ostringstream oss;
 									oss << "Shielded!";
@@ -719,6 +719,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					m_bSelectChampionAbility = false;
 				}
 				ClearSelections();
+			}
 		}
 		else if (ability->m_nNumTargets == 0) // AOE spell
 		{
@@ -733,25 +734,25 @@ void CGameplayState::UseAbility(CAbility* ability)
 				tmp.nPosY += 5;
 				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 			}
-				CAbilityManager* pAM = CAbilityManager::GetInstance();
-				pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
-					m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
-			
-				CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
-				if (ability->m_bIsAttack)
-					m_pSelectedUnit->SetHasAttacked(true);
+			CAbilityManager* pAM = CAbilityManager::GetInstance();
+			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
+				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
 
-				if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
-					Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+			CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+			if (ability->m_bIsAttack)
+				m_pSelectedUnit->SetHasAttacked(true);
 
-				m_bIsTargeting = false;
-				m_pTargetedTile = nullptr;
-				m_pSelectedUnit = nullptr;
-				m_bSelectChampionAbility = false;
-			}
-		}		
-	}
-}	
+			if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
+				Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+
+			m_bIsTargeting = false;
+			m_pTargetedTile = nullptr;
+			m_pSelectedUnit = nullptr;
+			m_bSelectChampionAbility = false;
+		}
+	}		
+}
+
 // Attempts to move the selectedUnit to the tile at position nTilePosition
 void CGameplayState::MoveToTile(Vec2D nTilePosition)
 {
