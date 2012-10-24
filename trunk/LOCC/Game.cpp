@@ -75,6 +75,19 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Sword.png"), _T("AttackSword"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Castle.png"), _T("MoveCastle"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Red).png",L"SwordsmanR",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Blue).png",L"SwordsmanB",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\skeleton(Blue).png",L"SkeletonB",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\skeleton(Red).png",L"SkeletonR",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\iceblock.png",L"IceBlock",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/champion(Red).png",L"ChampionR",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/champion(Blue).png",L"ChampionB",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\calvary(Red).png",L"CavalryR",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\calvary(Blue).png",L"CavalryB",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/castle(Red).png",L"CastleR",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/castle(Blue).png",L"CastleB",D3DCOLOR_ARGB(255,255,255,255));
+		CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Red).png",L"ArcherR",D3DCOLOR_ARGB(255,255,255,255));
+			CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Blue).png",L"ArcherB",D3DCOLOR_ARGB(255,255,255,255));
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 
 	CAbilityManager::GetInstance()->LoadAbilities();
