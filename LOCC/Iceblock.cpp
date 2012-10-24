@@ -15,7 +15,6 @@ CIceblock::CIceblock(void) : CUnit(UT_ICEBLOCK)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\iceblock.png",L"IceBlock",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
 

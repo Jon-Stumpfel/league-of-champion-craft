@@ -14,7 +14,6 @@ CSkeleton::CSkeleton(void) : CUnit(UT_SKELETON)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\skeleton.png",L"Skeleton",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place
 }
 
@@ -33,9 +32,20 @@ void CSkeleton::Render(void)
 	Vec2D tempoffset;
 	tempoffset.nPosX = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect().left - tempanchorpoint.nPosX;
 	tempoffset.nPosY = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect().top - tempanchorpoint.nPosY;
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Skeleton"),
+	if(this->GetPlayerID() == 0)
+	{
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"SkeletonR"),
 		(m_sWorldPos.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() - (tempoffset.nPosX)+10,
 		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-20,
 		1.0f,1.0f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,color);
+	}
+	else
+	{
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"SkeletonB"),
+		(m_sWorldPos.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() - (tempoffset.nPosX)+10,
+		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-20,
+		1.0f,1.0f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
+		0,0,color);
+	}
 }

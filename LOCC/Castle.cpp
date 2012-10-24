@@ -15,7 +15,6 @@ CCastle::CCastle(void) : CUnit(UT_CASTLE)
 	SetHasAttacked(false);
 	SetShielded(false);
 	SetIsMoving(false);
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/castle.png",L"Castle",D3DCOLOR_ARGB(255,255,255,255));
 	// TODO: Setup abilities when they are in place	
 }
 
@@ -30,9 +29,20 @@ void CCastle::Render( void )
 	Vec2D tempoffset;
 	tempoffset.nPosX = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect().left - tempanchorpoint.nPosX;
 	tempoffset.nPosY = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect().top - tempanchorpoint.nPosY;
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Castle"),
+	if(this->GetPlayerID() == 0)
+	{
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"CastleR"),
 		(m_sWorldPos.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() - (tempoffset.nPosX)-60,
 		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-60,
 		0.45f,0.45f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
 		0,0,D3DCOLOR_ARGB(255,255,255,255));
+	}
+	else
+	{
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"CastleB"),
+		(m_sWorldPos.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() - (tempoffset.nPosX)-60,
+		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-60,
+		0.45f,0.45f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
+		0,0,D3DCOLOR_ARGB(255,255,255,255));
+	}
 }
