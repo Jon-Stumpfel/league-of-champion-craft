@@ -288,7 +288,7 @@
     <Frame FrameNumber="2" TimeForFrameToRun="20" top="611" right="229" bottom="659" left="185" AnchorX="207" AnchorY="638" />
   </Animation>
   <Animation UnitType="3" AnimType="13" IsLooping="0" ImgName="footman(blue).png" CurrentFrame="0" AnimationName="FootmanBlueDeath">
-    <Frame FrameNumber="0" TimeForFrameToRun="100" top="521" right="143" bottom="562" left="96" AnchorX="116" AnchorY="542" />
-    <Frame FrameNumber="1" TimeForFrameToRun="100" top="577" right="136" bottom="613" left="93" AnchorX="115" AnchorY="605" />
+    <Frame FrameNumber="0" TimeForFrameToRun="50" top="521" right="143" bottom="562" left="96" AnchorX="116" AnchorY="542" />
+    <Frame FrameNumber="1" TimeForFrameToRun="50" top="577" right="136" bottom="613" left="93" AnchorX="115" AnchorY="605" />
   </Animation>
 </Animations>

@@ -236,39 +236,10 @@ void CUnit::Update(float fElapsedTime)
 			else
 				SetRange(3);
 	}
-	if (m_nHP <= 0)
-	{
-		m_sAnimStruct->animationType = AT_DEATH;
-		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
-		if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 2
-			&&m_sAnimStruct->unitType == UT_ARCHER)
-		{
-			CMessageSystem::GetInstance()->SendMessageW(pMsg);
-		}
-		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
-			&&m_sAnimStruct->unitType == UT_CAVALRY)
-		{
-			CMessageSystem::GetInstance()->SendMessageW(pMsg);
-		}
-		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 4
-			&&m_sAnimStruct->unitType == UT_SKELETON)
-		{
-			CMessageSystem::GetInstance()->SendMessageW(pMsg);
-		}
-		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 5
-			&&m_sAnimStruct->unitType == UT_HERO)
-		{
-			CMessageSystem::GetInstance()->SendMessageW(pMsg);
-		}
-		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 5
-			&&m_sAnimStruct->unitType == UT_HERO)
-		{
-			CMessageSystem::GetInstance()->SendMessageW(pMsg);
-		}
-	}
 	// move me along the route!
 	// If we have any waypoints in our list of waypoints added in from GameplayState::MoveToTile, then we need to move across them
-
+	if(m_nHP > 0)
+	{
 		if (m_nFacing == 0)
 			m_sAnimStruct->animationType = AT_WALK_N; // S
 		else if (m_nFacing == 1)
@@ -277,8 +248,42 @@ void CUnit::Update(float fElapsedTime)
 			m_sAnimStruct->animationType = AT_WALK_S; // E
 		else if (m_nFacing == 3)
 			m_sAnimStruct->animationType = AT_WALK_W; // W
-
-
+	}
+	if (m_nHP <= 0)
+	{
+		m_sAnimStruct->animationType = AT_DEATH;
+		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
+		if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
+			&& m_sAnimStruct->unitType == UT_ARCHER && CAnimationManager::GetInstance()->GetAnimation(UT_ARCHER,AT_DEATH).GetElapsedTime() >= 
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
+			&& m_sAnimStruct->unitType == UT_CAVALRY && CAnimationManager::GetInstance()->GetAnimation(UT_CAVALRY,AT_DEATH).GetElapsedTime() >= 
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 4
+			&& m_sAnimStruct->unitType == UT_SKELETON && CAnimationManager::GetInstance()->GetAnimation(UT_SKELETON,AT_DEATH).GetElapsedTime() >= 
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 5
+			&& m_sAnimStruct->unitType == UT_HERO && CAnimationManager::GetInstance()->GetAnimation(UT_HERO,AT_DEATH).GetElapsedTime() >= 
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
+			&& m_sAnimStruct->unitType == UT_SWORDSMAN && CAnimationManager::GetInstance()->GetAnimation(UT_SWORDSMAN,AT_DEATH).GetElapsedTime() >= 
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetTimePlayed())
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+	}
 
 	if (m_vWaypoints.size() != 0)
 	{

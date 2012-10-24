@@ -12,6 +12,7 @@ public:
 	static CAnimationManager* GetInstance( void );
 	CFrame GetFrame(UnitAnimation STheAnimStruct);
 	void Shutdown();
+	CAnimation GetAnimation(UNIT_TYPE ut, ANIM_TYPE at);
 private:
 	CAnimationManager(void);
 	~CAnimationManager(void);
