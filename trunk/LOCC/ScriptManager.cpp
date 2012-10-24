@@ -108,7 +108,8 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		CGameManager* pGM = CGameManager::GetInstance();
 		vector< CUnit* > affected;
 		int nCount = 0;
-		for( unsigned int i = 0; i < TilePos.size(); i++ )
+		int z = (int)TilePos.size()-1;
+		for( int i = z; i >= 0; i-- )
 		{
 			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
 		
@@ -140,6 +141,11 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			nCount++;
 			lua_insert(L, -2);
 			lua_settable(L, -3);
+
+			if( pAbility->GetType() == SP_CHARGE )
+			{
+				//if( TilePos
+			}
 		}
 
 		lua_setglobal(L, "tUnitData");
