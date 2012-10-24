@@ -96,6 +96,7 @@ int CGameplayState::GetCamOffsetY(void)
 }
 void CGameplayState::Exit(void)
 {
+	CMessageSystem::GetInstance()->ProcessMessages();
 	CAnimationManager::GetInstance()->Shutdown();
 	delete m_pBitmapFont;
 }
@@ -184,7 +185,6 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 			//MoveCamera(0, nDistance);
 		}
 	}
-
 }
 
 static bool CloseEnough(int n1, int n2)

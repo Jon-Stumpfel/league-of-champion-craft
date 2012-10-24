@@ -48,6 +48,7 @@ public:
 	static int Rally(lua_State* L);
 	static int Pathfind(lua_State* L);
 	static int StandGround(lua_State* L);
+	static int RaiseDead(lua_State* L);
 
 	void UpdateEffects(void);
 
