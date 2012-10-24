@@ -688,7 +688,7 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			case AT_DEATH:
 				{
 					std::vector<CAnimation>::iterator tempiter;
-					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					for(tempiter=m_vChampionAnims.begin();tempiter!=m_vChampionAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_DEATH)
 						{
@@ -1038,7 +1038,7 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			case AT_DEATH:
 				{
 					std::vector<CAnimation>::iterator tempiter;
-					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					for(tempiter=m_vSwordsmanAnims.begin();tempiter!=m_vSwordsmanAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_DEATH)
 						{
@@ -1213,7 +1213,7 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			case AT_DEATH:
 				{
 					std::vector<CAnimation>::iterator tempiter;
-					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					for(tempiter=m_vCalvaryAnims.begin();tempiter!=m_vCalvaryAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_DEATH)
 						{
@@ -1388,7 +1388,7 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			case AT_DEATH:
 				{
 					std::vector<CAnimation>::iterator tempiter;
-					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					for(tempiter=m_vSkeletonAnims.begin();tempiter!=m_vSkeletonAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_DEATH)
 						{
@@ -1563,7 +1563,7 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			case AT_DEATH:
 				{
 					std::vector<CAnimation>::iterator tempiter;
-					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					for(tempiter=m_vIceBlockAnims.begin();tempiter!=m_vIceBlockAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_DEATH)
 						{
@@ -1593,4 +1593,88 @@ void CAnimationManager::Shutdown()
 		delete s_Instance;
 	}
 	s_Instance = nullptr;
+}
+
+CAnimation CAnimationManager::GetAnimation(UNIT_TYPE ut, ANIM_TYPE at)
+{
+	switch (ut)
+	{
+	case UT_CASTLE:
+		{
+			for(unsigned int i = 0; i < m_vCastleAnims.size(); i++)
+			{
+				if(m_vCastleAnims[i].GetAnimType() == AT_DEATH)
+				{
+					return m_vCastleAnims[i];
+				}
+			}
+			break;
+		}
+	case UT_HERO:
+		{
+			for(unsigned int i = 0; i < m_vChampionAnims.size(); i++)
+			{
+				if(m_vChampionAnims[i].GetAnimType() == AT_DEATH)
+				{
+					return m_vChampionAnims[i];
+				}
+			}
+			break;
+		}
+	case UT_ARCHER:
+		{
+			for(unsigned int i = 0; i < m_vArcherAnims.size(); i++)
+			{
+				if(m_vArcherAnims[i].GetAnimType() == AT_DEATH)
+				{
+					return m_vArcherAnims[i];
+				}
+			}
+			break;
+		}
+	case UT_SWORDSMAN:
+		{
+			for(unsigned int i = 0; i < m_vSwordsmanAnims.size(); i++)
+			{
+				if(m_vSwordsmanAnims[i].GetAnimType() == AT_DEATH)
+				{
+					return m_vSwordsmanAnims[i];
+				}
+			}
+			break;
+		}
+	case UT_CAVALRY:
+		{
+			for(unsigned int i = 0; i < m_vCalvaryAnims.size(); i++)
+			{
+				if(m_vCalvaryAnims[i].GetAnimType() == AT_DEATH)
+				{
+					return m_vCalvaryAnims[i];
+				}
+			}
+			break;
+		}
+	case UT_SKELETON:
+		{
+			for(unsigned int i = 0; i < m_vSkeletonAnims.size(); i++)
+			{
+				if(m_vSkeletonAnims[i].GetAnimType() == AT_DEATH)
+				{
+					return m_vSkeletonAnims[i];
+				}
+			}
+			break;
+		}
+	case UT_ICEBLOCK:
+		{
+			for(unsigned int i = 0; i < m_vIceBlockAnims.size(); i++)
+			{
+				if(m_vIceBlockAnims[i].GetAnimType() == AT_DEATH)
+				{
+					return m_vIceBlockAnims[i];
+				}
+			}
+			break;
+		}
+	}
 }
