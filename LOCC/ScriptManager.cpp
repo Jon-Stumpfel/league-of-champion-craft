@@ -95,7 +95,7 @@ void CScriptManager::LoadScript( std::string szFilename, SCRIPT_TYPE eScript )
 	}
 }
 
-void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
+void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster, CTile* TileCharged )
 {
 	// Finds the facing for the specified unit
 	int face = pCaster->GetFacing();
@@ -113,6 +113,12 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 		{
 			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
 		
+			if( pAbility->GetType() == SP_CHARGE )
+			{
+				if( TilePos[i] == TileCharged->GetPosition() )
+					break;
+			}
+
 			if( tmp == nullptr )
 				continue;
 
@@ -141,11 +147,6 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster )
 			nCount++;
 			lua_insert(L, -2);
 			lua_settable(L, -3);
-
-			if( pAbility->GetType() == SP_CHARGE )
-			{
-				//if( TilePos
-			}
 		}
 
 		lua_setglobal(L, "tUnitData");

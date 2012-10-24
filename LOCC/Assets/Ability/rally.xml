@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="0" APCost="3" Cooldown="1" Target="0" SpellName="Rally" Attack="0" Phase="1" LuaPath="rally.lua" ParticlePath="rally.xml" IconPath="rally.png" SoundPath="thunder2.wav">
+<Ability Range="0" APCost="3" Cooldown="1" Target="0" SpellName="Rally" Attack="0" Facing="0" Phase="1" LuaPath="rally.lua" ParticlePath="rally.xml" IconPath="rally.png" SoundPath="thunder2.wav">
   <Tile PosX="-2" PosY="0" />
   <Tile PosX="-1" PosY="1" />
   <Tile PosX="-1" PosY="0" />

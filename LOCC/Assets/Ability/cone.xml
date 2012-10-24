@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="1" APCost="5" Cooldown="1" Target="1" SpellName="cone" Attack="1" Phase="0" LuaPath="cone.lua" ParticlePath="cone.xml" IconPath="iceblockportrait.png" SoundPath="thunder2.wav">
+<Ability Range="1" APCost="5" Cooldown="1" Target="1" SpellName="cone" Attack="1" Facing="1" Phase="0" LuaPath="cone.lua" ParticlePath="cone.xml" IconPath="iceblockportrait.png" SoundPath="thunder2.wav">
   <Tile PosX="-1" PosY="1" />
   <Tile PosX="0" PosY="1" />
   <Tile PosX="0" PosY="0" />

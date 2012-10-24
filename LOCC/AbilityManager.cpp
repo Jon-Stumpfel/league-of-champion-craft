@@ -50,11 +50,11 @@ CAbility* CAbilityManager::GetAbility( SPELL_TYPE type )
 	return nullptr;
 }
 
-void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster)
+void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pCaster, CTile* TileCharged)
 {
 	// Tells the scriptmanager to run the lua code for the specified spell
 	CScriptManager* pSM = CScriptManager::GetInstance();
-	pSM->Execute(pToUse, pTargetTile, pCaster);
+	pSM->Execute(pToUse, pTargetTile, pCaster, TileCharged);
 }
 
 void CAbilityManager::LoadAbilities( void )
@@ -167,7 +167,7 @@ void CAbilityManager::LoadAbilities( void )
 		if( pRoot == nullptr )
 			return;
 
-		int phase, attack, target, cooldown, ap, range, ID;
+		int phase, attack, target, cooldown, ap, range, ID, face;
 		const char* spellname, *luaFile, *particleFile, *iconFile, *soundFile;
 
 		pRoot->Attribute("Phase", &phase);
@@ -181,6 +181,7 @@ void CAbilityManager::LoadAbilities( void )
 		particleFile = pRoot->Attribute("ParticlePath");
 		iconFile = pRoot->Attribute("IconPath");
 		soundFile = pRoot->Attribute("SoundPath");
+		pRoot->Attribute("Facing", &face);
 		vector<Vec2D> pos;
 		TiXmlElement* pTile = pRoot->FirstChildElement("Tile");
 
@@ -220,6 +221,12 @@ void CAbilityManager::LoadAbilities( void )
 		else
 			gPhase = GP_MOVE;
 
+		bool Face;
+		if( face == 0 )
+			Face = false;
+		else
+			Face = true;
+
 		bool bAttack;
 		if( attack == 0 )
 			bAttack = false;
@@ -230,6 +237,7 @@ void CAbilityManager::LoadAbilities( void )
 			gPhase, bAttack, luaFile, particleFile, spellname, ID);
 
 		ab->SetSound(pSM->GetID(name));
+		ab->SetIfFacing(Face);
 
 		switch(i)
 		{

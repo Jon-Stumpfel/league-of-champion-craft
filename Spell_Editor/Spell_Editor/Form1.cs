@@ -191,6 +191,13 @@ namespace Spell_Editor
                     xAttack = new XAttribute("Attack", 0);
                 xRoot.Add(xAttack);
 
+                XAttribute xFacing;
+                if (cbFacing.Checked)
+                    xFacing = new XAttribute("Facing", 1);
+                else
+                    xFacing = new XAttribute("Facing", 0);
+                xRoot.Add(xFacing);
+
                 XAttribute xPhase;
                 if (rbAttackPhase.Checked == true)
                     xPhase = new XAttribute("Phase", 0);
