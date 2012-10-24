@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="3" APCost="3" Cooldown="0" Target="1" SpellName="Volley" Attack="1" Phase="0" LuaPath="volley.lua" ParticlePath="blood.xml" IconPath="volley.png" SoundPath="BowandArrow.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>
