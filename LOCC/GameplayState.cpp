@@ -554,12 +554,13 @@ void CGameplayState::UseAbility(CAbility* ability)
 				for( unsigned int i = 0; i < vec.size(); i++ )
 				{
 					Vec2D t;
-				t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
-				t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
-				Vec2D tmp = TranslateToPixel(t);
-				tmp.nPosX += 65;
-				tmp.nPosY += 5;
-				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+					t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+					t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+					Vec2D tmp = TranslateToPixel(t);
+					tmp.nPosX += 65;
+					tmp.nPosY += 5;
+					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+				}
 				
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
@@ -718,8 +719,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 					m_bSelectChampionAbility = false;
 				}
 				ClearSelections();
-			}
-		}
 		}
 		else if (ability->m_nNumTargets == 0) // AOE spell
 		{
@@ -734,26 +733,25 @@ void CGameplayState::UseAbility(CAbility* ability)
 				tmp.nPosY += 5;
 				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 			}
-
-			CAbilityManager* pAM = CAbilityManager::GetInstance();
-			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
-				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
+				CAbilityManager* pAM = CAbilityManager::GetInstance();
+				pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
+					m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
 			
-			CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
-			if (ability->m_bIsAttack)
-				m_pSelectedUnit->SetHasAttacked(true);
+				CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+				if (ability->m_bIsAttack)
+					m_pSelectedUnit->SetHasAttacked(true);
 
-			if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
-				Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+				if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
+					Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
-			m_bIsTargeting = false;
-			m_pTargetedTile = nullptr;
-			m_pSelectedUnit = nullptr;
-			m_bSelectChampionAbility = false;
-		}
-	}	
-}
-	
+				m_bIsTargeting = false;
+				m_pTargetedTile = nullptr;
+				m_pSelectedUnit = nullptr;
+				m_bSelectChampionAbility = false;
+			}
+		}		
+	}
+}	
 // Attempts to move the selectedUnit to the tile at position nTilePosition
 void CGameplayState::MoveToTile(Vec2D nTilePosition)
 {

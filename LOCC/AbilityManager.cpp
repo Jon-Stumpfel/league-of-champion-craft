@@ -146,6 +146,14 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
+
+		case SP_STAND:
+			{
+				if( doc.LoadFile("Assets/Ability/Stand.xml") == false )
+					return;
+			}
+			break;
+
 		default:
 			continue;
 		}
@@ -405,6 +413,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_VOLLEY;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+				case SP_STAND:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_STAND);
+					ab->SetParticleType(PT_STAND);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Guy stands still for a little while");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_STAND;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
