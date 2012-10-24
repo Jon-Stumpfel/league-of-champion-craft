@@ -1790,8 +1790,7 @@ void CGameplayState::Render(void)
 
 			//oss.str(_T(""));
 
-
-			oss << "AP: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() << ", Wood: " << pDebugPlayer->GetWood() << 
+			oss << "AP: " << pDebugPlayer->GetAP() << ", Pop: "<< pDebugPlayer->GetPopCap() <<"\\ "<<pDebugPlayer->GetMaxPopCap()<<", Wood: " << pDebugPlayer->GetWood() << 
 				", Metal: " << pDebugPlayer->GetMetal() << '\n';
 			m_pBitmapFont->Print(oss.str().c_str(), 258, 486, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 			ostringstream woss;
