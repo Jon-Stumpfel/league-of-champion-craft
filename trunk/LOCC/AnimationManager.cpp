@@ -23,15 +23,22 @@ void CAnimationManager::Update( float fElapsedTime )
 				&& (unsigned) m_vSwordsmanAnims[i].GetCurrFrame() < m_vSwordsmanAnims[i].GetFrameVec().size()-1)
 			{
 				m_vSwordsmanAnims[i].SetCurrFrame(m_vSwordsmanAnims[i].GetCurrFrame()+1);
+				m_vSwordsmanAnims[i].GetFrameVec()[m_vSwordsmanAnims[i].GetCurrFrame()].SetFrameNumber(m_vSwordsmanAnims[i].GetCurrFrame());
 				m_vSwordsmanAnims[i].SetElapsedTime(0.0f);
 			}
 			else if(m_vSwordsmanAnims[i].GetFrameVec()[m_vSwordsmanAnims[i].GetCurrFrame()].GetTimePlayed() < m_vSwordsmanAnims[i].GetElapsedTime()
 				&& (unsigned) m_vSwordsmanAnims[i].GetCurrFrame() >= m_vSwordsmanAnims[i].GetFrameVec().size()-1)
 			{
 				if(m_vSwordsmanAnims[i].GetLooping() == true)
+				{
 					m_vSwordsmanAnims[i].SetCurrFrame(0);
+					m_vSwordsmanAnims[i].GetFrameVec()[m_vSwordsmanAnims[i].GetCurrFrame()].SetFrameNumber(m_vSwordsmanAnims[i].GetCurrFrame());
+				}
 				else if(m_vSwordsmanAnims[i].GetLooping() == false)
+				{
 					m_vSwordsmanAnims[i].SetCurrFrame(m_vSwordsmanAnims[i].GetFrameVec().size()-1);
+					m_vSwordsmanAnims[i].GetFrameVec()[m_vSwordsmanAnims[i].GetCurrFrame()].SetFrameNumber(m_vSwordsmanAnims[i].GetCurrFrame());
+				}
 				m_vSwordsmanAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -45,15 +52,22 @@ void CAnimationManager::Update( float fElapsedTime )
 				&& (unsigned) m_vArcherAnims[i].GetCurrFrame() < m_vArcherAnims[i].GetFrameVec().size()-1)
 			{
 				m_vArcherAnims[i].SetCurrFrame(m_vArcherAnims[i].GetCurrFrame()+1);
+				m_vArcherAnims[i].GetFrameVec()[m_vArcherAnims[i].GetCurrFrame()].SetFrameNumber(m_vArcherAnims[i].GetCurrFrame());
 				m_vArcherAnims[i].SetElapsedTime(0.0f);
 			}
 			if(m_vArcherAnims[i].GetFrameVec()[m_vArcherAnims[i].GetCurrFrame()].GetTimePlayed() < m_vArcherAnims[i].GetElapsedTime()
 				&& (unsigned) m_vArcherAnims[i].GetCurrFrame() >= m_vArcherAnims[i].GetFrameVec().size()-1)
 			{
 				if(m_vArcherAnims[i].GetLooping() == true)
+				{
 					m_vArcherAnims[i].SetCurrFrame(0);
+					m_vArcherAnims[i].GetFrameVec()[m_vArcherAnims[i].GetCurrFrame()].SetFrameNumber(m_vArcherAnims[i].GetCurrFrame());
+				}
 				else if(m_vArcherAnims[i].GetLooping() == false)
+				{
 					m_vArcherAnims[i].SetCurrFrame(m_vArcherAnims[i].GetFrameVec().size()-1);
+					m_vArcherAnims[i].GetFrameVec()[m_vArcherAnims[i].GetCurrFrame()].SetFrameNumber(m_vArcherAnims[i].GetCurrFrame());
+				}
 				m_vArcherAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -67,15 +81,22 @@ void CAnimationManager::Update( float fElapsedTime )
 				&& (unsigned) m_vCalvaryAnims[i].GetCurrFrame() < m_vCalvaryAnims[i].GetFrameVec().size()-1)
 			{
 				m_vCalvaryAnims[i].SetCurrFrame(m_vCalvaryAnims[i].GetCurrFrame()+1);
+				m_vCalvaryAnims[i].GetFrameVec()[m_vCalvaryAnims[i].GetCurrFrame()].SetFrameNumber(m_vCalvaryAnims[i].GetCurrFrame());
 				m_vCalvaryAnims[i].SetElapsedTime(0.0f);
 			}
 			else if(m_vCalvaryAnims[i].GetFrameVec()[m_vCalvaryAnims[i].GetCurrFrame()].GetTimePlayed() < m_vCalvaryAnims[i].GetElapsedTime()
 				&& (unsigned) m_vCalvaryAnims[i].GetCurrFrame() >= m_vCalvaryAnims[i].GetFrameVec().size()-1)
 			{
 				if(m_vCalvaryAnims[i].GetLooping() == true)
+				{
 					m_vCalvaryAnims[i].SetCurrFrame(0);
+					m_vCalvaryAnims[i].GetFrameVec()[m_vCalvaryAnims[i].GetCurrFrame()].SetFrameNumber(m_vCalvaryAnims[i].GetCurrFrame());
+				}
 				else if(m_vCalvaryAnims[i].GetLooping() == false)
+				{
 					m_vCalvaryAnims[i].SetCurrFrame(m_vCalvaryAnims[i].GetFrameVec().size()-1);
+					m_vCalvaryAnims[i].GetFrameVec()[m_vCalvaryAnims[i].GetCurrFrame()].SetFrameNumber(m_vCalvaryAnims[i].GetCurrFrame());
+				}
 				m_vCalvaryAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -89,15 +110,22 @@ void CAnimationManager::Update( float fElapsedTime )
 				&& (unsigned) m_vSkeletonAnims[i].GetCurrFrame() < m_vSkeletonAnims[i].GetFrameVec().size()-1)
 			{
 				m_vSkeletonAnims[i].SetCurrFrame(m_vSkeletonAnims[i].GetCurrFrame()+1);
+				m_vSkeletonAnims[i].GetFrameVec()[m_vSkeletonAnims[i].GetCurrFrame()].SetFrameNumber(m_vSkeletonAnims[i].GetCurrFrame());
 				m_vSkeletonAnims[i].SetElapsedTime(0.0f);
 			}
 			else if(m_vSkeletonAnims[i].GetFrameVec()[m_vSkeletonAnims[i].GetCurrFrame()].GetTimePlayed() < m_vSkeletonAnims[i].GetElapsedTime()
 				&& (unsigned) m_vSkeletonAnims[i].GetCurrFrame() >= m_vSkeletonAnims[i].GetFrameVec().size()-1)
 			{
 				if(m_vSkeletonAnims[i].GetLooping() == true)
+				{
 					m_vSkeletonAnims[i].SetCurrFrame(0);
+					m_vSkeletonAnims[i].GetFrameVec()[m_vSkeletonAnims[i].GetCurrFrame()].SetFrameNumber(m_vSkeletonAnims[i].GetCurrFrame());
+				}
 				else if(m_vSkeletonAnims[i].GetLooping() == false)
+				{
 					m_vSkeletonAnims[i].SetCurrFrame(m_vSkeletonAnims[i].GetFrameVec().size()-1);
+					m_vSkeletonAnims[i].GetFrameVec()[m_vSkeletonAnims[i].GetCurrFrame()].SetFrameNumber(m_vSkeletonAnims[i].GetCurrFrame());
+				}
 				m_vSkeletonAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -111,15 +139,22 @@ void CAnimationManager::Update( float fElapsedTime )
 				&& (unsigned) m_vChampionAnims[i].GetCurrFrame() < m_vChampionAnims[i].GetFrameVec().size()-1)
 			{
 				m_vChampionAnims[i].SetCurrFrame(m_vChampionAnims[i].GetCurrFrame()+1);
+				m_vChampionAnims[i].GetFrameVec()[m_vChampionAnims[i].GetCurrFrame()].SetFrameNumber(m_vChampionAnims[i].GetCurrFrame());
 				m_vChampionAnims[i].SetElapsedTime(0.0f);
 			}
 			else if(m_vChampionAnims[i].GetFrameVec()[m_vChampionAnims[i].GetCurrFrame()].GetTimePlayed() < m_vChampionAnims[i].GetElapsedTime()
 				&& (unsigned) m_vChampionAnims[i].GetCurrFrame() >= m_vChampionAnims[i].GetFrameVec().size()-1)
 			{
 				if(m_vChampionAnims[i].GetLooping() == true)
+				{
 					m_vChampionAnims[i].SetCurrFrame(0);
+					m_vChampionAnims[i].GetFrameVec()[m_vChampionAnims[i].GetCurrFrame()].SetFrameNumber(m_vChampionAnims[i].GetCurrFrame());
+				}
 				else if(m_vChampionAnims[i].GetLooping() == false)
+				{
 					m_vChampionAnims[i].SetCurrFrame(m_vChampionAnims[i].GetFrameVec().size()-1);
+					m_vChampionAnims[i].GetFrameVec()[m_vChampionAnims[i].GetCurrFrame()].SetFrameNumber(m_vChampionAnims[i].GetCurrFrame());
+				}
 				m_vChampionAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -133,15 +168,22 @@ void CAnimationManager::Update( float fElapsedTime )
 				&& (unsigned) m_vCastleAnims[i].GetCurrFrame() < m_vCastleAnims[i].GetFrameVec().size()-1)
 			{
 				m_vCastleAnims[i].SetCurrFrame(m_vCastleAnims[i].GetCurrFrame()+1);
+				m_vCastleAnims[i].GetFrameVec()[m_vCastleAnims[i].GetCurrFrame()].SetFrameNumber(m_vCastleAnims[i].GetCurrFrame());
 				m_vCastleAnims[i].SetElapsedTime(0.0f);
 			}
 			else if(m_vCastleAnims[i].GetFrameVec()[m_vCastleAnims[i].GetCurrFrame()].GetTimePlayed() < m_vCastleAnims[i].GetElapsedTime()
 				&& (unsigned) m_vCastleAnims[i].GetCurrFrame() >= m_vCastleAnims[i].GetFrameVec().size()-1)
 			{
 				if(m_vCastleAnims[i].GetLooping() == true)
+				{
 					m_vCastleAnims[i].SetCurrFrame(0);
+					m_vCastleAnims[i].GetFrameVec()[m_vCastleAnims[i].GetCurrFrame()].SetFrameNumber(m_vCastleAnims[i].GetCurrFrame());
+				}
 				else if(m_vCastleAnims[i].GetLooping() == false)
+				{
 					m_vCastleAnims[i].SetCurrFrame(m_vCastleAnims[i].GetFrameVec().size()-1);
+					m_vCastleAnims[i].GetFrameVec()[m_vCastleAnims[i].GetCurrFrame()].SetFrameNumber(m_vCastleAnims[i].GetCurrFrame());
+				}
 				m_vCastleAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -155,15 +197,22 @@ void CAnimationManager::Update( float fElapsedTime )
 				&& (unsigned) m_vIceBlockAnims[i].GetCurrFrame() < m_vIceBlockAnims[i].GetFrameVec().size()-1)
 			{
 				m_vIceBlockAnims[i].SetCurrFrame(m_vIceBlockAnims[i].GetCurrFrame()+1);
+				m_vIceBlockAnims[i].GetFrameVec()[m_vIceBlockAnims[i].GetCurrFrame()].SetFrameNumber(m_vIceBlockAnims[i].GetCurrFrame());
 				m_vIceBlockAnims[i].SetElapsedTime(0.0f);
 			}
 			else if(m_vIceBlockAnims[i].GetFrameVec()[m_vIceBlockAnims[i].GetCurrFrame()].GetTimePlayed() < m_vIceBlockAnims[i].GetElapsedTime()
 				&& (unsigned) m_vIceBlockAnims[i].GetCurrFrame() >= m_vIceBlockAnims[i].GetFrameVec().size()-1)
 			{
 				if(m_vIceBlockAnims[i].GetLooping() == true)
+				{
 					m_vIceBlockAnims[i].SetCurrFrame(0);
+					m_vIceBlockAnims[i].GetFrameVec()[m_vIceBlockAnims[i].GetCurrFrame()].SetFrameNumber(m_vIceBlockAnims[i].GetCurrFrame());
+				}
 				else if(m_vIceBlockAnims[i].GetLooping() == false)
+				{
 					m_vIceBlockAnims[i].SetCurrFrame(m_vIceBlockAnims[i].GetFrameVec().size()-1);
+					m_vIceBlockAnims[i].GetFrameVec()[m_vIceBlockAnims[i].GetCurrFrame()].SetFrameNumber(m_vIceBlockAnims[i].GetCurrFrame());
+				}
 				m_vIceBlockAnims[i].SetElapsedTime(0.0f);
 			}
 		}
@@ -814,7 +863,7 @@ CFrame CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			case AT_DEATH:
 				{
 					std::vector<CAnimation>::iterator tempiter;
-					for(tempiter=m_vCastleAnims.begin();tempiter!=m_vCastleAnims.end();tempiter++)
+					for(tempiter=m_vArcherAnims.begin();tempiter!=m_vArcherAnims.end();tempiter++)
 					{
 						if(tempiter->GetAnimType() == AT_DEATH)
 						{

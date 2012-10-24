@@ -720,10 +720,11 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			{
 				if(pThis->GetCurrentPlayer()->GetAI())
 				{
-
+					CGameOverState::GetInstance()->SetAI(true);
 				}
 				else
 				{
+					CGameOverState::GetInstance()->SetAI(false);
 					if(pSMSG->GetUnit()->GetPlayerID() == 0)
 						CGameOverState::GetInstance()->SetPlayer(2);
 					else if(pSMSG->GetUnit()->GetPlayerID() == 1)
