@@ -61,6 +61,7 @@ private:
 	static CTileManager* s_Instance;
 
 	int	m_nTextureImageID;
+	int	m_nFrozenTextureImageID;
 	CTile**	m_pTileMap;
 	int m_nRows;
 	int m_nColumns;

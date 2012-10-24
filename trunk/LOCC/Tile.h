@@ -64,6 +64,15 @@ public:
 private:
 	int					m_eTType;
 	unsigned char		m_ucStatus;
+	//quick view of status
+	//TS_FROZEN			=1
+	//TS_RESOURCETILE	=2
+	//TS_OCCUPIED		=8
+	//TS_CAPTURED		=16
+	//TS_IS_DEAD		=32
+	//TS_ISPASSABLE		=64
+	//
+
 	int					m_nPlayerID;
 	Vec2D				m_sPos;
 	int					m_nPixWidth;

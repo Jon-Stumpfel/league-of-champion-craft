@@ -85,6 +85,9 @@ bool CTileManager::LoadSave( std::string sFilename )
 	CGraphicsManager::GetInstance()->LoadImageW(_TStupid_textconversion,_T("GrassTile"),D3DCOLOR_XRGB(0,0,0));
 	m_nTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("GrassTile"));
 
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Tiles/MapEditorFrozenTiles.png"),_T("iceTile"),D3DCOLOR_XRGB(0,0,0));
+	m_nFrozenTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("iceTile"));
+
 	TiXmlElement* pTiles = pRoot->FirstChildElement("Tiles");
 	TiXmlElement* pTile = pTiles->FirstChild("Tile")->ToElement();
 
@@ -180,59 +183,115 @@ void CTileManager::Render( void )
 			case TT_PLAINS:
 				{
 					Rsource = CellAlgorithm(TT_PLAINS);
+					if (m_pTileMap[i][j].GetIfFrozen())
+					{
+					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					}
+					else
+					{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);
+					}
 				}
 				break;
 			case TT_FOREST:
 				{
+					
 					Rsource = CellAlgorithm(TT_FOREST);
+					if (m_pTileMap[i][j].GetIfFrozen())
+					{
+					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					}
+					else
+					{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y- CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+					}
 				}
 				break;
 			case TT_MOUNTAINS:
 				{
 					Rsource = CellAlgorithm(TT_MOUNTAINS);
+					if (m_pTileMap[i][j].GetIfFrozen())
+					{
+					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					}
+					else
+					{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+					}
 				}
 				break;
 			case TT_WATER:
 				{
 					Rsource = CellAlgorithm(TT_WATER);
+					if (m_pTileMap[i][j].GetIfFrozen())
+					{
+					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					}
+					else{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);
+					}
 				}
 				break;
 			case TT_FARM:
 				{
 					Rsource = CellAlgorithm(TT_FARM);
+					if (m_pTileMap[i][j].GetIfFrozen())
+					{
+					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					}
+					else
+					{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+					}
 				}
 				break;
 			case TT_MILL:
 				{
 					Rsource = CellAlgorithm(TT_MILL);
+					if (m_pTileMap[i][j].GetIfFrozen())
+					{
+					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					}
+					else
+					{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+					}
 				}
 				break;
 			case TT_MINE:
 				{
 					Rsource = CellAlgorithm(TT_MINE);
+					if (m_pTileMap[i][j].GetIfFrozen())
+					{
+					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					}
+					else
+					{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+					}
 				}
 				break;
-			case TT_CASTLE:
-				{
-					Rsource = CellAlgorithm(TT_CASTLE);
+			}
+			if (m_pTileMap[i][j].GetIfDeadTile())
+			{
+				Rsource = CellAlgorithm(TT_TOMBSTONE);
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
-				}
-				break;
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+				
 			}
 		}
 	}

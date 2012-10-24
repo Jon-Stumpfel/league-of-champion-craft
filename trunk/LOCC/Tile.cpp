@@ -45,6 +45,7 @@ void CTile::SetStatus(unsigned char TileStatus, bool On_or_Off)
 }
 bool CTile::IsStatus(unsigned char TileStatus, bool On_or_Off)
 {
+	//KEEP AN EYE ON THIS!!!
 	assert(TileStatus>TS_ISPASSABLE&&"TileStatus out of range");
 	return false;
 	if (On_or_Off==true)
@@ -160,7 +161,7 @@ void CTile::SetIfResourceTile	(bool OnOff)
 
 bool CTile::GetIfDeadTile		(void)
 {
-	if(m_ucStatus & (1<<TS_RESOURCETILE))
+	if(m_ucStatus & (1<<TS_IS_DEAD))
 		return true;
 	else 
 		return false;  
@@ -169,11 +170,11 @@ void CTile::SetIfDeadTile		(bool OnOff)
 {
 	if (OnOff==true)
 	{
-		m_ucStatus |= (1<<TS_RESOURCETILE);
+		m_ucStatus |= (1<<TS_IS_DEAD);
 	}
 	if (OnOff==false)
 	{
-		m_ucStatus &= ~(1<<TS_RESOURCETILE);
+		m_ucStatus &= ~(1<<TS_IS_DEAD);
 	}
 }
 
