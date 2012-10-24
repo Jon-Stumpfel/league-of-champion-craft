@@ -831,7 +831,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 						CTileManager* pTM = CTileManager::GetInstance();
 						m_bIsMoving = true;
 						m_pSelectedUnit->AddWaypoint(m_pTargetedTile);
-						pAM->UseAbility(ability, pTM->GetTile( m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY) , m_pSelectedUnit);
+						pAM->UseAbility(ability, pTM->GetTile( m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY) , m_pSelectedUnit, m_pTargetedTile);
 					}
 					else
 						pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);

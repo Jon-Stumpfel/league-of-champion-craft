@@ -1,4 +1,6 @@
 function OnUse()
- posX, posY = GetSelectedTile();
- RaiseDead(posX, posY)
+
+  posX, posY = GetSelectedTile();
+  RaiseMountain(posX, posY)
+
 end

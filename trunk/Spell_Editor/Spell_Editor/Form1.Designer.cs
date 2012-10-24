@@ -37,6 +37,7 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadParticleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -54,10 +55,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.cbFacing = new System.Windows.Forms.CheckBox();
             this.cbAttack = new System.Windows.Forms.CheckBox();
             this.nudAP = new System.Windows.Forms.NumericUpDown();
             this.rtbLua = new System.Windows.Forms.RichTextBox();
-            this.loadSoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -150,6 +151,13 @@
             this.loadIconToolStripMenuItem.Text = "Load Icon";
             this.loadIconToolStripMenuItem.Click += new System.EventHandler(this.loadIconToolStripMenuItem_Click);
             // 
+            // loadSoundToolStripMenuItem
+            // 
+            this.loadSoundToolStripMenuItem.Name = "loadSoundToolStripMenuItem";
+            this.loadSoundToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
+            this.loadSoundToolStripMenuItem.Text = "Load Sound";
+            this.loadSoundToolStripMenuItem.Click += new System.EventHandler(this.loadSoundToolStripMenuItem_Click);
+            // 
             // changePathToolStripMenuItem
             // 
             this.changePathToolStripMenuItem.Name = "changePathToolStripMenuItem";
@@ -218,6 +226,7 @@
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.label1);
+            this.groupBox6.Controls.Add(this.cbFacing);
             this.groupBox6.Controls.Add(this.cbAttack);
             this.groupBox6.Controls.Add(this.nudAP);
             this.groupBox6.Location = new System.Drawing.Point(2, 3);
@@ -333,10 +342,21 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Ap Cost";
             // 
+            // cbFacing
+            // 
+            this.cbFacing.AutoSize = true;
+            this.cbFacing.Location = new System.Drawing.Point(176, 17);
+            this.cbFacing.Name = "cbFacing";
+            this.cbFacing.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.cbFacing.Size = new System.Drawing.Size(86, 21);
+            this.cbFacing.TabIndex = 0;
+            this.cbFacing.Text = "Is Facing";
+            this.cbFacing.UseVisualStyleBackColor = true;
+            // 
             // cbAttack
             // 
             this.cbAttack.AutoSize = true;
-            this.cbAttack.Location = new System.Drawing.Point(175, 40);
+            this.cbAttack.Location = new System.Drawing.Point(179, 40);
             this.cbAttack.Name = "cbAttack";
             this.cbAttack.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cbAttack.Size = new System.Drawing.Size(83, 21);
@@ -360,13 +380,6 @@
             this.rtbLua.Size = new System.Drawing.Size(535, 609);
             this.rtbLua.TabIndex = 0;
             this.rtbLua.Text = "";
-            // 
-            // loadSoundToolStripMenuItem
-            // 
-            this.loadSoundToolStripMenuItem.Name = "loadSoundToolStripMenuItem";
-            this.loadSoundToolStripMenuItem.Size = new System.Drawing.Size(164, 24);
-            this.loadSoundToolStripMenuItem.Text = "Load Sound";
-            this.loadSoundToolStripMenuItem.Click += new System.EventHandler(this.loadSoundToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -434,6 +447,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem loadIconToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadSoundToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cbFacing;
     }
 }
 

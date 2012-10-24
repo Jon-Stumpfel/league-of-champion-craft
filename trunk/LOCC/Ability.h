@@ -30,6 +30,7 @@ public:
 
 	bool m_bIsAttack;
 	bool m_bIsMove; // SPECIFICALLY if this is the Move "spell"
+	bool m_bFacing; // If the spell needs to take a specific facing
 
 public:
 
@@ -58,6 +59,7 @@ public:
 	int GetDamage( void ) const { return m_nDamage; }
 	std::string GetDescription( void ) const { return m_strDescription; }
 	int GetIconID( void ) const { return m_nIconID; }
+	bool GetIfFacing( void ) const { return m_bFacing; }
 
 	void SetIcon( TSTRING icon ) { m_szInterfaceIcon = icon; }
 	void SetIsMove( bool bMove ) { m_bIsMove = bMove; }
@@ -67,5 +69,6 @@ public:
 	void SetDamage( int damage ) { m_nDamage = damage; }
 	void SetDescription( std::string desc ) { m_strDescription = desc; }
 	void SetIconID( int id ) { m_nIconID = id; }
+	void SetIfFacing( bool face ) { m_bFacing = face; }
 };
 
