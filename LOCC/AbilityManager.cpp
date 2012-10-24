@@ -147,6 +147,13 @@ void CAbilityManager::LoadAbilities( void )
 			}
 			break;
 
+			case SP_VOLLEY:
+			{
+				if( doc.LoadFile("Assets/Ability/volley.xml") == false )
+					return;
+			}
+			break;
+
 		default:
 			continue;
 		}
@@ -407,6 +414,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_STAND;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+				case SP_VOLLEY:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_VOLLEY);
+					ab->SetParticleType(PT_BLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("shit being shot at other shit");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_VOLLEY;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

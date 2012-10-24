@@ -575,17 +575,35 @@ void CGameplayState::UseAbility(CAbility* ability)
 					if (nDistance <= ability->GetRange() && !(m_pTargetedTile->GetPosition() == m_pSelectedUnit->GetPos()))
 					{
 						int cur = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
-						int ap = CGameManager::GetInstance()->GetCurrentPlayer()->GetAP();
-						if(  ap == 0 )
+
+						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
 							return;
-						else
-							CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(ap - ability->GetApCost());
 
 						CSpawnUnitMessage* msg;
 						switch(ability->GetType())
 						{
 						case SP_SPAWNARCHER:
 							{
+								CGameManager* pGM = CGameManager::GetInstance();
+								if( pGM->GetCurrentPlayer()->GetPopCap() < pGM->GetCurrentPlayer()->GetMaxPopCap() )
+								{
+									if( pGM->GetCurrentPlayer()->GetMetal() >= 5 )
+									{
+										if( pGM->GetCurrentPlayer()->GetWood() >= 15 )
+										{	
+											//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap() + 1 );
+											pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 5 );
+											pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 15 );
+										}
+										else
+											return;
+									}
+									else
+										return;
+								}
+								else
+									return;
+
 								if( cur == 0 )
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 2, false, 12);
 								else
@@ -597,6 +615,20 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 						case SP_SPAWNSWORD:
 							{
+								CGameManager* pGM = CGameManager::GetInstance();
+								if( pGM->GetCurrentPlayer()->GetPopCap() < pGM->GetCurrentPlayer()->GetMaxPopCap() )
+								{
+									if( pGM->GetCurrentPlayer()->GetMetal() >= 20 )
+									{
+										//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
+										pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 20 );
+									}
+									else
+										return;
+								}
+								else
+									return;
+
 								if( cur == 0 )
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 2, false, 20);
 								else
@@ -607,6 +639,26 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 						case SP_SPAWNCALV:
 							{
+								CGameManager* pGM = CGameManager::GetInstance();
+								if( pGM->GetCurrentPlayer()->GetPopCap() < pGM->GetCurrentPlayer()->GetMaxPopCap() )
+								{
+									if( pGM->GetCurrentPlayer()->GetMetal() >= 10 )
+									{
+										if( pGM->GetCurrentPlayer()->GetWood() >= 10 )
+										{	
+											//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
+											pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 10 );
+											pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 10 );
+										}
+										else
+											return;
+									}
+									else
+										return;
+								}
+								else 
+									return;
+
 								if( cur == 0 )
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 2, false, 22);
 								else
@@ -615,6 +667,12 @@ void CGameplayState::UseAbility(CAbility* ability)
 							}
 							break;
 						}
+
+						int ap = CGameManager::GetInstance()->GetCurrentPlayer()->GetAP();
+						if(  ap == 0 )
+							return;
+						else
+							CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(ap - ability->GetApCost());
 
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
