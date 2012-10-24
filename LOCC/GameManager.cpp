@@ -710,9 +710,8 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			}
 			CTile* tile = CTileManager::GetInstance()->GetTile(pSMSG->GetUnit()->GetPos().nPosX, pSMSG->GetUnit()->GetPos().nPosY);
 			int x = 9;
-			pSMSG->GetUnit()->SetAnim(AT_DEATH);
 			tile->SetIfOccupied(false);
-			//tile->SetIfDeadTile(true);
+			tile->SetIfDeadTile(true);
 			if (pSMSG->GetUnit() == CGameplayState::GetInstance()->GetHighlighted())
 				CGameplayState::GetInstance()->ClearHighlighted();
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
