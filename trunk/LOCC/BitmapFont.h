@@ -88,10 +88,10 @@ public:
 			}
 		case 47:
 			{
-				rSource.left = 545;
-				rSource.top = 780;
-				rSource.right = 573;
-				rSource.bottom = 818;
+				rSource.left = 674;
+				rSource.top = 779;
+				rSource.right = 710;
+				rSource.bottom = 819;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
