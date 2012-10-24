@@ -179,8 +179,8 @@ void LevelSelectState::Render(void)
 			case TT_FARM:
 				rSrc = CellAlgorithm(TT_FARM);
 				g=177; r=34; b=76; break;
-			case TT_CASTLE:
-				rSrc = CellAlgorithm(TT_CASTLE);
+			//case TT_CASTLE:
+			//	rSrc = CellAlgorithm(TT_CASTLE);
 			default:
 				g=177; r=34; b=76; break;
 			}
@@ -255,8 +255,8 @@ void LevelSelectState::Render(void)
 			case TT_FARM:
 				rSrc = CellAlgorithm(TT_FARM);
 				g=177; r=34; b=76; break;
-			case TT_CASTLE:
-				rSrc = CellAlgorithm(TT_CASTLE);
+			case TT_TOMBSTONE:
+				rSrc = CellAlgorithm(TT_TOMBSTONE);
 			default:
 				g=177; r=34; b=76; break;
 			}
