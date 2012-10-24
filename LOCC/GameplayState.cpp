@@ -555,18 +555,37 @@ void CGameplayState::UseAbility(CAbility* ability)
 						return;
 				}
 
-				std::vector<Vec2D> vec = ability->GetPattern();
-				for( unsigned int i = 0; i < vec.size(); i++ )
+				if( ability->GetType() == SP_CHARGE )
 				{
-					Vec2D t;
-					t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
-					t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
-					Vec2D tmp = TranslateToPixel(t);
-					tmp.nPosX += 65;
-					tmp.nPosY += 5;
-					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+					std::vector<Vec2D> vec = ability->GetPattern();
+					for( unsigned int i = vec.size()-1; i > 0; i-- )
+					{
+						Vec2D t;
+						t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+						t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+						Vec2D tmp = TranslateToPixel(t);
+						tmp.nPosX += 65;
+						tmp.nPosY += 5;
+						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+						
+						if( m_pTargetedTile->GetPosition() == vec[i] )
+							break;
+					}
 				}
-
+				else
+				{
+					std::vector<Vec2D> vec = ability->GetPattern();
+					for( unsigned int i = 0; i < vec.size(); i++ )
+					{
+						Vec2D t;
+						t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+						t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+						Vec2D tmp = TranslateToPixel(t);
+						tmp.nPosX += 65;
+						tmp.nPosY += 5;
+						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+					}
+				}
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
 				{
