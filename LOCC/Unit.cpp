@@ -240,12 +240,36 @@ void CUnit::Update(float fElapsedTime)
 	{
 		m_sAnimStruct->animationType = AT_DEATH;
 		CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
-		CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 2
+			&&m_sAnimStruct->unitType == UT_ARCHER)
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 1
+			&&m_sAnimStruct->unitType == UT_CAVALRY)
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 4
+			&&m_sAnimStruct->unitType == UT_SKELETON)
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 5
+			&&m_sAnimStruct->unitType == UT_HERO)
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetFrame() == 5
+			&&m_sAnimStruct->unitType == UT_HERO)
+		{
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
 	}
 	// move me along the route!
 	// If we have any waypoints in our list of waypoints added in from GameplayState::MoveToTile, then we need to move across them
 
-			if (m_nFacing == 0)
+		if (m_nFacing == 0)
 			m_sAnimStruct->animationType = AT_WALK_N; // S
 		else if (m_nFacing == 1)
 			m_sAnimStruct->animationType = AT_WALK_E; // N

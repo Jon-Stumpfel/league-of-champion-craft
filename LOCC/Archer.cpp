@@ -25,9 +25,6 @@ CArcher::~CArcher(void)
 
 void CArcher::Render(void)
 {
-	               //   int x = (nFakeTileWidth / 2 * GetPos().nPosX) - (nFakeTileHeight / 2 * GetPos().nPosY);
-                  //  int y = (nFakeTileWidth / 2 * GetPos().nPosX) + (nFakeTileHeight  / 2 * GetPos().nPosY);
-
 		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255);
 	if (GetHasAttacked())
 		color = D3DCOLOR_XRGB(90, 90, 90);
