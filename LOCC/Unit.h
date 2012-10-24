@@ -119,5 +119,7 @@ public:
 
 	UNIT_TYPE GetType(void) { return m_eType;}
 	UnitAnimation* m_sAnimStruct;
+
+	void SetAnim(ANIM_TYPE temp) {m_sAnimStruct->animationType = temp;}
 };
 
