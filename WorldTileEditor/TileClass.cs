@@ -103,7 +103,7 @@ namespace WorldTileEditor
         {
             TType = TILE_TYPE.TT_PLAINS;
             Status = 0;
-            PlayerID = 0;
+            PlayerID = -1;
             Position = new Point();
             Frozen = false;
             Resource = false;
