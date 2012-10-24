@@ -156,7 +156,7 @@ void CUnit::Update(float fElapsedTime)
 		break;
 	case UT_HERO:
 		m_nSpeed = 4;
-		m_nAttack = 999999;
+		m_nAttack = 10;
 		break;
 	case UT_CASTLE:
 		m_nSpeed = 0;

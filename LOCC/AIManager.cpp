@@ -53,7 +53,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.2f)
+		if (fTimeToPop > 0.8f)
 		{
 			if (m_vInputQueue.back() == INPUT_AI_ATTACKED)
 			{
@@ -355,8 +355,60 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 
 	std::vector<CUnit*> vUnitsUnder25;
 
+	if (pMoveUnit->GetType() == UT_SWORDSMAN)
+	{
+		// Check surrounding tiles for occupation by enemies.
+		int nNumEnemiesNearby = 0;
+		Vec2D myPos = pMoveUnit->GetPos();
+		// north
+		CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(myPos.nPosX, myPos.nPosY - 1));
+		if (pTestUnit != nullptr)
+		{
+			if (pTestUnit->GetPlayerID() != pMoveUnit->GetPlayerID())
+			{
+				nNumEnemiesNearby++;
+			}
+		}
+		// south
+		pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(myPos.nPosX, myPos.nPosY + 1));
+		if (pTestUnit != nullptr)
+		{
+			if (pTestUnit->GetPlayerID() != pMoveUnit->GetPlayerID())
+			{
+				nNumEnemiesNearby++;
+			}
+		}
+		// west
+		pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(myPos.nPosX -1, myPos.nPosY));
+		if (pTestUnit != nullptr)
+		{
+			if (pTestUnit->GetPlayerID() != pMoveUnit->GetPlayerID())
+			{
+				nNumEnemiesNearby++;
+			}
+		}
 
-	if (pMoveUnit->GetType() == UT_HERO)
+		// east
+		pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(myPos.nPosX + 1, myPos.nPosY));
+		if (pTestUnit != nullptr)
+		{
+			if (pTestUnit->GetPlayerID() != pMoveUnit->GetPlayerID())
+			{
+				nNumEnemiesNearby++;
+			}
+		}
+
+		if (nNumEnemiesNearby >= 2)
+		{
+			bSkipMove = false;
+			m_vInputQueue.push_back(INPUT_AI_CLEAR);
+			m_vInputQueue.push_back(INPUT_AI_MOVED);
+			m_vInputQueue.push_back(INPUT_ACCEPT);
+			m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+			SelectUnit(pMoveUnit);
+		}
+	}
+	else if (pMoveUnit->GetType() == UT_HERO)
 	{
 		if ((float)((float)pMoveUnit->GetHP() / (float)pMoveUnit->GetMaxHP() <= 0.25f))
 		{
@@ -611,8 +663,46 @@ void CAIManager::AttackUnit(CUnit* pAttackUnit)
 	}
 	Vec2D nearest = pNearestEnemy->GetPos();
 	// cast fireball on the nearest enemy if it's under 50% hp to try to burst it down
+	if (pAttackUnit->GetType() == UT_ARCHER && ((pAttackUnit->GetAttack() > 6) || (pNearestEnemy->GetHP() < 12)) )
+	{
+		int xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+		int yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
 
-	if (pAttackUnit->GetType() == UT_HERO)
+
+		if (abs(double(xDistance + yDistance)) > pAttackUnit->GetRange())
+		{
+			m_vInputQueue.push_back(INPUT_AI_CLEAR);
+
+			m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+			return;
+		}
+		m_vInputQueue.push_back(INPUT_AI_CLEAR);
+		m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+		m_vInputQueue.push_back(INPUT_ACCEPT);
+
+		for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
+		{
+			if (xDistance < 0)
+				m_vInputQueue.push_back(INPUT_LEFT);
+			if (xDistance > 0)
+				m_vInputQueue.push_back(INPUT_RIGHT);
+			else
+				continue;
+		}
+		for (int i = 0; i < (int)(abs(double(yDistance))); ++i)
+		{
+			if (yDistance < 0)
+				m_vInputQueue.push_back(INPUT_UP);
+			if (yDistance > 0)
+				m_vInputQueue.push_back(INPUT_DOWN);
+			else
+				continue;
+		}
+		m_vInputQueue.push_back(INPUT_ACCEPT);
+		m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+
+	}
+	else if (pAttackUnit->GetType() == UT_HERO)
 	{
 		CHero* pHero = dynamic_cast<CHero*>(pAttackUnit);
 		if (pHero != nullptr)
