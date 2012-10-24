@@ -49,10 +49,9 @@
     <Tile PosX="3" PosY="9"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
     <Tile PosX="3" PosY="10" PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
 
-    <Tile PosX="4" PosY="0"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
     <Tile PosX="4" PosY="0"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
     <Tile PosX="4" PosY="1"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="1"></Tile>
-    <Tile PosX="4" PosY="2"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="2" PlayerID="-1" TType="6"></Tile>
+    <Tile PosX="4" PosY="2"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="6"></Tile>
     <Tile PosX="4" PosY="3"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="1"></Tile>
     <Tile PosX="4" PosY="4"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
     <Tile PosX="4" PosY="5"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
@@ -61,28 +60,7 @@
     <Tile PosX="4" PosY="8"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
     <Tile PosX="4" PosY="9"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
     <Tile PosX="4" PosY="10" PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
-    <Tile PosX="4" PosY="1"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="1"></Tile>
-    <Tile PosX="4" PosY="2"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="2" PlayerID="0" TType="6"></Tile>
-    <Tile PosX="4" PosY="3"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="1"></Tile>
-    <Tile PosX="4" PosY="4"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="4" PosY="5"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="4" PosY="6"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="2" PlayerID="0" TType="4"></Tile>
-    <Tile PosX="4" PosY="7"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="4" PosY="8"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="4" PosY="9"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="4" PosY="10" PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
 
-    <Tile PosX="5" PosY="0"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="5" PosY="1"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="1"></Tile>
-    <Tile PosX="5" PosY="2"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="2"></Tile>
-    <Tile PosX="5" PosY="3"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="1"></Tile>
-    <Tile PosX="5" PosY="4"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="5" PosY="5"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="5" PosY="6"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="5" PosY="7"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="5" PosY="8"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="5" PosY="9"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
-    <Tile PosX="5" PosY="10" PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="0" TType="0"></Tile>
     <Tile PosX="5" PosY="0"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="0"></Tile>
     <Tile PosX="5" PosY="1"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="1"></Tile>
     <Tile PosX="5" PosY="2"  PixWidth="64" PixHeight="64" TileWidth="64" TileHeight="64" Status="0" PlayerID="-1" TType="2"></Tile>

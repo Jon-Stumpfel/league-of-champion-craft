@@ -199,14 +199,14 @@ void CGame::Render(void)
 	CSGD_Direct3D::GetInstance()->SpriteBegin();
 
 	CStateStack::GetInstance()->RenderStack();
-	//static std::wostringstream woss;
-	//if (m_bUpdateFps)
-	//{
-	//	woss.str(_T(""));
-	//	woss << "FPS: " << (int)m_fFrameElapsed;
-	//	m_bUpdateFps = false;
-	//}
-	//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 10, 5, 255, 0, 0);
+	static std::wostringstream woss;
+	if (m_bUpdateFps)
+	{
+		woss.str(_T(""));
+		woss << "FPS: " << (int)m_fFrameElapsed;
+		m_bUpdateFps = false;
+	}
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 10, 5, 255, 0, 0);
 	CSGD_Direct3D::GetInstance()->SpriteEnd();
 	CSGD_Direct3D::GetInstance()->DeviceEnd();
 	CSGD_Direct3D::GetInstance()->Present();

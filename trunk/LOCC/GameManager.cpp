@@ -324,7 +324,7 @@ void CGameManager::SaveGame(int nSlot)
 		pAPSpent->SetAttribute("value", m_vPlayers[i]->GetStats()->nPlayerAPSpent);
 		pStats->LinkEndChild(pAPSpent);
 
-
+		pPlayer->LinkEndChild(pStats);
 
 
 		TiXmlElement* pChampion = new TiXmlElement("Champion");
@@ -530,6 +530,45 @@ void CGameManager::LoadSave(int nSlot)
 			pplay->SetAP(nAP);
 			pplay->SetMetal(nMetal);
 
+
+			// Load stats!
+			TiXmlElement* pStats = pPlayer->FirstChildElement("Stats");
+
+			TiXmlElement* pStat = pStats->FirstChildElement("ChampionDamageDone");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nChampionDamageDone);
+			pStat = pStats->FirstChildElement("ChampionHealingDone");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nChampionHealingDone);
+			pStat = pStats->FirstChildElement("SwordsmanCreated");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nSwordsmanCreated);
+			pStat = pStats->FirstChildElement("ArcherCreated");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nArcherCreated);
+			pStat = pStats->FirstChildElement("CalvaryCreated");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nCalvaryCreated);
+			pStat = pStats->FirstChildElement("SwordsmanDamageDone");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nSwordsmanDamageDone);
+			pStat = pStats->FirstChildElement("ArcherDamageDone");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nArcherDamageDone);
+			pStat = pStats->FirstChildElement("CalvaryDamageDone");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nCalvaryDamageDone);
+			pStat = pStats->FirstChildElement("SwordsmanKilled");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nSwordsmanKilled);
+			pStat = pStats->FirstChildElement("ArcherKilled");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nArcherKilled);
+			pStat = pStats->FirstChildElement("CalvaryKilled");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nCavalryKilled);
+			pStat = pStats->FirstChildElement("WoodEarned");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nPlayerWoodEarned);
+			pStat = pStats->FirstChildElement("WoodSpent");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nPlayerWoodSpent);
+			pStat = pStats->FirstChildElement("MetalEarned");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nPlayerMetalEarned);
+			pStat = pStats->FirstChildElement("MetalSpent");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nPlayerMetalSpent);
+			pStat = pStats->FirstChildElement("APSpent");
+			pStat->QueryIntAttribute("value", &pplay->GetStats()->nPlayerAPSpent);
+
+
+
 			TiXmlElement* pChampion = pPlayer->FirstChildElement("Champion");
 
 			int nPosX, nPosY, nHealth, nXP, nFacing, nTilesMoved, nHasAttacked;
@@ -671,7 +710,7 @@ void CGameManager::Reset(void)
 	m_vScriptSpawns.clear();
 
 	CreatePlayer(false); // player 1
-	CreatePlayer(false);
+	CreatePlayer(true);
 
 	CTileManager::GetInstance()->ShutDown();
 
