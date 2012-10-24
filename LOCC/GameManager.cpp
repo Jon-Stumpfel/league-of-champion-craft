@@ -255,6 +255,78 @@ void CGameManager::SaveGame(int nSlot)
 		pPlayer->SetAttribute("wood", m_vPlayers[i]->GetWood());
 		pPlayer->SetAttribute("metal", m_vPlayers[i]->GetMetal());
 
+		// Game Stats!
+
+		TiXmlElement* pStats = new TiXmlElement("Stats");
+		pStats->SetAttribute("numStats", 17);
+
+		TiXmlElement* pChampionDmgDone = new TiXmlElement("ChampionDamageDone");
+		pChampionDmgDone->SetAttribute("value", m_vPlayers[i]->GetStats()->nChampionDamageDone);
+		pStats->LinkEndChild(pChampionDmgDone);
+
+		TiXmlElement* pChampionHealingDone = new TiXmlElement("ChampionHealingDone");
+		pChampionHealingDone->SetAttribute("value", m_vPlayers[i]->GetStats()->nChampionHealingDone);
+		pStats->LinkEndChild(pChampionHealingDone);
+
+		TiXmlElement* pSwordsmanCreated = new TiXmlElement("SwordsmanCreated");
+		pSwordsmanCreated->SetAttribute("value", m_vPlayers[i]->GetStats()->nSwordsmanCreated);
+		pStats->LinkEndChild(pSwordsmanCreated);
+
+		TiXmlElement* pArcherCreated = new TiXmlElement("ArcherCreated");
+		pArcherCreated->SetAttribute("value", m_vPlayers[i]->GetStats()->nArcherCreated);
+		pStats->LinkEndChild(pArcherCreated);
+
+		TiXmlElement* pCalvaryCreated = new TiXmlElement("CalvaryCreated");
+		pCalvaryCreated->SetAttribute("value", m_vPlayers[i]->GetStats()->nCalvaryCreated);
+		pStats->LinkEndChild(pCalvaryCreated);
+
+		TiXmlElement* pSwordsmanDmgDone = new TiXmlElement("SwordsmanDamageDone");
+		pSwordsmanDmgDone->SetAttribute("value", m_vPlayers[i]->GetStats()->nSwordsmanDamageDone);
+		pStats->LinkEndChild(pSwordsmanDmgDone);
+
+		TiXmlElement* pArcherDmgDone = new TiXmlElement("ArcherDamageDone");
+		pArcherDmgDone->SetAttribute("value", m_vPlayers[i]->GetStats()->nArcherDamageDone);
+		pStats->LinkEndChild(pArcherDmgDone);
+
+		TiXmlElement* pCalvaryDmgDone = new TiXmlElement("CalvaryDamageDone");
+		pCalvaryDmgDone->SetAttribute("value", m_vPlayers[i]->GetStats()->nCalvaryDamageDone);
+		pStats->LinkEndChild(pCalvaryDmgDone);
+
+		TiXmlElement* pSwordsmanKilled = new TiXmlElement("SwordsmanKilled");
+		pSwordsmanKilled->SetAttribute("value", m_vPlayers[i]->GetStats()->nSwordsmanKilled);
+		pStats->LinkEndChild(pSwordsmanKilled);
+
+		TiXmlElement* pArcherKilled = new TiXmlElement("ArcherKilled");
+		pArcherKilled->SetAttribute("value", m_vPlayers[i]->GetStats()->nArcherKilled);
+		pStats->LinkEndChild(pArcherKilled);
+
+		TiXmlElement* pCalvaryKilled = new TiXmlElement("CalvaryKilled");
+		pCalvaryKilled->SetAttribute("value", m_vPlayers[i]->GetStats()->nCavalryKilled);
+		pStats->LinkEndChild(pCalvaryKilled);
+
+		TiXmlElement* pWoodEarned = new TiXmlElement("WoodEarned");
+		pWoodEarned->SetAttribute("value", m_vPlayers[i]->GetStats()->nPlayerWoodEarned);
+		pStats->LinkEndChild(pWoodEarned);
+
+		TiXmlElement* pMetalEarned = new TiXmlElement("MetalEarned");
+		pMetalEarned->SetAttribute("value", m_vPlayers[i]->GetStats()->nPlayerMetalEarned);
+		pStats->LinkEndChild(pMetalEarned);
+
+		TiXmlElement* pWoodSpent = new TiXmlElement("WoodSpent");
+		pWoodSpent->SetAttribute("value", m_vPlayers[i]->GetStats()->nPlayerWoodSpent);
+		pStats->LinkEndChild(pWoodSpent);
+
+		TiXmlElement* pMetalSpent = new TiXmlElement("MetalSpent");
+		pMetalSpent->SetAttribute("value", m_vPlayers[i]->GetStats()->nPlayerMetalSpent);
+		pStats->LinkEndChild(pMetalSpent);
+
+		TiXmlElement* pAPSpent = new TiXmlElement("APSpent");
+		pAPSpent->SetAttribute("value", m_vPlayers[i]->GetStats()->nPlayerAPSpent);
+		pStats->LinkEndChild(pAPSpent);
+
+
+
+
 		TiXmlElement* pChampion = new TiXmlElement("Champion");
 		CHero* pHero = dynamic_cast<CHero*>(GetChampion(m_vPlayers[i]->GetPlayerID()));
 		if (pHero == nullptr)
@@ -599,7 +671,7 @@ void CGameManager::Reset(void)
 	m_vScriptSpawns.clear();
 
 	CreatePlayer(false); // player 1
-	CreatePlayer(true);
+	CreatePlayer(false);
 
 	CTileManager::GetInstance()->ShutDown();
 
@@ -678,6 +750,21 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			pUnit->SetPos(pSMSG->GetPos());
 			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());
+
+			CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(pSMSG->GetPlayerID());
+			switch (pSMSG->GetUnitType())
+			{
+			case UT_SWORDSMAN:
+				pPlayer->GetStats()->nSwordsmanCreated++;
+				break;
+			case UT_ARCHER:
+				pPlayer->GetStats()->nArcherCreated++;
+				break;
+			case UT_CAVALRY:
+				pPlayer->GetStats()->nCalvaryCreated++;
+				break;
+			}
+
 			if (pSMSG->GetLoaded())
 			{
 				pUnit->SetHP(pSMSG->GetHealth());
@@ -732,20 +819,25 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				}
 				CStateStack::GetInstance()->Push(CGameOverState::GetInstance());
 			}
-			for(int i = 0; i < UT_ICEBLOCK; i++)
+
+			if (pSMSG->GetUnit()->GetPlayerID() != pThis->GetCurrentPlayer()->GetPlayerID())
 			{
-				if(pSMSG->GetUnit()->GetType() == i)
+				pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp() + pSMSG->GetUnit()->GetEXPValue());
+				pThis->GetCurrentPlayer()->GetStats()->nPlayerEXPEarned+=pSMSG->GetUnit()->GetEXPValue();
+				switch (pSMSG->GetUnit()->GetType())
 				{
-					if(pSMSG->GetUnit()->GetPlayerID() == pThis->GetCurrentPlayer()->GetPlayerID())
-					{
-						pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp());
-					}
-					else
-					{
-						pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp()+pSMSG->GetUnit()->GetEXPValue());
-					}
+				case UT_SWORDSMAN:
+					pThis->GetCurrentPlayer()->GetStats()->nSwordsmanKilled++;
+					break;
+				case UT_ARCHER:
+					pThis->GetCurrentPlayer()->GetStats()->nArcherKilled++;
+					break;
+				case UT_CAVALRY:
+					pThis->GetCurrentPlayer()->GetStats()->nCavalryKilled++;
+					break;
 				}
 			}
+
 		}
 		break;
 	case MSG_ADDRESOURCE:
