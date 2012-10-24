@@ -5,6 +5,7 @@
 #include "Archer.h"
 #include "Tile.h"
 #include "DeSpawnUnitMessage.h"
+#include "SpawnUnitMessage.h"
 #include "GameManager.h"
 #include "AbilityManager.h"
 #include "Player.h"
@@ -469,5 +470,27 @@ int CUnit::StandGround(lua_State* L)
 		if( pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_STAND), 1);
 	}
+	return 0;
+}
+
+int CUnit::RaiseDead(lua_State* L)
+{
+	int posX = (int)lua_tonumber(L, 1);
+	int posY = (int)lua_tonumber(L, 2);
+
+	CTile* pTile = CTileManager::GetInstance()->GetTile(posX, posY);
+	CPlayer* pPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
+	if (pTile->GetIfOccupied() != true)
+	{
+		if (pTile->GetIfDeadTile() == true)
+		{
+			CSpawnUnitMessage* pmsg = new CSpawnUnitMessage(Vec2D(posX, posY), CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID(),
+				UT_SKELETON, 0, false);
+			CMessageSystem::GetInstance()->SendMessageW(pmsg);
+			pTile->SetIfOccupied(true);
+			pTile->SetIfDeadTile(false);
+		}
+	}
+
 	return 0;
 }

@@ -146,7 +146,12 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
-
+		case SP_RAISEDEAD:
+			{
+				if( doc.LoadFile("Assets/Ability/raisedead.xml") == false )
+					return;
+			}
+			break;
 			case SP_VOLLEY:
 			{
 				if( doc.LoadFile("Assets/Ability/volley.xml") == false )
@@ -404,7 +409,7 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
-				case SP_STAND:
+			case SP_STAND:
 				{
 					ab->SetIsMove(false);
 					ab->SetType(SP_STAND);
@@ -429,6 +434,20 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_VOLLEY;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_RAISEDEAD:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_RAISEDEAD);
+					ab->SetParticleType(PT_RAISEDEAD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Brings any unit back to life as a skeleton. Can only be cast on a tile with a tombstone");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_RAISEDEAD;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

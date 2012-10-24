@@ -586,6 +586,7 @@ void CGameManager::Reset(void)
 		CMessageSystem::GetInstance()->SendMessageW(pMsg);
 	}
 	//m_vUnits.clear();
+	CMessageSystem::GetInstance()->ProcessMessages();
 
 	for (decltype(m_vPlayers.size()) i = 0; i < m_vPlayers.size(); ++i)
 	{
@@ -600,7 +601,6 @@ void CGameManager::Reset(void)
 	CreatePlayer(false); // player 1
 	CreatePlayer(false);
 
-	CMessageSystem::GetInstance()->ProcessMessages();
 	CTileManager::GetInstance()->ShutDown();
 
 }
@@ -711,7 +711,8 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			CTile* tile = CTileManager::GetInstance()->GetTile(pSMSG->GetUnit()->GetPos().nPosX, pSMSG->GetUnit()->GetPos().nPosY);
 			int x = 9;
 			tile->SetIfOccupied(false);
-			tile->SetIfDeadTile(true);
+			if (pSMSG->GetUnit()->GetType() != UT_SKELETON)
+				tile->SetIfDeadTile(true);
 			if (pSMSG->GetUnit() == CGameplayState::GetInstance()->GetHighlighted())
 				CGameplayState::GetInstance()->ClearHighlighted();
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());
