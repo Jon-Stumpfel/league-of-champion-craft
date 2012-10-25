@@ -25,7 +25,6 @@ private:
 	CMultiplayerState(const CMultiplayerState&);
 	CMultiplayerState& operator=(const CMultiplayerState&);
 
-
 	int m_nMenuChoice;
 	bool m_bInputIPaddress;
 	unsigned char byte1;

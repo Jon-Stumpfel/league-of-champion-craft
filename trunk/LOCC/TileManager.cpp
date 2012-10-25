@@ -21,6 +21,7 @@ CTileManager::CTileManager(void)
 {
 	m_pTileMap=nullptr;
 	m_nTextureImageID=0;
+	m_nFrozenTextureImageID=0;
 }
 
 CTileManager::~CTileManager(void)

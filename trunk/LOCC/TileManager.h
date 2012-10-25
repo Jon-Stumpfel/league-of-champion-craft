@@ -52,7 +52,6 @@ private:
 	void SetTileWidth(int wTile)	{m_nTileWidth=wTile; };
 	void SetTileHieght(int HTile)	{m_nTileHeight=HTile;};
 
-
 	CTileManager(void);
 	~CTileManager(void);
 	CTileManager(const CTileManager&);

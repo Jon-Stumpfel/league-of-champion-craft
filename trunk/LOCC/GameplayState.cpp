@@ -484,7 +484,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 void CGameplayState::UseAbility(CAbility* ability)
 {
 	CSoundManager* pSM = CSoundManager::GetInstance();
-	CHero* Champ = nullptr;
+	CHero* Champ = dynamic_cast<CHero*>(m_pSelectedUnit);
 
 	if (ability == nullptr)
 		return;
@@ -848,7 +848,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					if (ability->m_bIsAttack)
 						m_pSelectedUnit->SetHasAttacked(true);
 
-					if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
+					if( Champ != nullptr )
 						Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
 					m_bIsTargeting = false;
@@ -1634,6 +1634,7 @@ void CGameplayState::Render(void)
 		pAbility = m_pSelectedUnit->GetAbility(2);
 		if (pAbility != nullptr)
 		{
+			//TODO: AddCooldown
 			CSGD_TextureManager::GetInstance()->Draw(
 				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522);
 		}
@@ -1654,9 +1655,18 @@ void CGameplayState::Render(void)
 			{
 				for (unsigned int i = 0; i < pHero->GetNumSpells(); ++i)
 				{
+					if (pHero->GetCooldown(i)==0)
+					{
 					CSGD_TextureManager::GetInstance()->Draw(
 						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
 						260 + (i * 78), m_nSpellPanelOffsetY + 42);
+					}
+					else
+					{
+					CSGD_TextureManager::GetInstance()->Draw(
+						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
+						260 + (i * 78), m_nSpellPanelOffsetY + 42,1.0f,1.0f,(RECT*)0,0.0f,0.0f,0.0f,D3DCOLOR_XRGB(100,100,100));
+					}
 					if (m_nSelectedSpell == i)
 					{
 						CSGD_TextureManager::GetInstance()->Draw(
