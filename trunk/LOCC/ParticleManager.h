@@ -15,6 +15,7 @@ public:
 	void Update( float fElapsedTime );
 	void Render( void );
 	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos );
+	void StopLoop( PRTCL_TYPE eType );
 
 	static CParticleManager* GetInstance( void );
 

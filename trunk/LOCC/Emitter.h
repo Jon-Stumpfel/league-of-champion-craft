@@ -22,6 +22,8 @@ public:
 
 	bool Alive( void );
 
+	PRTCL_TYPE GetType( void ) const { return m_ptType; }
+
 private:
 
 	void Loop( void );
@@ -62,6 +64,7 @@ private:
 	int m_nHeight;
 	int m_nWidth;
 	Shape m_eType;
+	PRTCL_TYPE m_ptType;
 
 	bool m_bLooping;
 

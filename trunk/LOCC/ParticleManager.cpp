@@ -24,6 +24,20 @@ CParticleManager* CParticleManager::GetInstance( void )
 	return &s_Instance;
 }
 
+void CParticleManager::StopLoop( PRTCL_TYPE eType )
+{
+	for( unsigned int i = 0; i < m_vEmitters.size(); i++ )
+	{
+		if( m_vEmitters[i]->GetType() == eType )
+		{
+			m_vEmitters[i]->Clear();
+			delete m_vEmitters[i];
+			m_vEmitters.erase( m_vEmitters.begin() + i );
+			return;
+		}
+	}
+}
+
 void CParticleManager::Update( float fElapsedTime )
 {
 	for( unsigned int i = 0; i < m_vEmitters.size(); i++ )

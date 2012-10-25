@@ -238,6 +238,7 @@ void CGameplayState::MoveCamera(int dX, int dY)
 		m_newCamPixelPos.nPosY =  m_currCamPixelPos.nPosY  - 10;
 	m_bLerpingX = true;
 }
+
 void CGameplayState::Input(INPUT_ENUM input)
 {
 	switch (input)
@@ -581,8 +582,10 @@ void CGameplayState::UseAbility(CAbility* ability)
 						t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
 						Vec2D tmp = TranslateToPixel(t);
 						tmp.nPosX += 65;
-						tmp.nPosY += 5;
+						tmp.nPosY += 25;
 						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+						//if( ability->GetParticleType() == PT_BLOOD )
+							//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
 					}
 				}
 				// cast the spell!
