@@ -13,6 +13,7 @@ public:
 	CFrame GetFrame(UnitAnimation STheAnimStruct);
 	void Shutdown();
 	CAnimation GetAnimation(UNIT_TYPE ut, ANIM_TYPE at);
+	void SetCoinFrame(int temp);
 private:
 	CAnimationManager(void);
 	~CAnimationManager(void);

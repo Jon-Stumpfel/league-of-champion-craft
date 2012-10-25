@@ -26,5 +26,6 @@ private:
 	float m_fTimer;
 	bool m_bGoDown;
 	bool m_bStop;
+	float m_fSecondTimer;
 };
 
