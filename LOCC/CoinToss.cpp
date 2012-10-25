@@ -16,7 +16,7 @@ CCoinToss::CCoinToss(void)
 
 CCoinToss::~CCoinToss(void)
 {
-	delete m_UAnonsense;
+
 }
 
 void CCoinToss::Enter(void)
@@ -39,13 +39,13 @@ void CCoinToss::Enter(void)
 
 void CCoinToss::Exit(void)
 {
-
+	delete m_UAnonsense;
 }
 
 CCoinToss* CCoinToss::GetInstance(void)
 {
-	static CCoinToss s_Instance;
-	return &s_Instance;
+	static CCoinToss s_CoinTossInstance;
+		return &s_CoinTossInstance;
 }
 
 void CCoinToss::Render(void)
@@ -58,7 +58,7 @@ void CCoinToss::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Coin"),
 		CGame::GetInstance()->GetWindowWidth()/2 - tempoffset.nPosX, m_nCoinArc - tempoffset.nPosY,
 		1.0f,1.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetRect(),0,
-		0,0,D3DCOLOR_XRGB(255,255,255));	
+		0,0,D3DCOLOR_XRGB(255,255,255));
 }
 
 void CCoinToss::Update(float fElapsedTime)
@@ -78,7 +78,7 @@ void CCoinToss::Update(float fElapsedTime)
 	}
 	if(m_fTimer > 0.0f)
 	{
-		m_fTimer-=fElapsedTime;
+	m_fTimer-=fElapsedTime;
 		CAnimationManager::GetInstance()->Update(fElapsedTime);
 	}
 	if (m_fTimer<=0.0f)
@@ -98,22 +98,22 @@ void CCoinToss::Update(float fElapsedTime)
 		m_fSecondTimer -= fElapsedTime;
 		if(m_fSecondTimer <= 0.0f)
 		{
-			if (m_nChosenplayer==6)
-			{
-				CGameManager::GetInstance()->SetCurrentPlayer(0);
-				CGameManager::GetInstance()->SetNextPlayer(1);
-				CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
-			}
-			if (m_nChosenplayer==7)
-			{
-				CGameManager::GetInstance()->SetCurrentPlayer(1);
-				CGameManager::GetInstance()->SetNextPlayer(0); 
-				CAIManager::GetInstance()->BeginMovement();
-				CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
-			}
-			CStateStack::GetInstance()->Pop();
+		if (m_nChosenplayer==6)
+		{
+			CGameManager::GetInstance()->SetCurrentPlayer(0);
+			CGameManager::GetInstance()->SetNextPlayer(1);
+			CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
 		}
+		if (m_nChosenplayer==7)
+		{
+			CGameManager::GetInstance()->SetCurrentPlayer(1);
+			CGameManager::GetInstance()->SetNextPlayer(0); 
+			CAIManager::GetInstance()->BeginMovement();
+			CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
+		}
+		CStateStack::GetInstance()->Pop();
 	}
+}
 }
 void CCoinToss::Input(INPUT_ENUM input)
 {

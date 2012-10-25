@@ -208,7 +208,7 @@
       <Filter>States</Filter>
     </ClCompile>
     <ClCompile Include="CoinToss.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>States</Filter>
     </ClCompile>
     <ClCompile Include="SocketServer.cpp">
       <Filter>Source Files</Filter>
@@ -402,7 +402,7 @@
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="CoinToss.h">
-      <Filter>Header Files</Filter>
+      <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="SocketServer.h">
       <Filter>Header Files</Filter>
