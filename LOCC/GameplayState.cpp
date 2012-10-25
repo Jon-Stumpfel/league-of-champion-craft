@@ -581,8 +581,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 						t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
 						t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
 						Vec2D tmp = TranslateToPixel(t);
-						tmp.nPosX += 65;
-						tmp.nPosY += 25;
+						tmp.nPosX;
+						tmp.nPosY;
 						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 						//if( ability->GetParticleType() == PT_BLOOD )
 							//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);

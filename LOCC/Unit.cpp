@@ -208,6 +208,35 @@ void CUnit::Update(float fElapsedTime)
 					SetAttack(GetAttack() + 2);
 				}
 			}
+			break;
+
+		case SP_ICEBOLT:
+			{
+				switch (m_eType)
+				{
+					case UT_ICEBLOCK:
+					case UT_CASTLE:
+					break;
+
+					default:
+						m_nSpeed = m_nSpeed - 2;
+				}
+			}
+			break;
+
+		case SP_FIREWEP:
+		{
+			switch (m_eType)
+			{
+				case UT_ICEBLOCK:
+				case UT_CASTLE:
+				break;
+
+				default:
+					m_nAttack = m_nAttack + 2;
+			}
+		}
+			break;
 		}
 	}
 	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.25f))
@@ -412,6 +441,17 @@ void CUnit::UpdateEffects(void)
 			{
 				CParticleManager::GetInstance()->StopLoop(PT_STAND);
 			}
+
+			if( m_vEffects[i].second->GetType() == SP_ICEBOLT )
+			{
+				CParticleManager::GetInstance()->StopLoop(PT_ICEBOLT);
+			}
+
+			if( m_vEffects[i].second->GetType() == SP_FIREWEP )
+			{
+				CParticleManager::GetInstance()->StopLoop(PT_FIREWEP);
+			}
+
 			m_vEffects.erase(m_vEffects.begin() + i--);
 		}
 	}
@@ -450,6 +490,28 @@ int CUnit::Shield(lua_State* L)
 	if (pUnit != nullptr)
 	{
 		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SHIELD), INT_MAX);
+	}
+	return 0;
+}
+
+int CUnit::FireWep( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if( pUnit != nullptr )
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_FIREWEP), 2);
+	}
+	return 0;
+}
+
+int CUnit::Slow( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if( pUnit != nullptr )
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_ICEBOLT), 2);
 	}
 	return 0;
 }
