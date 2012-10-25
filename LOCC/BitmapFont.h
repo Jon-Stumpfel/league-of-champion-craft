@@ -86,6 +86,16 @@ public:
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
+		case 46:
+			{
+				rSource.left = 698;
+				rSource.top = 906;
+				rSource.right = 707;
+				rSource.bottom = 948;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
 		case 47:
 			{
 				rSource.left = 674;
