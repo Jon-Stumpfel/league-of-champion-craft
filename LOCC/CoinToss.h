@@ -27,5 +27,6 @@ private:
 	bool m_bGoDown;
 	bool m_bStop;
 	float m_fSecondTimer;
+	int m_nPeak;
 };
 
