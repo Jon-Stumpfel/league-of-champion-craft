@@ -18,6 +18,7 @@ CSocketServer::~CSocketServer(void)
 }
 DWORD WINAPI workThreadWork1(LPVOID args);
 DWORD WINAPI workThreadWork2(LPVOID args);
+
 DWORD WINAPI listenThreadWork(LPVOID args)
 {
 	unsigned int nThreadRunCount = 0;
@@ -67,10 +68,10 @@ DWORD WINAPI listenThreadWork(LPVOID args)
 				CSocketServer::GetInstance()->m_nNumConnections++;
 				if (CSocketServer::GetInstance()->m_nNumConnections == 2)
 				{
-					OutputDebugString(L"Network: Max connections reached. Leaving Listen Thread...\n");
-					return 1;
-				}
+				OutputDebugString(L"Terminating Thread\n");
 
+					TerminateThread(CSocketServer::GetInstance()->listenThread, 0);
+				}
 			}
 		}
 	}
@@ -132,8 +133,6 @@ DWORD WINAPI workThreadWork2(LPVOID args)
 		
 
 	}
-
-
 	return 1;
 }
 CSocketServer* CSocketServer::GetInstance(void)
@@ -269,11 +268,11 @@ bool CSocketClient::Initialize(unsigned char byte1, unsigned char byte2, unsigne
 	char a[16]="127.0.0.1";
 	m_tClientAddr.sin_family = AF_INET;
 	m_tClientAddr.sin_port = htons(44444);
-	//m_tClientAddr.sin_addr.S_un.S_addr = inet_addr("10.10.85.37");
-	m_tClientAddr.sin_addr.S_un.S_un_b.s_b1 = byte1;
-	m_tClientAddr.sin_addr.S_un.S_un_b.s_b2 = byte2;
-	m_tClientAddr.sin_addr.S_un.S_un_b.s_b3 = byte3;
-	m_tClientAddr.sin_addr.S_un.S_un_b.s_b4 = byte4;
+	m_tClientAddr.sin_addr.S_un.S_addr = inet_addr("10.10.85.37");
+	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b1 = byte1;
+	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b2 = byte2;
+	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b3 = byte3;
+	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b4 = byte4;
 
 
 	if (connect(m_sClientSocket, (LPSOCKADDR)&m_tClientAddr, sizeof(m_tClientAddr)) == SOCKET_ERROR)
