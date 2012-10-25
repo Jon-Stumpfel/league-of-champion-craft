@@ -20,7 +20,7 @@ CCoinToss::CCoinToss(void)
 	m_nChosenplayer=0;
 	m_nChosenplayer=7;//rand()%1+6;
 	//m_UAnonsense->animationType=AT_ATTACK_N;
-	m_fTimer =5.0f;
+	m_fTimer =2.0f;
 	m_bGoDown=false;
 	m_bStop=false;
 }
