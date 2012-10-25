@@ -202,22 +202,36 @@ int CTile::GetAPCost()
 	switch (m_eTType)
 	{
 	case TT_MOUNTAINS:
-		return 3;
+		{
+			if (this->GetIfFrozen())
+				return 4;
+			else
+				return 3;
+		}
 	case TT_FOREST:
-		return 2;
+		{
+			if (this->GetIfFrozen())
+				return 3;
+			else
+				return 2;
+		}
 	case TT_PLAINS:
-		return 1;
-
+		{
+			if (this->GetIfFrozen())
+				return 2;
+			else
+				return 1;
+		}
 	}
-	//if (m_eTType<=TT_MOUNTAINS)
-	//	return this->m_eTType+1;
+	
+	if (m_eTType>TT_WATER)
+		if (this->GetIfFrozen())
+				return  m_eTType+2-TT_FARM;
+			else
+				return  m_eTType+1-TT_FARM;
 
 	if (m_eTType==TT_WATER)
 		return 1000;
-
-	if (m_eTType>TT_WATER)
-		return m_eTType+1-TT_FARM;
-
 	return -1;
 }
 
