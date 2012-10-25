@@ -180,8 +180,8 @@ Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, CUnit* pSelectedUnit)
 			bDoWork = false;
 			break;
 		}
-		if (pTile->GetIfOccupied())
-			continue;
+		if (!pTile->GetIfOccupied())
+			break;
 		Vec2D AdjacentWest = Vec2D(vTarget.nPosX - 1, vTarget.nPosY);
 		Vec2D AdjacentEast = Vec2D(vTarget.nPosX + 1, vTarget.nPosY);
 		Vec2D AdjacentNorth = Vec2D(vTarget.nPosX, vTarget.nPosY - 1);
