@@ -187,6 +187,13 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_LIGHTSTRIKE:
+				{
+					if( doc.LoadFile("Assets/Ability/lightningstrike.xml") == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -548,6 +555,21 @@ void CAbilityManager::LoadAbilities( void )
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
+			case SP_LIGHTSTRIKE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_LIGHTSTRIKE);
+					ab->SetParticleType(PT_LIGHTBOLT);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The hero uses a powerful lightning strike to stun the enemy for the turn.");
+					ab->SetDamage(12);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_LIGHTSTRIKE;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
 		}
 	}
 
@@ -676,6 +698,24 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.first = SP_SPAWNCALV;
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
+
+	//// custom calvery spawn ability
+	//pAbility = new CAbility();
+	//pAbility->m_nAPCost = 5;
+	//pAbility->m_nNumTargets = 1;
+	//pAbility->m_nRange = 2;
+	//pAbility->SetDamage(0);
+	//pAbility->m_bIsMove = false;
+	//pAbility->m_nPhase = GP_MOVE;
+	//pAbility->SetParticleType(TEST);
+	//pAbility->m_szInterfaceIcon = TSTRING(_T("iceblockportrait"));
+	//pAbility->SetDescription("The hero uses his power of freezing stuff to make an iceblock");
+	//zz = CGraphicsManager::GetInstance()->GetID(_T("iceblockportrait"));
+	//pAbility->SetIconID(zz);
+	//pAbility->SetType(SP_ICEBLOCK);
+	//tmp.first = SP_SPAWNCALV;
+	//tmp.second = pAbility;
+	//m_vAbilities.push_back(tmp);
 
 	SetRanges();
 }

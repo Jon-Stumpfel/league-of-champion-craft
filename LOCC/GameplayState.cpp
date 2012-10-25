@@ -510,7 +510,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 	if (ability->GetType() == SP_MOVE)
 	{
-		if( m_pSelectedUnit->GetEffect(SP_STAND) == false )
+		if( m_pSelectedUnit->GetEffect(SP_STAND) == false || m_pSelectedUnit->GetEffect(SP_LIGHTSTRIKE) == false )
 		{
 			m_bIsMoving = true;
 			return;
