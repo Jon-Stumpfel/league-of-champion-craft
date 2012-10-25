@@ -159,6 +159,34 @@ void CAbilityManager::LoadAbilities( void )
 			}
 			break;
 
+			case SP_ICEBOLT:
+			{
+				if( doc.LoadFile("Assets/Ability/icebolt.xml") == false )
+					return;
+			}
+			break;
+
+			case SP_MAGIC:
+				{
+					if( doc.LoadFile("Assets/Ability/magicmissile.xml") == false )
+						return;
+				}
+				break;
+
+			case SP_LIGHTBOLT:
+			{
+				if( doc.LoadFile("Assets/Ability/lightningbolt.xml") == false )
+					return;
+			}
+			break;
+
+			case SP_FIREWEP:
+				{
+					if( doc.LoadFile("Assets/Ability/firewep.xml") == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -456,6 +484,66 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RAISEDEAD;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_MAGIC:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_MAGIC);
+					ab->SetParticleType(PT_MAGIC);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Its a missile made of magic.");
+					ab->SetDamage(8);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_MAGIC;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_ICEBOLT:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_ICEBOLT);
+					ab->SetParticleType(PT_ICEBOLT);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("A chilling icicle shot from the fingertips of a champion, freezing foes in the tracks.");
+					ab->SetDamage(6);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_ICEBOLT;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_LIGHTBOLT:
+			{
+					ab->SetIsMove(false);
+					ab->SetType(SP_LIGHTBOLT);
+					ab->SetParticleType(PT_LIGHTBOLT);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The hero calls down a bolt of lightning down on a targeted tile.");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_LIGHTBOLT;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+			break;
+
+			case SP_FIREWEP:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_FIREWEP);
+					ab->SetParticleType(PT_FIREWEP);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The hero sets fire to his allies weapons.");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_FIREWEP;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

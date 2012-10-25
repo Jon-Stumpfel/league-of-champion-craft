@@ -257,6 +257,8 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "RaiseMountain", CTileManager::RaiseMountain);
 	lua_register(L, "StandGround", CUnit::StandGround);
 	lua_register(L, "RaiseDead", CUnit::RaiseDead);
+	lua_register(L, "Slow", CUnit::Slow);
+	lua_register(L, "FireWep", CUnit::FireWep);
 }
 
 void CScriptManager::Shutdown( void )
