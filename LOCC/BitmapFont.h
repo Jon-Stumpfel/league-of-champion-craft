@@ -89,7 +89,7 @@ public:
 		case 46:
 			{
 				rSource.left = 698;
-				rSource.top = 906;
+				rSource.top = 909;
 				rSource.right = 707;
 				rSource.bottom = 948;
 				m_nCharWidth = rSource.right - rSource.left;
