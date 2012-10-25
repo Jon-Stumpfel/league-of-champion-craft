@@ -171,8 +171,17 @@ Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, CUnit* pSelectedUnit)
 	Vec2D vTarget = pTargetUnit->GetPos();
 	std::list<std::pair<int, Vec2D>> vTargets;
 	int nPreference = 1;
-	while (CTileManager::GetInstance()->GetTile(vTarget.nPosX, vTarget.nPosY)->GetIfOccupied())
+	bool bDoWork = true;
+	while (bDoWork)
 	{
+		CTile* pTile = CTileManager::GetInstance()->GetTile(vTarget.nPosX, vTarget.nPosY);
+		if (pTile == nullptr)
+		{
+			bDoWork = false;
+			break;
+		}
+		if (pTile->GetIfOccupied())
+			continue;
 		Vec2D AdjacentWest = Vec2D(vTarget.nPosX - 1, vTarget.nPosY);
 		Vec2D AdjacentEast = Vec2D(vTarget.nPosX + 1, vTarget.nPosY);
 		Vec2D AdjacentNorth = Vec2D(vTarget.nPosX, vTarget.nPosY - 1);
