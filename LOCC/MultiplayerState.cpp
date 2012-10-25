@@ -145,6 +145,19 @@ void CMultiplayerState::Input(INPUT_ENUM input)
 }
 void CMultiplayerState::Update(float fElapsedTime)
 {
+	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
+
+	if (m_bInputIPaddress)
+	{
+		if (pDI->KeyDown(DIK_DOWN))
+		{
+			Input(INPUT_DOWN);
+		}
+		else if (pDI->KeyDown(DIK_UP))
+		{
+			Input(INPUT_UP);
+		}
+	}
 }
 
 void CMultiplayerState::PlayerConnected(void)
