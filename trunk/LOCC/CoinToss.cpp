@@ -25,12 +25,10 @@ void CCoinToss::Enter(void)
 	m_UAnonsense->animationType=AT_ATTACK_N;
 	m_UAnonsense->unitType=UT_CASTLE;
 	m_UAnonsense->fCurrentTime=0.0f;
-
 	m_nCoinArc=CGame::GetInstance()->GetWindowHeight()+20;
 	srand(unsigned int(time(0)));
 	m_nChosenplayer=0;
-	//m_nChosenplayer=7;//rand()%1+6;
-	//m_UAnonsense->animationType=AT_ATTACK_N;
+	m_nPeak = rand()%200;
 	m_fTimer =2.0f;
 	m_fSecondTimer = 1.0f;
 	m_bGoDown=false;
@@ -63,7 +61,7 @@ void CCoinToss::Render(void)
 
 void CCoinToss::Update(float fElapsedTime)
 {	
-	if (m_nCoinArc<=60)
+	if (m_nCoinArc<=m_nPeak)
 		m_bGoDown=true;
 
 	if (!m_bGoDown)
@@ -76,22 +74,35 @@ void CCoinToss::Update(float fElapsedTime)
 		if (!m_bStop)
 			m_nCoinArc+=20;
 	}
-	if(m_fTimer > 0.0f)
+	if(!m_bStop)
 	{
-	m_fTimer-=fElapsedTime;
 		CAnimationManager::GetInstance()->Update(fElapsedTime);
 	}
-	if (m_fTimer<=0.0f)
+	if (m_bStop)
 	{
 		if(m_nChosenplayer == 0)
 		{
-			m_nChosenplayer = rand()%1+6;
+			if(CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 0 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 1 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 2 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 3 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 4 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 6 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 7)
+			{
+				m_nChosenplayer = 7;
+			}
+			else
+			{
+				m_nChosenplayer = 6;
+			}
+
 		}
-		else if(m_nChosenplayer == 6)
+		if(m_nChosenplayer == 6)
 		{
 			CAnimationManager::GetInstance()->SetCoinFrame(13);
 		}
-		else
+		if(m_nChosenplayer == 7)
 		{
 			CAnimationManager::GetInstance()->SetCoinFrame(5);
 		}
