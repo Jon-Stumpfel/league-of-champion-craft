@@ -238,6 +238,19 @@ void CUnit::Update(float fElapsedTime)
 			}
 			break;
 
+			case SP_LIGHTSTRIKE:
+			{
+				switch (m_eType)
+				{
+					case UT_ICEBLOCK:
+					case UT_CASTLE:
+					break;
+
+					default:
+						m_bHasAttacked = true;
+				}
+			}
+			break;
 		}
 	}
 	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.25f))
@@ -585,7 +598,6 @@ int CUnit::Rally(lua_State* L)
 			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_RALLY), 1);
 	}
 	return 0;
-
 }
 
 int CUnit::Pathfind(lua_State* L)
@@ -596,6 +608,18 @@ int CUnit::Pathfind(lua_State* L)
 	{
 		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_PATHFINDER),1);
+	}
+	return 0;
+}
+
+int CUnit::LightStrike(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
+			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_LIGHTSTRIKE),2);
 	}
 	return 0;
 }
