@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="3" APCost="6" Cooldown="0" Target="1" SpellName="Flaming Weapon" Attack="0" Facing="0" Phase="1" LuaPath="firewep.lua" ParticlePath="firewep.xml" IconPath="firewep.png" SoundPath="thunder2.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>
