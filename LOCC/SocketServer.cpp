@@ -177,10 +177,7 @@ void CSocketServer::Initialize(void)
 	sockets[0] = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	server.sin_family = AF_INET;
 	server.sin_port = htons(44444);
-	server.sin_addr.S_un.S_un_b.s_b1 = 127;
-	server.sin_addr.S_un.S_un_b.s_b2 = 0;
-	server.sin_addr.S_un.S_un_b.s_b3 = 0;
-	server.sin_addr.S_un.S_un_b.s_b4 = 1;
+	server.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
 
 
 	if (bind(sockets[0], (LPSOCKADDR)&server, sizeof(server)) == SOCKET_ERROR)
@@ -272,6 +269,7 @@ bool CSocketClient::Initialize(unsigned char byte1, unsigned char byte2, unsigne
 	char a[16]="127.0.0.1";
 	m_tClientAddr.sin_family = AF_INET;
 	m_tClientAddr.sin_port = htons(44444);
+	//m_tClientAddr.sin_addr.S_un.S_addr = inet_addr("10.10.85.37");
 	m_tClientAddr.sin_addr.S_un.S_un_b.s_b1 = byte1;
 	m_tClientAddr.sin_addr.S_un.S_un_b.s_b2 = byte2;
 	m_tClientAddr.sin_addr.S_un.S_un_b.s_b3 = byte3;
