@@ -11,6 +11,8 @@
 #include "Player.h"
 #include "MessageSystem.h"
 #include "Hero.h"
+#include "ParticleManager.h"
+
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_nTilesMoved = 0;
@@ -406,6 +408,10 @@ void CUnit::UpdateEffects(void)
 		m_vEffects[i].first -= 1;
 		if (m_vEffects[i].first <= 0)
 		{
+			if( m_vEffects[i].second->GetType() == SP_STAND )
+			{
+				CParticleManager::GetInstance()->StopLoop(PT_STAND);
+			}
 			m_vEffects.erase(m_vEffects.begin() + i--);
 		}
 	}
@@ -538,7 +544,7 @@ int CUnit::StandGround(lua_State* L)
 	if( pUnit != nullptr )
 	{
 		if( pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
-			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_STAND), 1);
+			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_STAND), 2);
 	}
 	return 0;
 }

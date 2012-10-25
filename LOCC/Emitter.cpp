@@ -9,8 +9,7 @@
 
 CEmitter::CEmitter(void)
 {
-	srand( unsigned int(time(0)) );
-	rand();
+	
 }
 
 
@@ -178,6 +177,18 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 
 		}
 		break;
+
+	case PT_OBLOOD:
+		{
+			if( doc.LoadFile( "Assets/Particles/blood2.xml" ) == false )
+				return;
+
+			m_sSource.left = 0;
+			m_sSource.top = 0;
+			m_sSource.right = 128;
+			m_sSource.bottom = 128;
+		}
+		break;
 	};
 
 	m_sEmitPos = sPos;
@@ -313,12 +324,12 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 		float life = float(tmp / 100.0f);
 
 		Vec2Df start;
-		start.fVecX = float((rand() % int(m_sStartVelMax.fVecX - m_sStartVelMin.fVecX+1) + m_sStartVelMin.fVecX));
-		start.fVecY = -float((rand() % int(m_sStartVelMax.fVecY - m_sStartVelMin.fVecY+1) + m_sStartVelMin.fVecY));
+		start.fVecX = float((rand() % int(m_sStartVelMax.fVecX - m_sStartVelMin.fVecX+1) + m_sStartVelMin.fVecX)) * 2;
+		start.fVecY = -float((rand() % int(m_sStartVelMax.fVecY - m_sStartVelMin.fVecY+1) + m_sStartVelMin.fVecY)) * 2;
 
 		Vec2Df end;
-		end.fVecX = float((rand() % int(m_sEndVelMax.fVecX - m_sEndVelMin.fVecX+1) + m_sEndVelMin.fVecX));
-		end.fVecY = -float((rand() % int(m_sEndVelMax.fVecY - m_sEndVelMin.fVecY+1) + m_sEndVelMin.fVecY));
+		end.fVecX = float((rand() % int(m_sEndVelMax.fVecX - m_sEndVelMin.fVecX+1) + m_sEndVelMin.fVecX)) * 2;
+		end.fVecY = -float((rand() % int(m_sEndVelMax.fVecY - m_sEndVelMin.fVecY+1) + m_sEndVelMin.fVecY)) * 2;
 
 		CParticle* tParticle = new CParticle(Pos, end, start, m_fStartScale, life, m_sStartColor, m_fStartRot, m_sSource, m_nImgID);
 
@@ -369,7 +380,6 @@ void CEmitter::Update( float fElapsedTime )
 				oss << "SHITS DEAD\n";
 				OutputDebugString((LPCWSTR)oss.str().c_str());
 			}
-
 			delete m_vAliveParticles[i];
 			m_vAliveParticles.erase(m_vAliveParticles.begin() + i);
 
@@ -429,6 +439,13 @@ void CEmitter::Update( float fElapsedTime )
 		float newScale = dtScale + oldScale;
 		m_vAliveParticles[i]->SetScale( newScale );
 
+		if( i == 0 )
+		{
+			std::wostringstream oss;
+			oss << "Old scale " << oldScale << " dt Scale " << dtScale << " new Scale " << newScale << "\n";
+			OutputDebugString((LPCWSTR)oss.str().c_str());
+		}
+
 		Vec2Df oldVel = m_vAliveParticles[i]->GetCurVel();
 		Vec2Df startVel = m_vAliveParticles[i]->GetVelStart();
 		Vec2Df endVel = m_vAliveParticles[i]->GetVelEnd();
@@ -442,13 +459,6 @@ void CEmitter::Update( float fElapsedTime )
 		newVel.fVecY = dtVel.fVecY + oldVel.fVecY;
 
 		m_vAliveParticles[i]->SetVel(newVel);
-
-		if( i == 0 )
-		{
-			std::wostringstream oss;
-			oss << "X " << newVel.fVecX << " Y " << newVel.fVecY << "\n";
-			OutputDebugString((LPCWSTR)oss.str().c_str());
-		}
 	}
 }
 

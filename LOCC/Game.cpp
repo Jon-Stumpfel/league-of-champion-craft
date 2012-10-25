@@ -14,6 +14,7 @@
 #include "FloatingText.h"
 #include "SGD Wrappers\CSGD_XAudio2.h"
 #include "SoundManager.h"
+#include <ctime>
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -25,6 +26,9 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	int nScreenWidth, int nScreenHeight,
 	bool bIsWindowed)
 {
+	srand( unsigned int(time(0)) );
+	rand();
+
 	m_nWidth = nScreenWidth;
 	m_nHeight = nScreenHeight;
 	//m_bIsWindowed = bIsWindowed;
