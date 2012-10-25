@@ -3,6 +3,7 @@
 #include "GameManager.h"
 #include "StateStack.h"
 #include "Player.h"
+#include "SocketServer.h"
 
 CInputManager* CInputManager::s_Instance = nullptr;
 
@@ -54,6 +55,11 @@ bool CInputManager::Input(void)
 	if (m_bInMenu)
 		nCurrentPlayerID = 0;
 	int nRAmount = pDI->JoystickGetRStickYAmount(0);
+	if (CGameManager::GetInstance()->GetNetworkGame())
+	{
+		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() != CSocketClient::GetInstance()->m_nNetworkPlayerID)
+			return true;
+	}
 	if (nRAmount > 0)
 	{
 		int x = 9;
@@ -120,12 +126,25 @@ bool CInputManager::Input(void)
 	}
 	if (pDI->KeyPressed(DIK_UP) || pDI->JoystickGetLStickDirPressed(DIR_UP, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_UP, nCurrentPlayerID))
 	{
+				if (CGameManager::GetInstance()->GetNetworkGame())
+		{
+		char txtbuffer[80];
+		sprintf_s(txtbuffer, "%c%d", NET_INPUT_UP, 0);
+		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+				}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_UP);
 		nYValue = 0;
 		nXValue = 0;
 	}
 	if (pDI->KeyPressed(DIK_LEFT) || pDI->JoystickGetLStickDirPressed(DIR_LEFT, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_LEFT, nCurrentPlayerID))
 	{
+				if (CGameManager::GetInstance()->GetNetworkGame())
+		{
+		char txtbuffer[80];
+		sprintf_s(txtbuffer, "%c%d", NET_INPUT_LEFT, 0);
+		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+				}
+
 		std::wostringstream oss;
 		oss << "InputManager: Left Key @ " << GetTickCount() << '\n';
 		OutputDebugString((LPCWSTR)oss.str().c_str());
@@ -135,6 +154,12 @@ bool CInputManager::Input(void)
 	}
 	if (pDI->KeyPressed(DIK_RIGHT) || pDI->JoystickGetLStickDirPressed(DIR_RIGHT, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_RIGHT, nCurrentPlayerID))
 	{
+			if (CGameManager::GetInstance()->GetNetworkGame())
+		{
+			char txtbuffer[80];
+		sprintf_s(txtbuffer, "%c%d", NET_INPUT_RIGHT, 0);
+		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+			}
 		std::wostringstream oss;
 		oss << "InputManager: Right Key @ " << GetTickCount() << '\n';
 		OutputDebugString((LPCWSTR)oss.str().c_str());
@@ -144,16 +169,46 @@ bool CInputManager::Input(void)
 	}
 	if (pDI->KeyPressed(DIK_DOWN) || pDI->JoystickGetLStickDirPressed(DIR_DOWN, nCurrentPlayerID) || pDI->JoystickDPadPressed(DIR_DOWN, nCurrentPlayerID))
 	{
+				if (CGameManager::GetInstance()->GetNetworkGame())
+		{
+		char txtbuffer[80];
+		sprintf_s(txtbuffer, "%c%d", NET_INPUT_DOWN, 0);
+		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+				}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_DOWN);
 				nYValue = 0;
 		nXValue = 0;
 	}
 	if (pDI->KeyPressed(DIK_RETURN) || pDI->JoystickButtonPressed(0, nCurrentPlayerID))
+	{
+		if (CGameManager::GetInstance()->GetNetworkGame())
+		{
+		char txtbuffer[80];
+		sprintf_s(txtbuffer, "%c%d", NET_INPUT_ACCEPT, 0);
+		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+		}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_ACCEPT);
+	}
 	if (pDI->KeyPressed(DIK_Z) || pDI->JoystickButtonPressed(1, nCurrentPlayerID))
+	{
+				if (CGameManager::GetInstance()->GetNetworkGame())
+		{
+		char txtbuffer[80];
+		sprintf_s(txtbuffer, "%c%d", NET_INPUT_CANCEL, 0);
+		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+				}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
+	}
 	if (pDI->KeyPressed(DIK_I) || pDI->JoystickButtonPressed(7, nCurrentPlayerID))
+	{
+				if (CGameManager::GetInstance()->GetNetworkGame())
+		{
+		char txtbuffer[80];
+		sprintf_s(txtbuffer, "%c%d", NET_INPUT_START, 0);
+		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+				}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_START);
+	}
 	if (pDI->KeyPressed(DIK_SPACE) || pDI->JoystickButtonPressed(3, nCurrentPlayerID))
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_SELECT);
 

@@ -7,6 +7,9 @@
 #include "OptionsMenuState.h"
 #include "CreditsState.h"
 #include "HelpMenuState.h"
+#include "MultiplayerState.h"
+#include "SocketServer.h"
+
 //CMainMenuState* CMainMenuState::s_Instance = nullptr;
 
 CMainMenuState::CMainMenuState(void)
@@ -95,7 +98,20 @@ void CMainMenuState::Input(INPUT_ENUM input)
 
 void CMainMenuState::Update(float fElapsedTime)
 {
+	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
+	if (pDI->KeyPressed(DIK_G))
+	{
+		CSocketClient::GetInstance()->Initialize();
+	}
+	else if (pDI->KeyPressed(DIK_H))
+	{
+		CSocketClient::GetInstance()->Shutdown();
+	}
+	else if (pDI->KeyPressed(DIK_M))
+	{
+		CStateStack::GetInstance()->Push(CMultiplayerState::GetInstance());
+	}
 }
 
 void CMainMenuState::Render(void)

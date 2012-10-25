@@ -12,8 +12,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
-
-
+#include "SocketServer.h"
+#include "StateStack.h"
+#include "GameManager.h"
+#include "GameplayState.h"
+#include "TileManager.h"
 const TCHAR* g_szWINDOW_CLASS_NAME	= _T("LOCC");			//	Window Class Name.
 
 const TCHAR* g_szWINDOW_TITLE		= _T("League of Champion Craft");		//	Window Title.
@@ -30,6 +33,7 @@ const int	g_nWINDOW_HEIGHT		= 600;							//	Window Height.
 
 //const BOOL g_bIS_WINDOWED = TRUE;
 
+#define WM_SOCKET WM_USER+1
 
 //	Handler function that writes out a dump file
 LONG WINAPI Handler(_EXCEPTION_POINTERS * exPointers)
@@ -129,6 +133,106 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+		case WM_SOCKET:
+			{
+				if (WSAGETSELECTERROR(lParam))
+				{
+					char txtbuffer[80];
+					sprintf_s(txtbuffer, "Error2: %d", WSAGetLastError());
+					std::wostringstream woss;
+					woss << txtbuffer << '\n';
+					OutputDebugString((LPCWSTR)woss.str().c_str());
+				}
+				switch (WSAGETSELECTEVENT(lParam))
+				{
+				case FD_CONNECT:
+					{
+						int x = 9;
+						char txtbuffer[80];
+						sprintf_s(txtbuffer, "%c%d", NET_HELLOWORLD, 0);
+						send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+					}
+					break;
+				case FD_READ:
+					{
+						char buffer[2];
+						recv(CSocketClient::GetInstance()->m_sClientSocket, buffer, 2, 0);
+						switch(buffer[0])
+						{
+						case NET_YOUAREONE:
+							{
+								CSocketClient::GetInstance()->m_nNetworkPlayerID = 0;
+							}
+							break;
+						case NET_YOUARETWO:
+							{
+								CSocketClient::GetInstance()->m_nNetworkPlayerID = 1;
+							}
+							break;
+						case NET_BEGINMAP1:
+							{
+								CTileManager* pTM=CTileManager::GetInstance();
+								CGameManager::GetInstance()->NewGame("level1", 1);
+								CGameManager::GetInstance()->BeginNetworkGame(2);
+								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+
+							}
+							break;
+						case NET_BEGINMAP2:
+							{
+								CTileManager* pTM=CTileManager::GetInstance();
+								CGameManager::GetInstance()->NewGame("level2", 2);
+								CGameManager::GetInstance()->BeginNetworkGame(2);
+								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+							}
+							break;
+						case NET_INPUT_UP:
+							{
+								CStateStack::GetInstance()->GetTop()->Input(INPUT_UP);
+								OutputDebugString(L"Received Input up\n");
+							}
+							break;
+						case NET_INPUT_LEFT:
+							{
+								CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
+							}
+							break;
+						case NET_INPUT_RIGHT:
+							{
+								CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
+							}
+							break;
+						case NET_INPUT_DOWN:
+							{
+								CStateStack::GetInstance()->GetTop()->Input(INPUT_DOWN);
+							}
+							break;
+						case NET_INPUT_ACCEPT:
+							{
+								CStateStack::GetInstance()->GetTop()->Input(INPUT_ACCEPT);
+							}
+							break;
+						case NET_INPUT_CANCEL:
+							{
+								CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
+							}
+							break;
+						case NET_INPUT_START:
+							{
+								CStateStack::GetInstance()->GetTop()->Input(INPUT_START);
+							}
+							break;
+
+						}
+					}
+					break;
+				}
+
+
+
+			}
+			break;
+
 		default:
 		break;
 	}
@@ -143,6 +247,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //			than one instance running on the same computer (i.e. client/server)
 BOOL CheckIfAlreadyRunning(void)
 {
+	return FALSE;
 	//	Find a window of the same window class name and window title
 	HWND hWnd = FindWindow(g_szWINDOW_CLASS_NAME, g_szWINDOW_TITLE);
 

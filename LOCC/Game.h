@@ -17,6 +17,7 @@ public:
 	void SetIsWindowed(bool win);
 	int GetWindowWidth(void) { return m_nWidth;}
 	int GetWindowHeight(void) { return m_nHeight;}
+	HWND GetHWND(void) { return m_hWnd;}
 private:
 
 	CGame(void);

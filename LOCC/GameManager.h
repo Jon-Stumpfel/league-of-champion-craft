@@ -10,6 +10,10 @@ class CGameManager
 {
 
 public:
+	// networking
+	void BeginNetworkGame(int nMyPlayerID);
+	bool GetNetworkGame(void) { return m_bNetworkedGame;}
+
 
 	static CGameManager* GetInstance(void);
 	static void DeleteInstance(void);	
@@ -90,6 +94,7 @@ private:
 
 	bool m_bNewGame;
 
+	bool m_bNetworkedGame;
 
 	int m_nNewPlayerID;
 

@@ -1,6 +1,7 @@
 // Precompiled headers
 
 #pragma once
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>	//	Needed for Windows Applications.
 #include <tchar.h>
 #include <vld.h>
@@ -17,6 +18,9 @@
 #include "BitmapFont.h"
 #include <dbghelp.h>	//	Used for Dump File
 #pragma comment(lib, "dbghelp.lib")
+
+#include <WinSock2.h>
+#pragma comment(lib, "Ws2_32.lib")
 
 #include "lib\lua.hpp" // lua 5.1
 #pragma comment(lib, "lib\\lua5.1.lib")
