@@ -68,8 +68,17 @@ void LevelSelectState::Enter(void)
 
 void LevelSelectState::Exit(void)
 {
+	for (int  x = 0; x < m_pRows; ++x)
+	{
+		delete[] m_ptempmap[x];
+	}
+	delete[] m_ptempmap;
 	m_ptempmap = nullptr;
-	delete m_ptempmap;
+
+	for (int  x = 0; x < m_p2ndRows; ++x)
+	{
+		delete[] m_p2ndtempmap[x];
+	}
 	m_p2ndtempmap = nullptr;
 	delete m_p2ndtempmap;
 }
