@@ -51,7 +51,7 @@ void CHero::Render(void)
 	tempoffset.nPosY = CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect().top - tempanchorpoint.nPosY;
 	if(this->GetPlayerID() == 0)
 	{
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"ChampionR"),
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"ChampionB"),
 		(m_sWorldPos.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() - (tempoffset.nPosX)-20,
 		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-60,
 		0.9f,0.9f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
@@ -59,7 +59,7 @@ void CHero::Render(void)
 	}
 	else
 	{
-		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"ChampionB"),
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"ChampionR"),
 		(m_sWorldPos.nPosX) - CGameplayState::GetInstance()->GetCamOffsetX() - (tempoffset.nPosX)-20,
 		(m_sWorldPos.nPosY) - CGameplayState::GetInstance()->GetCamOffsetY()  - (tempoffset.nPosY)-60,
 		0.9f,0.9f,&CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct).GetRect(),0,
