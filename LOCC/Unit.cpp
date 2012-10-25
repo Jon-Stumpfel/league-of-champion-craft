@@ -224,19 +224,20 @@ void CUnit::Update(float fElapsedTime)
 			}
 			break;
 
-		case SP_FIREWEP:
-		{
-			switch (m_eType)
+			case SP_FIREWEP:
 			{
-				case UT_ICEBLOCK:
-				case UT_CASTLE:
-				break;
+				switch (m_eType)
+				{
+					case UT_ICEBLOCK:
+					case UT_CASTLE:
+					break;
 
-				default:
-					m_nAttack = m_nAttack + 2;
+					default:
+						m_nAttack = m_nAttack + 2;
+				}
 			}
-		}
 			break;
+
 		}
 	}
 	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.25f))
@@ -500,7 +501,7 @@ int CUnit::FireWep( lua_State* L )
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	if( pUnit != nullptr )
 	{
-		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_FIREWEP), 2);
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_FIREWEP), 1);
 	}
 	return 0;
 }

@@ -352,7 +352,7 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 		}
 		else if( m_eType == SQUARE )	
 		{
-			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 85;
+			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 25;
 			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1) + 40;
 		}
 		else if( m_eType == LINE )
@@ -535,7 +535,7 @@ void CEmitter::Loop( void )
 		}
 		else if( m_eType == SQUARE )	
 		{
-			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 85;
+			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 25;
 			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1) + 40;
 		}
 		else if( m_eType == LINE )
