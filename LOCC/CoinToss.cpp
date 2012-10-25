@@ -11,6 +11,16 @@
 
 CCoinToss::CCoinToss(void)
 {
+
+}
+
+CCoinToss::~CCoinToss(void)
+{
+	delete m_UAnonsense;
+}
+
+void CCoinToss::Enter(void)
+{
 	m_UAnonsense= new UnitAnimation();
 	m_UAnonsense->animationType=AT_ATTACK_N;
 	m_UAnonsense->unitType=UT_CASTLE;
@@ -25,16 +35,6 @@ CCoinToss::CCoinToss(void)
 	m_fSecondTimer = 1.0f;
 	m_bGoDown=false;
 	m_bStop=false;
-}
-
-CCoinToss::~CCoinToss(void)
-{
-	delete m_UAnonsense;
-}
-
-void CCoinToss::Enter(void)
-{
-
 }
 
 void CCoinToss::Exit(void)
