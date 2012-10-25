@@ -174,7 +174,6 @@ void LevelSelectState::Render(void)
 	float nMiniTileWidth = nMiniMapWidth / m_pRows;
 	float nMiniTileHeight = nMiniMapHeight / m_pColumns;
 
-	return;
 	// Render the tiles. Only using colored blocks for now
 	for (int i = 0; i < m_pRows; ++i)
 	{

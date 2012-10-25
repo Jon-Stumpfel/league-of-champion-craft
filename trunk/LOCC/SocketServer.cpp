@@ -92,18 +92,14 @@ DWORD WINAPI workThreadWork1(LPVOID args)
 		{
 			CSocketServer::GetInstance()->Shutdown();
 			CSocketClient::GetInstance()->Shutdown();
+			TerminateThread(CSocketServer::GetInstance()->workThread1, 0);
+
 			return 10;
 		}
 		if ((buffer[0]==NET_HELLOWORLD))
 		{
 			OutputDebugString(L"Received Hello World from Player 1\n");
 		}
-		//if ((buffer[0]==NET_INPUT_UP))
-		//{
-		//	send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
-		//	OutputDebugString(L"Server: Relaying NET_INPUT_UP to socket 2\n");
-		//}
-
 		send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
 
 	}
@@ -123,6 +119,7 @@ DWORD WINAPI workThreadWork2(LPVOID args)
 			CSocketServer::GetInstance()->Shutdown();
 			CSocketClient::GetInstance()->Shutdown();
 			CStateStack::GetInstance()->Switch(CMainMenuState::GetInstance());
+			TerminateThread(CSocketServer::GetInstance()->workThread2, 0);
 			return 10;
 		}
 		if ((buffer[0]==NET_HELLOWORLD))
@@ -208,7 +205,15 @@ void CSocketServer::Shutdown(void)
 	m_bShutdownListenThread = true;
 	m_bShutdownWorkThread = true;
 	closesocket(sockets[0]);
+	closesocket(sockets[1]);
+	closesocket(sockets[2]);
+
 	WSACleanup();
+
+	TerminateThread(workThread1, 0);
+	TerminateThread(workThread2, 0);
+	TerminateThread(listenThread, 0);
+
 }
 
 
@@ -298,7 +303,7 @@ bool CSocketClient::Initialize(unsigned char byte1, unsigned char byte2, unsigne
 void CSocketClient::Shutdown(void)
 {
 	closesocket(m_sClientSocket);
-//	WSACleanup();
+	WSACleanup();
 }
 
 void CSocketClient::Send(unsigned int byteCode)
