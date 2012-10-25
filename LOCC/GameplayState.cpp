@@ -23,7 +23,7 @@
 #include "BitmapFont.h"
 #include "FloatingText.h"
 #include "SoundManager.h"
-
+#include "CoinToss.h"
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -46,7 +46,6 @@ void CGameplayState::Enter(void)
 {
 	// test stuff
 	CAbilityManager* pAM = CAbilityManager::GetInstance();
-
 
 	//CGameManager::GetInstance()->NewGame();
 

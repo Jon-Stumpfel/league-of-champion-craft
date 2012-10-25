@@ -88,6 +88,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/castle(Blue).png",L"CastleB",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Red).png",L"ArcherR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Blue).png",L"ArcherB",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\RedBlueCoin.png",L"Coin",D3DCOLOR_ARGB(255,255,255,255));
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 
 	CAbilityManager::GetInstance()->LoadAbilities();

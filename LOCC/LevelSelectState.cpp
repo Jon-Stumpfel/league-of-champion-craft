@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "LevelSelectState.h"
+#include "CoinToss.h"
 
 LevelSelectState::LevelSelectState(void)
 {
@@ -89,6 +90,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				CGameManager::GetInstance()->NewGame("level2", 2);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
+			CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
+
 			break;
 		}
 	case INPUT_LEFT:

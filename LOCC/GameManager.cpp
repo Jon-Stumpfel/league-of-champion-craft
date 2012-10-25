@@ -18,7 +18,7 @@
 #include "StateStack.h"
 #include "AttackPhaseTransState.h"
 #include "MovetPhaseTransState.h"
-
+#include "CoinToss.h"
 CGameManager* CGameManager::s_Instance = nullptr;
 int CGameManager::m_nUniqueUnitID = 0;
 bool IntToBool(int n)
@@ -62,7 +62,7 @@ void CGameManager::NextPhase(void)
 		m_pCurrentPlayer = m_pNextPlayer;
 		m_pNextPlayer = pTemp;
 
-		//Look At That, TileManager Takeing car of business! this added resoruces based on the tiles -DG
+		//Look At That, TileManager Takeing care of business! This added resoruces based on the owned tiles -DG
 		CTileManager::GetInstance()->EvaluateResources(m_pCurrentPlayer->GetPlayerID());
 		
 		CGameplayState::GetInstance()->ClearSelections();
@@ -710,13 +710,13 @@ void CGameManager::Reset(void)
 	m_vScriptSpawns.clear();
 
 	CreatePlayer(false); // player 1
-	CreatePlayer(true);
+	CreatePlayer(false);
 
 	CTileManager::GetInstance()->ShutDown();
 
 }
 void CGameManager::NewGame(string levelstring, int mapint)
-{
+{	
 	LoadLevel(levelstring);
 
 	Reset();
@@ -732,7 +732,6 @@ void CGameManager::NewGame(string levelstring, int mapint)
 	LoadUnitsFromScript();
 
 	CAIManager::GetInstance()->BeginMovement();
-
 
 	m_nCurrentPhase = GP_MOVE;
 }
