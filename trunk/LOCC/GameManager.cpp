@@ -12,12 +12,15 @@
 #include "FloatingText.h"
 #include "AddResourceMessage.h"
 #include "Tile.h"
+#include "MultiplayerState.h"
+
 #include "Unit.h"
 #include "Hero.h"
 #include "Player.h"
 #include "StateStack.h"
 #include "AttackPhaseTransState.h"
 #include "MovetPhaseTransState.h"
+#include "SocketServer.h"
 #include "CoinToss.h"
 CGameManager* CGameManager::s_Instance = nullptr;
 int CGameManager::m_nUniqueUnitID = 0;
@@ -31,6 +34,7 @@ CGameManager::CGameManager(void)
 	m_nPhaseCount = 0;
 	m_pCurrentPlayer = nullptr;
 	m_pNextPlayer = nullptr;
+	m_bNetworkedGame = false;
 }
 
 
@@ -732,7 +736,10 @@ void CGameManager::NewGame(string levelstring, int mapint)
 	LoadUnitsFromScript();
 
 	CAIManager::GetInstance()->BeginMovement();
-
+	if (CMultiplayerState::GetInstance()->GetNetworkSetup())
+	{
+		BeginNetworkGame(CSocketClient::GetInstance()->m_nNetworkPlayerID);
+	}
 	m_nCurrentPhase = GP_MOVE;
 }
 
@@ -929,4 +936,9 @@ void CGameManager::AddModification(MapModification mod)
 {
 	m_vMapMods.push_back(mod);
 
+}
+
+void CGameManager::BeginNetworkGame(int nMyPlayerID)
+{
+	m_bNetworkedGame = true;
 }

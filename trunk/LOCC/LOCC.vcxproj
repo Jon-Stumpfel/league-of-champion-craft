@@ -109,6 +109,7 @@
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MessageSystem.cpp" />
     <ClCompile Include="MovetPhaseTransState.cpp" />
+    <ClCompile Include="MultiplayerState.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="OptionsMenuState.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -145,6 +146,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SocketServer.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpawnUnitMessage.cpp" />
     <ClCompile Include="SpellScrollState.cpp" />
@@ -194,6 +196,7 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageSystem.h" />
     <ClInclude Include="MovetPhaseTransState.h" />
+    <ClInclude Include="MultiplayerState.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OptionsMenuState.h" />
     <ClInclude Include="Particle.h" />
@@ -212,6 +215,7 @@
     <ClInclude Include="SGD Wrappers\tinystr.h" />
     <ClInclude Include="SGD Wrappers\tinyxml.h" />
     <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SocketServer.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpawnUnitMessage.h" />
     <ClInclude Include="SpellScrollState.h" />

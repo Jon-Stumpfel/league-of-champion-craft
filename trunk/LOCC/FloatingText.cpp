@@ -113,7 +113,7 @@ void CFloatingText::Render(void)
 	}
 	for (unsigned int i = 0; i < m_vScreenText.size(); ++i)
 	{
-		tBitmapFont.Print(m_vScreenText[i].str.c_str(), (int)m_vScreenText[i].position.fVecX, m_vScreenText[i].position.fVecY,
+		tBitmapFont.Print(m_vScreenText[i].str.c_str(), (int)m_vScreenText[i].position.fVecX, (int)m_vScreenText[i].position.fVecY,
 			m_vScreenText[i].fScale, m_vScreenText[i].color);
 	}
 }

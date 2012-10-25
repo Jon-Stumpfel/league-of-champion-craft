@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "LevelSelectState.h"
 #include "CoinToss.h"
+#include "MultiplayerState.h"
+#include "SocketServer.h"
 
 LevelSelectState::LevelSelectState(void)
 {
@@ -74,6 +76,7 @@ void LevelSelectState::Exit(void)
 
 void LevelSelectState::Input(INPUT_ENUM input)
 {
+	bool bNetworkedGame = false;
 	switch(input)
 	{
 	case INPUT_ACCEPT:
@@ -82,15 +85,32 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
 				CGameManager::GetInstance()->NewGame("level1", 1);
+
+				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
+				{
+					char buffer[80];
+					sprintf_s(buffer, "%c%d", NET_BEGINMAP1, 0);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
+					bNetworkedGame = true;
+				}
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(selected == 1)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
 				CGameManager::GetInstance()->NewGame("level2", 2);
+
+				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
+				{
+					char buffer[80];
+					sprintf_s(buffer, "%c%d", NET_BEGINMAP2, 0);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
+					bNetworkedGame = true;
+				}
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
-			CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
+			if (!bNetworkedGame)
+				CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
 
 			break;
 		}
@@ -158,6 +178,8 @@ void LevelSelectState::Render(void)
 			int g = 0;
 			int b = 0;
 			CTile* pTile = &m_ptempmap[i][j];
+			if (pTile == nullptr)
+				continue;
 			RECT rSrc;
 			switch (pTile->GetTileType())
 			{
@@ -234,6 +256,8 @@ void LevelSelectState::Render(void)
 			int g = 0;
 			int b = 0;
 			CTile* pTile = &m_p2ndtempmap[i][j];
+			if (pTile == nullptr)
+				continue;
 			RECT rSrc;
 			switch (pTile->GetTileType())
 			{
