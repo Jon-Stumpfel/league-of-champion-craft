@@ -7,6 +7,7 @@
 #include "CoinToss.h"
 #include "AnimationManager.h"
 #include "GameplayState.h"
+#include "AIManager.h"
 
 CCoinToss::CCoinToss(void)
 {
@@ -79,17 +80,18 @@ void CCoinToss::Update(float fElapsedTime)
 
 	if (m_fTimer<=0.0f)
 	{
-		if (m_nChosenplayer=6)
+		if (m_nChosenplayer==6)
 		{
 			CGameManager::GetInstance()->SetCurrentPlayer(0);
 			CGameManager::GetInstance()->SetNextPlayer(1);
-			CGameManager::GetInstance()->SetCurrentPhase(GP_ATTACK);
+			CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
 
 		}
-		if (m_nChosenplayer=7)
+		if (m_nChosenplayer==7)
 		{
 			CGameManager::GetInstance()->SetCurrentPlayer(1);
 			CGameManager::GetInstance()->SetNextPlayer(0); 
+			CAIManager::GetInstance()->BeginMovement();
 			CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
 		}
 		CStateStack::GetInstance()->Pop();
