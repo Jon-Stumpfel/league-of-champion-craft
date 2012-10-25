@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="2" APCost="2" Cooldown="0" Target="1" SpellName="Magic Missile" Attack="1" Facing="0" Phase="0" LuaPath="magicmissile.lua" ParticlePath="MAGICMISSILE.xml" IconPath="magicmissile.png" SoundPath="thunder2.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>

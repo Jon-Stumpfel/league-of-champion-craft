@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="2" APCost="2" Cooldown="1" Target="1" SpellName="icebolt" Attack="0" Facing="0" Phase="0" LuaPath="icebolt.lua" ParticlePath="icebolt.xml" IconPath="icebolt.png" SoundPath="thunder2.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>
