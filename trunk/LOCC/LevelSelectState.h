@@ -28,5 +28,9 @@ private:
 	int m_pColumns;
 	int m_p2ndRows;
 	int m_p2ndColumns;
+
+	std::vector<std::vector<TILE_TYPE>> m_vMap1;
+	std::vector<std::vector<TILE_TYPE>> m_vMap2;
+
 };
 
