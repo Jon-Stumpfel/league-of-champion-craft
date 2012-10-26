@@ -39,7 +39,7 @@ void CInputManager::Initialize(HWND hWnd, HINSTANCE hInstance)
 }
 void CInputManager::Shutdown(void)
 {
-
+	CSGD_DirectInput::GetInstance()->ShutdownDirectInput();
 }
 void CInputManager::Update(float fElapsedTime)
 {

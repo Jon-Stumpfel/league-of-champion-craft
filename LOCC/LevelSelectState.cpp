@@ -380,8 +380,6 @@ void LevelSelectState::Render(void)
 	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.5f, D3DXCOLOR(255,255,255,255), 210);
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-
-
 }
 
 LevelSelectState* LevelSelectState::GetInstance()

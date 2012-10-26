@@ -552,6 +552,52 @@ int CUnit::Shield(lua_State* L)
 	}
 	return 0;
 }
+//
+//int CUnit::Chaining(lua_State* L)
+//{
+//	int nUniqueID = (int)lua_tonumber(L, 1);
+//	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+//	std::vector< Vec2D > TilePos;
+//	CAbility* pAbility = CAbilityManager::GetAbility(
+//	if( pUnit != nullptr )
+//	{
+//		int nCount = 0;
+//		for( int i = 0; i <= z; i++ )
+//		{
+//			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
+//
+//			if( tmp == nullptr )
+//				continue;
+//
+//			affected.push_back( tmp );
+//
+//			lua_newtable(L);
+//			lua_pushstring(L, "posX");
+//			lua_pushnumber(L, tmp->GetPos().nPosX);
+//			lua_settable(L, -3);
+//			lua_pushstring(L, "posY");
+//			lua_pushnumber(L, tmp->GetPos().nPosY);
+//			lua_settable(L, -3);
+//			lua_pushstring(L, "health");
+//			lua_pushnumber(L, tmp->GetHP());
+//			lua_settable(L, -3);
+//			lua_pushstring(L, "speed");
+//			lua_pushnumber(L, tmp->GetSpeed());
+//			lua_settable(L, -3);
+//			lua_pushstring(L, "shielded");
+//			lua_pushnumber(L, tmp->GetShielded());
+//			lua_settable(L, -3);
+//			lua_pushstring(L, "uniqueID");
+//			lua_pushnumber(L, tmp->GetUniqueID());
+//			lua_settable(L, -3);
+//			lua_pushnumber(L, nCount+1);
+//			nCount++;
+//			lua_insert(L, -2);
+//			lua_settable(L, -3);
+//		}
+//	}
+//	return 1;
+//}
 
 int CUnit::IceAge( lua_State* L )
 {

@@ -92,6 +92,9 @@ void CGraphicsManager::Shutdown( void )
 		CSGD_TextureManager::GetInstance()->UnloadTexture(m_vImageIDs.back().second);
 		m_vImageIDs.pop_back();
 	}
+
+	CSGD_TextureManager::GetInstance()->ShutdownTextureManager();
+	CSGD_Direct3D::GetInstance()->ShutdownDirect3D();
 }
 
 	void CGraphicsManager::DrawWireframeDiag(RECT r, int red, int green, int blue)
