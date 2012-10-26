@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="3" APCost="2" Cooldown="1" Target="1" SpellName="Skilled Shot" Attack="1" Facing="0" Phase="0" LuaPath="SkilledShot.lua" ParticlePath="blood.xml" IconPath="SkilledShot.png" SoundPath="BowandArrow.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>
