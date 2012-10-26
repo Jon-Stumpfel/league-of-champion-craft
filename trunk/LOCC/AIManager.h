@@ -22,6 +22,9 @@ public:
 	void Initialize(void);
 	void Shutdown(void);
 	void PushPlayerID(int nPlayerID) { m_vPlayerIDs.push_back(nPlayerID);}
+
+	Vec2D NearestOpen(CUnit* pTargetUnit, Vec2D pSelectedUnit);
+
 private:
 
 	CAIManager(void);
@@ -33,7 +36,6 @@ private:
 	void SelectUnit(CUnit* pToSelect);
 	void MoveUnit(CUnit* pMoveUnit);
 	void AttackUnit(CUnit* pAttackUnit);
-	Vec2D NearestOpen(CUnit* pTargetUnit, CUnit* pSelectedUnit);
 	static CAIManager* s_Instance;
 
 	std::vector<int> m_vPlayerIDs;

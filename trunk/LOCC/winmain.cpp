@@ -183,7 +183,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 								CTileManager* pTM=CTileManager::GetInstance();
 								CGameManager::GetInstance()->NewGame("level1", 1);
-
+								char* syncbuffer = new char[10];
+								recv(CSocketClient::GetInstance()->m_sClientSocket, syncbuffer, 10, 0);
+								unsigned int rand = (unsigned int)syncbuffer;
+								CGameManager::GetInstance()->SetRandomSeed(rand);
 								CGameManager::GetInstance()->BeginNetworkGame(2);
 
 								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());

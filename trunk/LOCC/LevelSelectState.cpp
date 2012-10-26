@@ -95,19 +95,6 @@ void LevelSelectState::Enter(void)
 
 void LevelSelectState::Exit(void)
 {
-	//for (int  x = 0; x < m_pRows; ++x)
-	//{
-	//	delete[] m_ptempmap[x];
-	//}
-	//delete[] m_ptempmap;
-	//m_ptempmap = nullptr;
-
-	//for (int  x = 0; x < m_p2ndRows; ++x)
-	//{
-	//	delete[] m_p2ndtempmap[x];
-	//}
-	//m_p2ndtempmap = nullptr;
-	//delete m_p2ndtempmap;
 }
 
 void LevelSelectState::Input(INPUT_ENUM input)
@@ -127,6 +114,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					char buffer[80];
 					sprintf_s(buffer, "%c%d", NET_BEGINMAP1, 0);
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
+					unsigned int seed = (unsigned int)(time(0));
+					CGameManager::GetInstance()->SetRandomSeed(seed);
+					sprintf(buffer, "%d", seed);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 10, 0);
 					bNetworkedGame = true;
 				}
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
@@ -141,6 +132,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					char buffer[80];
 					sprintf_s(buffer, "%c%d", NET_BEGINMAP2, 0);
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
+					unsigned int seed = (unsigned int)(time(0));
+					CGameManager::GetInstance()->SetRandomSeed(seed);
+					sprintf(buffer, "%d", seed);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
@@ -229,9 +224,10 @@ void LevelSelectState::Render(void)
 	std::vector<std::vector<TILE_TYPE>>::iterator itermap1;
 	int i = 0;
 	int j = 0;
+	std::vector<TILE_TYPE>::iterator iter;
+
 	for (itermap1 = m_vMap1.begin(); itermap1 != m_vMap1.end(); ++itermap1)
 	{
-		std::vector<TILE_TYPE>::iterator iter;
 		for (iter = (*itermap1).begin(); iter != (*itermap1).end(); ++iter)
 		{
 	//for (int i = 0; i < m_pRows; ++i)
@@ -310,9 +306,9 @@ void LevelSelectState::Render(void)
 	std::vector<std::vector<TILE_TYPE>>::iterator itermap2;
 	int i1 = 0;
 	int j1 = 0;
+
 	for (itermap2 = m_vMap2.begin(); itermap2 != m_vMap2.end(); ++itermap2)
 	{
-		std::vector<TILE_TYPE>::iterator iter;
 		for (iter = (*itermap2).begin(); iter != (*itermap2).end(); ++iter)
 		{
 	//for (int i = 0; i < m_p2ndRows; ++i)

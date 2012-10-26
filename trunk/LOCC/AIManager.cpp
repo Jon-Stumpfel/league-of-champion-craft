@@ -164,10 +164,10 @@ void CAIManager::BeginAttack(void)
 	}
 }
 
-Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, CUnit* pSelectedUnit)
+Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, Vec2D pSelectedUnit)
 {
-	int xDistance = pTargetUnit->GetPos().nPosX - pSelectedUnit->GetPos().nPosX;
-	int yDistance = pTargetUnit->GetPos().nPosY - pSelectedUnit->GetPos().nPosY;
+	int xDistance = pTargetUnit->GetPos().nPosX - pSelectedUnit.nPosX;
+	int yDistance = pTargetUnit->GetPos().nPosY - pSelectedUnit.nPosY;
 	Vec2D vTarget = pTargetUnit->GetPos();
 	std::list<std::pair<int, Vec2D>> vTargets;
 	int nPreference = 1;
@@ -177,157 +177,159 @@ Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, CUnit* pSelectedUnit)
 		CTile* pTile = CTileManager::GetInstance()->GetTile(vTarget.nPosX, vTarget.nPosY);
 		if (pTile == nullptr)
 		{
-			bDoWork = false;
-			break;
+			
 		}
-		if (!pTile->GetIfOccupied())
-			break;
-		Vec2D AdjacentWest = Vec2D(vTarget.nPosX - 1, vTarget.nPosY);
-		Vec2D AdjacentEast = Vec2D(vTarget.nPosX + 1, vTarget.nPosY);
-		Vec2D AdjacentNorth = Vec2D(vTarget.nPosX, vTarget.nPosY - 1);
-		Vec2D AdjacentSouth = Vec2D(vTarget.nPosX, vTarget.nPosY + 1);
-		int Direction = -1;
-		if (pTargetUnit->GetPos().nPosX < pSelectedUnit->GetPos().nPosX) // west
+		else 
 		{
-			if (pTargetUnit->GetPos().nPosY < pSelectedUnit->GetPos().nPosY)
-				Direction = 0; // Northwest
-			else if (pTargetUnit->GetPos().nPosY > pSelectedUnit->GetPos().nPosY)
-				Direction = 1; // Southwest;
+			if (!pTile->GetIfOccupied())
+				break;
+			Vec2D AdjacentWest = Vec2D(vTarget.nPosX - 1, vTarget.nPosY);
+			Vec2D AdjacentEast = Vec2D(vTarget.nPosX + 1, vTarget.nPosY);
+			Vec2D AdjacentNorth = Vec2D(vTarget.nPosX, vTarget.nPosY - 1);
+			Vec2D AdjacentSouth = Vec2D(vTarget.nPosX, vTarget.nPosY + 1);
+			int Direction = -1;
+			if (pTargetUnit->GetPos().nPosX < pSelectedUnit.nPosX) // west
+			{
+				if (pTargetUnit->GetPos().nPosY < pSelectedUnit.nPosY)
+					Direction = 0; // Northwest
+				else if (pTargetUnit->GetPos().nPosY > pSelectedUnit.nPosY)
+					Direction = 1; // Southwest;
+				else
+					Direction = 2; // West
+			}
+			else if (pTargetUnit->GetPos().nPosX > pSelectedUnit.nPosX) // east
+			{
+				if (pTargetUnit->GetPos().nPosY < pSelectedUnit.nPosY)
+					Direction = 3; // Northeast
+				else if (pTargetUnit->GetPos().nPosY > pSelectedUnit.nPosY)
+					Direction = 4; // Southeast;
+				else
+					Direction = 5; // east
+			}
 			else
-				Direction = 2; // West
-		}
-		else if (pTargetUnit->GetPos().nPosX > pSelectedUnit->GetPos().nPosX) // east
-		{
-			if (pTargetUnit->GetPos().nPosY < pSelectedUnit->GetPos().nPosY)
-				Direction = 3; // Northeast
-			else if (pTargetUnit->GetPos().nPosY > pSelectedUnit->GetPos().nPosY)
-				Direction = 4; // Southeast;
-			else
-				Direction = 5; // east
-		}
-		else
-		{
-			if (pTargetUnit->GetPos().nPosY < pSelectedUnit->GetPos().nPosY)
-				Direction = 6; // north;
-			else
-				Direction = 7; // South
-		}
-		std::pair<int, Vec2D> tmp;
+			{
+				if (pTargetUnit->GetPos().nPosY < pSelectedUnit.nPosY)
+					Direction = 6; // north;
+				else
+					Direction = 7; // South
+			}
+			std::pair<int, Vec2D> tmp;
 
-		switch (Direction)
-		{
-		case 0:
-			tmp.first = nPreference;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
-		case 1:
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
-		case 2:
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
-		case 3:
-			tmp.first = nPreference;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
-		case 4:
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
-		case 5:
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
-		case 6:
-			tmp.first = nPreference;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
-		case 7:
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentSouth;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentWest;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference + 1;
-			tmp.second = AdjacentEast;
-			vTargets.push_back(tmp);
-			tmp.first = nPreference;
-			tmp.second = AdjacentNorth;
-			vTargets.push_back(tmp);
-			break;
+			switch (Direction)
+			{
+			case 0:
+				tmp.first = nPreference;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			case 1:
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			case 2:
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			case 3:
+				tmp.first = nPreference;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			case 4:
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			case 5:
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			case 6:
+				tmp.first = nPreference;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			case 7:
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentSouth;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentWest;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference + 1;
+				tmp.second = AdjacentEast;
+				vTargets.push_back(tmp);
+				tmp.first = nPreference;
+				tmp.second = AdjacentNorth;
+				vTargets.push_back(tmp);
+				break;
+			}
 		}
 		int nLowestPreference = INT_MAX;
 
@@ -486,12 +488,12 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 			}
 			else
 			{
-				nearest = NearestOpen(pNearestEnemy, pMoveUnit);
+				nearest = NearestOpen(pNearestEnemy, pMoveUnit->GetPos());
 			}
 
 		}
 		else
-			nearest = NearestOpen(pNearestEnemy, pMoveUnit);
+			nearest = NearestOpen(pNearestEnemy, pMoveUnit->GetPos());
 
 		int x = 9;
 		xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;

@@ -738,6 +738,9 @@ void CGameManager::Reset(void)
 void CGameManager::NewGame(string levelstring, int mapint)
 {	
 
+	rand();
+
+
 	LoadLevel(levelstring);
 
 	Reset();
@@ -809,6 +812,19 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			CSpawnUnitMessage* pSMSG = dynamic_cast<CSpawnUnitMessage*>(pMsg);
 			CUnit* pUnit = (CUnit*)CObjectManager::GetInstance()->CreateObject(pSMSG->GetUnitType(), pSMSG->GetPlayerID() );
 			pUnit->SetPos(pSMSG->GetPos());
+
+			if (CTileManager::GetInstance()->GetTile(pSMSG->GetPos().nPosX, pSMSG->GetPos().nPosY)->GetIfOccupied())
+			{
+				CUnit* pOccupyingUnit = CGameManager::GetInstance()->FindUnit(pSMSG->GetPos());
+				if (pOccupyingUnit != pUnit)
+				{
+					Vec2D newpos = CAIManager::GetInstance()->NearestOpen(pOccupyingUnit, pSMSG->GetPos());
+					pUnit->SetPos(pSMSG->GetPos());
+					pUnit->AddWaypoint(CTileManager::GetInstance()->GetTile(newpos.nPosX, newpos.nPosY));
+				}
+
+			}
+
 			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());
 
@@ -957,6 +973,11 @@ void CGameManager::AddModification(MapModification mod)
 void CGameManager::BeginNetworkGame(int nMyPlayerID)
 {
 	m_bNetworkedGame = true;
+	if (nMyPlayerID == 1)
+	{
+		srand(m_unrandomSeed);
+		rand();
+	}
 }
 
 void CGameManager::SetPlayerAsAI(int nPlayerID)

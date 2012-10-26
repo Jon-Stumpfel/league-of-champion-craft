@@ -27,7 +27,6 @@ void CCoinToss::Enter(void)
 	m_UAnonsense->unitType=UT_CASTLE;
 	m_UAnonsense->fCurrentTime=0.0f;
 	m_nCoinArc=CGame::GetInstance()->GetWindowHeight()+20;
-	srand(unsigned int(time(0)));
 	m_nChosenplayer=0;
 	m_nPeak = rand()%200;
 	m_fTimer =2.0f;
