@@ -613,7 +613,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 				}
 
 				// cast the spell!
-				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
+				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV || ability->GetType() == SP_ICEBLOCK )
 				{
 					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
 						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
@@ -682,7 +682,18 @@ void CGameplayState::UseAbility(CAbility* ability)
 								CMessageSystem::GetInstance()->SendMessageW(msg);
 							}
 							break;
+
+						case SP_ICEBLOCK:
+							{
+								if( cur == 0 )
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ICEBLOCK, 2, false, 22);
+								else
+									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ICEBLOCK, 0, false, 22);
+								CMessageSystem::GetInstance()->SendMessageW(msg);
+							}
+							break;
 						}
+
 
 						int ap = CGameManager::GetInstance()->GetCurrentPlayer()->GetAP();
 						if(  ap == 0 )
@@ -842,6 +853,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 				}
 				else
 				{
+				
+
 					if( ability->GetType() == SP_CHARGE )
 					{
 						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
@@ -904,8 +917,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 							tmp.nPosX;
 							tmp.nPosY;
 							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-							//if( ability->GetParticleType() == PT_BLOOD )
-								//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
 						}
 					}
 
@@ -921,6 +932,12 @@ void CGameplayState::UseAbility(CAbility* ability)
 		}
 		else if (ability->m_nNumTargets == 0) // AOE spell
 		{
+			if( m_bIsFacing == false && ability->GetIfFacing() == true )
+			{
+				m_bIsFacing = true;
+				return;
+			}
+
 			CAbilityManager* pAM = CAbilityManager::GetInstance();
 			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
 				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
@@ -936,18 +953,34 @@ void CGameplayState::UseAbility(CAbility* ability)
 			if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
 				Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
-			std::vector<Vec2D> vec = ability->GetPattern();
-			for( unsigned int i = 0; i < vec.size(); i++ )
+			if( ability->GetType() == SP_ICEAGE )
 			{
-				Vec2D t;
-				t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
-				t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
-				Vec2D tmp = TranslateToPixel(t);
-				tmp.nPosX;
-				tmp.nPosY;
-				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-				//if( ability->GetParticleType() == PT_BLOOD )
-					//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
+				std::vector<Vec2D> vec = CAbilityManager::GetInstance()->GetProperFacing( m_pSelectedUnit->GetFacing(), ability, m_pTargetedTile );
+				int size = (int)vec.size()-1;
+				for( int i = 0; i <= size; i++ )
+				{
+					Vec2D t;
+					t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+					t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+					Vec2D tmp = TranslateToPixel(t);
+					tmp.nPosX += 10;
+					tmp.nPosY -= 10;
+					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+				}
+			}
+			else
+			{
+				std::vector<Vec2D> vec = ability->GetPattern();
+				for( unsigned int i = 0; i < vec.size(); i++ )
+				{
+					Vec2D t;
+					t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+					t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+					Vec2D tmp = TranslateToPixel(t);
+					tmp.nPosX;
+					tmp.nPosY;
+					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+				}
 			}
 
 			m_bIsTargeting = false;
@@ -1463,7 +1496,7 @@ void CGameplayState::Render(void)
 				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
 			else
 			{
-				if( drawAbility->GetType() == SP_CHARGE )
+				if( drawAbility->GetType() == SP_CHARGE || drawAbility->GetType() == SP_ICEAGE )
 				{
 					range = CAbilityManager::GetInstance()->GetProperFacing(m_pSelectedUnit->GetFacing(), drawAbility, 
 												CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY));
@@ -1573,6 +1606,7 @@ void CGameplayState::Render(void)
 		RECT source = {0, 0, 256, 128};
 		CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+
 		switch(m_pSelectedUnit->GetFacing())
 		{
 
@@ -1748,7 +1782,7 @@ void CGameplayState::Render(void)
 
 			RECT hpRect = pHud->GetHealthbar();
 			int nWidth = hpRect.right - hpRect.left;
-			hpRect.right = hpRect.left + nWidth * fhpPercent;
+			hpRect.right = (LONG)(hpRect.left + nWidth * fhpPercent);
 			D3DCOLOR col = D3DCOLOR_XRGB(colR, colG, 0);
 			CSGD_TextureManager::GetInstance()->Draw(
 				CGraphicsManager::GetInstance()->GetID(_T("healthbar")),m_nCardOffsetX + 15, 360, 1.0f, 1.0f, &hpRect, 0.0f, 0.0f,
@@ -1762,8 +1796,6 @@ void CGameplayState::Render(void)
 					CGraphicsManager::GetInstance()->GetID(m_pHighlightedUnit->GetEffect(i)->m_szInterfaceIcon), 
 					m_nCardOffsetX + 20 + (25*i), 370, 0.4f, 0.4f);
 			}
-
-
 		}
 	}
 
@@ -2115,7 +2147,7 @@ void CGameplayState::Render(void)
 
 			RECT hpRect = pHud->GetHealthbar();
 			int nWidth = hpRect.right - hpRect.left;
-			hpRect.right = hpRect.left + nWidth * fhpPercent;
+			hpRect.right = (LONG)(hpRect.left + nWidth * fhpPercent);
 			D3DCOLOR col = D3DCOLOR_XRGB(colR, colG, 0);
 			CSGD_TextureManager::GetInstance()->Draw(
 				CGraphicsManager::GetInstance()->GetID(_T("healthbar")),626, 537, 1.0f, 1.0f, &hpRect, 0.0f, 0.0f,

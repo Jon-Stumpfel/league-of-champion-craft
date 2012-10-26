@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Map mapID="1" phaseNumber="0" phase="0" currPlayer="0">
-    <MapModifications numModifications="0" />
+<Map mapID="1" phaseNumber="0" phase="0" currPlayer="1">
+    <MapModifications numModifications="9">
+        <MapModification modType="28" modPosX="6" modPosY="2" />
+        <MapModification modType="28" modPosX="5" modPosY="3" />
+        <MapModification modType="28" modPosX="5" modPosY="2" />
+        <MapModification modType="28" modPosX="4" modPosY="4" />
+        <MapModification modType="28" modPosX="4" modPosY="3" />
+        <MapModification modType="28" modPosX="4" modPosY="2" />
+        <MapModification modType="28" modPosX="3" modPosY="3" />
+        <MapModification modType="28" modPosX="3" modPosY="2" />
+        <MapModification modType="28" modPosX="2" modPosY="2" />
+    </MapModifications>
     <Players>
-        <Player id="0" ai="0" AP="27" wood="20" metal="20">
+        <Player id="0" ai="0" AP="30" wood="20" metal="20">
+            <Stats numStats="17">
+                <ChampionDamageDone value="0" />
+                <ChampionHealingDone value="0" />
+                <SwordsmanCreated value="1" />
+                <ArcherCreated value="1" />
+                <CalvaryCreated value="0" />
+                <SwordsmanDamageDone value="0" />
+                <ArcherDamageDone value="0" />
+                <CalvaryDamageDone value="0" />
+                <SwordsmanKilled value="0" />
+                <ArcherKilled value="0" />
+                <CalvaryKilled value="0" />
+                <WoodEarned value="0" />
+                <MetalEarned value="0" />
+                <WoodSpent value="0" />
+                <MetalSpent value="0" />
+                <APSpent value="0" />
+            </Stats>
             <Champion posX="4" posY="2" health="50" xp="0" facing="2" tilesMoved="0" hasAttacked="0">
-                <Spells numSpells="8">
-                    <Spell sType="21" />
-                    <Spell sType="7" />
-                    <Spell sType="8" />
-                    <Spell sType="0" />
-                    <Spell sType="17" />
-                    <Spell sType="8" />
-                    <Spell sType="0" />
+                <Spells numSpells="4">
+                    <Spell sType="28" />
+                    <Spell sType="25" />
+                    <Spell sType="22" />
                     <Spell sType="7" />
                 </Spells>
                 <Effects numEffects="0" />
             </Champion>
             <Units numUnits="5">
                 <Unit posX="3" posY="2" unitType="2" health="12" facing="2" tilesMoved="0" hasAttacked="0">
-                    <Effects numEffects="1">
-                        <Effect ability="7" />
-                    </Effects>
+                    <Effects numEffects="0" />
                 </Unit>
                 <Unit posX="5" posY="2" unitType="3" health="20" facing="2" tilesMoved="0" hasAttacked="0">
                     <Effects numEffects="0" />
@@ -36,16 +58,30 @@
                 </Unit>
             </Units>
         </Player>
-        <Player id="1" ai="0" AP="30" wood="20" metal="20">
+        <Player id="1" ai="0" AP="20" wood="20" metal="20">
+            <Stats numStats="17">
+                <ChampionDamageDone value="0" />
+                <ChampionHealingDone value="0" />
+                <SwordsmanCreated value="1" />
+                <ArcherCreated value="1" />
+                <CalvaryCreated value="0" />
+                <SwordsmanDamageDone value="0" />
+                <ArcherDamageDone value="0" />
+                <CalvaryDamageDone value="0" />
+                <SwordsmanKilled value="0" />
+                <ArcherKilled value="0" />
+                <CalvaryKilled value="0" />
+                <WoodEarned value="0" />
+                <MetalEarned value="0" />
+                <WoodSpent value="0" />
+                <MetalSpent value="0" />
+                <APSpent value="10" />
+            </Stats>
             <Champion posX="4" posY="5" health="50" xp="0" facing="0" tilesMoved="0" hasAttacked="0">
-                <Spells numSpells="8">
-                    <Spell sType="21" />
-                    <Spell sType="7" />
-                    <Spell sType="8" />
-                    <Spell sType="0" />
-                    <Spell sType="17" />
-                    <Spell sType="8" />
-                    <Spell sType="0" />
+                <Spells numSpells="4">
+                    <Spell sType="28" />
+                    <Spell sType="25" />
+                    <Spell sType="22" />
                     <Spell sType="7" />
                 </Spells>
                 <Effects numEffects="0" />

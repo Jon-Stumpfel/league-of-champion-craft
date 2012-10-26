@@ -514,6 +514,7 @@ void CUnit::UpdateEffects(void)
 		}
 	}
 }
+
 void CUnit::PushEffect(CAbility* effect, int nDuration)
 {
 	Effect eff;
@@ -548,6 +549,32 @@ int CUnit::Shield(lua_State* L)
 	if (pUnit != nullptr)
 	{
 		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SHIELD), INT_MAX);
+	}
+	return 0;
+}
+
+int CUnit::IceAge( lua_State* L )
+{
+	int l = (int)lua_tonumber(L, 1);
+	CAbility* iceage = CAbilityManager::GetInstance()->GetAbility(SP_ICEAGE);
+	CUnit* pHero = CGameplayState::GetInstance()->GetSelectedUnit();
+
+	CTileManager* pTM = CTileManager::GetInstance();
+	std::vector< Vec2D > pat = CAbilityManager::GetInstance()->GetProperFacing(pHero->GetFacing(), iceage, pTM->GetTile(pHero->GetPos().nPosX, pHero->GetPos().nPosY));
+	for( unsigned int i = 0; i < pat.size(); i++ )
+	{
+		CTile* j = pTM->GetTile(pat[i].nPosX + pHero->GetPos().nPosX, pat[i].nPosY + pHero->GetPos().nPosY);
+		if( j == nullptr )
+			continue;
+
+		j->SetIfFrozen(true);
+
+		MapModification mod;
+		mod.modType = SP_ICEAGE;
+		mod.posX = pat[i].nPosX + pHero->GetPos().nPosX;
+		mod.posY = pat[i].nPosY + pHero->GetPos().nPosY;
+
+		CGameManager::GetInstance()->AddModification(mod);
 	}
 	return 0;
 }

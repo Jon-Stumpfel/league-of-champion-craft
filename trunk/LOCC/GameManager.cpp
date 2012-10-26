@@ -504,6 +504,17 @@ void CGameManager::LoadSave(int nSlot)
 					}
 				}
 				break;
+
+			case SP_ICEAGE:
+				{
+					CTile* selectedTile = CTileManager::GetInstance()->GetTile(mod.posX, mod.posY);
+					if( selectedTile != nullptr )
+					{	
+						selectedTile->SetIfFrozen(true);
+						CGameManager::GetInstance()->AddModification(mod);
+					}
+				}
+				break;
 			}
 
 			pMapModification = pMapModification->NextSiblingElement("MapModification");
