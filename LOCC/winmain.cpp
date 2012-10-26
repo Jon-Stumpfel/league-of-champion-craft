@@ -153,6 +153,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
 					}
 					break;
+				case FD_CLOSE:
+					{
+						if (CSocketClient::GetInstance()->m_nNetworkPlayerID == 1)
+						{
+							CGameManager::GetInstance()->SetPlayerAsAI(0);
+							CSocketClient::GetInstance()->Shutdown();
+						}
+					}
+					break;
 				case FD_READ:
 					{
 						char buffer[2];
@@ -171,9 +180,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							break;
 						case NET_BEGINMAP1:
 							{
+
 								CTileManager* pTM=CTileManager::GetInstance();
 								CGameManager::GetInstance()->NewGame("level1", 1);
+
 								CGameManager::GetInstance()->BeginNetworkGame(2);
+
 								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 
 							}
