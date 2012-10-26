@@ -709,6 +709,7 @@ void CGameManager::Reset(void)
 		delete m_vPlayers[i];
 	}
 
+
 	m_vPlayers.clear();
 	m_nNewPlayerID = 0;
 	m_vScriptSpawns.clear();
@@ -716,15 +717,16 @@ void CGameManager::Reset(void)
 	CreatePlayer(false); // player 1
 	CreatePlayer(false);
 
-	CTileManager::GetInstance()->ShutDown();
+//	CTileManager::GetInstance()->ShutDown();
+
 
 }
 void CGameManager::NewGame(string levelstring, int mapint)
 {	
+
 	LoadLevel(levelstring);
 
 	Reset();
-
 	LoadLevel(levelstring);
 
 	LoadMap(mapint);
@@ -941,4 +943,19 @@ void CGameManager::AddModification(MapModification mod)
 void CGameManager::BeginNetworkGame(int nMyPlayerID)
 {
 	m_bNetworkedGame = true;
+}
+
+void CGameManager::SetPlayerAsAI(int nPlayerID)
+{
+	GetPlayer(nPlayerID)->SetAI(true);
+	CAIManager::GetInstance()->PushPlayerID(nPlayerID);
+	switch (GetCurrentPhase())
+	{
+	case GP_MOVE:
+		CAIManager::GetInstance()->BeginMovement();
+		break;
+	case GP_ATTACK:
+		CAIManager::GetInstance()->BeginAttack();
+		break;
+	}
 }

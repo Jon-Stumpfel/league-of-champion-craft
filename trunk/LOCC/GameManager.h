@@ -48,6 +48,7 @@ public:
 
 	void ShutDown(void);
 
+	void SetPlayerAsAI(int nPlayerID); // to be used when network disconnects and AI needs to take over
 
 	static void MessageProc(IMessage* pMsg);
 

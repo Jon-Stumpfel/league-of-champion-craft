@@ -116,6 +116,8 @@ DWORD WINAPI workThreadWork2(LPVOID args)
 		int error = recv (CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
 		if ((error == 0) || (error == INVALID_SOCKET))
 		{
+			OutputDebugString(L"Network: Player 2 disconnected...\n");
+			CGameManager::GetInstance()->SetPlayerAsAI(1);
 			CSocketServer::GetInstance()->Shutdown();
 			CSocketClient::GetInstance()->Shutdown();
 			CStateStack::GetInstance()->Switch(CMainMenuState::GetInstance());
@@ -150,8 +152,6 @@ void CSocketServer::DeleteInstance(void)
 
 void CSocketServer::Initialize(void)
 {
-
-	
 	m_nNumConnections = 0;
 	m_bShutdownListenThread = false;
 	m_bShutdownWorkThread = false;
@@ -273,11 +273,10 @@ bool CSocketClient::Initialize(unsigned char byte1, unsigned char byte2, unsigne
 	char a[16]="127.0.0.1";
 	m_tClientAddr.sin_family = AF_INET;
 	m_tClientAddr.sin_port = htons(44444);
-	m_tClientAddr.sin_addr.S_un.S_addr = inet_addr("10.10.85.37");
-	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b1 = byte1;
-	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b2 = byte2;
-	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b3 = byte3;
-	//m_tClientAddr.sin_addr.S_un.S_un_b.s_b4 = byte4;
+	m_tClientAddr.sin_addr.S_un.S_un_b.s_b1 = byte1;
+	m_tClientAddr.sin_addr.S_un.S_un_b.s_b2 = byte2;
+	m_tClientAddr.sin_addr.S_un.S_un_b.s_b3 = byte3;
+	m_tClientAddr.sin_addr.S_un.S_un_b.s_b4 = byte4;
 
 
 	if (connect(m_sClientSocket, (LPSOCKADDR)&m_tClientAddr, sizeof(m_tClientAddr)) == SOCKET_ERROR)
@@ -285,9 +284,11 @@ bool CSocketClient::Initialize(unsigned char byte1, unsigned char byte2, unsigne
 
 		if (WSAGetLastError() == WSAEWOULDBLOCK)
 		{
+
 			OutputDebugString(L"ClientError: WSAEWOULDBLOCK, sleeping 750\n");
 			Sleep(750);
 			connect(m_sClientSocket, (LPSOCKADDR)&m_tClientAddr, sizeof(m_tClientAddr));
+
 			return true;
 		}
 		std::wostringstream woss;

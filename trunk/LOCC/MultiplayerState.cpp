@@ -16,10 +16,10 @@ CMultiplayerState::~CMultiplayerState(void)
 void CMultiplayerState::Enter(void)
 {
 	m_nMenuChoice = 0;
-	byte1 = 127;
-	byte2 = 0;
-	byte3 = 0;
-	byte4 = 1;
+	byte1 = 50;
+	byte2 = 88;
+	byte3 = 51;
+	byte4 = 124;
 	m_bInputIPaddress = false;
 	m_nIPBracketLeft = 0;
 	m_bNetworkSetup = true;
@@ -146,16 +146,39 @@ void CMultiplayerState::Input(INPUT_ENUM input)
 void CMultiplayerState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
-
+	static float fDown, fUp = 0.0f;
 	if (m_bInputIPaddress)
 	{
 		if (pDI->KeyDown(DIK_DOWN))
 		{
-			Input(INPUT_DOWN);
+			if (fDown < 1.0f)
+			{
+				fDown+= fElapsedTime;
+			}
+			else if (fDown > 1.0f)
+			{
+				Input(INPUT_DOWN);
+			}
+
 		}
 		else if (pDI->KeyDown(DIK_UP))
 		{
+			if (fUp < 1.0f)
+			{
+				fUp += fElapsedTime;
+			}
+			else if (fUp > 1.0f)
+			{
 			Input(INPUT_UP);
+			}
+		}
+		if (pDI->KeyUp(DIK_DOWN))
+		{
+			fDown = 0.0f;
+		}
+		else if (pDI->KeyUp(DIK_UP))
+		{
+			fUp = 0.0f;
 		}
 	}
 }
