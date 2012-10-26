@@ -193,6 +193,12 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
+			case SP_EXPSHOT:
+				{
+					if( doc.LoadFile("Assets/Ability/ExplosiveShot.xml") == false )
+						return;
+				}
+				break;
 
 		default:
 			continue;
@@ -566,6 +572,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_LIGHTSTRIKE;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_EXPSHOT:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_EXPSHOT);
+					ab->SetParticleType(PT_EXPLODE);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The hero uses a powerful explosive Arrow");
+					ab->SetDamage(8);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_EXPSHOT;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

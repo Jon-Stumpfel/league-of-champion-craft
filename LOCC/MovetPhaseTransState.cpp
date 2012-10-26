@@ -47,8 +47,6 @@ void CMovetPhaseTransState::Render(void)
 		
 		oss<<"Player "<< ++Playernum<<" Movement Phase";
 		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(0,255,0));
-
-
 	}
 }
 
