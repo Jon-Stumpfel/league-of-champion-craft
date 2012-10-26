@@ -75,6 +75,8 @@ private:
 	Vec2D m_CameraPos;
 	Vec2D m_SelectionPos;
 
+	bool m_bIsFacing;
+
 	int m_nCardOffsetX;
 	int m_nTooltipOffsetX;
 	int m_nTooltipOffsetMaxX;

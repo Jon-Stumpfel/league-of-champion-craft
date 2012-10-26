@@ -1586,7 +1586,7 @@ CFrame* CAnimationManager::GetFrame(UnitAnimation STheAnimStruct)
 			break;
 		}
 	}
-	CFrame* failframe;
+	CFrame* failframe = new CFrame;
 	RECT failrect; failrect.bottom = -1; failrect.left = -1;
 	failrect.right = -1; failrect.top = -1;
 	failframe->SetAnchorPoint(Vec2D(-1,-1));

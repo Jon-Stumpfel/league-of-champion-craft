@@ -428,12 +428,6 @@ void CEmitter::Update( float fElapsedTime )
 		// If the particles life is 0 it removes it from the alive vector and puts it into the dead vector
 		if( m_vAliveParticles[i]->GetCurTime() >=  m_vAliveParticles[i]->GetEndTime() )
 		{
-			if( i == 0 )
-			{
-				std::wostringstream oss;
-				oss << "SHITS DEAD\n";
-				OutputDebugString((LPCWSTR)oss.str().c_str());
-			}
 			delete m_vAliveParticles[i];
 			m_vAliveParticles.erase(m_vAliveParticles.begin() + i);
 
@@ -492,13 +486,6 @@ void CEmitter::Update( float fElapsedTime )
 		// set the new value
 		float newScale = dtScale + oldScale;
 		m_vAliveParticles[i]->SetScale( newScale );
-
-		if( i == 0 )
-		{
-			std::wostringstream oss;
-			oss << "Old scale " << oldScale << " dt Scale " << dtScale << " new Scale " << newScale << "\n";
-			OutputDebugString((LPCWSTR)oss.str().c_str());
-		}
 
 		Vec2Df oldVel = m_vAliveParticles[i]->GetCurVel();
 		Vec2Df startVel = m_vAliveParticles[i]->GetVelStart();

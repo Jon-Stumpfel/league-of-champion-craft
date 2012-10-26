@@ -8,6 +8,7 @@
 #include "AnimationManager.h"
 #include "GameplayState.h"
 #include "AIManager.h"
+#include "Player.h"
 
 CCoinToss::CCoinToss(void)
 {
@@ -114,6 +115,7 @@ void CCoinToss::Update(float fElapsedTime)
 			CGameManager::GetInstance()->SetCurrentPlayer(0);
 			CGameManager::GetInstance()->SetNextPlayer(1);
 			CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
+			CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
 		}
 		if (m_nChosenplayer==7)
 		{
@@ -121,6 +123,7 @@ void CCoinToss::Update(float fElapsedTime)
 			CGameManager::GetInstance()->SetNextPlayer(0); 
 			CAIManager::GetInstance()->BeginMovement();
 			CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
+			CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
 		}
 		CStateStack::GetInstance()->Pop();
 	}

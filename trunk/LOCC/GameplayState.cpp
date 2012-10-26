@@ -79,8 +79,6 @@ void CGameplayState::Enter(void)
 	m_nTooltipOffsetX = -50;
 	m_nTooltipOffsetMaxX = 0;
 	pGM;
-	SnapToPosition(CGameManager::GetInstance()->GetChampion(0)->GetPos());
-
 }
 
 int CGameplayState::GetCamOffsetX(void)
@@ -245,14 +243,17 @@ void CGameplayState::Input(INPUT_ENUM input)
 	{
 	case INPUT_UP:
 		{
-			if (m_pSelectedUnit != nullptr && (!m_bIsMoving) && (!m_bIsTargeting))
+			if (m_pSelectedUnit != nullptr && (!m_bIsMoving) && (!m_bIsTargeting) )
 			{
 				// do nothing, up arrow does nothing with a unit selected
+				
+				if ( m_bIsFacing )
+				{
+					m_pSelectedUnit->SetFacing(0);
+				}
 			}
 			else
-			{
 				MoveCursor(0, -1);
-			}
 		}
 		break;
 	case INPUT_LEFT:
@@ -268,27 +269,32 @@ void CGameplayState::Input(INPUT_ENUM input)
 				//		m_nSelectedChampSpell = 3;
 				//}
 				//else
+				//{
+				
+				if ( m_bIsFacing )
 				{
-					if (m_bSelectChampionAbility)
+					m_pSelectedUnit->SetFacing(3);
+				}
+				else if (m_bSelectChampionAbility)
+				{
+					m_nSelectedSpell--;
+					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+					if (m_nSelectedSpell < 0)
 					{
-						m_nSelectedSpell--;
-						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
-						if (m_nSelectedSpell < 0)
-						{
-							if (pHero->GetNumSpells() == 0)
-								m_nSelectedSpell = 0;
-							else
-								m_nSelectedSpell = pHero->GetNumSpells()-1;
-						}
-					}
-					else
-					{
-						// Champion ability is not pulled up, so just move the cursor on the main panel
-						m_nSelectedAbility--;
-						if (m_nSelectedAbility < 0)
-							m_nSelectedAbility = 2;
+						if (pHero->GetNumSpells() == 0)
+							m_nSelectedSpell = 0;
+						else
+							m_nSelectedSpell = pHero->GetNumSpells()-1;
 					}
 				}
+				else
+				{
+					// Champion ability is not pulled up, so just move the cursor on the main panel
+					m_nSelectedAbility--;
+					if (m_nSelectedAbility < 0)
+						m_nSelectedAbility = 2;
+				}
+				//}
 			}
 			else
 				MoveCursor(-1, 0);
@@ -307,23 +313,28 @@ void CGameplayState::Input(INPUT_ENUM input)
 				//		m_nSelectedChampSpell = 0;
 				//}
 				//else
+				//{
+					
+				if ( m_bIsFacing )
 				{
-					if (m_bSelectChampionAbility)
-					{
-						m_nSelectedSpell++;
-						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
-						if (m_nSelectedSpell >= (int)pHero->GetNumSpells())
-							m_nSelectedSpell = 0;
-					}
-					else
-					{
-						// Champion ability is not pulled up, so just move the cursor on the main panel
-						m_nSelectedAbility++;
-						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
-						if (m_nSelectedAbility > 2)
-							m_nSelectedAbility = 0;
-					}
+					m_pSelectedUnit->SetFacing(1);
 				}
+				else if (m_bSelectChampionAbility)
+				{
+					m_nSelectedSpell++;
+					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+					if (m_nSelectedSpell >= (int)pHero->GetNumSpells())
+						m_nSelectedSpell = 0;
+				}
+				else
+				{
+					// Champion ability is not pulled up, so just move the cursor on the main panel
+					m_nSelectedAbility++;
+					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
+					if (m_nSelectedAbility > 2)
+						m_nSelectedAbility = 0;
+				}
+				//}
 			}
 			else
 				MoveCursor(1, 0);
@@ -334,9 +345,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 			if (m_pSelectedUnit != nullptr && (!m_bIsMoving)&& (!m_bIsTargeting)) // we have a unit selected
 			{
 				// do nothing! Up arrow does nada;
+				
+				if ( m_bIsFacing )
+				{
+					m_pSelectedUnit->SetFacing(2);
+				}
 			}
 			else
 				MoveCursor(0, 1);
+			
 		}
 		break;
 	case INPUT_ACCEPT:
@@ -420,6 +437,10 @@ void CGameplayState::Input(INPUT_ENUM input)
 					m_bShowSpellPanel = false;
 					m_nSelectedSpell = 0;
 				}
+				else if ( m_bIsFacing )
+				{
+					m_bIsFacing = false;
+				}
 				else
 					ClearSelections();
 			}
@@ -499,6 +520,31 @@ void CGameplayState::UseAbility(CAbility* ability)
 		if( m_pSelectedUnit->GetTilesMoved() != 0 )
 			return;
 	}
+					
+	CGameManager* pGM = CGameManager::GetInstance();
+	if( ability->GetType() == SP_SPAWNARCHER )
+	{
+		if( pGM->GetCurrentPlayer()->GetPopCap() > pGM->GetCurrentPlayer()->GetMaxPopCap() || pGM->GetCurrentPlayer()->GetMetal() < 5 || pGM->GetCurrentPlayer()->GetWood() < 15 )
+		{
+			return;
+		}
+	}
+
+	if( ability->GetType() == SP_SPAWNCALV )
+	{
+		if( pGM->GetCurrentPlayer()->GetPopCap() > pGM->GetCurrentPlayer()->GetMaxPopCap() || pGM->GetCurrentPlayer()->GetMetal() < 10 || pGM->GetCurrentPlayer()->GetWood() < 10 )
+		{
+			return;
+		}
+	}
+				
+	if( ability->GetType() == SP_SPAWNSWORD )
+	{
+		if( pGM->GetCurrentPlayer()->GetPopCap() > pGM->GetCurrentPlayer()->GetMaxPopCap() || pGM->GetCurrentPlayer()->GetMetal() < 20 )
+		{
+			return;
+		}
+	}
 
 	if (ability->m_nPhase != CGameManager::GetInstance()->GetCurrentPhase())
 		return;
@@ -520,9 +566,16 @@ void CGameplayState::UseAbility(CAbility* ability)
 	{
 		if (ability->m_nNumTargets == 1)
 		{
+			if( m_bIsFacing == false && ability->GetIfFacing() == true )
+			{
+				m_bIsFacing = true;
+				return;
+			}
+
 			if ( m_pTargetedTile == nullptr && m_bIsTargeting == false)
 			{
 				m_bIsTargeting = true;
+				
 				return;
 			}
 			else if (m_bIsTargeting == true && m_pTargetedTile == nullptr)
@@ -553,39 +606,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 						return;
 				}
 
-				if( ability->GetType() == SP_CHARGE )
-				{
-					std::vector<Vec2D> vec = ability->GetPattern();
-					for( unsigned int i = vec.size()-1; i > 0; i-- )
-					{
-						Vec2D t;
-						t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
-						t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
-						Vec2D tmp = TranslateToPixel(t);
-						tmp.nPosX += 65;
-						tmp.nPosY += 5;
-						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-						
-						if( m_pTargetedTile->GetPosition() == vec[i] )
-							break;
-					}
-				}
-				else
-				{
-					std::vector<Vec2D> vec = ability->GetPattern();
-					for( unsigned int i = 0; i < vec.size(); i++ )
-					{
-						Vec2D t;
-						t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
-						t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
-						Vec2D tmp = TranslateToPixel(t);
-						tmp.nPosX;
-						tmp.nPosY;
-						CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-						//if( ability->GetParticleType() == PT_BLOOD )
-							//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
-					}
-				}
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV )
 				{
@@ -603,30 +623,13 @@ void CGameplayState::UseAbility(CAbility* ability)
 						{
 						case SP_SPAWNARCHER:
 							{
-								CGameManager* pGM = CGameManager::GetInstance();
-								if( pGM->GetCurrentPlayer()->GetPopCap() < pGM->GetCurrentPlayer()->GetMaxPopCap() )
-								{
-									if( pGM->GetCurrentPlayer()->GetMetal() >= 5 )
-									{
-										if( pGM->GetCurrentPlayer()->GetWood() >= 15 )
-										{	
-											//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap() + 1 );
-											pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 5 );
-											pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 15 );
+								//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap() + 1 );
+								pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 5 );
+								pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 15 );
 
-											// Stats saving!
-											pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=5;
-											pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=15;
-
-										}
-										else
-											return;
-									}
-									else
-										return;
-								}
-								else
-									return;
+								// Stats saving!
+								pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=5;
+								pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=15;
 
 								if( cur == 0 )
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 2, false, 12);
@@ -639,22 +642,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 						case SP_SPAWNSWORD:
 							{
-								CGameManager* pGM = CGameManager::GetInstance();
-								if( pGM->GetCurrentPlayer()->GetPopCap() < pGM->GetCurrentPlayer()->GetMaxPopCap() )
-								{
-									if( pGM->GetCurrentPlayer()->GetMetal() >= 20 )
-									{
-										//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
-										pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 20 );
-											// Stats saving!
-											pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=20;
-									}
-									else
-										return;
-								}
-								else
-									return;
-
+								//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
+								pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 20 );
+								// Stats saving!
+								pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=20;
+									
 								if( cur == 0 )
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 2, false, 20);
 								else
@@ -665,29 +657,13 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 						case SP_SPAWNCALV:
 							{
-								CGameManager* pGM = CGameManager::GetInstance();
-								if( pGM->GetCurrentPlayer()->GetPopCap() < pGM->GetCurrentPlayer()->GetMaxPopCap() )
-								{
-									if( pGM->GetCurrentPlayer()->GetMetal() >= 10 )
-									{
-										if( pGM->GetCurrentPlayer()->GetWood() >= 10 )
-										{	
-											//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
-											pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 10 );
-											pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 10 );
-											// Stats saving!
-											pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=10;
-											pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=10;
-										}
-										else
-											return;
-									}
-									else
-										return;
-								}
-								else 
-									return;
-
+								//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
+								pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 10 );
+								pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 10 );
+								// Stats saving!
+								pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=10;
+								pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=10;
+									
 								if( cur == 0 )
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 2, false, 22);
 								else
@@ -707,6 +683,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
 						m_bIsTargeting = false;
+						m_bIsFacing = false;
 					}
 				}
 				else if (ability->GetType() == SP_MELEEATTACK || ability->GetType() == SP_ARCHERRANGEDATTACK)
@@ -811,6 +788,23 @@ void CGameplayState::UseAbility(CAbility* ability)
 						// STATS SAVING
 						CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
+
+					
+						std::vector<Vec2D> vec = ability->GetPattern();
+						for( unsigned int i = 0; i < vec.size(); i++ )
+						{
+							Vec2D t;
+							t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+							t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+							Vec2D tmp = TranslateToPixel(t);
+							tmp.nPosX;
+							tmp.nPosY;
+							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+							//if( ability->GetParticleType() == PT_BLOOD )
+								//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
+						}
+						
+						//ADD BASIC ATTACK ANIMATION HERE
 						if (ability->m_bIsAttack)
 						{
 							int xDistance = m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX;
@@ -828,6 +822,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 						m_bIsTargeting = false;
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
+						m_bIsFacing = false;
+					
 					}
 				}
 				else
@@ -864,27 +860,53 @@ void CGameplayState::UseAbility(CAbility* ability)
 					if( Champ != nullptr )
 						Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
+					if( ability->GetType() == SP_CHARGE )
+					{
+						std::vector<Vec2D> vec = CAbilityManager::GetInstance()->GetProperFacing( m_pSelectedUnit->GetFacing(), ability, m_pTargetedTile );
+						int size = (int)vec.size()-1;
+						for( int i = 0; i <= size; i++ )
+						{
+							Vec2D t;
+							t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
+							t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
+							Vec2D tmp = TranslateToPixel(t);
+							tmp.nPosX += 65;
+							tmp.nPosY += 5;
+							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+						
+							if( m_pTargetedTile->GetPosition() == t )
+								break;
+						}
+					}
+					else
+					{
+						std::vector<Vec2D> vec = ability->GetPattern();
+						for( unsigned int i = 0; i < vec.size(); i++ )
+						{
+							Vec2D t;
+							t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+							t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+							Vec2D tmp = TranslateToPixel(t);
+							tmp.nPosX;
+							tmp.nPosY;
+							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+							//if( ability->GetParticleType() == PT_BLOOD )
+								//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
+						}
+					}
+
 					m_bIsTargeting = false;
 					m_pTargetedTile = nullptr;
 					m_pSelectedUnit = nullptr;
 					m_bSelectChampionAbility = false;
+					m_bIsFacing = false;
 				}
 				ClearSelections();
 			}
+
 		}
 		else if (ability->m_nNumTargets == 0) // AOE spell
 		{
-			std::vector<Vec2D> vec = ability->GetPattern();
-			for( unsigned int i = 0; i < vec.size(); i++ )
-			{
-				Vec2D t;
-				t.nPosX = vec[i].nPosX + m_pSelectedUnit->GetPos().nPosX;
-				t.nPosY = vec[i].nPosY + m_pSelectedUnit->GetPos().nPosY;
-				Vec2D tmp = TranslateToPixel(t);
-				tmp.nPosX += 65;
-				tmp.nPosY += 5;
-				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-			}
 			CAbilityManager* pAM = CAbilityManager::GetInstance();
 			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
 				m_pSelectedUnit->GetPos().nPosY), m_pSelectedUnit);
@@ -900,12 +922,28 @@ void CGameplayState::UseAbility(CAbility* ability)
 			if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
 				Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
+			std::vector<Vec2D> vec = ability->GetPattern();
+			for( unsigned int i = 0; i < vec.size(); i++ )
+			{
+				Vec2D t;
+				t.nPosX = vec[i].nPosX + m_pTargetedTile->GetPosition().nPosX;
+				t.nPosY = vec[i].nPosY + m_pTargetedTile->GetPosition().nPosY;
+				Vec2D tmp = TranslateToPixel(t);
+				tmp.nPosX;
+				tmp.nPosY;
+				CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+				//if( ability->GetParticleType() == PT_BLOOD )
+					//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
+			}
+
 			m_bIsTargeting = false;
 			m_pTargetedTile = nullptr;
 			m_pSelectedUnit = nullptr;
 			m_bSelectChampionAbility = false;
+			m_bIsFacing = false;
 		}
 	}		
+
 }
 
 // Attempts to move the selectedUnit to the tile at position nTilePosition
@@ -1410,12 +1448,19 @@ void CGameplayState::Render(void)
 			else
 			{
 				if( drawAbility->GetType() == SP_CHARGE )
-					range = drawAbility->GetPattern();
+				{
+					range = CAbilityManager::GetInstance()->GetProperFacing(m_pSelectedUnit->GetFacing(), drawAbility, 
+												CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY));
+				}
 				else
 					range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
 			}
+
 			if( drawAbility->GetType() != SP_CHARGE )
-				pattern = drawAbility->GetPattern();
+			{
+				pattern = CAbilityManager::GetInstance()->GetProperFacing(m_pSelectedUnit->GetFacing(), drawAbility, 
+												CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY));
+			}
 
 			if( drawAbility->GetApCost() == 5 )
 				int i = 0;
@@ -1481,6 +1526,7 @@ void CGameplayState::Render(void)
 		}
 	}
 
+
 	int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
 	int y = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) + (nFakeTileHeight  / 2 * m_SelectionPos.nPosY);
 	// selection cursor
@@ -1505,8 +1551,80 @@ void CGameplayState::Render(void)
 	// Testing particle rendering
 	CParticleManager::GetInstance()->Render();
 
+	if( m_bIsFacing )
+	{
+		float rot;
+		RECT source = {0, 0, 256, 128};
+		CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
+		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+		switch(m_pSelectedUnit->GetFacing())
+		{
 
+		case 0:
+			{
+				rot = -45 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 60 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 60 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
+				}
+			}
+			break;
 
+		case 1:
+			{
+				rot = -315 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 55 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - GetCamOffsetY() + 55, .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 55 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 55 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
+				}
+			}
+			break;
+
+		case 2:
+			{
+				rot = -225 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 60 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 60 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
+				}
+			}
+			break;
+
+		case 3:
+			{
+				rot = -135 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
+				}
+			}
+			break;
+		}
+	}
 
 	//if (m_bIsMoving)
 	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);

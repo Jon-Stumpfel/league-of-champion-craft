@@ -97,10 +97,23 @@ void CScriptManager::LoadScript( std::string szFilename, SCRIPT_TYPE eScript )
 
 void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster, CTile* TileCharged )
 {
-	// Finds the facing for the specified unit
-	int face = pCaster->GetFacing();
+		// Finds the facing for the specified unit
+		int face = pCaster->GetFacing();
+		std::vector< Vec2D > TilePos;
+		
+		std::vector< Vec2D > pat;
+		if( pAbility->GetIfFacing() )
+			pat = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pAbility, pTile);
+		else
+			pat = pAbility->GetPattern();
+		
+		for( unsigned int i = 0; i < pAbility->GetPattern().size(); i++ )
+		{
+			pat[i].nPosX += pTile->GetPosition().nPosX;
+			pat[i].nPosY += pTile->GetPosition().nPosY;
 
-		std::vector< Vec2D > TilePos = CAbilityManager::GetInstance()->GetProperFacing(pCaster->GetFacing(), pAbility, pTile);
+			TilePos.push_back(pat[i]);
+		}
 
 		lua_getglobal(L, "OnUse");
 
@@ -109,7 +122,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster, 
 		vector< CUnit* > affected;
 		int nCount = 0;
 		int z = (int)TilePos.size()-1;
-		for( int i = z; i >= 0; i-- )
+		for( int i = 0; i <= z; i++ )
 		{
 			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
 		

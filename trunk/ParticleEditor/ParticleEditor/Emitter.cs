@@ -302,10 +302,10 @@ namespace ParticleEditor
 
                 float a = particles[i].myColor.A;
                 float r = particles[i].myColor.R;
-                float g = particles[i].myColor.G;
-                float b = particles[i].myColor.B;
+                float g = Math.Abs(particles[i].myColor.G);
+                float b = Math.Abs(particles[i].myColor.B);
 
-                Color newColor = Color.FromArgb((int)(a * 255), (int)(r * 255), (int)(g * 255), (int)(b * 255));
+                Color newColor = Color.FromArgb((int)(a * 255), (int)(Math.Abs(r) * 255), (int)(g * 255), (int)(b* 255));
                 particles[i].Color = newColor;
 
                 // Rotation changing over time
