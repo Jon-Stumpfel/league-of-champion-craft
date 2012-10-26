@@ -67,6 +67,9 @@ void CGameManager::NextPhase(void)
 		m_pNextPlayer = pTemp;
 
 		//Look At That, TileManager Takeing care of business! This added resoruces based on the owned tiles -DG
+		m_pCurrentPlayer->SetAP(nStartingAP);
+		m_pCurrentPlayer->SetMaxPopCap(STARTING_CAP_PER_TURN);
+
 		CTileManager::GetInstance()->EvaluateResources(m_pCurrentPlayer->GetPlayerID());
 		
 		CGameplayState::GetInstance()->ClearSelections();
@@ -74,7 +77,7 @@ void CGameManager::NextPhase(void)
 		{
 			CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos());
 		}
-		m_pCurrentPlayer->SetAP(nStartingAP);
+
 		CAIManager::GetInstance()->BeginMovement();
 
 		for (decltype(m_vUnits.size()) i = 0; i < m_vUnits.size(); ++i)

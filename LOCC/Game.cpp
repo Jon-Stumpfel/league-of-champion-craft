@@ -13,6 +13,7 @@
 #include "AIManager.h"
 #include "FloatingText.h"
 #include "SGD Wrappers\CSGD_XAudio2.h"
+#include "HUD.h"
 #include "SoundManager.h"
 #include <ctime>
 CGame* CGame::GetInstance(void)
@@ -22,6 +23,7 @@ CGame* CGame::GetInstance(void)
 	return &s_Instance;
 }
 
+int m_ngraphicsID = 0;
 void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	int nScreenWidth, int nScreenHeight,
 	bool bIsWindowed)
@@ -34,7 +36,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	//m_bIsWindowed = bIsWindowed;
 	m_hWnd = hWnd;
 	CTileManager::GetInstance()->Init();
-	
+
 	CSGD_XAudio2::GetInstance()->InitXAudio2();
 	CInputManager::GetInstance()->Initialize(hWnd, hInstance);
 	CScriptManager::GetInstance()->Initialize();
@@ -43,6 +45,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
 	CAIManager::GetInstance()->Initialize();
 	CFloatingText::GetInstance()->Initialize();
+	CHUD::GetInstance()->Initialize();
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
 	long x = 0;
@@ -214,7 +217,7 @@ void CGame::Render(void)
 		woss << "FPS: " << (int)m_fFrameElapsed;
 		m_bUpdateFps = false;
 	}
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 10, 5, 255, 0, 0);
+	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 10, 40, 255, 0, 0);
 	CSGD_Direct3D::GetInstance()->SpriteEnd();
 	CSGD_Direct3D::GetInstance()->DeviceEnd();
 	CSGD_Direct3D::GetInstance()->Present();
