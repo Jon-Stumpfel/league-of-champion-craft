@@ -48,14 +48,14 @@ CCoinToss* CCoinToss::GetInstance(void)
 
 void CCoinToss::Render(void)
 {	
-	Vec2D temparchor = CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetAnchorPoint();
+	Vec2D temparchor = CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetAnchorPoint();
 	Vec2D tempoffset;
-	tempoffset.nPosX= CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetRect().left-temparchor.nPosX;
-	tempoffset.nPosY= CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetRect().top-temparchor.nPosY;
-	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetRect();
+	tempoffset.nPosX= CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect().left-temparchor.nPosX;
+	tempoffset.nPosY= CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect().top-temparchor.nPosY;
+	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Coin"),
 		CGame::GetInstance()->GetWindowWidth()/2 - tempoffset.nPosX, m_nCoinArc - tempoffset.nPosY,
-		1.0f,1.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetRect(),0,
+		1.0f,1.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect(),0,
 		0,0,D3DCOLOR_XRGB(255,255,255));
 }
 
@@ -82,13 +82,13 @@ void CCoinToss::Update(float fElapsedTime)
 	{
 		if(m_nChosenplayer == 0)
 		{
-			if(CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 0 ||
-				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 1 ||
-				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 2 ||
-				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 3 ||
-				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 4 ||
-				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 6 ||
-				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense).GetFrame() == 7)
+			if(CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 0 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 1 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 2 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 3 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 4 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 6 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 7)
 			{
 				m_nChosenplayer = 7;
 			}

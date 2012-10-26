@@ -10,9 +10,9 @@ public:
 	void Update( float fElapsedTime );
 	bool Load(const char* strName);
 	static CAnimationManager* GetInstance( void );
-	CFrame GetFrame(UnitAnimation STheAnimStruct);
+	CFrame* GetFrame(UnitAnimation STheAnimStruct);
 	void Shutdown();
-	CAnimation GetAnimation(UNIT_TYPE ut, ANIM_TYPE at);
+	CAnimation* GetAnimation(UNIT_TYPE ut, ANIM_TYPE at);
 	void SetCoinFrame(int temp);
 private:
 	CAnimationManager(void);

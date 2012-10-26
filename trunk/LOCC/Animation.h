@@ -21,7 +21,7 @@ public:
 	void SetUnitType(UNIT_TYPE tempunittype) {m_eUnitType = tempunittype;}
 	UNIT_TYPE GetUnitType() {return m_eUnitType;}
 	void SetFrame(CFrame tempframe) {m_vAnimVec.push_back(tempframe);}
-	std::vector<CFrame> GetFrameVec() {return m_vAnimVec;}
+	std::vector<CFrame>& GetFrameVec() {return m_vAnimVec;}
 	int GetCurrFrame() {return currframe;}
 	void SetCurrFrame(int tempframe) {currframe = tempframe;}
 	float GetElapsedTime() {return elapsedtime;}
