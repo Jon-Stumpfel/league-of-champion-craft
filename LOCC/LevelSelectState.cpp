@@ -36,7 +36,9 @@ void LevelSelectState::Enter(void)
 	pTM->LoadSave(filename);
 	m_pRows = pTM->GetNumRows();
 	m_pColumns = pTM->GetNumColumns();
-
+	blueguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_blue.png"),D3DXCOLOR(0,0,0,255));
+	redguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_red.png"),D3DXCOLOR(0,0,0,255));
+	Scroll = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\scroll.png"), D3DXCOLOR(255,255,255,255));
 	m_vMap1.clear();
 	m_vMap2.clear();
 	for (int x = 0; x < m_pRows; ++x)
@@ -184,11 +186,35 @@ void LevelSelectState::Update(float fElapsedTime)
 
 void LevelSelectState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(0,100,255);
+	CSGD_Direct3D::GetInstance()->Clear(50, 50, 50);
+	//CSGD_TextureManager::GetInstance()->Draw(blueguyid,0,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+	//CSGD_TextureManager::GetInstance()->Draw(redguyid,290,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+	RECT* toprect = new RECT();
+	toprect->bottom = 392;
+	toprect->top = 198;
+	toprect->left = 15;
+	toprect->right = 537;
+	CSGD_TextureManager::GetInstance()->Draw(Scroll,25,100,1.44f,2.3f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	toprect->bottom = 113;
+	toprect->top = 0;
+	toprect->left = 0;
+	toprect->right = 555;
+	CSGD_TextureManager::GetInstance()->Draw(Scroll,0,0,1.45f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	toprect->bottom = 584;
+	toprect->top = 472;
+	toprect->left = 2;
+	toprect->right = 557;
+	CSGD_TextureManager::GetInstance()->Draw(Scroll,0,487,1.45f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	toprect->bottom = 77;
+	toprect->top = 56;
+	toprect->left = 152;
+	toprect->right = 402;
+	delete toprect;
+	toprect = nullptr;
 	int nMiniMapOffsetX = 60;
 	int nMiniMapOffsetY = 50;
-	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY, nMiniMapOffsetX + 225, nMiniMapOffsetY + 152};
-	RECT selectedrect = {nMiniMapOffsetX-5, nMiniMapOffsetY-5, nMiniMapOffsetX + 230, nMiniMapOffsetY + 157};
+	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY+100, nMiniMapOffsetX + 225, nMiniMapOffsetY + 252};
+	RECT selectedrect = {nMiniMapOffsetX-5, nMiniMapOffsetY+95, nMiniMapOffsetX + 230, nMiniMapOffsetY + 257};
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	if(selected == 0)
 		CSGD_Direct3D::GetInstance()->DrawRect(selectedrect,255,0,0);
@@ -253,7 +279,7 @@ void LevelSelectState::Render(void)
 				g=177; r=34; b=76; break;
 			}
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
-				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
+				tileRect.left, tileRect.top+100, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 	
 			j++;
 		}
@@ -262,13 +288,13 @@ void LevelSelectState::Render(void)
 	}
 	ostringstream woss;
 	woss<<"Basic test map";
-	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255));
+	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.5f, D3DXCOLOR(255,255,255,255));
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	nMiniMapOffsetX = 500;
 	nMiniMapOffsetY = 50;
-	miniR.left = nMiniMapOffsetX; miniR.top = nMiniMapOffsetY; miniR.right = nMiniMapOffsetX + 225; miniR.bottom = nMiniMapOffsetY + 152;
-	selectedrect.left = nMiniMapOffsetX-5; selectedrect.top = nMiniMapOffsetY-5; selectedrect.right = nMiniMapOffsetX + 230; selectedrect.bottom = nMiniMapOffsetY + 157;
+	miniR.left = nMiniMapOffsetX; miniR.top = nMiniMapOffsetY+100; miniR.right = nMiniMapOffsetX + 225; miniR.bottom = nMiniMapOffsetY + 252;
+	selectedrect.left = nMiniMapOffsetX-5; selectedrect.top = nMiniMapOffsetY+95; selectedrect.right = nMiniMapOffsetX + 230; selectedrect.bottom = nMiniMapOffsetY + 257;
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	if(selected == 1)
 		CSGD_Direct3D::GetInstance()->DrawRect(selectedrect,255,0,0);
@@ -334,7 +360,7 @@ void LevelSelectState::Render(void)
 				g=177; r=34; b=76; break;
 			}
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
-				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
+				tileRect.left, tileRect.top+100, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
 			//r = 255 * !(pTile->GetPlayerID());
 			//b = 255 * (pTile->GetPlayerID());
@@ -353,7 +379,7 @@ void LevelSelectState::Render(void)
 	}
 	ostringstream boss;
 	boss<<"You are now surrounded by water!";
-	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 162, 0.5f, D3DXCOLOR(255,255,255,255), 210);
+	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.5f, D3DXCOLOR(255,255,255,255), 210);
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
