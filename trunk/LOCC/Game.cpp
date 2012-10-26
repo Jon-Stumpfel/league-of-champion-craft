@@ -15,6 +15,8 @@
 #include "SGD Wrappers\CSGD_XAudio2.h"
 #include "HUD.h"
 #include "SoundManager.h"
+#include "LevelSelectState.h"
+#include "SocketServer.h"
 #include <ctime>
 CGame* CGame::GetInstance(void)
 {	
@@ -31,6 +33,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	
 	srand( unsigned int(time(0)) );
 	rand();
+
+	m_bDieThreadIHateYou = false;
 
 	m_nWidth = nScreenWidth;
 	m_nHeight = nScreenHeight;
@@ -134,6 +138,9 @@ bool CGame::Main(void)
 }
 void CGame::Shutdown(void)
 {
+	TerminateThread(CSocketServer::GetInstance()->listenThread, 0);
+	TerminateThread(CSocketServer::GetInstance()->workThread1, 0);
+	TerminateThread(CSocketServer::GetInstance()->workThread2, 0);
 	CStateStack::DeleteInstance();
 	CFloatingText::DeleteInstance();
 	CAIManager::DeleteInstance();
@@ -188,6 +195,12 @@ void CGame::Update(void)
 
 	if (fElapsedTime > 2.0f)
 		fElapsedTime = 2.0f;
+
+	if (m_bDieThreadIHateYou)
+	{
+		CStateStack::GetInstance()->Push(LevelSelectState::GetInstance());
+		m_bDieThreadIHateYou = false;
+	}
 
 	CMessageSystem* pMS = CMessageSystem::GetInstance();
 	pMS->ProcessMessages();

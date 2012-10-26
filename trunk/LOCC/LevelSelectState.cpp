@@ -109,7 +109,6 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			if(selected == 0)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-				CGameManager::GetInstance()->NewGame("level1", 1);
 
 				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
 				{
@@ -122,12 +121,13 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 10, 0);
 					bNetworkedGame = true;
 				}
+
+				CGameManager::GetInstance()->NewGame("level1", 1);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(selected == 1)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-				CGameManager::GetInstance()->NewGame("level2", 2);
 
 				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
 				{
@@ -140,6 +140,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
+				CGameManager::GetInstance()->NewGame("level2", 2);
+
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			if (!bNetworkedGame)
@@ -228,14 +230,25 @@ void LevelSelectState::Render(void)
 	int j = 0;
 	std::vector<TILE_TYPE>::iterator iter;
 
+		std::wostringstream looss;
+	int x = 0;
+	int y = 0;
 	for (itermap1 = m_vMap1.begin(); itermap1 != m_vMap1.end(); ++itermap1)
 	{
+		looss.str(_T(""));
+
+		looss << "Iter Map1 x: " << x++ << '\n';
+		OutputDebugString((LPCWSTR)looss.str().c_str());
 		for (iter = (*itermap1).begin(); iter != (*itermap1).end(); ++iter)
 		{
 	//for (int i = 0; i < m_pRows; ++i)
 	//{
 	//	for (int j = 0; j < m_pColumns; ++j)
 	//	{
+			looss.str(_T(""));
+
+			looss << "Iter Map1 y: " << y++ << '\n';
+			OutputDebugString((LPCWSTR)looss.str().c_str());
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
 				(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
@@ -309,14 +322,23 @@ void LevelSelectState::Render(void)
 	int i1 = 0;
 	int j1 = 0;
 
+	looss.str(_T(""));
+	x = y = 0;
 	for (itermap2 = m_vMap2.begin(); itermap2 != m_vMap2.end(); ++itermap2)
 	{
+		looss.str(_T(""));
+
+		looss << "Iter Map2 x: " << x++ << '\n';
+		OutputDebugString((LPCWSTR)looss.str().c_str());
 		for (iter = (*itermap2).begin(); iter != (*itermap2).end(); ++iter)
 		{
 	//for (int i = 0; i < m_p2ndRows; ++i)
 	//{
 	//	for (int j = 0; j < m_p2ndColumns; ++j)
 	//	{
+			woss.str((""));
+		woss << "Iter Map2 y: " << y++ << '\n';
+		OutputDebugString((LPCWSTR)looss.str().c_str());
 			RECT tileRect = { (LONG)(i1 * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j1 * nMiniTileHeight+ nMiniMapOffsetY), 
 				(LONG)(i1 * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),

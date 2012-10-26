@@ -17,6 +17,7 @@
 #include "GameManager.h"
 #include "GameplayState.h"
 #include "TileManager.h"
+#include "PauseState.h"
 const TCHAR* g_szWINDOW_CLASS_NAME	= _T("LOCC");			//	Window Class Name.
 
 const TCHAR* g_szWINDOW_TITLE		= _T("League of Champion Craft");		//	Window Title.
@@ -160,6 +161,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							CGameManager::GetInstance()->SetPlayerAsAI(0);
 							CSocketClient::GetInstance()->Shutdown();
 						}
+						if (CStateStack::GetInstance()->GetTop() == CPauseState::GetInstance())
+						{
+								CStateStack::GetInstance()->Pop();
+						}
 					}
 					break;
 				case FD_READ:
@@ -182,13 +187,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							{
 
 								CTileManager* pTM=CTileManager::GetInstance();
-								CGameManager::GetInstance()->NewGame("level1", 1);
-								char* syncbuffer = new char[10];
+								char syncbuffer[15];
 								recv(CSocketClient::GetInstance()->m_sClientSocket, syncbuffer, 10, 0);
-								unsigned int rand = (unsigned int)syncbuffer;
-								CGameManager::GetInstance()->SetRandomSeed(rand);
+								syncbuffer[11] = '\0';
+								unsigned int seed;
+								seed = atoi(syncbuffer);
+								CGameManager::GetInstance()->SetRandomSeed(seed);
 								CGameManager::GetInstance()->BeginNetworkGame(2);
-
+								CGameManager::GetInstance()->NewGame("level1", 1);
 								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 
 							}

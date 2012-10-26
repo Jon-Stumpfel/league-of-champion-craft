@@ -18,6 +18,8 @@ public:
 	int GetWindowWidth(void) { return m_nWidth;}
 	int GetWindowHeight(void) { return m_nHeight;}
 	HWND GetHWND(void) { return m_hWnd;}
+
+	void SetDieThread(bool b) { m_bDieThreadIHateYou = b;}
 private:
 
 	CGame(void);
@@ -40,5 +42,7 @@ private:
 	bool m_bUpdateFps;
 	unsigned int m_nFrameCount;
 	float m_fFrameElapsed;
+
+	bool m_bDieThreadIHateYou;
 };
 

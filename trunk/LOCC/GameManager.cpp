@@ -731,16 +731,12 @@ void CGameManager::Reset(void)
 	CreatePlayer(false); // player 1
 	CreatePlayer(false);
 
-//	CTileManager::GetInstance()->ShutDown();
+	CTileManager::GetInstance()->ShutDown();
 
 
 }
 void CGameManager::NewGame(string levelstring, int mapint)
 {	
-
-	rand();
-
-
 	LoadLevel(levelstring);
 
 	Reset();
@@ -973,11 +969,8 @@ void CGameManager::AddModification(MapModification mod)
 void CGameManager::BeginNetworkGame(int nMyPlayerID)
 {
 	m_bNetworkedGame = true;
-	if (nMyPlayerID == 1)
-	{
 		srand(m_unrandomSeed);
 		rand();
-	}
 }
 
 void CGameManager::SetPlayerAsAI(int nPlayerID)
