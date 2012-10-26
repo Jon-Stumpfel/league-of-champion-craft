@@ -37,51 +37,75 @@ void LevelSelectState::Enter(void)
 	m_pRows = pTM->GetNumRows();
 	m_pColumns = pTM->GetNumColumns();
 
-	m_ptempmap= new CTile*[m_pRows];
-	for (int x = 0; x< m_pRows; ++x)
+	m_vMap1.clear();
+	m_vMap2.clear();
+	for (int x = 0; x < m_pRows; ++x)
 	{
-		m_ptempmap[x]= new CTile[m_pColumns];
-	}
-	for(int i = 0; i < m_pRows; i++)
-	{
-		for(int j = 0; j < m_pColumns; j++)
+		std::vector<TILE_TYPE> vec;
+		for (int y = 0; y < m_pColumns; ++y)
 		{
-			m_ptempmap[i][j] = *pTM->GetTile(i,j);
+			vec.push_back((TILE_TYPE)pTM->GetTile(x, y)->GetTileType());
 		}
+		m_vMap1.push_back(vec);
 	}
+
+	int x = 9;
+	//m_ptempmap= new CTile*[m_pRows];
+	//for (int x = 0; x< m_pRows; ++x)
+	//{
+	//	m_ptempmap[x]= new CTile[m_pColumns];
+	//}
+	//for(int i = 0; i < m_pRows; i++)
+	//{
+	//	for(int j = 0; j < m_pColumns; j++)
+	//	{
+	//		m_ptempmap[i][j] = *pTM->GetTile(i,j);
+	//	}
+	//}
 	string thefilename= "Assets\\Tiles\\TestMap2.xml";
 	pTM->LoadSave(thefilename);
 	m_p2ndRows = pTM->GetNumRows();
 	m_p2ndColumns = pTM->GetNumColumns();
-	m_p2ndtempmap= new CTile*[m_pRows];
-	for (int x = 0; x< m_pRows; ++x)
+
+	for (int x = 0; x < m_p2ndRows; ++x)
 	{
-		m_p2ndtempmap[x]= new CTile[m_pColumns];
-	}
-	for(int i = 0; i < m_p2ndRows; i++)
-	{
-		for(int j = 0; j < m_p2ndColumns; j++)
+		std::vector<TILE_TYPE> vec;
+		for (int y = 0; y < m_p2ndColumns; ++y)
 		{
-			m_p2ndtempmap[i][j] = *pTM->GetTile(i,j);
+			vec.push_back((TILE_TYPE)pTM->GetTile(x, y)->GetTileType());
 		}
+		m_vMap2.push_back(vec);
 	}
+
+	//m_p2ndtempmap= new CTile*[m_pRows];
+	//for (int x = 0; x< m_pRows; ++x)
+	//{
+	//	m_p2ndtempmap[x]= new CTile[m_pColumns];
+	//}
+	//for(int i = 0; i < m_p2ndRows; i++)
+	//{
+	//	for(int j = 0; j < m_p2ndColumns; j++)
+	//	{
+	//		m_p2ndtempmap[i][j] = *pTM->GetTile(i,j);
+	//	}
+	//}
 }
 
 void LevelSelectState::Exit(void)
 {
-	for (int  x = 0; x < m_pRows; ++x)
-	{
-		delete[] m_ptempmap[x];
-	}
-	delete[] m_ptempmap;
-	m_ptempmap = nullptr;
+	//for (int  x = 0; x < m_pRows; ++x)
+	//{
+	//	delete[] m_ptempmap[x];
+	//}
+	//delete[] m_ptempmap;
+	//m_ptempmap = nullptr;
 
-	for (int  x = 0; x < m_p2ndRows; ++x)
-	{
-		delete[] m_p2ndtempmap[x];
-	}
-	m_p2ndtempmap = nullptr;
-	delete m_p2ndtempmap;
+	//for (int  x = 0; x < m_p2ndRows; ++x)
+	//{
+	//	delete[] m_p2ndtempmap[x];
+	//}
+	//m_p2ndtempmap = nullptr;
+	//delete m_p2ndtempmap;
 }
 
 void LevelSelectState::Input(INPUT_ENUM input)
@@ -176,10 +200,18 @@ void LevelSelectState::Render(void)
 	float nMiniTileHeight = nMiniMapHeight / m_pColumns;
 
 	// Render the tiles. Only using colored blocks for now
-	for (int i = 0; i < m_pRows; ++i)
+	std::vector<std::vector<TILE_TYPE>>::iterator itermap1;
+	int i = 0;
+	int j = 0;
+	for (itermap1 = m_vMap1.begin(); itermap1 != m_vMap1.end(); ++itermap1)
 	{
-		for (int j = 0; j < m_pColumns; ++j)
+		std::vector<TILE_TYPE>::iterator iter;
+		for (iter = (*itermap1).begin(); iter != (*itermap1).end(); ++iter)
 		{
+	//for (int i = 0; i < m_pRows; ++i)
+	//{
+	//	for (int j = 0; j < m_pColumns; ++j)
+	//	{
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
 				(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
@@ -187,11 +219,12 @@ void LevelSelectState::Render(void)
 			int r = 0;
 			int g = 0;
 			int b = 0;
-			CTile* pTile = &m_ptempmap[i][j];
-			if (pTile == nullptr)
-				continue;
+			//CTile* pTile = &m_ptempmap[i][j];
+			TILE_TYPE workType = (*iter);
+			//if (pTile == nullptr)
+			//	continue;
 			RECT rSrc;
-			switch (pTile->GetTileType())
+			switch (workType)
 			{
 			case TT_PLAINS:
 				rSrc = CellAlgorithm(TT_PLAINS);
@@ -222,17 +255,20 @@ void LevelSelectState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
 				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
-			r = 255 * !(pTile->GetPlayerID());
-			b = 255 * (pTile->GetPlayerID());
-			g = 0;
-			switch (pTile->GetTileType())
-			{
-			case TT_MILL:
-			case TT_MINE:
-			case TT_FARM:
-				break;
-			}
+			//r = 255 * !(pTile->GetPlayerID());
+			//b = 255 * (pTile->GetPlayerID());
+			//g = 0;
+			//switch (pTile->GetTileType())
+			//{
+			//case TT_MILL:
+			//case TT_MINE:
+			//case TT_FARM:
+			//	break;
+			//}
+			j++;
 		}
+		j = 0;
+		i++;
 	}
 	ostringstream woss;
 	woss<<"Basic test map";
@@ -253,23 +289,33 @@ void LevelSelectState::Render(void)
 	nMiniTileWidth = nMiniMapWidth / m_p2ndRows;
 	nMiniTileHeight = nMiniMapHeight / m_p2ndColumns;
 
+	//return;
 	// Render the tiles. Only using colored blocks for now
-	for (int i = 0; i < m_p2ndRows; ++i)
+	std::vector<std::vector<TILE_TYPE>>::iterator itermap2;
+	int i1 = 0;
+	int j1 = 0;
+	for (itermap2 = m_vMap2.begin(); itermap2 != m_vMap2.end(); ++itermap2)
 	{
-		for (int j = 0; j < m_p2ndColumns; ++j)
+		std::vector<TILE_TYPE>::iterator iter;
+		for (iter = (*itermap2).begin(); iter != (*itermap2).end(); ++iter)
 		{
-			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
-				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
-				(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
-				(LONG)(j * nMiniTileHeight + nMiniTileHeight+ nMiniMapOffsetY)};
+	//for (int i = 0; i < m_p2ndRows; ++i)
+	//{
+	//	for (int j = 0; j < m_p2ndColumns; ++j)
+	//	{
+			RECT tileRect = { (LONG)(i1 * nMiniTileWidth + nMiniMapOffsetX),
+				(LONG)(j1 * nMiniTileHeight+ nMiniMapOffsetY), 
+				(LONG)(i1 * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
+				(LONG)(j1 * nMiniTileHeight + nMiniTileHeight+ nMiniMapOffsetY)};
 			int r = 0;
 			int g = 0;
 			int b = 0;
-			CTile* pTile = &m_p2ndtempmap[i][j];
-			if (pTile == nullptr)
-				continue;
+			//CTile* pTile = &m_p2ndtempmap[i][j];
+			//if (pTile == nullptr)
+			//	continue;
+			TILE_TYPE workType = (*iter);
 			RECT rSrc;
-			switch (pTile->GetTileType())
+			switch (workType)
 			{
 			case TT_PLAINS:
 				rSrc = CellAlgorithm(TT_PLAINS);
@@ -300,17 +346,20 @@ void LevelSelectState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
 				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
-			r = 255 * !(pTile->GetPlayerID());
-			b = 255 * (pTile->GetPlayerID());
-			g = 0;
-			switch (pTile->GetTileType())
-			{
-			case TT_MILL:
-			case TT_MINE:
-			case TT_FARM:
-				break;
-			}
+			//r = 255 * !(pTile->GetPlayerID());
+			//b = 255 * (pTile->GetPlayerID());
+			//g = 0;
+			//switch (pTile->GetTileType())
+			//{
+			//case TT_MILL:
+			//case TT_MINE:
+			//case TT_FARM:
+			//	break;
+			//}
+			j1++;
 		}
+		j1 = 0;
+		i1++;
 	}
 	ostringstream boss;
 	boss<<"You are now surrounded by water!";

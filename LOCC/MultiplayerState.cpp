@@ -16,10 +16,10 @@ CMultiplayerState::~CMultiplayerState(void)
 void CMultiplayerState::Enter(void)
 {
 	m_nMenuChoice = 0;
-	byte1 = 50;
-	byte2 = 88;
-	byte3 = 51;
-	byte4 = 124;
+	byte1 = 127;
+	byte2 = 0;
+	byte3 = 0;
+	byte4 = 1;
 	m_bInputIPaddress = false;
 	m_nIPBracketLeft = 0;
 	m_bNetworkSetup = true;

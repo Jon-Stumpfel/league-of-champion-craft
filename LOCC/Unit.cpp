@@ -275,7 +275,7 @@ void CUnit::Update(float fElapsedTime)
 		else
 			m_fDodgeChance = 0.0f;
 		if (m_eType == UT_ARCHER)
-			if (pMyTile->GetTileType() == TT_MOUNTAINS)
+			if (pMyTile->GetTileType() == TT_MOUNTAINS || pMyTile->GetTileType() == TT_MINE)
 			{
 				SetRange(4);
 			}
