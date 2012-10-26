@@ -53,6 +53,7 @@ public:
 	static int FireWep( lua_State* L );
 	static int LightStrike( lua_State* L );
 	static int IceAge( lua_State* L );
+	static int Chaining( lua_State* L );
 
 	void UpdateEffects(void);
 
