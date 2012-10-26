@@ -375,6 +375,7 @@
             // 
             this.rtbLua.AcceptsTab = true;
             this.rtbLua.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLua.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbLua.Location = new System.Drawing.Point(0, 0);
             this.rtbLua.Name = "rtbLua";
             this.rtbLua.Size = new System.Drawing.Size(535, 609);

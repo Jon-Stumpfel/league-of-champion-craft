@@ -656,7 +656,6 @@ int CUnit::LightStrike(lua_State* L)
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	if (pUnit != nullptr)
 	{
-		if (pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_LIGHTSTRIKE),2);
 	}
 	return 0;
