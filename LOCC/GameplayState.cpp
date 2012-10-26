@@ -828,7 +828,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
 							return;
 					}
+					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
+						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
 
+					if (nDistance > ability->GetRange())
+						return;
 					CAbilityManager* pAM = CAbilityManager::GetInstance();
 
 					if( ability->GetType() == SP_CHARGE )
