@@ -19,9 +19,9 @@ CTileManager* CTileManager::s_Instance = nullptr;
 
 CTileManager::CTileManager(void)
 {
-	m_pTileMap=nullptr;
-	m_nTextureImageID=0;
-	m_nFrozenTextureImageID=0;
+	//m_pTileMap=nullptr;
+	//m_nTextureImageID=0;
+	//m_nFrozenTextureImageID=0;
 }
 
 CTileManager::~CTileManager(void)
@@ -85,9 +85,9 @@ bool CTileManager::LoadSave( std::string sFilename )
 	{
 		_TStupid_textconversion[i]=texturefile[i];
 	}
-
-	CGraphicsManager::GetInstance()->LoadImageW(_TStupid_textconversion,_T("GrassTile"),D3DCOLOR_XRGB(0,0,0));
-	m_nTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("GrassTile"));
+	TSTRING Path= _T("Assets/Tiles")+_TStupid_textconversion;
+	CGraphicsManager::GetInstance()->LoadImageW(Path,_T("Map"),D3DCOLOR_XRGB(0,0,0));
+	m_nTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("Map"));
 
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Tiles/MapEditorFrozenTiles.png"),_T("iceTile"),D3DCOLOR_XRGB(0,0,0));
 	m_nFrozenTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("iceTile"));

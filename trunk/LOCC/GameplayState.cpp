@@ -1817,7 +1817,7 @@ void CGameplayState::Render(void)
 			default:
 				g=177; r=34; b=76; break;
 			}
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("GrassTile")),
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
 				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
