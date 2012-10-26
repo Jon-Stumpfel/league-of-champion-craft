@@ -2299,6 +2299,9 @@ void CGameplayState::Render(void)
 			nY += 20;
 		}
 
+		std::wostringstream woss;
+		woss << "Random Seed: " << CGameManager::GetInstance()->GetRandomSeed();
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 60, 150, 255, 0, 255);
 
 		CFloatingText::GetInstance()->Render();
 

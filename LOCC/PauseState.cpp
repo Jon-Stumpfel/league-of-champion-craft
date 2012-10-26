@@ -5,7 +5,9 @@
 #include "MainMenuState.h"
 #include "GraphicsManager.h"
 #include "StateStack.h"
+#include "SocketServer.h"
 #include "BitmapFont.h"
+#include "Player.h"
 CPauseState::CPauseState(void)
 {
 }
@@ -61,7 +63,25 @@ void CPauseState::Input(INPUT_ENUM input)
 				CStateStack::GetInstance()->Push(CSaveSlotState::GetInstance());
 				break;
 			case 3:
-				CStateStack::GetInstance()->Switch(CMainMenuState::GetInstance());
+				{
+					// shutdown the socket
+					bool m_bQuit = true;
+					if (CGameManager::GetInstance()->GetNetworkGame())
+					{
+						if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() != CSocketClient::GetInstance()->m_nNetworkPlayerID)
+						{
+							m_bQuit = false;
+						}
+						CSocketServer::GetInstance()->Shutdown();
+						CSocketClient::GetInstance()->Shutdown();
+
+					}
+					if (m_bQuit)
+						CStateStack::GetInstance()->Switch(CMainMenuState::GetInstance());
+					else
+						CStateStack::GetInstance()->Pop();
+
+				}
 				break;
 			}
 		}

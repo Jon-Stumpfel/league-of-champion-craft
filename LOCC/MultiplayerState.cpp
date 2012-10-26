@@ -186,7 +186,7 @@ void CMultiplayerState::Update(float fElapsedTime)
 void CMultiplayerState::PlayerConnected(void)
 {
 	m_bNetworkSetup = true;
-	CStateStack::GetInstance()->Push(LevelSelectState::GetInstance());
+	CGame::GetInstance()->SetDieThread(true);
 }
 void CMultiplayerState::Render(void)
 {
