@@ -95,6 +95,8 @@ void LevelSelectState::Enter(void)
 
 void LevelSelectState::Exit(void)
 {
+	m_vMap1.clear();
+	m_vMap2.clear();
 }
 
 void LevelSelectState::Input(INPUT_ENUM input)
