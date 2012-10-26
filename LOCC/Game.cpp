@@ -28,6 +28,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	int nScreenWidth, int nScreenHeight,
 	bool bIsWindowed)
 {
+	
 	srand( unsigned int(time(0)) );
 	rand();
 

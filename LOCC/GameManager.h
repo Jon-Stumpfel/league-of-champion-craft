@@ -66,6 +66,9 @@ public:
 	CUnit* GetUnitByID(int nID);
 
 	void AddModification(MapModification mod);
+
+	unsigned int GetRandomSeed(void) { return m_unrandomSeed;}
+	void SetRandomSeed(unsigned int un) { m_unrandomSeed = un;}
 private:
 
 	CGameManager(void);
@@ -97,6 +100,7 @@ private:
 
 	bool m_bNetworkedGame;
 
+	unsigned int m_unrandomSeed;
 	int m_nNewPlayerID;
 
 	static int m_nUniqueUnitID;
