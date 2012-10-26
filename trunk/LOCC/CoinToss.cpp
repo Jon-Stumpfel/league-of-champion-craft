@@ -65,15 +65,15 @@ void CCoinToss::Render(void)
 		{
 			CBitmapFont bmf; ostringstream oss; 
 			int Playernum = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
-			oss<<"Player "<< ++Playernum<<" wins the toss and moves first";
-			bmf.Print(oss.str().c_str(),150,300,.5f, D3DCOLOR_XRGB(0,0,255));
+			oss<<"Player "<< ++Playernum<<" wins";
+			bmf.Print(oss.str().c_str(),280,300,.5f, D3DCOLOR_XRGB(0,0,255));
 		}
 		if(m_nChosenplayer == 7)
 		{
 			CBitmapFont bmf; ostringstream oss; 
 			int Playernum = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
-			oss<<"Player "<< ++Playernum<<" wins the toss and moves first";
-			bmf.Print(oss.str().c_str(),150,300,.5f, D3DCOLOR_XRGB(255,0,0));
+			oss<<"Player "<< ++Playernum<<" wins";
+			bmf.Print(oss.str().c_str(),280,300,.5f, D3DCOLOR_XRGB(255,0,0));
 		}
 	}
 }

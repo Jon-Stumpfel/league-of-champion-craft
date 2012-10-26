@@ -71,7 +71,6 @@ private:
 	//TS_CAPTURED		=16
 	//TS_IS_DEAD		=32
 	//TS_ISPASSABLE		=64
-	//
 
 	int					m_nPlayerID;
 	Vec2D				m_sPos;
