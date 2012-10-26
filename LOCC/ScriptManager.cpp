@@ -273,6 +273,7 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "Slow", CUnit::Slow);
 	lua_register(L, "FireWep", CUnit::FireWep);
 	lua_register(L, "LightStrike", CUnit::LightStrike);
+	lua_register(L, "IceAge", CUnit::IceAge);
 }
 
 void CScriptManager::Shutdown( void )

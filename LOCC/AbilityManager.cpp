@@ -206,6 +206,20 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+				case SP_ICEAGE:
+				{
+					if( doc.LoadFile("Assets/Ability/iceage.xml") == false )
+						return;
+				}
+				break;
+
+				case SP_FIRENOVA:
+				{
+					if( doc.LoadFile("Assets/Ability/burningnova.xml") == false )
+					return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -598,6 +612,21 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_ICEAGE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_ICEAGE);
+					ab->SetParticleType(PT_ICEBOLT);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The hero freezes all the tiles infront of him.");
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_ICEAGE;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
 			case SP_HEAVYBLOW:
 				{
 					ab->SetIsMove(false);
@@ -608,6 +637,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEAVYBLOW;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_FIRENOVA:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_FIRENOVA);
+					ab->SetParticleType(PT_FIRE);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The Champion engulfs themselves in shell of flames, and then explodes the shell into an Unholy napalm bloom of death.");
+					ab->SetDamage(10);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_FIRENOVA;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
@@ -741,23 +785,22 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
 
-	//// custom calvery spawn ability
-	//pAbility = new CAbility();
-	//pAbility->m_nAPCost = 5;
-	//pAbility->m_nNumTargets = 1;
-	//pAbility->m_nRange = 2;
-	//pAbility->SetDamage(0);
-	//pAbility->m_bIsMove = false;
-	//pAbility->m_nPhase = GP_MOVE;
-	//pAbility->SetParticleType(TEST);
-	//pAbility->m_szInterfaceIcon = TSTRING(_T("iceblockportrait"));
-	//pAbility->SetDescription("The hero uses his power of freezing stuff to make an iceblock");
-	//zz = CGraphicsManager::GetInstance()->GetID(_T("iceblockportrait"));
-	//pAbility->SetIconID(zz);
-	//pAbility->SetType(SP_ICEBLOCK);
-	//tmp.first = SP_SPAWNCALV;
-	//tmp.second = pAbility;
-	//m_vAbilities.push_back(tmp);
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 5;
+	pAbility->m_nNumTargets = 1;
+	pAbility->m_nRange = 2;
+	pAbility->SetDamage(0);
+	pAbility->m_bIsMove = false;
+	pAbility->m_nPhase = GP_MOVE;
+	pAbility->SetParticleType(TEST);
+	pAbility->m_szInterfaceIcon = TSTRING(_T("iceblockportrait"));
+	pAbility->SetDescription("The hero uses his power of freezing stuff to make an iceblock");
+	zz = CGraphicsManager::GetInstance()->GetID(_T("iceblockportrait"));
+	pAbility->SetIconID(zz);
+	pAbility->SetType(SP_ICEBLOCK);
+	tmp.first = SP_ICEBLOCK;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
 
 	SetRanges();
 }
@@ -884,7 +927,7 @@ std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CAbility* pAbil
 		{
 			Vec2D tmp;
 			tmp.nPosX = pattern[i].nPosX;
-			tmp.nPosY = -pattern[i].nPosY;
+			tmp.nPosY = pattern[i].nPosY;
 			TilePos.push_back(tmp);
 		}
 	}
@@ -894,7 +937,7 @@ std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CAbility* pAbil
 		{
 			Vec2D tmp;
 			tmp.nPosX = pattern[i].nPosX;
-			tmp.nPosY = pattern[i].nPosY;
+			tmp.nPosY = -pattern[i].nPosY;
 			TilePos.push_back(tmp);
 		}
 	}
@@ -906,7 +949,7 @@ std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CAbility* pAbil
 			pattern[i].nPosX = pattern[i].nPosY;
 			pattern[i].nPosY = x;
 			Vec2D tmp;
-			tmp.nPosX = -pattern[i].nPosX;
+			tmp.nPosX = pattern[i].nPosX;
 			tmp.nPosY = pattern[i].nPosY;
 			TilePos.push_back(tmp);
 		}
@@ -919,7 +962,7 @@ std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CAbility* pAbil
 			pattern[i].nPosX = pattern[i].nPosY;
 			pattern[i].nPosY = x;
 			Vec2D tmp;
-			tmp.nPosX = pattern[i].nPosX;
+			tmp.nPosX = -pattern[i].nPosX;
 			tmp.nPosY = -pattern[i].nPosY;
 			TilePos.push_back(tmp);
 		}
