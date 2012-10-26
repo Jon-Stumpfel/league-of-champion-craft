@@ -36,6 +36,7 @@ void LevelSelectState::Enter(void)
 	pTM->LoadSave(filename);
 	m_pRows = pTM->GetNumRows();
 	m_pColumns = pTM->GetNumColumns();
+
 	m_ptempmap= new CTile*[m_pRows];
 	for (int x = 0; x< m_pRows; ++x)
 	{
@@ -218,7 +219,7 @@ void LevelSelectState::Render(void)
 			default:
 				g=177; r=34; b=76; break;
 			}
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("GrassTile")),
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
 				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
 			r = 255 * !(pTile->GetPlayerID());
@@ -296,7 +297,7 @@ void LevelSelectState::Render(void)
 			default:
 				g=177; r=34; b=76; break;
 			}
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("GrassTile")),
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
 				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
 			r = 255 * !(pTile->GetPlayerID());
