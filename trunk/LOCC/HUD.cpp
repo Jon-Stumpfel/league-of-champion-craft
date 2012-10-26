@@ -140,10 +140,10 @@ RECT CHUD::GetRect(HUD_PART part)
 		break;
 	case HP_UNITCARD:
 		{
-			rect.left = 447;
-			rect.top = 313;
-			rect.right = 636;
-			rect.bottom = 491;
+			rect.left = 441;
+			rect.top = 314;
+			rect.right = 629;
+			rect.bottom = 492;
 		}
 		break;
 	};
