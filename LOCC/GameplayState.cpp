@@ -1707,7 +1707,7 @@ void CGameplayState::Render(void)
 			//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
 			//	m_nCardOffsetX + 150, 378, 0.5f, 0.5f);
 			moss << m_pHighlightedUnit->GetTilesMoved();
-			m_pBitmapFont->Print(moss.str().c_str(),m_nCardOffsetX + 155, 372, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont->Print(moss.str().c_str(),m_nCardOffsetX + 155, 366, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)moss.str().c_str(), m_nCardOffsetX + 200, 385, 255, 255, 255);
 			moss.str((""));
 
@@ -1721,7 +1721,6 @@ void CGameplayState::Render(void)
 
 			}
 			float fhpPercent = (float)m_pHighlightedUnit->GetHP() / (float)m_pHighlightedUnit->GetMaxHP();
-			fhpPercent = 0.55f;
 
 			int colR = 0, colG = 255;
 			if (fhpPercent < 0.80f)
@@ -1782,7 +1781,7 @@ void CGameplayState::Render(void)
 			nCursorPosX = 366;
 			break;
 		case 2:
-			nCursorPosX = 468;
+			nCursorPosX = 462;
 			break;
 		}
 
@@ -1814,7 +1813,7 @@ void CGameplayState::Render(void)
 				drawColor = D3DCOLOR_XRGB(120, 120, 120);
 			}
 			CSGD_TextureManager::GetInstance()->Draw(
-				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 382, 522, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f,
+				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 374, 511, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f,
 				0.0f, drawColor);
 		}
 		pAbility = m_pSelectedUnit->GetAbility(2);
@@ -1833,8 +1832,11 @@ void CGameplayState::Render(void)
 					drawColor = D3DCOLOR_XRGB(120, 120, 120);
 				}
 			}
+			if (pAbility->GetType() == SP_CHAMPSPELL)
+					drawColor = D3DCOLOR_XRGB(255, 255, 255);
+
 			CSGD_TextureManager::GetInstance()->Draw(
-				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 477, 522,1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f,
+				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 471, 511,1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f,
 				0.0f, drawColor);
 		}
 
@@ -1859,19 +1861,19 @@ void CGameplayState::Render(void)
 					{
 					CSGD_TextureManager::GetInstance()->Draw(
 						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
-						260 + (i * 78), m_nSpellPanelOffsetY + 42);
+						233 + (i * 98) - (i * 1), m_nSpellPanelOffsetY + 20);
 					}
 					else
 					{
 					CSGD_TextureManager::GetInstance()->Draw(
 						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
-						260 + (i * 78), m_nSpellPanelOffsetY + 42,1.0f,1.0f,(RECT*)0,0.0f,0.0f,0.0f,D3DCOLOR_XRGB(100,100,100));
+						233 + (i * 98) - (i * 1), m_nSpellPanelOffsetY + 20,1.0f,1.0f,(RECT*)0,0.0f,0.0f,0.0f,D3DCOLOR_XRGB(100,100,100));
 					}
 					if (m_nSelectedSpell == i)
 					{
 						CSGD_TextureManager::GetInstance()->Draw(
 							CGraphicsManager::GetInstance()->GetID(_T("panelselect")), 
-							253 + (i * 78), m_nSpellPanelOffsetY + 36, 0.6f, 0.6f);
+							225 + (i * 98), m_nSpellPanelOffsetY + 13, 0.6f, 0.6f);
 					}
 				}
 
@@ -2048,37 +2050,42 @@ void CGameplayState::Render(void)
 		{
 			std::ostringstream woss;
 
-			CSGD_TextureManager::GetInstance()->Draw(m_pSelectedUnit->GetPortraitID(), 578, 435, 1.6f, 1.6f);
+			hudRECT = pHud->GetPortrait(m_pSelectedUnit->GetType());
+			CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("hudparts")), 632, 445, 1.0f, 1.0f,
+				&hudRECT);
 
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
-				710, 440, 0.5f, 0.5f);
+			//CSGD_TextureManager::GetInstance()->Draw(m_pSelectedUnit->GetPortraitID(), 578, 435, 1.6f, 1.6f);
+
+			//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("speedicon")),
+			//	710, 440, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetSpeed();
 			//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 445, 255, 255, 255);
-			m_pBitmapFont->Print(woss.str().c_str(), 755, 445, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont->Print(woss.str().c_str(), 765, 453, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 			woss.str((""));
 
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
-				710, 480, 0.5f, 0.5f);
+			//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("damageicon")),
+			//	710, 480, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetAttack();
 			//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 485, 255, 255, 255);
-			m_pBitmapFont->Print(woss.str().c_str(), 755, 485, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont->Print(woss.str().c_str(), 765, 486, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 			woss.str((""));
 
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
-				710, 520, 0.5f, 0.5f);
+			//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("rangeicon")),
+			//	710, 520, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetRange();
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 525, 255, 255, 255);
-			m_pBitmapFont->Print(woss.str().c_str(), 755, 525, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont->Print(woss.str().c_str(), 765, 517, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 			woss.str((""));
 
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
-				710, 560, 0.5f, 0.5f);
+			//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tilesmovedicon")),
+			//	710, 560, 0.5f, 0.5f);
 			woss << m_pSelectedUnit->GetTilesMoved();
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 755, 565, 255, 255, 255);
-			m_pBitmapFont->Print(woss.str().c_str(), 755, 565, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont->Print(woss.str().c_str(), 765, 546, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 			woss.str((""));
 
@@ -2087,30 +2094,33 @@ void CGameplayState::Render(void)
 			int colR = 0, colG = 255;
 			if (fhpPercent < 0.80f)
 			{
-				colR += 65; 
-				colG -= 65;
+				colR += 128; 
 			}
 			if (fhpPercent < 0.60f)
 			{
-				colR += 65; 
-				colG -= 65;
+				colR += 128; 
 			}
 			if (fhpPercent < 0.40f)
 			{
-				colR += 65; 
-				colG -= 65;
+				colG -= 128;
 			}
 			if (fhpPercent < 0.20f)
 			{
-				colR += 65; 
-				colG -= 65;
+				colG -= 128;
 			}
 			if (colR > 255)
 				colR = 255;
 			if (colG < 0)
 				colG = 0;
-			RECT hpRect = { 578, 540, 578 + (LONG)(102 * fhpPercent), 550 };
-			CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
+
+			RECT hpRect = pHud->GetHealthbar();
+			int nWidth = hpRect.right - hpRect.left;
+			hpRect.right = hpRect.left + nWidth * fhpPercent;
+			D3DCOLOR col = D3DCOLOR_XRGB(colR, colG, 0);
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(_T("healthbar")),626, 537, 1.0f, 1.0f, &hpRect, 0.0f, 0.0f,
+				0.0f, col);
+			//CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
 
 			// debuffs
 
@@ -2120,9 +2130,6 @@ void CGameplayState::Render(void)
 					CGraphicsManager::GetInstance()->GetID(m_pSelectedUnit->GetEffect(i)->m_szInterfaceIcon), 580 + (25*i), 560, 0.4f, 0.4f);
 			}
 		}
-
-
-
 
 		// DEBUG STUFF
 		CPlayer* pDebugPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
