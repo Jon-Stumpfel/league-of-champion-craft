@@ -488,7 +488,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 	if (ability == nullptr)
 		return;
-
 	if (ability->m_nNumTargets == -1) // champion spell panel
 	{
 		m_bSelectChampionAbility = true;
@@ -507,7 +506,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 	// They used the movement ability
 	if (m_pSelectedUnit->GetHasAttacked())
 		return;
-
 	if (ability->GetType() == SP_MOVE)
 	{
 		if( m_pSelectedUnit->GetEffect(SP_STAND) == false || m_pSelectedUnit->GetEffect(SP_LIGHTSTRIKE) == false )
@@ -813,9 +811,20 @@ void CGameplayState::UseAbility(CAbility* ability)
 						// STATS SAVING
 						CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
-						//ADD BASIC ATTACK ANIMATION HERE
 						if (ability->m_bIsAttack)
+						{
+							int xDistance = m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX;
+							int yDistance = m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY;
+							if (yDistance == 1)
+								m_pSelectedUnit->SetFacing(0);
+							else if (yDistance == -1)
+								m_pSelectedUnit->SetFacing(2);
+							else if (xDistance == -1)
+								m_pSelectedUnit->SetFacing(1);
+							else if (xDistance == 1)
+								m_pSelectedUnit->SetFacing(3);
 							m_pSelectedUnit->SetHasAttacked(true);
+						}
 						m_bIsTargeting = false;
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;

@@ -18,7 +18,7 @@ class CUnit : public CGameObject
 	int m_nExpValue;
 
 	Vec2D m_sGamePos;
-
+	bool m_bPlayAttackAnim;
 	bool m_bHasAttacked;
 	bool m_bShielded;
 	bool m_bIsMoving;
@@ -113,7 +113,7 @@ public:
 	void SetPlayerID(int pID) {  m_nPlayerID = pID;}
 	int GetPlayerID(void) {return m_nPlayerID;}
 
-	void SetHasAttacked(bool b) { m_bHasAttacked = b;}
+	void SetHasAttacked(bool b) { m_bHasAttacked = b; m_bPlayAttackAnim = b;}
 	bool GetHasAttacked(void) { return m_bHasAttacked;}
 
 	void SetShielded(int b) {m_bShielded = (b == 0 ? false : true);}
