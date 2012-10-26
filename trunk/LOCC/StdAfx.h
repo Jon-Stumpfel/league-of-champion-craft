@@ -63,6 +63,7 @@ using std::string;
 	const int WOOD_PER_MILL = 10;
 	const int AP_PER_CAPTURE = 2;
 	const int nStartingAP = 30;
+	const int STARTING_CAP_PER_TURN = 12;
 
 	// fake tile stuff
 	const int nFakeTileWidth = 64 +26;

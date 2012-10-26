@@ -351,6 +351,9 @@ void CTileManager::EvaluateResources(int nPlayerID)
 					case (TT_MINE):
 						nTotalMetal+= METAL_PER_MINE;
 						break;
+					case (TT_FARM):
+						
+						break;
 					}
 			   }
 		   }
@@ -372,15 +375,21 @@ void CTileManager::EvaluateResources(int nPlayerID)
 		   }
 	   }
 	}
-	std::ostringstream oss;
-	oss << "+" << nTotalWood;
-	CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(510, 480), Vec2Df(0, -10), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
-
+	if (nTotalWood > 0)
+	{
+		std::ostringstream oss;
+		oss << "+" << nTotalWood;
+		CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(478, 459), Vec2Df(0, -20), 2.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+	}
 	CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalWood;
-	oss.str("");
-	oss << "+" << nTotalMetal;
-	CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(610, 480), Vec2Df(0, -10), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
-	CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalMetal;
+	if (nTotalMetal > 0)
+	{
+		std::ostringstream oss;
+		oss << "+" << nTotalMetal;
+		CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(548, 459), Vec2Df(0, -20), 2.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+	}
+		CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalMetal;
+
 
 }
 
