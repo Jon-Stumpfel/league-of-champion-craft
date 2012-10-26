@@ -254,17 +254,7 @@ void LevelSelectState::Render(void)
 			}
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
 				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
-			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
-			//r = 255 * !(pTile->GetPlayerID());
-			//b = 255 * (pTile->GetPlayerID());
-			//g = 0;
-			//switch (pTile->GetTileType())
-			//{
-			//case TT_MILL:
-			//case TT_MINE:
-			//case TT_FARM:
-			//	break;
-			//}
+	
 			j++;
 		}
 		j = 0;
