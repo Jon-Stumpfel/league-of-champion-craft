@@ -520,9 +520,9 @@ namespace WorldTileEditor
 
                 //THIS IS GOING TO BE A PROBLEM
             	XAttribute texturefile= xRoot.Attribute("FileName");
-                
-                Uri filename=new Uri(Path.Combine(StartPath, texturefile.Value));
-                NormtextureId = tm.LoadTexture(filename.LocalPath, 0);
+
+                String RelativePath= StartPath + texturefile.Value;
+                NormtextureId = tm.LoadTexture(RelativePath, 0);
             
             	XElement pTiles = (XElement) xRoot.FirstNode;
                 XElement xTile = (XElement) pTiles.FirstNode;
