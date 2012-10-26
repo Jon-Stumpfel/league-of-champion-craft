@@ -17,12 +17,12 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	SetShielded(false);
 	SetIsMoving(false);
 
-	// TODO: Setup abilities when they are in place
+	// TODO: Setup abilities when they are in place5
 	 
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 
-	GiveSpell(SP_SPEED);
+	GiveSpell(SP_EXPSHOT);
 	GiveSpell(SP_HEAL);
 	GiveSpell(SP_FIREBALL);
 	GiveSpell(SP_SHIELD);

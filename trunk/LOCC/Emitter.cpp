@@ -237,6 +237,17 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 				m_sSource.bottom = 256;
 			}
 			break;
+			case PT_EXPLODE:
+			{
+				if( doc.LoadFile( "Assets/Particles/explosion.xml" ) == false )
+				return;
+
+				m_sSource.left = 0;
+				m_sSource.top = 0;
+				m_sSource.right = 62;
+				m_sSource.bottom = 48;
+			}
+			break;
 	};
 
 	m_sEmitPos = sPos;
