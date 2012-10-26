@@ -869,7 +869,7 @@ void CGameManager::MessageProc(IMessage* pMsg)
 
 			if (pSMSG->GetUnit()->GetPlayerID() != pThis->GetCurrentPlayer()->GetPlayerID())
 			{
-				pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp() + pSMSG->GetUnit()->GetEXPValue());
+				pThis->GetCurrentPlayer()->SetExp(pThis->GetCurrentPlayer()->GetExp() + (pSMSG->GetUnit()->GetEXPValue()*3));
 				pThis->GetCurrentPlayer()->GetStats()->nPlayerEXPEarned+=pSMSG->GetUnit()->GetEXPValue();
 				switch (pSMSG->GetUnit()->GetType())
 				{

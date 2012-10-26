@@ -12,7 +12,7 @@
 #include "MessageSystem.h"
 #include "Hero.h"
 #include "ParticleManager.h"
-
+#include "SoundManager.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_bPlayAttackAnim = false;
@@ -334,6 +334,8 @@ void CUnit::Update(float fElapsedTime)
 	}
 	if (m_nHP <= 0)
 	{
+		if(!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("ITSDEAD"))))
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("ITSDEAD")),false,false);
 		m_sAnimStruct->animationType = AT_DEATH;
 		if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 2
 			&& m_sAnimStruct->unitType == UT_ARCHER && CAnimationManager::GetInstance()->GetAnimation(UT_ARCHER,AT_DEATH)->GetElapsedTime() >= 
@@ -373,8 +375,12 @@ void CUnit::Update(float fElapsedTime)
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 0 && m_sAnimStruct->unitType == UT_CASTLE)
+		{
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
 			//CMessageSystem::GetInstance()->SendMessageW(pMsg);
-
 	}
 
 	if (m_vWaypoints.size() != 0)
