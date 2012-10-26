@@ -206,16 +206,22 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
-				case SP_ICEAGE:
+			case SP_ICEAGE:
 				{
 					if( doc.LoadFile("Assets/Ability/iceage.xml") == false )
 						return;
 				}
 				break;
 
-				case SP_FIRENOVA:
+			case SP_FIRENOVA:
 				{
 					if( doc.LoadFile("Assets/Ability/burningnova.xml") == false )
+					return;
+				}
+				break;
+			case SP_SKILLSHOT:
+				{
+					if( doc.LoadFile("Assets/Ability/SkilledShot.xml") == false )
 					return;
 				}
 				break;
@@ -652,6 +658,20 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIRENOVA;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_SKILLSHOT:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_SKILLSHOT);
+					ab->SetParticleType(PT_OBLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("Champions can be marksman too. A well aimed shot that can drop even the best evader");
+					ab->SetDamage(10);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_SKILLSHOT;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
