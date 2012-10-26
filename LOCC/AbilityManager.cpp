@@ -199,6 +199,12 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
+			case SP_HEAVYBLOW:
+				{
+					if( doc.LoadFile("Assets/Ability/HeavyBlow.xml") == false )
+						return;
+				}
+				break;
 
 		default:
 			continue;
@@ -591,6 +597,21 @@ void CAbilityManager::LoadAbilities( void )
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
+			case SP_HEAVYBLOW:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_HEAVYBLOW);
+					ab->SetParticleType(PT_BLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The hero Strike down with a Heavy Blow");
+					ab->SetDamage(12);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_HEAVYBLOW;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
 		}
 	}
 
@@ -838,6 +859,7 @@ void CAbilityManager::SetRanges( void )
 
 void CAbilityManager::Initialize(void)
 {
+
 }
 void CAbilityManager::Shutdown(void)
 {

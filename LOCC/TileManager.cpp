@@ -389,8 +389,6 @@ void CTileManager::EvaluateResources(int nPlayerID)
 		CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(548, 459), Vec2Df(0, -20), 2.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
 	}
 		CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalMetal;
-
-
 }
 
 
