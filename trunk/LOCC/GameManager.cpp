@@ -728,8 +728,8 @@ void CGameManager::Reset(void)
 	m_nNewPlayerID = 0;
 	m_vScriptSpawns.clear();
 
-	CreatePlayer(true); // player 1
-	CreatePlayer(true);
+	CreatePlayer(false); // player 1
+	CreatePlayer(false);
 
 	CTileManager::GetInstance()->ShutDown();
 
