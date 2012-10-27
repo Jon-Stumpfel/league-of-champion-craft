@@ -238,7 +238,6 @@ void LevelSelectState::Render(void)
 		looss.str(_T(""));
 
 		looss << "Iter Map1 x: " << x++ << '\n';
-		OutputDebugString((LPCWSTR)looss.str().c_str());
 		for (iter = (*itermap1).begin(); iter != (*itermap1).end(); ++iter)
 		{
 	//for (int i = 0; i < m_pRows; ++i)
@@ -248,7 +247,6 @@ void LevelSelectState::Render(void)
 			looss.str(_T(""));
 
 			looss << "Iter Map1 y: " << y++ << '\n';
-			OutputDebugString((LPCWSTR)looss.str().c_str());
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
 				(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
@@ -329,7 +327,6 @@ void LevelSelectState::Render(void)
 		looss.str(_T(""));
 
 		looss << "Iter Map2 x: " << x++ << '\n';
-		OutputDebugString((LPCWSTR)looss.str().c_str());
 		for (iter = (*itermap2).begin(); iter != (*itermap2).end(); ++iter)
 		{
 	//for (int i = 0; i < m_p2ndRows; ++i)
@@ -338,7 +335,6 @@ void LevelSelectState::Render(void)
 	//	{
 			woss.str((""));
 		woss << "Iter Map2 y: " << y++ << '\n';
-		OutputDebugString((LPCWSTR)looss.str().c_str());
 			RECT tileRect = { (LONG)(i1 * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j1 * nMiniTileHeight+ nMiniMapOffsetY), 
 				(LONG)(i1 * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
