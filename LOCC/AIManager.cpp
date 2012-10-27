@@ -53,7 +53,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.2f)
+		if (fTimeToPop > 0.4f)
 		{
 			if (m_vInputQueue.back() == INPUT_AI_ATTACKED)
 			{
@@ -503,6 +503,15 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		m_vInputQueue.push_back(INPUT_AI_CLEAR);
 		m_vInputQueue.push_back(INPUT_AI_MOVED);
 		m_vInputQueue.push_back(INPUT_ACCEPT);
+
+		if (xDistance > pMoveUnit->GetSpeed())
+		{
+			xDistance = pMoveUnit->GetSpeed();
+		}
+		if (yDistance > pMoveUnit->GetSpeed())
+		{
+			yDistance = pMoveUnit->GetSpeed();
+		}
 		for (int i = 0; i < (int)(abs(double(xDistance))); ++i)
 		{
 			if (xDistance < 0)
@@ -673,8 +682,130 @@ void CAIManager::AttackUnit(CUnit* pAttackUnit)
 		}
 	}
 	Vec2D nearest = pNearestEnemy->GetPos();
+
+	// Calvary charge check
+	bool bDoCharge = false;
+	int chargeXDistance = pNearestEnemy->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+	int chargeYDistance = pNearestEnemy->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+
+	if (chargeXDistance == 1)
+	{
+		CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX + 1, pNearestEnemy->GetPos().nPosY);
+		if (pTestUnit != nullptr)
+			bDoCharge = true;
+	}
+	else if (chargeXDistance == -1)
+	{
+		CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX - 1, pNearestEnemy->GetPos().nPosY);
+		if (pTestUnit != nullptr)
+			bDoCharge = true;
+	}
+	else if (chargeYDistance == 1)
+	{
+		CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX, pNearestEnemy->GetPos().nPosY + 1);
+		if (pTestUnit != nullptr)
+			bDoCharge = true;
+	}
+	else if (chargeYDistance == -1)
+	{
+		CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX, pNearestEnemy->GetPos().nPosY - 1);
+		if (pTestUnit != nullptr)
+			bDoCharge = true;
+	}
+	// calvary
+	if (pAttackUnit->GetType() == UT_CAVALRY && bDoCharge == true)
+	{
+		// Get the facing from me to my nearest enemy
+		int xDistance = pNearestEnemy->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
+		int yDistance = pNearestEnemy->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+
+		if (xDistance == 1) // east, so check for another enemy 2 tiles out
+		{
+			CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX + 1, pNearestEnemy->GetPos().nPosY);
+			if (pTestUnit != nullptr) // there is someone behind the enemy
+			{
+				// cast charge
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_RIGHT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_RIGHT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_RIGHT);
+				m_vInputQueue.push_back(INPUT_RIGHT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_RIGHT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+			}
+		}
+		else if (xDistance == -1)
+		{
+			CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX - 1, pNearestEnemy->GetPos().nPosY);
+			if (pTestUnit != nullptr) // there is someone behind the enemy
+			{
+				// cast charge
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_LEFT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_LEFT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_LEFT);
+				m_vInputQueue.push_back(INPUT_LEFT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_LEFT);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+			}
+		}
+		else if (yDistance == 1)
+		{
+			CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX, pNearestEnemy->GetPos().nPosY + 1);
+			if (pTestUnit != nullptr) // there is someone behind the enemy
+			{
+				// cast charge
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_DOWN);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_DOWN);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_DOWN);
+				m_vInputQueue.push_back(INPUT_DOWN);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_DOWN);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+			}
+		}
+		else if (yDistance == -1)
+		{
+			CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pNearestEnemy->GetPos().nPosX, pNearestEnemy->GetPos().nPosY - 1);
+			if (pTestUnit != nullptr) // there is someone behind the enemy
+			{
+				// cast charge
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_AI_ATTACKED);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_UP);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_UP);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_UP);
+				m_vInputQueue.push_back(INPUT_UP);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_UP);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+			}
+		}
+	}
 	// cast fireball on the nearest enemy if it's under 50% hp to try to burst it down
-	if (pAttackUnit->GetType() == UT_ARCHER && ((pAttackUnit->GetAttack() > 6) || (pNearestEnemy->GetHP() < 12)) )
+	else if (pAttackUnit->GetType() == UT_ARCHER && ((pAttackUnit->GetAttack() > 6) || (pNearestEnemy->GetHP() < 12)) )
 	{
 		int xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
 		int yDistance = nearest.nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
