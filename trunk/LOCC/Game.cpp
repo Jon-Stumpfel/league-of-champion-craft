@@ -40,8 +40,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	m_nHeight = nScreenHeight;
 	//m_bIsWindowed = bIsWindowed;
 	m_hWnd = hWnd;
-	CTileManager::GetInstance()->Init();
 
+	CTileManager::GetInstance()->Init();
 	CSGD_XAudio2::GetInstance()->InitXAudio2();
 	CInputManager::GetInstance()->Initialize(hWnd, hInstance);
 	CScriptManager::GetInstance()->Initialize();
@@ -153,8 +153,6 @@ void CGame::Shutdown(void)
 	CMessageSystem::DeleteInstance();
 	CTileManager::DeleteInstance();
 	CSoundManager::DeleteInstance();
-	//CStateStack::DeleteInstance();
-
 }
 
 CGame::CGame(void)

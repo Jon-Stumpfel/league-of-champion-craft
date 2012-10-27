@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="2" APCost="7" Cooldown="3" Target="1" SpellName="Chain Lightning" Attack="1" Facing="0" Phase="0" LuaPath="chainlightning.lua" ParticlePath="lightningbolt.xml" IconPath="chainlightning.png" SoundPath="thunder2.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>

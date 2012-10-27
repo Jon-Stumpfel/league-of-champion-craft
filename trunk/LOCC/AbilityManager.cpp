@@ -226,6 +226,13 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_LIGHTCHAIN:
+				{
+					if( doc.LoadFile( "Assets/Ability/chainlightning.xml") == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -662,6 +669,7 @@ void CAbilityManager::LoadAbilities( void )
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
 			case SP_SKILLSHOT:
 				{
 					ab->SetIsMove(false);
@@ -672,6 +680,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SKILLSHOT;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_LIGHTCHAIN:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_LIGHTCHAIN);
+					ab->SetParticleType(PT_LIGHTBOLT);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("This spell forces lightning from the champion's hand, and pushes it threw all conductive targets.");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_LIGHTCHAIN;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
