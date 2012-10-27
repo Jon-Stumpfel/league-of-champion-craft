@@ -577,7 +577,7 @@ int CUnit::Chain(lua_State* L)
 				bool already = true;
 				for( unsigned int i = 0; i < affected.size(); i++ )
 				{
-					if( affected[i] = target )
+					if( affected[i] == target )
 						already = false;
 				}
 				
@@ -600,6 +600,13 @@ int CUnit::Chain(lua_State* L)
 		int nCount = 0;
 		for( unsigned int i = 0; i < affected.size(); i++ )
 		{
+			lua_newtable(L);
+			lua_pushstring(L, "posX");
+			lua_pushnumber(L, affected[i]->GetPos().nPosX);
+			lua_settable(L, -3);
+			lua_pushstring(L, "posY");
+			lua_pushnumber(L, affected[i]->GetPos().nPosY);
+			lua_settable(L, -3);
 			lua_pushstring(L, "uniqueID");
 			lua_pushnumber(L, affected[i]->GetUniqueID());
 			lua_settable(L, -3);
@@ -612,8 +619,14 @@ int CUnit::Chain(lua_State* L)
 		lua_setglobal(L, "tAffected");
 
 	}
+	
+	for( unsigned int i = 1; i < affected.size(); i++ )
+	{
+		CParticleManager::GetInstance()->LoadParticles(PT_LIGHTBOLT, affected[i]->GetPos());
+	}
 
-	return 0;
+	return affected.size();
+
 }
 
 
