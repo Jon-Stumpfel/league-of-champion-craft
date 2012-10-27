@@ -117,7 +117,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
 					unsigned int seed = (unsigned int)(time(0));
 					CGameManager::GetInstance()->SetRandomSeed(seed);
-					sprintf(buffer, "%d", seed);
+					sprintf_s(buffer, "%d", seed);
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 10, 0);
 					bNetworkedGame = true;
 				}
@@ -136,7 +136,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
 					unsigned int seed = (unsigned int)(time(0));
 					CGameManager::GetInstance()->SetRandomSeed(seed);
-					sprintf(buffer, "%d", seed);
+					sprintf_s(buffer, "%d", seed);
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
