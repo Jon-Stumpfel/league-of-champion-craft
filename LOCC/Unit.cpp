@@ -559,12 +559,15 @@ int CUnit::Chain(lua_State* L)
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	CAbility* pAbility = CAbilityManager::GetInstance()->GetAbility(SP_LIGHTCHAIN);
 	std::vector< CUnit* > affected;
+	std::vector< CUnit* > found;
 	if( pUnit != nullptr )
 	{
 		CUnit* target = pUnit;
+		CUnit* org;
 		int count = 0;
 		std::vector< Vec2D > tilepos = CAbilityManager::GetInstance()->GetRange(1);
 		affected.push_back(pUnit);
+		org = pUnit;
 		while( true )
 		{
 			Vec2D tmp = tilepos[count++];
@@ -574,26 +577,37 @@ int CUnit::Chain(lua_State* L)
 
 			if( target != nullptr )
 			{
-				bool already = true;
+				bool already = false;
 				for( unsigned int i = 0; i < affected.size(); i++ )
 				{
 					if( affected[i] == target )
-						already = false;
+						already = true;
 				}
 				
-				if( already == true )
+				for( unsigned int i = 0; i < found.size(); i++ )
 				{
-					affected.push_back(target);
-					count = 0;
+					if( found[i] == target )
+						already = true;
 				}
-				else
-					target = affected[affected.size()-1];
+
+				if( already == false )
+				{
+					found.push_back(target);
+				}
 			}
 			else
-				target = affected[affected.size()-1];
+				target = org;
 
 			if( count == 3 )
-				break;
+			{
+				if( found.size() == 0 )
+					break;
+				affected.push_back(found[0]);
+				org = found[0];
+				target = org;
+				found.erase(found.begin());
+				count = 0;
+			}
 		}
 
 		lua_newtable(L);
