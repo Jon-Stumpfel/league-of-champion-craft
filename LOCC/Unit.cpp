@@ -552,52 +552,70 @@ int CUnit::Shield(lua_State* L)
 	}
 	return 0;
 }
-//
-//int CUnit::Chaining(lua_State* L)
-//{
-//	int nUniqueID = (int)lua_tonumber(L, 1);
-//	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
-//	std::vector< Vec2D > TilePos;
-//	CAbility* pAbility = CAbilityManager::GetAbility(
-//	if( pUnit != nullptr )
-//	{
-//		int nCount = 0;
-//		for( int i = 0; i <= z; i++ )
-//		{
-//			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
-//
-//			if( tmp == nullptr )
-//				continue;
-//
-//			affected.push_back( tmp );
-//
-//			lua_newtable(L);
-//			lua_pushstring(L, "posX");
-//			lua_pushnumber(L, tmp->GetPos().nPosX);
-//			lua_settable(L, -3);
-//			lua_pushstring(L, "posY");
-//			lua_pushnumber(L, tmp->GetPos().nPosY);
-//			lua_settable(L, -3);
-//			lua_pushstring(L, "health");
-//			lua_pushnumber(L, tmp->GetHP());
-//			lua_settable(L, -3);
-//			lua_pushstring(L, "speed");
-//			lua_pushnumber(L, tmp->GetSpeed());
-//			lua_settable(L, -3);
-//			lua_pushstring(L, "shielded");
-//			lua_pushnumber(L, tmp->GetShielded());
-//			lua_settable(L, -3);
-//			lua_pushstring(L, "uniqueID");
-//			lua_pushnumber(L, tmp->GetUniqueID());
-//			lua_settable(L, -3);
-//			lua_pushnumber(L, nCount+1);
-//			nCount++;
-//			lua_insert(L, -2);
-//			lua_settable(L, -3);
-//		}
-//	}
-//	return 1;
-//}
+
+int CUnit::Chain(lua_State* L)
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	CAbility* pAbility = CAbilityManager::GetInstance()->GetAbility(SP_LIGHTCHAIN);
+	std::vector< CUnit* > affected;
+	if( pUnit != nullptr )
+	{
+		CUnit* target = pUnit;
+		int count = 0;
+		std::vector< Vec2D > tilepos = CAbilityManager::GetInstance()->GetRange(1);
+		affected.push_back(pUnit);
+		while( true )
+		{
+			Vec2D tmp = tilepos[count++];
+			tmp.nPosX += target->GetPos().nPosX;
+			tmp.nPosY += target->GetPos().nPosY;
+			target = CGameManager::GetInstance()->FindUnit(tmp);
+
+			if( target != nullptr )
+			{
+				bool already = true;
+				for( unsigned int i = 0; i < affected.size(); i++ )
+				{
+					if( affected[i] = target )
+						already = false;
+				}
+				
+				if( already == true )
+				{
+					affected.push_back(target);
+					count = 0;
+				}
+				else
+					target = affected[affected.size()-1];
+			}
+			else
+				target = affected[affected.size()-1];
+
+			if( count == 3 )
+				break;
+		}
+
+		lua_newtable(L);
+		int nCount = 0;
+		for( unsigned int i = 0; i < affected.size(); i++ )
+		{
+			lua_pushstring(L, "uniqueID");
+			lua_pushnumber(L, affected[i]->GetUniqueID());
+			lua_settable(L, -3);
+			lua_pushnumber(L, nCount+1);
+			nCount++;
+			lua_insert(L, -2);
+			lua_settable(L, -3);
+		}
+
+		lua_setglobal(L, "tAffected");
+
+	}
+
+	return 0;
+}
+
 
 int CUnit::IceAge( lua_State* L )
 {

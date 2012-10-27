@@ -274,6 +274,7 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "FireWep", CUnit::FireWep);
 	lua_register(L, "LightStrike", CUnit::LightStrike);
 	lua_register(L, "IceAge", CUnit::IceAge);
+	lua_register(L, "Chain", CUnit::Chain);
 }
 
 void CScriptManager::Shutdown( void )
