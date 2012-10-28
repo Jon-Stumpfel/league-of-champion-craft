@@ -737,6 +737,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nPhase = GP_ATTACK;
 	pAbility->m_nRange = 1;
 	pAbility->m_nCooldown = 0;
+	pAbility->m_strName = "Melee Attack";
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
 	pAbility->SetType(SP_MELEEATTACK);
@@ -758,6 +759,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nPhase = GP_ATTACK;
 	pAbility->m_nRange = 3;
 	pAbility->m_nCooldown = 0;
+	pAbility->m_strName = "Range Attack";
 	pAbility->SetParticleType(TEST);
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
@@ -777,6 +779,8 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_szInterfaceIcon = TSTRING(_T("moveicon"));
 	pAbility->SetType(SP_MOVE);
 	pAbility->SetDamage(0);
+	pAbility->m_strName = "Move";
+	pAbility->m_nCooldown = 0;
 	pAbility->SetDescription("Allows you to move things from places");
 	zz = CGraphicsManager::GetInstance()->GetID(_T("moveicon"));
 	pAbility->SetIconID(zz);
@@ -792,8 +796,9 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetParticleType(TEST);
 	pAbility->SetType(SP_CHAMPSPELL);
 	pAbility->SetDamage(0);
-	pAbility->SetDescription("The delicous pie of spells");
 	pAbility->m_nRange = 0;
+	pAbility->m_strName = "Ice Block";
+	pAbility->m_nCooldown = 0;
 	zz = CGraphicsManager::GetInstance()->GetID(_T("champspellicon"));
 	pAbility->SetIconID(zz);
 	tmp.first = SP_CHAMPSPELL;
@@ -809,6 +814,8 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetDamage(0);
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
+	pAbility->m_strName = "Spawn Archer";
+	pAbility->m_nCooldown = 0;
 	pAbility->SetDescription("");
 	pAbility->m_szInterfaceIcon = TSTRING(_T("archerportrait"));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("archerportrait"));
@@ -827,6 +834,8 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nRange = 2;
 	pAbility->SetParticleType(TEST);
 	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_strName = "Spawn Swordsman";
+	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("swordsmanportrait"));
 	pAbility->SetDescription("");
 	zz = CGraphicsManager::GetInstance()->GetID(_T("swordsmanportrait"));
@@ -845,6 +854,8 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
+	pAbility->m_strName = "Spawn Calvary";
+	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("cavalryportrait"));
 	pAbility->SetDescription("");
 	zz = CGraphicsManager::GetInstance()->GetID(_T("cavalryportrait"));
@@ -862,6 +873,8 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
+	pAbility->m_strName = "Ice Block";
+	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("iceblockportrait"));
 	pAbility->SetDescription("The hero uses his power of freezing stuff to make an iceblock");
 	zz = CGraphicsManager::GetInstance()->GetID(_T("iceblockportrait"));
@@ -876,6 +889,8 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nNumTargets = -2;
 	pAbility->m_nRange = 0;
 	pAbility->m_nDamage = 0;
+	pAbility->m_nCooldown = 0;
+	pAbility->m_strName = "Blank Scroll";
 	pAbility->m_szInterfaceIcon = TSTRING(_T("blankscroll"));
 	pAbility->SetDescription("Blank parchment is blank");
 	zz = CGraphicsManager::GetInstance()->GetID(_T("blankscroll"));

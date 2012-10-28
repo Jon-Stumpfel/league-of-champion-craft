@@ -78,7 +78,7 @@ void CGameplayState::Enter(void)
 	m_nSpellPanelOffsetYMAX =  CGame::GetInstance()->GetWindowHeight() - 109;
 	m_nCardOffsetX = CGame::GetInstance()->GetWindowWidth();
 	m_nCardOffsetMaxX = CGame::GetInstance()->GetWindowWidth() - 189;
-	m_nTooltipOffsetX = -50;
+	m_nTooltipOffsetX = 0;
 	m_nTooltipOffsetMaxX = 0;
 	pGM;
 }
@@ -1882,8 +1882,8 @@ void CGameplayState::Render(void)
 
 		int n = CGame::GetInstance()->GetWindowWidth();
 		int y = CGame::GetInstance()->GetWindowHeight();
-		//CSGD_TextureManager::GetInstance()->Draw(
-		//	CGraphicsManager::GetInstance()->GetID(_T("showcard")), m_nTooltipOffsetX - 50, 240, 1.0f, 0.8f);
+		CSGD_TextureManager::GetInstance()->Draw(
+			CGraphicsManager::GetInstance()->GetID(_T("tooltip")), m_nTooltipOffsetX, 290, 1.0f, 1.0f);
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 		if (m_bShowSpellPanel)
@@ -1923,7 +1923,7 @@ void CGameplayState::Render(void)
 				CAbility* pA = pHero->GetSpell(m_nSelectedSpell);
 				if (pA != nullptr)
 				{
-					pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
+					pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 12, 303, 1.0f, 1.0f);
 
 					//pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
 					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
@@ -1934,7 +1934,7 @@ void CGameplayState::Render(void)
 						tt << pHero->GetAttack();
 					}
 
-					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 205, 380, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 					tt.str("");
 					tt << pHero->GetAttack();
 
@@ -1948,10 +1948,20 @@ void CGameplayState::Render(void)
 						tt << pHero->GetSpeed();
 					}
 
-					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 205, 310, 0.3f, D3DCOLOR_XRGB(255,255,255));
 					tt.str("");
 
-					m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 150);
+					tt << pA->GetCoolDown();
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 205, 345, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					tt << pA->GetApCost();
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 120, 310, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					m_pBitmapFont->Print(pA->GetName().c_str(), m_nTooltipOffsetX + 15, 381, 0.2f, D3DCOLOR_XRGB(255,255,255));
+
+					//m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 150);
 				}
 			}
 		}
@@ -1963,35 +1973,43 @@ void CGameplayState::Render(void)
 			CAbility* pA = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
 			if (pA != nullptr)
 			{
-				pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
+				pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 12, 303, 1.0f, 1.0f);
 
-				//pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
-				tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
+					//pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
+					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
 
-				int damage = pA->GetDamage();
-				if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
-				{
+					if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+					{
+						tt.str("");
+						tt << m_pSelectedUnit->GetAttack();
+					}
+
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 205, 380, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 					tt.str("");
 					tt << m_pSelectedUnit->GetAttack();
-					damage = m_pSelectedUnit->GetAttack();
-				}
 
-				m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, damage < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
-				tt.str("");
-
-				//pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
-				tt << pA->GetRange();
-
-				if( pA->GetType() == SP_MOVE )
-				{
 					tt.str("");
-					tt << m_pSelectedUnit->GetSpeed();
-				}
+					//pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
+					tt << pA->GetRange();
 
-				m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 295, 0.3f, D3DCOLOR_XRGB(255,255,255));
-				tt.str("");
+					if( pA->GetType() == SP_MOVE )
+					{
+						tt.str("");
+						tt << m_pSelectedUnit->GetSpeed();
+					}
 
-				m_pBitmapFont->Print(pA->GetDescription().c_str(), m_nTooltipOffsetX + 5, 338, .3f, D3DCOLOR_XRGB(255,255,255), 170);
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 205, 310, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					tt << pA->GetCoolDown();
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 205, 345, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					tt << pA->GetApCost();
+					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 120, 310, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					m_pBitmapFont->Print(pA->GetName().c_str(), m_nTooltipOffsetX + 15, 381, 0.2f, D3DCOLOR_XRGB(255,255,255));
 			}
 		}
 	}
