@@ -13,6 +13,7 @@
 #include "Hero.h"
 #include "ParticleManager.h"
 #include "SoundManager.h"
+#include "AIManager.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_bPlayAttackAnim = false;
@@ -815,6 +816,16 @@ int CUnit::RaiseDead(lua_State* L)
 			pTile->SetIfDeadTile(false);
 		}
 	}
+	return 0;
+}
+int CUnit::Whirlwind(lua_State* L)
+{	
+		//LUA Lovin' : get the guy effect
+		int ntheguy = lua_tointeger(L, 1);
+		CUnit* guyontile = CGameManager::GetInstance()->GetUnitByID(ntheguy);
+
+		Vec2D nextopen = CAIManager::GetInstance()->NearestOpen(guyontile,CGameplayState::GetInstance()->GetSelectedUnit()->GetPos());
+		guyontile->AddWaypoint(CTileManager::GetInstance()->GetTile(nextopen.nPosX,nextopen.nPosY));
 
 	return 0;
 }
