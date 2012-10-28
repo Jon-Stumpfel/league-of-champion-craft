@@ -57,6 +57,7 @@ using std::string;
 
 	enum GAME_PHASE { GP_MOVE, GP_ATTACK };
 
+	enum CAPFLAG {F_RED_CAPTURED,F_BLUE_CAPTURED,F_RED_CAPTURING,F_BLUE_CAPTURING};
 	// resource amounts
 	const int POP_PER_FARM = 6;
 	const int METAL_PER_MINE = 10;

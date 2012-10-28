@@ -49,6 +49,46 @@ private:
 		return rSource;
 
 	}
+	RECT CTileManager::GetFlag( int id )
+	{
+		RECT flag;
+	switch(id)
+	{
+		case F_RED_CAPTURED:
+		{
+			flag.top=0;
+			flag.left=0;
+			flag.right=64;
+			flag.bottom=64;
+			return flag;
+		}
+		case F_RED_CAPTURING:
+		{
+			flag.top=64;
+			flag.left=0;
+			flag.right=64;
+			flag.bottom=128;
+			return flag;
+		}
+		case F_BLUE_CAPTURED:
+		{
+			flag.top=0;
+			flag.left=64;
+			flag.right=128;
+			flag.bottom=64;
+			return flag;
+		}
+		case F_BLUE_CAPTURING:
+		{
+			flag.top=64;
+			flag.left=64;
+			flag.right=128;
+			flag.bottom=128;
+			return flag;
+		}
+	}
+
+	}
 	void SetTileWidth(int wTile)	{m_nTileWidth=wTile; };
 	void SetTileHieght(int HTile)	{m_nTileHeight=HTile;};
 
@@ -61,6 +101,7 @@ private:
 
 	int	m_nTextureImageID;
 	int	m_nFrozenTextureImageID;
+	int m_nFlagID;
 	CTile**	m_pTileMap;
 	int m_nRows;
 	int m_nColumns;
