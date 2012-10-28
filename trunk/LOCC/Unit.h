@@ -58,7 +58,9 @@ public:
 	// new AI lua function
 	static int GetUnitPosition(lua_State* L);
 	static int GetFleeing(lua_State* L);
-
+	static int GetTilesMoved(lua_State* L);
+	static int GetHealth(lua_State* L);
+	static int GetMaxHealth(lua_State* L);
 
 
 	void UpdateEffects(void);

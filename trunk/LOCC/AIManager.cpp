@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "GameManager.h"
 #include "GameplayState.h"
+#include "FloatingText.h"
 #include "TileManager.h"
 #include "Unit.h"
 #include "Hero.h"
@@ -36,6 +37,39 @@ void CAIManager::Initialize(void)
 	m_bMoved = true;
 
 	m_bOrderFinished = false;
+
+	AIL = lua_open();
+	luaL_openlibs(AIL);
+	lua_register(AIL, "AddText", CFloatingText::AddText);
+	lua_register(AIL, "TranslateToPixel", TranslateToPixel);
+	lua_register(AIL, "SetFreeMove", CUnit::SetFreeMove);
+	lua_register(AIL, "Shield", CUnit::Shield);
+	lua_register(AIL, "Speed", CUnit::Speed);
+	lua_register(AIL, "DoDamage", CUnit::DoDamage);
+	lua_register(AIL, "GetSelectedTile", CTileManager::GetSelectedTile);
+	lua_register(AIL, "DestroyForest", CTileManager::DestroyForest);
+	lua_register(AIL, "Rally", CUnit::Rally);
+	lua_register(AIL, "Pathfind", CUnit::Pathfind);
+	lua_register(AIL, "RaiseMountain", CTileManager::RaiseMountain);
+	lua_register(AIL, "StandGround", CUnit::StandGround);
+	lua_register(AIL, "RaiseDead", CUnit::RaiseDead);
+	lua_register(AIL, "Slow", CUnit::Slow);
+	lua_register(AIL, "FireWep", CUnit::FireWep);
+	lua_register(AIL, "LightStrike", CUnit::LightStrike);
+	lua_register(AIL, "IceAge", CUnit::IceAge);
+	lua_register(AIL, "Chain", CUnit::Chain);
+	lua_register(AIL, "Whirlwind", CUnit::Whirlwind);
+	// new AI functions
+	lua_register(AIL, "IssueOrder", CAIManager::IssueOrder);
+	lua_register(AIL, "FindNearest", CAIManager::FindNearest);
+	lua_register(AIL, "GetUnitPosition", CUnit::GetUnitPosition);
+	lua_register(AIL, "GetFleeing", CUnit::GetFleeing);
+	lua_register(AIL, "FindChampion", CAIManager::FindChampion);
+	lua_register(AIL, "GetHealth", CUnit::GetHealth);
+	lua_register(AIL, "GetMaxHealth", CUnit::GetMaxHealth);
+	lua_register(AIL, "GetTilesMoved", CUnit::GetTilesMoved);
+	lua_register(AIL, "FindUnitByTile", CAIManager::FindUnitByTile);
+
 }
 void CAIManager::Shutdown(void)
 {
@@ -1519,7 +1553,7 @@ int CAIManager::IssueOrder(lua_State* L)
 
 void CAIManager::RunAIScript(CUnit* pUnit)
 {
-	lua_State* L = CScriptManager::GetInstance()->GetLuaState();
+	lua_State* L = AIL;
 
 	lua_pushinteger(L, pUnit->GetUniqueID());
 	lua_setglobal(L, "unitID");
@@ -1607,7 +1641,21 @@ int CAIManager::FindChampion(lua_State* L)
 	lua_pushinteger(L, pChampion->GetUniqueID());
 	return 1;
 }
+int CAIManager::FindUnitByTile(lua_State* L)
+{
+	int nPosX = lua_tointeger(L, 1);
+	int nPosY = lua_tointeger(L, 2);
 
+	CUnit* pUnit = CGameManager::GetInstance()->FindUnit(nPosX, nPosY);
+
+	if (pUnit == nullptr)
+		lua_pushinteger(L, -1);
+	else
+		lua_pushinteger(L, pUnit->GetUniqueID());
+
+
+	return 1;
+}
 CAIManager::CAIManager(void)
 {
 }

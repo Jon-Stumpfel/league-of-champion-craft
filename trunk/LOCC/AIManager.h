@@ -59,11 +59,13 @@ private:std::vector<CUnit*> m_vUnitsToHandle;
 
 	bool m_bOrderFinished;
 
+	lua_State* AIL;
+
 public:
 	// lua help functions
 	static int IssueOrder(lua_State* L);
 	static int FindNearest(lua_State* L);
 	static int FindChampion(lua_State* L);
-
+	static int FindUnitByTile(lua_State* L);
 };
 
