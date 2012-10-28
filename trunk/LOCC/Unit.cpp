@@ -824,7 +824,7 @@ int CUnit::Whirlwind(lua_State* L)
 		int ntheguy = lua_tointeger(L, 1);
 		CUnit* guyontile = CGameManager::GetInstance()->GetUnitByID(ntheguy);
 
-		Vec2D nextopen = CAIManager::GetInstance()->NearestOpen(guyontile,CGameplayState::GetInstance()->GetSelectedUnit()->GetPos());
+		Vec2D nextopen = CAIManager::GetInstance()->NearestOpen(guyontile->GetPos(),CGameplayState::GetInstance()->GetSelectedUnit()->GetPos());
 		guyontile->AddWaypoint(CTileManager::GetInstance()->GetTile(nextopen.nPosX,nextopen.nPosY));
 
 	return 0;
