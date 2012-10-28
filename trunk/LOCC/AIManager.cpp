@@ -183,6 +183,7 @@ void CAIManager::BeginMovement(void)
 	//	return;
 	m_vUnitsToHandle.clear();
 	m_vInputQueue.clear();
+	m_vOrderQueue.clear();
 	m_bMoved = true;
 	m_bDone = true;
 	m_bSelected = false;
@@ -211,6 +212,7 @@ void CAIManager::BeginAttack(void)
 	//	return;
 	m_vUnitsToHandle.clear();
 	m_vInputQueue.clear();
+	m_vOrderQueue.clear();
 	m_bMoved = true;
 	m_bDone = true;
 	m_bSelected = false;
@@ -1078,6 +1080,47 @@ bool CAIManager::CheckOrderQueue(float fElapsedTime)
 				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
 			}
 			break;
+		case AIO_SELECTTILE:
+			{
+				Vec2D* pTileToSelect = (Vec2D*)order.first;
+				Vec2D vCursorPosition = CGameplayState::GetInstance()->GetSelectionPos();
+				Vec2D vTileToSelect = *pTileToSelect;
+				delete pTileToSelect;
+				// Find out how much we have to move the selection cursor to get to our intended unit
+				int xDelta = vTileToSelect.nPosX - vCursorPosition.nPosX;
+				int yDelta = vTileToSelect.nPosY - vCursorPosition.nPosY;
+
+				// Move it over to the unit!
+				for (int xD = 0; xD < (int)(abs(double(xDelta))); ++xD)
+				{
+					if (xDelta < 0)
+						m_vInputQueue.push_back(INPUT_LEFT);
+					else if (xDelta > 0)
+						m_vInputQueue.push_back(INPUT_RIGHT);
+					else
+						continue;
+				}
+				for (int yD = 0; yD < (int)(abs(double(yDelta))); ++yD)
+				{
+					if (yDelta < 0)
+						m_vInputQueue.push_back(INPUT_UP);
+					else if (yDelta > 0)
+						m_vInputQueue.push_back(INPUT_DOWN);
+					else
+						continue;
+				}
+				// Press enter to select him
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				// At this point the intended unit should be targeted and we hit enter on him to select him.
+				// We can use this for attacking as well, since we could in theory call to use the attack ability
+				// and then move this cursor to the intended target
+
+				// This lets the input queue know we are finshed issueing commands and to release the UpdateAI to allow for the
+				// next order to be processed
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
 		case AIO_SELECT: // Select a unit. The unit will be specified in the Void*
 			{
 				CUnit* pUnitToSelect = (CUnit*)order.first;
@@ -1529,6 +1572,17 @@ int CAIManager::IssueOrder(lua_State* L)
 		order.first = new Vec2D(nposX, nposY);
 		order.second = AIO_MOVE;
 		pAIM->m_vOrderQueue.push_back(order);
+	}
+	else if (orderString.compare("selecttile") == 0)
+	{
+		int nposX = lua_tointeger(L, 2);
+		int nposY = lua_tointeger(L, 3);
+
+		AIOrder order;
+		order.first = new Vec2D(nposX, nposY);
+		order.second = AIO_SELECTTILE;
+		pAIM->m_vOrderQueue.push_back(order);
+
 	}
 	else if (orderString.compare("skirmish") == 0)
 	{
