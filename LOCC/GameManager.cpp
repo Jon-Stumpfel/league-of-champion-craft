@@ -371,6 +371,18 @@ void CGameManager::SaveGame(int nSlot)
 			pSpell->SetAttribute("sType", pHero->GetSpell(n)->GetType());
 			pSpells->LinkEndChild(pSpell);
 		}
+
+		TiXmlElement* pBoughtSpells = new TiXmlElement("BoughtSpells");
+		pBoughtSpells->SetAttribute("numBought", pHero->GetNumBought());
+		pChampion->LinkEndChild(pBoughtSpells);
+
+		for( int n = 0; n < pHero->GetNumBought(); n++ )
+		{
+			TiXmlElement* pBought = new TiXmlElement("Bought");
+			pBought->SetAttribute("Type", pHero->GetBought(n)->GetType());
+			pBoughtSpells->LinkEndChild(pBought);
+		}
+
 		TiXmlElement* pEffects = new TiXmlElement("Effects");
 		pChampion->LinkEndChild(pEffects);
 		pEffects->SetAttribute("numEffects", pHero->GetNumEffects());
@@ -615,6 +627,20 @@ void CGameManager::LoadSave(int nSlot)
 				pSpell = pSpell->NextSiblingElement("Spell");
 			}
 
+			int nNumBought;
+			TiXmlElement* pBoughtSpells = pChampion->FirstChildElement("BoughtSpells");
+			pBoughtSpells->QueryIntAttribute("numBought", &nNumBought);
+			std::vector<SPELL_TYPE> bought;
+			TiXmlElement* pBought = pBoughtSpells->FirstChildElement("Bought");
+			int type;
+			for( int i = 0; i < nNumBought; i++)
+			{
+				int nType;
+				pBought->QueryIntAttribute("Type", &type);
+				bought.push_back((SPELL_TYPE)type);
+				pBought = pBought->NextSiblingElement("Bought");
+			}
+
 			int nNumEffects;
 			TiXmlElement* pEffects = pChampion->FirstChildElement("Effects");
 			pEffects->QueryIntAttribute("numEffects", &nNumEffects);
@@ -628,7 +654,7 @@ void CGameManager::LoadSave(int nSlot)
 				pEffect = pEffect->NextSiblingElement("Effect");
 			}
 
-			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(spells, effects, Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
+			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(spells, effects, bought, Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
 				nHealth, nTilesMoved, IntToBool(nAIControlled));
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
@@ -847,7 +873,12 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				{
 					for (unsigned int i = 0; i < pSMSG->GetSpells().size(); ++i)
 					{
-						((CHero*)pUnit)->GiveSpell(pSMSG->GetSpells()[i]);
+						((CHero*)pUnit)->SwapSpell(CAbilityManager::GetInstance()->GetAbility(pSMSG->GetSpells()[i]), i);
+					}
+
+					for (unsigned int i = 0; i < pSMSG->GetBought().size(); ++i)
+					{
+						((CHero*)pUnit)->SpellBought(CAbilityManager::GetInstance()->GetAbility(pSMSG->GetBought()[i]));
 					}
 				}
 				if (pSMSG->GetEffects().size() != 0)

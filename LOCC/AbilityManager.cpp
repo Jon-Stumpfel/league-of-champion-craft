@@ -797,7 +797,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetType(SP_CHAMPSPELL);
 	pAbility->SetDamage(0);
 	pAbility->m_nRange = 0;
-	pAbility->m_strName = "Ice Block";
+	pAbility->m_strName = "Spells";
 	pAbility->m_nCooldown = 0;
 	zz = CGraphicsManager::GetInstance()->GetID(_T("champspellicon"));
 	pAbility->SetIconID(zz);
