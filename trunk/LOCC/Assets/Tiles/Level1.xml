@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Map Rows="20" Columns="20" FileName="\MapEditorTiles.png">
+<Map Rows="20" Columns="10" FileName="\MapEditorTiles.png">
   <Tiles>
     <Tile PosX="0" PosY="0" PixWidth="64" PixHeight="64" Status="0" PlayerID="-1" TType="2" />
     <Tile PosX="0" PosY="1" PixWidth="64" PixHeight="64" Status="0" PlayerID="-1" TType="2" />
