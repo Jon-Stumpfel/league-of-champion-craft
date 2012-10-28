@@ -655,7 +655,7 @@ void CGameManager::LoadSave(int nSlot)
 			}
 
 			CSpawnUnitMessage* pMsg = new CSpawnUnitMessage(spells, effects, bought, Vec2D(nPosX, nPosY), nPlayerID, UT_HERO, nFacing, true, 
-				nHealth, nTilesMoved, IntToBool(nAIControlled));
+				nHealth, nTilesMoved, IntToBool(nHasAttacked));
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 
 
@@ -689,7 +689,7 @@ void CGameManager::LoadSave(int nSlot)
 				}
 				CSpawnUnitMessage* pUnitMsg = 
 					new CSpawnUnitMessage(spells, effects, Vec2D(nUnitPosX, nUnitPosY), nPlayerID, (UNIT_TYPE)nUnitType, nUnitFacing, true, nUnitHealth,
-						nUnitTilesMoved,IntToBool(nAIControlled) );
+						nUnitTilesMoved,IntToBool(nUnitHasAttacked) );
 				CMessageSystem::GetInstance()->SendMessageW(pUnitMsg);
 
 				pUnit = pUnit->NextSiblingElement("Unit");
