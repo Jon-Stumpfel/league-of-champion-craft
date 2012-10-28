@@ -21,12 +21,20 @@ end
 
 
 function MoveToNearestEnemy()
-	localX, localY = GetUnitPosition(unitID);
-	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Moving To Nearest...", pixelX, pixelY, 0, -10, 6, 0.4, 20, 255, 20);
 	IssueOrder("move", targetX, targetY);
 end
 
 
 function Attack()
+	AttackNearest()
+end
+
+function AttackNearest()
+	nearestID = FindNearest(unitID);
+	targetX, targetY = GetUnitPosition(nearestID);
+	
+	IssueOrder("deselectall");
+	IssueOrder("selectunit", unitID);
+	IssueOrder("selectability", 2);
+	IssueOrder("selectunit", nearestID);
 end
