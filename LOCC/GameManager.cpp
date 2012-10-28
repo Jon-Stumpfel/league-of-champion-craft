@@ -729,7 +729,7 @@ void CGameManager::Reset(void)
 	m_vScriptSpawns.clear();
 
 	CreatePlayer(false); // player 1
-	CreatePlayer(false);
+	CreatePlayer(true);
 
 	CTileManager::GetInstance()->ShutDown();
 
@@ -814,7 +814,7 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				CUnit* pOccupyingUnit = CGameManager::GetInstance()->FindUnit(pSMSG->GetPos());
 				if (pOccupyingUnit != pUnit)
 				{
-					Vec2D newpos = CAIManager::GetInstance()->NearestOpen(pOccupyingUnit, pSMSG->GetPos());
+					Vec2D newpos = CAIManager::GetInstance()->NearestOpen(pOccupyingUnit->GetPos(), pSMSG->GetPos());
 					pUnit->SetPos(pSMSG->GetPos());
 					pUnit->AddWaypoint(CTileManager::GetInstance()->GetTile(newpos.nPosX, newpos.nPosY));
 				}

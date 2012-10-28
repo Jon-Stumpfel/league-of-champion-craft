@@ -9,6 +9,7 @@
 #include "AbilityManager.h"
 #include "ParticleManager.h"
 #include "FloatingText.h"
+#include "AIManager.h"
 #include "SoundManager.h"
 CScriptManager* CScriptManager::s_Instance = nullptr;
 
@@ -276,6 +277,12 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "IceAge", CUnit::IceAge);
 	lua_register(L, "Chain", CUnit::Chain);
 	lua_register(L, "Whirlwind", CUnit::Whirlwind);
+	// new AI functions
+	lua_register(L, "IssueOrder", CAIManager::IssueOrder);
+	lua_register(L, "FindNearest", CAIManager::FindNearest);
+	lua_register(L, "GetUnitPosition", CUnit::GetUnitPosition);
+	lua_register(L, "GetFleeing", CUnit::GetFleeing);
+	lua_register(L, "FindChampion", CAIManager::FindChampion);
 }
 
 void CScriptManager::Shutdown( void )

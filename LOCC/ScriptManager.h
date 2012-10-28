@@ -41,6 +41,8 @@ public:
 	static CScriptManager* GetInstance( void );
 	static void DeleteInstance(void);
 
+	lua_State* GetLuaState(void) { return L;}
+
 private:
 
 			lua_State* L;

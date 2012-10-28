@@ -55,6 +55,12 @@ public:
 	static int IceAge( lua_State* L );	static int Chain( lua_State* L );
 	static int Whirlwind( lua_State* L );
 
+	// new AI lua function
+	static int GetUnitPosition(lua_State* L);
+	static int GetFleeing(lua_State* L);
+
+
+
 	void UpdateEffects(void);
 
 	bool GetFleeing(void){ return m_bIsFleeing;}

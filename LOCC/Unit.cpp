@@ -255,7 +255,7 @@ void CUnit::Update(float fElapsedTime)
 			break;
 		}
 	}
-	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.25f))
+	if ((float)((float)GetHP() / (float)GetMaxHP() <= 0.35f))
 	{
 		m_bIsFleeing = true;
 	}
@@ -829,3 +829,31 @@ int CUnit::Whirlwind(lua_State* L)
 
 	return 0;
 }
+
+int CUnit::GetUnitPosition(lua_State* L)
+{
+	int nUnitID = lua_tonumber(L, 1);
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+
+	lua_pushinteger(L, pUnit->GetPos().nPosX);
+	lua_pushinteger(L, pUnit->GetPos().nPosY);
+
+	return 2;
+}
+
+int CUnit::GetFleeing(lua_State* L)
+{
+	int nUnitID = lua_tonumber(L, 1);
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+
+
+	if (pUnit->GetFleeing())
+		lua_pushboolean(L, 1);
+	else
+		lua_pushboolean(L, 0);
+
+	return 1;
+}
+
