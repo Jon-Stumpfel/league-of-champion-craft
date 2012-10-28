@@ -25,6 +25,7 @@
 #include "SoundManager.h"
 #include "HUD.h"
 #include "CoinToss.h"
+#include "SpellScrollState.h"
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -457,6 +458,10 @@ void CGameplayState::Input(INPUT_ENUM input)
 	case INPUT_SELECT:
 		{
 			// spell scroll state here
+			if( m_bSelectChampionAbility )
+			{
+				CStateStack::GetInstance()->Push(CSpellScrollState::GetInstance());
+			}
 		}
 		break;
 	case INPUT_CAM_UP:
