@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="2" APCost="10" Cooldown="2" Target="1" SpellName="Raise Dead" Attack="0" Facing="0" Phase="1" LuaPath="raisedead.lua" ParticlePath="raisedead.xml" IconPath="raisedead.png" SoundPath="thunder2.wav">
+<Ability Range="3" APCost="8" Cooldown="0" Target="1" SpellName="Raise Dead" Attack="0" Facing="0" Phase="1" LuaPath="raisedead.lua" ParticlePath="raisedead.xml" IconPath="raisedead.png" SoundPath="thunder2.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>
