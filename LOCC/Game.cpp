@@ -18,6 +18,7 @@
 #include "LevelSelectState.h"
 #include "SocketServer.h"
 #include <ctime>
+#include "SpellScrollState.h"
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -87,6 +88,9 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/facingarrow.png"), _T("facingarrow"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Sword.png"), _T("AttackSword"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Castle.png"), _T("MoveCastle"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellbook.png"), _T("spellbook"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellscrollbackground.png"), _T("ssbackground"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellscrollselect.png"), _T("scrollselect"), 0UL);
 
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Red).png",L"SwordsmanR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Blue).png",L"SwordsmanB",D3DCOLOR_ARGB(255,255,255,255));
@@ -107,6 +111,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/TempDeath.wav"),_T("ITSDEAD"),false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/errorclip.wav"),_T("NO"),false);
 	CAbilityManager::GetInstance()->LoadAbilities();
+	CSpellScrollState::GetInstance()->Initialize();
 	m_dwCurrTime = GetTickCount();
 	TiXmlDocument doc;
 	doc.LoadFile("Assets\\Menus\\Options.xml");

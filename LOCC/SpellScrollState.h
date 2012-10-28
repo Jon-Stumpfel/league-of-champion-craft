@@ -2,6 +2,8 @@
 
 #include "igamestate.h"
 
+class CAbility;
+
 class CSpellScrollState : public IGameState
 {
 
@@ -12,6 +14,8 @@ public:
 	virtual void Input(INPUT_ENUM input);
 	virtual void Update(float fElapsedTime);
 	virtual void Render(void);
+
+	void Initialize( void );
 
 	static CSpellScrollState* GetInstance(void);
 
@@ -26,5 +30,13 @@ private:
 
 	std::vector< std::pair< std::string, int > > m_vIDs;
 
+	std::vector< CAbility* > m_vElemental;
+	std::vector< CAbility* > m_vPhysical;
+	std::vector< CAbility* > m_vSupport;
+
+	int m_nSelected;
+	int m_nSelectedAbility;
+	bool m_bTreeSelect;
+	
 };
 
