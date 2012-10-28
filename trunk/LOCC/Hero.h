@@ -23,6 +23,8 @@ public:
 	bool SearchSpells( CAbility* ability );
 	void SwapSpell(CAbility* ability, int index) { m_vSpells[index] = ability; }
 	void SpellBought( CAbility* ability ) { m_vBoughtSpells.push_back(ability); }
+	int GetNumBought( void ) { return (int)m_vBoughtSpells.size(); }
+	CAbility* GetBought( int i ) { return m_vBoughtSpells[i]; }
 	bool IfBought( CAbility* ability );
 	unsigned int GetNumSpells( void ) { return m_vSpells.size(); }
 	CHero(void);
