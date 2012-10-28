@@ -248,7 +248,18 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
-
+			case SP_CLEAVE:
+				{
+					if( doc.LoadFile( "Assets/Ability/Cleave.xml") == false )
+						return;
+				}
+				break;
+			case SP_BLADESTORM:
+				{
+					if( doc.LoadFile( "Assets/Ability/BladeStorm.xml") == false )
+						return;
+				}
+				break;
 		default:
 			continue;
 		}
@@ -741,6 +752,35 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_PSHOT;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_CLEAVE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_CLEAVE);
+					ab->SetParticleType(PT_BLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The Champion does a massive Wide Slice");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_CLEAVE;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_BLADESTORM:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_BLADESTORM);
+					ab->SetParticleType(PT_BLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The Champion does a furious Spin, injuring al around him");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_BLADESTORM;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
