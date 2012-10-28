@@ -242,6 +242,12 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
+			case SP_PSHOT:
+				{
+					if( doc.LoadFile( "Assets/Ability/PShot.xml") == false )
+						return;
+				}
+				break;
 
 		default:
 			continue;
@@ -721,6 +727,20 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_WHIRLWIND;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_PSHOT:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_PSHOT);
+					ab->SetParticleType(PT_BLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The Champion fires and arrow so hard that it goes threw it's first target and keeps going");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_PSHOT;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

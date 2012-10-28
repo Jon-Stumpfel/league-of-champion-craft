@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="4" APCost="4" Cooldown="3" Target="0" SpellName="Piercing Shot" Attack="1" Facing="1" Phase="0" LuaPath="PShot.lua" ParticlePath="blood.xml" IconPath="PShot.png" SoundPath="BowandArrow.wav">
+  <Tile PosX="0" PosY="4" />
+  <Tile PosX="0" PosY="3" />
+  <Tile PosX="0" PosY="2" />
+  <Tile PosX="0" PosY="1" />
+</Ability>
