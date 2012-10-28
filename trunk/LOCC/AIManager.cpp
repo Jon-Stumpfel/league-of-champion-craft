@@ -34,18 +34,14 @@ void CAIManager::Initialize(void)
 	m_bDone = true;
 	m_bSelected = false;
 	m_bMoved = true;
+
+	m_bOrderFinished = false;
 }
 void CAIManager::Shutdown(void)
 {
 
 }
 
-void CAIManager::RemoveObject(CUnit* obj)
-{
-}
-void CAIManager::RemoveAllObjects(void)
-{
-}
 
 bool CAIManager::CheckInputQueue(float fElapsedTime)
 {
@@ -53,29 +49,60 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.4f)
+		if (fTimeToPop > 0.2f)
 		{
-			if (m_vInputQueue.back() == INPUT_AI_ATTACKED)
+			if (m_vInputQueue.front() == INPUT_AI_ORDERFINISHED)
 			{
-				m_bAttacked = true;
+				m_vInputQueue.erase(m_vInputQueue.begin());
+				fTimeToPop = 0.0f;
+				return false;
 			}
-			if (m_vInputQueue.back() == INPUT_AI_SELECTED)
-			{
-				m_bSelected = true;
-			}
-			if (m_vInputQueue.back() == INPUT_AI_MOVED)
-			{
-				m_bMoved = true;
-				m_bSelected = false;
-			}
-			CStateStack::GetInstance()->GetTop()->Input(m_vInputQueue.back());
+
+			CStateStack::GetInstance()->GetTop()->Input(m_vInputQueue.front());
 			if (m_vInputQueue.size() != 0)
-				m_vInputQueue.pop_back();
+			{
+				m_vInputQueue.erase(m_vInputQueue.begin());
+			}
+
 			fTimeToPop = 0.0f;
-			if (m_vInputQueue.size() == 0)
-				m_bDone = true;
 		}
 	}
+	else
+	{
+		return false;
+	}
+
+	//static float fTimeToPop = 0.0f;
+	//if (m_vInputQueue.size() != 0)
+	//{
+	//	fTimeToPop += fElapsedTime;
+	//	if (fTimeToPop > 0.4f)
+	//	{
+	//		if (m_vInputQueue.back() == INPUT_AI_ORDERFINISHED)
+	//		{
+	//			m_bOrderFinished = true;
+	//		}
+	//		if (m_vInputQueue.back() == INPUT_AI_ATTACKED)
+	//		{
+	//			m_bAttacked = true;
+	//		}
+	//		if (m_vInputQueue.back() == INPUT_AI_SELECTED)
+	//		{
+	//			m_bSelected = true;
+	//		}
+	//		if (m_vInputQueue.back() == INPUT_AI_MOVED)
+	//		{
+	//			m_bMoved = true;
+	//			m_bSelected = false;
+	//		}
+	//		CStateStack::GetInstance()->GetTop()->Input(m_vInputQueue.back());
+	//		if (m_vInputQueue.size() != 0)
+	//			m_vInputQueue.pop_back();
+	//		fTimeToPop = 0.0f;
+	//		if (m_vInputQueue.size() == 0)
+	//			m_bDone = true;
+	//	}
+	//}
 
 	return (m_vInputQueue.size() != 0);
 }
@@ -164,51 +191,53 @@ void CAIManager::BeginAttack(void)
 	}
 }
 
-Vec2D CAIManager::NearestOpen(CUnit* pTargetUnit, Vec2D pSelectedUnit)
+Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 {
-	int xDistance = pTargetUnit->GetPos().nPosX - pSelectedUnit.nPosX;
-	int yDistance = pTargetUnit->GetPos().nPosY - pSelectedUnit.nPosY;
-	Vec2D vTarget = pTargetUnit->GetPos();
+	int xDistance = pTargetUnit.nPosX - pSelectedUnit.nPosX;
+	int yDistance = pTargetUnit.nPosY - pSelectedUnit.nPosY;
+	Vec2D vTarget = pTargetUnit;
 	std::list<std::pair<int, Vec2D>> vTargets;
 	int nPreference = 1;
 	bool bDoWork = true;
 	while (bDoWork)
 	{
 		CTile* pTile = CTileManager::GetInstance()->GetTile(vTarget.nPosX, vTarget.nPosY);
-		if (pTile == nullptr)
+		if (pTile == nullptr || pTile->GetIfPassable())
 		{
-			
+
 		}
 		else 
 		{
 			if (!pTile->GetIfOccupied())
+			{
 				break;
+			}
 			Vec2D AdjacentWest = Vec2D(vTarget.nPosX - 1, vTarget.nPosY);
 			Vec2D AdjacentEast = Vec2D(vTarget.nPosX + 1, vTarget.nPosY);
 			Vec2D AdjacentNorth = Vec2D(vTarget.nPosX, vTarget.nPosY - 1);
 			Vec2D AdjacentSouth = Vec2D(vTarget.nPosX, vTarget.nPosY + 1);
 			int Direction = -1;
-			if (pTargetUnit->GetPos().nPosX < pSelectedUnit.nPosX) // west
+			if (pTargetUnit.nPosX < pSelectedUnit.nPosX) // west
 			{
-				if (pTargetUnit->GetPos().nPosY < pSelectedUnit.nPosY)
+				if (pTargetUnit.nPosY < pSelectedUnit.nPosY)
 					Direction = 0; // Northwest
-				else if (pTargetUnit->GetPos().nPosY > pSelectedUnit.nPosY)
+				else if (pTargetUnit.nPosY > pSelectedUnit.nPosY)
 					Direction = 1; // Southwest;
 				else
 					Direction = 2; // West
 			}
-			else if (pTargetUnit->GetPos().nPosX > pSelectedUnit.nPosX) // east
+			else if (pTargetUnit.nPosX > pSelectedUnit.nPosX) // east
 			{
-				if (pTargetUnit->GetPos().nPosY < pSelectedUnit.nPosY)
+				if (pTargetUnit.nPosY < pSelectedUnit.nPosY)
 					Direction = 3; // Northeast
-				else if (pTargetUnit->GetPos().nPosY > pSelectedUnit.nPosY)
+				else if (pTargetUnit.nPosY > pSelectedUnit.nPosY)
 					Direction = 4; // Southeast;
 				else
 					Direction = 5; // east
 			}
 			else
 			{
-				if (pTargetUnit->GetPos().nPosY < pSelectedUnit.nPosY)
+				if (pTargetUnit.nPosY < pSelectedUnit.nPosY)
 					Direction = 6; // north;
 				else
 					Direction = 7; // South
@@ -481,19 +510,19 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 		{
 			if (lowestDistance <= 3)
 			{
-			bSkipMove = false;
+				bSkipMove = false;
 				m_vInputQueue.push_back(INPUT_AI_CLEAR);
 				m_vInputQueue.push_back(INPUT_AI_MOVED);
 				return;
 			}
 			else
 			{
-				nearest = NearestOpen(pNearestEnemy, pMoveUnit->GetPos());
+				nearest = NearestOpen(pNearestEnemy->GetPos(), pMoveUnit->GetPos());
 			}
 
 		}
 		else
-			nearest = NearestOpen(pNearestEnemy, pMoveUnit->GetPos());
+			nearest = NearestOpen(pNearestEnemy->GetPos(), pMoveUnit->GetPos());
 
 		int x = 9;
 		xDistance = nearest.nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
@@ -559,7 +588,7 @@ void CAIManager::MoveUnit(CUnit* pMoveUnit)
 				{
 					bSkipMove = false;
 					m_vInputQueue.push_back(INPUT_AI_CLEAR);
-			m_vInputQueue.push_back(INPUT_AI_MOVED);
+					m_vInputQueue.push_back(INPUT_AI_MOVED);
 
 					m_vInputQueue.push_back(INPUT_ACCEPT);
 					m_vInputQueue.push_back(INPUT_ACCEPT);
@@ -999,7 +1028,342 @@ void CAIManager::AttackUnit(CUnit* pAttackUnit)
 	}
 
 }
+bool CAIManager::CheckOrderQueue(float fElapsedTime)
+{
+	if (m_vOrderQueue.size() != 0)
+	{
+		// We have orders. Let's process them. 
+		AIOrder order = m_vOrderQueue.front();
 
+		// What type of order is it?
+		switch (order.second)
+		{
+		case AIO_DESELECTALL: // Deselect everything
+			{
+				m_vInputQueue.push_back(INPUT_AI_CLEAR);
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
+		case AIO_SELECT: // Select a unit. The unit will be specified in the Void*
+			{
+				CUnit* pUnitToSelect = (CUnit*)order.first;
+				Vec2D vCursorPosition = CGameplayState::GetInstance()->GetSelectionPos();
+				Vec2D vUnitPosition = pUnitToSelect->GetPos();
+
+
+				// Find out how much we have to move the selection cursor to get to our intended unit
+				int xDelta = vUnitPosition.nPosX - vCursorPosition.nPosX;
+				int yDelta = vUnitPosition.nPosY - vCursorPosition.nPosY;
+
+				// Move it over to the unit!
+				for (int xD = 0; xD < (int)(abs(double(xDelta))); ++xD)
+				{
+					if (xDelta < 0)
+						m_vInputQueue.push_back(INPUT_LEFT);
+					else if (xDelta > 0)
+						m_vInputQueue.push_back(INPUT_RIGHT);
+					else
+						continue;
+				}
+				for (int yD = 0; yD < (int)(abs(double(yDelta))); ++yD)
+				{
+					if (yDelta < 0)
+						m_vInputQueue.push_back(INPUT_UP);
+					else if (yDelta > 0)
+						m_vInputQueue.push_back(INPUT_DOWN);
+					else
+						continue;
+				}
+				// Press enter to select him
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				// At this point the intended unit should be targeted and we hit enter on him to select him.
+				// We can use this for attacking as well, since we could in theory call to use the attack ability
+				// and then move this cursor to the intended target
+
+				// This lets the input queue know we are finshed issueing commands and to release the UpdateAI to allow for the
+				// next order to be processed
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
+		case AIO_SKIRMISH: 
+			// Immediately scatter the unit into a semi-random direction 1 tile. We don't care where, we just
+			// need to get out of here quick!
+			{
+				CUnit* pUnit = (CUnit*)order.first;
+				Vec2D vCursorPosition = CGameplayState::GetInstance()->GetSelectionPos();
+				Vec2D vUnitPosition = pUnit->GetPos();
+
+				// First lets make sure all of our adjacents are not full, otherwise we're stuck and will just do nothing
+				int nFoundUnits = 0;
+				Vec2D vRunToPosition;
+				CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(vUnitPosition.nPosX - 1, vUnitPosition.nPosY));
+				if (pTestUnit == nullptr)
+				{
+					vRunToPosition = Vec2D(vUnitPosition.nPosX - 1, vUnitPosition.nPosY);
+				}
+				else
+				{
+					pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(vUnitPosition.nPosX + 1, vUnitPosition.nPosY));
+					if (pTestUnit == nullptr)
+					{
+						vRunToPosition = Vec2D(vUnitPosition.nPosX + 1, vUnitPosition.nPosY);
+					}
+					else
+					{
+						pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(vUnitPosition.nPosX, vUnitPosition.nPosY + 1));
+						if (pTestUnit == nullptr)
+						{
+							vRunToPosition = Vec2D(vUnitPosition.nPosX, vUnitPosition.nPosY + 1);
+						}
+						else
+						{
+							pTestUnit = CGameManager::GetInstance()->FindUnit(Vec2D(vUnitPosition.nPosX, vUnitPosition.nPosY - 1));
+							if (pTestUnit == nullptr)
+							{
+								vRunToPosition = Vec2D(vUnitPosition.nPosX, vUnitPosition.nPosY - 1);
+							}
+							else
+							{
+								 // Whelp, we're surrounded. Better accept our fate
+								m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+								break;
+							}
+						}
+					}
+				}
+				// If there aren't 4 guys around us, we have an out! START RUNNIN
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_1);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+				
+				// This code copied from AIO_MOVE, should function the same. Could probably call it instead but, whatever. 
+				int xDelta = vRunToPosition.nPosX - vCursorPosition.nPosX;
+				int yDelta = vRunToPosition.nPosY - vCursorPosition.nPosY;
+
+				for (int dX = 0; dX < (int)(abs((float)(xDelta))); ++dX)
+				{
+					if (xDelta < 0)
+						m_vInputQueue.push_back(INPUT_LEFT);
+					else if (xDelta > 0)
+						m_vInputQueue.push_back(INPUT_RIGHT);
+				}
+				for (int dY = 0; dY < (int)(abs((float)(yDelta))); ++dY)
+				{
+					if (yDelta < 0)
+						m_vInputQueue.push_back(INPUT_UP);
+					else if (yDelta > 0)
+						m_vInputQueue.push_back(INPUT_DOWN);
+				}
+
+				// And hit enter to begin the move
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				// The order is finished at this point, so let's tell the input stack we're done
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
+		case AIO_MOVE:
+			{
+				Vec2D* pTargetPosition = (Vec2D*)order.first;
+				Vec2D vCursorPosition = CGameplayState::GetInstance()->GetSelectionPos();
+				Vec2D vUnitPosition = *pTargetPosition;
+				delete pTargetPosition;
+
+				// We assume that the unit is selected at this point, so let's select ability 1 (move)
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_1);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				// At this point we have the movement spell selected, hit enter and should now be in movement reticle mode
+				// Now we move the cursor to the nearestOpen to the target position;
+				Vec2D nearest = NearestOpen(vUnitPosition, vCursorPosition);
+
+				// Nearest is assumed to be the closest open position to where we want in preference to the direction we are coming from
+
+
+				// Lets find out how much we have to move the cursor to get there
+				int xDelta = nearest.nPosX - vCursorPosition.nPosX;
+				int yDelta = nearest.nPosY - vCursorPosition.nPosY;
+
+				// And move the cursor to that position
+
+				// Let's limit the amount of tiles it'll try to move... no point moving the cursor 30 tiles across
+				// the map since the unit wont go that far. Fastest unit would be a cavalry at 5 speed, let's assume
+				// the stars align and he gets sped up to 8. No one should ever be able to move more than 8 tiles
+				// so lets make it 10 to be safe;
+				int nMovesRemaining = 7;
+				int nXChanged = 0;
+				int nYChanged = 0;
+
+
+				// First lets find out where we end up with the tile movement limitation
+				while (nMovesRemaining > 0)
+				{
+					if (xDelta < 0)
+					{
+						xDelta++;
+						nXChanged--;
+					}
+					else if (xDelta > 0)
+					{
+						xDelta--;
+						nXChanged++;
+					}
+					nMovesRemaining--;
+					if (nMovesRemaining <= 0)
+						break;
+
+					if (yDelta < 0)
+					{
+						yDelta++;
+						nYChanged--;
+					}
+					else if (yDelta > 0)
+					{
+						yDelta--;
+						nYChanged++;
+					}
+
+					nMovesRemaining--;
+				}
+
+				Vec2D vFinalTarget = Vec2D(vCursorPosition.nPosX + nXChanged , vCursorPosition.nPosY + nYChanged);
+
+				// So now we know how far our cursor will move and where it will end up
+				// Lets make sure no one is on that tile
+				Vec2D nearestToFinal = NearestOpen(vFinalTarget, vCursorPosition);
+
+				// If our final is empty, we'll end up on it. If not, we'll end up on the closest we can get to it;
+
+				// This is how much our cursor needs to change from its relative position to get to our final destination
+				int xDeltaF = nearestToFinal.nPosX - vCursorPosition.nPosX;
+				int yDeltaF = nearestToFinal.nPosY - vCursorPosition.nPosY;
+
+				// Move the cursor
+				for (int dX = 0; dX < (int)(abs((float)(xDeltaF))); ++dX)
+				{
+					if (xDeltaF < 0)
+						m_vInputQueue.push_back(INPUT_LEFT);
+					else if (xDeltaF > 0)
+						m_vInputQueue.push_back(INPUT_RIGHT);
+				}
+				for (int dY = 0; dY < (int)(abs((float)(yDeltaF))); ++dY)
+				{
+					if (yDeltaF < 0)
+						m_vInputQueue.push_back(INPUT_UP);
+					else if (yDeltaF > 0)
+						m_vInputQueue.push_back(INPUT_DOWN);
+				}
+				// And hit enter to begin the move
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				// The order is finished at this point, so let's tell the input stack we're done
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
+		case AIO_MOVECURSOR:
+			{
+				Vec2D* pTargetPos = (Vec2D*)order.first;
+				Vec2D vCursorPosition = CGameplayState::GetInstance()->GetSelectionPos();
+				Vec2D vTargetPosition = *pTargetPos;
+				delete pTargetPos;
+
+
+				// Find out how much we have to move the selection cursor to get to our intended location
+				int xDelta = vTargetPosition.nPosX - vCursorPosition.nPosX;
+				int yDelta = vTargetPosition.nPosY - vCursorPosition.nPosY;
+
+				// Move it over to the target position
+				for (int xD = 0; xD < (int)(abs(double(xDelta))); ++xD)
+				{
+					if (xDelta < 0)
+						m_vInputQueue.push_back(INPUT_LEFT);
+					else if (xDelta > 0)
+						m_vInputQueue.push_back(INPUT_RIGHT);
+					else
+						continue;
+				}
+				for (int yD = 0; yD < (int)(abs(double(yDelta))); ++yD)
+				{
+					if (yDelta < 0)
+						m_vInputQueue.push_back(INPUT_UP);
+					else if (yDelta > 0)
+						m_vInputQueue.push_back(INPUT_DOWN);
+					else
+						continue;
+				}
+
+				// At this point it should be where we want, finish the order
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
+		case AIO_PICKABILITY:
+			{
+				int* pAbilityNum = (int*)order.first;
+				int abilSlot = *pAbilityNum;
+				delete pAbilityNum;
+
+				// Now we know what ability we want to get and accept on, let's go ahead and find it
+				switch (abilSlot)
+				{
+				case 1:
+					m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_1);
+					break;
+				case 2:
+					m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_2);
+					break;
+				case 3:
+					m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+					break;
+				}
+
+				// So now we have it highlighted with our cursor, lets hit enter to pick it
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
+		case AIO_PICKSPELL:
+			{
+				int* pSpellNum = (int*)order.first;
+				int pSpellSlot = *pSpellNum;
+				delete pSpellNum;
+
+				// Since we want a spell, we need to pick ability 3 and press accept to go into the spell panel
+				m_vInputQueue.push_back(INPUT_AI_SELECTABILITY_3);
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				// Now we're in the spell panel, pick the ability you want
+				switch (pSpellSlot)
+				{
+				case 1:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL1);
+					break;
+				case 2:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL2);
+					break;
+				case 3:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL3);
+					break;
+				case 4:
+					m_vInputQueue.push_back(INPUT_AI_SELECTSPELL4);
+					break;
+				}
+
+				// Spell is highlighted, lets push enter to begin it's mode
+				m_vInputQueue.push_back(INPUT_ACCEPT);
+
+				m_vInputQueue.push_back(INPUT_AI_ORDERFINISHED);
+			}
+			break;
+		}
+		// Remove the order from the queue, we should be done at this point
+		m_vOrderQueue.erase(m_vOrderQueue.begin());
+
+		return true;
+	}
+
+	return false;
+}
 void CAIManager::UpdateAI(float fElapsedTime)
 {
 	bool bAITurn = false;
@@ -1017,80 +1381,224 @@ void CAIManager::UpdateAI(float fElapsedTime)
 		if (CheckInputQueue(fElapsedTime))
 			return;
 
-		if (m_vUnitsToHandle.size() == 0)
+		if (CheckOrderQueue(fElapsedTime))
+			return;
+
+		if (m_vUnitsToHandle.size() != 0)
 		{
-			// im done all my stuff this phase, move onto next phase!
-			m_vInputQueue.push_back(INPUT_START);
+				RunAIScript(m_vUnitsToHandle.front());
 		}
 
-		if (CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
+		//if (m_vUnitsToHandle.size() == 0)
+		//{
+		//	// im done all my stuff this phase, move onto next phase!
+		//	m_vInputQueue.push_back(INPUT_START);
+		//}
+
+		//if (CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
+		//{
+		//	if (m_bDone == true)
+		//	{
+		//		if (m_bSelected)
+		//		{
+		//			if (m_bAttacked )
+		//			{
+		//				AttackUnit(m_pFocusUnit);
+		//				m_bSelected = false;
+		//				m_bAttacked = false;
+		//			}
+
+		//		}
+		//		else if (m_bSelected == false)
+		//		{
+		//			if (m_vUnitsToHandle.size() != 0)
+		//			{
+		//				m_pFocusUnit = m_vUnitsToHandle.back();
+		//				m_bSelected = false;
+		//				m_vUnitsToHandle.pop_back();
+		//			}
+		//			else
+		//				m_pFocusUnit = nullptr;
+
+		//			if (m_pFocusUnit != nullptr)
+		//				SelectUnit(m_pFocusUnit);
+		//		}
+		//	}
+
+
+		//}
+		//else if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+		//{
+		//	if (m_bDone == true)
+		//	{
+		//		if (m_bSelected == true)
+		//		{
+		//			if (m_bMoved == true)
+		//			{
+		//				MoveUnit(m_pFocusUnit);
+		//				m_bSelected = false;
+		//				m_bMoved = false;
+		//			}
+		//		}
+		//		else if (m_bSelected == false)
+		//		{
+		//			if (m_vUnitsToHandle.size() != 0)
+		//			{
+		//				m_pFocusUnit = m_vUnitsToHandle.back();
+		//				m_bSelected = false;
+		//				m_vUnitsToHandle.pop_back();
+		//			}
+		//			else
+		//				m_pFocusUnit = nullptr;
+
+		//			if (m_pFocusUnit != nullptr)
+		//				SelectUnit(m_pFocusUnit);
+		//		}
+		//	}
+		//}
+	}
+
+}
+
+// ISSUE ORDER takes in a few different things depending on the order you are issueing.
+// The first variable is the order type. Orders are case sensitive, so dont capitalize
+// The next variables depend on the order type
+int CAIManager::IssueOrder(lua_State* L)
+{
+	std::string orderString = lua_tostring(L, 1);
+	CAIManager* pAIM = CAIManager::GetInstance();
+	if (orderString.compare("deselectall") == 0)
+	{
+		AIOrder order;
+		order.second = AIO_DESELECTALL;
+		pAIM->m_vOrderQueue.push_back(order);
+
+	}
+	else if (orderString.compare("selectunit") == 0)
+	{
+		// The order was select unit. In this case, we are selecting via uniqueID
+		CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID((int)lua_tointeger(L, 2));
+		if (pUnit == nullptr)
+			return 0;
+
+		AIOrder order;
+		order.first = pUnit;
+		order.second = AIO_SELECT;
+		pAIM->m_vOrderQueue.push_back(order);
+	}
+	else if (orderString.compare("move") == 0)
+	{
+		int nposX = lua_tointeger(L, 2);
+		int nposY = lua_tointeger(L, 3);
+
+		AIOrder order;
+		order.first = new Vec2D(nposX, nposY);
+		order.second = AIO_MOVE;
+		pAIM->m_vOrderQueue.push_back(order);
+	}
+	else if (orderString.compare("skirmish") == 0)
+	{
+		// Scatter the unit in any direction as long as it's not right where we are!
+		int nUnitID = lua_tointeger(L, 2);
+		AIOrder order;
+		order.first = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+		order.second = AIO_SKIRMISH;
+		pAIM->m_vOrderQueue.push_back(order);
+
+	}
+	return 0;
+}
+
+void CAIManager::RunAIScript(CUnit* pUnit)
+{
+	lua_State* L = CScriptManager::GetInstance()->GetLuaState();
+
+	lua_pushinteger(L, pUnit->GetUniqueID());
+	lua_setglobal(L, "unitID");
+
+	std::string path;
+	switch (pUnit->GetType())
+	{
+	case UT_ARCHER:
+		path = "Assets/Scripts/ai_archer.lua";
+		break;
+	case UT_CASTLE:
+		path = "Assets/Scripts/ai_castle.lua";
+		break;
+	case UT_HERO:
+		path = "Assets/Scripts/ai_hero.lua";
+		break;
+	case UT_CAVALRY:
+		path = "Assets/Scripts/ai_cavalry.lua";
+		break;
+	case UT_SWORDSMAN:
+		path = "Assets/Scripts/ai_swordsman.lua";
+		break;
+	case UT_SKELETON:
+		path = "Assets/Scripts/ai_skeleton.lua";
+		break;
+	case UT_ICEBLOCK:
+		path = "Assets/Scripts/ai_iceblock.lua";
+		break;
+	}
+
+	luaL_dofile(L, path.c_str());
+
+	if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+	{
+		lua_getglobal(L, "Move");
+	}
+	else if (CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
+	{
+		lua_getglobal(L, "Attack");
+	}
+	lua_pcall(L, 0, 0, 0);
+
+
+
+	// By here we've run the LUA script and we should be done with the unit, so pop him off the list of guys to handle
+	m_vUnitsToHandle.erase(m_vUnitsToHandle.begin());
+}
+int CAIManager::FindNearest(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	CUnit* pSelectUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+	int nLowestDistance = INT_MAX;
+	CUnit* pNearestEnemy;
+
+	for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
+	{
+		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 		{
-			if (m_bDone == true)
+			CUnit* pWorkUnit = CGameManager::GetInstance()->GetUnits()[i];
+			int xDist = (pWorkUnit->GetPos().nPosX - pSelectUnit->GetPos().nPosX);
+			int yDist = (pWorkUnit->GetPos().nPosY - pSelectUnit->GetPos().nPosY);
+			int dist = (int)(abs((double)xDist) + abs((double)yDist));
+			if (dist < nLowestDistance)
 			{
-				if (m_bSelected)
-				{
-					if (m_bAttacked )
-					{
-						AttackUnit(m_pFocusUnit);
-						m_bSelected = false;
-						m_bAttacked = false;
-					}
-
-				}
-				else if (m_bSelected == false)
-				{
-					if (m_vUnitsToHandle.size() != 0)
-					{
-						m_pFocusUnit = m_vUnitsToHandle.back();
-						m_bSelected = false;
-						m_vUnitsToHandle.pop_back();
-					}
-					else
-						m_pFocusUnit = nullptr;
-
-					if (m_pFocusUnit != nullptr)
-						SelectUnit(m_pFocusUnit);
-				}
-			}
-
-
-		}
-		else if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
-		{
-			if (m_bDone == true)
-			{
-				if (m_bSelected == true)
-				{
-					if (m_bMoved == true)
-					{
-						MoveUnit(m_pFocusUnit);
-						m_bSelected = false;
-						m_bMoved = false;
-					}
-				}
-				else if (m_bSelected == false)
-				{
-					if (m_vUnitsToHandle.size() != 0)
-					{
-						m_pFocusUnit = m_vUnitsToHandle.back();
-						m_bSelected = false;
-						m_vUnitsToHandle.pop_back();
-					}
-					else
-						m_pFocusUnit = nullptr;
-
-					if (m_pFocusUnit != nullptr)
-						SelectUnit(m_pFocusUnit);
-				}
+				nLowestDistance = dist;
+				pNearestEnemy = pWorkUnit;
 			}
 		}
 	}
 
-}
-void CAIManager::AddObject(CUnit* obj)
-{
+	if (pNearestEnemy == nullptr)
+		return 0;
+
+	lua_pushinteger(L, pNearestEnemy->GetUniqueID());
+	return 1;
 }
 
+int CAIManager::FindChampion(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+	
+	CUnit* pChampion = CGameManager::GetInstance()->GetChampion(pUnit->GetPlayerID());
+
+	lua_pushinteger(L, pChampion->GetUniqueID());
+	return 1;
+}
 
 CAIManager::CAIManager(void)
 {
@@ -1098,3 +1606,4 @@ CAIManager::CAIManager(void)
 CAIManager::~CAIManager(void)
 {
 }
+

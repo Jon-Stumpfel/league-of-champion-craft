@@ -1354,12 +1354,15 @@ void CGameplayState::Update(float fElapsedTime)
 
 	if (pDI->KeyPressed(DIK_J))
 	{
-		int xRand = rand() % 800;
-		int yRand = rand() % 600;
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, -50.0f), 5.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(0.0f, 50.0f), 5.0f, 0.5f);
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(50.0f, 0.0f), 5.0f, 0.5f);
-		CFloatingText::GetInstance()->AddText(std::string("test"), Vec2Df(50.0f, 100.0f), Vec2Df(-50.0f, 0.0f), 5.0f, 0.5f);
+		//AIOrder aiord;
+		//aiord.first = CGameManager::GetInstance()->GetChampion(1);
+		//aiord.second = AIO_SELECT;
+		//CAIManager::GetInstance()->m_vOrderQueue.push_back(aiord);
+		//aiord.first = new Vec2D(CGameManager::GetInstance()->GetChampion(0)->GetPos().nPosX, CGameManager::GetInstance()->GetChampion(0)->GetPos().nPosY);
+		//aiord.second = AIO_MOVE;
+		//CAIManager::GetInstance()->m_vOrderQueue.push_back(aiord);
+
+		CAIManager::GetInstance()->RunAIScript(CGameManager::GetInstance()->GetChampion(0));
 	}
 
 	if (m_bIsHighlighting == true)
@@ -1414,12 +1417,6 @@ void CGameplayState::Update(float fElapsedTime)
 		m_nSpellPanelOffsetY += (int)(650 * fElapsedTime);
 		if (m_nSpellPanelOffsetY > CGame::GetInstance()->GetWindowHeight())
 			m_nSpellPanelOffsetY = CGame::GetInstance()->GetWindowHeight();
-	}
-
-	if (pDI->KeyPressed(DIK_R))
-	{
-		CAddResourceMessage* pMsg = new CAddResourceMessage(TT_MILL, 0);
-		CMessageSystem::GetInstance()->SendMessageW(pMsg);
 	}
 	// Testing Particle Rendering
 	CAIManager::GetInstance()->UpdateAI(fElapsedTime);
