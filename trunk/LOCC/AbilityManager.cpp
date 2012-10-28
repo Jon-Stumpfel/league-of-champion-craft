@@ -260,6 +260,12 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
+			case SP_SWORDDANCE:
+				{
+					if( doc.LoadFile( "Assets/Ability/SwordDance.xml") == false )
+						return;
+				}
+				break;
 		default:
 			continue;
 		}
@@ -781,6 +787,20 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_BLADESTORM;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_SWORDDANCE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_SWORDDANCE);
+					ab->SetParticleType(PT_BLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The Champion stabs in all direction around him");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_SWORDDANCE;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
