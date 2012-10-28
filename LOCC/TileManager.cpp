@@ -92,6 +92,9 @@ bool CTileManager::LoadSave( std::string sFilename )
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Tiles/MapEditorFrozenTiles.png"),_T("iceTile"),D3DCOLOR_XRGB(0,0,0));
 	m_nFrozenTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("iceTile"));
 
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Tiles/TurnedCaptureFlags.png"),_T("flags"),D3DCOLOR_XRGB(0,0,0));
+	m_nFlagID= CGraphicsManager::GetInstance()->GetID(_T("flags"));
+
 	TiXmlElement* pTiles = pRoot->FirstChildElement("Tiles");
 	TiXmlElement* pTile = pTiles->FirstChild("Tile")->ToElement();
 
@@ -296,6 +299,37 @@ void CTileManager::Render( void )
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				
+			}
+			if (m_pTileMap[i][j].GetIfCaptured())
+			{
+				if (m_pTileMap[i][j].GetPlayerID()==0)
+				{
+					Rsource = CellAlgorithm(F_BLUE_CAPTURED);
+					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+				}
+				else if (m_pTileMap[i][j].GetPlayerID()==1)
+				{
+					Rsource = CellAlgorithm(F_RED_CAPTURED);
+					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+				}
+			}
+
+			if (m_pTileMap[i][j].GetIfCapturing())
+			{
+				if (m_pTileMap[i][j].GetPlayerID()==0)
+				{
+					Rsource = GetFlag(F_BLUE_CAPTURING);
+					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+				}
+				else if (m_pTileMap[i][j].GetPlayerID()==1)
+				{
+					Rsource = GetFlag(F_RED_CAPTURING);
+					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+				}
 			}
 		}
 	}
