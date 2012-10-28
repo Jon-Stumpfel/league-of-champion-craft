@@ -133,6 +133,7 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
+
 		case SP_RAISEMOUNTAIN:
 			{
 				if(doc.LoadFile("Assets/Ability/raisemountain.xml") == false)
@@ -146,12 +147,14 @@ void CAbilityManager::LoadAbilities( void )
 					return;
 			}
 			break;
+
 		case SP_RAISEDEAD:
 			{
 				if( doc.LoadFile("Assets/Ability/raisedead.xml") == false )
 					return;
 			}
 			break;
+
 			case SP_VOLLEY:
 			{
 				if( doc.LoadFile("Assets/Ability/volley.xml") == false )
@@ -467,6 +470,7 @@ void CAbilityManager::LoadAbilities( void )
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
 			case SP_PATHFINDER:
 				{
 					ab->SetIsMove(false);
@@ -527,6 +531,7 @@ void CAbilityManager::LoadAbilities( void )
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
 			case SP_RAISEDEAD:
 				{
 					ab->SetIsMove(false);
