@@ -2046,91 +2046,97 @@ void CGameplayState::Render(void)
 
 	// MINI MAP TIME! Render this ontop of the interface thing. Will need to tweak when we go isometric
 
-	int nMiniMapOffsetX = 10;
-	int nMiniMapOffsetY = 440;
-	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY, nMiniMapOffsetX + 225, nMiniMapOffsetY + 152};
+	int nMiniMapOffsetX = 23;
+	int nMiniMapOffsetY = 446;
+	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY, nMiniMapOffsetX + 170, nMiniMapOffsetY + 152};
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	//CSGD_Direct3D::GetInstance()->DrawRect(miniR, 0, 0, 0);
 
-	float nMiniMapWidth = 225.0f;
-	float nMiniMapHeight = 152.0f;
+	float nMiniMapWidth = 158;
+	float nMiniMapHeight = 135;
 	float nMiniTileWidth = nMiniMapWidth / CTileManager::GetInstance()->GetNumRows();
 	float nMiniTileHeight = nMiniMapHeight / CTileManager::GetInstance()->GetNumColumns();
 
 	
 
 	//// Render the tiles. Only using colored blocks for now
-	//for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
-	//	for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
-	//	{
-	//		RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
-	//			(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
-	//			(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
-	//			(LONG)(j * nMiniTileHeight + nMiniTileHeight+ nMiniMapOffsetY)};
-	//		int r = 0;
-	//		int g = 0;
-	//		int b = 0;
-	//		CTile* pTile = CTileManager::GetInstance()->GetTile(i, j);
-	//		RECT rSrc;
-	//		switch (pTile->GetTileType())
-	//		{
-	//		case TT_PLAINS:
-	//			rSrc = CellAlgorithm(TT_PLAINS);
-	//			g=177; r=34; b=76; break;
-	//		case TT_FOREST:
-	//			rSrc = CellAlgorithm(TT_FOREST);
-	//			g=128; r=0; b=0; break;
-	//		case TT_MOUNTAINS:
-	//			rSrc = CellAlgorithm(TT_MOUNTAINS);
-	//			g=64;r=128; b=0; break;
-	//		case TT_WATER:
-	//			rSrc = CellAlgorithm(TT_WATER);
-	//			g=128;r=0;b=192;break; 
-	//		case TT_MINE:
-	//			rSrc = CellAlgorithm(TT_MINE);
-	//			g=64;r=128; b=0; break;
-	//		case TT_MILL:
-	//			rSrc = CellAlgorithm(TT_MILL);
-	//			g=128; r=0; b=0; break;
-	//		case TT_FARM:
-	//			rSrc = CellAlgorithm(TT_FARM);
-	//			g=177; r=34; b=76; break;
-	//		case TT_CASTLE:
-	//			rSrc = CellAlgorithm(TT_CASTLE);
-	//		default:
-	//			g=177; r=34; b=76; break;
-	//		}
-	//		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
-	//			tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
+	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
+		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
+		{
+			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
+				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
+				(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
+				(LONG)(j * nMiniTileHeight + nMiniTileHeight+ nMiniMapOffsetY)};
+			int r = 0;
+			int g = 0;
+			int b = 0;
+			CTile* pTile = CTileManager::GetInstance()->GetTile(i, j);
+			RECT rSrc;
+			switch (pTile->GetTileType())
+			{
+			case TT_PLAINS:
+				rSrc = CellAlgorithm(TT_PLAINS);
+				g=177; r=34; b=76; break;
+			case TT_FOREST:
+				rSrc = CellAlgorithm(TT_FOREST);
+				g=128; r=0; b=0; break;
+			case TT_MOUNTAINS:
+				rSrc = CellAlgorithm(TT_MOUNTAINS);
+				g=64;r=128; b=0; break;
+			case TT_WATER:
+				rSrc = CellAlgorithm(TT_WATER);
+				g=128;r=0;b=192;break; 
+			case TT_MINE:
+				rSrc = CellAlgorithm(TT_MINE);
+				g=64;r=128; b=0; break;
+			case TT_MILL:
+				rSrc = CellAlgorithm(TT_MILL);
+				g=128; r=0; b=0; break;
+			case TT_FARM:
+				rSrc = CellAlgorithm(TT_FARM);
+				g=177; r=34; b=76; break;
+			case TT_CASTLE:
+				rSrc = CellAlgorithm(TT_CASTLE);
+			default:
+				g=177; r=34; b=76; break;
+			}
+			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
+				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 
-	//		//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
+			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
 
-	//		r = 255 * !(pTile->GetPlayerID());
-	//		b = 255 * (pTile->GetPlayerID());
-	//		g = 0;
-	//		switch (pTile->GetTileType())
-	//		{
-	//		case TT_MILL:
-	//		case TT_MINE:
-	//		case TT_FARM:
-	//			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("minitriangle")),
-	//				(int)tileRect.left + 1, (int)tileRect.top + 1, 1.0f, 1.0f,(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r,g,b));
-	//			break;
-	//		}
-	//	}
+			r = 255 * !(pTile->GetPlayerID());
+			b = 255 * (pTile->GetPlayerID());
+			g = 0;
 
-	//	// Render the units as circles
-	//	for (decltype(CGameManager::GetInstance()->GetUnits().size()) i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
-	//	{
-	//		int r = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 0);
-	//		int b = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 1);
-	//		int g = 0;
-	//		CSGD_TextureManager::GetInstance()->Draw(
-	//			CGraphicsManager::GetInstance()->GetID(_T("minicircle")),
-	//			int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosX * nMiniTileWidth + nMiniMapOffsetX + 1),
-	//			int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosY * nMiniTileHeight + nMiniMapOffsetY),
-	//			1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
-	//	}
+
+			if (r == 0 && g == 0 && b == -255)
+			{
+				r = b = g = 110;
+			}
+			switch (pTile->GetTileType())
+			{
+			case TT_MILL:
+			case TT_MINE:
+			case TT_FARM:
+				CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("minitriangle")),
+					(int)tileRect.left, (int)tileRect.top, 0.7f, 0.7f,(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r,g,b));
+				break;
+			}
+		}
+
+		// Render the units as circles
+		for (decltype(CGameManager::GetInstance()->GetUnits().size()) i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
+		{
+			int r = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 0);
+			int b = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 1);
+			int g = 0;
+			CSGD_TextureManager::GetInstance()->Draw(
+				CGraphicsManager::GetInstance()->GetID(_T("minicircle")),
+				int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosX * nMiniTileWidth + nMiniMapOffsetX + 1),
+				int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosY * nMiniTileHeight + nMiniMapOffsetY),
+				0.7f, 0.7f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
+		}
 	//	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 		// UNIT CARD STUFF HOORAY
