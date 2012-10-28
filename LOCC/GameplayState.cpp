@@ -866,7 +866,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 				{
 				
 
-					if( ability->GetType() == SP_CHARGE )
+					if( ability->GetType() == SP_CHARGE || ability->GetType() == SP_RUSH )
 					{
 						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
 							return;
@@ -897,7 +897,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 					CAbilityManager* pAM = CAbilityManager::GetInstance();
 
-					if( ability->GetType() == SP_CHARGE )
+					if( ability->GetType() == SP_CHARGE || ability->GetType() == SP_RUSH)
 					{
 						CTileManager* pTM = CTileManager::GetInstance();
 						m_bIsMoving = true;
@@ -1523,7 +1523,7 @@ void CGameplayState::Render(void)
 				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
 			else
 			{
-				if( drawAbility->GetType() == SP_CHARGE || drawAbility->GetType() == SP_ICEAGE )
+				if( drawAbility->GetType() == SP_CHARGE || drawAbility->GetType() == SP_ICEAGE ||  drawAbility->GetType() == SP_RUSH )
 				{
 					range = CAbilityManager::GetInstance()->GetProperFacing(m_pSelectedUnit->GetFacing(), drawAbility, 
 												CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY));
@@ -1532,12 +1532,16 @@ void CGameplayState::Render(void)
 					range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
 			}
 
-			if( drawAbility->GetType() != SP_CHARGE )
+			if( drawAbility->GetType() !=  SP_CHARGE )
 			{
 				pattern = CAbilityManager::GetInstance()->GetProperFacing(m_pSelectedUnit->GetFacing(), drawAbility, 
 												CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY));
 			}
 
+			if( drawAbility->GetType() ==  SP_RUSH  )
+			{
+				pattern.clear();
+			}
 			if( drawAbility->GetApCost() == 5 )
 				int i = 0;
 			if (drawAbility != nullptr && !drawAbility->m_bIsMove)

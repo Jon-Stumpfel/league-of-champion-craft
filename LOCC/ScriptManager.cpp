@@ -127,7 +127,7 @@ void CScriptManager::Execute( CAbility* pAbility, CTile* pTile, CUnit* pCaster, 
 		{
 			CUnit* tmp = pGM->FindUnit(TilePos[i].nPosX, TilePos[i].nPosY);
 		
-			if( pAbility->GetType() == SP_CHARGE )
+			if( pAbility->GetType() == SP_CHARGE || pAbility->GetType() == SP_RUSH )
 			{
 				if( TilePos[i] == TileCharged->GetPosition() )
 					break;
