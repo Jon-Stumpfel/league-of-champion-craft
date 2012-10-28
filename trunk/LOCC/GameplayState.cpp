@@ -898,7 +898,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					if( Champ != nullptr )
 						Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
-					if( ability->GetType() == SP_CHARGE )
+					if( ability->GetIfFacing() )
 					{
 						std::vector<Vec2D> vec = CAbilityManager::GetInstance()->GetProperFacing( m_pSelectedUnit->GetFacing(), ability, m_pTargetedTile );
 						int size = (int)vec.size()-1;
@@ -964,7 +964,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 			if( m_pSelectedUnit->GetType() == UT_HERO && Champ != nullptr )
 				Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
-			if( ability->GetType() == SP_ICEAGE )
+			if( ability->GetIfFacing() )
 			{
 				std::vector<Vec2D> vec = CAbilityManager::GetInstance()->GetProperFacing( m_pSelectedUnit->GetFacing(), ability, m_pTargetedTile );
 				int size = (int)vec.size()-1;
