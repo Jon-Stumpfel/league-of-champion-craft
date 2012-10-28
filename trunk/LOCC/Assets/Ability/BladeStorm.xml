@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="2" APCost="3" Cooldown="3" Target="0" SpellName="Blade Storm" Attack="1" Facing="0" Phase="0" LuaPath="BladeStorm.lua" ParticlePath="blood.xml" IconPath="BladeStorm.png" SoundPath="thunder2.wav">
+  <Tile PosX="-1" PosY="1" />
+  <Tile PosX="-1" PosY="0" />
+  <Tile PosX="-1" PosY="-1" />
+  <Tile PosX="0" PosY="1" />
+  <Tile PosX="0" PosY="-1" />
+  <Tile PosX="1" PosY="1" />
+  <Tile PosX="1" PosY="0" />
+  <Tile PosX="1" PosY="-1" />
+</Ability>
