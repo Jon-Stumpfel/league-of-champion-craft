@@ -283,6 +283,10 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "GetUnitPosition", CUnit::GetUnitPosition);
 	lua_register(L, "GetFleeing", CUnit::GetFleeing);
 	lua_register(L, "FindChampion", CAIManager::FindChampion);
+	lua_register(L, "GetHealth", CUnit::GetHealth);
+	lua_register(L, "GetMaxHealth", CUnit::GetMaxHealth);
+	lua_register(L, "GetTilesMoved", CUnit::GetTilesMoved);
+	lua_register(L, "FindUnitByTile", CAIManager::FindUnitByTile);
 }
 
 void CScriptManager::Shutdown( void )

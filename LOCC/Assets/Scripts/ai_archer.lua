@@ -11,6 +11,8 @@ function Move()
 	targetX, targetY = GetUnitPosition(nearestID);
 	localX, localY = GetUnitPosition(unitID);
 	
+	pixelX, pixelY = TranslateToPixel(localX, localY);
+	AddText("Archer Move...", pixelX, pixelY, 0, -40, 5, 0.4, 20, 255, 20);
 	-- lets check if we are fleeing before we do anything
 	isFleeing = GetFleeing(unitID);
 	if (isFleeing == true) then
@@ -47,13 +49,48 @@ end
 
 
 function Attack()
-	AttackNearest()
+
+	localX, localY = GetUnitPosition(unitID);
+	pixelX, pixelY = TranslateToPixel(localX, localY);
+	AddText("Archer Attack...", pixelX, pixelY, 0, -40, 5, 0.4, 20, 255, 20);	
+
+		nearestID = FindNearest(unitID);
+	targetX, targetY = GetUnitPosition(nearestID);
+	localX, localY = GetUnitPosition(unitID);
+	distancex = math.abs((targetX - localX));
+
+	distancey = math.abs((targetY - localY));
+
+	totdistance = distancex + distancey;
+	
+	tilesMoved = GetTilesMoved(unitID);
+	enemyHealth = GetHealth(nearestID);
+	if (totdistance > 0) then
+		IssueOrder("deselectall");
+	elseif ((tilesMoved == 0) and(enemyHealth < 12)) then
+		Volley()
+	else
+		AttackNearest()
+	end
+
+end
+
+function Volley()
+	localX, localY = GetUnitPosition(unitID);
+	pixelX, pixelY = TranslateToPixel(localX, localY);
+	AddText("Volley ...", pixelX, pixelY, 0, -40, 5, 0.4, 255, 20, 20);	
+	IssueOrder("deselectall");
+	IssueOrder("selectunit", unitID);
+	IssueOrder("selectability", 3);
+	IssueOrder("selectunit", nearestID);
 end
 
 function AttackNearest()
 	nearestID = FindNearest(unitID);
 	targetX, targetY = GetUnitPosition(nearestID);
-	
+	localX, localY = GetUnitPosition(unitID);
+	pixelX, pixelY = TranslateToPixel(localX, localY);
+	AddText("Normal Attack ...", pixelX, pixelY, 0, -40, 5, 0.4, 255, 20, 20);
 	IssueOrder("deselectall");
 	IssueOrder("selectunit", unitID);
 	IssueOrder("selectability", 2);

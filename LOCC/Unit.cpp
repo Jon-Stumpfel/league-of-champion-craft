@@ -857,3 +857,43 @@ int CUnit::GetFleeing(lua_State* L)
 	return 1;
 }
 
+int CUnit::GetTilesMoved(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+
+
+	int nTilesMoved = pUnit->GetTilesMoved();
+	
+	lua_pushinteger(L, nTilesMoved);
+
+	return 1;
+}
+
+int CUnit::GetHealth(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+
+
+	int nHealth = pUnit->GetHP();
+	
+	lua_pushinteger(L, nHealth);
+
+	return 1;
+}
+int CUnit::GetMaxHealth(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+
+
+	int nMaxHP = pUnit->GetMaxHP();
+	
+	lua_pushinteger(L, nMaxHP);
+
+	return 1;
+}

@@ -1,8 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Map mapID="1" phaseNumber="1" phase="1" currPlayer="1">
+<Map mapID="1" phaseNumber="2" phase="0" currPlayer="0">
     <MapModifications numModifications="0" />
     <Players>
-        <Player id="0" ai="0" AP="30" wood="20" metal="20">
+        <Player id="0" ai="0" AP="16" wood="20" metal="20">
+            <Stats numStats="17">
+                <ChampionDamageDone value="0" />
+                <ChampionHealingDone value="0" />
+                <SwordsmanCreated value="1" />
+                <ArcherCreated value="1" />
+                <CalvaryCreated value="0" />
+                <SwordsmanDamageDone value="0" />
+                <ArcherDamageDone value="0" />
+                <CalvaryDamageDone value="0" />
+                <SwordsmanKilled value="0" />
+                <ArcherKilled value="0" />
+                <CalvaryKilled value="0" />
+                <WoodEarned value="0" />
+                <MetalEarned value="0" />
+                <WoodSpent value="0" />
+                <MetalSpent value="0" />
+                <APSpent value="14" />
+            </Stats>
+            <Champion posX="5" posY="4" health="50" xp="1000" facing="2" tilesMoved="3" hasAttacked="0">
+                <Spells numSpells="4">
+                    <Spell sType="9" />
+                    <Spell sType="0" />
+                    <Spell sType="0" />
+                    <Spell sType="0" />
+                </Spells>
+                <BoughtSpells numBought="1">
+                    <Bought Type="9" />
+                </BoughtSpells>
+                <Effects numEffects="0" />
+            </Champion>
+            <Units numUnits="3">
+                <Unit posX="3" posY="2" unitType="2" health="12" facing="2" tilesMoved="0" hasAttacked="0">
+                    <Effects numEffects="0" />
+                </Unit>
+                <Unit posX="6" posY="5" unitType="3" health="20" facing="2" tilesMoved="4" hasAttacked="0">
+                    <Effects numEffects="1">
+                        <Effect ability="9" />
+                    </Effects>
+                </Unit>
+                <Unit posX="4" posY="0" unitType="0" health="500" facing="2" tilesMoved="0" hasAttacked="0">
+                    <Effects numEffects="0" />
+                </Unit>
+            </Units>
+        </Player>
+        <Player id="1" ai="1" AP="30" wood="20" metal="20">
             <Stats numStats="17">
                 <ChampionDamageDone value="0" />
                 <ChampionHealingDone value="0" />
@@ -21,46 +66,6 @@
                 <MetalSpent value="0" />
                 <APSpent value="0" />
             </Stats>
-            <Champion posX="4" posY="2" health="50" xp="1100" facing="2" tilesMoved="0" hasAttacked="0">
-                <Spells numSpells="4">
-                    <Spell sType="0" />
-                    <Spell sType="0" />
-                    <Spell sType="0" />
-                    <Spell sType="0" />
-                </Spells>
-                <Effects numEffects="0" />
-            </Champion>
-            <Units numUnits="3">
-                <Unit posX="3" posY="2" unitType="2" health="6" facing="2" tilesMoved="0" hasAttacked="0">
-                    <Effects numEffects="0" />
-                </Unit>
-                <Unit posX="5" posY="2" unitType="3" health="20" facing="2" tilesMoved="0" hasAttacked="0">
-                    <Effects numEffects="0" />
-                </Unit>
-                <Unit posX="4" posY="0" unitType="0" health="500" facing="2" tilesMoved="0" hasAttacked="0">
-                    <Effects numEffects="0" />
-                </Unit>
-            </Units>
-        </Player>
-        <Player id="1" ai="0" AP="29" wood="20" metal="20">
-            <Stats numStats="17">
-                <ChampionDamageDone value="0" />
-                <ChampionHealingDone value="0" />
-                <SwordsmanCreated value="1" />
-                <ArcherCreated value="1" />
-                <CalvaryCreated value="0" />
-                <SwordsmanDamageDone value="0" />
-                <ArcherDamageDone value="6" />
-                <CalvaryDamageDone value="0" />
-                <SwordsmanKilled value="0" />
-                <ArcherKilled value="0" />
-                <CalvaryKilled value="0" />
-                <WoodEarned value="0" />
-                <MetalEarned value="0" />
-                <WoodSpent value="0" />
-                <MetalSpent value="0" />
-                <APSpent value="1" />
-            </Stats>
             <Champion posX="4" posY="5" health="50" xp="1100" facing="0" tilesMoved="0" hasAttacked="0">
                 <Spells numSpells="4">
                     <Spell sType="0" />
@@ -68,10 +73,11 @@
                     <Spell sType="0" />
                     <Spell sType="0" />
                 </Spells>
+                <BoughtSpells numBought="0" />
                 <Effects numEffects="0" />
             </Champion>
             <Units numUnits="3">
-                <Unit posX="3" posY="5" unitType="2" health="12" facing="0" tilesMoved="0" hasAttacked="1">
+                <Unit posX="3" posY="5" unitType="2" health="12" facing="0" tilesMoved="0" hasAttacked="0">
                     <Effects numEffects="0" />
                 </Unit>
                 <Unit posX="5" posY="5" unitType="3" health="20" facing="0" tilesMoved="0" hasAttacked="0">
