@@ -23,8 +23,8 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 
 	GiveSpell(SP_LIGHTCHAIN);
-	GiveSpell(SP_LIGHTSTRIKE);
-	GiveSpell(SP_HEAL);
+	GiveSpell(SP_SKILLSHOT);
+	GiveSpell(SP_WHIRLWIND);
 	GiveSpell(SP_SHIELD);
 	//GiveSpell(SP_LIGHTSTRIKE);
 	//GiveSpell(SP_FIREWEP);

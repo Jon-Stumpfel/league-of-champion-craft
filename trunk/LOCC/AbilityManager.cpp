@@ -232,6 +232,13 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
+			
+			case SP_WHIRLWIND:
+				{
+					if( doc.LoadFile( "Assets/Ability/whirlwind.xml") == false )
+						return;
+				}
+				break;
 
 		default:
 			continue;
@@ -695,6 +702,20 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_LIGHTCHAIN;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_WHIRLWIND:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_WHIRLWIND);
+					ab->SetParticleType(PT_WHIRLWIND);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("A Spinning Attack so fast that The Champion's sheer velocity throws back units");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_WHIRLWIND;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
