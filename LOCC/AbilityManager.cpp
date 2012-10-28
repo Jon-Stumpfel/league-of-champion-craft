@@ -272,6 +272,12 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
+			case SP_KILL:
+				{
+					if( doc.LoadFile( "Assets/Ability/Assassinate.xml") == false )
+						return;
+				}
+				break;
 		default:
 			continue;
 		}
@@ -820,10 +826,24 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_RUSH);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion runs foward, atacking eneimes in fron of him");
+					ab->SetDescription("The Champion runs foward, atacking enemies in front of him");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RUSH;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+			case SP_KILL:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_KILL);
+					ab->SetParticleType(PT_BLOOD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription("The Champion Does massive damage to an enemy near him");
+					ab->SetDamage(9);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_KILL;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
