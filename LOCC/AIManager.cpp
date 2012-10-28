@@ -49,7 +49,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.2f)
+		if (fTimeToPop > 0.8f)
 		{
 			if (m_vInputQueue.front() == INPUT_AI_ORDERFINISHED)
 			{
@@ -1505,6 +1505,14 @@ int CAIManager::IssueOrder(lua_State* L)
 		order.second = AIO_SKIRMISH;
 		pAIM->m_vOrderQueue.push_back(order);
 
+	}
+	else if (orderString.compare("selectability") == 0)
+	{
+		int nAbilityID = lua_tointeger(L, 2);
+		AIOrder order;
+		order.first = new int(nAbilityID);
+		order.second = AIO_PICKABILITY;
+		pAIM->m_vOrderQueue.push_back(order);
 	}
 	return 0;
 }

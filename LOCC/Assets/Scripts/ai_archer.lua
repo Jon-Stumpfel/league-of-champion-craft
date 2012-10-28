@@ -29,18 +29,13 @@ function Move()
 end
 
 function Flee()
-	localX, localY = GetUnitPosition(unitID);
-	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Fleeing...!", pixelX, pixelY, 0, -10, 6, 0.4, 255, 20, 20);
 	championID = FindChampion(unitID);
 	targetX, targetY = GetUnitPosition(championID);	
 	IssueOrder("move", targetX, targetY);
 end
 
 function Skirmish()
-	localX, localY = GetUnitPosition(unitID);
-	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Skirmishing...", pixelX, pixelY, 0, -10, 6, 0.4, 255, 20, 20);
+
 	IssueOrder("skirmish", unitID);
 
 end
@@ -52,5 +47,15 @@ end
 
 
 function Attack()
+	AttackNearest()
+end
+
+function AttackNearest()
+	nearestID = FindNearest(unitID);
+	targetX, targetY = GetUnitPosition(nearestID);
 	
+	IssueOrder("deselectall");
+	IssueOrder("selectunit", unitID);
+	IssueOrder("selectability", 2);
+	IssueOrder("selectunit", nearestID);
 end
