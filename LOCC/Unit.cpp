@@ -820,19 +820,19 @@ int CUnit::RaiseDead(lua_State* L)
 }
 int CUnit::Whirlwind(lua_State* L)
 {	
-		//LUA Lovin' : get the guy effect
-		int ntheguy = lua_tointeger(L, 1);
-		CUnit* guyontile = CGameManager::GetInstance()->GetUnitByID(ntheguy);
+	//LUA Lovin' : get the guy effect
+	int ntheguy = lua_tointeger(L, 1);
+	CUnit* guyontile = CGameManager::GetInstance()->GetUnitByID(ntheguy);
 
-		Vec2D nextopen = CAIManager::GetInstance()->NearestOpen(guyontile->GetPos(),CGameplayState::GetInstance()->GetSelectedUnit()->GetPos());
-		guyontile->AddWaypoint(CTileManager::GetInstance()->GetTile(nextopen.nPosX,nextopen.nPosY));
+	Vec2D nextopen = CAIManager::GetInstance()->NearestOpen(guyontile->GetPos(),CGameplayState::GetInstance()->GetSelectedUnit()->GetPos());
+	guyontile->AddWaypoint(CTileManager::GetInstance()->GetTile(nextopen.nPosX,nextopen.nPosY));
 
 	return 0;
 }
 
 int CUnit::GetUnitPosition(lua_State* L)
 {
-	int nUnitID = lua_tonumber(L, 1);
+	int nUnitID = lua_tointeger(L, 1);
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 
@@ -844,7 +844,7 @@ int CUnit::GetUnitPosition(lua_State* L)
 
 int CUnit::GetFleeing(lua_State* L)
 {
-	int nUnitID = lua_tonumber(L, 1);
+	int nUnitID = lua_tointeger(L, 1);
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 
