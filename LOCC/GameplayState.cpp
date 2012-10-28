@@ -460,7 +460,8 @@ void CGameplayState::Input(INPUT_ENUM input)
 			// spell scroll state here
 			if( m_bSelectChampionAbility )
 			{
-				CStateStack::GetInstance()->Push(CSpellScrollState::GetInstance());
+				if( dynamic_cast< CHero* >( m_pSelectedUnit )->GetCooldown(m_nSelectedSpell) == 0 )
+					CStateStack::GetInstance()->Push(CSpellScrollState::GetInstance());
 			}
 		}
 		break;
@@ -519,6 +520,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 	{
 		m_bSelectChampionAbility = true;
 		return;
+	}
+
+	if( ability->m_nNumTargets == -2)
+	{
+		CStateStack::GetInstance()->Push(CSpellScrollState::GetInstance());		
 	}
 
 	if( ability->GetType() == SP_VOLLEY )
@@ -1922,7 +1928,7 @@ void CGameplayState::Render(void)
 				{
 					pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
 
-					pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
+					//pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
 					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
 
 					if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
@@ -1936,7 +1942,7 @@ void CGameplayState::Render(void)
 					tt << pHero->GetAttack();
 
 					tt.str("");
-					pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
+					//pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
 					tt << pA->GetRange();
 
 					if( pA->GetType() == SP_MOVE )
@@ -1962,7 +1968,7 @@ void CGameplayState::Render(void)
 			{
 				pTM->Draw(pA->GetIconID(), m_nTooltipOffsetX + 30, 248, 1.0f, 1.0f);
 
-				pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
+				//pTM->Draw(pGM->GetID(_T("damageicon")), m_nTooltipOffsetX + 120, 248, 0.5f, 0.5f);
 				tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
 
 				int damage = pA->GetDamage();
@@ -1976,7 +1982,7 @@ void CGameplayState::Render(void)
 				m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 170, 255, 0.3f, damage < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 				tt.str("");
 
-				pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
+				//pTM->Draw(pGM->GetID(_T("rangeicon")), m_nTooltipOffsetX + 120, 288, 0.5f, 0.5f);
 				tt << pA->GetRange();
 
 				if( pA->GetType() == SP_MOVE )

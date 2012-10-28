@@ -3,6 +3,7 @@
 #include "igamestate.h"
 
 class CAbility;
+class CHero;
 
 class CSpellScrollState : public IGameState
 {
@@ -37,6 +38,10 @@ private:
 	int m_nSelected;
 	int m_nSelectedAbility;
 	bool m_bTreeSelect;
-	
+
+	CHero* m_pCustomer;
+	int m_nSwap;
+	int m_nExp;
+
 };
 

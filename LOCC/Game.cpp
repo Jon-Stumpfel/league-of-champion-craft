@@ -91,6 +91,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellbook.png"), _T("spellbook"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellscrollbackground.png"), _T("ssbackground"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellscrollselect.png"), _T("scrollselect"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/blankscroll.png"), _T("blankscroll"), 0UL);
 
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Red).png",L"SwordsmanR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Blue).png",L"SwordsmanB",D3DCOLOR_ARGB(255,255,255,255));

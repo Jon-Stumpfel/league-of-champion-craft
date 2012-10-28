@@ -7,6 +7,8 @@ class CHero : public CUnit
 {
 private:
 	std::vector<CAbility*> m_vSpells;
+	std::vector<CAbility*> m_vBoughtSpells;
+
 	int m_ncooldown[4];
 public:
 	//Get the cooldown left for a select spell "i" in the cooldown array
@@ -18,6 +20,10 @@ public:
 
 	void GiveSpell(SPELL_TYPE type);
 	CAbility* GetSpell(int i);
+	bool SearchSpells( CAbility* ability );
+	void SwapSpell(CAbility* ability, int index) { m_vSpells[index] = ability; }
+	void SpellBought( CAbility* ability ) { m_vBoughtSpells.push_back(ability); }
+	bool IfBought( CAbility* ability );
 	unsigned int GetNumSpells( void ) { return m_vSpells.size(); }
 	CHero(void);
 	~CHero(void);

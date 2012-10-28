@@ -22,14 +22,10 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	// Finds specified spell for the Hero
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 
-	GiveSpell(SP_LIGHTCHAIN);
-	GiveSpell(SP_SKILLSHOT);
-	GiveSpell(SP_WHIRLWIND);
-	GiveSpell(SP_SHIELD);
-	//GiveSpell(SP_LIGHTSTRIKE);
-	//GiveSpell(SP_FIREWEP);
-	//GiveSpell(SP_ICEBOLT);
-	//GiveSpell(SP_SHIELD);
+	GiveSpell(SP_BLANK);
+	GiveSpell(SP_BLANK);
+	GiveSpell(SP_BLANK);
+	GiveSpell(SP_BLANK);
 
 	for (int i=0; i<4;++i)
 		m_ncooldown[i]=0;
@@ -86,9 +82,32 @@ void CHero::ChillCooldown(void)
 			m_ncooldown[i]-=1;
 	}
 }
-	CAbility* CHero::GetSpell(int i)
+
+CAbility* CHero::GetSpell(int i)
+{
+	if ((unsigned int)(i + 1) > m_vSpells.size())
+		return nullptr;
+	return m_vSpells[i];
+}
+
+bool CHero::IfBought( CAbility* ability )
+{
+	for( unsigned int i = 0; i < m_vBoughtSpells.size(); i++ )
 	{
-		if ((unsigned int)(i + 1) > m_vSpells.size())
-			return nullptr;
-		return m_vSpells[i];
+		if( m_vBoughtSpells[i] == ability )
+			return true;
 	}
+
+	return false;
+}
+
+bool CHero::SearchSpells( CAbility* ability )
+{
+	for( unsigned int i = 0; i < m_vSpells.size(); i++ )
+	{
+		if( m_vSpells[i] == ability )
+			return true;
+	}
+
+	return false;
+}
