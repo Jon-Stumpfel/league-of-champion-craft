@@ -10,7 +10,7 @@ CPlayer::CPlayer(int nPlayerID)
 	SetWood(20);
 	SetPopCap(0);
 	SetMaxPopCap(12);
-	SetExp(0);
+	SetExp(1100);
 
 
 	// STATS RECORDING

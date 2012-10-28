@@ -866,6 +866,20 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
 
+	pAbility = new CAbility();
+	pAbility->m_nAPCost = 0;
+	pAbility->m_nNumTargets = -2;
+	pAbility->m_nRange = 0;
+	pAbility->m_nDamage = 0;
+	pAbility->m_szInterfaceIcon = TSTRING(_T("blankscroll"));
+	pAbility->SetDescription("Blank parchment is blank");
+	zz = CGraphicsManager::GetInstance()->GetID(_T("blankscroll"));
+	pAbility->SetIconID(zz);
+	pAbility->SetType(SP_BLANK);
+	tmp.first = SP_BLANK;
+	tmp.second = pAbility;
+	m_vAbilities.push_back(tmp);
+
 	SetRanges();
 }
 

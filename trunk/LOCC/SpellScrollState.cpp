@@ -5,6 +5,10 @@
 #include "SGD Wrappers\CSGD_TextureManager.h"
 #include "AbilityManager.h"
 #include "BitmapFont.h"
+#include "GameplayState.h"
+#include "Hero.h"
+#include "GameManager.h"
+#include "Player.h"
 //CSpellScrollState* CSpellScrollState::s_Instance = nullptr;
 
 CSpellScrollState::CSpellScrollState(void)
@@ -23,6 +27,9 @@ void CSpellScrollState::Enter(void)
 	m_nSelected = 0;
 	m_nSelectedAbility = 0;
 	m_bTreeSelect = true;
+	m_pCustomer = dynamic_cast<CHero*>(CGameplayState::GetInstance()->GetSelectedUnit());
+	m_nSwap = CGameplayState::GetInstance()->GetSelectedSpell();
+	m_nExp = CGameManager::GetInstance()->GetCurrentPlayer()->GetExp();
 }
 
 void CSpellScrollState::Exit(void)
@@ -114,6 +121,89 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 		{
 			if( m_bTreeSelect )
 				m_bTreeSelect = false;
+			else
+			{
+				bool bought = false;
+
+				if( m_nSelected == 0 )
+					bought = m_pCustomer->IfBought(m_vElemental[m_nSelectedAbility]);
+				else if( m_nSelected == 1 )
+					bought = m_pCustomer->IfBought(m_vPhysical[m_nSelectedAbility]);
+				else
+					bought = m_pCustomer->IfBought(m_vSupport[m_nSelectedAbility]);
+
+				if( bought == false )
+				{
+					if( m_nSelectedAbility < 3 )
+					{
+						if( m_nExp < 100 )
+							return;
+
+						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 100);
+					
+					}
+					else if( m_nSelectedAbility < 6 )
+					{
+						if( m_nExp < 200 )
+							return;
+
+						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 200);
+					}
+					else if( m_nSelectedAbility < 9 )
+					{
+						if( m_nExp < 300 )
+							return;
+
+						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 300);
+					}
+					else
+					{
+						if( m_nExp < 400 )
+							return;
+
+						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 400);
+					}
+				}
+				else
+				{
+					if( m_nSelected == 0 )
+					{
+						if( m_pCustomer->SearchSpells(m_vElemental[m_nSelectedAbility]) )
+							return;
+					}
+					else if( m_nSelected == 1 )
+					{
+						if( m_pCustomer->SearchSpells(m_vPhysical[m_nSelectedAbility]) )
+							return;
+					}
+					else
+					{
+						if( m_pCustomer->SearchSpells(m_vSupport[m_nSelectedAbility]) )
+							return;
+					}
+				}
+
+				if( m_nSelected == 0 )
+				{
+					m_pCustomer->SwapSpell(m_vElemental[m_nSelectedAbility], m_nSwap);
+					m_pCustomer->SpellBought(m_vElemental[m_nSelectedAbility]);
+					m_pCustomer->SetCooldown(m_nSwap, m_vElemental[m_nSelectedAbility]->GetCoolDown());
+				}
+				else if( m_nSelected == 1 )
+				{
+					m_pCustomer->SwapSpell(m_vPhysical[m_nSelectedAbility], m_nSwap);
+					m_pCustomer->SpellBought(m_vPhysical[m_nSelectedAbility]);
+					m_pCustomer->SetCooldown(m_nSwap, m_vPhysical[m_nSelectedAbility]->GetCoolDown());
+				}
+				else
+				{
+					m_pCustomer->SwapSpell(m_vSupport[m_nSelectedAbility], m_nSwap);
+					m_pCustomer->SpellBought(m_vSupport[m_nSelectedAbility]);
+					m_pCustomer->SetCooldown(m_nSwap, m_vSupport[m_nSelectedAbility]->GetCoolDown());
+				}
+
+				CStateStack::GetInstance()->Pop();
+			}
 		}
 		break;
 
@@ -145,6 +235,10 @@ void CSpellScrollState::Render(void)
 	pTM->Draw(pGM->GetID(_T("ssbackground")), 0, 0);
 	pTM->Draw(pGM->GetID(_T("spellbook")), 125, 100);
 
+	ostringstream xp;
+	xp << "Exp: " << m_nExp;
+	pBF->Print(xp.str().c_str(), 20, 20, .5f, D3DCOLOR_ARGB(255, 255, 255, 255));
+
 	if( m_bTreeSelect )
 	{
 		ostringstream oss;
@@ -167,27 +261,49 @@ void CSpellScrollState::Render(void)
 			vSelected = m_vPhysical;
 		else
 			vSelected = m_vSupport;
+			
+		bool bought = false;
 		for( unsigned int i = 0; i < vSelected.size(); i++ )
 		{
+
+			if( m_nSelected == 0 )
+				bought = m_pCustomer->IfBought(m_vElemental[i]);
+			else if( m_nSelected == 1 )
+				bought = m_pCustomer->IfBought(m_vPhysical[i]);
+			else
+				bought = m_pCustomer->IfBought(m_vSupport[i]);
+
 			if( i < 6 )
 			{
-				if( i < 3 )
+				if( bought == false )
 				{
-					if( m_nSelected == 0 )
-						pBF->Print("Cost: 100", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
-					else if( m_nSelected == 1 )
-						pBF->Print("Cost: 100", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
-					else
-						pBF->Print("Cost: 100", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+					if( i < 3 )
+					{
+						if( m_nSelected == 0 )
+							pBF->Print("Cost: 100", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
+						else if( m_nSelected == 1 )
+							pBF->Print("Cost: 100", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
+						else
+							pBF->Print("Cost: 100", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+					}
+					else if( i < 6 )
+					{
+						if( m_nSelected == 0 )
+							pBF->Print("Cost: 200", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
+						else if( m_nSelected == 1 )
+							pBF->Print("Cost: 200", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
+						else
+							pBF->Print("Cost: 200", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+					}
 				}
-				else if( i < 6 )
+				else
 				{
 					if( m_nSelected == 0 )
-						pBF->Print("Cost: 200", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
+						pBF->Print("Purchased", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
 					else if( m_nSelected == 1 )
-						pBF->Print("Cost: 200", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
+						pBF->Print("Purchased", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
 					else
-						pBF->Print("Cost: 200", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+						pBF->Print("Purchased", 260, 160 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
 				}
 
 				if( i == m_nSelectedAbility )
@@ -204,12 +320,24 @@ void CSpellScrollState::Render(void)
 			}
 			else if( i < 9 )
 			{
-				if( m_nSelected == 0 )
-					pBF->Print("Cost: 300", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,0,255));
-				else if( m_nSelected == 1 )
-					pBF->Print("Cost: 300", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,100,100));
+				if( bought == false )
+				{
+					if( m_nSelected == 0 )
+						pBF->Print("Cost: 300", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,0,255));
+					else if( m_nSelected == 1 )
+						pBF->Print("Cost: 300", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,100,100));
+					else
+						pBF->Print("Cost: 300", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,100,255,100));
+				}
 				else
-					pBF->Print("Cost: 300", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,100,255,100));
+				{
+					if( m_nSelected == 0 )
+						pBF->Print("Purchased", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,0,255));
+					else if( m_nSelected == 1 )
+						pBF->Print("Purchased", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,100,100));
+					else
+						pBF->Print("Purchased", 510, 210 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,100,255,100));
+				}
 
 				if( i == m_nSelectedAbility )
 				{
@@ -225,13 +353,24 @@ void CSpellScrollState::Render(void)
 			}
 			else
 			{
-				if( m_nSelected == 0 )
-					pBF->Print("Cost: 400", 500, 430, .3f, D3DCOLOR_ARGB(255,255,0,255));
-				else if( m_nSelected == 1 )
-					pBF->Print("Cost: 400", 500, 430, .3f, D3DCOLOR_ARGB(255,255,100,100));
+				if( bought == false )
+				{
+					if( m_nSelected == 0 )
+						pBF->Print("Cost: 400", 500, 430, .3f, D3DCOLOR_ARGB(255,255,0,255));
+					else if( m_nSelected == 1 )
+						pBF->Print("Cost: 400", 500, 430, .3f, D3DCOLOR_ARGB(255,255,100,100));
+					else
+						pBF->Print("Cost: 400", 500, 430, .3f, D3DCOLOR_ARGB(255,100,255,100));
+				}
 				else
-					pBF->Print("Cost: 400", 500, 430, .3f, D3DCOLOR_ARGB(255,100,255,100));
-
+				{
+					if( m_nSelected == 0 )
+						pBF->Print("Purchased", 500, 430, .3f, D3DCOLOR_ARGB(255,255,0,255));
+					else if( m_nSelected == 1 )
+						pBF->Print("Purchased", 500, 430, .3f, D3DCOLOR_ARGB(255,255,100,100));
+					else
+						pBF->Print("Purchased", 500, 430, .3f, D3DCOLOR_ARGB(255,100,255,100));
+				}
 				
 				if( i == m_nSelectedAbility )
 				{

@@ -33,6 +33,9 @@ public:
 	void ClearHighlighted(void) { m_pHighlightedUnit = nullptr;}
 
 	Vec2D GetSelectionPos(void) { return m_SelectionPos;}
+
+	int GetSelectedSpell( void ) { return m_nSelectedSpell; }
+
 private:
 
 	class ASNode
