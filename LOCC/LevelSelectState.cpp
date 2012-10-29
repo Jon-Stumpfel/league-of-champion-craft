@@ -32,7 +32,7 @@ void LevelSelectState::Enter(void)
 	m_ptempmap = new CTile*();
 	m_p2ndtempmap = new CTile*();
 	CTileManager* pTM=CTileManager::GetInstance();
-	string filename= "Assets\\Tiles\\TestMap1.xml";
+	string filename= "Assets\\Tiles\\Level1.xml";
 	pTM->LoadSave(filename);
 	m_pRows = pTM->GetNumRows();
 	m_pColumns = pTM->GetNumColumns();
@@ -64,7 +64,7 @@ void LevelSelectState::Enter(void)
 	//		m_ptempmap[i][j] = *pTM->GetTile(i,j);
 	//	}
 	//}
-	string thefilename= "Assets\\Tiles\\TestMap2.xml";
+	string thefilename= "Assets\\Tiles\\Level2.xml";
 	pTM->LoadSave(thefilename);
 	m_p2ndRows = pTM->GetNumRows();
 	m_p2ndColumns = pTM->GetNumColumns();

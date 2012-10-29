@@ -1030,8 +1030,6 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	CTileManager* pTM = CTileManager::GetInstance();
 	CTile* pStartTile = pTM->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY);
 	CTile* pTargetTile = pTM->GetTile(nTilePosition.nPosX, nTilePosition.nPosY);
-	//bool used to check if the target tile is a tile we can move to 
-	bool boutofrange =false;
 
 	// Check if where we are going to is passable and occupied, if so, return out of function
 	if (pTargetTile == nullptr)
@@ -1044,10 +1042,19 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	// Check if the unit has already moved a number of tiles this turn up to their speed, if so, return out and clear stuff
 	if (m_pSelectedUnit->GetTilesMoved() == m_pSelectedUnit->GetSpeed())
 	{
-		boutofrange=true;
 		m_bIsMoving = false;
 		m_pSelectedUnit = nullptr;
 		m_vWaypoints.clear();
+
+		if (CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->GetIfResourceTile())
+		{
+			if (!CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->GetIfCapturing())
+			{
+				CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->SetIfCapturing(true);
+				CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->SetPlayerID( m_pSelectedUnit->GetPlayerID());
+			}
+		}
+
 		// error sound?
 		return;
 	}
@@ -1070,7 +1077,6 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		nMoveCount++;
 		if (nMoveCount == (m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved()))
 		{
-			boutofrange=true;
 			break;
 		}
 	}
@@ -1078,7 +1084,6 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	// If the total AP cost of the move is more than we have, return out. We can't afford to move
 	if (nTotalAPCost > CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP())
 	{
-		int i=0;
 		// play error sound?
 		return;
 	}
@@ -1096,17 +1101,6 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	}
 	// After we hit enter we want to cancel and clear, either we're moving or we're not.
 
-	if (!boutofrange)
-	{
-		if (pTargetTile->GetIfResourceTile())
-		{
-			if (!pTargetTile->GetIfCapturing())
-			{
-				pTargetTile->SetIfCapturing(true);
-				pTargetTile->SetPlayerID( m_pSelectedUnit->GetPlayerID());
-			}
-		}
-	}
 	m_bIsMoving = false;
 	m_pSelectedUnit = nullptr;
 	m_vWaypoints.clear();

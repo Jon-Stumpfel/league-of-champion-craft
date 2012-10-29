@@ -14,7 +14,7 @@
 #include "MessageSystem.h"
 #include "Player.h"
 
-
+const int TILEOFFSET =30;
 CTileManager* CTileManager::s_Instance = nullptr;
 
 CTileManager::CTileManager(void)
@@ -85,7 +85,7 @@ bool CTileManager::LoadSave( std::string sFilename )
 	{
 		_TStupid_textconversion[i]=texturefile[i];
 	}
-	TSTRING Path= _T("Assets/Tiles")+_TStupid_textconversion;
+	TSTRING Path= _T("Assets/Tiles\\")+_TStupid_textconversion;
 	CGraphicsManager::GetInstance()->LoadImageW(Path,_T("Map"),D3DCOLOR_XRGB(0,0,0));
 	m_nTextureImageID= CGraphicsManager::GetInstance()->GetID(_T("Map"));
 
@@ -306,13 +306,13 @@ void CTileManager::Render( void )
 				{
 					Rsource = CellAlgorithm(F_BLUE_CAPTURED);
 					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY()-TILEOFFSET,1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				else if (m_pTileMap[i][j].GetPlayerID()==1)
 				{
 					Rsource = CellAlgorithm(F_RED_CAPTURED);
 					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY()-TILEOFFSET, 1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 			}
 
@@ -322,13 +322,13 @@ void CTileManager::Render( void )
 				{
 					Rsource = GetFlag(F_BLUE_CAPTURING);
 					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY()-TILEOFFSET, 1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 				else if (m_pTileMap[i][j].GetPlayerID()==1)
 				{
 					Rsource = GetFlag(F_RED_CAPTURING);
 					pTM->Draw(m_nFlagID,x - CGameplayState::GetInstance()->GetCamOffsetX()
-						,y  - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
+						,y  - CGameplayState::GetInstance()->GetCamOffsetY()-TILEOFFSET,1.0F,1.0F,&Rsource,(float)(TWidth / 2), (float)(THeight/ 2), fRad);
 				}
 			}
 		}
