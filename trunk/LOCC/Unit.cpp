@@ -393,14 +393,14 @@ void CUnit::Update(float fElapsedTime)
 
 		int xDistance = m_sGamePos.nPosX - m_vWaypoints.back()->GetPosition().nPosX;
 		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
-			if (yDistance == 1)
-				m_nFacing = 0;
-			else if (yDistance == -1)
-				m_nFacing = 2;
-			else if (xDistance == -1)
-				m_nFacing = 1;
-			else if (xDistance == 1)
-				m_nFacing =3;
+		if (yDistance == 1)
+			m_nFacing = 0;
+		else if (yDistance == -1)
+			m_nFacing = 2;
+		else if (xDistance == -1)
+			m_nFacing = 1;
+		else if (xDistance == 1)
+			m_nFacing =3;
 
 
 
@@ -439,13 +439,26 @@ void CUnit::Update(float fElapsedTime)
 			CloseEnough((m_sWorldPos.nPosY ),((int)y)))
 		{
 			m_sGamePos = m_vWaypoints.back()->GetPosition();
+
 			CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY)->SetIfOccupied(true);
 			m_nTilesMoved++;
+
 
 			m_vWaypoints.pop_back();
 			if (m_nTilesMoved == m_nSpeed)
 			{
 				m_vWaypoints.clear();
+			}	
+			if(m_vWaypoints.size()==0)
+			{
+				if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetIfResourceTile())
+				{
+					if (!CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetIfCapturing())
+					{
+						CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetIfCapturing(true);
+						CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetPlayerID( GetPlayerID());
+					}
+				}
 			}
 		}
 	}

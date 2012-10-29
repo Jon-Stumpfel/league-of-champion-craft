@@ -114,7 +114,9 @@ bool CHero::SearchSpells( CAbility* ability )
 
 int CHero::HasSpell(lua_State* L)
 {
+	return 0;
 }
 int CHero::GetSpellCooldown(lua_State* L)
 {
+	return 0;
 }
