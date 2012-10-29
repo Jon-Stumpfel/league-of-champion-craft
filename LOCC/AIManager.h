@@ -67,5 +67,7 @@ public:
 	static int FindNearest(lua_State* L);
 	static int FindChampion(lua_State* L);
 	static int FindUnitByTile(lua_State* L);
+	static int GetFriendlyUnitsInRange(lua_State* L);
+	static int GetEnemyUnitsInRange(lua_State* L);
 };
 

@@ -19,95 +19,57 @@ function Move()
 
 	-- First and foremost, cast rally if there are more than 2 or more friendlies in range, not including myself
 	numFriendlies = 0;
-
-	testID = FindUnitByTile(localX - 2, localY);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end
-	testID = FindUnitByTile(localX - 1, localY);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX + 1, localY);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX + 2, localY);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX - 1, localY - 1);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end
-	testID = FindUnitByTile(localX, localY - 1);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX + 1, localY - 1);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX, localY - 2);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX - 1, localY + 1);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end
-	testID = FindUnitByTile(localX, localY + 1);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX + 1, localY + 1);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end	
-	testID = FindUnitByTile(localX, localY + 2);
-	if (testID ~= -1) then
-		if (GetPlayerID(testID) == GetPlayerID(unitID)) then
-			numFriendlies = numFriendlies + 1;
-		end
-	end		
-
-	if (numFriendlies >= 3) then
-		Rally()
-	end
 	
-	-- Lets see if anyone needs to be healed
-	AddText("Total Distance:  " .. totdistance, pixelX, pixelY, 0, 40, 5, 0.4, 20, 255, 20);
+	-- Rally logic!
+	nRallyID = HasSpell(unitID, 17);
+	if (nRallyID ~= -1) then
+		rallyCooldown = GetSpellCooldown(unitID, nRallyID);
+		if (rallyCooldown == 0) then
+			-- copy code goes here
+			GetFriendlyUnitsInRange(unitID, 2);
+			numFriendlies = table.getn(unitData);
+			if (numFriendlies >= 2) then
+				Rally(nRallyID + 1)
+			end
+		end
+	end
+
+	
+	-- Healing logic!
+	nHealID = HasSpell(unitID, 7);
+	if (nHealID ~= -1) then
+		healCooldown = GetSpellCooldown(unitID, nRallyID);
+		if (healCooldown == 0) then
+			GetFriendlyUnitsInRange(unitID, 3);
+		
+			lowestHP = 99999999;
+			lowestHPunitID = -1;		
+			for i = 1, table.getn(unitData) do
+				unitHealth = GetHealth(unitData[1].uniqueID);	
+				if (unitHealth < lowestHP) then
+					lowestHP = unitHealth;
+					lowestHPunitID = unitData[i].uniqueID;
+				end
+			end	
+			if (GetHealth(lowestHPunitID) <= GetMaxHealth(lowestHPunitID) - 6) then
+				Heal(nHealID + 1, lowestHPunitID);
+			end	
+		end
+		
+	end
 	
 	if (totdistance > 1) then
 		MoveToNearestEnemy()
 	end
 end
+function Heal(healID, lowestHPunitID)
 
-function Rally()
-	AddText("Rallying..! ", pixelX, pixelY, 0, -40, 5, 0.4, 255, 20, 20);
-	IssueOrder("selectspell", 2);
+	IssueOrder("selectspell", healID);
+	IssueOrder("selectunit", lowestHPunitID);
+
+end
+function Rally(nRallyID)
+	IssueOrder("selectspell", nRallyID);
 
 end
 

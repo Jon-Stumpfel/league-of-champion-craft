@@ -2,6 +2,7 @@
 #include "Hero.h"
 #include "GameplayState.h"
 #include "AbilityManager.h"
+#include "GameManager.h"
 
 
 CHero::CHero(void) : CUnit(UT_HERO)
@@ -114,9 +115,38 @@ bool CHero::SearchSpells( CAbility* ability )
 
 int CHero::HasSpell(lua_State* L)
 {
-	return 0;
+	int nUnitID = lua_tointeger(L, 1);
+	int nSpellID = lua_tointeger(L, 2);
+	bool bFoundSpell = false;
+	CAbility* pDesiredSpell = CAbilityManager::GetInstance()->GetAbility((SPELL_TYPE)nSpellID);
+	CHero* pUnit = dynamic_cast<CHero*>(CGameManager::GetInstance()->GetUnitByID(nUnitID));
+	if (pDesiredSpell != nullptr)
+	{
+		for (int i = 0; i < pUnit->GetNumSpells() ; ++i)
+		{
+			if (pDesiredSpell == pUnit->GetSpell(i))
+			{
+				lua_pushinteger(L, i);
+				bFoundSpell = true;
+				break;
+			}
+		}
+	}
+
+	if (bFoundSpell == false)
+		lua_pushinteger(L, -1);
+
+	return 1;
 }
 int CHero::GetSpellCooldown(lua_State* L)
 {
-	return 0;
+	int nUnitID = lua_tointeger(L, 1);
+	int nSpellSlot = lua_tointeger(L, 2);
+
+	CHero* pUnit = dynamic_cast<CHero*>(CGameManager::GetInstance()->GetUnitByID(nUnitID));
+
+	int nSlotCooldown = pUnit->GetCooldown(nSpellSlot);
+
+	lua_pushinteger(L, nSlotCooldown);
+	return 1;
 }
