@@ -861,6 +861,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nPhase = GP_ATTACK;
 	pAbility->m_nRange = 1;
 	pAbility->m_nCooldown = 0;
+	pAbility->m_nDamage = 1;
 	pAbility->m_strName = "Melee Attack";
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
@@ -882,6 +883,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_nPhase = GP_ATTACK;
 	pAbility->m_nRange = 3;
+	pAbility->m_nDamage = 1;
 	pAbility->m_nCooldown = 0;
 	pAbility->m_strName = "Range Attack";
 	pAbility->SetParticleType(TEST);

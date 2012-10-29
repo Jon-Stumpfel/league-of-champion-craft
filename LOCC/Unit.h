@@ -52,8 +52,10 @@ public:
 	static int Slow( lua_State* L );
 	static int FireWep( lua_State* L );
 	static int LightStrike( lua_State* L );
-	static int IceAge( lua_State* L );	static int Chain( lua_State* L );
+	static int IceAge( lua_State* L );	
+	static int Chain( lua_State* L );
 	static int Whirlwind( lua_State* L );
+	static int Volley( lua_State* L );
 
 	// new AI lua function
 	static int GetUnitPosition(lua_State* L);
@@ -65,7 +67,6 @@ public:
 
 
 	void UpdateEffects(void);
-
 	bool GetFleeing(void){ return m_bIsFleeing;}
 	void SetFleeing(bool b) { m_bIsFleeing = b;}
 	bool CheckDodged(void);
