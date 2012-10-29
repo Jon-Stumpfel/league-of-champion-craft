@@ -24,10 +24,7 @@
 #include "CoinToss.h"
 CGameManager* CGameManager::s_Instance = nullptr;
 int CGameManager::m_nUniqueUnitID = 0;
-bool IntToBool(int n)
-{
-	return (n != 0);
-}
+
 CGameManager::CGameManager(void)
 {
 	m_nNewPlayerID = 0;
@@ -763,7 +760,7 @@ void CGameManager::Reset(void)
 }
 void CGameManager::NewGame(string levelstring, int mapint)
 {	
-	LoadLevel(levelstring);
+	//LoadLevel(levelstring);
 
 	Reset();
 	LoadLevel(levelstring);

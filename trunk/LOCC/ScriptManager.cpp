@@ -10,6 +10,7 @@
 #include "ParticleManager.h"
 #include "FloatingText.h"
 #include "AIManager.h"
+#include "Player.h"
 #include "SoundManager.h"
 CScriptManager* CScriptManager::s_Instance = nullptr;
 
@@ -61,6 +62,14 @@ void CScriptManager::LoadScript( std::string szFilename, SCRIPT_TYPE eScript )
 			if (pRoot == nullptr)
 				return;
 
+
+			int nAIPlayer;
+			pRoot->QueryIntAttribute("AIEnemy", &nAIPlayer);
+
+			if (IntToBool(nAIPlayer))
+			{
+				CGameManager::GetInstance()->SetPlayerAsAI(1);
+			}
 			TiXmlElement* pSpawns = pRoot->FirstChildElement("UnitSpawns");
 			int nNumSpawns;
 			pSpawns->QueryIntAttribute("numSpawns", &nNumSpawns);

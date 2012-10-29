@@ -120,3 +120,7 @@ using std::string;
 		float fCurrentTime;
 	};
 	
+	inline bool IntToBool(int n)
+{
+	return (n != 0);
+}
