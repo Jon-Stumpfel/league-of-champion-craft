@@ -940,6 +940,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetParticleType(TEST);
 	pAbility->m_strName = "Spawn Archer";
 	pAbility->m_nCooldown = 0;
+	pAbility->m_bFacing = false;
 	pAbility->SetDescription("");
 	pAbility->m_szInterfaceIcon = TSTRING(_T("archerportrait"));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("archerportrait"));
@@ -956,6 +957,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_bIsMove = false;
 	pAbility->SetDamage(0);
 	pAbility->m_nRange = 2;
+	pAbility->m_bFacing = false;
 	pAbility->SetParticleType(TEST);
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->m_strName = "Spawn Swordsman";
@@ -977,6 +979,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetDamage(0);
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
+	pAbility->m_bFacing = false;
 	pAbility->SetParticleType(TEST);
 	pAbility->m_strName = "Spawn Calvary";
 	pAbility->m_nCooldown = 0;
@@ -994,6 +997,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nNumTargets = 1;
 	pAbility->m_nRange = 2;
 	pAbility->SetDamage(0);
+	pAbility->m_bFacing = false;
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);

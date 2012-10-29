@@ -1526,7 +1526,7 @@ void CGameplayState::Render(void)
 				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
 			else
 			{
-				if( drawAbility->GetType() == SP_CHARGE || drawAbility->GetType() == SP_ICEAGE ||  drawAbility->GetType() == SP_RUSH )
+				if( drawAbility->GetIfFacing() )
 				{
 					range = CAbilityManager::GetInstance()->GetProperFacing(m_pSelectedUnit->GetFacing(), drawAbility, 
 												CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY));
@@ -1535,16 +1535,12 @@ void CGameplayState::Render(void)
 					range = CAbilityManager::GetInstance()->GetRange(drawAbility->GetRange());
 			}
 
-			if( drawAbility->GetType() !=  SP_CHARGE )
+			if(  !drawAbility->GetIfFacing() )
 			{
 				pattern = CAbilityManager::GetInstance()->GetProperFacing(m_pSelectedUnit->GetFacing(), drawAbility, 
 												CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY));
 			}
 
-			if( drawAbility->GetType() ==  SP_RUSH  )
-			{
-				pattern.clear();
-			}
 			if( drawAbility->GetApCost() == 5 )
 				int i = 0;
 			if (drawAbility != nullptr && !drawAbility->m_bIsMove)
