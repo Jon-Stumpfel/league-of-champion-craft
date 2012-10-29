@@ -36,8 +36,6 @@ void LevelSelectState::Enter(void)
 	pTM->LoadSave(filename);
 	m_pRows = pTM->GetNumRows();
 	m_pColumns = pTM->GetNumColumns();
-	blueguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_blue.png"),D3DXCOLOR(0,0,0,255));
-	redguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_red.png"),D3DXCOLOR(0,0,0,255));
 	Scroll = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\scroll.png"), D3DXCOLOR(255,255,255,255));
 	m_vMap1.clear();
 	m_vMap2.clear();

@@ -53,9 +53,10 @@ void CAttackPhaseTransState::Render(void)
 		CBitmapFont bmf; ostringstream oss; 
 		int Playernum = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
 		
-		oss<<"Player  "<< ++Playernum;
+		oss<<StringTable::GetInstance()->GetString("Player ")<< ++Playernum;
 		bmf.Print(oss.str().c_str(),300,250,0.5f, D3DCOLOR_XRGB(255,0,0));
-		bmf.Print("Attack Phase",270,300,0.5f, D3DCOLOR_XRGB(255,0,0));
+		bmf.Print(StringTable::GetInstance()->GetString
+			("Attack Phase").c_str(),270,300,0.5f, D3DCOLOR_XRGB(255,0,0));
 	}
 }
 
