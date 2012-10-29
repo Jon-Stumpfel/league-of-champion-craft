@@ -20,22 +20,23 @@ function Move()
 	-- First and foremost, cast rally if there are more than 2 or more friendlies in range, not including myself
 	numFriendlies = 0;
 	
-	-- Rally logic!
+	-- Rally logic: If within range of at least 2 friendlies, and more friendlies than enemies
 	nRallyID = HasSpell(unitID, 17);
 	if (nRallyID ~= -1) then
 		rallyCooldown = GetSpellCooldown(unitID, nRallyID);
 		if (rallyCooldown == 0) then
 			-- copy code goes here
 			GetFriendlyUnitsInRange(unitID, 2);
-			numFriendlies = table.getn(unitData);
-			if (numFriendlies >= 2) then
+			GetEnemyUnitsInRange(unitID, 2);
+			numEnemies = table.getn(enemyUnitData);
+			numFriendlies = table.getn(unitData);		
+			if (numFriendlies >= 2 and (numEnemies < numFriendlies)) then
 				Rally(nRallyID + 1)
 			end
 		end
 	end
 
-	
-	-- Healing logic!
+	-- Healing logic: Find nearest wounded friendly (including myself) and heal.
 	nHealID = HasSpell(unitID, 7);
 	if (nHealID ~= -1) then
 		healCooldown = GetSpellCooldown(unitID, nRallyID);
@@ -85,8 +86,6 @@ function Attack()
 
 	localX, localY = GetUnitPosition(unitID);
 	pixelX, pixelY = TranslateToPixel(localX, localY);
-	
-	AddText("Hero Attack...", pixelX, pixelY, 0, -40, 5, 0.4, 20, 255, 20);	
 
 	nearestID = FindNearest(unitID);
 	targetX, targetY = GetUnitPosition(nearestID);
@@ -99,13 +98,111 @@ function Attack()
 	-- Start with heal. Hurt friendlies that are fleeing are high priority. Check in range
 	-- We assume the hero has 
 	
+	hasAttacked = 0;
+	
+	-- Magic Missile logic: If no one in melee, shoot lowest HP unit in range
+	magicID = HasSpell(unitID, 24);	
+	if (magicID ~= -1 and totdistance ~= 1) then
+
+		magicCooldown = GetSpellCooldown(unitID, magicID);	
+		if (magicCooldown == 0) then
+			GetEnemyUnitsInRange(unitID, 3);
+			
+			lowestHP = 999;
+			lowestHPunitID = -1;	
+			
+			for i = 1, table.getn(enemyUnitData) do
+				unitHP = GetHealth(enemyUnitData[i].uniqueID);
+				if (unitHP < lowestHP) then
+					lowestHP = unitHP;
+					lowestHPunitID = enemyUnitData[i].uniqueID;
+				end
+			end		
+			MagicMissile(magicID + 1, lowestHPunitID);
+			hasAttacked = 1;
+		end
+	end
 	
 	
-	if (totdistance == 1) then
-		AttackNearest()
+	
+	if (totdistance == 1 and hasAttacked == 0) then
+
+		-- Cleave logic: If enemy has an adjacent, cleave!
+		cleaveID = HasSpell(unitID, 37);
+		if (cleaveID ~= -1) then
+			cleaveCooldown = GetSpellCooldown(unitID, cleaveID);
+			if (cleaveCooldown == 0) then
+				-- Lets see if we should hit some dudes
+				directionx = (targetX - localX);
+				directiony = (targetY - localY);	
+				numHit = 0;
+				if (directiony == -1) then
+					numHit = 0;
+					unit1 = FindUnitByTile(targetX - 1, targetY );
+					unit2 = FindUnitByTile(targetX + 1, targetY );
+					if (unit1 ~= -1) then
+						numHit = numHit + 1;
+					end
+					if (unit2 ~= -1) then
+						numHit = numHit + 1;
+					end
+				elseif (directiony == 1) then
+					numHit = 0;
+					unit1 = FindUnitByTile(targetX - 1, targetY );
+					unit2 = FindUnitByTile(targetX + 1, targetY );
+					if (unit1 ~= -1) then
+						numHit = numHit + 1;
+					end
+					if (unit2 ~= -1) then
+						numHit = numHit + 1;
+					end			
+				elseif (directionx == -1) then
+					numHit = 0;
+					unit1 = FindUnitByTile(targetX, targetY - 1);
+					unit2 = FindUnitByTile(targetX, targetY + 1 );
+					if (unit1 ~= -1) then
+						numHit = numHit + 1;
+					end
+					if (unit2 ~= -1) then
+						numHit = numHit + 1;
+					end			
+				elseif (directionx == 1) then
+					numHit = 0;
+					unit1 = FindUnitByTile(targetX, targetY - 1);
+					unit2 = FindUnitByTile(targetX, targetY + 1 );
+					if (unit1 ~= -1) then
+						numHit = numHit + 1;
+					end
+					if (unit2 ~= -1) then
+						numHit = numHit + 1;
+					end	
+				end
+			
+
+				
+				Cleave(cleaveID + 1, nearestID);
+				hasAttacked = 1;
+			end
+		end
+		
+		if (hasAttacked == 0) then
+			AttackNearest()
+		end
 	end
 end
 
+function Cleave(cleaveID, targetID)
+	IssueOrder("deselectall");
+	IssueOrder("selectunit", unitID);
+	IssueOrder("selectspell", cleaveID);
+	IssueOrder("selectunit", targetID);
+end
+function MagicMissile(magicID, lowestHPunitID)
+	IssueOrder("deselectall");
+	IssueOrder("selectunit", unitID);
+	IssueOrder("selectspell", magicID);
+	IssueOrder("selectunit", lowestHPunitID);
+end
 function AttackNearest()
 	nearestID = FindNearest(unitID);
 	targetX, targetY = GetUnitPosition(nearestID);
