@@ -9,7 +9,7 @@
 #include "HelpMenuState.h"
 #include "MultiplayerState.h"
 #include "SocketServer.h"
-
+#include "StringTable.h"
 //CMainMenuState* CMainMenuState::s_Instance = nullptr;
 
 CMainMenuState::CMainMenuState(void)
@@ -165,13 +165,13 @@ void CMainMenuState::Render(void)
 	}
 	if(selected == 1)
 	{
-		const char* Load = "Load";
-		m_pBitmapFont->Print(Load,364,250,0.7f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+			("Load").c_str(),364,250,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
-		const char* Load = "Load";
-		m_pBitmapFont->Print(Load,364,250,0.7f,D3DXCOLOR(255,255,255,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+			("Load").c_str(),364,250,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 2)
 	{

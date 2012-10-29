@@ -16,7 +16,6 @@
 #include "SGD Wrappers\tinystr.h"
 #include "SGD Wrappers\tinyxml.h"
 #include "BitmapFont.h"
-#include "StringTable.h"
 #include <dbghelp.h>	//	Used for Dump File
 #pragma comment(lib, "dbghelp.lib")
 
