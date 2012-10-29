@@ -859,12 +859,13 @@ void CGameplayState::UseAbility(CAbility* ability)
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
 						m_bIsFacing = false;
-					
 					}
 				}
 				else
 				{
-				
+					
+					if( ability->GetType() == SP_VOLLEY )
+						ability->m_nRange = m_pSelectedUnit->GetRange();
 
 					if( ability->GetType() == SP_CHARGE || ability->GetType() == SP_RUSH )
 					{
@@ -1471,6 +1472,7 @@ void CGameplayState::Render(void)
 	// render the waypoints?
 	if (m_pSelectedUnit != nullptr)
 	{
+
 		int nTilesCanMove = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
 		int nAPCost = 0;
 		int r = 0;
@@ -1498,7 +1500,7 @@ void CGameplayState::Render(void)
 			RECT tileRect = { x - GetCamOffsetX(), 
 				y - GetCamOffsetY(),  
 				nFakeTileWidth, nFakeTileHeight};
-			//	CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
+			//CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, r, g, b);
 			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("wphighlight")),
 				tileRect.left, tileRect.top, 1.0f, 1.0f, (RECT*)0, nFakeTileWidth / 2.0f, nFakeTileHeight / 2.0f, (45.0f * 3.1415928f / 180.0f), D3DCOLOR_ARGB(120,r, g, b));
 		}
@@ -1510,8 +1512,12 @@ void CGameplayState::Render(void)
 			drawAbility = (dynamic_cast<CHero*>(m_pSelectedUnit))->GetSpell(m_nSelectedSpell);
 		else
 			drawAbility = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+
 		if( drawAbility != nullptr )
 		{
+			if( drawAbility->GetType() == SP_VOLLEY )
+					drawAbility->m_nRange = m_pSelectedUnit->GetRange();
+
 			std::vector< Vec2D > pattern, range;
 			if (drawAbility->GetType() == SP_ARCHERRANGEDATTACK || drawAbility->GetType() ==SP_MELEEATTACK)
 				range = CAbilityManager::GetInstance()->GetRange(m_pSelectedUnit->GetRange());				
@@ -1995,6 +2001,12 @@ void CGameplayState::Render(void)
 					{
 						tt.str("");
 						tt << m_pSelectedUnit->GetAttack();
+					}
+
+					if( pA->GetType() == SP_VOLLEY )
+					{
+						tt.str("");
+						tt << m_pSelectedUnit->GetAttack() * 2;
 					}
 
 					m_pBitmapFont->Print(tt.str().c_str(), m_nTooltipOffsetX + 205, 380, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));

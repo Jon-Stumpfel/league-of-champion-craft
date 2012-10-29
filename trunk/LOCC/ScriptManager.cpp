@@ -296,6 +296,7 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "GetMaxHealth", CUnit::GetMaxHealth);
 	lua_register(L, "GetTilesMoved", CUnit::GetTilesMoved);
 	lua_register(L, "FindUnitByTile", CAIManager::FindUnitByTile);
+	lua_register(L, "Volley", CUnit::Volley);
 }
 
 void CScriptManager::Shutdown( void )

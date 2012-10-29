@@ -62,15 +62,17 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	m_bFreeMove = false;
 	m_bIsFleeing = false;
 }
-	bool CUnit::CheckDodged(void)
-	{
-		int n = rand() % RAND_MAX;
-		float atk = ((float)n / (float)RAND_MAX);
-		if (atk > m_fDodgeChance)
-			return false;
-		else
-			return true;
-	}
+
+bool CUnit::CheckDodged(void)
+{
+	int n = rand() % RAND_MAX;
+	float atk = ((float)n / (float)RAND_MAX);
+	if (atk > m_fDodgeChance)
+		return false;
+	else
+		return true;
+}
+
 int CUnit::GetPortraitID(void)
 {
 	switch(m_eType)
@@ -565,6 +567,13 @@ int CUnit::Shield(lua_State* L)
 		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_SHIELD), INT_MAX);
 	}
 	return 0;
+}
+
+int CUnit::Volley( lua_State* L )
+{
+	CUnit* arch = CGameplayState::GetInstance()->GetSelectedUnit();
+	lua_pushnumber(L, arch->GetAttack() * 2);
+	return 1;
 }
 
 int CUnit::Chain(lua_State* L)
