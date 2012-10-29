@@ -90,10 +90,56 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Forsecan Tacnunga");
 	modernenglish.push_back(" wins the coin toss");
 	yeoldeanglish.push_back(" wyrcans an mynet cnyssan");
+	modernenglish.push_back("AI Wins!");
+	yeoldeanglish.push_back("AI Wyrcans!");
+	modernenglish.push_back("  Wins!");
+	yeoldeanglish.push_back("  Wyrcans!");
+	modernenglish.push_back("Bottleneck");
+	yeoldeanglish.push_back("Ampellanbogenett");
+	modernenglish.push_back("Siege on the mountain");
+	yeoldeanglish.push_back("Beadwa on dy beorga");
+	modernenglish.push_back("The Champion hurls a ball of fire at a target.");
+	yeoldeanglish.push_back("Dy Cempan scepas ever trindan of fyr aet ever targete.");
+	modernenglish.push_back("The Champion closes the wounds of a selected unit.");
+	yeoldeanglish.push_back("Dy Cempan lucan dy benns of ever aceosan cempestran.");
+	modernenglish.push_back("The Champion shields his target preventing damage for a turn.");
+	yeoldeanglish.push_back("Dy Cempan scyld his targete forsceotaning aewerdla for ever cierr.");
+	modernenglish.push_back("The Champion increases the speed of a selected unit for a turn.");
+	yeoldeanglish.push_back("Dy Cempan eacnians dy ofost of ever aceosan cempestran for ever cierr.");
+	modernenglish.push_back("Test spell for testing");
+	yeoldeanglish.push_back("Fandian galdru for fandianing");
+	modernenglish.push_back("The Calvary rushes forward, dealing more damage for every unit hit in a line.");
+	yeoldeanglish.push_back("Dy Eored reses on, fordaeing ma aewerdla for aelc cempestran abeat in ever sceaftriht.");
+	modernenglish.push_back("Reduces the cost of moving to one for a target unit.");
+	yeoldeanglish.push_back("Apynnes dy deore of onstyrianing to mon for ever targete cempestran.");
+	modernenglish.push_back("The Champion turns a target forest into a plain.");
+	yeoldeanglish.push_back("Dy Cempan cierrs ever targete weald in ever feld.");
+	modernenglish.push_back("The Champion heals the wounds of everyone around him.");
+	yeoldeanglish.push_back("Dy Champion haelans dy benns of gehwa tyrning him.");
+	modernenglish.push_back("Rally the troops, increasing thier damage by 2 for a turn.");
+	yeoldeanglish.push_back("Ralley dy dugups, weaxaning hira aewerdla purh 2 for ever cierr.");
+	modernenglish.push_back("Nearby units have the cost to move reduced to 1 until the end of the turn.");
+	yeoldeanglish.push_back("Nearbye cempestrans ag dy deore to onstyrian apynned to 1 od dy ende of dy cierr.");
+	modernenglish.push_back("The Champion creates a mountain tile from any non-resource tile.");
+	yeoldeanglish.push_back("Dy Cempan scieppans ever beorga sceard fram aenig non-resource sceard.");
+	modernenglish.push_back("The Swordsman gives up movement for a turn to reduce his damage by half.");
+	yeoldeanglish.push_back("Dy Sweordsesne agiefans faereld for ever cierr to apynne his aewerdla purh healf.");
+	modernenglish.push_back("If the Archer hasn't moved, he can prepare a shot that deals double his damage.");
+	yeoldeanglish.push_back("Gif dy Scytta ahne abifed, he con gearcian ever scotung se fordae twihwyrft his aewerdla.");
+	modernenglish.push_back("Brings any unit back to life as a skeleton. Can only be cast on a tile with a tombstone.");
+	yeoldeanglish.push_back("Gebrengans aenig cempestran baec to ae swa a skeletone. Hit can anga beon beweorpan on ever sceard mid ever byrgelsstan.");
+	modernenglish.push_back("It's a missile made of magic.");
+	yeoldeanglish.push_back("Hit's ever scotung maede of bealu.");
+	modernenglish.push_back("The champion hurls a bolt of ice at a target, reducing their speed by 2 for the next turn.");
+	yeoldeanglish.push_back("Dy Cempan scepas ever bolt of gicel aet ever targete, apynning hira ofost purh 2 for se niehsta cierr.");
+
 }
 StringTable::~StringTable(void)
 {
-
+	modernenglish.clear();
+	delete &modernenglish;
+	yeoldeanglish.clear();
+	delete &yeoldeanglish;
 }
 StringTable* StringTable::GetInstance()
 {
@@ -147,5 +193,5 @@ std::string StringTable::GetString(std::string tempstring)
 				return yeoldeanglish[i];
 		}
 	}
-	return NULL;
+	return "String not found!";
 }

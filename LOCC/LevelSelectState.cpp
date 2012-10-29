@@ -3,7 +3,7 @@
 #include "CoinToss.h"
 #include "MultiplayerState.h"
 #include "SocketServer.h"
-
+#include "StringTable.h"
 LevelSelectState::LevelSelectState(void)
 {
 }
@@ -294,8 +294,8 @@ void LevelSelectState::Render(void)
 		i++;
 	}
 	ostringstream woss;
-	woss<<"Basic test map";
-	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.5f, D3DXCOLOR(255,255,255,255));
+	woss<<StringTable::GetInstance()->GetString("Bottleneck");
+	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.3f, D3DXCOLOR(255,255,255,255));
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	nMiniMapOffsetX = 500;
@@ -392,8 +392,8 @@ void LevelSelectState::Render(void)
 		i1++;
 	}
 	ostringstream boss;
-	boss<<"You are now surrounded by water!";
-	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.5f, D3DXCOLOR(255,255,255,255), 210);
+	boss<<StringTable::GetInstance()->GetString("Siege on the mountain");
+	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.3f, D3DXCOLOR(255,255,255,255), 210);
 
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 }
