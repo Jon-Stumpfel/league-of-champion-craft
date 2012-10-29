@@ -65,7 +65,7 @@ function Attack()
 	
 	tilesMoved = GetTilesMoved(unitID);
 	enemyHealth = GetHealth(nearestID);
-	if (totdistance > 0) then
+	if (totdistance > 3) then
 		IssueOrder("deselectall");
 	elseif ((tilesMoved == 0) and(enemyHealth < 12)) then
 		Volley()
