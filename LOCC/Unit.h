@@ -61,6 +61,7 @@ public:
 	static int GetTilesMoved(lua_State* L);
 	static int GetHealth(lua_State* L);
 	static int GetMaxHealth(lua_State* L);
+	static int GetPlayerID(lua_State*);
 
 
 	void UpdateEffects(void);

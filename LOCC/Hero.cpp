@@ -111,3 +111,10 @@ bool CHero::SearchSpells( CAbility* ability )
 
 	return false;
 }
+
+int CHero::HasSpell(lua_State* L)
+{
+}
+int CHero::GetSpellCooldown(lua_State* L)
+{
+}

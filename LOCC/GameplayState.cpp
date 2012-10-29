@@ -1026,6 +1026,8 @@ void CGameplayState::UseAbility(CAbility* ability)
 // Attempts to move the selectedUnit to the tile at position nTilePosition
 void CGameplayState::MoveToTile(Vec2D nTilePosition)
 {
+	if (m_pSelectedUnit == nullptr)
+		return;
 	// Cheapest movement algorithm hooray
 	CTileManager* pTM = CTileManager::GetInstance();
 	CTile* pStartTile = pTM->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY);
@@ -2070,32 +2072,33 @@ void CGameplayState::Render(void)
 			{
 			case TT_PLAINS:
 				rSrc = CellAlgorithm(TT_PLAINS);
-				g=177; r=34; b=76; break;
+				g=83; r=36; b=9; break;
 			case TT_FOREST:
 				rSrc = CellAlgorithm(TT_FOREST);
-				g=128; r=0; b=0; break;
+				g=70; r=16; b=4; break;
 			case TT_MOUNTAINS:
 				rSrc = CellAlgorithm(TT_MOUNTAINS);
-				g=64;r=128; b=0; break;
+				g=73;r=60; b=50; break;
 			case TT_WATER:
 				rSrc = CellAlgorithm(TT_WATER);
-				g=128;r=0;b=192;break; 
+				g=56;r=4;b=116;break; 
 			case TT_MINE:
 				rSrc = CellAlgorithm(TT_MINE);
-				g=64;r=128; b=0; break;
+				g=190;r=190; b=0; break;
 			case TT_MILL:
 				rSrc = CellAlgorithm(TT_MILL);
-				g=128; r=0; b=0; break;
+				g=190; r=190; b=0; break;
 			case TT_FARM:
 				rSrc = CellAlgorithm(TT_FARM);
-				g=177; r=34; b=76; break;
+				g=190; r=190; b=0; break;
 			case TT_CASTLE:
 				rSrc = CellAlgorithm(TT_CASTLE);
 			default:
 				g=177; r=34; b=76; break;
 			}
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
-				tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
+			CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
+			//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
+			//	tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 
 			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
 
@@ -2131,7 +2134,7 @@ void CGameplayState::Render(void)
 				int(CGameManager::GetInstance()->GetUnits()[i]->GetPos().nPosY * nMiniTileHeight + nMiniMapOffsetY),
 				0.7f, 0.7f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
 		}
-	//	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 		// UNIT CARD STUFF HOORAY
 		if (m_pSelectedUnit != nullptr)

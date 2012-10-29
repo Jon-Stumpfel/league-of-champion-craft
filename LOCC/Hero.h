@@ -30,5 +30,8 @@ public:
 	CHero(void);
 	~CHero(void);
 	void Render(void);
+
+	static int HasSpell(lua_State* L);
+	static int GetSpellCooldown(lua_State* L);
 };
 
