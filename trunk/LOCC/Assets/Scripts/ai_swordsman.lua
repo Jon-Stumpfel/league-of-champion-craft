@@ -43,6 +43,8 @@ function Attack()
 	distancey = math.abs((targetY - localY));
 	totdistance = distancex + distancey;
 	
+	
+	
 	-- Check for nearby dudes
 	numNearby = 0;
 	unit1 = FindUnitByTile(localX +1, localY);

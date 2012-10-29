@@ -191,15 +191,49 @@ void CAIManager::BeginMovement(void)
 	m_bMoved = true;
 	m_bDone = true;
 	m_bSelected = false;
+	std::vector<CUnit*> m_vGuysToHandle;
 	for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
 	{
 		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 		{
-			if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE)
+			if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE || CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_ICEBLOCK)
 				continue;
-			m_vUnitsToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
+			m_vGuysToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
+			//if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE)
+			//	continue;
+			//m_vUnitsToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
+		}
+	}
+
+	while (m_vGuysToHandle.size() != 0)
+	{
+		// Fleeing guys have first movement priority to get them in range of the hero
+		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
+		{
+			if (m_vGuysToHandle[i]->GetFleeing() == true)
+			{
+				m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
+				m_vGuysToHandle.erase(m_vGuysToHandle.begin() + i++);
+			}
 		}
 
+		// Hero has next priority to heal those people
+		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
+		{
+			if (m_vGuysToHandle[i]->GetType() == UT_HERO)
+			{
+				m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
+				m_vGuysToHandle.erase(m_vGuysToHandle.begin() + i++);
+				break;
+			}
+		}
+
+		// Lump everyone else in there
+		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
+		{
+			m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
+			m_vGuysToHandle.erase(m_vGuysToHandle.begin() + i++);
+		}
 	}
 }
 void CAIManager::BeginAttack(void)
@@ -220,15 +254,48 @@ void CAIManager::BeginAttack(void)
 	m_bMoved = true;
 	m_bDone = true;
 	m_bSelected = false;
+	std::vector<CUnit*> m_vGuysToHandle;
 	for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
 	{
 		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() ==CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 		{
-			if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE)
+if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE || CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_ICEBLOCK)
 				continue;
-			m_vUnitsToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
+			m_vGuysToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
 		}
 	}
+
+	while (m_vGuysToHandle.size() != 0)
+	{
+		// Fleeing guys have first movement priority to get them in range of the hero
+		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
+		{
+			if (m_vGuysToHandle[i]->GetFleeing() == true)
+			{
+				m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
+				m_vGuysToHandle.erase(m_vGuysToHandle.begin() + i++);
+			}
+		}
+
+		// Hero has next priority to heal those people
+		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
+		{
+			if (m_vGuysToHandle[i]->GetType() == UT_HERO)
+			{
+				m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
+				m_vGuysToHandle.erase(m_vGuysToHandle.begin() + i++);
+				break;
+			}
+		}
+
+		// Lump everyone else in there
+		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
+		{
+			m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
+			m_vGuysToHandle.erase(m_vGuysToHandle.begin() + i++);
+		}
+	}
+
 }
 
 Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
@@ -1794,7 +1861,7 @@ int CAIManager::GetEnemyUnitsInRange(lua_State* L)
 		}
 	}
 
-	lua_setglobal(L, "unitData");
+	lua_setglobal(L, "enemyUnitData");
 	return 0;
 }
 CAIManager::CAIManager(void)
