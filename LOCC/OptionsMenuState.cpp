@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "OptionsMenuState.h"
 #include "StateStack.h"
+#include "StringTable.h"
 COptionsMenuState::COptionsMenuState(void)
 {
 }

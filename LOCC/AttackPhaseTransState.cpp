@@ -7,7 +7,7 @@
 #include <assert.h>
 #include "GameManager.h"
 #include "Player.h"
-
+#include "StringTable.h"
 CAttackPhaseTransState::CAttackPhaseTransState(void)
 {
 	m_MovingL=0;
