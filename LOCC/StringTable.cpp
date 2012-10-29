@@ -140,6 +140,8 @@ StringTable::~StringTable(void)
 	delete &modernenglish;
 	yeoldeanglish.clear();
 	delete &yeoldeanglish;
+	delete s_Instance;
+	s_Instance = nullptr;
 }
 StringTable* StringTable::GetInstance()
 {
