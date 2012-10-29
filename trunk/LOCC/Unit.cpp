@@ -591,9 +591,10 @@ int CUnit::Chain(lua_State* L)
 		std::vector< Vec2D > tilepos = CAbilityManager::GetInstance()->GetRange(1);
 		affected.push_back(pUnit);
 		org = pUnit;
+
 		while( true )
 		{
-			Vec2D tmp = tilepos[count++];
+			Vec2D tmp = tilepos[count];
 			tmp.nPosX += target->GetPos().nPosX;
 			tmp.nPosY += target->GetPos().nPosY;
 			target = CGameManager::GetInstance()->FindUnit(tmp);
@@ -617,11 +618,14 @@ int CUnit::Chain(lua_State* L)
 				{
 					found.push_back(target);
 				}
+				target = org;
 			}
 			else
 				target = org;
 
-			if( count == 3 )
+			count++;
+
+			if( count == 4 )
 			{
 				if( found.size() == 0 )
 					break;
@@ -659,7 +663,7 @@ int CUnit::Chain(lua_State* L)
 	
 	for( unsigned int i = 1; i < affected.size(); i++ )
 	{
-		CParticleManager::GetInstance()->LoadParticles(PT_LIGHTBOLT, affected[i]->GetPos());
+		CParticleManager::GetInstance()->LoadParticles(PT_LIGHTBOLT, TranslateToPixel(affected[i]->GetPos()));
 	}
 
 	return affected.size();

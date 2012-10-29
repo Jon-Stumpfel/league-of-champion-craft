@@ -187,21 +187,21 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 24);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(114, 24);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(114, 24);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -773,12 +773,12 @@
             // 
             // nudSpawnMin
             // 
-            this.nudSpawnMin.DecimalPlaces = 1;
+            this.nudSpawnMin.DecimalPlaces = 3;
             this.nudSpawnMin.Increment = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            65536});
+            131072});
             this.nudSpawnMin.Location = new System.Drawing.Point(88, 64);
             this.nudSpawnMin.Maximum = new decimal(new int[] {
             50,
@@ -797,12 +797,12 @@
             // 
             // nudSpawnMax
             // 
-            this.nudSpawnMax.DecimalPlaces = 1;
+            this.nudSpawnMax.DecimalPlaces = 3;
             this.nudSpawnMax.Increment = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            65536});
+            131072});
             this.nudSpawnMax.Location = new System.Drawing.Point(88, 36);
             this.nudSpawnMax.Maximum = new decimal(new int[] {
             50,

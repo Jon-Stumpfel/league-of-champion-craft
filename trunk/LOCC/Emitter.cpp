@@ -375,21 +375,20 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
 		}
 		else if( m_eType == SQUARE )	
 		{
-			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 25;
-			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1) + 40;
+			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 65;
+			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1) + 20;
 		}
 		else if( m_eType == LINE )
 		{
 			if( m_sPoint.nPosX > m_sPoint2.nPosX)
-				Pos.nPosX = (rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1)) + m_sEmitPos.nPosX + 85;
+				Pos.nPosX = (rand() % ((m_sPoint.nPosX - m_sPoint2.nPosX + m_sEmitPos.nPosX) - m_sEmitPos.nPosX + 1) + m_sEmitPos.nPosX) + 85;
 			else
-				Pos.nPosX = (rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1)) + m_sEmitPos.nPosX + 85;
+				Pos.nPosX = (rand() % ((m_sPoint2.nPosX - m_sPoint.nPosX + m_sEmitPos.nPosX) - m_sEmitPos.nPosX + 1) + m_sEmitPos.nPosX) + 85;
 
 			if( m_sPoint.nPosY > m_sPoint2.nPosY)
-				Pos.nPosY = (rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1)) + m_sEmitPos.nPosY;
+				Pos.nPosY = (rand() % ((m_sPoint.nPosY - m_sPoint2.nPosY + m_sEmitPos.nPosY) - m_sEmitPos.nPosY + 1) + m_sEmitPos.nPosY);
 			else
-				Pos.nPosY = (rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1)) + m_sEmitPos.nPosY;
-				5;
+				Pos.nPosY = (rand() % ((m_sPoint2.nPosY - m_sPoint.nPosY + m_sEmitPos.nPosY) - m_sEmitPos.nPosY + 1) + m_sEmitPos.nPosY);
 		}
 
 		// Finds the random life time
@@ -545,21 +544,20 @@ void CEmitter::Loop( void )
 		}
 		else if( m_eType == SQUARE )	
 		{
-			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 25;
-			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1) + 40;
+			Pos.nPosX = (m_sEmitPos.nPosX-m_nWidth/2) + (rand() % (int)m_nWidth+1) + 60;
+			Pos.nPosY = (m_sEmitPos.nPosY-m_nHeight/2) + (rand() % (int)m_nHeight+1) + 15;
 		}
 		else if( m_eType == LINE )
 		{
 			if( m_sPoint.nPosX > m_sPoint2.nPosX)
-				Pos.nPosX = (rand() % (m_sPoint.nPosX - m_sPoint2.nPosX + 1)) + m_sEmitPos.nPosX + 85;
+				Pos.nPosX = (rand() % ((m_sPoint.nPosX - m_sPoint2.nPosX + m_sEmitPos.nPosX) - m_sEmitPos.nPosX + 1)) + 85;
 			else
-				Pos.nPosX = (rand() % (m_sPoint2.nPosX - m_sPoint.nPosX + 1)) + m_sEmitPos.nPosX + 85;
+				Pos.nPosX = (rand() % ((m_sPoint2.nPosX - m_sPoint.nPosX + m_sEmitPos.nPosX) - m_sEmitPos.nPosX + 1)) + 85;
 
 			if( m_sPoint.nPosY > m_sPoint2.nPosY)
-				Pos.nPosY = (rand() % (m_sPoint.nPosY - m_sPoint2.nPosY + 1)) + m_sEmitPos.nPosY;
+				Pos.nPosY = (rand() % ((m_sPoint.nPosY - m_sPoint2.nPosY + m_sEmitPos.nPosY) - m_sEmitPos.nPosY + 1));
 			else
-				Pos.nPosY = (rand() % (m_sPoint2.nPosY - m_sPoint.nPosY + 1)) + m_sEmitPos.nPosY;
-				5;
+				Pos.nPosY = (rand() % ((m_sPoint2.nPosY - m_sPoint.nPosY + m_sEmitPos.nPosY) - m_sEmitPos.nPosY + 1));
 		}
 
 		// Finds the random life time
