@@ -3,17 +3,23 @@
   <Messages numMessages="0">
     <Message czText="" DisplayOnTurn=""/>
   </Messages>
-  <UnitSpawns numSpawns="8">
+   <UnitSpawns numSpawns="15">
+     <UnitSpawn unitType="1" facing="1" posX="4" posY="4" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="2" facing="1" posX="3" posY="3" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="2" facing="1" posX="3" posY="4" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="2" facing="1" posX="3" posY="5" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="2" facing="1" posX="3" posY="6" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="3" facing="1" posX="4" posY="3" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="3" facing="1" posX="5" posY="4" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="3" facing="1" posX="5" posY="5" playerID="1" TurnToSpawn="1"/>
+     <UnitSpawn unitType="3" facing="1" posX="4" posY="6" playerID="1" TurnToSpawn="1"/>
 
-    <UnitSpawn unitType="2" facing="2" posX="3" posY="2" playerID="0" TurnToSpawn="1"/>
-    <UnitSpawn unitType="1" facing="2" posX="4" posY="2" playerID="0" TurnToSpawn="1"/>
-    <UnitSpawn unitType="3" facing="2" posX="5" posY="2" playerID="0" TurnToSpawn="1"/>
-    <UnitSpawn unitType="0" facing="2" posX="4" posY="0" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="1" facing="3" posX="17" posY="5" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="0" facing="3" posX="18" posY="5" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="4" facing="3" posX="16" posY="3" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="4" facing="3" posX="16" posY="4" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="4" facing="3" posX="16" posY="5" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="4" facing="3" posX="16" posY="6" playerID="0" TurnToSpawn="1"/>
 
-    <UnitSpawn unitType="2" facing="0" posX="3" posY="5" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="1" facing="0" posX="4" posY="5" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="3" facing="0" posX="5" posY="5" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="0" facing="0" posX="4" posY="7" playerID="1" TurnToSpawn="1"/>
-
-  </UnitSpawns>
+   </UnitSpawns>
 </Script>

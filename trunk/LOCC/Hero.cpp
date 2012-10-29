@@ -122,7 +122,7 @@ int CHero::HasSpell(lua_State* L)
 	CHero* pUnit = dynamic_cast<CHero*>(CGameManager::GetInstance()->GetUnitByID(nUnitID));
 	if (pDesiredSpell != nullptr)
 	{
-		for (int i = 0; i < pUnit->GetNumSpells() ; ++i)
+		for (unsigned int i = 0; i < pUnit->GetNumSpells() ; ++i)
 		{
 			if (pDesiredSpell == pUnit->GetSpell(i))
 			{
