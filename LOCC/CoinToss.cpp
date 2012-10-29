@@ -28,7 +28,7 @@ void CCoinToss::Enter(void)
 	m_UAnonsense->fCurrentTime=1.0f;
 	m_nCoinArc=CGame::GetInstance()->GetWindowHeight()+20;
 	m_nChosenplayer=0;
-	m_nPeak = rand()%400;
+	m_nPeak = rand()%(100-50)+50;
 	m_fSecondTimer = 2.0f;
 	m_bGoDown=false;
 	m_bStop=false;
@@ -54,7 +54,7 @@ void CCoinToss::Render(void)
 	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Coin"),
 		CGame::GetInstance()->GetWindowWidth()/2 - tempoffset.nPosX, m_nCoinArc - tempoffset.nPosY,
-		1.0f, 1.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect(),0,
+		2.0f, 2.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect(),0,
 		0,0,D3DCOLOR_XRGB(255,255,255));
 
 	if (m_fSecondTimer<1.0f)
@@ -84,16 +84,17 @@ void CCoinToss::Update(float fElapsedTime)
 {	
 	if (m_nCoinArc<=m_nPeak)
 		m_bGoDown=true;
-
+	//PUT_SOUND_HERE("Coin Flip")
 	if (!m_bGoDown)
 		m_nCoinArc-=20;
 	else
 	{
 		if (m_nCoinArc>=300)
 			m_bStop=true;
-
+	
 		if (!m_bStop)
 			m_nCoinArc+=20;
+		//PUT_SOUND_HERE("Coin table hit")
 	}
 	if(!m_bStop)
 	{

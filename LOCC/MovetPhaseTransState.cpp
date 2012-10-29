@@ -45,8 +45,16 @@ void CMovetPhaseTransState::Render(void)
 		CBitmapFont bmf; ostringstream oss; 
 		int Playernum = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
 		
-		oss<<"Player "<< ++Playernum<<" Movement Phase";
-		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(0,255,0));
+		if (Playernum==0)
+		{
+		oss<<"Player "<< Playernum+1<<" Movement Phase";
+		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(0,0,255));
+		}
+		if (Playernum==1)
+		{
+		oss<<"Player "<< Playernum+1<<" Movement Phase";
+		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(255,0,0));
+		}
 	}
 }
 
@@ -61,6 +69,7 @@ void CMovetPhaseTransState::Update(float fElapsedTime)
 	{
 		CStateStack::GetInstance()->Pop();
 	}
+	//PUT_SOUND_HERE("Rock Crumble")
 }
 void CMovetPhaseTransState::Input(INPUT_ENUM input)
 {
