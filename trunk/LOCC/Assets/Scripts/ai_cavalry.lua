@@ -42,7 +42,6 @@ function Attack()
 
 	localX, localY = GetUnitPosition(unitID);
 	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Cavalry Attack.11111..", pixelX, pixelY, 40, 0, 5, 0.4, 20, 255, 20);	
 
 	nearestID = FindNearest(unitID);
 
@@ -101,7 +100,6 @@ end
 function Charge()
 	localX, localY = GetUnitPosition(unitID);
 	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Cavalry CHARGE..." .. chargeDirection, pixelX, pixelY, 0, -40, 5, 0.4, 255, 20, 20);
 
 	IssueOrder("deselectall");
 	IssueOrder("selectunit", unitID);
@@ -135,7 +133,6 @@ function AttackNearest()
 	
 	localX, localY = GetUnitPosition(unitID);
 	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Cavalry Attack NEAREST...", pixelX, pixelY, 0, 40, 5, 0.4, 255, 20, 20);	
 	
 	IssueOrder("deselectall");
 	IssueOrder("selectunit", unitID);

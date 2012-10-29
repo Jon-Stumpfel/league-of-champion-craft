@@ -83,7 +83,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.8f)
+		if (fTimeToPop > 0.2f)
 		{
 			if (m_vInputQueue.front() == INPUT_AI_ORDERFINISHED)
 			{

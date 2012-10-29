@@ -15,7 +15,6 @@ function Move()
 	totdistance = distancex + distancey;
 
 	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Swordsman Move...", pixelX, pixelY, 0, -40, 5, 0.4, 20, 255, 20);	
 	
 	isFleeing = GetFleeing(unitID);
 	if (isFleeing == true) then
@@ -35,8 +34,7 @@ end
 
 function Attack()
 	localX, localY = GetUnitPosition(unitID);
-	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Swordsman Attack...", pixelX, pixelY, 0, -40, 5, 0.4, 20, 255, 20);	
+	pixelX, pixelY = TranslateToPixel(localX, localY);	
 
 	nearestID = FindNearest(unitID);
 	targetX, targetY = GetUnitPosition(nearestID);
@@ -67,7 +65,6 @@ function Attack()
 		numNearby = numNearby + 1;
 	end
 
-	AddText("NumNearby: " .. numNearby, pixelX, pixelY, 0, 0, 5, 0.4, 255, 20, 255);
 	
 	if (numNearby >= 3) then
 		StandGround()
@@ -79,7 +76,6 @@ function Attack()
 end
 
 function StandGround()
-	AddText("Standing Ground: ", pixelX, pixelY, 0, -50, 5, 0.4, 255,255, 255);
 	IssueOrder("deselectall");
 	IssueOrder("selectunit", unitID);
 	IssueOrder("selectability", 3);
