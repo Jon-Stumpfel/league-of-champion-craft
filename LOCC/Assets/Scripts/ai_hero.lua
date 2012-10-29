@@ -14,8 +14,7 @@ function Move()
 	distancey = math.abs((targetY - localY));
 	totdistance = distancex + distancey;
 
-	pixelX, pixelY = TranslateToPixel(localX, localY);
-	AddText("Hero Move...", pixelX, pixelY, 0, -40, 5, 0.4, 20, 255, 20);	
+	pixelX, pixelY = TranslateToPixel(localX, localY);	
 	
 	
 	if (totdistance > 1) then
@@ -43,7 +42,7 @@ function Attack()
 	distancey = math.abs((targetY - localY));
 	totdistance = distancex + distancey;
 	
-	if (totDistance == 1) then
+	if (totdistance == 1) then
 		AttackNearest()
 	end
 end
