@@ -156,62 +156,62 @@ void CMainMenuState::Render(void)
 	if(selected == 0)
 	{
 		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-			("Start").c_str(),360,200,0.7f,D3DXCOLOR(150,150,0,255));
+		("Start").c_str(),360,200,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
 		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-			("Start").c_str(),360,200,0.7f,D3DXCOLOR(255,255,255,255));
+		("Start").c_str(),360,200,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 1)
 	{
 		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-			("Load").c_str(),364,250,0.7f,D3DXCOLOR(150,150,0,255));
+		("Load").c_str(),364,250,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
 		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-			("Load").c_str(),364,250,0.7f,D3DXCOLOR(255,255,255,255));
+		("Load").c_str(),364,250,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 2)
 	{
 		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-			("Options").c_str(),343,300,0.7f,D3DXCOLOR(150,150,0,255));
+		("Options").c_str(),343,300,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
 		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-			("Options").c_str(),343,300,0.7f,D3DXCOLOR(255,255,255,255));
+		("Options").c_str(),343,300,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 3)
 	{
-		const char* Credits = "Credits";
-		m_pBitmapFont->Print(Credits,348,350,0.7f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Credits").c_str(),348,350,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
-		const char* Credits = "Credits";
-		m_pBitmapFont->Print(Credits,348,350,0.7f,D3DXCOLOR(255,255,255,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Credits").c_str(),348,350,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 4)
 	{
-		const char* Help = "Help";
-		m_pBitmapFont->Print(Help,365,400,0.7f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Help").c_str(),365,400,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
-		const char* Help = "Help";
-		m_pBitmapFont->Print(Help,365,400,0.7f,D3DXCOLOR(255,255,255,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Help").c_str(),365,400,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 5)
 	{
-		const char* Exit = "Exit";
-		m_pBitmapFont->Print(Exit,364,450,0.7f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Exit").c_str(),364,450,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
-		const char* Exit = "Exit";
-		m_pBitmapFont->Print(Exit,364,450,0.7f,D3DXCOLOR(255,255,255,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Exit").c_str(),364,450,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 
 }

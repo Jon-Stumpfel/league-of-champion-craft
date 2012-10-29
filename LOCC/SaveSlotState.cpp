@@ -6,6 +6,8 @@
 #include "Hero.h"
 #include "Player.h"
 #include "GameplayState.h"
+#include "SaveSlotState.h"
+#include "StringTable.h"
 CSaveSlotState::CSaveSlotState(void)
 {
 }
@@ -218,41 +220,25 @@ void CSaveSlotState::Render(void)
 	ReadSlot(3);
 	if (m_bShowMenu)
 	{
-		std::ostringstream woss;
-		woss << "Load from Slot";
-		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 480, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
-
-		woss.str((""));
-
+		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
+			("Load from Slot").c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255);
 		if (m_bFromMainMenu)
 		{
 			color = D3DCOLOR_XRGB(120, 120, 120);
 		}
-		woss << "Save to Slot";
-		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 500, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 480, 0.4f, color);
-
-		woss.str((""));
-		woss << "Delete Slot";
-		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 370, 520, 255, 255, 255);
-		m_pBitmapFont.Print(woss.str().c_str(), 370, 520, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
-
-
+		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
+			("Save to Slot").c_str(), 370, 480, 0.4f, color);
+		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
+			("Delete Slot").c_str(), 370, 520, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 		if (m_bConfirm)
 		{
-			woss.str((""));
-			woss << "Are you sure?";
-			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 330, 550, 255, 255, 255);
-			m_pBitmapFont.Print(woss.str().c_str(), 290, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
-
-			woss.str((""));
-			woss << "No";
-			m_pBitmapFont.Print(woss.str().c_str(), 515, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
-			woss.str((""));
-			woss << "Yes";
-			m_pBitmapFont.Print(woss.str().c_str(), 590, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont.Print(StringTable::GetInstance()->GetString
+			("Are you sure?").c_str(), 290, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont.Print(StringTable::GetInstance()->GetString
+			("No").c_str(), 515, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			m_pBitmapFont.Print(StringTable::GetInstance()->GetString
+			("Yes").c_str(), 590, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 			CGraphicsManager::GetInstance()->DrawArrow(495 + (m_nConfirmChoice * 75), 560, 255, 255, 255);
 		}
 		else
@@ -343,12 +329,12 @@ void CSaveSlotState::ReadSlot(int nSlot)
 
 
 		std::ostringstream woss;
-		woss << "Slot " << nSlot;
+		woss << StringTable::GetInstance()->GetString("Slot ") << nSlot;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 150 + xOffset , 80);
 		m_pBitmapFont.Print(woss.str().c_str(), 150 + xOffset, 80, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 
 		woss.str((""));
-		woss << "Map ID: "<< s.nMapID;
+		woss << StringTable::GetInstance()->GetString("Map ID: ")<< s.nMapID;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 100);
 		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 100, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
 

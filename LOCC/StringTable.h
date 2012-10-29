@@ -5,7 +5,6 @@ public:
 	std::string GetString(std::string tempstring);
 	static StringTable* GetInstance();
 	void SetLanguage(bool IsItModernEnglish);
-	void ReadSlot(int nSlot);
 private:
 	StringTable(void);
 	~StringTable(void);
