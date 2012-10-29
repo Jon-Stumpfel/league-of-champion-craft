@@ -9,7 +9,7 @@
 #include "GameplayState.h"
 #include "AIManager.h"
 #include "Player.h"
-
+#include "StringTable.h"
 CCoinToss::CCoinToss(void)
 {
 
@@ -25,11 +25,10 @@ void CCoinToss::Enter(void)
 	m_UAnonsense= new UnitAnimation();
 	m_UAnonsense->animationType=AT_ATTACK_N;
 	m_UAnonsense->unitType=UT_CASTLE;
-	m_UAnonsense->fCurrentTime=0.0f;
+	m_UAnonsense->fCurrentTime=1.0f;
 	m_nCoinArc=CGame::GetInstance()->GetWindowHeight()+20;
 	m_nChosenplayer=0;
-	m_nPeak = rand()%200;
-	m_fTimer =2.0f;
+	m_nPeak = rand()%400;
 	m_fSecondTimer = 2.0f;
 	m_bGoDown=false;
 	m_bStop=false;
@@ -55,23 +54,27 @@ void CCoinToss::Render(void)
 	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Coin"),
 		CGame::GetInstance()->GetWindowWidth()/2 - tempoffset.nPosX, m_nCoinArc - tempoffset.nPosY,
-		2.0f, 2.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect(),0,
+		1.0f, 1.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect(),0,
 		0,0,D3DCOLOR_XRGB(255,255,255));
 
 	if (m_fSecondTimer<1.0f)
 	{
 		if(m_nChosenplayer == 6)
 		{
-			CBitmapFont bmf; ostringstream oss; 
+			CBitmapFont bmf; ostringstream oss;
 			int Playernum = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
-			oss<<"Player "<< ++Playernum<<" wins the coin toss";
+			oss<<StringTable::GetInstance()->GetString("Player ")
+				<< ++Playernum<<StringTable::GetInstance()->
+				GetString(" wins the coin toss");
 			bmf.Print(oss.str().c_str(),280,300,.5f, D3DCOLOR_XRGB(0,0,255));
 		}
 		if(m_nChosenplayer == 7)
 		{
 			CBitmapFont bmf; ostringstream oss; 
 			int Playernum = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
-			oss<<"Player "<< ++Playernum<<" wins the coin toss";
+			oss<<StringTable::GetInstance()->GetString("Player ")
+				<< ++Playernum<<StringTable::GetInstance()->
+				GetString(" wins the coin toss");
 			bmf.Print(oss.str().c_str(),280,300,.5f, D3DCOLOR_XRGB(255,0,0));
 		}
 	}
@@ -105,12 +108,21 @@ void CCoinToss::Update(float fElapsedTime)
 				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 2 ||
 				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 3 ||
 				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 4 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 5 ||
 				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 6 ||
 				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 7)
 			{
 				m_nChosenplayer = 7;
 			}
-			else
+			else if(
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 8 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 9 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 10 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 11 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 12 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 13 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 14 ||
+				CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetFrame() == 15)
 			{
 				m_nChosenplayer = 6;
 			}
@@ -126,8 +138,9 @@ void CCoinToss::Update(float fElapsedTime)
 			CAnimationManager::GetInstance()->SetCoinFrame(5);
 			
 		}
+		m_fTimer -= fElapsedTime;
 		m_fSecondTimer -= fElapsedTime;
-		if(m_fSecondTimer <= 1.0f && m_fSecondTimer <= 1.5f)
+		if(m_fSecondTimer <= 1.0f)
 		{
 			if (m_nChosenplayer==6)
 			{

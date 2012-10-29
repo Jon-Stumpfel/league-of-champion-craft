@@ -36,9 +36,32 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Geongra Icend: Robert Martinez");
 	modernenglish.push_back("Minor units also provided by Blizzard Entertainment");
 	yeoldeanglish.push_back("Clidwyrt hererinc eac foresceawianed purh Blizzard Entertainment");
-	ReadSlot(1);
-	ReadSlot(2);
-	ReadSlot(3);
+	modernenglish.push_back("Slot ");
+	yeoldeanglish.push_back("Hwil ");
+	modernenglish.push_back("Map ID: ");
+	yeoldeanglish.push_back("Mappe ID ");
+	modernenglish.push_back("Current Player: ");
+	yeoldeanglish.push_back("Gifsceatt Gliwiend: ");
+	modernenglish.push_back("Current Turn: ");
+	yeoldeanglish.push_back("Gifsceatt Cierr: ");
+	modernenglish.push_back("Current Phase: ");
+	modernenglish.push_back("Movement");
+	modernenglish.push_back("Attack");
+	yeoldeanglish.push_back("Gifsceatt Tacnung: ");
+	yeoldeanglish.push_back("Faer");
+	yeoldeanglish.push_back("Aflygennes");
+	modernenglish.push_back("  Wood ");
+	yeoldeanglish.push_back("  Acholt ");
+	modernenglish.push_back("  Metal ");
+	yeoldeanglish.push_back("  Wecg ");
+	modernenglish.push_back("  AP ");
+	yeoldeanglish.push_back("  AP ");
+	modernenglish.push_back("  Units ");
+	yeoldeanglish.push_back("  Hererincs ");
+	modernenglish.push_back("  XP ");
+	yeoldeanglish.push_back("  XP ");
+	modernenglish.push_back("NO SAVE");
+	yeoldeanglish.push_back("NE NERIAN");
 	modernenglish.push_back("Load from slot");
 	yeoldeanglish.push_back("Hlaest fram hwil");
 	modernenglish.push_back("Save to slot");
@@ -65,7 +88,8 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Gliwiend ");
 	modernenglish.push_back("Attack Phase");
 	yeoldeanglish.push_back("Forsecan Tacnunga");
-
+	modernenglish.push_back(" wins the coin toss");
+	yeoldeanglish.push_back(" wyrcans an mynet cnyssan");
 }
 StringTable::~StringTable(void)
 {
@@ -100,181 +124,6 @@ struct SlotDataStruct
 
 	PlayerData p1, p2;
 };
-void StringTable::ReadSlot(int nSlot)
-{
-
-	CBitmapFont m_pBitmapFont;
-	std::ostringstream oss;
-	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
-	TiXmlDocument doc;
-
-	SlotDataStruct s;
-
-	int xOffset = (nSlot - 1) * 240;
-	xOffset -= 40;
-	if (doc.LoadFile(oss.str().c_str()))
-	{
-		TiXmlElement* pRoot = doc.RootElement();
-
-		if (pRoot == nullptr)
-			return;
-
-
-		pRoot->QueryIntAttribute("mapID", &s.nMapID);
-		pRoot->QueryIntAttribute("currPlayer", &s.nCurrPlayer);
-		pRoot->QueryIntAttribute("phaseNumber", &s.nPhaseCount);
-		pRoot->QueryIntAttribute("phase", &s.nCurrPhase);
-
-		TiXmlElement* pPlayers = pRoot->FirstChildElement("Players");
-		TiXmlElement* pPlayer = pPlayers->FirstChildElement("Player");
-
-		for (int np = 0; np < 2; ++np)
-		{
-			SlotDataStruct::PlayerData pl;
-
-			pPlayer->QueryIntAttribute("id", &pl.nPlayerID);
-			pPlayer->QueryIntAttribute("ai", &pl.nAIControlled);
-			pPlayer->QueryIntAttribute("wood", &pl.nWood);
-			pPlayer->QueryIntAttribute("AP", &pl.nAP);
-			pPlayer->QueryIntAttribute("metal", &pl.nMetal);
-
-			TiXmlElement* pChampion = pPlayer->FirstChildElement("Champion");
-
-			// TODO: load in spells here from ability manager
-			pChampion->QueryIntAttribute("health", &pl.tChampion.nHealth);
-			pChampion->QueryIntAttribute("xp", &pl.nXP);
-
-			TiXmlElement* pUnits = pPlayer->FirstChildElement("Units");
-			pUnits->QueryIntAttribute("numUnits", &pl.nNumUnits);
-			pPlayer = pPlayer->NextSiblingElement("Player");
-
-			if (np == 0)
-				s.p1 = pl;
-			else
-				s.p2 = pl;
-		}
-		std::ostringstream woss;
-		woss << "Slot " << nSlot;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Hwil " << nSlot;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Map ID: "<< s.nMapID;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Mappe ID " << s.nMapID;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Current Player: " << s.nCurrPlayer + 1;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Gifsceatt Gliwiend: " << s.nCurrPlayer + 1;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Current Turn: " << (s.nPhaseCount / 4) + 1;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Gifsceatt Cierr: " << (s.nPhaseCount / 4) + 1;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Current Phase: ";
-		if (s.nCurrPhase == 0)
-			woss << "Movement";
-		else
-			woss << "Attack";
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Gifsceatt Tacnung: ";
-		if (s.nCurrPhase == 0)
-			woss << "Faer";
-		else
-			woss << "Aflygennes";
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Player 1 ";
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Gliwiend 1 ";
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Wood " << s.p1.nWood;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Acholt " << s.p1.nWood;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Metal " << s.p1.nMetal;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Wecg " << s.p1.nMetal;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  AP " << s.p1.nAP;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  AP " << s.p1.nAP;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Units " << s.p1.nNumUnits;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Hererincs " << s.p1.nNumUnits;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  XP " << s.p1.nXP;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  XP " << s.p1.nXP;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Player 2 ";
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "Gliwiend 2 ";
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Wood " << s.p2.nWood;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Acholt " << s.p2.nWood;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Metal " << s.p2.nMetal;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Wecg " << s.p2.nMetal;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  AP " << s.p2.nAP;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  AP " << s.p2.nAP;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Units " << s.p2.nNumUnits;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  Hererincs " << s.p2.nNumUnits;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  XP " << s.p2.nXP;
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "  XP " << s.p2.nXP;
-		yeoldeanglish.push_back(woss.str());
-		woss.str((""));
-	}
-	else
-	{
-		std::ostringstream woss;
-		woss << "NO SAVE";
-		modernenglish.push_back(woss.str());
-		woss.str((""));
-		woss << "NE NERIAN";
-		yeoldeanglish.push_back(woss.str());
-	}
-}
 void StringTable::SetLanguage(bool IsItModernEnglish)
 {
 	if(IsItModernEnglish)

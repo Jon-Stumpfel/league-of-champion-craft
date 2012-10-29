@@ -292,22 +292,22 @@
     <Frame FrameNumber="1" TimeForFrameToRun="300" top="577" right="136" bottom="613" left="93" AnchorX="115" AnchorY="605" />
   </Animation>
   <Animation UnitType="0" AnimType="5" IsLooping="1" ImgName="RedBlueCoin.png" CurrentFrame="15" AnimationName="CoinFlip">
-    <Frame FrameNumber="0" TimeForFrameToRun="15" top="0" right="46" bottom="39" left="3" AnchorX="26" AnchorY="20" />
-    <Frame FrameNumber="1" TimeForFrameToRun="15" top="42" right="45" bottom="80" left="3" AnchorX="27" AnchorY="63" />
-    <Frame FrameNumber="2" TimeForFrameToRun="15" top="83" right="47" bottom="116" left="4" AnchorX="27" AnchorY="107" />
-    <Frame FrameNumber="3" TimeForFrameToRun="15" top="118" right="49" bottom="142" left="5" AnchorX="27" AnchorY="144" />
-    <Frame FrameNumber="4" TimeForFrameToRun="15" top="144" right="48" bottom="157" left="4" AnchorX="27" AnchorY="176" />
-    <Frame FrameNumber="5" TimeForFrameToRun="15" top="159" right="47" bottom="182" left="2" AnchorX="25" AnchorY="186" />
-    <Frame FrameNumber="6" TimeForFrameToRun="15" top="185" right="46" bottom="218" left="2" AnchorX="26" AnchorY="208" />
-    <Frame FrameNumber="7" TimeForFrameToRun="15" top="220" right="45" bottom="258" left="2" AnchorX="25" AnchorY="240" />
-    <Frame FrameNumber="8" TimeForFrameToRun="15" top="0" right="93" bottom="40" left="50" AnchorX="73" AnchorY="20" />
-    <Frame FrameNumber="9" TimeForFrameToRun="15" top="42" right="93" bottom="80" left="50" AnchorX="71" AnchorY="62" />
-    <Frame FrameNumber="10" TimeForFrameToRun="15" top="83" right="94" bottom="116" left="50" AnchorX="71" AnchorY="106" />
-    <Frame FrameNumber="11" TimeForFrameToRun="15" top="118" right="95" bottom="143" left="51" AnchorX="72" AnchorY="146" />
-    <Frame FrameNumber="12" TimeForFrameToRun="15" top="144" right="95" bottom="157" left="51" AnchorX="72" AnchorY="178" />
-    <Frame FrameNumber="13" TimeForFrameToRun="15" top="159" right="95" bottom="182" left="52" AnchorX="72" AnchorY="190" />
-    <Frame FrameNumber="14" TimeForFrameToRun="15" top="186" right="94" bottom="218" left="50" AnchorX="72" AnchorY="209" />
-    <Frame FrameNumber="15" TimeForFrameToRun="15" top="220" right="93" bottom="258" left="50" AnchorX="71" AnchorY="241" />
+    <Frame FrameNumber="0" TimeForFrameToRun="5" top="0" right="46" bottom="39" left="3" AnchorX="26" AnchorY="20" />
+    <Frame FrameNumber="1" TimeForFrameToRun="5" top="42" right="45" bottom="80" left="3" AnchorX="27" AnchorY="63" />
+    <Frame FrameNumber="2" TimeForFrameToRun="5" top="83" right="47" bottom="116" left="4" AnchorX="27" AnchorY="107" />
+    <Frame FrameNumber="3" TimeForFrameToRun="5" top="118" right="49" bottom="142" left="5" AnchorX="27" AnchorY="144" />
+    <Frame FrameNumber="4" TimeForFrameToRun="5" top="144" right="48" bottom="157" left="4" AnchorX="27" AnchorY="176" />
+    <Frame FrameNumber="5" TimeForFrameToRun="5" top="159" right="47" bottom="182" left="2" AnchorX="25" AnchorY="186" />
+    <Frame FrameNumber="6" TimeForFrameToRun="5" top="185" right="46" bottom="218" left="2" AnchorX="26" AnchorY="208" />
+    <Frame FrameNumber="7" TimeForFrameToRun="5" top="220" right="45" bottom="258" left="2" AnchorX="25" AnchorY="240" />
+    <Frame FrameNumber="8" TimeForFrameToRun="5" top="0" right="93" bottom="40" left="50" AnchorX="73" AnchorY="20" />
+    <Frame FrameNumber="9" TimeForFrameToRun="5" top="42" right="93" bottom="80" left="50" AnchorX="71" AnchorY="62" />
+    <Frame FrameNumber="10" TimeForFrameToRun="5" top="83" right="94" bottom="116" left="50" AnchorX="71" AnchorY="106" />
+    <Frame FrameNumber="11" TimeForFrameToRun="5" top="118" right="95" bottom="143" left="51" AnchorX="72" AnchorY="146" />
+    <Frame FrameNumber="12" TimeForFrameToRun="5" top="144" right="95" bottom="157" left="51" AnchorX="72" AnchorY="178" />
+    <Frame FrameNumber="13" TimeForFrameToRun="5" top="159" right="95" bottom="182" left="52" AnchorX="72" AnchorY="190" />
+    <Frame FrameNumber="14" TimeForFrameToRun="5" top="186" right="94" bottom="218" left="50" AnchorX="72" AnchorY="209" />
+    <Frame FrameNumber="15" TimeForFrameToRun="5" top="220" right="93" bottom="258" left="50" AnchorX="71" AnchorY="241" />
   </Animation>
   <Animation UnitType="2" AnimType="5" IsLooping="0" ImgName="archer(Blue).png" CurrentFrame="0" AnimationName="ArcherAttackNorth">
     <Frame FrameNumber="0" TimeForFrameToRun="300" top="370" right="111" bottom="420" left="67" AnchorX="86" AnchorY="404" />

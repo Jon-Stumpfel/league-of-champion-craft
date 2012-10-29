@@ -2,6 +2,7 @@
 #include "CreditsState.h"
 #include "StateStack.h"
 #include "MainMenuState.h"
+#include "StringTable.h"
 //CCreditsState* CCreditsState::s_Instance = nullptr;
 
 CCreditsState::CCreditsState(void)
@@ -65,26 +66,26 @@ void CCreditsState::Render(void)
 	toprect->right = 402;
 	delete toprect;
 	toprect = nullptr;
-	const char* temp = "Credits:";
-	m_pBitmapFont->Print(temp,290,103,1.0f,D3DXCOLOR(255,255,255,255));
-	temp = "Art: Maher Sagrillo";
-	m_pBitmapFont->Print(temp,304,153,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Lead Producer: Jon";
-	m_pBitmapFont->Print(temp,300,168,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Sounds: Jordan Wells";
-	m_pBitmapFont->Print(temp,295,183,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Tile Engine: Dalton Gbur";
-	m_pBitmapFont->Print(temp,283,198,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Core Gameplay: Kyle Veilleux";
-	m_pBitmapFont->Print(temp,260,213,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Particle Engine: Ryan Cartier";
-	m_pBitmapFont->Print(temp,259,228,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Animation Engine: Jon Stumpfel";
-	m_pBitmapFont->Print(temp,247,243,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Assistant Producer: Robert Martinez";
-	m_pBitmapFont->Print(temp,216,258,0.3f,D3DXCOLOR(255,255,255,255));
-	temp = "Minor units also provided by Blizzard Entertainment";
-	m_pBitmapFont->Print(temp,145,274,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Credits:").c_str(),290,103,1.0f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Art: Maher Sagrillo").c_str(),304,153,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Lead Producer: Jon").c_str(),300,168,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Sounds: Jordan Wells").c_str(),295,183,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Tile Engine: Dalton Gbur").c_str(),283,198,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Core Gameplay: Kyle Veilleux").c_str(),260,213,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Particle Engine: Ryan Cartier").c_str(),259,228,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Animation Engine: Jon Stumpfel").c_str(),247,243,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Assistant Producer: Robert Martinez").c_str(),216,258,0.3f,D3DXCOLOR(255,255,255,255));
+	m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Minor units also provided by Blizzard Entertainment").c_str(),145,274,0.3f,D3DXCOLOR(255,255,255,255));
 }
 
 CCreditsState* CCreditsState::GetInstance()
