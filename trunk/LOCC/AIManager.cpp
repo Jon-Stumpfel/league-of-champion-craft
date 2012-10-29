@@ -70,7 +70,10 @@ void CAIManager::Initialize(void)
 	lua_register(AIL, "GetTilesMoved", CUnit::GetTilesMoved);
 	lua_register(AIL, "FindUnitByTile", CAIManager::FindUnitByTile);
 	lua_register(AIL, "GetPlayerID", CUnit::GetPlayerID);
-
+	lua_register(AIL, "HasSpell", CHero::HasSpell);
+	lua_register(AIL, "GetSpellCooldown", CHero::GetSpellCooldown);
+	lua_register(AIL, "GetFriendlyUnitsInRange", CAIManager::GetFriendlyUnitsInRange);
+	lua_register(AIL, "GetEnemyUnitsInRange", CAIManager::GetEnemyUnitsInRange);
 }
 void CAIManager::Shutdown(void)
 {
@@ -1718,6 +1721,81 @@ int CAIManager::FindUnitByTile(lua_State* L)
 
 
 	return 1;
+}
+
+int CAIManager::GetFriendlyUnitsInRange(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	int nRange = lua_tointeger(L, 2);
+
+	std::vector< Vec2D > pattern;
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+	pattern = CAbilityManager::GetInstance()->GetRange(nRange);
+
+
+	lua_newtable(L);
+	int nCount = 0;
+	for (unsigned int i = 0; i < pattern.size(); ++i)
+	{
+		CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pUnit->GetPos().nPosX + pattern[i].nPosX, 
+			pUnit->GetPos().nPosY + pattern[i].nPosY);
+
+		if (pTestUnit != nullptr)
+		{
+			if (pTestUnit->GetPlayerID() == pUnit->GetPlayerID() && pTestUnit->GetType() != UT_CASTLE)
+			{
+				lua_newtable(L);
+				lua_pushstring(L, "uniqueID");
+				lua_pushinteger(L, pTestUnit->GetUniqueID());
+				lua_settable(L, -3);
+				lua_pushinteger(L, nCount+1);
+				lua_insert(L, -2);
+				lua_settable(L, -3);
+				nCount++;
+			}
+		}
+	}
+	lua_setglobal(L, "unitData");
+	return 0;
+}
+
+int CAIManager::GetEnemyUnitsInRange(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	int nRange = lua_tointeger(L, 2);
+
+	std::vector< Vec2D > pattern;
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+	pattern = CAbilityManager::GetInstance()->GetRange(nRange);
+
+
+	lua_newtable(L);
+	int nCount = 0;
+	for (unsigned int i = 0; i < pattern.size(); ++i)
+	{
+		CUnit* pTestUnit = CGameManager::GetInstance()->FindUnit(pUnit->GetPos().nPosX + pattern[i].nPosX, 
+			pUnit->GetPos().nPosY + pattern[i].nPosY);
+
+		if (pTestUnit != nullptr)
+		{
+			if (pTestUnit->GetPlayerID() != pUnit->GetPlayerID()  && pTestUnit->GetType() != UT_CASTLE)
+			{
+				lua_newtable(L);
+				lua_pushstring(L, "uniqueID");
+				lua_pushinteger(L, pTestUnit->GetUniqueID());
+				lua_settable(L, -3);
+				lua_pushinteger(L, nCount+1);
+				lua_insert(L, -2);
+				lua_settable(L, -3);
+				nCount++;
+			}
+		}
+	}
+
+	lua_setglobal(L, "unitData");
+	return 0;
 }
 CAIManager::CAIManager(void)
 {
