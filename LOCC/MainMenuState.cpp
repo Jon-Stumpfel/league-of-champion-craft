@@ -175,13 +175,13 @@ void CMainMenuState::Render(void)
 	}
 	if(selected == 2)
 	{
-		const char* Options = "Options";
-		m_pBitmapFont->Print(Options,343,300,0.7f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+			("Options").c_str(),343,300,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
-		const char* Options = "Options";
-		m_pBitmapFont->Print(Options,343,300,0.7f,D3DXCOLOR(255,255,255,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+			("Options").c_str(),343,300,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 3)
 	{
