@@ -69,11 +69,12 @@ void CAIManager::Initialize(void)
 	lua_register(AIL, "GetMaxHealth", CUnit::GetMaxHealth);
 	lua_register(AIL, "GetTilesMoved", CUnit::GetTilesMoved);
 	lua_register(AIL, "FindUnitByTile", CAIManager::FindUnitByTile);
+	lua_register(AIL, "GetPlayerID", CUnit::GetPlayerID);
 
 }
 void CAIManager::Shutdown(void)
 {
-
+	lua_close(AIL);
 }
 
 
@@ -83,7 +84,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.2f)
+		if (fTimeToPop > 0.8f)
 		{
 			if (m_vInputQueue.front() == INPUT_AI_ORDERFINISHED)
 			{
@@ -1600,6 +1601,14 @@ int CAIManager::IssueOrder(lua_State* L)
 		AIOrder order;
 		order.first = new int(nAbilityID);
 		order.second = AIO_PICKABILITY;
+		pAIM->m_vOrderQueue.push_back(order);
+	}
+	else if (orderString.compare("selectspell") == 0)
+	{
+		int nSpellID = lua_tointeger(L, 2);
+		AIOrder order;
+		order.first = new int(nSpellID);
+		order.second = AIO_PICKSPELL;
 		pAIM->m_vOrderQueue.push_back(order);
 	}
 	return 0;

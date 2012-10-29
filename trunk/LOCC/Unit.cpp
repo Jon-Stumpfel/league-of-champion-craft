@@ -897,3 +897,17 @@ int CUnit::GetMaxHealth(lua_State* L)
 
 	return 1;
 }
+
+int CUnit::GetPlayerID(lua_State* L)
+	{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+
+
+	int nPlayerID = pUnit->GetPlayerID();
+	
+	lua_pushinteger(L, nPlayerID);
+
+	return 1;
+	}

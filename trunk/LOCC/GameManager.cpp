@@ -773,6 +773,17 @@ void CGameManager::NewGame(string levelstring, int mapint)
 
 	LoadUnitsFromScript();
 
+	if (m_vPlayers[1]->GetAI())
+	{
+		CHero* pHero = dynamic_cast<CHero*>(CGameManager::GetInstance()->GetChampion(1));
+
+		pHero->SwapSpell(CAbilityManager::GetInstance()->GetAbility(SP_HEAL), 0);
+		pHero->SwapSpell(CAbilityManager::GetInstance()->GetAbility(SP_RALLY), 1);
+		pHero->SwapSpell(CAbilityManager::GetInstance()->GetAbility(SP_MAGIC), 2);
+		pHero->SwapSpell(CAbilityManager::GetInstance()->GetAbility(SP_CLEAVE), 3);
+
+	}
+
 	CAIManager::GetInstance()->BeginMovement();
 	if (CMultiplayerState::GetInstance()->GetNetworkSetup())
 	{
