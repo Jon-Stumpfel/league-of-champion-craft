@@ -663,7 +663,6 @@ int CUnit::Chain(lua_State* L)
 	}
 
 	return affected.size();
-
 }
 
 
@@ -690,6 +689,7 @@ int CUnit::IceAge( lua_State* L )
 
 		CGameManager::GetInstance()->AddModification(mod);
 	}
+
 	return 0;
 }
 
