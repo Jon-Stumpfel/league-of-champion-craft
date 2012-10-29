@@ -284,7 +284,7 @@ void CSpellScrollState::Render(void)
 
 		tt.str("");
 		tt << selected->GetDescription();
-		pBF->Print(tt.str().c_str(), 427, 493, .2f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
+		pBF->Print(tt.str().c_str(), 427, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
 
 	}
 

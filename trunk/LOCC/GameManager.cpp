@@ -632,10 +632,10 @@ void CGameManager::LoadSave(int nSlot)
 			pBoughtSpells->QueryIntAttribute("numBought", &nNumBought);
 			std::vector<SPELL_TYPE> bought;
 			TiXmlElement* pBought = pBoughtSpells->FirstChildElement("Bought");
-			int type;
+			
 			for( int i = 0; i < nNumBought; i++)
 			{
-				int nType;
+				int type;
 				pBought->QueryIntAttribute("Type", &type);
 				bought.push_back((SPELL_TYPE)type);
 				pBought = pBought->NextSiblingElement("Bought");

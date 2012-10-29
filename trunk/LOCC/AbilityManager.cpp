@@ -367,7 +367,7 @@ void CAbilityManager::LoadAbilities( void )
 						ab->m_szInterfaceIcon = name;
 					ab->SetParticleType(PT_FIRE);
 					ab->SetDamage(15);
-					ab->SetDescription("You Know it, You love it, The fireball! This ones burns up most targets.");
+					ab->SetDescription("The Champion hurls a ball of fire at a target.");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIREBALL;
 					tmp.second = ab;
@@ -382,7 +382,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(-8);
-					ab->SetDescription("The Champion closes the wounds of a select unit, channeling the  healing mysticism");
+					ab->SetDescription("The Champion closes the wounds of a selected unit.");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEAL;
 					tmp.second = ab;
@@ -397,7 +397,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(0);
-					ab->SetDescription("The Champion puts a magical barrier around a unit, protecting it from damage");
+					ab->SetDescription("The Champion shields his target preventing damage for a turn.");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SHIELD;
 					tmp.second = ab;
@@ -411,7 +411,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(TEST);
 					ab->SetDamage(0);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion shifts the ground under his unit's feet, causing them to be able to move faster");
+					ab->SetDescription("The Champion increases the speed of a selected unit for a turn.");
 					std::pair<SPELL_TYPE,CAbility*> tmp;
 					tmp.first = SP_SPEED;
 					tmp.second = ab;
@@ -441,7 +441,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(6);
-					ab->SetDescription("CHARGE!!! The Cavalry rushes straight into the enemy ranks, crushing many units as they speed up");
+					ab->SetDescription("The Calvary rushes forward dealing more damage for evey unit hit in a line.");
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CHARGE;
 					tmp.second = ab;
@@ -454,7 +454,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_CARTOGRAPHY);
 					ab->SetParticleType(PT_CARTOGRAPHY);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Create a map and give it to target unit, letting the unit move through forests and mountains with ease");
+					ab->SetDescription("Reduces the cost of moving to one for a target unit.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CARTOGRAPHY;
@@ -468,7 +468,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_DESTROYFOREST);
 					ab->SetParticleType(PT_DESTROYFOREST);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Chop down a forest to raze it down to simple plains");
+					ab->SetDescription("The ChampionThe turn a target forest into a planes.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_DESTROYFOREST;
@@ -482,7 +482,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_HEALBURST);
 					ab->SetParticleType(PT_HEALCROSS);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Release a burst of holy energy, healing all units around you. Heals 8 HP to all units in range.");
+					ab->SetDescription("The Champion heals the wounds of everyone around him.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEALBURST;
@@ -497,7 +497,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_RALLY);
 					ab->SetParticleType(PT_RALLY);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Give a rousing speech to motivate units to fight harder! +2 Damage to all friendly units in range.");
+					ab->SetDescription("Rally the troops, increasing thier damage by 2 for a turn.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RALLY;
@@ -512,7 +512,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_PATHFINDER);
 					ab->SetParticleType(PT_PATHFINDER);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Teaches nearby units the art of locating ideal paths through rough terrain. Friendly units in range move through forest and mountain for 1 AP.");
+					ab->SetDescription("Nearby units have the cost to move reduced to 1 until the end of the turn.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_PATHFINDER;
@@ -527,7 +527,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_RAISEMOUNTAIN);
 					ab->SetParticleType(PT_RAISEMOUNTAIN);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Calls forth the rock and the dirt from the earth, raising a mountain from any non-resource tile.");
+					ab->SetDescription("The Champion creates a mountain tile from any non-resource tile.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RAISEMOUNTAIN;
@@ -543,7 +543,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_STAND);
 					ab->SetParticleType(PT_STAND);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Guy stands still for a little while");
+					ab->SetDescription("The Swordsman gives up movement for a turn to reduce his damage by half.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_STAND;
@@ -558,7 +558,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_VOLLEY);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("shit being shot at other shit");
+					ab->SetDescription("If the Archer hasn't moved he can prepare a shot that deals double his damage.");
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_VOLLEY;
@@ -603,7 +603,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_ICEBOLT);
 					ab->SetParticleType(PT_ICEBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("A chilling icicle shot from the fingertips of a champion, freezing foes in the tracks.");
+					ab->SetDescription("The champion hurls a bolt of ice at a target reducing their speed by 2 for the next turn.");
 					ab->SetDamage(6);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_ICEBOLT;
@@ -633,7 +633,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_FIREWEP);
 					ab->SetParticleType(PT_FIREWEP);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The hero sets fire to his allies weapons.");
+					ab->SetDescription("The Champion sets ablaze a targets weapon increasing thier damage by 2.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIREWEP;
@@ -648,7 +648,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_LIGHTSTRIKE);
 					ab->SetParticleType(PT_LIGHTBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The hero uses a powerful lightning strike to stun the enemy for the turn.");
+					ab->SetDescription("The Champion uses a powerful lightning strike to stun the enemy for the next turn.");
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_LIGHTSTRIKE;
@@ -663,7 +663,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_EXPSHOT);
 					ab->SetParticleType(PT_EXPLODE);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The hero uses a powerful explosive Arrow");
+					ab->SetDescription("The Champion uses a powerful explosive Arrow");
 					ab->SetDamage(8);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_EXPSHOT;
@@ -678,7 +678,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_ICEAGE);
 					ab->SetParticleType(PT_ICEBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The hero freezes all the tiles infront of him.");
+					ab->SetDescription("The Champion freezes all the tiles infront of him.");
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_ICEAGE;
@@ -693,7 +693,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_HEAVYBLOW);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The hero Strike down with a Heavy Blow");
+					ab->SetDescription("The Champion Strike a target with a Heavy Blow");
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEAVYBLOW;
@@ -708,7 +708,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_FIRENOVA);
 					ab->SetParticleType(PT_FIRE);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion engulfs themselves in shell of flames, and then explodes the shell into an Unholy napalm bloom of death.");
+					ab->SetDescription("The Champion engulfs himself in flames and explodes into an Unholy napalm bloom of death.");
 					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIRENOVA;
@@ -723,7 +723,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_SKILLSHOT);
 					ab->SetParticleType(PT_OBLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("Champions can be marksman too. A well aimed shot that can drop even the best evader");
+					ab->SetDescription("The Champion uses his bow to attack a target from afar.");
 					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SKILLSHOT;
@@ -738,7 +738,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_LIGHTCHAIN);
 					ab->SetParticleType(PT_LIGHTBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("This spell forces lightning from the champion's hand, and pushes it threw all conductive targets.");
+					ab->SetDescription("The Champion pushes lightning threw all conductive targets.");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_LIGHTCHAIN;
@@ -752,7 +752,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_WHIRLWIND);
 					ab->SetParticleType(PT_WHIRLWIND);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("A Spinning Attack so fast that The Champion's sheer velocity throws back units");
+					ab->SetDescription("A Spinning attack so fast that The Champion's sheer velocity throws back units");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_WHIRLWIND;
@@ -766,7 +766,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_PSHOT);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion fires and arrow so hard that it goes threw it's first target and keeps going");
+					ab->SetDescription("The Champion uses his bow to hit all targets in a line doing 2 less damage for each target hit.");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_PSHOT;
@@ -781,7 +781,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_CLEAVE);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion does a massive Wide Slice");
+					ab->SetDescription("The Champion swings his sword hitting all targets infront of him.");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CLEAVE;
@@ -795,7 +795,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_BLADESTORM);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion does a furious Spin, injuring al around him");
+					ab->SetDescription("The Champion spins hitting all targets infront of him.");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_BLADESTORM;
@@ -810,7 +810,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_SWORDDANCE);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion stabs in all direction around him");
+					ab->SetDescription("The Champion stabs all units around him.");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SWORDDANCE;
@@ -826,7 +826,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_RUSH);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion runs foward, atacking enemies in front of him");
+					ab->SetDescription("The Champion rushes forward in a direction dealing 2 extra damage for every unit hit.");
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RUSH;
@@ -834,6 +834,7 @@ void CAbilityManager::LoadAbilities( void )
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
 			case SP_KILL:
 				{
 					ab->SetIsMove(false);
