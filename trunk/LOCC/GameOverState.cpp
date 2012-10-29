@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "GameOverState.h"
-
+#include "StringTable.h"
 //CGameOverState* CGameOverState::s_Instance = nullptr;
 
 CGameOverState::CGameOverState(void)
@@ -45,12 +45,13 @@ void CGameOverState::Render(void)
 	ostringstream temp;
 	if(AI)
 	{
-		temp<<"AI Wins!";
+		temp<<StringTable::GetInstance()->GetString("AI Wins!");
 		//PUT_SOUND_HERE("AIwins")
 	}
 	else
 	{
-		temp<<"Player  "<<Player<<"  Wins!";
+		temp<<StringTable::GetInstance()->GetString("Player ")
+			<<" "<<Player<<StringTable::GetInstance()->GetString("  Wins!");
 		//PUT_SOUND_HERE("GenericWin")
 	}
 	tempfont.Print(temp.str().c_str(),200,50,1.0f,D3DXCOLOR(255,255,255,255));
