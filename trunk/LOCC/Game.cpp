@@ -19,6 +19,7 @@
 #include "SocketServer.h"
 #include <ctime>
 #include "SpellScrollState.h"
+#include "StringTable.h"
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -162,6 +163,7 @@ void CGame::Shutdown(void)
 	CMessageSystem::DeleteInstance();
 	CTileManager::DeleteInstance();
 	CSoundManager::DeleteInstance();
+	StringTable::DeleteInstance();
 }
 
 CGame::CGame(void)

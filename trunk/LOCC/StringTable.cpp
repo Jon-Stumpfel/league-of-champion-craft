@@ -137,11 +137,7 @@ StringTable::StringTable(void)
 StringTable::~StringTable(void)
 {
 	modernenglish.clear();
-	delete &modernenglish;
 	yeoldeanglish.clear();
-	delete &yeoldeanglish;
-	delete s_Instance;
-	s_Instance = nullptr;
 }
 StringTable* StringTable::GetInstance()
 {
@@ -196,4 +192,12 @@ std::string StringTable::GetString(std::string tempstring)
 		}
 	}
 	return "String not found!";
+}
+void StringTable::DeleteInstance(void)
+{
+	if (s_Instance != nullptr)
+	{
+		delete s_Instance;
+	}
+	s_Instance = nullptr;
 }
