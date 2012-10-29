@@ -16,13 +16,12 @@ public:
 	static CCreditsState* GetInstance();
 
 private:
-
-	
+	int Scroll;
 	CCreditsState(void);
 	virtual ~CCreditsState(void);
 	CCreditsState(const CCreditsState&);
 	CCreditsState* operator=( CCreditsState& );
-
+	CBitmapFont* m_pBitmapFont;
 //	static CCreditsState* s_Instance;
 
 };

@@ -30,6 +30,38 @@ void CMainMenuState::Enter(void)
 	redguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_red.png"),D3DXCOLOR(0,0,0,255));
 	m_pBitmapFont = new CBitmapFont();
 	CInputManager::GetInstance()->SetInMenu(true);
+	CStateStack::GetInstance()->SetRenderTopOnly(true);
+	m_pBitmapFont = new CBitmapFont();
+	int soundvolume = 0;
+	int musicvolume = 0;
+	bool windowed = false;
+	bool IsModern = true;
+	TiXmlDocument doc;
+	doc.LoadFile("Assets\\Menus\\Options.xml");
+	TiXmlElement* pRoot = doc.RootElement();
+	TiXmlElement* Option = pRoot->FirstChildElement("Option");
+	while(Option != nullptr)
+	{
+		Option->Attribute("SoundVolume", &soundvolume);
+		Option->Attribute("MusicVolume", &musicvolume);
+		int temp = 0;
+		Option->Attribute("Fullscreen", &temp);
+		if(temp == 0)
+			windowed = false;
+		else
+			windowed = true;
+		temp = 0;
+		Option->Attribute("IsModern", &temp);
+		if(temp == 0)
+			IsModern = false;
+		else
+			IsModern = true;
+		Option = Option->NextSiblingElement("Option");
+	}
+	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
+	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
+	CGame::GetInstance()->SetIsWindowed(windowed);
+	StringTable::GetInstance()->SetLanguage(IsModern);
 }
 
 void CMainMenuState::Exit(void)
@@ -123,13 +155,13 @@ void CMainMenuState::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(swordid,15,-5,0.7f,0.7f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	if(selected == 0)
 	{
-		const char* Play = "Start";
-		m_pBitmapFont->Print(Play,360,200,0.7f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+			("Start").c_str(),360,200,0.7f,D3DXCOLOR(150,150,0,255));
 	}
 	else
 	{
-		const char* Play = "Start";
-		m_pBitmapFont->Print(Play,360,200,0.7f,D3DXCOLOR(255,255,255,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+			("Start").c_str(),360,200,0.7f,D3DXCOLOR(255,255,255,255));
 	}
 	if(selected == 1)
 	{

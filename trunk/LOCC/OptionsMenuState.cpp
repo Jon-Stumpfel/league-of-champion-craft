@@ -1,18 +1,12 @@
 #include "StdAfx.h"
 #include "OptionsMenuState.h"
 #include "StateStack.h"
-
-//COptionsMenuState* COptionsMenuState::s_Instance = nullptr;
-
 COptionsMenuState::COptionsMenuState(void)
 {
 }
-
-
 COptionsMenuState::~COptionsMenuState(void)
 {
 }
-
 void COptionsMenuState::Enter(void)
 {
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
@@ -34,10 +28,15 @@ void COptionsMenuState::Enter(void)
 			windowed = false;
 		else
 			windowed = true;
+		temp = 0;
+		Option->Attribute("IsModern", &temp);
+		if(temp == 0)
+			IsModern = false;
+		else
+			IsModern = true;
 		Option = Option->NextSiblingElement("Option");
 	}
 }
-
 void COptionsMenuState::Exit(void)
 {
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
@@ -57,9 +56,12 @@ void COptionsMenuState::Exit(void)
 		Options->SetAttribute("Fullscreen", 0);
 	else
 		Options->SetAttribute("Fullscreen", 1);
+	if(IsModern == false)
+		Options->SetAttribute("IsModern", 0);
+	else
+		Options->SetAttribute("IsModern", 1);
 	doc.SaveFile("Assets\\Menus\\Options.xml");
 }
-
 void COptionsMenuState::Input(INPUT_ENUM input)
 {
 	switch (input)
@@ -71,7 +73,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_DOWN:
 		{
-			if(selected != 3)
+			if(selected != 4)
 				selected++;
 			else
 				selected = 0;
@@ -82,7 +84,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 			if(selected !=0)
 				selected--;
 			else
-				selected = 3;
+				selected = 4;
 			break;
 		}
 	case INPUT_LEFT:
@@ -124,18 +126,22 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				CGame::GetInstance()->SetIsWindowed(windowed);
 			}
 			else if(selected == 3)
+			{
+				if(IsModern == false)
+					IsModern = true;
+				else
+					IsModern = false;
+				StringTable::GetInstance()->SetLanguage(IsModern);
+			}
+			else if(selected == 4)
 				CStateStack::GetInstance()->Pop();
 			break;
 		}
 	}
 }
-
 void COptionsMenuState::Update(float fElapsedTime)
 {
-	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
-	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
 }
-
 void COptionsMenuState::Render(void)
 {
 	CSGD_Direct3D::GetInstance()->Clear(100,200,100);
@@ -171,43 +177,57 @@ void COptionsMenuState::Render(void)
 	toprect->left = 254;
 	toprect->bottom = 386;
 	toprect->right = 295;
-	pTM->Draw(jcs_nImageID,370,360,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,480,305,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,480,360,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	if(windowed == false)
 	{
 		toprect->top = 336;
 		toprect->left = 324;
 		toprect->bottom = 385;
 		toprect->right = 377;
+		pTM->Draw(jcs_nImageID,480,305,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	}
-	pTM->Draw(jcs_nImageID,370,360,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	if(IsModern)
+	{
+		toprect->top = 336;
+		toprect->left = 324;
+		toprect->bottom = 385;
+		toprect->right = 377;
+		pTM->Draw(jcs_nImageID,480,360,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	}
 	delete toprect;
 	toprect = nullptr;
-	ostringstream oss;
-	oss<<"Sound Volume";
 	if(selected == 0)
-		m_pBitmapFont->Print(oss.str().c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
 	else
-		m_pBitmapFont->Print(oss.str().c_str(),275,110,0.6f,D3DXCOLOR(255,255,255,255));
-	ostringstream moss;
-	moss<<"Music Volume";
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(255,255,255,255));
 	if(selected == 1)
-		m_pBitmapFont->Print(moss.str().c_str(),278,210,0.6f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(150,150,0,255));
 	else
-		m_pBitmapFont->Print(moss.str().c_str(),278,210,0.6f,D3DXCOLOR(255,255,255,255));
-	ostringstream sauce;
-	sauce<<"Fullscreen";
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(255,255,255,255));
 	if(selected == 2)
-		m_pBitmapFont->Print(sauce.str().c_str(),295,310,0.6f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(150,150,0,255));
 	else
-		m_pBitmapFont->Print(sauce.str().c_str(),295,310,0.6f,D3DXCOLOR(255,255,255,255));
-	ostringstream boss;
-	boss<<"Back";
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(255,255,255,255));
 	if(selected == 3)
-		m_pBitmapFont->Print(boss.str().c_str(),350,440,0.6f,D3DXCOLOR(150,150,0,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(150,150,0,255));
 	else
-		m_pBitmapFont->Print(boss.str().c_str(),350,440,0.6f,D3DXCOLOR(255,255,255,255));
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(255,255,255,255));
+	if(selected == 4)
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Back").c_str(),350,440,0.6f,D3DXCOLOR(150,150,0,255));
+	else
+		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+		("Back").c_str(),350,440,0.6f,D3DXCOLOR(255,255,255,255));
 }
-
 COptionsMenuState* COptionsMenuState::GetInstance()
 {
 	static COptionsMenuState s_Instance;
