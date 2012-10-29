@@ -1048,15 +1048,6 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		m_pSelectedUnit = nullptr;
 		m_vWaypoints.clear();
 
-		if (CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->GetIfResourceTile())
-		{
-			if (!CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->GetIfCapturing())
-			{
-				CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->SetIfCapturing(true);
-				CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX,m_pSelectedUnit->GetPos().nPosY)->SetPlayerID( m_pSelectedUnit->GetPlayerID());
-			}
-		}
-
 		// error sound?
 		return;
 	}
