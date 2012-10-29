@@ -213,8 +213,8 @@ void CGameManager::LoadMap(int nLevelNum)
 {
 	CTileManager* pTM=CTileManager::GetInstance();
 	std::ostringstream oss;
-	oss << "Assets\\Tiles\\TestMap" << nLevelNum << ".xml";
-	string filename= "Assets\\Tiles\\TestMap2.xml";
+	oss << "Assets\\Tiles\\Level" << nLevelNum << ".xml";
+	//string filename= "Assets\\Tiles\\TestMap2.xml";
 	pTM->LoadSave(oss.str());
 	m_nCurrentLevel = nLevelNum;
 	// Attempting to load fake level 1 script

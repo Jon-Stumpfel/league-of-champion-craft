@@ -86,6 +86,14 @@ private:
 			flag.bottom=128;
 			return flag;
 		}
+		default:
+		{
+			flag.top=0;
+			flag.left=0;
+			flag.right=0;
+			flag.bottom=0;
+			return flag;
+		}
 	}
 
 	}

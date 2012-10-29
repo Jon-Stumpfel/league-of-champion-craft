@@ -459,7 +459,7 @@ namespace WorldTileEditor
                 xRoot.Add(pTiles);
 
                 xRoot.Add(new XAttribute("Rows", Mapsize_RC.Width.ToString()));
-                xRoot.Add(new XAttribute("Columns", Mapsize_RC.Width.ToString()));
+                xRoot.Add(new XAttribute("Columns", Mapsize_RC.Height.ToString()));
                 xRoot.Add(new XAttribute("FileName", MaptilsetFilename.Remove(0,StartPath.Count())));
 
                 for (int x = 0; x < Mapsize_RC.Width; ++x)
