@@ -60,6 +60,13 @@ void CAbilityManager::UseAbility(CAbility* pToUse, CTile* pTargetTile, CUnit* pC
 void CAbilityManager::LoadAbilities( void )
 {
 	int num = NUMSPELLS;
+
+	if( m_vAbilities.size() > 0 )
+	{
+		Shutdown();
+		m_vAbilities.clear();
+	}
+
 	for( int i = 0; i < num; i++ )
 	{
 		TiXmlDocument doc;
