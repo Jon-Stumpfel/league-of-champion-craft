@@ -25,6 +25,16 @@ void CAttackPhaseTransState::Enter(void)
 	m_MovingL=CGame::GetInstance()->GetWindowWidth();
 	m_fTimer = 1.5f;
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
+		()->GetAM()))
+	{
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetMeM());
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetMoM());
+		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
+		()->GetAM(),true);
+	}
 }
 
 void CAttackPhaseTransState::Exit(void)

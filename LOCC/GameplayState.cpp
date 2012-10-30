@@ -1454,6 +1454,26 @@ void CGameplayState::Update(float fElapsedTime)
 	CAnimationManager::GetInstance()->Update(fElapsedTime);
 	CGameManager::GetInstance()->Update(fElapsedTime);
 	CFloatingText::GetInstance()->Update(fElapsedTime);
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
+		()->GetMoM()) && CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+	{
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetMeM());
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetAM());
+		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
+		()->GetMoM(),true);
+	}
+	else if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
+		()->GetAM()) && CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
+	{
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetMeM());
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetMoM());
+		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
+		()->GetAM(),true);
+	}
 }
 
 RECT CellAlgorithm( int id )

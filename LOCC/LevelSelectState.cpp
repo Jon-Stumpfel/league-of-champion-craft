@@ -294,8 +294,8 @@ void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, 
 	}
 
 	RECT miniR = {nMiniMapOffsetX-5, nMiniMapOffsetY-5, 
-					(float)(nMiniMapOffsetX +nMiniTileWidth*rows+5),
-					(float)(nMiniMapOffsetY +nMiniTileHeight*cols+5)};
+					(LONG)(nMiniMapOffsetX +nMiniTileWidth*rows+5),
+					(LONG)(nMiniMapOffsetY +nMiniTileHeight*cols+5)};
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	if(selected)
 		CSGD_Direct3D::GetInstance()->DrawRect(miniR,255,0,0);

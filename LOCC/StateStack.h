@@ -20,7 +20,9 @@ public:
 	void	RenderStack(void);
 
 	void	SetRenderTopOnly(bool b) { m_bRenderTopOnly = b;}
-
+	int GetMeM() {return Menumusic;}
+	int GetAM() {return Attackmusic;}
+	int GetMoM() {return Movemusic;}
 	bool FindState(IGameState* pState);
 private:
 
@@ -32,7 +34,9 @@ private:
 	static CStateStack* s_Instance;
 
 	bool	m_bRenderTopOnly;
-
+	int Menumusic;
+	int Attackmusic;
+	int Movemusic;
 	std::vector< IGameState* > m_vCurStates;
 
 };

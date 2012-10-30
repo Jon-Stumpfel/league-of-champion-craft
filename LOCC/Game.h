@@ -18,7 +18,6 @@ public:
 	int GetWindowWidth(void) { return m_nWidth;}
 	int GetWindowHeight(void) { return m_nHeight;}
 	HWND GetHWND(void) { return m_hWnd;}
-
 	void SetDieThread(bool b) { m_bDieThreadIHateYou = b;}
 private:
 
@@ -32,7 +31,6 @@ private:
 		bool Input(void);
 		void Update(void);
 		void Render(void);
-
 	int m_nWidth;		
 	int m_nHeight;		
 	HWND m_hWnd;

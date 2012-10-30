@@ -17,7 +17,7 @@ public:
 
 private:
 
-	
+	int temp;
 	CHelpMenuState(void);
 	virtual ~CHelpMenuState(void);
 	CHelpMenuState(const CHelpMenuState&);

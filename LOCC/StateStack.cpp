@@ -7,6 +7,9 @@ CStateStack* CStateStack::s_Instance = nullptr;
 CStateStack::CStateStack(void)
 {
 	m_bRenderTopOnly = false;
+	Menumusic = CSGD_XAudio2::GetInstance()->MusicLoadSong(_T("Assets/Sounds/MainMenuMusic.xwm"));
+	Movemusic = CSGD_XAudio2::GetInstance()->MusicLoadSong(_T("Assets/Sounds/MovementPhaseMusic.xwm"));
+	Attackmusic = CSGD_XAudio2::GetInstance()->MusicLoadSong(_T("Assets/Sounds/AttackPhaseMusic.xwm"));
 }
 
 CStateStack::~CStateStack(void)

@@ -23,6 +23,16 @@ void CMovetPhaseTransState::Enter(void)
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	m_MovingUp=CGame::GetInstance()->GetWindowHeight();
 	m_fTimer = 1.5f;
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
+		()->GetMoM()))
+	{
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetMeM());
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetAM());
+		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
+		()->GetMoM(),true);
+	}
 }
 
 void CMovetPhaseTransState::Exit(void)
