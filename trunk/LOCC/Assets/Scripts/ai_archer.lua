@@ -18,11 +18,11 @@ function Move()
 		Flee();
 	else
 	
-		-- Priority is to capture Mills
+		-- Priority is to capture Mills then farms
 		numMills = GetMillsOwned(unitID);
-		numMines = GetMinesOwned(unitID);
+		numFarms = GetFarmsOwned(unitID);
 		moved = 0;
-		if (numMills < 1) then
+		if (numMills < 1 and GetNumUnitsCapturingResource(unitID, 1) == 0)  then
 			if (GetNumUnitsCapturingResource(unitID, 1) < 1 or IsUnitCapturingResource(unitID, 1) == 1) then
 				resourceX, resourceY = FindNearestResource(unitID, 1);
 				resourcedistX = math.abs((resourceX - localX));
@@ -34,6 +34,19 @@ function Move()
 					moved = 1;
 				end
 			end
+		elseif (numFarms < 1) then	
+			--AddText("Lol wut", pixelX, pixelY, 0, -40, 5, 0.4, 255, 255, 255);
+			if (GetNumUnitsCapturingResource(unitID, 3) < 1 or IsUnitCapturingResource(unitID, 3) == 1) then
+				resourceX, resourceY = FindNearestResource(unitID, 3);
+				resourcedistX = math.abs((resourceX - localX));
+				resourcedistY = math.abs((resourceY - localY));
+				resourceTotDist = resourcedistX + resourcedistY;
+				if (resourceTotDist ~= 0) then
+					RegisterMeCapturingResource(unitID, 3);
+					IssueOrder("move", resourceX, resourceY);
+					moved = 1;
+				end
+			end		
 		end
 		distancex = math.abs((targetX - localX));
 		distancey = math.abs((targetY - localY));

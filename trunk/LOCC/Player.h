@@ -39,7 +39,7 @@ private:
 
 	int m_nMillsOwned;
 	int m_nMinesOwned;
-
+	int m_nFarmsOwned;
 	GameStats m_tStats;
 public:
 
@@ -50,10 +50,13 @@ public:
 	void SetMillsOwned(int i) { m_nMillsOwned = i;}
 	int GetMinesOwned(void) { return m_nMinesOwned;}
 	void SetMinesOwned(int i ) { m_nMinesOwned = i;}
-
+	int GetFarmsOwned(void) { return m_nFarmsOwned;}
+	void SetFarmsOwned(int i) {m_nFarmsOwned = i;}
 	static int GetMillsOwned(lua_State* L);
 	static int GetMinesOwned(lua_State* L);
-
+	static int GetFarmsOwned(lua_State* L );
+	static int GetWood(lua_State* L);
+	static int GetMetal(lua_State* L);
 	GameStats* GetStats(void) { return &m_tStats;}
 
 	bool GetAI(void) { return m_bAI;}

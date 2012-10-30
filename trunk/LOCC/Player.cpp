@@ -14,6 +14,7 @@ CPlayer::CPlayer(int nPlayerID)
 
 	m_nMillsOwned = 0;
 	m_nMinesOwned = 0;
+	m_nFarmsOwned = 0;
 	// STATS RECORDING
 	m_tStats.nChampionDamageDone	 = 0;
 	m_tStats.nChampionHealingDone	 = 0;
@@ -59,5 +60,34 @@ int CPlayer::GetMinesOwned(lua_State* L)
 
 	lua_pushinteger(L, pPlayer->GetMinesOwned());
 
+	return 1;
+}
+int CPlayer::GetFarmsOwned(lua_State* L )
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CGameManager::GetInstance()->GetUnitByID(nUnitID)->GetPlayerID());
+
+	lua_pushinteger(L, pPlayer->GetFarmsOwned());
+
+	return 1;
+}
+
+int CPlayer::GetWood(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CGameManager::GetInstance()->GetUnitByID(nUnitID)->GetPlayerID());
+
+	lua_pushinteger(L, pPlayer->GetWood());
+	return 1;
+}
+int CPlayer::GetMetal(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CGameManager::GetInstance()->GetUnitByID(nUnitID)->GetPlayerID());
+
+	lua_pushinteger(L, pPlayer->GetMetal());
 	return 1;
 }
