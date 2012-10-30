@@ -221,16 +221,16 @@ void CSaveSlotState::Render(void)
 	if (m_bShowMenu)
 	{
 		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Load from Slot").c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			("Load from slot").c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255);
 		if (m_bFromMainMenu)
 		{
 			color = D3DCOLOR_XRGB(120, 120, 120);
 		}
 		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Save to Slot").c_str(), 370, 480, 0.4f, color);
+			("Save to slot").c_str(), 370, 480, 0.4f, color);
 		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Delete Slot").c_str(), 370, 520, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			("Delete slot").c_str(), 370, 520, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 		if (m_bConfirm)
 		{
 			m_pBitmapFont.Print(StringTable::GetInstance()->GetString
