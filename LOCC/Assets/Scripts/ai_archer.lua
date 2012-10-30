@@ -18,18 +18,21 @@ function Move()
 		Flee();
 	else
 	
-		-- Priority is to capture mines or mills
+		-- Priority is to capture Mills
 		numMills = GetMillsOwned(unitID);
 		numMines = GetMinesOwned(unitID);
 		moved = 0;
 		if (numMills < 1) then
-			resourceX, resourceY = FindNearestResource(unitID, 1);
-			resourcedistX = math.abs((resourceX - localX));
-			resourcedistY = math.abs((resourceY - localY));
-			resourceTotDist = resourcedistX + resourcedistY;
-			if (resourceTotDist ~= 0) then
-				IssueOrder("move", resourceX, resourceY);
-				moved = 1;
+			if (GetNumUnitsCapturingResource(unitID, 1) < 1 or IsUnitCapturingResource(unitID, 1) == 1) then
+				resourceX, resourceY = FindNearestResource(unitID, 1);
+				resourcedistX = math.abs((resourceX - localX));
+				resourcedistY = math.abs((resourceY - localY));
+				resourceTotDist = resourcedistX + resourcedistY;
+				if (resourceTotDist ~= 0) then
+					RegisterMeCapturingResource(unitID, 1);
+					IssueOrder("move", resourceX, resourceY);
+					moved = 1;
+				end
 			end
 		end
 		distancex = math.abs((targetX - localX));

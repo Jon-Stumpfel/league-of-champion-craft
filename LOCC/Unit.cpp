@@ -870,6 +870,12 @@ int CUnit::GetUnitPosition(lua_State* L)
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 
+	if (pUnit == nullptr)
+	{
+		lua_pushinteger(L, -1);
+		lua_pushinteger(L, -1);
+		return 1;
+	}
 	lua_pushinteger(L, pUnit->GetPos().nPosX);
 	lua_pushinteger(L, pUnit->GetPos().nPosY);
 
@@ -881,7 +887,11 @@ int CUnit::GetFleeing(lua_State* L)
 	int nUnitID = lua_tointeger(L, 1);
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
-
+	if (pUnit == nullptr)
+	{
+		lua_pushinteger(L, -1);
+		return 1;
+	}
 
 	if (pUnit->GetFleeing())
 		lua_pushboolean(L, 1);
@@ -897,7 +907,11 @@ int CUnit::GetTilesMoved(lua_State* L)
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 
-
+	if (pUnit == nullptr)
+	{
+		lua_pushinteger(L, -1);
+		return 1;
+	}
 	int nTilesMoved = pUnit->GetTilesMoved();
 	
 	lua_pushinteger(L, nTilesMoved);
@@ -911,7 +925,11 @@ int CUnit::GetHealth(lua_State* L)
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 
-
+	if (pUnit == nullptr)
+	{
+		lua_pushinteger(L, -1);
+		return 1;
+	}
 	int nHealth = pUnit->GetHP();
 	
 	lua_pushinteger(L, nHealth);
@@ -924,7 +942,11 @@ int CUnit::GetMaxHealth(lua_State* L)
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 
-
+	if (pUnit == nullptr)
+	{
+		lua_pushinteger(L, -1);
+		return 1;
+	}
 	int nMaxHP = pUnit->GetMaxHP();
 	
 	lua_pushinteger(L, nMaxHP);
@@ -933,15 +955,19 @@ int CUnit::GetMaxHealth(lua_State* L)
 }
 
 int CUnit::GetPlayerID(lua_State* L)
-	{
+{
 	int nUnitID = lua_tointeger(L, 1);
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
-
+	if (pUnit == nullptr)
+	{
+		lua_pushinteger(L, -1);
+		return 1;
+	}
 
 	int nPlayerID = pUnit->GetPlayerID();
-	
+
 	lua_pushinteger(L, nPlayerID);
 
 	return 1;
-	}
+}

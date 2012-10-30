@@ -386,7 +386,7 @@ void CGameManager::SaveGame(int nSlot)
 		for (int x = 0; x < pHero->GetNumEffects(); ++x)
 		{
 			TiXmlElement* pEffect = new TiXmlElement("Effect");
-			pEffect->SetAttribute("ability", pHero->GetEffect(i)->GetType());
+			pEffect->SetAttribute("ability", pHero->GetEffect(x)->GetType());
 			pEffects->LinkEndChild(pEffect);
 		}
 
@@ -425,10 +425,10 @@ void CGameManager::SaveGame(int nSlot)
 				TiXmlElement* pEffects = new TiXmlElement("Effects");
 				pUnit->LinkEndChild(pEffects);
 				pEffects->SetAttribute("numEffects", puni->GetNumEffects());
-				for (int i = 0; i < puni->GetNumEffects(); ++i)
+				for (int n = 0; n < puni->GetNumEffects(); ++n)
 				{
 					TiXmlElement* pEffect = new TiXmlElement("Effect");
-					pEffect->SetAttribute("ability", puni->GetEffect(i)->GetType());
+					pEffect->SetAttribute("ability", puni->GetEffect(n)->GetType());
 					pEffects->LinkEndChild(pEffect);
 				}
 

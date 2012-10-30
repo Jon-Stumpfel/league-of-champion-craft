@@ -41,6 +41,9 @@ private:
 	void AttackUnit(CUnit* pAttackUnit);
 	static CAIManager* s_Instance;
 public:
+	typedef std::pair<int, TILE_TYPE> ResRegistry;
+	std::vector<ResRegistry> m_vResourceRegistrations;
+
 	void RunAIScript(CUnit* pUnit);
 
 std::vector<AIOrder> m_vOrderQueue;
@@ -70,5 +73,8 @@ public:
 	static int GetFriendlyUnitsInRange(lua_State* L);
 	static int GetEnemyUnitsInRange(lua_State* L);
 	static int FindNearestResource(lua_State* L);
+	static int GetNumUnitsCapturingResource(lua_State* L);
+	static int IsUnitCapturingResource(lua_State* L);
+	static int RegisterMeCapturingResource(lua_State* L);
 };
 

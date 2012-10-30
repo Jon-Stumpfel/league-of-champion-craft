@@ -77,6 +77,9 @@ void CAIManager::Initialize(void)
 	lua_register(AIL, "GetMillsOwned", CPlayer::GetMillsOwned);
 	lua_register(AIL, "GetMinesOwned", CPlayer::GetMinesOwned);
 	lua_register(AIL, "FindNearestResource", CAIManager::FindNearestResource);
+	lua_register(AIL, "GetNumUnitsCapturingResource", CAIManager::GetNumUnitsCapturingResource);
+	lua_register(AIL, "IsUnitCapturingResource", CAIManager::IsUnitCapturingResource);
+	lua_register(AIL, "RegisterMeCapturingResource", CAIManager::RegisterMeCapturingResource);
 }
 void CAIManager::Shutdown(void)
 {
@@ -151,6 +154,8 @@ void CAIManager::SelectUnit(CUnit* pToSelect)
 {
 	int xDistance = pToSelect->GetPos().nPosX - CGameplayState::GetInstance()->GetSelectionPos().nPosX;
 	int yDistance = pToSelect->GetPos().nPosY - CGameplayState::GetInstance()->GetSelectionPos().nPosY;
+
+
 
 	m_vInputQueue.push_back(INPUT_AI_SELECTED);
 	m_vInputQueue.push_back(INPUT_ACCEPT);
@@ -1318,6 +1323,13 @@ bool CAIManager::CheckOrderQueue(float fElapsedTime)
 				Vec2D vCursorPosition = CGameplayState::GetInstance()->GetSelectionPos();
 				Vec2D vUnitPosition = pUnitToSelect->GetPos();
 
+				if (pUnitToSelect == nullptr || pUnitToSelect->GetPos().nPosX < 0 || pUnitToSelect->GetPos().nPosY < 0 
+					|| pUnitToSelect->GetPos().nPosX > 10000 || pUnitToSelect->GetPos().nPosY > 10000)
+				{
+					m_vInputQueue.push_back(INPUT_AI_CLEAR);
+					return false;
+				}
+
 
 				// Find out how much we have to move the selection cursor to get to our intended unit
 				int xDelta = vUnitPosition.nPosX - vCursorPosition.nPosX;
@@ -1813,6 +1825,13 @@ void CAIManager::RunAIScript(CUnit* pUnit)
 	lua_pushinteger(L, pUnit->GetUniqueID());
 	lua_setglobal(L, "unitID");
 
+	// Safety check
+	if (pUnit == nullptr || pUnit->GetPos().nPosX < 0 || pUnit->GetPos().nPosY < 0 || pUnit->GetPos().nPosX > 10000 || pUnit->GetPos().nPosY > 10000)
+	{
+		m_vUnitsToHandle.erase(m_vUnitsToHandle.begin());
+		return;
+	}
+
 	std::string path;
 	switch (pUnit->GetType())
 	{
@@ -1862,6 +1881,8 @@ int CAIManager::FindNearest(lua_State* L)
 	CUnit* pSelectUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 	int nLowestDistance = INT_MAX;
 	CUnit* pNearestEnemy;
+
+
 
 	for (unsigned int i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
 	{
@@ -2029,6 +2050,98 @@ int CAIManager::FindNearestResource(lua_State* L)
 	lua_pushinteger(L, foundTile.nPosY);
 	return 2;
 }
+
+int CAIManager::RegisterMeCapturingResource(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	int nResourceType = lua_tointeger(L, 2);
+	TILE_TYPE tt;
+	switch (nResourceType)
+	{
+	case 1:
+		tt = TT_MILL;
+		break;
+	case 2:
+		tt = TT_MINE;
+		break;
+	}
+
+	CAIManager::ResRegistry rr;
+	rr.first = nUnitID;
+	rr.second = tt;
+
+	CAIManager::GetInstance()->m_vResourceRegistrations.push_back(rr);
+
+	return 0;
+}
+int CAIManager::GetNumUnitsCapturingResource(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	int nResourceType = lua_tointeger(L, 2);
+	TILE_TYPE tt;
+	switch (nResourceType)
+	{
+	case 1:
+		tt = TT_MILL;
+		break;
+	case 2:
+		tt = TT_MINE;
+		break;
+	}
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+		int numCapturing = 0;
+	if (pUnit != nullptr)
+	{
+
+		for (unsigned int i = 0; i < CAIManager::GetInstance()->m_vResourceRegistrations.size(); ++i)
+		{
+			if (CAIManager::GetInstance()->m_vResourceRegistrations[i].second == tt)
+			{
+				numCapturing++;
+			}
+		}
+	}
+	lua_pushinteger(L, numCapturing);
+	return 1;
+}
+int CAIManager::IsUnitCapturingResource(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	int nResourceType = lua_tointeger(L, 2);
+	TILE_TYPE tt;
+	switch (nResourceType)
+	{
+	case 1:
+		tt = TT_MILL;
+		break;
+	case 2:
+		tt = TT_MINE;
+		break;
+	}
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+
+	int foundUnit = 0;
+	if (pUnit != nullptr)
+	{
+		for (unsigned int i = 0; i < CAIManager::GetInstance()->m_vResourceRegistrations.size(); ++i)
+		{
+			if (CAIManager::GetInstance()->m_vResourceRegistrations[i].second == tt)
+			{
+				if (CAIManager::GetInstance()->m_vResourceRegistrations[i].first == nUnitID)
+				{
+					foundUnit = 1;
+					break;
+				}
+			}
+		}
+	}
+
+	lua_pushinteger(L, foundUnit);
+	return 1;
+}
+
+
+
 CAIManager::CAIManager(void)
 {
 }
