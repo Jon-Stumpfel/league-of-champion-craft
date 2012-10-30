@@ -407,6 +407,8 @@ void CTileManager::EvaluateResources(int nPlayerID)
 							pPlayer->SetMillsOwned(pPlayer->GetMillsOwned() + 1);
 						else if (m_pTileMap[x][y].GetTileType() == TT_MINE)
 							pPlayer->SetMinesOwned(pPlayer->GetMinesOwned() + 1);
+						else if (m_pTileMap[x][y].GetTileType() == TT_FARM)
+							pPlayer->SetFarmsOwned(pPlayer->GetFarmsOwned() + 1);
 
 					   m_pTileMap[x][y].SetIfCaptured(true);
 					   m_pTileMap[x][y].SetIfCapturing(false);

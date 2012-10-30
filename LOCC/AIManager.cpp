@@ -76,10 +76,13 @@ void CAIManager::Initialize(void)
 	lua_register(AIL, "GetEnemyUnitsInRange", CAIManager::GetEnemyUnitsInRange);
 	lua_register(AIL, "GetMillsOwned", CPlayer::GetMillsOwned);
 	lua_register(AIL, "GetMinesOwned", CPlayer::GetMinesOwned);
+	lua_register(AIL, "GetFarmsOwned", CPlayer::GetFarmsOwned);
 	lua_register(AIL, "FindNearestResource", CAIManager::FindNearestResource);
 	lua_register(AIL, "GetNumUnitsCapturingResource", CAIManager::GetNumUnitsCapturingResource);
 	lua_register(AIL, "IsUnitCapturingResource", CAIManager::IsUnitCapturingResource);
 	lua_register(AIL, "RegisterMeCapturingResource", CAIManager::RegisterMeCapturingResource);
+	lua_register(AIL, "GetWood", CPlayer::GetWood);
+	lua_register(AIL, "GetMetal", CPlayer::GetMetal);
 }
 void CAIManager::Shutdown(void)
 {
@@ -2022,10 +2025,19 @@ int CAIManager::FindNearestResource(lua_State* L)
 
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 	TILE_TYPE desiredType;
-	if (nResourceType == 1)
+	switch (nResourceType)
+	{
+	case 1:
 		desiredType = TT_MILL;
-	else if (nResourceType == 2)
+		break;
+	case 2:
 		desiredType = TT_MINE;
+		break;
+	case 3:
+		desiredType = TT_FARM;
+		break;
+	}
+
 
 	Vec2D vec = pUnit->GetPos();
 	Vec2D foundTile;
@@ -2064,6 +2076,9 @@ int CAIManager::RegisterMeCapturingResource(lua_State* L)
 	case 2:
 		tt = TT_MINE;
 		break;
+	case 3:
+		tt = TT_FARM;
+		break;
 	}
 
 	CAIManager::ResRegistry rr;
@@ -2087,6 +2102,9 @@ int CAIManager::GetNumUnitsCapturingResource(lua_State* L)
 	case 2:
 		tt = TT_MINE;
 		break;
+	case 3:
+		tt = TT_FARM;
+		break;
 	}
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
 		int numCapturing = 0;
@@ -2108,7 +2126,7 @@ int CAIManager::IsUnitCapturingResource(lua_State* L)
 {
 	int nUnitID = lua_tointeger(L, 1);
 	int nResourceType = lua_tointeger(L, 2);
-	TILE_TYPE tt;
+	TILE_TYPE tt = TT_FARM;
 	switch (nResourceType)
 	{
 	case 1:
@@ -2116,6 +2134,9 @@ int CAIManager::IsUnitCapturingResource(lua_State* L)
 		break;
 	case 2:
 		tt = TT_MINE;
+		break;
+	case 3:
+		tt = TT_FARM;
 		break;
 	}
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
