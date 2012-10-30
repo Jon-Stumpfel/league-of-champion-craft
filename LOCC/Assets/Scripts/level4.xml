@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Script AIEnemy="0">
+  <Messages numMessages="0">
+    <Message czText="" DisplayOnTurn=""/>
+  </Messages>
+  <UnitSpawns numSpawns="8">
+    <UnitSpawn unitType="0" facing="1" posX="8" posY="1"  playerID="1" TurnToSpawn="1"/> 
+    <UnitSpawn unitType="1" facing="1" posX="7" posY="1"  playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="1" posX="8" posY="2"  playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="7" posY="2"  playerID="1" TurnToSpawn="1"/>
+
+    <UnitSpawn unitType="0" facing="3" posX="1" posY="8" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="1" facing="3" posX="1" posY="7" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="2" posY="8" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="3" posX="2" posY="7" playerID="0" TurnToSpawn="1"/>
+
+  </UnitSpawns>
+</Script>
+
+enum UNIT_TYPE { UT_CASTLE, UT_HERO, UT_ARCHER, UT_SWORDSMAN, UT_CAVALRY, UT_SKELETON, UT_ICEBLOCK };
+

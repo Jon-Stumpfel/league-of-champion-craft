@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Script AIEnemy="0">
+  <Messages numMessages="0">
+    <Message czText="" DisplayOnTurn=""/>
+  </Messages>
+  <UnitSpawns numSpawns="24">
+    <UnitSpawn unitType="0" facing="1" posX="15" posY="0" playerID="1" TurnToSpawn="1"/> 
+    <UnitSpawn unitType="1" facing="1" posX="14" posY="0" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="1" posX="22" posY="10" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="1" posX="22" posY="9" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="1" posX="23" posY="10" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="1" posX="23" posY="9" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="6" posY="8" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="6" posY="10" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="7" posY="8" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="7" posY="10" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="7" posY="9" playerID="1" TurnToSpawn="1"/>
+    
+    <UnitSpawn unitType="4" facing="0" posX="15" posY="29" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="4" facing="0" posX="14" posY="29" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="4" facing="0" posX="15" posY="28" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="4" facing="0" posX="14" posY="28" playerID="1" TurnToSpawn="2"/>
+
+    <UnitSpawn unitType="0" facing="3" posX="15" posY="15" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="1" facing="3" posX="15" posY="14" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="19" posY="15" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="19" posY="14" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="14" posY="19" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="15" posY="19" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="10" posY="15" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="10" posY="14" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="14" posY="10" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="3" posX="15" posY="10" playerID="0" TurnToSpawn="1"/>
+
+  </UnitSpawns>
+</Script>
+
+enum UNIT_TYPE { UT_CASTLE, UT_HERO, UT_ARCHER, UT_SWORDSMAN, UT_CAVALRY, UT_SKELETON, UT_ICEBLOCK };
+

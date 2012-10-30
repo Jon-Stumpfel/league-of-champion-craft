@@ -4,6 +4,14 @@
 #include "MultiplayerState.h"
 #include "SocketServer.h"
 #include "StringTable.h"
+
+const float MAPWIDTH=180.0f;
+const float MAPHEIGHT=180.0f;
+const int	ROW1=150;
+const int	ROW2=450;
+const int	COL1=100;
+const int	COL2=300;
+
 LevelSelectState::LevelSelectState(void)
 {
 }
@@ -28,74 +36,32 @@ RECT LevelSelectState::CellAlgorithm( int id )
 void LevelSelectState::Enter(void)
 {
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
-	selected = 0;
-	//m_ptempmap = new CTile*();
-	//m_p2ndtempmap = new CTile*();
+	m_2Dselected.nPosX = 0;
+	m_2Dselected.nPosY = 0;
+
 	CTileManager* pTM=CTileManager::GetInstance();
-	string filename= "Assets\\Tiles\\Level1.xml";
-	pTM->LoadSave(filename);
-	m_pRows = pTM->GetNumRows();
-	m_pColumns = pTM->GetNumColumns();
-	Scroll = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\scroll.png"), D3DXCOLOR(255,255,255,255));
-	m_vMap1.clear();
-	m_vMap2.clear();
-	for (int x = 0; x < m_pRows; ++x)
-	{
-		std::vector<TILE_TYPE> vec;
-		for (int y = 0; y < m_pColumns; ++y)
-		{
-			vec.push_back((TILE_TYPE)pTM->GetTile(x, y)->GetTileType());
-		}
-		m_vMap1.push_back(vec);
-	}
+	string filename1= "Assets/Tiles/Level1.xml";
+	m_vMap1= pTM->JonsLoad(filename1);
 
-	pTM->ShutDown();
-	int x = 9;
-	//m_ptempmap= new CTile*[m_pRows];
-	//for (int x = 0; x< m_pRows; ++x)
-	//{
-	//	m_ptempmap[x]= new CTile[m_pColumns];
-	//}
-	//for(int i = 0; i < m_pRows; i++)
-	//{
-	//	for(int j = 0; j < m_pColumns; j++)
-	//	{
-	//		m_ptempmap[i][j] = *pTM->GetTile(i,j);
-	//	}
-	//}
-	string thefilename= "Assets\\Tiles\\Level2.xml";
-	pTM->LoadSave(thefilename);
-	m_p2ndRows = pTM->GetNumRows();
-	m_p2ndColumns = pTM->GetNumColumns();
+	m_nScrollID = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\Scroll.png"), D3DXCOLOR(255,255,255,255));
 
-	for (int x = 0; x < m_p2ndRows; ++x)
-	{
-		std::vector<TILE_TYPE> vec;
-		for (int y = 0; y < m_p2ndColumns; ++y)
-		{
-			vec.push_back((TILE_TYPE)pTM->GetTile(x, y)->GetTileType());
-		}
-		m_vMap2.push_back(vec);
-	}
-	pTM->ShutDown();
-	//m_p2ndtempmap= new CTile*[m_pRows];
-	//for (int x = 0; x< m_pRows; ++x)
-	//{
-	//	m_p2ndtempmap[x]= new CTile[m_pColumns];
-	//}
-	//for(int i = 0; i < m_p2ndRows; i++)
-	//{
-	//	for(int j = 0; j < m_p2ndColumns; j++)
-	//	{
-	//		m_p2ndtempmap[i][j] = *pTM->GetTile(i,j);
-	//	}
-	//}
+	string filename2= "Assets/Tiles/Level2.xml";
+	m_vMap2=pTM->JonsLoad(filename2);
+	
+	string filename3= "Assets/Tiles/Level3.xml";
+	m_vMap3= pTM->JonsLoad(filename3);
+
+	string filename4= "Assets/Tiles/Level4.xml";
+	m_vMap4= pTM->JonsLoad(filename4);
 }
 
 void LevelSelectState::Exit(void)
 {
+
 	m_vMap1.clear();
 	m_vMap2.clear();
+	m_vMap3.clear();
+	m_vMap4.clear();
 }
 
 void LevelSelectState::Input(INPUT_ENUM input)
@@ -105,7 +71,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 	{
 	case INPUT_ACCEPT:
 		{
-			if(selected == 0)
+			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
 
@@ -124,7 +90,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				CGameManager::GetInstance()->NewGame("level1", 1);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
-			else if(selected == 1)
+			else if(m_2Dselected.nPosX ==1  && m_2Dselected.nPosY==0)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
 
@@ -143,6 +109,44 @@ void LevelSelectState::Input(INPUT_ENUM input)
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
+			else if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==1)
+			{
+				CTileManager* pTM=CTileManager::GetInstance();
+
+				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
+				{
+					char buffer[80];
+					sprintf_s(buffer, "%c%d", NET_BEGINMAP2, 0);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
+					unsigned int seed = (unsigned int)(time(0));
+					CGameManager::GetInstance()->SetRandomSeed(seed);
+					sprintf_s(buffer, "%d", seed);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
+					bNetworkedGame = true;
+				}
+				CGameManager::GetInstance()->NewGame("level3", 3);
+
+				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+			}
+			else if(m_2Dselected.nPosX ==1  && m_2Dselected.nPosY==1)
+			{
+				CTileManager* pTM=CTileManager::GetInstance();
+
+				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
+				{
+					char buffer[80];
+					sprintf_s(buffer, "%c%d", NET_BEGINMAP2, 0);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
+					unsigned int seed = (unsigned int)(time(0));
+					CGameManager::GetInstance()->SetRandomSeed(seed);
+					sprintf_s(buffer, "%d", seed);
+					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
+					bNetworkedGame = true;
+				}
+				CGameManager::GetInstance()->NewGame("level4", 4);
+
+				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+			}
 			if (!bNetworkedGame)
 				CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
 
@@ -153,10 +157,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			std::wostringstream oss;
 			oss << "LevelState: INPUT_LEFT @ " << GetTickCount() << '\n';
 			OutputDebugString((LPCWSTR)oss.str().c_str());
-			if(selected == 1)
-				selected--;
+			if(m_2Dselected.nPosY >= 1)
+				m_2Dselected.nPosY--;
 			else
-				selected++;
+				m_2Dselected.nPosY++;
 			break;
 		}
 	case INPUT_RIGHT:
@@ -164,10 +168,32 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			std::wostringstream oss;
 			oss << "LevelState: INPUT_RIGHT @ " << GetTickCount() << '\n';
 			OutputDebugString((LPCWSTR)oss.str().c_str());
-			if(selected == 0)
-				selected++;
+			if(m_2Dselected.nPosY <= 0)
+				m_2Dselected.nPosY++;
 			else
-				selected--;
+				m_2Dselected.nPosY--;
+			break;
+		}
+	case INPUT_UP:
+		{
+			std::wostringstream oss;
+			oss << "LevelState: INPUT_LEFT @ " << GetTickCount() << '\n';
+			OutputDebugString((LPCWSTR)oss.str().c_str());
+			if(m_2Dselected.nPosX >= 1)
+				m_2Dselected.nPosX--;
+			else
+				m_2Dselected.nPosX++;
+			break;
+		}
+	case INPUT_DOWN:
+		{
+			std::wostringstream oss;
+			oss << "LevelState: INPUT_RIGHT @ " << GetTickCount() << '\n';
+			OutputDebugString((LPCWSTR)oss.str().c_str());
+			if(m_2Dselected.nPosX <= 0)
+				m_2Dselected.nPosX++;
+			else
+				m_2Dselected.nPosX--;
 			break;
 		}
 	case INPUT_CANCEL:
@@ -179,7 +205,22 @@ void LevelSelectState::Input(INPUT_ENUM input)
 
 void LevelSelectState::Update(float fElapsedTime)
 {
-
+	if (m_2Dselected.nPosX==0 && m_2Dselected.nPosY==0)
+	{
+		m_sbSelected[0]=true; m_sbSelected[1]=false; m_sbSelected[2]=false; m_sbSelected[3]=false;
+	}
+	if (m_2Dselected.nPosX==1 && m_2Dselected.nPosY==0)
+	{
+		m_sbSelected[0]=false; m_sbSelected[1]=true; m_sbSelected[2]=false; m_sbSelected[3]=false;
+	}
+	if (m_2Dselected.nPosX==0 && m_2Dselected.nPosY==1)
+	{
+		m_sbSelected[0]=false; m_sbSelected[1]=false; m_sbSelected[2]=true; m_sbSelected[3]=false;
+	}
+	if (m_2Dselected.nPosX==1 && m_2Dselected.nPosY==1)
+	{
+		m_sbSelected[0]=false; m_sbSelected[1]=false; m_sbSelected[2]=false; m_sbSelected[3]=true;
+	}
 }
 
 void LevelSelectState::Render(void)
@@ -187,65 +228,92 @@ void LevelSelectState::Render(void)
 	CSGD_Direct3D::GetInstance()->Clear(50, 50, 50);
 	//CSGD_TextureManager::GetInstance()->Draw(blueguyid,0,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	//CSGD_TextureManager::GetInstance()->Draw(redguyid,290,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
-	RECT* toprect = new RECT();
-	toprect->bottom = 392;
-	toprect->top = 198;
-	toprect->left = 15;
-	toprect->right = 537;
-	CSGD_TextureManager::GetInstance()->Draw(Scroll,25,100,1.44f,2.3f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	toprect->bottom = 113;
-	toprect->top = 0;
-	toprect->left = 0;
-	toprect->right = 555;
-	CSGD_TextureManager::GetInstance()->Draw(Scroll,0,0,1.45f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	toprect->bottom = 584;
-	toprect->top = 472;
-	toprect->left = 2;
-	toprect->right = 557;
-	CSGD_TextureManager::GetInstance()->Draw(Scroll,0,487,1.45f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	toprect->bottom = 77;
-	toprect->top = 56;
-	toprect->left = 152;
-	toprect->right = 402;
-	delete toprect;
-	toprect = nullptr;
-	int nMiniMapOffsetX = 60;
-	int nMiniMapOffsetY = 50;
-	RECT miniR = {nMiniMapOffsetX, nMiniMapOffsetY+100, nMiniMapOffsetX + 225, nMiniMapOffsetY + 252};
-	RECT selectedrect = {nMiniMapOffsetX-5, nMiniMapOffsetY+95, nMiniMapOffsetX + 230, nMiniMapOffsetY + 257};
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	if(selected == 0)
-		CSGD_Direct3D::GetInstance()->DrawRect(selectedrect,255,0,0);
-	CSGD_Direct3D::GetInstance()->DrawRect(miniR, 0, 0, 0);
 
-	float nMiniMapWidth = 225.0f;
-	float nMiniMapHeight = 152.0f;
-	float nMiniTileWidth = nMiniMapWidth / m_pRows;
-	float nMiniTileHeight = nMiniMapHeight / m_pColumns;
+	// Draw The Scroll pieces
+
+	RECT Scrollrect;
+	//Draw the middle first , so that you can put the top and bottm over it
+	Scrollrect.bottom = 392;
+	Scrollrect.top = 198;
+	Scrollrect.left = 15;
+	Scrollrect.right = 537;
+	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,25,80,1.44f,2.5f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
+	
+	//draw the top part
+	Scrollrect.bottom = 113;
+	Scrollrect.top = 0;
+	Scrollrect.left = 0;
+	Scrollrect.right = 555;
+	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,0,0,1.45f,.8f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
+	
+	//Draw the bottom
+	Scrollrect.bottom = 584;
+	Scrollrect.top = 472;
+	Scrollrect.left = 2;
+	Scrollrect.right = 557;
+	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,0,487,1.45f,.85f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
+	
+	//STRINGHERE=("JON PUT A STRING HERE");
+	DrawMap(string("Trample Hill"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
+	//STRINGHERE=("JON PUT A STRING HERE");
+	DrawMap(string("Forest Siege"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
+	DrawMap(string("Siege on the mountain"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
+	//STRINGHERE=("JON PUT A STRING HERE");
+	DrawMap(string("Close Quarters"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
+
+}
+void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, vector<vector<TILE_TYPE>> m_vMap_, bool selected)
+{
+	int nMiniMapOffsetX = rowoffset;
+	int nMiniMapOffsetY = coloffset;
+	
+	float fMapWidth		=MAPWIDTH;
+	float fMapHeight	= MAPHEIGHT;
+	int rows= m_vMap_.size();
+	int	cols= m_vMap_.size();
+	float nMiniTileWidth	=0;
+	float nMiniTileHeight	=0;
+
+	if(rows!=cols)
+	{
+		if (cols>rows)
+		{
+			nMiniTileWidth	= (fMapWidth  / rows)/2;
+			nMiniTileHeight	= fMapHeight / cols;
+		}
+		if (cols<rows)
+		{
+			nMiniTileWidth	= fMapWidth  / rows;
+			nMiniTileHeight	= (fMapHeight / cols)/2;
+		}
+	}
+	else
+	{
+		nMiniTileWidth	= fMapWidth  / rows;
+		nMiniTileHeight	= fMapHeight / cols;
+	}
+
+	RECT miniR = {nMiniMapOffsetX-5, nMiniMapOffsetY-5, 
+					(float)(nMiniMapOffsetX +nMiniTileWidth*rows+5),
+					(float)(nMiniMapOffsetY +nMiniTileHeight*cols+5)};
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+	if(selected)
+		CSGD_Direct3D::GetInstance()->DrawRect(miniR,255,0,0);
+	else
+	CSGD_Direct3D::GetInstance()->DrawRect(miniR, 0, 0, 0);
 
 	// Render the tiles. Only using colored blocks for now
 	std::vector<std::vector<TILE_TYPE>>::iterator itermap1;
 	int i = 0;
 	int j = 0;
 	std::vector<TILE_TYPE>::iterator iter;
-
-		std::wostringstream looss;
+	std::wostringstream looss;
 	int x = 0;
 	int y = 0;
-	for (itermap1 = m_vMap1.begin(); itermap1 != m_vMap1.end(); ++itermap1)
+	for (itermap1 = m_vMap_.begin(); itermap1 != m_vMap_.end(); ++itermap1)
 	{
-		looss.str(_T(""));
-
-		looss << "Iter Map1 x: " << x++ << '\n';
 		for (iter = (*itermap1).begin(); iter != (*itermap1).end(); ++iter)
 		{
-	//for (int i = 0; i < m_pRows; ++i)
-	//{
-	//	for (int j = 0; j < m_pColumns; ++j)
-	//	{
-			looss.str(_T(""));
-
-			looss << "Iter Map1 y: " << y++ << '\n';
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
 				(LONG)(j * nMiniTileHeight+ nMiniMapOffsetY), 
 				(LONG)(i * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
@@ -253,150 +321,40 @@ void LevelSelectState::Render(void)
 			int r = 0;
 			int g = 0;
 			int b = 0;
-			//CTile* pTile = &m_ptempmap[i][j];
 			TILE_TYPE workType = (*iter);
-			//if (pTile == nullptr)
-			//	continue;
-			RECT rSrc;
+
 			switch (workType)
 			{
-			case TT_PLAINS:
-				rSrc = CellAlgorithm(TT_PLAINS);
+			case TT_PLAINS://light green
 				g=177; r=34; b=76; break;
-			case TT_FOREST:
-				rSrc = CellAlgorithm(TT_FOREST);
-				g=128; r=0; b=0; break;
-			case TT_MOUNTAINS:
-				rSrc = CellAlgorithm(TT_MOUNTAINS);
-				g=64;r=128; b=0; break;
-			case TT_WATER:
-				rSrc = CellAlgorithm(TT_WATER);
-				g=128;r=0;b=192;break; 
-			case TT_MINE:
-				rSrc = CellAlgorithm(TT_MINE);
-				g=64;r=128; b=0; break;
-			case TT_MILL:
-				rSrc = CellAlgorithm(TT_MILL);
-				g=128; r=0; b=0; break;
-			case TT_FARM:
-				rSrc = CellAlgorithm(TT_FARM);
-				g=177; r=34; b=76; break;
-			//case TT_CASTLE:
-			//	rSrc = CellAlgorithm(TT_CASTLE);
+			case TT_FOREST://dark green
+				g=134; r=59; b=38; break;
+			case TT_MOUNTAINS://grey
+				g=100;r=100; b=100; break;
+			case TT_WATER://light blue
+				g=155;r=0;b=195;break; 
+			case TT_MINE: //gold
+				g=194;r=155; b=79; break;
+			case TT_MILL://orange
+				g=106; r=255; b=0; break;
+			case TT_FARM:// yellow
+				g=240; r=255; b=33; break;
+			case TT_TOMBSTONE:
+				//rSrc = CellAlgorithm(TT_TOMBSTONE);
 			default:
-				g=177; r=34; b=76; break;
+				g=255; r=255; b=255; break;
 			}
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
-				tileRect.left, tileRect.top+100, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
-	
+			CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
+
 			j++;
 		}
 		j = 0;
 		i++;
 	}
 	ostringstream woss;
-	woss<<StringTable::GetInstance()->GetString("Bottleneck");
-	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.3f, D3DXCOLOR(255,255,255,255));
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-
-	nMiniMapOffsetX = 500;
-	nMiniMapOffsetY = 50;
-	miniR.left = nMiniMapOffsetX; miniR.top = nMiniMapOffsetY+100; miniR.right = nMiniMapOffsetX + 225; miniR.bottom = nMiniMapOffsetY + 252;
-	selectedrect.left = nMiniMapOffsetX-5; selectedrect.top = nMiniMapOffsetY+95; selectedrect.right = nMiniMapOffsetX + 230; selectedrect.bottom = nMiniMapOffsetY + 257;
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	if(selected == 1)
-		CSGD_Direct3D::GetInstance()->DrawRect(selectedrect,255,0,0);
-	CSGD_Direct3D::GetInstance()->DrawRect(miniR, 0, 0, 0);
-
-	nMiniMapWidth = 225.0f;
-	nMiniMapHeight = 152.0f;
-	nMiniTileWidth = nMiniMapWidth / m_p2ndRows;
-	nMiniTileHeight = nMiniMapHeight / m_p2ndColumns;
-
-	//return;
-	// Render the tiles. Only using colored blocks for now
-	std::vector<std::vector<TILE_TYPE>>::iterator itermap2;
-	int i1 = 0;
-	int j1 = 0;
-
-	looss.str(_T(""));
-	x = y = 0;
-	for (itermap2 = m_vMap2.begin(); itermap2 != m_vMap2.end(); ++itermap2)
-	{
-		looss.str(_T(""));
-
-		looss << "Iter Map2 x: " << x++ << '\n';
-		for (iter = (*itermap2).begin(); iter != (*itermap2).end(); ++iter)
-		{
-	//for (int i = 0; i < m_p2ndRows; ++i)
-	//{
-	//	for (int j = 0; j < m_p2ndColumns; ++j)
-	//	{
-			woss.str((""));
-		woss << "Iter Map2 y: " << y++ << '\n';
-			RECT tileRect = { (LONG)(i1 * nMiniTileWidth + nMiniMapOffsetX),
-				(LONG)(j1 * nMiniTileHeight+ nMiniMapOffsetY), 
-				(LONG)(i1 * nMiniTileWidth + nMiniTileWidth+ nMiniMapOffsetX),
-				(LONG)(j1 * nMiniTileHeight + nMiniTileHeight+ nMiniMapOffsetY)};
-			int r = 0;
-			int g = 0;
-			int b = 0;
-			//CTile* pTile = &m_p2ndtempmap[i][j];
-			//if (pTile == nullptr)
-			//	continue;
-			TILE_TYPE workType = (*iter);
-			RECT rSrc;
-			switch (workType)
-			{
-			case TT_PLAINS:
-				rSrc = CellAlgorithm(TT_PLAINS);
-				g=177; r=34; b=76; break;
-			case TT_FOREST:
-				rSrc = CellAlgorithm(TT_FOREST);
-				g=128; r=0; b=0; break;
-			case TT_MOUNTAINS:
-				rSrc = CellAlgorithm(TT_MOUNTAINS);
-				g=64;r=128; b=0; break;
-			case TT_WATER:
-				rSrc = CellAlgorithm(TT_WATER);
-				g=128;r=0;b=192;break; 
-			case TT_MINE:
-				rSrc = CellAlgorithm(TT_MINE);
-				g=64;r=128; b=0; break;
-			case TT_MILL:
-				rSrc = CellAlgorithm(TT_MILL);
-				g=128; r=0; b=0; break;
-			case TT_FARM:
-				rSrc = CellAlgorithm(TT_FARM);
-				g=177; r=34; b=76; break;
-			case TT_TOMBSTONE:
-				rSrc = CellAlgorithm(TT_TOMBSTONE);
-			default:
-				g=177; r=34; b=76; break;
-			}
-			CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
-				tileRect.left, tileRect.top+100, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
-			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
-			//r = 255 * !(pTile->GetPlayerID());
-			//b = 255 * (pTile->GetPlayerID());
-			//g = 0;
-			//switch (pTile->GetTileType())
-			//{
-			//case TT_MILL:
-			//case TT_MINE:
-			//case TT_FARM:
-			//	break;
-			//}
-			j1++;
-		}
-		j1 = 0;
-		i1++;
-	}
-	ostringstream boss;
-	boss<<StringTable::GetInstance()->GetString("Siege on the mountain");
-	tempfont.Print(boss.str().c_str(), nMiniMapOffsetX, nMiniMapOffsetY + 262, 0.3f, D3DXCOLOR(255,255,255,255), 210);
-
-	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
+	woss<<StringTable::GetInstance()->GetString(sLevelname);
+	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX+2, nMiniMapOffsetY+10, 0.3f, D3DXCOLOR(255,255,255,255));
+	//CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 }
 
 LevelSelectState* LevelSelectState::GetInstance()
