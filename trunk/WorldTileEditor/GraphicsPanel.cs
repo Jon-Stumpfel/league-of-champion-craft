@@ -6,11 +6,5 @@ using System.Windows.Forms;
 
 namespace WorldTileEditor
 {
-    public class GraphicsPanel : Panel
-    {
-        public GraphicsPanel()
-        {
-            this.DoubleBuffered = true;
-        }
-    }
+
 }
