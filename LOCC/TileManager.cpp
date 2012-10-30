@@ -50,12 +50,12 @@ void CTileManager::ShutDown(void)
 
 	if (m_pTileMap != nullptr)
 	{
-	for (int  x = 0; x < m_nRows; ++x)
-	{
-		delete[] m_pTileMap[x];
-	}
-	delete[] m_pTileMap;
-	m_pTileMap = nullptr;
+		for (int  x = 0; x < m_nRows; ++x)
+		{
+			delete[] m_pTileMap[x];
+		}
+		delete[] m_pTileMap;
+		m_pTileMap = nullptr;
 	}
 }
 

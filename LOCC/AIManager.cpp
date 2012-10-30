@@ -1879,6 +1879,12 @@ int CAIManager::FindNearest(lua_State* L)
 		}
 	}
 
+	if (pNearestEnemy->GetPos().nPosX < 0 || pNearestEnemy->GetPos().nPosY < 0 || pNearestEnemy->GetPos().nPosX > 5000 ||
+		pNearestEnemy->GetPos().nPosY > 5000)
+	{
+		int x  = 9;
+
+	}
 	if (pNearestEnemy == nullptr)
 		return 0;
 
@@ -2009,7 +2015,7 @@ int CAIManager::FindNearestResource(lua_State* L)
 		{
 			if (CTileManager::GetInstance()->GetTile(x, y)->GetTileType() == desiredType)
 			{
-				int totalDistance = ((abs((float)(x - vec.nPosX))) + (abs((float)(y - vec.nPosY))));
+				int totalDistance = int(((abs((float)(x - vec.nPosX))) + (abs((float)(y - vec.nPosY)))));
 				if (totalDistance < maxDistance)
 				{
 					maxDistance = totalDistance;
