@@ -2073,7 +2073,7 @@ void CGameplayState::Render(void)
 
 	
 
-	//// Render the tiles. Only using colored blocks for now
+	// Render the tiles. Only using colored blocks for now
 	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
 		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
 		{

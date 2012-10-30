@@ -847,17 +847,17 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			CUnit* pUnit = (CUnit*)CObjectManager::GetInstance()->CreateObject(pSMSG->GetUnitType(), pSMSG->GetPlayerID() );
 			pUnit->SetPos(pSMSG->GetPos());
 
-			//if (CTileManager::GetInstance()->GetTile(pSMSG->GetPos().nPosX, pSMSG->GetPos().nPosY)->GetIfOccupied())
-			//{
-			//	CUnit* pOccupyingUnit = CGameManager::GetInstance()->FindUnit(pSMSG->GetPos());
-			//	if (pOccupyingUnit != pUnit)
-			//	{
-			//		Vec2D newpos = CAIManager::GetInstance()->NearestOpen(pOccupyingUnit->GetPos(), pSMSG->GetPos());
-			//		pUnit->SetPos(pSMSG->GetPos());
-			//		pUnit->AddWaypoint(CTileManager::GetInstance()->GetTile(newpos.nPosX, newpos.nPosY));
-			//	}
+			if (CTileManager::GetInstance()->GetTile(pSMSG->GetPos().nPosX, pSMSG->GetPos().nPosY)->GetIfOccupied())
+			{
+				CUnit* pOccupyingUnit = CGameManager::GetInstance()->FindUnit(pSMSG->GetPos());
+				if (pOccupyingUnit != pUnit)
+				{
+					Vec2D newpos = CAIManager::GetInstance()->NearestOpen(pOccupyingUnit->GetPos(), pSMSG->GetPos());
+					pUnit->SetPos(pSMSG->GetPos());
+					pUnit->AddWaypoint(CTileManager::GetInstance()->GetTile(newpos.nPosX, newpos.nPosY));
+				}
 
-			//}
+			}
 
 			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());

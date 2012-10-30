@@ -13,6 +13,7 @@
 #include "GameManager.h"
 #include "MessageSystem.h"
 #include "Player.h"
+#include <assert.h>
 
 const int TILEOFFSET =30;
 CTileManager* CTileManager::s_Instance = nullptr;
@@ -50,13 +51,14 @@ void CTileManager::ShutDown(void)
 
 	if (m_pTileMap != nullptr)
 	{
-		for (int  x = 0; x < m_nRows; ++x)
-		{
-			delete[] m_pTileMap[x];
-		}
-		delete[] m_pTileMap;
-		m_pTileMap = nullptr;
+	for (int  x = 0; x < m_nRows; ++x)
+	{
+		delete[] m_pTileMap[x];
 	}
+	delete[] m_pTileMap;
+	m_pTileMap = nullptr;
+	m_vResourceTiles.clear();
+}
 }
 
 void CTileManager::Init()
@@ -130,19 +132,18 @@ bool CTileManager::LoadSave( std::string sFilename )
 			m_pTileMap[x][y].SetPixHeight(tempdata1);
 			SetTileHieght(tempdata1);
 
-			/*pTile->Attribute("TileWidth",&tempdata1);
-			m_pTileMap[x][y].SetTileWidth(tempdata1);
-
-			pTile->Attribute("TileHeight",&tempdata1);
-			m_pTileMap[x][y].SetTileHeight(tempdata1);*/
-
 			pTile->Attribute("Status",&tempdata1);
 			m_pTileMap[x][y].SetStatus(tempdata1);
+
+			if(m_pTileMap[x][y].GetIfResourceTile())
+				m_vResourceTiles.push_back(GetTile(x,y));
 
 			pTile->Attribute("PlayerID",&tempdata1);
 			m_pTileMap[x][y].SetPlayerID(tempdata1);
 
 			pTile->Attribute("TType",&tempdata1);
+			if (TT_TOMBSTONE==(TILE_TYPE)tempdata1)
+				tempdata1=0;
 			m_pTileMap[x][y].SetTileType(tempdata1);
 
 			pTile = pTile->NextSiblingElement("Tile");
@@ -372,6 +373,8 @@ void CTileManager::EvaluateResources(int nPlayerID)
 {
 	int nTotalMetal = 0;
 	int nTotalWood = 0;
+
+	vector<CTile>::iterator TileIter;
 	for (int x = 0; x < m_nRows; x++)
 	{
 		for (int y = 0; y < m_nColumns; y++)
@@ -438,7 +441,6 @@ void CTileManager::EvaluateResources(int nPlayerID)
 		CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalMetal;
 }
 
-
 int CTileManager::GetSelectedTile(lua_State* L)
 {
 	CTile* selectedTile = CTileManager::GetInstance()->GetTile(CGameplayState::GetInstance()->GetSelectionPos().nPosX, 
@@ -474,6 +476,7 @@ int CTileManager::DestroyForest(lua_State* L)
 
 	return 0;
 }
+
 int CTileManager::RaiseMountain(lua_State* L)
 {
 	int posX = (int)lua_tonumber(L, 1);
@@ -497,5 +500,48 @@ int CTileManager::RaiseMountain(lua_State* L)
 	}
 
 	return 0;
+
+}
+
+std::vector<std::vector<TILE_TYPE>> CTileManager::JonsLoad(std::string sFilename)
+{
+	vector<vector<TILE_TYPE>> vTile;
+	
+	TiXmlDocument doc;
+	bool result=doc.LoadFile( sFilename.c_str());
+	//assert(result== false && "Jon's load: Could not load file" );
+	
+	TiXmlElement* pRoot = doc.RootElement();
+	//assert (pRoot == nullptr && "Jon's Load: pRoot is null");
+
+	
+	string texturefile;
+	TSTRING _TStupid_textconversion;
+
+	pRoot->Attribute("Rows",&m_nRows);
+	pRoot->Attribute("Columns", &m_nColumns);
+
+	vTile.resize(m_nRows);
+
+	for (int x = 0; x< m_nRows; ++x)
+	{
+		vTile[x].resize(m_nColumns);
+	}
+
+	int tempdata1=0,tempdata2=0;
+
+	TiXmlElement* pTiles = pRoot->FirstChildElement("Tiles");
+	TiXmlElement* pTile = pTiles->FirstChild("Tile")->ToElement();
+	for (int x=0; x<m_nRows; ++x)
+	{
+		for(int y=0;y<m_nColumns;++y)
+		{
+			pTile->Attribute("TType",&tempdata1);
+			vTile[x][y] = (TILE_TYPE) tempdata1;
+
+			pTile = pTile->NextSiblingElement("Tile");
+		}
+	}
+	return vTile;
 
 }

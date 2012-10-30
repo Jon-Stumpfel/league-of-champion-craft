@@ -5,6 +5,7 @@
 #include "Tile.h"
 #include "GameManager.h"
 #include "GraphicsManager.h"
+#include "StdAfx.h"
 class LevelSelectState : public IGameState
 {
 public:
@@ -16,22 +17,24 @@ public:
 	RECT CellAlgorithm(int id);
 	static LevelSelectState* GetInstance();
 private:
-	int selected;
+	void DrawMap(string sLevelname, int row, int col, vector<vector<TILE_TYPE>> m_vMap_, bool Selected);
+	Vec2D m_2Dselected;
 	LevelSelectState(void);
 	virtual ~LevelSelectState(void);
 	LevelSelectState(const LevelSelectState&);
 	LevelSelectState* operator=(LevelSelectState&);
 	CBitmapFont tempfont;
-	CTile** m_ptempmap;
-	CTile** m_p2ndtempmap;
 	int m_pRows;
 	int m_pColumns;
 	int m_p2ndRows;
 	int m_p2ndColumns;
-	int blueguyid;
-	int redguyid;
-	std::vector<std::vector<TILE_TYPE>> m_vMap1;
-	std::vector<std::vector<TILE_TYPE>> m_vMap2;
-	int Scroll;
+	int m_nblueguyID;
+	int m_nredguyID;
+	vector<vector<TILE_TYPE>> m_vMap1;
+	vector<vector<TILE_TYPE>> m_vMap2;
+	vector<vector<TILE_TYPE>> m_vMap3;
+	vector<vector<TILE_TYPE>> m_vMap4;
+	int m_nScrollID;
+	bool m_sbSelected[4];
 };
 

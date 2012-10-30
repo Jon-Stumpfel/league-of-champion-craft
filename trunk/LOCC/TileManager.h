@@ -1,5 +1,5 @@
 #pragma once
-
+#include "StdAfx.h"
 
 class CTile;
 class CUnit;
@@ -11,6 +11,7 @@ public:
 	void Init();
 	void ShutDown();
 	bool LoadSave( std::string sFilename );
+	std::vector<std::vector<TILE_TYPE>> JonsLoad( std::string sFilename );
 	void Update( float fElapsedTime );
 	void Render( void );
 	CTile* GetTile( int x, int y );
@@ -27,6 +28,8 @@ public:
 	static int GetSelectedTile(lua_State* L);
 	static int DestroyForest(lua_State* L);
 	static int RaiseMountain(lua_State* L);
+
+	vector<CTile*> m_vResourceTiles;
 private:
 
 	RECT CTileManager::CellAlgorithm( int id )
@@ -97,6 +100,7 @@ private:
 	}
 
 	}
+
 	void SetTileWidth(int wTile)	{m_nTileWidth=wTile; };
 	void SetTileHieght(int HTile)	{m_nTileHeight=HTile;};
 
