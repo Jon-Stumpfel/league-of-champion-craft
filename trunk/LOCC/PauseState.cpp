@@ -8,6 +8,7 @@
 #include "SocketServer.h"
 #include "BitmapFont.h"
 #include "Player.h"
+#include "StringTable.h"
 CPauseState::CPauseState(void)
 {
 }
@@ -109,7 +110,7 @@ void CPauseState::Render(void)
 
 	// lol rainbow text just for the time being
 	std::ostringstream woss;
-	woss << "GAME PAUSED";
+	woss << StringTable::GetInstance()->GetString("GAME PAUSED");
 	static int r = 255, g = 0,b = 255;
 	static int redAmt = 1, greenAmt = 1;
 	r -= redAmt;
@@ -128,16 +129,20 @@ void CPauseState::Render(void)
 	m_pBitmapFont.Print(woss.str().c_str(), 335, 150, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 	//CSGD_Direct3D::GetInstance()->DrawTextW(_T("Resume Game"), 350, 180, 255, 255, 255);
-	m_pBitmapFont.Print(("Resume Game"), 350, 180, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Resume Game")
+		.c_str(), 350, 180, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 	//CSGD_Direct3D::GetInstance()->DrawTextW(_T("Options"), 350, 210, 255, 255, 255);
-	m_pBitmapFont.Print(("Options"), 350, 210, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Options")
+		.c_str(), 350, 210, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 	//CSGD_Direct3D::GetInstance()->DrawTextW(_T("Save/Load"), 350, 240, 255, 255, 255);
-	m_pBitmapFont.Print(("Save/Load"), 350, 240, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Save/Load")
+		.c_str(), 350, 240, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 	//CSGD_Direct3D::GetInstance()->DrawTextW(_T("Exit to Menu"), 350, 270, 255, 255, 255);
-	m_pBitmapFont.Print(("Exit to Menu"), 350, 270, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Exit to Menu")
+		.c_str(), 350, 270, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 	CGraphicsManager::GetInstance()->DrawArrow(330, 190 + m_nVerticalChoice * 30, 255, 255, 255);
 }

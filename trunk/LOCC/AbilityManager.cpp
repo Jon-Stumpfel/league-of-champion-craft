@@ -398,7 +398,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(0);
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his target preventing damage for a turn."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his target, preventing damage for a turn."));
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SHIELD;
 					tmp.second = ab;
@@ -442,7 +442,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(6);
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward dealing more damage for evey unit hit in a line."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for evey unit hit in a line."));
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CHARGE;
 					tmp.second = ab;
@@ -559,7 +559,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_VOLLEY);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("If the Archer hasn't moved he can prepare a shot that deals double his damage."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("If the Archer hasn't moved, he can prepare a shot that deals double his damage."));
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_VOLLEY;
@@ -574,7 +574,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_RAISEDEAD);
 					ab->SetParticleType(PT_RAISEDEAD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("Brings any unit back to life as a skeleton. Can only be cast on a tile with a tombstone"));
+					ab->SetDescription(StringTable::GetInstance()->GetString("Brings any unit back to life as a skeleton. It can only be cast on a tile with a tombstone."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RAISEDEAD;
@@ -589,7 +589,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_MAGIC);
 					ab->SetParticleType(PT_MAGIC);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("Its a missile made of magic."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("It's a missile made of magic."));
 					ab->SetDamage(8);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_MAGIC;
@@ -604,7 +604,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_ICEBOLT);
 					ab->SetParticleType(PT_ICEBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The champion hurls a bolt of ice at a target reducing their speed by 2 for the next turn."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The champion hurls a bolt of ice at a target, reducing their speed by 2 for the next turn."));
 					ab->SetDamage(6);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_ICEBOLT;
@@ -619,7 +619,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_LIGHTBOLT);
 					ab->SetParticleType(PT_LIGHTBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The hero calls a bolt of lightning down on a targeted tile.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The hero calls a bolt of lightning down on a targeted tile."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_LIGHTBOLT;
@@ -634,7 +634,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_FIREWEP);
 					ab->SetParticleType(PT_FIREWEP);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion sets a targets weapon ablaze, increasing thier damage by 2.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sets a targets weapon ablaze, increasing thier damage by 2."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIREWEP;
@@ -649,7 +649,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_LIGHTSTRIKE);
 					ab->SetParticleType(PT_LIGHTBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion uses a powerful lightning strike to stun the enemy for the next turn.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses a powerful lightning strike to stun the enemy for the next turn."));
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_LIGHTSTRIKE;
@@ -664,7 +664,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_EXPSHOT);
 					ab->SetParticleType(PT_EXPLODE);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion uses a powerful explosive arrow");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses a powerful explosive arrow."));
 					ab->SetDamage(8);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_EXPSHOT;
@@ -679,7 +679,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_ICEAGE);
 					ab->SetParticleType(PT_ICEBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion freezes all the tiles in front of him.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion freezes all the tiles in front of him."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_ICEAGE;
@@ -694,7 +694,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_HEAVYBLOW);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion strikes a target with a heavy blow");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion strikes a target with a heavy blow."));
 					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_HEAVYBLOW;
@@ -709,7 +709,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_FIRENOVA);
 					ab->SetParticleType(PT_FIRE);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion engulfs himself in flames and explodes into an unholy napalm bloom of death.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion engulfs himself in flames and explodes into an unholy napalm bloom of death."));
 					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FIRENOVA;
@@ -724,7 +724,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_SKILLSHOT);
 					ab->SetParticleType(PT_OBLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion uses his bow to attack a target from afar.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to attack a target from afar."));
 					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SKILLSHOT;
@@ -739,7 +739,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_LIGHTCHAIN);
 					ab->SetParticleType(PT_LIGHTBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion pushes lightning through all conductive targets.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion pushes lightning through all conductive targets."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_LIGHTCHAIN;
@@ -753,7 +753,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_WHIRLWIND);
 					ab->SetParticleType(PT_WHIRLWIND);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("A spinning attack so fast that the Champion's sheer velocity throws back units");
+					ab->SetDescription(StringTable::GetInstance()->GetString("A spinning attack so fast that the Champion's sheer velocity throws back units."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_WHIRLWIND;
@@ -767,7 +767,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_PSHOT);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion uses his bow to hit all targets in a line, doing 2 less damage for each target hit.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to hit all targets in a line, doing 2 less damage for each target hit."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_PSHOT;
@@ -782,7 +782,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_CLEAVE);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion swings his sword, hitting all targets infront of him.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion swings his sword, hitting all targets in front of him."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CLEAVE;
@@ -796,7 +796,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_BLADESTORM);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion spins, hitting all targets infront of him.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion spins, hitting all targets in front of him."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_BLADESTORM;
@@ -811,7 +811,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_SWORDDANCE);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion stabs all units around him.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion stabs all units around him."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SWORDDANCE;
@@ -827,7 +827,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_RUSH);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion rushes forward in a direction, dealing 2 extra damage for every unit hit.");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion rushes forward in a direction, dealing 2 extra damage for every unit hit."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RUSH;
@@ -842,7 +842,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_KILL);
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription("The Champion Does massive damage to an enemy near him");
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion does massive damage to an enemy near him."));
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_KILL;
@@ -863,12 +863,12 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nRange = 1;
 	pAbility->m_nCooldown = 0;
 	pAbility->m_nDamage = 1;
-	pAbility->m_strName = "Melee Attack";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Melee Attack");
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
 	pAbility->SetType(SP_MELEEATTACK);
 	pAbility->SetParticleType(TEST);
-	pAbility->SetDescription("I don't know what to say. Invoking Unit's damage and range is used to caluaute the range of attack as well as the damage done");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("This unit attacks with a melee weapon."));
 	int zz = CGraphicsManager::GetInstance()->GetID(_T("meleeattackicon"));
 	pAbility->SetIconID(zz);
 	std::pair<SPELL_TYPE, CAbility*> tmp;
@@ -886,12 +886,12 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nRange = 3;
 	pAbility->m_nDamage = 1;
 	pAbility->m_nCooldown = 0;
-	pAbility->m_strName = "Range Attack";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Range Attack");
 	pAbility->SetParticleType(TEST);
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
 	pAbility->SetType(SP_ARCHERRANGEDATTACK);
-	pAbility->SetDescription("I don't know what to say. Invoking Unit's damage and range is used to caluaute the range of attack as well as the damage done");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("This unit attacks with a ranged weapon."));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("rangeattackicon"));
 	pAbility->SetIconID(zz);
 	tmp.first = SP_ARCHERRANGEDATTACK;
@@ -906,9 +906,9 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_szInterfaceIcon = TSTRING(_T("moveicon"));
 	pAbility->SetType(SP_MOVE);
 	pAbility->SetDamage(0);
-	pAbility->m_strName = "Move";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Move");
 	pAbility->m_nCooldown = 0;
-	pAbility->SetDescription("Allows you to move things from places");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("Allows you to move things to places."));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("moveicon"));
 	pAbility->SetIconID(zz);
 	tmp.first = SP_MOVE;
@@ -924,7 +924,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetType(SP_CHAMPSPELL);
 	pAbility->SetDamage(0);
 	pAbility->m_nRange = 0;
-	pAbility->m_strName = "Spells";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Spells");
 	pAbility->m_nCooldown = 0;
 	zz = CGraphicsManager::GetInstance()->GetID(_T("champspellicon"));
 	pAbility->SetIconID(zz);
@@ -941,7 +941,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetDamage(0);
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
-	pAbility->m_strName = "Spawn Archer";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Spawn Archer");
 	pAbility->m_nCooldown = 0;
 	pAbility->m_bFacing = false;
 	pAbility->SetDescription("");
@@ -963,7 +963,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_bFacing = false;
 	pAbility->SetParticleType(TEST);
 	pAbility->m_nPhase = GP_MOVE;
-	pAbility->m_strName = "Spawn Swordsman";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Spawn Swordsman");
 	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("swordsmanportrait"));
 	pAbility->SetDescription("");
@@ -984,7 +984,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->m_bFacing = false;
 	pAbility->SetParticleType(TEST);
-	pAbility->m_strName = "Spawn Calvary";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Spawn Calvary");
 	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("cavalryportrait"));
 	pAbility->SetDescription("");
@@ -1004,10 +1004,10 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_bIsMove = false;
 	pAbility->m_nPhase = GP_MOVE;
 	pAbility->SetParticleType(TEST);
-	pAbility->m_strName = "Ice Block";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Ice Block");
 	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("iceblockportrait"));
-	pAbility->SetDescription("The hero uses his power of freezing stuff to make an iceblock");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("The hero uses his power of freezing stuff to make an ice block"));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("iceblockportrait"));
 	pAbility->SetIconID(zz);
 	pAbility->SetType(SP_ICEBLOCK);
@@ -1021,9 +1021,9 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nRange = 0;
 	pAbility->m_nDamage = 0;
 	pAbility->m_nCooldown = 0;
-	pAbility->m_strName = "Blank Scroll";
+	pAbility->m_strName = StringTable::GetInstance()->GetString("Blank Scroll");
 	pAbility->m_szInterfaceIcon = TSTRING(_T("blankscroll"));
-	pAbility->SetDescription("Blank parchment is blank");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("Blank parchment is blank"));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("blankscroll"));
 	pAbility->SetIconID(zz);
 	pAbility->SetType(SP_BLANK);
