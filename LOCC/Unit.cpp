@@ -457,6 +457,14 @@ void CUnit::Update(float fElapsedTime)
 				{
 					if (!CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetIfCapturing())
 					{
+						if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetPlayerID() != -1)
+						{
+							CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetPlayerID());
+							if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_MILL)
+								pPlayer->SetMillsOwned(pPlayer->GetMillsOwned() - 1);
+							else if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_MINE)
+								pPlayer->SetMinesOwned(pPlayer->GetMinesOwned() - 1);
+						}
 						CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetIfCapturing(true);
 						CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetPlayerID( GetPlayerID());
 					}

@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "Player.h"
-
+#include "GameManager.h"
 
 CPlayer::CPlayer(int nPlayerID)
 {
@@ -12,7 +12,8 @@ CPlayer::CPlayer(int nPlayerID)
 	SetMaxPopCap(12);
 	SetExp(1100);
 
-
+	m_nMillsOwned = 0;
+	m_nMinesOwned = 0;
 	// STATS RECORDING
 	m_tStats.nChampionDamageDone	 = 0;
 	m_tStats.nChampionHealingDone	 = 0;
@@ -36,4 +37,27 @@ CPlayer::CPlayer(int nPlayerID)
 
 CPlayer::~CPlayer(void)
 {
+}
+
+
+int CPlayer::GetMillsOwned(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CGameManager::GetInstance()->GetUnitByID(nUnitID)->GetPlayerID());
+
+	lua_pushinteger(L, pPlayer->GetMillsOwned());
+
+	return 1;
+}
+
+int CPlayer::GetMinesOwned(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+
+	CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CGameManager::GetInstance()->GetUnitByID(nUnitID)->GetPlayerID());
+
+	lua_pushinteger(L, pPlayer->GetMinesOwned());
+
+	return 1;
 }

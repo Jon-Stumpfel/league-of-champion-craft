@@ -60,7 +60,9 @@ private:
 
 	// A* algorithm stuff
 	std::vector<CTile*> m_vWaypoints;
-	bool CalculateMove(CTile* startTile, CTile* targetTile);
+	public:
+	bool CalculateMove(CTile* startTile, CTile* targetTile, std::vector<CTile*>& m_vVector);
+	private:
 	void FindNode(std::list<ASNode*> list, CTile* pTile);
 
 

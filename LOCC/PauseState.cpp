@@ -77,7 +77,15 @@ void CPauseState::Input(INPUT_ENUM input)
 
 					}
 					if (m_bQuit)
+					{
+						CTileManager::GetInstance()->ShutDown();
+						CSocketServer::GetInstance()->Shutdown();
+						CSocketClient::GetInstance()->Shutdown();
+
 						CStateStack::GetInstance()->Switch(CMainMenuState::GetInstance());
+
+
+					}
 					else
 						CStateStack::GetInstance()->Pop();
 

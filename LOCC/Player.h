@@ -37,11 +37,22 @@ private:
 	int m_nJoystickNum;
 	bool m_bAI;
 
+	int m_nMillsOwned;
+	int m_nMinesOwned;
+
 	GameStats m_tStats;
 public:
 
 	CPlayer(int nPlayerID);
 	~CPlayer(void);
+
+	int GetMillsOwned(void) { return m_nMillsOwned;}
+	void SetMillsOwned(int i) { m_nMillsOwned = i;}
+	int GetMinesOwned(void) { return m_nMinesOwned;}
+	void SetMinesOwned(int i ) { m_nMinesOwned = i;}
+
+	static int GetMillsOwned(lua_State* L);
+	static int GetMinesOwned(lua_State* L);
 
 	GameStats* GetStats(void) { return &m_tStats;}
 

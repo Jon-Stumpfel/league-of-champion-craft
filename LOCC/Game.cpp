@@ -153,6 +153,8 @@ void CGame::Shutdown(void)
 	TerminateThread(CSocketServer::GetInstance()->workThread2, 0);
 	CStateStack::DeleteInstance();
 	CFloatingText::DeleteInstance();
+	CSocketServer::DeleteInstance();
+	CSocketClient::DeleteInstance();
 	CAIManager::DeleteInstance();
 	CScriptManager::DeleteInstance();
 	CAbilityManager::DeleteInstance();

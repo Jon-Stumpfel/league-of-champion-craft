@@ -28,7 +28,7 @@ void CMainMenuState::Enter(void)
 	swordid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\main_menu_bg.png"),D3DXCOLOR(0,0,0,255));
 	blueguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_blue.png"),D3DXCOLOR(0,0,0,255));
 	redguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_red.png"),D3DXCOLOR(0,0,0,255));
-	m_pBitmapFont = new CBitmapFont();
+	//m_pBitmapFont = new CBitmapFont();
 	CInputManager::GetInstance()->SetInMenu(true);
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
 	m_pBitmapFont = new CBitmapFont();
@@ -58,8 +58,8 @@ void CMainMenuState::Enter(void)
 			IsModern = true;
 		Option = Option->NextSiblingElement("Option");
 	}
-	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
-	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
+	//CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
+	//CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
 	CGame::GetInstance()->SetIsWindowed(windowed);
 	StringTable::GetInstance()->SetLanguage(IsModern);
 }

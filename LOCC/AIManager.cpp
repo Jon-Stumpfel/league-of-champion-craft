@@ -74,6 +74,9 @@ void CAIManager::Initialize(void)
 	lua_register(AIL, "GetSpellCooldown", CHero::GetSpellCooldown);
 	lua_register(AIL, "GetFriendlyUnitsInRange", CAIManager::GetFriendlyUnitsInRange);
 	lua_register(AIL, "GetEnemyUnitsInRange", CAIManager::GetEnemyUnitsInRange);
+	lua_register(AIL, "GetMillsOwned", CPlayer::GetMillsOwned);
+	lua_register(AIL, "GetMinesOwned", CPlayer::GetMinesOwned);
+	lua_register(AIL, "FindNearestResource", CAIManager::FindNearestResource);
 }
 void CAIManager::Shutdown(void)
 {
@@ -87,7 +90,7 @@ bool CAIManager::CheckInputQueue(float fElapsedTime)
 	if (m_vInputQueue.size() != 0)
 	{
 		fTimeToPop += fElapsedTime;
-		if (fTimeToPop > 0.8f)
+		if (fTimeToPop > 0.2f)
 		{
 			if (m_vInputQueue.front() == INPUT_AI_ORDERFINISHED)
 			{
@@ -205,6 +208,15 @@ void CAIManager::BeginMovement(void)
 		}
 	}
 
+	//for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
+	//{
+	//	if (m_vGuysToHandle[i]->GetType() == UT_ARCHER)
+	//	{
+	//		m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
+	//		return;
+	//	}
+	//}
+
 	while (m_vGuysToHandle.size() != 0)
 	{
 		// Fleeing guys have first movement priority to get them in range of the hero
@@ -259,7 +271,7 @@ void CAIManager::BeginAttack(void)
 	{
 		if (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() ==CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 		{
-if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE || CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_ICEBLOCK)
+			if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE || CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_ICEBLOCK)
 				continue;
 			m_vGuysToHandle.push_back(CGameManager::GetInstance()->GetUnits()[i]);
 		}
@@ -267,17 +279,7 @@ if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE || CGameM
 
 	while (m_vGuysToHandle.size() != 0)
 	{
-		// Fleeing guys have first movement priority to get them in range of the hero
-		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
-		{
-			if (m_vGuysToHandle[i]->GetFleeing() == true)
-			{
-				m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
-				m_vGuysToHandle.erase(m_vGuysToHandle.begin() + i++);
-			}
-		}
-
-		// Hero has next priority to heal those people
+		// Hero has first attack priority due to AP considerations. His attacks are more important
 		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
 		{
 			if (m_vGuysToHandle[i]->GetType() == UT_HERO)
@@ -288,7 +290,7 @@ if (CGameManager::GetInstance()->GetUnits()[i]->GetType() == UT_CASTLE || CGameM
 			}
 		}
 
-		// Lump everyone else in there
+		// Then everyone else
 		for (unsigned int i = 0; i < m_vGuysToHandle.size(); ++i)
 		{
 			m_vUnitsToHandle.push_back(m_vGuysToHandle[i]);
@@ -306,23 +308,45 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 	std::list<std::pair<int, Vec2D>> vTargets;
 	int nPreference = 1;
 	bool bDoWork = true;
+
+
+	// test using A*
+	//std::vector<CTile*> m_vWayps;
+	//CGameplayState::GetInstance()->CalculateMove(
+	//	CTileManager::GetInstance()->GetTile(pSelectedUnit.nPosX, pSelectedUnit.nPosY),
+	//	CTileManager::GetInstance()->GetTile(pTargetUnit.nPosX, pTargetUnit.nPosY),
+	//	m_vWayps);
+	//if (m_vWayps.size() == 0)
+	//{
+	//	return pSelectedUnit;
+	//}
+	//return m_vWayps.front()->GetPosition();
+
 	while (bDoWork)
 	{
 		CTile* pTile = CTileManager::GetInstance()->GetTile(vTarget.nPosX, vTarget.nPosY);
-		if (pTile == nullptr || pTile->GetIfPassable())
+		if (pTile == nullptr)
 		{
-
+			
 		}
 		else 
 		{
-			if (!pTile->GetIfOccupied())
+			if (!pTile->GetIfOccupied() && !pTile->GetIfPassable())
 			{
 				break;
 			}
 			Vec2D AdjacentWest = Vec2D(vTarget.nPosX - 1, vTarget.nPosY);
+			if (AdjacentWest == Vec2D(9, 2))
+				int x = 9;
 			Vec2D AdjacentEast = Vec2D(vTarget.nPosX + 1, vTarget.nPosY);
+						if (AdjacentWest == Vec2D(9, 2))
+				int x = 9;
 			Vec2D AdjacentNorth = Vec2D(vTarget.nPosX, vTarget.nPosY - 1);
+						if (AdjacentWest == Vec2D(9, 2))
+				int x = 9;
 			Vec2D AdjacentSouth = Vec2D(vTarget.nPosX, vTarget.nPosY + 1);
+						if (AdjacentWest == Vec2D(9, 2))
+				int x = 9;
 			int Direction = -1;
 			if (pTargetUnit.nPosX < pSelectedUnit.nPosX) // west
 			{
@@ -356,114 +380,210 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 0:
 				tmp.first = nPreference;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			case 1:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			case 2:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			case 3:
 				tmp.first = nPreference;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			case 4:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			case 5:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			case 6:
 				tmp.first = nPreference;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			case 7:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentNorth;
-				vTargets.push_back(tmp);
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				{
+					vTargets.push_back(tmp);
+				}
 				break;
 			}
 		}
@@ -1536,6 +1656,8 @@ void CAIManager::UpdateAI(float fElapsedTime)
 		{
 				RunAIScript(m_vUnitsToHandle.front());
 		}
+		else
+			m_vInputQueue.push_back(INPUT_START);
 
 		//if (m_vUnitsToHandle.size() == 0)
 		//{
@@ -1687,7 +1809,7 @@ int CAIManager::IssueOrder(lua_State* L)
 void CAIManager::RunAIScript(CUnit* pUnit)
 {
 	lua_State* L = AIL;
-
+	lua_settop(L, 0);
 	lua_pushinteger(L, pUnit->GetUniqueID());
 	lua_setglobal(L, "unitID");
 
@@ -1863,6 +1985,43 @@ int CAIManager::GetEnemyUnitsInRange(lua_State* L)
 
 	lua_setglobal(L, "enemyUnitData");
 	return 0;
+}
+
+// resoucetype 1 == mill, 2 == mine
+int CAIManager::FindNearestResource(lua_State* L)
+{
+	int nUnitID = lua_tointeger(L, 1);
+	int nResourceType = lua_tointeger(L, 2);
+
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUnitID);
+	TILE_TYPE desiredType;
+	if (nResourceType == 1)
+		desiredType = TT_MILL;
+	else if (nResourceType == 2)
+		desiredType == TT_MILL;
+
+	Vec2D vec = pUnit->GetPos();
+	Vec2D foundTile;
+	int maxDistance = 99999;
+
+	for (int x = 0; x < CTileManager::GetInstance()->GetNumRows(); ++x)
+		for (int y = 0; y < CTileManager::GetInstance()->GetNumColumns(); ++y)
+		{
+			if (CTileManager::GetInstance()->GetTile(x, y)->GetTileType() == desiredType)
+			{
+				int totalDistance = ((abs((float)(x - vec.nPosX))) + (abs((float)(y - vec.nPosY))));
+				if (totalDistance < maxDistance)
+				{
+					maxDistance = totalDistance;
+					foundTile.nPosX = x;
+					foundTile.nPosY = y;
+				}
+			}
+		}
+
+	lua_pushinteger(L, foundTile.nPosX);
+	lua_pushinteger(L, foundTile.nPosY);
+	return 2;
 }
 CAIManager::CAIManager(void)
 {

@@ -75,7 +75,7 @@ function Rally(nRallyID)
 end
 
 function MoveToNearestEnemy()
-	AddText("Move To Nearest ", pixelX, pixelY, -40, 0, 5, 0.4, 20, 255, 20);
+	--AddText("Move To Nearest ", pixelX, pixelY, -40, 0, 5, 0.4, 20, 255, 20);
 	IssueOrder("deselectall");
 	IssueOrder("selectunit", unitID);
 	IssueOrder("move", targetX, targetY);
