@@ -202,8 +202,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						case NET_BEGINMAP2:
 							{
 								CTileManager* pTM=CTileManager::GetInstance();
-								CGameManager::GetInstance()->NewGame("level2", 2);
+								char syncbuffer[15];
+								recv(CSocketClient::GetInstance()->m_sClientSocket, syncbuffer, 10, 0);
+								syncbuffer[11] = '\0';
+								unsigned int seed;
+								seed = atoi(syncbuffer);
+								CGameManager::GetInstance()->SetRandomSeed(seed);
 								CGameManager::GetInstance()->BeginNetworkGame(2);
+								CGameManager::GetInstance()->NewGame("level2", 2);
 								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 							}
 							break;

@@ -1835,7 +1835,7 @@ void CGameplayState::Render(void)
 			{
 				CSGD_TextureManager::GetInstance()->Draw(
 					CGraphicsManager::GetInstance()->GetID(m_pHighlightedUnit->GetEffect(i)->m_szInterfaceIcon), 
-					m_nCardOffsetX + 20 + (25*i), 370, 0.4f, 0.4f);
+					m_nCardOffsetX + 15 + (26*i), 375, 0.4f, 0.4f);
 			}
 		}
 	}
@@ -2138,8 +2138,8 @@ void CGameplayState::Render(void)
 		// Render the units as circles
 		for (decltype(CGameManager::GetInstance()->GetUnits().size()) i = 0; i < CGameManager::GetInstance()->GetUnits().size(); ++i)
 		{
-			int r = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 0);
-			int b = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 1);
+			int r = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 1);
+			int b = 255 * (CGameManager::GetInstance()->GetUnits()[i]->GetPlayerID() == 0);
 			int g = 0;
 			CSGD_TextureManager::GetInstance()->Draw(
 				CGraphicsManager::GetInstance()->GetID(_T("minicircle")),
@@ -2231,7 +2231,7 @@ void CGameplayState::Render(void)
 			for (int i = 0; i < m_pSelectedUnit->GetNumEffects(); ++i)
 			{
 				CSGD_TextureManager::GetInstance()->Draw(
-					CGraphicsManager::GetInstance()->GetID(m_pSelectedUnit->GetEffect(i)->m_szInterfaceIcon), 580 + (25*i), 560, 0.4f, 0.4f);
+					CGraphicsManager::GetInstance()->GetID(m_pSelectedUnit->GetEffect(i)->m_szInterfaceIcon), 626 + (27*i), 555, 0.4f, 0.4f);
 			}
 		}
 
@@ -2371,10 +2371,10 @@ void CGameplayState::Render(void)
 			nY += 20;
 		}
 
-		std::wostringstream woss;
-		woss << "Active Player Mines Owned: " << CGameManager::GetInstance()->GetCurrentPlayer()->GetMinesOwned() <<
-			", Mills Owned: " << CGameManager::GetInstance()->GetCurrentPlayer()->GetMillsOwned();
-		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 60, 150, 255, 0, 255);
+		//std::wostringstream woss;
+		//woss << "Active Player Mines Owned: " << CGameManager::GetInstance()->GetCurrentPlayer()->GetMinesOwned() <<
+		//	", Mills Owned: " << CGameManager::GetInstance()->GetCurrentPlayer()->GetMillsOwned();
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 60, 150, 255, 0, 255);
 
 		CFloatingText::GetInstance()->Render();
 
