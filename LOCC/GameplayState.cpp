@@ -1829,6 +1829,11 @@ void CGameplayState::Render(void)
 				CGraphicsManager::GetInstance()->GetID(_T("healthbar")),m_nCardOffsetX + 15, 360, 1.0f, 1.0f, &hpRect, 0.0f, 0.0f,
 				0.0f, col);
 
+			int hp = m_pHighlightedUnit->GetHP();
+			std::ostringstream hposs;
+			hposs << hp;
+			m_pBitmapFont->Print(hposs.str().c_str(), m_nCardOffsetX + 54, 359, 0.25f, D3DCOLOR_XRGB(255, 255 ,255));
+
 			// debuffs
 
 			for (int i = 0; i < m_pHighlightedUnit->GetNumEffects(); ++i)
@@ -2224,6 +2229,11 @@ void CGameplayState::Render(void)
 			CSGD_TextureManager::GetInstance()->Draw(
 				CGraphicsManager::GetInstance()->GetID(_T("healthbar")),626, 537, 1.0f, 1.0f, &hpRect, 0.0f, 0.0f,
 				0.0f, col);
+
+			int hp = m_pSelectedUnit->GetHP();
+			std::ostringstream hposs;
+			hposs << hp;
+			m_pBitmapFont->Print(hposs.str().c_str(),  666 , 537, 0.25f, D3DCOLOR_XRGB(255, 255 ,255));
 			//CSGD_Direct3D::GetInstance()->DrawRect(hpRect, colR, colG, 0);
 
 			// debuffs
@@ -2309,7 +2319,7 @@ void CGameplayState::Render(void)
 
 
 		// AI debug render input queue
-		int nY = 40;
+	/*	int nY = 40;
 		for (unsigned int i = 0; i < CAIManager::GetInstance()->m_vInputQueue.size(); ++i)
 		{
 			std::wostringstream woss;
@@ -2369,7 +2379,7 @@ void CGameplayState::Render(void)
 			}
 			CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 20, nY, 255, 255, 255);
 			nY += 20;
-		}
+		}*/
 
 		//std::wostringstream woss;
 		//woss << "Active Player Mines Owned: " << CGameManager::GetInstance()->GetCurrentPlayer()->GetMinesOwned() <<
@@ -2377,6 +2387,5 @@ void CGameplayState::Render(void)
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 60, 150, 255, 0, 255);
 
 		CFloatingText::GetInstance()->Render();
-
 
 }

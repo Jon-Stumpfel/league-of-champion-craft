@@ -1667,7 +1667,11 @@ void CAIManager::UpdateAI(float fElapsedTime)
 		if (CheckOrderQueue(fElapsedTime))
 			return;
 
-		if (m_vUnitsToHandle.size() != 0)
+		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() <= 0)
+		{
+			m_vInputQueue.push_back(INPUT_START);
+		}
+		else if (m_vUnitsToHandle.size() != 0)
 		{
 				RunAIScript(m_vUnitsToHandle.front());
 		}

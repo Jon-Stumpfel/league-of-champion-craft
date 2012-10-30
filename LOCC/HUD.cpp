@@ -50,50 +50,50 @@ RECT CHUD::GetPortrait(UNIT_TYPE unit)
 		break;
 	case UT_SWORDSMAN:
 		{
-			rect.left = 633;
-			rect.top = 506;
-			rect.right = 717;
+			rect.left = 530;
+			rect.top = 505;
+			rect.right = 614;
 			rect.bottom = 586;
 		}
 		break;
 	case UT_ARCHER:
 		{
-			rect.left = 633;
-			rect.top = 506;
-			rect.right = 717;
-			rect.bottom = 586;
+			rect.left = 229;
+			rect.top = 505;
+			rect.right = 312;
+			rect.bottom = 588;
 		}
 		break;
 	case UT_ICEBLOCK:
 		{
-			rect.left = 633;
-			rect.top = 506;
-			rect.right = 717;
-			rect.bottom = 586;
+			rect.left = 130;
+			rect.top = 505;
+			rect.right = 213;
+			rect.bottom = 588;
 		}
 		break;
 	case UT_CASTLE:
 		{
-			rect.left = 633;
-			rect.top = 506;
-			rect.right = 717;
-			rect.bottom = 586;
+			rect.left = 27;
+			rect.top = 505;
+			rect.right = 111;
+			rect.bottom = 589;
 		}
 		break;
 	case UT_SKELETON:
 		{
-			rect.left = 633;
-			rect.top = 506;
-			rect.right = 717;
-			rect.bottom = 586;
+			rect.left = 427;
+			rect.top = 505;
+			rect.right = 511;
+			rect.bottom = 589;
 		}
 		break;
 	case UT_CAVALRY:
 		{
-			rect.left = 633;
-			rect.top = 506;
-			rect.right = 717;
-			rect.bottom = 586;
+			rect.left = 328;
+			rect.top = 505;
+			rect.right = 410;
+			rect.bottom = 588;
 		}
 		break;
 	}
