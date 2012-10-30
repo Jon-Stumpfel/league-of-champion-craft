@@ -913,6 +913,8 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				CGameplayState::GetInstance()->ClearSelections();
 			}
 			CTile* tile = CTileManager::GetInstance()->GetTile(pSMSG->GetUnit()->GetPos().nPosX, pSMSG->GetUnit()->GetPos().nPosY);
+
+			int nUnitID = pSMSG->GetUnit()->GetUniqueID();
 			if (tile != nullptr)
 			{
 				tile->SetIfOccupied(false);
@@ -954,6 +956,16 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				case UT_CAVALRY:
 					pThis->GetCurrentPlayer()->GetStats()->nCavalryKilled++;
 					break;
+				}
+			}
+
+			// remove me from the capturing resource registration
+			for (unsigned int i = 0; i < CAIManager::GetInstance()->m_vResourceRegistrations.size(); ++i)
+			{
+				if (CAIManager::GetInstance()->m_vResourceRegistrations[i].first == nUnitID)
+				{
+					CAIManager::GetInstance()->m_vResourceRegistrations.erase(
+						CAIManager::GetInstance()->m_vResourceRegistrations.begin() + i++);
 				}
 			}
 
