@@ -1998,7 +1998,7 @@ int CAIManager::FindNearestResource(lua_State* L)
 	if (nResourceType == 1)
 		desiredType = TT_MILL;
 	else if (nResourceType == 2)
-		desiredType == TT_MILL;
+		desiredType = TT_MINE;
 
 	Vec2D vec = pUnit->GetPos();
 	Vec2D foundTile;
