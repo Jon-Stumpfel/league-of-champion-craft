@@ -61,12 +61,6 @@ void CAbilityManager::LoadAbilities( void )
 {
 	int num = NUMSPELLS;
 
-	if( m_vAbilities.size() > 0 )
-	{
-		Shutdown();
-		m_vAbilities.clear();
-	}
-
 	for( int i = 0; i < num; i++ )
 	{
 		TiXmlDocument doc;
@@ -1147,7 +1141,7 @@ void CAbilityManager::Shutdown(void)
 		m_vAbilities.erase(m_vAbilities.begin() + i);
 		i--;
 	}
-	int i =0;
+	int i = 0;
 }
 
 std::vector< Vec2D > CAbilityManager::GetProperFacing( int face, CAbility* pAbility, CTile* pTile )

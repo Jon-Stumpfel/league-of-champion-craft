@@ -366,6 +366,7 @@ void CGameManager::SaveGame(int nSlot)
 		{
 			TiXmlElement* pSpell = new TiXmlElement("Spell");
 			pSpell->SetAttribute("sType", pHero->GetSpell(n)->GetType());
+			pSpell->SetAttribute("Cooldown", pHero->GetCooldown(n));
 			pSpells->LinkEndChild(pSpell);
 		}
 
@@ -613,14 +614,17 @@ void CGameManager::LoadSave(int nSlot)
 			int nNumSpells;
 			TiXmlElement* pSpells = pChampion->FirstChildElement("Spells");
 			pSpells->QueryIntAttribute("numSpells", &nNumSpells);
-			std::vector<SPELL_TYPE> spells;
+			std::vector< std::pair<SPELL_TYPE, int> > spells;
 			TiXmlElement* pSpell = pSpells->FirstChildElement("Spell");
 
 			for (int i = 0; i < nNumSpells; ++i)
 			{
 				int nType;
+				int cooldown;
 				pSpell->QueryIntAttribute("sType", &nType);
-				spells.push_back((SPELL_TYPE)nType);
+				pSpell->QueryIntAttribute("Cooldown", &cooldown);
+				std::pair<SPELL_TYPE, int> tmp((SPELL_TYPE)nType, cooldown);
+				spells.push_back(tmp);
 				pSpell = pSpell->NextSiblingElement("Spell");
 			}
 
@@ -671,7 +675,7 @@ void CGameManager::LoadSave(int nSlot)
 				pUnit->QueryIntAttribute("facing", &nUnitFacing);
 				pUnit->QueryIntAttribute("tilesMoved", &nUnitTilesMoved);
 				pUnit->QueryIntAttribute("hasAttacked", &nUnitHasAttacked);
-				std::vector<SPELL_TYPE> spells;
+				std::vector<std::pair<SPELL_TYPE, int>> spells;
 				int nNumEffects;
 				TiXmlElement* pEffects = pUnit->FirstChildElement("Effects");
 				pEffects->QueryIntAttribute("numEffects", &nNumEffects);
@@ -877,11 +881,12 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				pUnit->SetHP(pSMSG->GetHealth());
 				pUnit->SetTilesMoved(pSMSG->GetTilesMoved());
 				pUnit->SetHasAttacked(pSMSG->GetHasAttacked());
-				if (pSMSG->GetSpells().size() != 0)
+				if (pSMSG->GetSpellSize() != 0)
 				{
-					for (unsigned int i = 0; i < pSMSG->GetSpells().size(); ++i)
+					for (int i = 0; i < pSMSG->GetSpellSize(); ++i)
 					{
-						((CHero*)pUnit)->SwapSpell(CAbilityManager::GetInstance()->GetAbility(pSMSG->GetSpells()[i]), i);
+						((CHero*)pUnit)->SwapSpell(CAbilityManager::GetInstance()->GetAbility(pSMSG->GetSpells(i)), i);
+						((CHero*)pUnit)->SetCooldown(pSMSG->GetCooldown(i), i);
 					}
 
 					for (unsigned int i = 0; i < pSMSG->GetBought().size(); ++i)

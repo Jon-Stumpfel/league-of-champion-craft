@@ -296,7 +296,7 @@ void CSpellScrollState::Render(void)
 
 		if( m_bTreeSelect == false )
 		{
-			pTM->Draw(pGM->GetID(_T("spelldesc")), 195, 475, .9f, .9f);
+			pTM->Draw(pGM->GetID(_T("spelldesc")), 145, 475, .9f, .9f);
 			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 		
 			CAbility* selected;
@@ -309,11 +309,11 @@ void CSpellScrollState::Render(void)
 
 
 			if( selected->GetIfAttack() )
-			pTM->Draw(pGM->GetID(_T("check")), 240, 485, .5f, .5f);
+			pTM->Draw(pGM->GetID(_T("check")), 240 - 50, 485, .5f, .5f);
 
 			ostringstream tt;
 			tt  << selected->GetApCost();
-			pBF->Print(tt.str().c_str(), 299, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 299 - 50, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 
@@ -322,29 +322,50 @@ void CSpellScrollState::Render(void)
 			else
 				tt << "Attack";
 
-			pBF->Print(tt.str().c_str(), 278, 525, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 278 - 50, 525, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 
 			tt << selected->GetRange();
-			pBF->Print(tt.str().c_str(), 373, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 373 - 50, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 			tt << selected->GetCoolDown();
-			pBF->Print(tt.str().c_str(), 373, 523, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 373 - 50, 523, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 			tt << selected->GetDamage();
-			pBF->Print(tt.str().c_str(), 373, 555, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));	
+			pBF->Print(tt.str().c_str(), 373 - 50, 555, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));	
 
 			tt.str("");
 			tt << selected->GetName();
-			pBF->Print(tt.str().c_str(), 210, 556, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 210 - 50, 556, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 			tt << selected->GetDescription();
-			pBF->Print(tt.str().c_str(), 427, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
+			pBF->Print(tt.str().c_str(), 427 - 50, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
 
+			int x = 680, y = 520;
+			std::vector< Vec2D > pat = selected->GetPattern();
+			std::vector< Vec2D > drawn;
+
+			for( unsigned int i = 0; i < pat.size(); i++ )
+			{
+				Vec2D tmp;
+				tmp.nPosX = x + pat[i].nPosX * 15;
+				tmp.nPosY = y + pat[i].nPosY * 15;
+
+				drawn.push_back(tmp);
+			}
+
+			CSGD_Direct3D* pD3D = CSGD_Direct3D::GetInstance();
+
+			for( unsigned int i = 0; i < drawn.size(); i++ )
+			{
+				RECT source = { drawn[i].nPosX, drawn[i].nPosY, drawn[i].nPosX + 15, drawn[i].nPosY + 15 };
+				pD3D->DrawRect(source, 0, 255, 0 );
+				CGraphicsManager::GetInstance()->DrawWireframeRect(source, 0, 0, 0, true);
+			}
 		}
 
 		ostringstream xp;
