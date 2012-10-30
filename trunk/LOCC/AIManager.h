@@ -69,5 +69,6 @@ public:
 	static int FindUnitByTile(lua_State* L);
 	static int GetFriendlyUnitsInRange(lua_State* L);
 	static int GetEnemyUnitsInRange(lua_State* L);
+	static int FindNearestResource(lua_State* L);
 };
 

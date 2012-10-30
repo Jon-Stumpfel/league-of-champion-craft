@@ -130,7 +130,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 {
 	m_SelectionPos.nPosX += dX;
 	m_SelectionPos.nPosY += dY;
-
+	//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 	if (CGameManager::GetInstance()->FindUnit(m_SelectionPos))
 	{
 		m_bIsHighlighting = true;
@@ -146,7 +146,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock)
 		CTile* pStartTile = pTM->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY);
 		CTile* pTargetTile = pTM->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
 
-		CalculateMove(pStartTile, pTargetTile);
+		CalculateMove(pStartTile, pTargetTile, m_vWaypoints);
 	}
 
 	// This locks camera to cursor position
@@ -279,6 +279,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 				}
 				else if (m_bSelectChampionAbility)
 				{
+					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 					m_nSelectedSpell--;
 					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 					if (m_nSelectedSpell < 0)
@@ -292,6 +293,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 				else
 				{
 					// Champion ability is not pulled up, so just move the cursor on the main panel
+					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 					m_nSelectedAbility--;
 					if (m_nSelectedAbility < 0)
 						m_nSelectedAbility = 2;
@@ -324,6 +326,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 				else if (m_bSelectChampionAbility)
 				{
 					m_nSelectedSpell++;
+					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 					if (m_nSelectedSpell >= (int)pHero->GetNumSpells())
 						m_nSelectedSpell = 0;
@@ -332,6 +335,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 				{
 					// Champion ability is not pulled up, so just move the cursor on the main panel
 					m_nSelectedAbility++;
+					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 					if (m_nSelectedAbility > 2)
 						m_nSelectedAbility = 0;
@@ -380,18 +384,21 @@ void CGameplayState::Input(INPUT_ENUM input)
 			{
 				if (m_bIsMoving)
 				{
+					//PUT_SOUND_HERE("Some kind of accept sound");
 					MoveToTile(m_SelectionPos);
 				}
 				else if (m_bIsTargeting)
 				{
 					if (m_bSelectChampionAbility)
 					{
+						//PUT_SOUND_HERE("Some kind of accept sound");
 						m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
 						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 						UseAbility(pHero->GetSpell(m_nSelectedSpell));
 					}
 					else
 					{
+						//PUT_SOUND_HERE("Some kind of accept sound");
 						m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
 						if (m_pTargetedTile != nullptr)
 							UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
@@ -405,11 +412,13 @@ void CGameplayState::Input(INPUT_ENUM input)
 						//if the spell is in cooldown you can't use it-DG
 						if (pHero->GetCooldown(m_nSelectedSpell)==0)
 						{
+							//PUT_SOUND_HERE("Some kind of accept sound");
 							UseAbility(pHero->GetSpell(m_nSelectedSpell));							
 						}
 					}
 					else
 					{
+						//PUT_SOUND_HERE("Some kind of accept sound");
 						UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
 					}
 				}
@@ -427,21 +436,25 @@ void CGameplayState::Input(INPUT_ENUM input)
 					m_bIsMoving = false;
 					m_vWaypoints.clear();
 					SnapToPosition(m_pSelectedUnit->GetPos());
+					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else if (m_bIsTargeting)
 				{
 					m_bIsTargeting = false;
 					SnapToPosition(m_pSelectedUnit->GetPos());
+					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else if (m_bSelectChampionAbility)
 				{
 					m_bSelectChampionAbility = false;
 					m_bShowSpellPanel = false;
 					m_nSelectedSpell = 0;
+					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else if ( m_bIsFacing )
 				{
 					m_bIsFacing = false;
+					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else
 					ClearSelections();
@@ -1102,7 +1115,7 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 }
 
 // Uses A* pathfinding algorithm to find a cheap route from startTile to targetTile
-bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile)
+bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vector<CTile*>& m_vVector)
 {
 	// If either of the tiles are null or we can't move into the last tile, don't calculate anything.
 	if (startTile == nullptr || targetTile == nullptr || targetTile->GetIfOccupied() || targetTile->GetIfPassable())
@@ -1328,7 +1341,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile)
 	safeCheck = 0;
 	while (nNode->parent != nullptr && (safeCheck < 5000))
 	{
-		m_vWaypoints.push_back(nNode->pTile);
+		m_vVector.push_back(nNode->pTile);
 		nNode = nNode->parent;
 	}
 
@@ -1349,6 +1362,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile)
 
 void CGameplayState::ClearSelections(void)
 {
+	//PUT_SOUND_HERE("Some kind of accept sound");
 	m_bIsMoving = false;
 	m_bIsTargeting = false;
 	m_bSelectChampionAbility = false;
@@ -2357,9 +2371,10 @@ void CGameplayState::Render(void)
 			nY += 20;
 		}
 
-		//std::wostringstream woss;
-		//woss << "Random Seed: " << CGameManager::GetInstance()->GetRandomSeed();
-		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 60, 150, 255, 0, 255);
+		std::wostringstream woss;
+		woss << "Active Player Mines Owned: " << CGameManager::GetInstance()->GetCurrentPlayer()->GetMinesOwned() <<
+			", Mills Owned: " << CGameManager::GetInstance()->GetCurrentPlayer()->GetMillsOwned();
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 60, 150, 255, 0, 255);
 
 		CFloatingText::GetInstance()->Render();
 

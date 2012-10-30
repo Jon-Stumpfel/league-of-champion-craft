@@ -29,8 +29,8 @@ void LevelSelectState::Enter(void)
 {
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
 	selected = 0;
-	m_ptempmap = new CTile*();
-	m_p2ndtempmap = new CTile*();
+	//m_ptempmap = new CTile*();
+	//m_p2ndtempmap = new CTile*();
 	CTileManager* pTM=CTileManager::GetInstance();
 	string filename= "Assets\\Tiles\\Level1.xml";
 	pTM->LoadSave(filename);
@@ -49,6 +49,7 @@ void LevelSelectState::Enter(void)
 		m_vMap1.push_back(vec);
 	}
 
+	pTM->ShutDown();
 	int x = 9;
 	//m_ptempmap= new CTile*[m_pRows];
 	//for (int x = 0; x< m_pRows; ++x)
@@ -76,7 +77,7 @@ void LevelSelectState::Enter(void)
 		}
 		m_vMap2.push_back(vec);
 	}
-
+	pTM->ShutDown();
 	//m_p2ndtempmap= new CTile*[m_pRows];
 	//for (int x = 0; x< m_pRows; ++x)
 	//{

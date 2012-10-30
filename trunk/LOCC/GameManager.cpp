@@ -754,14 +754,14 @@ void CGameManager::Reset(void)
 	CreatePlayer(false); // player 1
 	CreatePlayer(false);
 
-	CTileManager::GetInstance()->ShutDown();
 
 
 }
 void CGameManager::NewGame(string levelstring, int mapint)
 {	
 	//LoadLevel(levelstring);
-
+	
+	CTileManager::GetInstance()->ShutDown();
 	Reset();
 	LoadLevel(levelstring);
 
@@ -908,10 +908,12 @@ void CGameManager::MessageProc(IMessage* pMsg)
 				CGameplayState::GetInstance()->ClearSelections();
 			}
 			CTile* tile = CTileManager::GetInstance()->GetTile(pSMSG->GetUnit()->GetPos().nPosX, pSMSG->GetUnit()->GetPos().nPosY);
-			int x = 9;
-			tile->SetIfOccupied(false);
-			if (pSMSG->GetUnit()->GetType() != UT_SKELETON)
-				tile->SetIfDeadTile(true);
+			if (tile != nullptr)
+			{
+				tile->SetIfOccupied(false);
+				if (pSMSG->GetUnit()->GetType() != UT_SKELETON)
+					tile->SetIfDeadTile(true);
+			}
 			if (pSMSG->GetUnit() == CGameplayState::GetInstance()->GetHighlighted())
 				CGameplayState::GetInstance()->ClearHighlighted();
 			CObjectManager::GetInstance()->RemoveObject(pSMSG->GetUnit());

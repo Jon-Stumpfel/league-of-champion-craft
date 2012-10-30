@@ -48,12 +48,15 @@ void CTileManager::DeleteInstance(void)
 void CTileManager::ShutDown(void)
 {
 
+	if (m_pTileMap != nullptr)
+	{
 	for (int  x = 0; x < m_nRows; ++x)
 	{
 		delete[] m_pTileMap[x];
 	}
 	delete[] m_pTileMap;
 	m_pTileMap = nullptr;
+	}
 }
 
 void CTileManager::Init()
@@ -342,6 +345,8 @@ CTile* CTileManager::GetTile( int x, int y )
 	if (x<0 || y<0)
 		return nullptr;
 
+	if (m_pTileMap == nullptr)
+		return nullptr;
 	return &m_pTileMap[x][y];
 }
 
@@ -397,6 +402,12 @@ void CTileManager::EvaluateResources(int nPlayerID)
 			   {
 				   if ((CGameManager::GetInstance()->FindUnit(Vec2D(x, y))->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID()))
 				   {
+						CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer((CGameManager::GetInstance()->FindUnit(Vec2D(x, y))->GetPlayerID()));
+						if (m_pTileMap[x][y].GetTileType() == TT_MILL)
+							pPlayer->SetMillsOwned(pPlayer->GetMillsOwned() + 1);
+						else if (m_pTileMap[x][y].GetTileType() == TT_MINE)
+							pPlayer->SetMinesOwned(pPlayer->GetMinesOwned() + 1);
+
 					   m_pTileMap[x][y].SetIfCaptured(true);
 					   m_pTileMap[x][y].SetIfCapturing(false);
 				   }
