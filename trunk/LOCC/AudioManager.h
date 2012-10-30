@@ -3,6 +3,7 @@
 
 class CAudioManager
 {
+public:
 	static CAudioManager* GetInstance(void);
 	static void DeleteInstance(void);	
 

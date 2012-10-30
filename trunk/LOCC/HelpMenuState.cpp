@@ -15,12 +15,11 @@ CHelpMenuState::~CHelpMenuState(void)
 			 
 void CHelpMenuState::Enter(void)
 {
-
+	temp = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets/Menus/HelpScreen.png"),D3DXCOLOR(255,255,255,255));
 }
 
 void CHelpMenuState::Exit(void)
 {
-
 }
 
 void CHelpMenuState::Input(INPUT_ENUM input)
@@ -36,12 +35,12 @@ void CHelpMenuState::Input(INPUT_ENUM input)
 
 void CHelpMenuState::Update(float fElapsedTime)
 {
-
 }
 
 void CHelpMenuState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(50, 200, 50);
+	CSGD_Direct3D::GetInstance()->Clear(255, 255, 255);
+	CSGD_TextureManager::GetInstance()->Draw(temp,0,0,1.55f,1.18f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 }
 
 CHelpMenuState* CHelpMenuState::GetInstance()

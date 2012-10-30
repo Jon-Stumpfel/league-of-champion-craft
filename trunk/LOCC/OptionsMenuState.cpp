@@ -3,6 +3,7 @@
 #include "StateStack.h"
 #include "StringTable.h"
 #include "AbilityManager.h"
+#include "SoundManager.h"
 COptionsMenuState::COptionsMenuState(void)
 {
 }
@@ -287,12 +288,14 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 			if(selected == 0 && soundvolume != 0)
 			{
 				soundvolume-=5;
-				CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
+				float temp = soundvolume*0.01f;
+				CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(temp);
 			}
 			else if(selected == 1 && musicvolume != 0)
 			{
 				musicvolume-=5;
-				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
+				float temp = musicvolume*0.01f;
+				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(temp);
 			}
 			break;
 		}
@@ -301,12 +304,14 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 			if(selected == 0 && soundvolume != 100)
 			{
 				soundvolume+=5;
-				CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
+				float temp = soundvolume*0.01f;
+				CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(temp);
 			}
 			else if(selected == 1 && musicvolume != 100)
 			{
 				musicvolume+=5;
-				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
+				float temp = musicvolume*0.01f;
+				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(temp);
 			}
 			break;
 		}

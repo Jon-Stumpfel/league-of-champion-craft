@@ -28,6 +28,10 @@ void CPauseState::Enter(void)
 {
 	m_nVerticalChoice = 0;
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
+		()->GetMeM()))
+		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
+		()->GetMeM(),true);
 }
 void CPauseState::Exit(void)
 {

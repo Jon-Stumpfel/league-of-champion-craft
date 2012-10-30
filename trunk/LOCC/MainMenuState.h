@@ -12,7 +12,6 @@ public:
 	virtual void Input(INPUT_ENUM input);
 	virtual void Update(float fElapsedTime);
 	virtual void Render(void);
-
 	static CMainMenuState* GetInstance();
 
 private:

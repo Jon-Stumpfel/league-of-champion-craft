@@ -62,6 +62,16 @@ void CMainMenuState::Enter(void)
 	//CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
 	CGame::GetInstance()->SetIsWindowed(windowed);
 	StringTable::GetInstance()->SetLanguage(IsModern);
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
+		()->GetMeM()))
+	{
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetAM());
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
+		()->GetMoM());
+		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
+		()->GetMeM(),true);
+	}
 }
 
 void CMainMenuState::Exit(void)
