@@ -35,8 +35,10 @@ private:
 	std::vector< CAbility* > m_vPhysical;
 	std::vector< CAbility* > m_vSupport;
 
+	bool flipping;
 	int m_nSelected;
 	int m_nSelectedAbility;
+	int page;
 	bool m_bTreeSelect;
 
 	CHero* m_pCustomer;

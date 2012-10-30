@@ -96,6 +96,14 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/tooltip.png"), _T("tooltip"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/check.png"), _T("check"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spelldesc.png"), _T("spelldesc"), 0UL);
+	
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page1.png"), _T("Page1"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page2.png"), _T("Page2"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page3.png"), _T("Page3"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page4.png"), _T("Page4"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page5.png"), _T("Page5"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page6.png"), _T("Page6"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/page7.png"), _T("Page7"), 0UL);
 
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Red).png",L"SwordsmanR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\Footman(Blue).png",L"SwordsmanB",D3DCOLOR_ARGB(255,255,255,255));
