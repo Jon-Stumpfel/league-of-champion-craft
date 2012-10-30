@@ -52,9 +52,11 @@ function Move()
 					lowestHPunitID = unitData[i].uniqueID;
 				end
 			end	
-			if (GetHealth(lowestHPunitID) <= GetMaxHealth(lowestHPunitID) - 6) then
-				Heal(nHealID + 1, lowestHPunitID);
-			end	
+			if (lowestHPunitID ~= -1) then
+				if (GetHealth(lowestHPunitID) <= GetMaxHealth(lowestHPunitID) - 6) then
+					Heal(nHealID + 1, lowestHPunitID);
+				end	
+			end
 		end
 		
 	end
@@ -102,7 +104,7 @@ function Attack()
 	
 	-- Magic Missile logic: If no one in melee, shoot lowest HP unit in range
 	magicID = HasSpell(unitID, 24);	
-	if (magicID ~= -1 and totdistance ~= 1) then
+	if (magicID ~= -1 and totdistance ~= 1 and totdistance < 3) then
 
 		magicCooldown = GetSpellCooldown(unitID, magicID);	
 		if (magicCooldown == 0) then
@@ -118,8 +120,10 @@ function Attack()
 					lowestHPunitID = enemyUnitData[i].uniqueID;
 				end
 			end		
-			MagicMissile(magicID + 1, lowestHPunitID);
-			hasAttacked = 1;
+			if (lowestHPunitID ~= -1) then
+				MagicMissile(magicID + 1, lowestHPunitID);
+				hasAttacked = 1;
+			end
 		end
 	end
 	
@@ -141,47 +145,64 @@ function Attack()
 					unit1 = FindUnitByTile(targetX - 1, targetY );
 					unit2 = FindUnitByTile(targetX + 1, targetY );
 					if (unit1 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit1) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end
 					if (unit2 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit2) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end
 				elseif (directiony == 1) then
 					numHit = 0;
 					unit1 = FindUnitByTile(targetX - 1, targetY );
 					unit2 = FindUnitByTile(targetX + 1, targetY );
 					if (unit1 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit1) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end
 					if (unit2 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit2) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end			
 				elseif (directionx == -1) then
 					numHit = 0;
 					unit1 = FindUnitByTile(targetX, targetY - 1);
 					unit2 = FindUnitByTile(targetX, targetY + 1 );
 					if (unit1 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit1) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end
 					if (unit2 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit2) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end			
 				elseif (directionx == 1) then
 					numHit = 0;
 					unit1 = FindUnitByTile(targetX, targetY - 1);
 					unit2 = FindUnitByTile(targetX, targetY + 1 );
 					if (unit1 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit1) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end
 					if (unit2 ~= -1) then
-						numHit = numHit + 1;
+						if (GetPlayerID(unit2) ~= GetPlayerID(unitID)) then
+							numHit = numHit + 1;
+						end
 					end	
 				end
 			
 
-				
-				Cleave(cleaveID + 1, nearestID);
-				hasAttacked = 1;
+				if (numHit >= 2) then
+					Cleave(cleaveID + 1, nearestID);
+					hasAttacked = 1;
+				end
 			end
 		end
 		

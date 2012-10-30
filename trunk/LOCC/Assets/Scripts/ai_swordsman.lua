@@ -20,8 +20,29 @@ function Move()
 	if (isFleeing == true) then
 		Flee();
 	else
-		if (totdistance > 1) then
-			MoveToNearestEnemy()
+			-- Priority is to capture mines
+		numMines = GetMinesOwned(unitID);
+		moved = 0;
+		if (numMines < 1) then
+			if (GetNumUnitsCapturingResource(unitID, 2) < 1 or IsUnitCapturingResource(unitID, 2) == 1) then
+				resourceX, resourceY = FindNearestResource(unitID, 1);
+				resourcedistX = math.abs((resourceX - localX));
+				resourcedistY = math.abs((resourceY - localY));
+				resourceTotDist = resourcedistX + resourcedistY;
+				if (resourceTotDist ~= 0) then
+					RegisterMeCapturingResource(unitID, 2);
+					IssueOrder("move", resourceX, resourceY);
+					moved = 1;
+				end
+			end
+		end
+	
+	
+	
+		if (moved ~= 1) then
+			if (totdistance > 1) then
+				MoveToNearestEnemy()
+			end
 		end
 	end
 end
@@ -47,25 +68,27 @@ function Attack()
 	
 	-- Check for nearby dudes
 	numNearby = 0;
-	unit1 = FindUnitByTile(localX +1, localY);
-	if (unit1 ~= -1) then
-		numNearby = numNearby + 1;
-	end
+	GetEnemyUnitsInRange(unitID, 1);
+	numNearby = table.getn(enemyUnitData);
+	--unit1 = FindUnitByTile(localX +1, localY);
+	--if (unit1 ~= -1) then
+	--	numNearby = numNearby + 1;
+	--end
 	
-	unit2 = FindUnitByTile(localX -1, localY);
-	if (unit2 ~= -1) then
-		numNearby = numNearby + 1;
-	end
+	--unit2 = FindUnitByTile(localX -1, localY);
+	--if (unit2 ~= -1) then
+	--	numNearby = numNearby + 1;
+	--end
 	
-	unit3 = FindUnitByTile(localX, localY +1 );
-	if (unit3 ~= -1) then
-		numNearby = numNearby + 1;
-	end
+	--unit3 = FindUnitByTile(localX, localY +1 );
+	--if (unit3 ~= -1) then
+	--	numNearby = numNearby + 1;
+	--end
 	
-	unit4 = FindUnitByTile(localX, localY - 1);
-	if (unit4 ~= -1) then
-		numNearby = numNearby + 1;
-	end
+	--unit4 = FindUnitByTile(localX, localY - 1);
+	--if (unit4 ~= -1) then
+	--	numNearby = numNearby + 1;
+	--end
 
 	
 	if (numNearby >= 3) then
