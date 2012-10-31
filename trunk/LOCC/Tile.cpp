@@ -4,7 +4,7 @@
 
 
 //{ TT_PLAINS, TT_FOREST, TT_MOUNTAINS, TT_WATER, TT_FARM, TT_MILL, TT_MINE, TT_CASTLE };
-//{ TS_FROZEN, TS_RESOURCETILE, TS_OCCUPIED, TS_CAPTURING, TS_CAPTURED, TS_IS_DEAD, TS_ISPASSABLE};
+//{ TS_FROZEN, TS_RESOURCETILE, TS_OCCUPIED, TS_CAPTURING, TS_CAPTURED, TS_IS_DEAD, TS_ISImpassable};
 
 CTile::CTile(void)
 {	
@@ -46,7 +46,7 @@ void CTile::SetStatus(unsigned char TileStatus, bool On_or_Off)
 bool CTile::IsStatus(unsigned char TileStatus, bool On_or_Off)
 {
 	//KEEP AN EYE ON THIS!!!
-	assert(TileStatus>TS_ISPASSABLE&&"TileStatus out of range");
+	assert(TileStatus>TS_ISIMPASSABLE&&"TileStatus out of range");
 	return false;
 	if (On_or_Off==true)
 	{
@@ -178,22 +178,22 @@ void CTile::SetIfDeadTile		(bool OnOff)
 	}
 }
 
-bool CTile::GetIfPassable		(void)
+bool CTile::GetIfImpassable		(void)
 {
-	if(m_ucStatus & (1<<TS_ISPASSABLE))
+	if(m_ucStatus & (1<<TS_ISIMPASSABLE))
 		return true;
 	else 
 		return false; 
 }
-void  CTile::SetIfPassable		(bool OnOff)
+void  CTile::SetIfImpassable		(bool OnOff)
 {
 	if (OnOff==true)
 	{
-		m_ucStatus |= (1<<TS_ISPASSABLE);
+		m_ucStatus |= (1<<TS_ISIMPASSABLE);
 	}
 	if (OnOff==false)
 	{
-		m_ucStatus &= ~(1<<TS_ISPASSABLE);
+		m_ucStatus &= ~(1<<TS_ISIMPASSABLE);
 	}
 }
 
@@ -231,7 +231,8 @@ int CTile::GetAPCost()
 				return  m_eTType+1-TT_FARM;
 
 	if (m_eTType==TT_WATER)
-		return 1000;
+		if(GetIfImpassable()==false)
+		return 1;
 	return -1;
 }
 

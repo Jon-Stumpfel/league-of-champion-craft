@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Script AIEnemy="0">
+  <Messages numMessages="0">
+    <Message czText="" DisplayOnTurn=""/>
+  </Messages>
+  <UnitSpawns numSpawns="12">       
+    <UnitSpawn unitType="0" facing="3" posX="1" posY="15"  playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="1" facing="1" posX="2" posY="15"  playerID="0" TurnToSpawn="1"/>
+                                    
+    <UnitSpawn unitType="3" facing="1" posX="3" posY="14"  playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="3" posY="15"  playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="3" posY="16"  playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="1" posX="3" posY="13"  playerID="0" TurnToSpawn="1"/>
+
+    <UnitSpawn unitType="0" facing="3" posX="28" posY="15" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="1" facing="3" posX="27" posY="15" playerID="1" TurnToSpawn="1"/>
+                                                             
+    <UnitSpawn unitType="3" facing="3" posX="26" posY="13"  playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="3" posX="26" posY="14"  playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="3" posX="26" posY="15"  playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="3" posX="26" posY="16"  playerID="1" TurnToSpawn="1"/>
+
+  </UnitSpawns>
+</Script>

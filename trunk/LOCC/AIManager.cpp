@@ -339,7 +339,7 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 		}
 		else 
 		{
-			if (!pTile->GetIfOccupied() && !pTile->GetIfPassable())
+			if (!pTile->GetIfOccupied() && !pTile->GetIfImpassable())
 			{
 				break;
 			}
@@ -388,25 +388,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 0:
 				tmp.first = nPreference;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
@@ -414,25 +414,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 1:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
@@ -440,25 +440,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 2:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
@@ -466,25 +466,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 3:
 				tmp.first = nPreference;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
@@ -492,25 +492,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 4:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
@@ -518,25 +518,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 5:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
@@ -544,25 +544,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 6:
 				tmp.first = nPreference;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
@@ -570,25 +570,25 @@ Vec2D CAIManager::NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit)
 			case 7:
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentSouth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentWest;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference + 1;
 				tmp.second = AdjacentEast;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}
 				tmp.first = nPreference;
 				tmp.second = AdjacentNorth;
-				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfPassable())
+				if (!CTileManager::GetInstance()->GetTile(tmp.second.nPosX, tmp.second.nPosY)->GetIfImpassable())
 				{
 					vTargets.push_back(tmp);
 				}

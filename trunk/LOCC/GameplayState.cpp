@@ -1062,10 +1062,10 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	CTile* pStartTile = pTM->GetTile(m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY);
 	CTile* pTargetTile = pTM->GetTile(nTilePosition.nPosX, nTilePosition.nPosY);
 
-	// Check if where we are going to is passable and occupied, if so, return out of function
+	// Check if where we are going to is Impassable and occupied, if so, return out of function
 	if (pTargetTile == nullptr)
 		return;
-	if (pTargetTile->GetIfPassable() || pTargetTile->GetIfOccupied())
+	if (pTargetTile->GetIfImpassable() || pTargetTile->GetIfOccupied())
 	{
 		return;
 	}
@@ -1133,7 +1133,7 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vector<CTile*>& m_vVector)
 {
 	// If either of the tiles are null or we can't move into the last tile, don't calculate anything.
-	if (startTile == nullptr || targetTile == nullptr || targetTile->GetIfOccupied() || targetTile->GetIfPassable())
+	if (startTile == nullptr || targetTile == nullptr || targetTile->GetIfOccupied() || targetTile->GetIfImpassable())
 		return false;
 
 	// Create our lists that we will work inside and add the initial tile to the closed list
@@ -1155,7 +1155,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 	while (true && (safeCheck < 1000))
 	{
 		// This loop will go through and check all tiles adjacent to our active tile. If they are legit tiles
-		// I.E not null, are passable and are not occupied, then we add them to our openList of available tiles to move
+		// I.E not null, are Impassable and are not occupied, then we add them to our openList of available tiles to move
 		// we calculate the estimated cost on how much that tile will take us to get to our target if we go that way
 		// Once we added all adjacent tiles, we find which of those tiles on the openList has the cheapest estimated route
 		// we make the cheapest one our active tile, then repeat the process adding the tiles adjacent to the active tile.
@@ -1175,9 +1175,9 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 			{
 				return (node->pTile == pTestTile);
 			});
-			bool pPass = !(pTestTile->GetIfPassable());
+			bool pPass = !(pTestTile->GetIfImpassable());
 			bool pOcc = !(pTestTile->GetIfOccupied());
-			if (iter == closedList.end() && !(pTestTile->GetIfPassable()) && !(pTestTile->GetIfOccupied()))
+			if (iter == closedList.end() && !(pTestTile->GetIfImpassable()) && !(pTestTile->GetIfOccupied()))
 			{
 				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 				{
@@ -1214,7 +1214,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 			{
 				return (node->pTile == pTestTile);
 			});
-			if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
+			if (iter == closedList.end() && (!pTestTile->GetIfImpassable()) && (!pTestTile->GetIfOccupied()))
 			{
 				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 				{
@@ -1251,7 +1251,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 			{
 				return (node->pTile == pTestTile);
 			});
-			if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
+			if (iter == closedList.end() && (!pTestTile->GetIfImpassable()) && (!pTestTile->GetIfOccupied()))
 			{
 				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 				{
@@ -1288,7 +1288,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 			{
 				return (node->pTile == pTestTile);
 			});
-			if (iter == closedList.end() && (!pTestTile->GetIfPassable()) && (!pTestTile->GetIfOccupied()))
+			if (iter == closedList.end() && (!pTestTile->GetIfImpassable()) && (!pTestTile->GetIfOccupied()))
 			{
 				iter = std::find_if(openList.begin(), openList.end(), [&pTestTile](const ASNode* node)
 				{
