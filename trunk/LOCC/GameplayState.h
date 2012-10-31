@@ -35,7 +35,7 @@ public:
 	Vec2D GetSelectionPos(void) { return m_SelectionPos;}
 
 	int GetSelectedSpell( void ) { return m_nSelectedSpell; }
-
+	void SetMusicIncrease(float temp) {MusicIncrease = temp;}
 private:
 
 	class ASNode
@@ -97,8 +97,8 @@ private:
 
 	int m_nSelectedAbility;
 	void UseAbility(CAbility* ability);
-
-
+	int musicvolume;
+	float MusicIncrease;
 	CUnit* m_pSelectedUnit;
 	CUnit* m_pHighlightedUnit;
 	bool m_bIsHighlighting;

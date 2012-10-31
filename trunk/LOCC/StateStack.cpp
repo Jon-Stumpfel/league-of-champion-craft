@@ -1,15 +1,15 @@
 #include "StdAfx.h"
 #include "StateStack.h"
 #include "IGameState.h"
-
+#include "SoundManager.h"
 CStateStack* CStateStack::s_Instance = nullptr;
 
 CStateStack::CStateStack(void)
 {
 	m_bRenderTopOnly = false;
-	Menumusic = CSGD_XAudio2::GetInstance()->MusicLoadSong(_T("Assets/Sounds/MainMenuMusic.xwm"));
-	Movemusic = CSGD_XAudio2::GetInstance()->MusicLoadSong(_T("Assets/Sounds/MovementPhaseMusic.xwm"));
-	Attackmusic = CSGD_XAudio2::GetInstance()->MusicLoadSong(_T("Assets/Sounds/AttackPhaseMusic.xwm"));
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/MainMenuMusic.xwm"),_T("MainMenuMusic"),true);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/AttackPhaseMusic.xwm"),_T("AttackPhaseMusic"),true);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/MovementPhaseMusic.xwm"),_T("MovementPhaseMusic"),true);
 }
 
 CStateStack::~CStateStack(void)

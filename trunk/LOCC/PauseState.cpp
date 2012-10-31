@@ -9,10 +9,10 @@
 #include "BitmapFont.h"
 #include "Player.h"
 #include "StringTable.h"
+#include "SoundManager.h"
 CPauseState::CPauseState(void)
 {
 }
-
 
 CPauseState::~CPauseState(void)
 {
@@ -28,10 +28,16 @@ void CPauseState::Enter(void)
 {
 	m_nVerticalChoice = 0;
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
-	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
-		()->GetMeM()))
-		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
-		()->GetMeM(),true);
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic"))))
+	{
+		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+			GetID(_T("AttackPhaseMusic")));
+		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+			GetID(_T("MovementPhaseMusic")));
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->
+			GetID(_T("MainMenuMusic")),true,true);
+	}
 }
 void CPauseState::Exit(void)
 {

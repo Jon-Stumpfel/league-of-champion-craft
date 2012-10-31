@@ -344,7 +344,7 @@ void COptionsMenuState::Update(float fElapsedTime)
 }
 void COptionsMenuState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(100,200,100);
+	CSGD_Direct3D::GetInstance()->Clear(0,0,0);
 	RECT* toprect = new RECT();
 	toprect->bottom = 392;
 	toprect->top = 198;

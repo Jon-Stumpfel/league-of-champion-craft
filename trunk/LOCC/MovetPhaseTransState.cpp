@@ -7,7 +7,8 @@
 #include <assert.h>
 #include "GameManager.h"
 #include "Player.h"
-
+#include "SoundManager.h"
+#include "GameplayState.h"
 CMovetPhaseTransState::CMovetPhaseTransState(void)
 {
 	m_MovingUp=0;
@@ -23,16 +24,7 @@ void CMovetPhaseTransState::Enter(void)
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	m_MovingUp=CGame::GetInstance()->GetWindowHeight();
 	m_fTimer = 1.5f;
-	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
-		()->GetMoM()))
-	{
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetMeM());
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetAM());
-		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
-		()->GetMoM(),true);
-	}
+	CGameplayState::GetInstance()->SetMusicIncrease(0.0f);
 }
 
 void CMovetPhaseTransState::Exit(void)
@@ -72,7 +64,12 @@ void CMovetPhaseTransState::Update(float fElapsedTime)
 {
 	if (m_MovingUp>=250)
 		m_MovingUp-=20;
-
+	CSoundManager::GetInstance()->Stop(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic")),true);
+	CSoundManager::GetInstance()->Stop(CSoundManager::
+		GetInstance()->GetID(_T("MovementPhaseMusic")),true);
+	CSoundManager::GetInstance()->Stop(CSoundManager::
+		GetInstance()->GetID(_T("AttackPhaseMusic")),true);
 	m_fTimer-=fElapsedTime;
 
 	if (m_fTimer<=0.0f)
