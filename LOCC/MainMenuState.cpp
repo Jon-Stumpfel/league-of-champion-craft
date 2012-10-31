@@ -10,6 +10,7 @@
 #include "MultiplayerState.h"
 #include "SocketServer.h"
 #include "StringTable.h"
+#include "SoundManager.h"
 //CMainMenuState* CMainMenuState::s_Instance = nullptr;
 
 CMainMenuState::CMainMenuState(void)
@@ -62,15 +63,15 @@ void CMainMenuState::Enter(void)
 	//CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
 	CGame::GetInstance()->SetIsWindowed(windowed);
 	StringTable::GetInstance()->SetLanguage(IsModern);
-	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
-		()->GetMeM()))
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic"))))
 	{
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetAM());
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetMoM());
-		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
-		()->GetMeM(),true);
+		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+			GetID(_T("AttackPhaseMusic")));
+		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+			GetID(_T("MovementPhaseMusic")));
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->
+			GetID(_T("MainMenuMusic")),true,true);
 	}
 }
 

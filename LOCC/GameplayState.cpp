@@ -22,10 +22,10 @@
 #include "Hero.h"
 #include "BitmapFont.h"
 #include "FloatingText.h"
-#include "SoundManager.h"
 #include "HUD.h"
 #include "CoinToss.h"
 #include "SpellScrollState.h"
+#include "SoundManager.h"
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -48,7 +48,8 @@ void CGameplayState::Enter(void)
 {
 	// test stuff
 	CAbilityManager* pAM = CAbilityManager::GetInstance();
-
+	musicvolume = 0;
+	MusicIncrease = 0.0f;
 	//CGameManager::GetInstance()->NewGame();
 
 	m_pBitmapFont = new CBitmapFont();
@@ -98,6 +99,20 @@ void CGameplayState::Exit(void)
 	CMessageSystem::GetInstance()->ProcessMessages();
 	CAnimationManager::GetInstance()->Shutdown();
 	delete m_pBitmapFont;
+	if(CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic"))) || CSGD_XAudio2::
+		GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("AttackPhaseMusic"))) || CSGD_XAudio2::
+		GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("MovementPhaseMusic"))))
+	{
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic")));
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CSoundManager::
+		GetInstance()->GetID(_T("AttackPhaseMusic")));
+		CSGD_XAudio2::GetInstance()->MusicStopSong(CSoundManager::
+		GetInstance()->GetID(_T("MovementPhaseMusic")));
+	}
 }
 
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
@@ -1389,7 +1404,6 @@ void CGameplayState::Update(float fElapsedTime)
 		//aiord.first = new Vec2D(CGameManager::GetInstance()->GetChampion(0)->GetPos().nPosX, CGameManager::GetInstance()->GetChampion(0)->GetPos().nPosY);
 		//aiord.second = AIO_MOVE;
 		//CAIManager::GetInstance()->m_vOrderQueue.push_back(aiord);
-
 		CAIManager::GetInstance()->RunAIScript(CGameManager::GetInstance()->GetChampion(0));
 	}
 
@@ -1454,25 +1468,52 @@ void CGameplayState::Update(float fElapsedTime)
 	CAnimationManager::GetInstance()->Update(fElapsedTime);
 	CGameManager::GetInstance()->Update(fElapsedTime);
 	CFloatingText::GetInstance()->Update(fElapsedTime);
-	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
-		()->GetMoM()) && CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("MovementPhaseMusic")))
+		&& CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
 	{
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetMeM());
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetAM());
-		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
-		()->GetMoM(),true);
+		CSoundManager::GetInstance()->Stop(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic")),true);
+		CSoundManager::GetInstance()->Stop(CSoundManager::
+		GetInstance()->GetID(_T("AttackPhaseMusic")),true);
+		CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(0.0f);
+		CSoundManager::GetInstance()->Play(CSoundManager::
+		GetInstance()->GetID(_T("MovementPhaseMusic")),true,true);
+		TiXmlDocument doc;
+		doc.LoadFile("Assets\\Menus\\Options.xml");
+		TiXmlElement* pRoot = doc.RootElement();
+		TiXmlElement* Option = pRoot->FirstChildElement("Option");
+		while(Option != nullptr)
+		{
+			Option->Attribute("MusicVolume", &musicvolume);
+			Option = Option->NextSiblingElement("Option");
+		}
 	}
-	else if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CStateStack::GetInstance
-		()->GetAM()) && CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
+	else if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("AttackPhaseMusic"))) 
+		&& CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
 	{
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetMeM());
-		CSGD_XAudio2::GetInstance()->MusicStopSong(CStateStack::GetInstance
-		()->GetMoM());
-		CSGD_XAudio2::GetInstance()->MusicPlaySong(CStateStack::GetInstance
-		()->GetAM(),true);
+		CSoundManager::GetInstance()->Stop(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic")),true);
+		CSoundManager::GetInstance()->Stop(CSoundManager::
+		GetInstance()->GetID(_T("MovementPhaseMusic")),true);
+		CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(0.0f);
+		CSoundManager::GetInstance()->Play(CSoundManager::
+		GetInstance()->GetID(_T("AttackPhaseMusic")),true,true);
+		TiXmlDocument doc;
+		doc.LoadFile("Assets\\Menus\\Options.xml");
+		TiXmlElement* pRoot = doc.RootElement();
+		TiXmlElement* Option = pRoot->FirstChildElement("Option");
+		while(Option != nullptr)
+		{
+			Option->Attribute("MusicVolume", &musicvolume);
+			Option = Option->NextSiblingElement("Option");
+		}
+	}
+	if(MusicIncrease < float(musicvolume*0.01f))
+	{
+		CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(MusicIncrease);
+		MusicIncrease += 0.001f;
 	}
 }
 
