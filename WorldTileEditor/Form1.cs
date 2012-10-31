@@ -13,14 +13,6 @@ using System.IO;
 
 namespace WorldTileEditor
 {
-    public class GraphicsPanel : Panel
-    {
-        public GraphicsPanel()
-        {
-            this.DoubleBuffered = true;
-        }
-    }
-
     public partial class Form1 : Form
     {
         SGP.ManagedDirect3D d3D = SGP.ManagedDirect3D.Instance;
