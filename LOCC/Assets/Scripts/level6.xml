@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Script AIEnemy="0">
+  <Messages numMessages="0">
+    <Message czText="" DisplayOnTurn=""/>
+  </Messages>
+  <UnitSpawns numSpawns="4">
+    <UnitSpawn unitType="0" facing="1" posX="9" posY="3"  playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="1" facing="1" posX="10" posY="3"  playerID="0" TurnToSpawn="1"/>
+
+    <UnitSpawn unitType="0" facing="3" posX="9" posY="16" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="1" facing="3" posX="10" posY="16" playerID="1" TurnToSpawn="1"/>
+
+  </UnitSpawns>
+</Script>

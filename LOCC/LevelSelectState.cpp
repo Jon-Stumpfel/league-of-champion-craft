@@ -40,19 +40,34 @@ void LevelSelectState::Enter(void)
 	m_2Dselected.nPosY = 0;
 
 	CTileManager* pTM=CTileManager::GetInstance();
-	string filename1= "Assets/Tiles/Level1.xml";
-	m_vMap1= pTM->JonsLoad(filename1);
+
 
 	m_nScrollID = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\Scroll.png"), D3DXCOLOR(255,255,255,255));
+	
+	//string filename1= "Assets/Tiles/Level1.xml";
+	//m_vMap1= pTM->JonsLoad(filename1);
+	//
+	//string filename2= "Assets/Tiles/Level2.xml";
+	//m_vMap2=pTM->JonsLoad(filename2);
+	//
+	//string filename3= "Assets/Tiles/Level3.xml";
+	//m_vMap3= pTM->JonsLoad(filename3);
 
-	string filename2= "Assets/Tiles/Level2.xml";
+	//string filename4= "Assets/Tiles/Level4.xml";
+	//m_vMap4= pTM->JonsLoad(filename4);
+
+	string filename1= "Assets/Tiles/Level5.xml";
+	m_vMap1= pTM->JonsLoad(filename1);
+	
+	string filename2= "Assets/Tiles/Level6.xml";
 	m_vMap2=pTM->JonsLoad(filename2);
 	
-	string filename3= "Assets/Tiles/Level3.xml";
+	string filename3= "Assets/Tiles/Level7.xml";
 	m_vMap3= pTM->JonsLoad(filename3);
 
-	string filename4= "Assets/Tiles/Level4.xml";
+	string filename4= "Assets/Tiles/Level8.xml";
 	m_vMap4= pTM->JonsLoad(filename4);
+
 }
 
 void LevelSelectState::Exit(void)
@@ -71,6 +86,25 @@ void LevelSelectState::Input(INPUT_ENUM input)
 	{
 	case INPUT_ACCEPT:
 		{
+			//if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0)
+			//{
+			//	CTileManager* pTM=CTileManager::GetInstance();
+
+			//	if (CMultiplayerState::GetInstance()->GetNetworkSetup())
+			//	{
+			//		char buffer[80];
+			//		sprintf_s(buffer, "%c%d", NET_BEGINMAP1, 0);
+			//		send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
+			//		unsigned int seed = (unsigned int)(time(0));
+			//		CGameManager::GetInstance()->SetRandomSeed(seed);
+			//		sprintf_s(buffer, "%d", seed);
+			//		send(CSocketServer::GetInstance()->sockets[2], buffer, 10, 0);
+			//		bNetworkedGame = true;
+			//	}
+
+			//	CGameManager::GetInstance()->NewGame("level1", 1);
+			//	CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+			//}
 			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
@@ -253,13 +287,31 @@ void LevelSelectState::Render(void)
 	Scrollrect.right = 557;
 	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,0,487,1.45f,.85f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
 	
+/*	
 	//STRINGHERE=("JON PUT A STRING HERE");
 	DrawMap(string("Trample Hill"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
+	
 	//STRINGHERE=("JON PUT A STRING HERE");
 	DrawMap(string("Forest Siege"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
-	DrawMap(string("Siege on the mountain"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
+	
+	DrawMap(string("Siege on the Mountain"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
+	
 	//STRINGHERE=("JON PUT A STRING HERE");
 	DrawMap(string("Close Quarters"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
+*/
+	
+	//STRINGHERE=("JON PUT A STRING HERE");
+	DrawMap(string("A Bridge runs Through It"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
+	
+	//STRINGHERE=("JON PUT A STRING HERE");	
+	DrawMap(string("Frozen Throne"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
+	
+	//STRINGHERE=("JON PUT A STRING HERE");
+	DrawMap(string("Grave Circumstance"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
+	
+	//STRINGHERE=("JON PUT A STRING HERE");
+	DrawMap(string("Twin River"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
+
 
 }
 void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, vector<vector<TILE_TYPE>> m_vMap_, bool selected)

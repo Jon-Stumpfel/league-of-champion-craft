@@ -495,7 +495,7 @@ void CGameManager::LoadSave(int nSlot)
 							selectedTile->GetTileType() != TT_MINE)
 						{
 							selectedTile->SetTileType(TT_MOUNTAINS);
-							selectedTile->SetIfPassable(false);
+							selectedTile->SetIfImpassable(false);
 							CGameManager::GetInstance()->AddModification(mod);
 						}
 					}

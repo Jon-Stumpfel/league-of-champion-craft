@@ -143,7 +143,11 @@ bool CTileManager::LoadSave( std::string sFilename )
 
 			pTile->Attribute("TType",&tempdata1);
 			if (TT_TOMBSTONE==(TILE_TYPE)tempdata1)
+			{
 				tempdata1=0;
+				m_pTileMap[x][y].SetTileType(tempdata1);
+				m_pTileMap[x][y].SetIfDeadTile(true);
+			}
 			m_pTileMap[x][y].SetTileType(tempdata1);
 
 			pTile = pTile->NextSiblingElement("Tile");
@@ -244,6 +248,8 @@ void CTileManager::Render( void )
 					{
 					pTM->Draw(m_nFrozenTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
 						,y - CGameplayState::GetInstance()->GetCamOffsetY(),1.0F,1.0F,&Rsource, (float)(TWidth / 2), (float)(THeight/ 2), fRad);						
+					if (m_pTileMap[i][j].GetIfImpassable()==true)
+						m_pTileMap[i][j].SetIfImpassable(false);
 					}
 					else{
 					pTM->Draw(m_nTextureImageID,x - CGameplayState::GetInstance()->GetCamOffsetX()
@@ -490,7 +496,7 @@ int CTileManager::RaiseMountain(lua_State* L)
 			selectedTile->GetTileType() != TT_MINE)
 		{
 			selectedTile->SetTileType(TT_MOUNTAINS);
-			selectedTile->SetIfPassable(false);
+			selectedTile->SetIfImpassable(false);
 			MapModification mod;
 			mod.posX = selectedTile->GetPosition().nPosX;
 			mod.posY = selectedTile->GetPosition().nPosY;
