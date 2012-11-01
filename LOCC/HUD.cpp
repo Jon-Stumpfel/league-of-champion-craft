@@ -124,10 +124,10 @@ RECT CHUD::GetRect(HUD_PART part)
 
 	case HP_BORDERBAR:
 		{
-			rect.left = 29;
-			rect.top = 609;
-			rect.right = 717;
-			rect.bottom = 693;
+			rect.left = 57;
+			rect.top = 815;
+			rect.right = 854;
+			rect.bottom = 869;
 
 		}
 		break;
@@ -142,7 +142,7 @@ RECT CHUD::GetRect(HUD_PART part)
 	case HP_MAINBAR:
 		{
 			rect.left = 46;
-			rect.top = 266;
+			rect.top = 251; // 266
 			rect.right = 413;
 			rect.bottom = 372;
 
