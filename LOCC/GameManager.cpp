@@ -750,6 +750,7 @@ void CGameManager::Reset(void)
 		delete m_vPlayers[i];
 	}
 
+	CAIManager::GetInstance()->m_vPlayerIDs.clear();
 
 	m_vPlayers.clear();
 	m_nNewPlayerID = 0;

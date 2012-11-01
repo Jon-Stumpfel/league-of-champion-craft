@@ -185,7 +185,7 @@ void CTileManager::Render( void )
 				continue;
 			if (x < camX - 90)
 				continue;
-			if (y > camY + 500)
+			if (y > camY + 700)
 				continue;
 			if (y < camY - 90)
 				continue;

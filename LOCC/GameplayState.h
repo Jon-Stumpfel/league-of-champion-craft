@@ -48,6 +48,8 @@ private:
 		int nH;
 		int nG;
 	};
+
+	int nStoredUnitIndex;
 	CGameplayState(void);
 	~CGameplayState(void);
 	CGameplayState(const CGameplayState&);

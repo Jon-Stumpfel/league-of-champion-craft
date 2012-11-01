@@ -47,7 +47,7 @@ public:
 	void RunAIScript(CUnit* pUnit);
 
 std::vector<AIOrder> m_vOrderQueue;
-private:
+
 	std::vector<int> m_vPlayerIDs;
 public:std::vector<INPUT_ENUM> m_vInputQueue;
 private:std::vector<CUnit*> m_vUnitsToHandle;
