@@ -1709,6 +1709,7 @@ void CGameplayState::Render(void)
 		CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
+		if (m_pSelectedUnit!= nullptr)
 		switch(m_pSelectedUnit->GetFacing())
 		{
 

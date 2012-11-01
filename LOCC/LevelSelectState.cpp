@@ -44,30 +44,33 @@ void LevelSelectState::Enter(void)
 
 	m_nScrollID = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\Scroll.png"), D3DXCOLOR(255,255,255,255));
 	
-	//string filename1= "Assets/Tiles/Level1.xml";
-	//m_vMap1= pTM->JonsLoad(filename1);
-	//
-	//string filename2= "Assets/Tiles/Level2.xml";
-	//m_vMap2=pTM->JonsLoad(filename2);
-	//
-	//string filename3= "Assets/Tiles/Level3.xml";
-	//m_vMap3= pTM->JonsLoad(filename3);
-
-	//string filename4= "Assets/Tiles/Level4.xml";
-	//m_vMap4= pTM->JonsLoad(filename4);
-
-	string filename1= "Assets/Tiles/Level5.xml";
+	//COMMENT THESE IN IF YOU WANT SINGLE PLAYER MAP(AI ON)
+	string filename1= "Assets/Tiles/Level1.xml";
 	m_vMap1= pTM->JonsLoad(filename1);
 	
-	string filename2= "Assets/Tiles/Level6.xml";
+	string filename2= "Assets/Tiles/Level2.xml";
 	m_vMap2=pTM->JonsLoad(filename2);
 	
-	string filename3= "Assets/Tiles/Level7.xml";
+	string filename3= "Assets/Tiles/Level3.xml";
 	m_vMap3= pTM->JonsLoad(filename3);
 
-	string filename4= "Assets/Tiles/Level8.xml";
+	string filename4= "Assets/Tiles/Level4.xml";
 	m_vMap4= pTM->JonsLoad(filename4);
 
+	//COMMENT THESE IN IF YOU WANT MULTIYPLAYER MAP(AI ON)
+	//string filename1= "Assets/Tiles/Level5.xml";
+	//m_vMap1= pTM->JonsLoad(filename1);
+	//
+	//string filename2= "Assets/Tiles/Level6.xml";
+	//m_vMap2=pTM->JonsLoad(filename2);
+	//
+	//string filename3= "Assets/Tiles/Level7.xml";
+	//m_vMap3= pTM->JonsLoad(filename3);
+
+	//string filename4= "Assets/Tiles/Level8.xml";
+	//m_vMap4= pTM->JonsLoad(filename4);
+
+	/////*REGUARDLESS OF WHICH GO DOWN TO INPUT*/////
 }
 
 void LevelSelectState::Exit(void)
@@ -84,10 +87,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 	bool bNetworkedGame = false;
 	switch(input)
 	{
-	case INPUT_ACCEPT:
+	case INPUT_ACCEPT: //which map you select
 		{
 
-			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0)
+			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0) //map 1,1
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
 
@@ -102,9 +105,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 10, 0);
 					bNetworkedGame = true;
 				}
-
-				CGameManager::GetInstance()->NewGame("level5", 5);
-				//CGameManager::GetInstance()->NewGame("level1", 1);
+//STOP//		//SAME DEAL
+				//if (yourVariblefortheplayermode ==true)
+				//CGameManager::GetInstance()->NewGame("level5", 5);		//MULTIPLAYER
+				CGameManager::GetInstance()->NewGame("level1", 1);	//SINGLE PLAYER
 				
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -123,8 +127,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
-				CGameManager::GetInstance()->NewGame("level6", 6);
-				//CGameManager::GetInstance()->NewGame("level2", 2);
+//STOP//		//SAME DEAL
+				//if (yourVariblefortheplayermode ==true)
+				//CGameManager::GetInstance()->NewGame("level6", 6);		//MULTIPLAYER
+				CGameManager::GetInstance()->NewGame("level2", 2);	//SINGLE PLAYER
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -143,8 +149,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
-				CGameManager::GetInstance()->NewGame("level7", 7);
-				//CGameManager::GetInstance()->NewGame("level3", 3);
+//STOP//		//SAME DEAL
+				//if (yourVariblefortheplayermode ==true)
+				//CGameManager::GetInstance()->NewGame("level7", 7);		//MULTIPLAYER
+				CGameManager::GetInstance()->NewGame("level3", 3);	//SINGLE PLAYER
 				
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
@@ -164,15 +172,18 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
-				CGameManager::GetInstance()->NewGame("level8", 8);
-				//CGameManager::GetInstance()->NewGame("level4", 4);
+
+//STOP//		//SAME DEAL
+				//if (yourVariblefortheplayermode ==true)
+				//CGameManager::GetInstance()->NewGame("level8", 8);		//MULTIPLAYER
+				CGameManager::GetInstance()->NewGame("level4", 4);	//SINGLE PLAYER
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			if (!bNetworkedGame)
 				CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
 
-			break;
+			break; //NOW GO TO RENDER
 		}
 	case INPUT_LEFT:
 		{
@@ -275,7 +286,10 @@ void LevelSelectState::Render(void)
 	Scrollrect.right = 557;
 	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,0,487,1.45f,.85f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
 	
-/*	
+	//PUT THESE IN TO RENDER THE SINGLE PLAYER MAPS
+	//if (yourVariblefortheplayermode ==true)
+	//{
+	
 	//STRINGHERE=("JON PUT A STRING HERE");
 	DrawMap(string("Trample Hill"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
 	
@@ -286,20 +300,26 @@ void LevelSelectState::Render(void)
 	
 	//STRINGHERE=("JON PUT A STRING HERE");
 	DrawMap(string("Close Quarters"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
-*/
-	
-	//STRINGHERE=("JON PUT A STRING HERE");
-	DrawMap(string("A Bridge runs Through It"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
-	
-	//STRINGHERE=("JON PUT A STRING HERE");	
-	DrawMap(string("Frozen Throne"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
-	
-	//STRINGHERE=("JON PUT A STRING HERE");
-	DrawMap(string("Grave Circumstance"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
-	
-	//STRINGHERE=("JON PUT A STRING HERE");
-	DrawMap(string("Twin River"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
 
+	
+	//}
+	//else
+	//{
+	//COMMENT THESE IN FOR MULTIPLAYERMAP
+
+	////STRINGHERE=("JON PUT A STRING HERE");
+	//DrawMap(string("A Bridge runs Through It"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
+	//
+	////STRINGHERE=("JON PUT A STRING HERE");	
+	//DrawMap(string("Frozen Throne"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
+	//
+	////STRINGHERE=("JON PUT A STRING HERE");
+	//DrawMap(string("Grave Circumstance"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
+	//
+	////STRINGHERE=("JON PUT A STRING HERE");
+	//DrawMap(string("Twin River"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
+	
+	//}
 
 }
 void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, vector<vector<TILE_TYPE>> m_vMap_, bool selected)
