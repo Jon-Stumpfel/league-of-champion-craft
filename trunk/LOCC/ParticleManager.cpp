@@ -2,6 +2,7 @@
 #include "ParticleManager.h"
 #include "Emitter.h"
 #include "SGD Wrappers\tinyxml.h"
+#include "GameObject.h"
 
 CParticleManager::CParticleManager(void)
 {
@@ -63,8 +64,8 @@ void CParticleManager::Render( void )
 	}
 }
 
-void  CParticleManager::LoadParticles( PRTCL_TYPE eType, Vec2D sPos )
+void  CParticleManager::LoadParticles( PRTCL_TYPE eType, Vec2D sPos, CGameObject* track )
 {
 	m_vEmitters.push_back( new CEmitter );
-	m_vEmitters[m_vEmitters.size()-1]->LoadParticles( eType, sPos );
+	m_vEmitters[m_vEmitters.size()-1]->LoadParticles( eType, sPos, track );
 }

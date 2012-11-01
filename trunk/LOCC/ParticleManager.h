@@ -1,6 +1,7 @@
 #pragma once
 
 class CEmitter;
+class CGameObject;
 
 struct Color
 {
@@ -14,7 +15,7 @@ public:
 
 	void Update( float fElapsedTime );
 	void Render( void );
-	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos );
+	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos, CGameObject* track = nullptr );
 	void StopLoop( PRTCL_TYPE eType );
 
 	static CParticleManager* GetInstance( void );

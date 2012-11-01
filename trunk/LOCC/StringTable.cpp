@@ -20,8 +20,8 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Apwyrdes:");
 	modernenglish.push_back("Art: Maher Sagrillo");
 	yeoldeanglish.push_back("Creaft: Maher Sagrillo");
-	modernenglish.push_back("Lead Producer: Jon");
-	yeoldeanglish.push_back("Aetlaede Icend: Jon");
+	modernenglish.push_back("Lead Producer: John O'Leske");
+	yeoldeanglish.push_back("Aetlaede Icend: John O'Leske");
 	modernenglish.push_back("Sounds: Jordan Wells");
 	yeoldeanglish.push_back("Cnylls: Jordan Wells");
 	modernenglish.push_back("Tile Engine: Dalton Gbur");

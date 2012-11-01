@@ -106,7 +106,6 @@ void CMainMenuState::Input(INPUT_ENUM input)
 			else if(selected == 3)
 			{
 				CStateStack::GetInstance()->Push(CCreditsState::GetInstance());
-				CStateStack::GetInstance()->SetRenderTopOnly(true);
 			}
 			else if(selected == 4)
 			{

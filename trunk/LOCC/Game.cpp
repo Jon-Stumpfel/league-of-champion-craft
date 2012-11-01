@@ -96,6 +96,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/tooltip.png"), _T("tooltip"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/check.png"), _T("check"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spelldesc.png"), _T("spelldesc"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/scrollvert.png"), _T("scrollvert"), 0UL);
 	
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page1.png"), _T("Page1"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page2.png"), _T("Page2"), 0UL);
@@ -123,6 +124,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/BowandArrow.wav"), _T("ArcherBasicAttack"),false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/TempDeath.wav"),_T("ITSDEAD"),false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/errorclip.wav"),_T("NO"),false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Sword.wav"), _T("Sword"), false);
+
 	CAbilityManager::GetInstance()->LoadAbilities();
 	CSpellScrollState::GetInstance()->Initialize();
 	m_dwCurrTime = GetTickCount();

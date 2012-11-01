@@ -30,6 +30,7 @@ void CSpellScrollState::Enter(void)
 	m_pCustomer = dynamic_cast<CHero*>(CGameplayState::GetInstance()->GetSelectedUnit());
 	m_nSwap = CGameplayState::GetInstance()->GetSelectedSpell();
 	m_nExp = CGameManager::GetInstance()->GetCurrentPlayer()->GetExp();
+	page = 1;
 }
 
 void CSpellScrollState::Exit(void)
@@ -120,7 +121,10 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 	case INPUT_ACCEPT:
 		{
 			if( m_bTreeSelect )
+			{
 				flipping = true;
+				page = 1;
+			}
 			else
 			{
 				bool bought = false;
@@ -232,7 +236,8 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 		{
 			if( m_bTreeSelect == false )
 			{
-				flipping = true;
+				unflipping = true;
+				page = 7;
 				m_nSelectedAbility = 0;
 			}
 			else
@@ -244,19 +249,31 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 
 void CSpellScrollState::Update(float fElapsedTime)
 {
-	if ( flipping )
+	if ( flipping || unflipping )
 	{
 		static float time = 0;
 
 		if( time >= .04f )
 		{
-			time = 0;
-			page++;
-			if( page == 7 )
+			if( flipping )
 			{
-				page = 1;
-				flipping = false;
-				m_bTreeSelect = !m_bTreeSelect;
+				time = 0;
+				page++;
+				if( page == 7 )
+				{
+					flipping = false;
+					m_bTreeSelect = !m_bTreeSelect;
+				}
+			}
+			else if( unflipping )
+			{
+				time = 0;
+				page--;
+				if( page == 1 )
+				{
+					unflipping = false;
+					m_bTreeSelect = !m_bTreeSelect;
+				}
 			}
 		}
 
@@ -269,31 +286,31 @@ void CSpellScrollState::Render(void)
 	CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
 	CGraphicsManager* pGM = CGraphicsManager::GetInstance();
 	CBitmapFont* pBF = new CBitmapFont();
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	pTM->Draw(pGM->GetID(_T("ssbackground")), 0, 0);
 
-	if( flipping == true )
-	{
-		if( page == 1 )
-			pTM->Draw(pGM->GetID(_T("Page1")), 175, -30, .5f, .5f);
-		else if( page == 2 )
-			pTM->Draw(pGM->GetID(_T("Page2")), 175, -30, .5f, .5f);
-		else if( page == 3 )
-			pTM->Draw(pGM->GetID(_T("Page3")), 175, -30, .5f, .5f);
-		else if( page == 4 )
-			pTM->Draw(pGM->GetID(_T("Page4")), 175, -30, .5f, .5f);
-		else if( page == 5 )
-			pTM->Draw(pGM->GetID(_T("Page5")), 175, -30, .5f, .5f);
-		else if( page == 6 )
-			pTM->Draw(pGM->GetID(_T("Page6")), 175, -30, .5f, .5f);
-		else if( page == 7 )
-			pTM->Draw(pGM->GetID(_T("Page7")), 175, -30, .5f, .5f);
-	}
-	else
-	{
+	if( page == 1 )
 		pTM->Draw(pGM->GetID(_T("Page1")), 175, -30, .5f, .5f);
+	else if( page == 2 )
+		pTM->Draw(pGM->GetID(_T("Page2")), 175, -30, .5f, .5f);
+	else if( page == 3 )
+		pTM->Draw(pGM->GetID(_T("Page3")), 175, -30, .5f, .5f);
+	else if( page == 4 )
+		pTM->Draw(pGM->GetID(_T("Page4")), 175, -30, .5f, .5f);
+	else if( page == 5 )
+		pTM->Draw(pGM->GetID(_T("Page5")), 175, -30, .5f, .5f);
+	else if( page == 6 )
+		pTM->Draw(pGM->GetID(_T("Page6")), 175, -30, .5f, .5f);
+	else if( page == 7 )
+		pTM->Draw(pGM->GetID(_T("Page7")), 175, -30, .5f, .5f);
 
+	ostringstream xp;
+	xp << "Exp: " << m_nExp;
+	pBF->Print(xp.str().c_str(), 10, 20, .5f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
+	if( flipping == false && unflipping == false )
+	{
 		if( m_bTreeSelect == false )
 		{
 			pTM->Draw(pGM->GetID(_T("spelldesc")), 145, 475, .9f, .9f);
@@ -367,10 +384,6 @@ void CSpellScrollState::Render(void)
 				CGraphicsManager::GetInstance()->DrawWireframeRect(source, 0, 0, 0, true);
 			}
 		}
-
-		ostringstream xp;
-		xp << "Exp: " << m_nExp;
-		pBF->Print(xp.str().c_str(), 10, 20, .5f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 		if( m_bTreeSelect )
 		{

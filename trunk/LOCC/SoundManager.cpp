@@ -102,9 +102,15 @@ void CSoundManager::Play( int ID, bool isLooping, bool isMusic )
 		return;
 
 	if( isMusic )
-		pXA->MusicPlaySong(ID, isLooping);
+	{
+		if( pXA->MusicIsSongPlaying(ID) == false )
+			pXA->MusicPlaySong(ID, isLooping);
+	}
 	else
-		pXA->SFXPlaySound(ID, isLooping);
+	{
+		if( pXA->SFXIsSoundPlaying(ID) == false )
+			pXA->SFXPlaySound(ID, isLooping);
+	}
 }
 
 void CSoundManager::Stop( int ID, bool isMusic )
