@@ -86,25 +86,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 	{
 	case INPUT_ACCEPT:
 		{
-			//if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0)
-			//{
-			//	CTileManager* pTM=CTileManager::GetInstance();
 
-			//	if (CMultiplayerState::GetInstance()->GetNetworkSetup())
-			//	{
-			//		char buffer[80];
-			//		sprintf_s(buffer, "%c%d", NET_BEGINMAP1, 0);
-			//		send(CSocketServer::GetInstance()->sockets[2], buffer, 2, 0);
-			//		unsigned int seed = (unsigned int)(time(0));
-			//		CGameManager::GetInstance()->SetRandomSeed(seed);
-			//		sprintf_s(buffer, "%d", seed);
-			//		send(CSocketServer::GetInstance()->sockets[2], buffer, 10, 0);
-			//		bNetworkedGame = true;
-			//	}
-
-			//	CGameManager::GetInstance()->NewGame("level1", 1);
-			//	CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
-			//}
 			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
@@ -121,7 +103,9 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					bNetworkedGame = true;
 				}
 
-				CGameManager::GetInstance()->NewGame("level1", 1);
+				CGameManager::GetInstance()->NewGame("level5", 5);
+				//CGameManager::GetInstance()->NewGame("level1", 1);
+				
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(m_2Dselected.nPosX ==1  && m_2Dselected.nPosY==0)
@@ -139,7 +123,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
-				CGameManager::GetInstance()->NewGame("level2", 2);
+				CGameManager::GetInstance()->NewGame("level6", 6);
+				//CGameManager::GetInstance()->NewGame("level2", 2);
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -158,7 +143,9 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
-				CGameManager::GetInstance()->NewGame("level3", 3);
+				CGameManager::GetInstance()->NewGame("level7", 7);
+				//CGameManager::GetInstance()->NewGame("level3", 3);
+				
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -177,7 +164,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					send(CSocketServer::GetInstance()->sockets[2], buffer, 8, 0);
 					bNetworkedGame = true;
 				}
-				CGameManager::GetInstance()->NewGame("level4", 4);
+				CGameManager::GetInstance()->NewGame("level8", 8);
+				//CGameManager::GetInstance()->NewGame("level4", 4);
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
