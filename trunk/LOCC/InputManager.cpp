@@ -46,13 +46,16 @@ void CInputManager::Update(float fElapsedTime)
 }
 bool CInputManager::Input(void)
 {
+	
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
+	
 	int nCurrentPlayerID;
 	if( CGameManager::GetInstance()->GetCurrentPlayer() != nullptr )
 		nCurrentPlayerID = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
 	else
 		nCurrentPlayerID = 1;
 	if (m_bInMenu)
+
 		nCurrentPlayerID = 0;
 	int nRAmount = pDI->JoystickGetRStickYAmount(0);
 	if (CGameManager::GetInstance()->GetNetworkGame())
@@ -189,24 +192,32 @@ bool CInputManager::Input(void)
 		}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_ACCEPT);
 	}
-	if (pDI->KeyPressed(DIK_Z) || pDI->JoystickButtonPressed(1, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_L) || pDI->JoystickButtonPressed(4, nCurrentPlayerID))
 	{
-				if (CGameManager::GetInstance()->GetNetworkGame())
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_BUMPERLEFT);
+	}
+	if (pDI->KeyPressed(DIK_R) || pDI->JoystickButtonPressed(5, nCurrentPlayerID))
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_BUMPERRIGHT);
+	}
+	if (pDI->KeyPressed(DIK_Z) || pDI->KeyPressed(DIK_ESCAPE) || pDI->JoystickButtonPressed(1, nCurrentPlayerID))
+	{
+		if (CGameManager::GetInstance()->GetNetworkGame())
 		{
 		char txtbuffer[80];
 		sprintf_s(txtbuffer, "%c%d", NET_INPUT_CANCEL, 0);
 		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
-				}
+		}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
 	}
-	if (pDI->KeyPressed(DIK_I) || pDI->JoystickButtonPressed(7, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_BACKSPACE) || pDI->JoystickButtonPressed(7, nCurrentPlayerID))
 	{
-				if (CGameManager::GetInstance()->GetNetworkGame())
+		if (CGameManager::GetInstance()->GetNetworkGame())
 		{
-		char txtbuffer[80];
-		sprintf_s(txtbuffer, "%c%d", NET_INPUT_START, 0);
-		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
-				}
+			char txtbuffer[80];
+			sprintf_s(txtbuffer, "%c%d", NET_INPUT_START, 0);
+			send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
+		}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_START);
 	}
 	if (pDI->KeyPressed(DIK_SPACE) || pDI->JoystickButtonPressed(3, nCurrentPlayerID))

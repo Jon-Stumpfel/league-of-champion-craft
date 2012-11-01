@@ -21,7 +21,7 @@ void CHUD::Initialize(void)
 {
 	m_nHudPartsID = -1;
 
-	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\hud_parts.png"), _T("hudparts"), D3DCOLOR_XRGB(255, 0, 255));
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\HUDnoguides.png"), _T("hudparts"), D3DCOLOR_XRGB(255, 0, 255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\HUD\\healthbar.png"), _T("healthbar"), D3DCOLOR_XRGB(255, 255, 255));
 }
 RECT CHUD::GetHealthbar(void)
@@ -105,29 +105,55 @@ RECT CHUD::GetRect(HUD_PART part)
 
 	switch (part)
 	{
+	case HP_STATUSBAR:
+		{
+			rect.left = 56;
+			rect.top = 763;
+			rect.right = 858;
+			rect.bottom = 804;
+		}
+		break;
+	case HP_HIGHLIGHTCARD:
+		{
+			rect.left = 571;
+			rect.top = 71;
+			rect.right = 735;
+			rect.bottom = 155;
+		}
+		break;
+
+	case HP_BORDERBAR:
+		{
+			rect.left = 29;
+			rect.top = 609;
+			rect.right = 717;
+			rect.bottom = 693;
+
+		}
+		break;
 	case HP_MINIMAP:
 		{
-			rect.left = 27;
-			rect.top = 23;
-			rect.right = 233;
-			rect.bottom = 212;
+			rect.left = 40;
+			rect.top = 48;
+			rect.right = 194;
+			rect.bottom = 202;
 		}
 		break;
 	case HP_MAINBAR:
 		{
-			rect.left = 26;
-			rect.top = 230;
-			rect.right = 429;
-			rect.bottom = 376;
+			rect.left = 46;
+			rect.top = 266;
+			rect.right = 413;
+			rect.bottom = 372;
 
 		}
 		break;
 	case HP_SPELLBAR:
 		{
-			rect.left = 26;
-			rect.top = 382;
-			rect.right = 429;
-			rect.bottom = 491;
+			rect.left = 46;
+			rect.top = 379;
+			rect.right = 413;
+			rect.bottom = 486;
 		}
 		break;
 	case HP_TURNWINDOW:
@@ -141,9 +167,17 @@ RECT CHUD::GetRect(HUD_PART part)
 	case HP_UNITCARD:
 		{
 			rect.left = 441;
-			rect.top = 314;
-			rect.right = 629;
-			rect.bottom = 492;
+			rect.top = 317;
+			rect.right = 605;
+			rect.bottom = 491;
+		}
+		break;
+	case HP_SELECTICON:
+		{
+			rect.left = 361;
+			rect.top = 142;
+			rect.right = 431;
+			rect.bottom = 212;
 		}
 		break;
 	};
