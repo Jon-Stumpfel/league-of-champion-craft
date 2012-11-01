@@ -27,6 +27,7 @@ public:
 	Vec2Df GetVelStart( void ) const { return m_sVelStart; }
 	Vec2Df GetVelEnd( void ) const { return m_sVelEnd; }
 	Vec2Df GetCurVel( void ) const { return m_sVel; }
+	Vec2D GetPos( void ) const { return m_sPos; }
 
 	void SetScale( float fScale ) { m_fScale = fScale; }
 	void SetCurTime( float fTime ) { m_fCurTime = fTime; }	

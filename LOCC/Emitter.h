@@ -5,6 +5,7 @@
 enum Shape { DOT, CIRCLE, SQUARE, LINE };
 
 class CParticle;
+class CGameObject;
 
 class CEmitter
 {
@@ -17,7 +18,7 @@ public:
 	void Render( void );
 	void Update( float fElapsedTime );
 
-	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos );
+	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos, CGameObject* track = nullptr);
 	void Clear( void );
 
 	bool Alive( void );
@@ -58,6 +59,8 @@ private:
 	float m_fMaxLife;
 	float m_fSpawnTimer;
 
+	CGameObject* m_pTrackee;
+	bool m_bTracking;
 	float Radius;
 	Vec2D m_sPoint;
 	Vec2D m_sPoint2;

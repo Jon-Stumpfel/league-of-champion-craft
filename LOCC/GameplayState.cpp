@@ -793,6 +793,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 				}
 				else if (ability->GetType() == SP_MELEEATTACK || ability->GetType() == SP_ARCHERRANGEDATTACK)
 				{
+					if( ability->GetType() == SP_MELEEATTACK )
+						CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
+					else
+						CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("ArcherBasicAttack")), false, false);
+
 					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
 						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
 					if (nDistance <= m_pSelectedUnit->GetRange())
@@ -896,7 +901,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 							}
 						}
 						// STATS SAVING
-						pSM->Play(pSM->GetID(_T("ArcherBasicAttack")), false, false);
 						CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() - ability->m_nAPCost);
 						std::ostringstream aposs;
@@ -913,8 +917,6 @@ void CGameplayState::UseAbility(CAbility* ability)
 							tmp.nPosX;
 							tmp.nPosY;
 							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
-							//if( ability->GetParticleType() == PT_BLOOD )
-								//CParticleManager::GetInstance()->LoadParticles(PT_OBLOOD, tmp);
 						}
 						
 						//ADD BASIC ATTACK ANIMATION HERE
@@ -1009,7 +1011,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 							Vec2D tmp = TranslateToPixel(t);
 							tmp.nPosX += 65;
 							tmp.nPosY += 5;
-							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp, CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()));
 						
 							if( m_pTargetedTile->GetPosition() == t )
 								break;
@@ -1026,7 +1028,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 							Vec2D tmp = TranslateToPixel(t);
 							tmp.nPosX;
 							tmp.nPosY;
-							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
+							CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp, CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()));
 						}
 					}
 
@@ -1769,73 +1771,70 @@ void CGameplayState::Render(void)
 		if (m_pSelectedUnit!= nullptr)
 		switch(m_pSelectedUnit->GetFacing())
 		{
-			switch(m_pSelectedUnit->GetFacing())
+
+		case 0:
 			{
-
-			case 0:
+				rot = -45 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
 				{
-					rot = -45 * 3.1415926f / 180;
-					if( m_pSelectedUnit->GetPlayerID() == 1 )
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 60 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
-					}
-					else
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 60 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
-					}
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 60 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
 				}
-				break;
-
-			case 1:
+				else
 				{
-					rot = -315 * 3.1415926f / 180;
-					if( m_pSelectedUnit->GetPlayerID() == 1 )
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 55 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - GetCamOffsetY() + 55, .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
-					}
-					else
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 55 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 55 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
-					}
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 60 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
 				}
-				break;
-
-			case 2:
-				{
-					rot = -225 * 3.1415926f / 180;
-					if( m_pSelectedUnit->GetPlayerID() == 1 )
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 60 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
-					}
-					else
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 60 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
-					}
-				}
-				break;
-
-			case 3:
-				{
-					rot = -135 * 3.1415926f / 180;
-					if( m_pSelectedUnit->GetPlayerID() == 1 )
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
-					}
-					else
-					{
-						pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
-							TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
-					}
-				}
-				break;
 			}
+			break;
+
+		case 1:
+			{
+				rot = -315 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 55 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - GetCamOffsetY() + 55, .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX + 55 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 55 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
+				}
+			}
+			break;
+
+		case 2:
+			{
+				rot = -225 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 60 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY + 60 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
+				}
+			}
+			break;
+
+		case 3:
+			{
+				rot = -135 * 3.1415926f / 180;
+				if( m_pSelectedUnit->GetPlayerID() == 1 )
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 255, 0, 0));
+				}
+				else
+				{
+					pTM->Draw(CGraphicsManager::GetInstance()->GetID(_T("facingarrow")), TranslateToPixel(m_pSelectedUnit->GetPos()).nPosX - 50 - GetCamOffsetX(), 
+						TranslateToPixel(m_pSelectedUnit->GetPos()).nPosY - 50 - GetCamOffsetY(), .3f, .3f, &source, 256 / 2, 128 / 2, rot, D3DCOLOR_ARGB(255, 0, 0, 255));
+				}
+			}
+			break;
 		}
 	}
 

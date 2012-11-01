@@ -36,6 +36,7 @@ private:
 	std::vector< CAbility* > m_vSupport;
 
 	bool flipping;
+	bool unflipping;
 	int m_nSelected;
 	int m_nSelectedAbility;
 	int page;
