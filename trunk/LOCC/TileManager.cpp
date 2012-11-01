@@ -435,14 +435,14 @@ void CTileManager::EvaluateResources(int nPlayerID)
 	{
 		std::ostringstream oss;
 		oss << "+" << nTotalWood;
-		CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(478, 459), Vec2Df(0, -20), 2.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+		CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(650, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(20, 255, 20));
 	}
 	CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalWood;
 	if (nTotalMetal > 0)
 	{
 		std::ostringstream oss;
 		oss << "+" << nTotalMetal;
-		CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(548, 459), Vec2Df(0, -20), 2.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+		CFloatingText::GetInstance()->AddScreenText(oss.str(), Vec2Df(724, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(20, 255, 20));
 	}
 		CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerWoodEarned += nTotalMetal;
 }
