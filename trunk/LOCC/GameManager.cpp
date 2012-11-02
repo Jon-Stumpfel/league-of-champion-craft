@@ -890,7 +890,7 @@ void CGameManager::MessageProc(IMessage* pMsg)
 					for (int i = 0; i < pSMSG->GetSpellSize(); ++i)
 					{
 						((CHero*)pUnit)->SwapSpell(CAbilityManager::GetInstance()->GetAbility(pSMSG->GetSpells(i)), i);
-						((CHero*)pUnit)->SetCooldown(pSMSG->GetCooldown(i), i);
+						((CHero*)pUnit)->SetCooldown(i, pSMSG->GetCooldown(i) );
 					}
 
 					for (unsigned int i = 0; i < pSMSG->GetBought().size(); ++i)

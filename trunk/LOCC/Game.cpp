@@ -133,6 +133,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Gallop.wav"), _T("Gallop"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/savegame.wav"), _T("savegame"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/deletesave.wav"), _T("deletesave"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/teleport.wav"), _T("teleport"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/ice.wav"), _T("ice"), false);
 
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\main_menu_bg.png"), _T("mainmenubg"),D3DXCOLOR(0,0,0,255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_blue.png"), _T("warriorblue"),D3DXCOLOR(0,0,0,255));
