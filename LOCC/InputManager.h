@@ -1,5 +1,6 @@
 #pragma once
 
+#include "StdAfx.h"
 enum INPUT_ENUM { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, 
 				  INPUT_ACCEPT, INPUT_CANCEL, INPUT_START, INPUT_CAM_UP, INPUT_CAM_DOWN,
 				  INPUT_CAM_LEFT, INPUT_CAM_RIGHT, INPUT_SELECT, 
@@ -24,8 +25,19 @@ public:
 
 	void Shutdown(void);
 	void SetRunning(bool running) {Running = running;}
-	void SetInMenu(bool b) { m_bInMenu = b;}
+	void SetInMenu(bool b);
+
+
+	void* m_pJoy1;
+	void* m_pJoy2;
+	void* m_pJoyThatIsUnplugged;
+
+	int m_nNumJoys;
+
 private:
+
+
+
 	bool Running;
 
 	bool m_bInMenu;
@@ -35,6 +47,7 @@ private:
 	CInputManager& operator=(const CInputManager&);
 
 	static CInputManager* s_Instance;
+
 
 };
 

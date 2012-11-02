@@ -67,8 +67,9 @@ private:
 	
 	CSGD_DIKeyboard*			m_pKeyboard;	//	Keyboard object
 	CSGD_DIMouse*				m_pMouse;		//	Mouse object
+public:
 	vector<CSGD_DIJoystick*>	m_vpJoysticks;	//	Joysticks attached to the system
-
+private:
 	// Utility struct for joystick setup:
 	struct tJoystickSetupInfo
 	{

@@ -17,6 +17,7 @@
 #include "Tile.h"
 #include "Ability.h"
 #include "AbilityManager.h"
+#include "ControllerUnpluggedState.h"
 #include "StateStack.h"
 #include "PauseState.h"
 #include "Hero.h"
@@ -1466,14 +1467,8 @@ void CGameplayState::Update(float fElapsedTime)
 
 	if (pDI->KeyPressed(DIK_J))
 	{
-		//AIOrder aiord;
-		//aiord.first = CGameManager::GetInstance()->GetChampion(1);
-		//aiord.second = AIO_SELECT;
-		//CAIManager::GetInstance()->m_vOrderQueue.push_back(aiord);
-		//aiord.first = new Vec2D(CGameManager::GetInstance()->GetChampion(0)->GetPos().nPosX, CGameManager::GetInstance()->GetChampion(0)->GetPos().nPosY);
-		//aiord.second = AIO_MOVE;
-		//CAIManager::GetInstance()->m_vOrderQueue.push_back(aiord);
-		CAIManager::GetInstance()->RunAIScript(CGameManager::GetInstance()->GetChampion(0));
+		CStateStack::GetInstance()->SetRenderTopOnly(false);
+		CStateStack::GetInstance()->Push(CControllerUnpluggedState::GetInstance());		
 	}
 
 	if (m_bIsHighlighting == true)

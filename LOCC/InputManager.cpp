@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "InputManager.h"
+#include "ControllerUnpluggedState.h"
 #include "GameManager.h"
 #include "StateStack.h"
 #include "Player.h"
@@ -9,6 +10,7 @@ CInputManager* CInputManager::s_Instance = nullptr;
 
 CInputManager::CInputManager(void)
 {
+	m_nNumJoys = 0;
 }
 
 
@@ -31,11 +33,34 @@ void CInputManager::DeleteInstance(void)
 		delete s_Instance;
 	}
 }
+void CInputManager::SetInMenu(bool b)
+{ 
+	m_bInMenu = b;
+}
+
+
 void CInputManager::Initialize(HWND hWnd, HINSTANCE hInstance)
 {
 	CSGD_DirectInput::GetInstance()->InitDirectInput(hWnd, hInstance, DI_KEYBOARD | DI_MOUSE | DI_JOYSTICKS);
 	Running = true;
 	m_bInMenu = false;
+
+	m_nNumJoys = CSGD_DirectInput::GetInstance()->m_vpJoysticks.size();
+
+
+	if (m_nNumJoys == 1)
+	{
+		m_pJoy1 = CSGD_DirectInput::GetInstance()->m_vpJoysticks[0];
+		m_pJoyThatIsUnplugged = CSGD_DirectInput::GetInstance()->m_vpJoysticks[0];
+	}
+	else if (m_nNumJoys == 2)
+	{
+		m_pJoy1 = CSGD_DirectInput::GetInstance()->m_vpJoysticks[0];
+		m_pJoyThatIsUnplugged = CSGD_DirectInput::GetInstance()->m_vpJoysticks[0];
+
+		m_pJoy2 = CSGD_DirectInput::GetInstance()->m_vpJoysticks[1];
+	}
+
 }
 void CInputManager::Shutdown(void)
 {
@@ -48,7 +73,66 @@ bool CInputManager::Input(void)
 {
 	
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
-	
+
+
+	CSGD_DIJoystick* joy2 = reinterpret_cast<CSGD_DIJoystick*>(m_pJoy2);
+
+	if (m_nNumJoys == 1)
+	{
+		CSGD_DIJoystick* joy1 = reinterpret_cast<CSGD_DIJoystick*>(m_pJoy1);
+		if (joy1->IsUnplugged())
+		{
+			if (CStateStack::GetInstance()->FindState(CControllerUnpluggedState::GetInstance()) == false)
+			{
+				CStateStack::GetInstance()->Push(CControllerUnpluggedState::GetInstance());
+				CControllerUnpluggedState::GetInstance()->SetJoyToPlug(1);
+
+				m_pJoyThatIsUnplugged = joy1;
+			}
+		}
+		if (reinterpret_cast<CSGD_DIJoystick*>(m_pJoyThatIsUnplugged)->IsUnplugged() == false)
+		{
+			if (CStateStack::GetInstance()->FindState(CControllerUnpluggedState::GetInstance()) == true)
+			{
+				CStateStack::GetInstance()->Pop();
+			}
+		}
+	}
+	else if (m_nNumJoys == 2)
+	{
+		CSGD_DIJoystick* joy1 = reinterpret_cast<CSGD_DIJoystick*>(m_pJoy1);
+		CSGD_DIJoystick* joy2 = reinterpret_cast<CSGD_DIJoystick*>(m_pJoy2);
+
+		if (joy1->IsUnplugged())
+		{
+			if (CStateStack::GetInstance()->FindState(CControllerUnpluggedState::GetInstance()) == false)
+			{
+				CStateStack::GetInstance()->Push(CControllerUnpluggedState::GetInstance());
+				CControllerUnpluggedState::GetInstance()->SetJoyToPlug(1);
+				m_pJoyThatIsUnplugged = joy1;
+			}
+		}
+		else if (joy2->IsUnplugged())
+		{
+			if (CStateStack::GetInstance()->FindState(CControllerUnpluggedState::GetInstance()) == false)
+			{
+				CStateStack::GetInstance()->Push(CControllerUnpluggedState::GetInstance());
+				CControllerUnpluggedState::GetInstance()->SetJoyToPlug(2);
+
+				m_pJoyThatIsUnplugged = joy2;
+			}
+		}
+
+		if (reinterpret_cast<CSGD_DIJoystick*>(m_pJoyThatIsUnplugged)->IsUnplugged() == false)
+		{
+			if (CStateStack::GetInstance()->FindState(CControllerUnpluggedState::GetInstance()) == true)
+			{
+				CStateStack::GetInstance()->Pop();
+			}
+		}
+
+
+	}
 	int nCurrentPlayerID;
 	if( CGameManager::GetInstance()->GetCurrentPlayer() != nullptr )
 		nCurrentPlayerID = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
