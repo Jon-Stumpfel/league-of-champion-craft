@@ -18,6 +18,8 @@ public:
 	void LoadParticles( PRTCL_TYPE eType, Vec2D sPos, CGameObject* track = nullptr );
 	void StopLoop( PRTCL_TYPE eType );
 
+	void Clear( void );
+
 	static CParticleManager* GetInstance( void );
 
 private:

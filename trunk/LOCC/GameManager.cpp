@@ -13,7 +13,7 @@
 #include "AddResourceMessage.h"
 #include "Tile.h"
 #include "MultiplayerState.h"
-
+#include "ParticleManager.h"
 #include "Unit.h"
 #include "Hero.h"
 #include "Player.h"
@@ -22,6 +22,7 @@
 #include "MovetPhaseTransState.h"
 #include "SocketServer.h"
 #include "CoinToss.h"
+
 CGameManager* CGameManager::s_Instance = nullptr;
 int CGameManager::m_nUniqueUnitID = 0;
 
@@ -765,6 +766,8 @@ void CGameManager::Reset(void)
 void CGameManager::NewGame(string levelstring, int mapint)
 {	
 	//LoadLevel(levelstring);
+
+	CParticleManager::GetInstance()->Clear();
 	
 	CTileManager::GetInstance()->ShutDown();
 	Reset();

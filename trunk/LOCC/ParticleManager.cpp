@@ -19,6 +19,17 @@ CParticleManager::~CParticleManager(void)
 	}
 }
 
+void CParticleManager::Clear( void )
+{
+	for( unsigned int i = 0; i < m_vEmitters.size(); i++ )
+	{
+		m_vEmitters[i]->Clear();
+		delete m_vEmitters[i];
+		m_vEmitters.erase( m_vEmitters.begin() + i );
+		i--;
+	}
+}
+
 CParticleManager* CParticleManager::GetInstance( void )
 {
 	static CParticleManager s_Instance;
