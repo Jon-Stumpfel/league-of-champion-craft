@@ -1,5 +1,5 @@
 #pragma once
-
+#include "BitmapFont.h"
 #include "igamestate.h"
 
 class CHelpMenuState : public IGameState
@@ -16,12 +16,16 @@ public:
 	static CHelpMenuState* GetInstance();
 
 private:
-
-	int temp;
+	int m_nswitchscreen;
+	int m_nScrollID;
+	int m_nTileHelpID;
+	int m_nUnitHelpID;
+	int m_nGameplayHelpID;
 	CHelpMenuState(void);
 	virtual ~CHelpMenuState(void);
 	CHelpMenuState(const CHelpMenuState&);
 	CHelpMenuState* operator=( CHelpMenuState& );
+	CBitmapFont* m_pBitmapfont;
 
 	//static CHelpMenuState* s_Instance;
 
