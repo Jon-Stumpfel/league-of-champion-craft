@@ -60,8 +60,8 @@ void CMainMenuState::Enter(void)
 			IsModern = true;
 		Option = Option->NextSiblingElement("Option");
 	}
-	//CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume/100));
-	//CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume/100));
+	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume*0.01f));
+	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume*0.01f));
 	CGame::GetInstance()->SetIsWindowed(windowed);
 	StringTable::GetInstance()->SetLanguage(IsModern);
 	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
