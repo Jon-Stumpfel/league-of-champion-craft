@@ -27,9 +27,9 @@ void CMainMenuState::Enter(void)
 {
 	selected = 0;
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
-	swordid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\main_menu_bg.png"),D3DXCOLOR(0,0,0,255));
-	blueguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_blue.png"),D3DXCOLOR(0,0,0,255));
-	redguyid = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\warrior_red.png"),D3DXCOLOR(0,0,0,255));
+	swordid = CGraphicsManager::GetInstance()->GetID(_T("mainmenubg"));
+	blueguyid = CGraphicsManager::GetInstance()->GetID(_T("warriorblue"));
+	redguyid = CGraphicsManager::GetInstance()->GetID(_T("warriorred"));
 	//m_pBitmapFont = new CBitmapFont();
 	CInputManager::GetInstance()->SetInMenu(true);
 	CStateStack::GetInstance()->SetRenderTopOnly(true);

@@ -8,6 +8,7 @@
 #include "GameplayState.h"
 #include "SaveSlotState.h"
 #include "StringTable.h"
+#include "SoundManager.h"
 CSaveSlotState::CSaveSlotState(void)
 {
 }
@@ -157,6 +158,7 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 							break;
 						case 0: // Save!
 							{
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("savegame")), false, false);
 								CGameManager::GetInstance()->SaveGame(m_nHighlightedSlot);
 								m_nConfirmChoice = 0;
 								m_bConfirm = false;
@@ -165,6 +167,7 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 							break;
 						case 2: // Delete!
 							{
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("deletesave")), false, false);
 								std::ostringstream oss;
 								oss << "Assets\\Scripts\\saveslot" << m_nHighlightedSlot << ".xml";
 								std::remove(oss.str().c_str());
@@ -211,7 +214,38 @@ void CSaveSlotState::Update(float fElapsedTime)
 }
 void CSaveSlotState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
+	CSGD_Direct3D::GetInstance()->Clear(50, 50, 50);
+
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("warriorblue")),0,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("warriorred")),290,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("mainmenubg")),15,-5,0.7f,0.7f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+
+
+
+	D3DCOLOR white = D3DCOLOR_XRGB(255, 255, 255);
+	D3DCOLOR shaded = D3DCOLOR_XRGB(120, 120, 120);
+	if (m_nHighlightedSlot == 1)
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 0, 0, 0.55f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, white);
+
+	else
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 0, 0, 0.55f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, shaded);
+
+	if (m_nHighlightedSlot == 2)
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 260, 0, 0.55f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, white);
+
+	else
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 260, 0, 0.55f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, shaded);
+	if (m_nHighlightedSlot == 3)
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 520, 0, 0.55f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, white);
+
+	else
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 520, 0, 0.55f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, shaded);
 
 	CBitmapFont m_pBitmapFont;
 
@@ -221,29 +255,29 @@ void CSaveSlotState::Render(void)
 	if (m_bShowMenu)
 	{
 		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Load from slot").c_str(), 370, 500, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			("Load from slot").c_str(), 330, 520, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255);
 		if (m_bFromMainMenu)
 		{
 			color = D3DCOLOR_XRGB(120, 120, 120);
 		}
 		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Save to slot").c_str(), 370, 480, 0.4f, color);
+			("Save to slot").c_str(), 330, 500, 0.4f, color);
 		m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Delete slot").c_str(), 370, 520, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			("Delete slot").c_str(), 330, 540, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 		if (m_bConfirm)
 		{
 			m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Are you sure?").c_str(), 290, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			("Are you sure?").c_str(), 250, 570, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 			m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("No").c_str(), 515, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			("No").c_str(), 475, 570, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 			m_pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Yes").c_str(), 590, 550, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
-			CGraphicsManager::GetInstance()->DrawArrow(495 + (m_nConfirmChoice * 75), 560, 255, 255, 255);
+			("Yes").c_str(), 550, 570, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+			CGraphicsManager::GetInstance()->DrawArrow(455 + (m_nConfirmChoice * 75), 580, 255, 255, 255);
 		}
 		else
 		{
-			CGraphicsManager::GetInstance()->DrawArrow(350, 490 + (m_nMenuChoice * 20), 255, 255, 255);
+			CGraphicsManager::GetInstance()->DrawArrow(310, 510 + (m_nMenuChoice * 20), 255, 255, 255);
 		}
 	}
 
@@ -282,7 +316,15 @@ void CSaveSlotState::ReadSlot(int nSlot)
 
 	SlotDataStruct s;
 
-	int xOffset = (nSlot - 1) * 240;
+	D3DCOLOR drawColor = D3DCOLOR_XRGB(255, 255, 255);
+	if (m_nHighlightedSlot != nSlot)
+	{
+		drawColor = D3DCOLOR_XRGB(120, 120, 120);
+
+	}
+
+
+	int xOffset = (nSlot - 1) * 260;
 	xOffset -= 40;
 	if (doc.LoadFile(oss.str().c_str()))
 	{
@@ -331,22 +373,22 @@ void CSaveSlotState::ReadSlot(int nSlot)
 		std::ostringstream woss;
 		woss << StringTable::GetInstance()->GetString("Slot ") << nSlot;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 150 + xOffset , 80);
-		m_pBitmapFont.Print(woss.str().c_str(), 150 + xOffset, 80, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 140 + xOffset, 80, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("Map ID: ")<< s.nMapID;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 100);
-		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 100, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 70 + xOffset, 100, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("Current Player: ") << s.nCurrPlayer + 1;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 120);
-		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 120, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 70 + xOffset, 120, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("Current Turn: ") << (s.nPhaseCount / 4) + 1;
 	//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 140);
-		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 140, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 70 + xOffset, 140, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("Current Phase: ");
@@ -355,38 +397,38 @@ void CSaveSlotState::ReadSlot(int nSlot)
 		else
 			woss << StringTable::GetInstance()->GetString("Attack");
 	//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 160);
-		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 160, 0.3f, D3DCOLOR_XRGB(255, 255, 255),150);
+		m_pBitmapFont.Print(woss.str().c_str(), 70 + xOffset, 160, 0.3f, drawColor,150);
 
 		woss.str((""));
 
 		woss << StringTable::GetInstance()->GetString("Player ") << "1 ";
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 100 + xOffset, 190);
-		m_pBitmapFont.Print(woss.str().c_str(), 100 + xOffset, 190, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 70 + xOffset, 210, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  Wood ") << s.p1.nWood;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 210);
-		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 210, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 90 + xOffset, 230, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  Metal ") << s.p1.nMetal;
 	//	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 230);
-		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 230, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 90 + xOffset, 250, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  AP ") << s.p1.nAP;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 250); // last one
-		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 250, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 90 + xOffset, 270, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  Units ") << s.p1.nNumUnits;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 270);
-		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 270, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 90 + xOffset, 290, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  XP ") << s.p1.nXP;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 120 + xOffset, 290);
-		m_pBitmapFont.Print(woss.str().c_str(), 120 + xOffset, 290, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 90 + xOffset, 310, 0.3f, drawColor);
 
 		woss.str((""));
 
@@ -394,32 +436,32 @@ void CSaveSlotState::ReadSlot(int nSlot)
 
 		woss << StringTable::GetInstance()->GetString("Player ") <<"2 ";
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 210 + xOffset, 330); // + 40 from last
-		m_pBitmapFont.Print(woss.str().c_str(), 210 + xOffset, 330, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 200 + xOffset, 350, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  Wood ") << s.p2.nWood;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 350);
-		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 350, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 160 + xOffset, 370, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  Metal ") << s.p2.nMetal;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 370);
-		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 370, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 160 + xOffset, 390, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  AP ") << s.p2.nAP;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 390);
-		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 390, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 160 + xOffset, 410, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  Units ") << s.p2.nNumUnits;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 410);
-		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 410, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 160 + xOffset, 430, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("  XP ") << s.p2.nXP;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 170 + xOffset, 430);
-		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 430, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 160 + xOffset, 450, 0.3f, drawColor);
 
 		woss.str((""));
 
@@ -429,7 +471,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 	{
 		std::ostringstream woss;
 		woss << StringTable::GetInstance()->GetString("NO SAVE");
-		m_pBitmapFont.Print(woss.str().c_str(), 170 + xOffset, 330, 0.3f, D3DCOLOR_XRGB(255, 255, 255));
+		m_pBitmapFont.Print(woss.str().c_str(), 140 + xOffset, 330, 0.3f, drawColor);
 
 	}
 
@@ -445,7 +487,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 			b = 255;
 		}
 	}
-	RECT outlineRect = { 90  + xOffset, 70, 230, 390 };
-	CGraphicsManager::GetInstance()->DrawWireframeRect(outlineRect, r, g, b, false);
+	//RECT outlineRect = { 90  + xOffset, 70, 230, 390 };
+//	CGraphicsManager::GetInstance()->DrawWireframeRect(outlineRect, r, g, b, false);
 
 }
