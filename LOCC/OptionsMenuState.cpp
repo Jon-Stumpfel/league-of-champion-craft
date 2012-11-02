@@ -39,6 +39,8 @@ void COptionsMenuState::Enter(void)
 			IsModern = true;
 		Option = Option->NextSiblingElement("Option");
 	}
+	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume*0.01f));
+	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume*0.01f));
 }
 void COptionsMenuState::Exit(void)
 {
