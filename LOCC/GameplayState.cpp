@@ -724,6 +724,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ARCHER, 0, false, 12);
 
 								CMessageSystem::GetInstance()->SendMessageW(msg);
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("teleport")), false, false);
 							}
 							break;
 
@@ -741,6 +742,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 								else
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_SWORDSMAN, 0, false, 20);
 								CMessageSystem::GetInstance()->SendMessageW(msg);
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("teleport")), false, false);
 							}
 							break;
 
@@ -760,6 +762,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 								else
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 0, false, 22);
 								CMessageSystem::GetInstance()->SendMessageW(msg);
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("teleport")), false, false);
 							}
 							break;
 
@@ -770,6 +773,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 								else
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_ICEBLOCK, 0, false, 22);
 								CMessageSystem::GetInstance()->SendMessageW(msg);
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("ice")), false, false);
 							}
 							break;
 						}
@@ -1181,7 +1185,7 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
 	}
 	// After we hit enter we want to cancel and clear, either we're moving or we're not.
-	m_pSelectedUnit->SetIsMoving(true);
+	//m_pSelectedUnit->SetIsMoving(true);
 
 	if( m_pSelectedUnit->GetType() == UT_CAVALRY )
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Gallop")), true, false);

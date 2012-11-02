@@ -473,27 +473,19 @@ void CUnit::Update(float fElapsedTime)
 						CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetPlayerID( GetPlayerID());
 					}
 				}
-			}
-		}
-	}
-		
-	if( m_bIsMoving == true )
-	{
-		if( m_vWaypoints.size() == 0 )
-			m_bIsMoving = false;
-	}
 
-	if( m_bIsMoving == false )
-	{
-		if( m_eType == UT_CAVALRY )
-		{
-			if( CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying( CSoundManager::GetInstance()->GetID(_T("Gallop")) ) )
-				CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Gallop")) );
-		}
-		else
-		{
-			if( CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying( CSoundManager::GetInstance()->GetID(_T("Footstep")) ) )
-				CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Footstep")) );
+				if( m_eType == UT_CAVALRY )
+				{
+					if( CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying( CSoundManager::GetInstance()->GetID(_T("Gallop")) ) )
+						CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Gallop")) );
+				}
+				else
+				{
+					if( CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying( CSoundManager::GetInstance()->GetID(_T("Footstep")) ) )
+						CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Footstep")) );
+				}
+
+			}
 		}
 	}
 
