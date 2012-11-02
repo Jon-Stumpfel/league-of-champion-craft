@@ -91,6 +91,7 @@
     <ClCompile Include="AttackPhaseTransState.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CoinToss.cpp" />
+    <ClCompile Include="ControllerUnpluggedState.cpp" />
     <ClCompile Include="FloatingText.cpp" />
     <ClCompile Include="GameModeState.cpp" />
     <ClCompile Include="HUD.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="AttackPhaseTransState.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CoinToss.h" />
+    <ClInclude Include="ControllerUnpluggedState.h" />
     <ClInclude Include="FloatingText.h" />
     <ClInclude Include="GameModeState.h" />
     <ClInclude Include="HUD.h" />
