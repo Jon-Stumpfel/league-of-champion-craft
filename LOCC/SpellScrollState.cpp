@@ -9,6 +9,8 @@
 #include "Hero.h"
 #include "GameManager.h"
 #include "Player.h"
+#include "SoundManager.h"
+#include "FloatingText.h"
 //CSpellScrollState* CSpellScrollState::s_Instance = nullptr;
 
 CSpellScrollState::CSpellScrollState(void)
@@ -44,6 +46,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 	{
 	case INPUT_UP:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if( m_bTreeSelect )
 			{
 				if( m_nSelected == 0 )
@@ -73,6 +76,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 
 	case INPUT_DOWN:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if( m_bTreeSelect )
 			{
 				if( m_nSelected == 2 )
@@ -102,6 +106,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 
 	case INPUT_RIGHT:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if( m_nSelectedAbility < 6 )
 				m_nSelectedAbility = 6;
 			else
@@ -111,6 +116,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 
 	case INPUT_LEFT:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if( m_nSelectedAbility < 6 )
 				m_nSelectedAbility = 6;
 			else
@@ -122,6 +128,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 		{
 			if( m_bTreeSelect )
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("flip")), false, false);
 				flipping = true;
 				page = 1;
 			}
@@ -142,42 +149,45 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 					{
 						if( m_nExp < 100 )
 						{
-							//PUT_SOUND_HERE("EHHHHHH")
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
 						}
 
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 100);
-					
+						CFloatingText::GetInstance()->AddScreenText("-100", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
 					}
 					else if( m_nSelectedAbility < 6 )
 					{
 						if( m_nExp < 200 )
 						{
-							//PUT_SOUND_HERE("EHHHHHHH")
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
 						}
 
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 200);
+						CFloatingText::GetInstance()->AddScreenText("-200", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
 					}
 					else if( m_nSelectedAbility < 9 )
 					{
 						if( m_nExp < 300 )
 						{
-							//PUT_SOUND_HERE("EHHHHHHH")
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
 						}
 
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 300);
+						CFloatingText::GetInstance()->AddScreenText("-300", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
 					}
 					else
 					{
 						if( m_nExp < 400 )
 						{
-							//PUT_SOUND_HERE("EHHHHHHH")
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
 						}
 
 						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 400);
+						CFloatingText::GetInstance()->AddScreenText("-400", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
 					}
 				}
 				else
@@ -186,7 +196,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 					{
 						if( m_pCustomer->SearchSpells(m_vElemental[m_nSelectedAbility]) )
 						{
-							//PUT_SOUND_HERE("EHHHHHHH")
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
 						}
 					}
@@ -194,7 +204,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 					{
 						if( m_pCustomer->SearchSpells(m_vPhysical[m_nSelectedAbility]) )
 						{
-							//PUT_SOUND_HERE("EHHHHHHH")
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
 						}
 					}
@@ -202,12 +212,14 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 					{
 						if( m_pCustomer->SearchSpells(m_vSupport[m_nSelectedAbility]) )
 						{
-							//PUT_SOUND_HERE("EHHHHHHH")
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
 						}
 					}
 				}
 
+				
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				if( m_nSelected == 0 )
 				{
 					m_pCustomer->SwapSpell(m_vElemental[m_nSelectedAbility], m_nSwap);
@@ -236,6 +248,7 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 		{
 			if( m_bTreeSelect == false )
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("flip")), false, false);
 				unflipping = true;
 				page = 7;
 				m_nSelectedAbility = 0;
@@ -362,15 +375,15 @@ void CSpellScrollState::Render(void)
 			tt << selected->GetDescription();
 			pBF->Print(tt.str().c_str(), 427 - 50, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
 
-			int x = 680, y = 520;
+			int x = 680, y = 525;
 			std::vector< Vec2D > pat = selected->GetPattern();
 			std::vector< Vec2D > drawn;
 
 			for( unsigned int i = 0; i < pat.size(); i++ )
 			{
 				Vec2D tmp;
-				tmp.nPosX = x + pat[i].nPosX * 15;
-				tmp.nPosY = y + pat[i].nPosY * 15;
+				tmp.nPosX = x + pat[i].nPosX * 14;
+				tmp.nPosY = y + pat[i].nPosY * 14;
 
 				drawn.push_back(tmp);
 			}
@@ -379,7 +392,7 @@ void CSpellScrollState::Render(void)
 
 			for( unsigned int i = 0; i < drawn.size(); i++ )
 			{
-				RECT source = { drawn[i].nPosX, drawn[i].nPosY, drawn[i].nPosX + 15, drawn[i].nPosY + 15 };
+				RECT source = { drawn[i].nPosX, drawn[i].nPosY, drawn[i].nPosX + 14, drawn[i].nPosY + 14 };
 				pD3D->DrawRect(source, 0, 255, 0 );
 				CGraphicsManager::GetInstance()->DrawWireframeRect(source, 0, 0, 0, true);
 			}

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="0" APCost="4" Cooldown="0" Target="0" SpellName="Pathfinding" Attack="0" Facing="0" Phase="1" LuaPath="pathfinder.lua" ParticlePath="pathfinding.xml" IconPath="pathfinding.png" SoundPath="thunder2.wav">
+<Ability Range="0" APCost="4" Cooldown="0" Target="0" SpellName="Pathfinding" Attack="0" Facing="0" Phase="1" LuaPath="pathfinder.lua" ParticlePath="pathfinding.xml" IconPath="pathfinding.png" SoundPath="Shield.wav">
   <Tile PosX="-1" PosY="0" />
   <Tile PosX="0" PosY="1" />
   <Tile PosX="0" PosY="0" />

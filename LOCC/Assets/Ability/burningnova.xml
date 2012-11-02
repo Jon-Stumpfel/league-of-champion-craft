@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="3" APCost="15" Cooldown="4" Target="0" SpellName="Burning Nova" Attack="1" Facing="0" Phase="0" LuaPath="burningnova.lua" ParticlePath="fire.xml" IconPath="flamingnova.png" SoundPath="thunder2.wav">
+<Ability Range="3" APCost="15" Cooldown="4" Target="0" SpellName="Burning Nova" Attack="1" Facing="0" Phase="0" LuaPath="burningnova.lua" ParticlePath="fire.xml" IconPath="flamingnova.png" SoundPath="fire.wav">
   <Tile PosX="-3" PosY="0" />
   <Tile PosX="-2" PosY="1" />
   <Tile PosX="-2" PosY="0" />

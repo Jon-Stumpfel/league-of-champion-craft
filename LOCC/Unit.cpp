@@ -14,6 +14,7 @@
 #include "ParticleManager.h"
 #include "SoundManager.h"
 #include "AIManager.h"
+#include "SGD Wrappers\CSGD_XAudio2.h"
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_bPlayAttackAnim = false;
@@ -142,6 +143,7 @@ static bool CloseEnough(int n1, int n2)
 }
 void CUnit::Update(float fElapsedTime)
 {
+
 	// reset basic stuff
 	m_bFreeMove = false;
 	m_bShielded = false;
@@ -474,6 +476,27 @@ void CUnit::Update(float fElapsedTime)
 			}
 		}
 	}
+		
+	if( m_bIsMoving == true )
+	{
+		if( m_vWaypoints.size() == 0 )
+			m_bIsMoving = false;
+	}
+
+	if( m_bIsMoving == false )
+	{
+		if( m_eType == UT_CAVALRY )
+		{
+			if( CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying( CSoundManager::GetInstance()->GetID(_T("Gallop")) ) )
+				CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Gallop")) );
+		}
+		else
+		{
+			if( CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying( CSoundManager::GetInstance()->GetID(_T("Footstep")) ) )
+				CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Footstep")) );
+		}
+	}
+
 }
 
 void CUnit::Render(void)

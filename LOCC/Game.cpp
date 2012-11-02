@@ -97,6 +97,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/check.png"), _T("check"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spelldesc.png"), _T("spelldesc"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/scrollvert.png"), _T("scrollvert"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/singleplayer.png"), _T("singleplayer"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/multiplayer.png"), _T("multiplayer"), 0UL);
 	
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page1.png"), _T("Page1"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page2.png"), _T("Page2"), 0UL);
@@ -120,11 +122,16 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Red).png",L"ArcherR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Blue).png",L"ArcherB",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\RedBlueCoin.png",L"Coin",D3DCOLOR_ARGB(255,255,255,255));
+
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/BowandArrow.wav"), _T("ArcherBasicAttack"),false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/TempDeath.wav"),_T("ITSDEAD"),false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/errorclip.wav"),_T("NO"),false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Sword.wav"), _T("Sword"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/flippingpages.wav"), _T("flip"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/click.wav"), _T("click"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Footsteps.wav"), _T("Footstep"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Gallop.wav"), _T("Gallop"), false);
 
 	CAbilityManager::GetInstance()->LoadAbilities();
 	CSpellScrollState::GetInstance()->Initialize();

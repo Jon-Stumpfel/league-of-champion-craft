@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="1" APCost="3" Cooldown="3" Target="0" SpellName="Sword Dance" Attack="1" Facing="0" Phase="0" LuaPath="SwordDance.lua" ParticlePath="blood.xml" IconPath="SwordDance.png" SoundPath="thunder2.wav">
+<Ability Range="1" APCost="3" Cooldown="3" Target="0" SpellName="Sword Dance" Attack="1" Facing="0" Phase="0" LuaPath="SwordDance.lua" ParticlePath="blood.xml" IconPath="SwordDance.png" SoundPath="swordspin.wav">
   <Tile PosX="-1" PosY="0" />
   <Tile PosX="0" PosY="1" />
   <Tile PosX="0" PosY="-1" />

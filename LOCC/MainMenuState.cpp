@@ -11,6 +11,7 @@
 #include "SocketServer.h"
 #include "StringTable.h"
 #include "SoundManager.h"
+#include "GameModeState.h"
 //CMainMenuState* CMainMenuState::s_Instance = nullptr;
 
 CMainMenuState::CMainMenuState(void)
@@ -91,7 +92,7 @@ void CMainMenuState::Input(INPUT_ENUM input)
 		{
 			if(selected == 0)
 			{
-				CStateStack::GetInstance()->Push(LevelSelectState::GetInstance());
+				CStateStack::GetInstance()->Push(CGameModeState::GetInstance());
 			}
 			else if(selected == 1)
 			{

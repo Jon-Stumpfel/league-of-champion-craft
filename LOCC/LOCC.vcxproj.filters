@@ -222,6 +222,9 @@
     <ClCompile Include="StringTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameModeState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="StringTable.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModeState.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

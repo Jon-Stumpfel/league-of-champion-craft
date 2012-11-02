@@ -1181,6 +1181,12 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
 	}
 	// After we hit enter we want to cancel and clear, either we're moving or we're not.
+	m_pSelectedUnit->SetIsMoving(true);
+
+	if( m_pSelectedUnit->GetType() == UT_CAVALRY )
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Gallop")), true, false);
+	else
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Footstep")), true, false);
 
 	m_bIsMoving = false;
 	m_pSelectedUnit = nullptr;
