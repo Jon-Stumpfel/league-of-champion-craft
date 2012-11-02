@@ -49,7 +49,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CScriptManager::GetInstance()->Initialize();
 	CMessageSystem::GetInstance()->InitMessageSystem(&CGameManager::MessageProc);
 	CGraphicsManager::GetInstance()->Initialize(hWnd, hInstance, nScreenWidth, nScreenHeight, bIsWindowed);
-	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
 	CAIManager::GetInstance()->Initialize();
 	CFloatingText::GetInstance()->Initialize();
 	CHUD::GetInstance()->Initialize();
@@ -132,6 +131,13 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/click.wav"), _T("click"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Footsteps.wav"), _T("Footstep"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Gallop.wav"), _T("Gallop"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/savegame.wav"), _T("savegame"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/deletesave.wav"), _T("deletesave"), false);
+
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\main_menu_bg.png"), _T("mainmenubg"),D3DXCOLOR(0,0,0,255));
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_blue.png"), _T("warriorblue"),D3DXCOLOR(0,0,0,255));
+	 CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_red.png"), _T("warriorred"),D3DXCOLOR(0,0,0,255));
+
 
 	CAbilityManager::GetInstance()->LoadAbilities();
 	CSpellScrollState::GetInstance()->Initialize();
@@ -149,7 +155,11 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 		else
 			m_bIsWindowed	= true;
 		Option = Option->NextSiblingElement("Option");
-}
+
+	}
+
+	CStateStack::GetInstance()->Push(CMainMenuState::GetInstance());
+
 }
 
 bool CGame::Main(void)
