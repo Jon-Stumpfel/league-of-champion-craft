@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="3" APCost="6" Cooldown="2" Target="1" SpellName="Lightning Strike" Attack="1" Facing="0" Phase="0" LuaPath="lightningstrike.lua" ParticlePath="lightningbolt.xml" IconPath="lightningstrike.png" SoundPath="thunder2.wav">
+<Ability Range="3" APCost="6" Cooldown="2" Target="1" SpellName="Lightning Strike" Attack="1" Facing="0" Phase="0" LuaPath="lightningstrike.lua" ParticlePath="lightningbolt.xml" IconPath="lightningstrike.png" SoundPath="thunder.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>

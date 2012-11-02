@@ -35,40 +35,42 @@ RECT LevelSelectState::CellAlgorithm( int id )
 
 void LevelSelectState::Enter(void)
 {
-	CStateStack::GetInstance()->SetRenderTopOnly(true);
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	m_2Dselected.nPosX = 0;
 	m_2Dselected.nPosY = 0;
 
 	CTileManager* pTM=CTileManager::GetInstance();
 
-
-	m_nScrollID = CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets\\Menus\\Scroll.png"), D3DXCOLOR(255,255,255,255));
+	if( m_nType == 1 )
+	{
+		//COMMENT THESE IN IF YOU WANT SINGLE PLAYER MAP(AI ON)
+		string filename1= "Assets/Tiles/Level1.xml";
+		m_vMap1= pTM->JonsLoad(filename1);
 	
-	//COMMENT THESE IN IF YOU WANT SINGLE PLAYER MAP(AI ON)
-	string filename1= "Assets/Tiles/Level1.xml";
-	m_vMap1= pTM->JonsLoad(filename1);
+		string filename2= "Assets/Tiles/Level2.xml";
+		m_vMap2=pTM->JonsLoad(filename2);
 	
-	string filename2= "Assets/Tiles/Level2.xml";
-	m_vMap2=pTM->JonsLoad(filename2);
+		string filename3= "Assets/Tiles/Level3.xml";
+		m_vMap3= pTM->JonsLoad(filename3);
+
+		string filename4= "Assets/Tiles/Level4.xml";
+		m_vMap4= pTM->JonsLoad(filename4);
+	}
+	else
+	{
+		//COMMENT THESE IN IF YOU WANT MULTIYPLAYER MAP
+		string filename1= "Assets/Tiles/Level5.xml";
+		m_vMap1= pTM->JonsLoad(filename1);
 	
-	string filename3= "Assets/Tiles/Level3.xml";
-	m_vMap3= pTM->JonsLoad(filename3);
+		string filename2= "Assets/Tiles/Level6.xml";
+		m_vMap2=pTM->JonsLoad(filename2);
+	
+		string filename3= "Assets/Tiles/Level7.xml";
+		m_vMap3= pTM->JonsLoad(filename3);
 
-	string filename4= "Assets/Tiles/Level4.xml";
-	m_vMap4= pTM->JonsLoad(filename4);
-
-	//COMMENT THESE IN IF YOU WANT MULTIYPLAYER MAP(AI ON)
-	//string filename1= "Assets/Tiles/Level5.xml";
-	//m_vMap1= pTM->JonsLoad(filename1);
-	//
-	//string filename2= "Assets/Tiles/Level6.xml";
-	//m_vMap2=pTM->JonsLoad(filename2);
-	//
-	//string filename3= "Assets/Tiles/Level7.xml";
-	//m_vMap3= pTM->JonsLoad(filename3);
-
-	//string filename4= "Assets/Tiles/Level8.xml";
-	//m_vMap4= pTM->JonsLoad(filename4);
+		string filename4= "Assets/Tiles/Level8.xml";
+		m_vMap4= pTM->JonsLoad(filename4);
+	}
 
 	/////*REGUARDLESS OF WHICH GO DOWN TO INPUT*/////
 }
@@ -106,9 +108,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					bNetworkedGame = true;
 				}
 //STOP//		//SAME DEAL
-				//if (yourVariblefortheplayermode ==true)
-				//CGameManager::GetInstance()->NewGame("level5", 5);		//MULTIPLAYER
-				CGameManager::GetInstance()->NewGame("level1", 1);	//SINGLE PLAYER
+				if (m_nType == 0)
+					CGameManager::GetInstance()->NewGame("level5", 5);		//MULTIPLAYER
+				else
+					CGameManager::GetInstance()->NewGame("level1", 1);	//SINGLE PLAYER
 				
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -128,9 +131,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					bNetworkedGame = true;
 				}
 //STOP//		//SAME DEAL
-				//if (yourVariblefortheplayermode ==true)
-				//CGameManager::GetInstance()->NewGame("level6", 6);		//MULTIPLAYER
-				CGameManager::GetInstance()->NewGame("level2", 2);	//SINGLE PLAYER
+				if (m_nType == 0)
+					CGameManager::GetInstance()->NewGame("level6", 6);		//MULTIPLAYER
+				else
+					CGameManager::GetInstance()->NewGame("level2", 2);	//SINGLE PLAYER
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -150,10 +154,11 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					bNetworkedGame = true;
 				}
 //STOP//		//SAME DEAL
-				//if (yourVariblefortheplayermode ==true)
-				//CGameManager::GetInstance()->NewGame("level7", 7);		//MULTIPLAYER
-				CGameManager::GetInstance()->NewGame("level3", 3);	//SINGLE PLAYER
-				
+				if (m_nType == 0)
+					CGameManager::GetInstance()->NewGame("level7", 7);		//MULTIPLAYER
+				else
+					CGameManager::GetInstance()->NewGame("level3", 3);	//SINGLE PLAYER
+					
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -174,9 +179,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				}
 
 //STOP//		//SAME DEAL
-				//if (yourVariblefortheplayermode ==true)
-				//CGameManager::GetInstance()->NewGame("level8", 8);		//MULTIPLAYER
-				CGameManager::GetInstance()->NewGame("level4", 4);	//SINGLE PLAYER
+				if (m_nType == 0)
+					CGameManager::GetInstance()->NewGame("level8", 8);		//MULTIPLAYER
+				else
+					CGameManager::GetInstance()->NewGame("level4", 4);	//SINGLE PLAYER
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
@@ -258,72 +264,49 @@ void LevelSelectState::Update(float fElapsedTime)
 
 void LevelSelectState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(50, 50, 50);
+
 	//CSGD_TextureManager::GetInstance()->Draw(blueguyid,0,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	//CSGD_TextureManager::GetInstance()->Draw(redguyid,290,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+	
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 80, -10, 1.3f, 1.2f);
 
-	// Draw The Scroll pieces
-
-	RECT Scrollrect;
-	//Draw the middle first , so that you can put the top and bottm over it
-	Scrollrect.bottom = 392;
-	Scrollrect.top = 198;
-	Scrollrect.left = 15;
-	Scrollrect.right = 537;
-	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,25,80,1.44f,2.5f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
-	
-	//draw the top part
-	Scrollrect.bottom = 113;
-	Scrollrect.top = 0;
-	Scrollrect.left = 0;
-	Scrollrect.right = 555;
-	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,0,0,1.45f,.8f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
-	
-	//Draw the bottom
-	Scrollrect.bottom = 584;
-	Scrollrect.top = 472;
-	Scrollrect.left = 2;
-	Scrollrect.right = 557;
-	CSGD_TextureManager::GetInstance()->Draw(m_nScrollID,0,487,1.45f,.85f,&Scrollrect,0,0,0,D3DXCOLOR(255,255,255,255));
-	
 	//PUT THESE IN TO RENDER THE SINGLE PLAYER MAPS
-	//if (yourVariblefortheplayermode ==true)
-	//{
+	if (m_nType == 1)
+	{
 	
-	//STRINGHERE=("JON PUT A STRING HERE");
-	DrawMap(string("Trample Hill"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
+		//STRINGHERE=("JON PUT A STRING HERE");
+		DrawMap(string("Trample Hill"),ROW1 + 25,COL1,m_vMap1,m_sbSelected[0]);
 	
-	//STRINGHERE=("JON PUT A STRING HERE");
-	DrawMap(string("Forest Siege"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
+		//STRINGHERE=("JON PUT A STRING HERE");
+		DrawMap(string("Forest Siege"),ROW1 + 25,COL2,m_vMap2,m_sbSelected[1]);
 	
-	DrawMap(string("Siege on the Mountain"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
+		DrawMap(string("Siege on the Mountain"),ROW2 + 25,COL1,m_vMap3,m_sbSelected[2]);
 	
-	//STRINGHERE=("JON PUT A STRING HERE");
-	DrawMap(string("Close Quarters"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
+		//STRINGHERE=("JON PUT A STRING HERE");
+		DrawMap(string("Close Quarters"),ROW2 + 25,COL2,m_vMap4,m_sbSelected[3]);
+	}
+	else
+	{
+		//COMMENT THESE IN FOR MULTIPLAYERMAP
 
+		////STRINGHERE=("JON PUT A STRING HERE");
+		DrawMap(string("A Bridge runs Through It"),ROW1 + 25,COL1,m_vMap1,m_sbSelected[0]);
 	
-	//}
-	//else
-	//{
-	//COMMENT THESE IN FOR MULTIPLAYERMAP
-
-	////STRINGHERE=("JON PUT A STRING HERE");
-	//DrawMap(string("A Bridge runs Through It"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
-	//
-	////STRINGHERE=("JON PUT A STRING HERE");	
-	//DrawMap(string("Frozen Throne"),ROW2,COL2,m_vMap4,m_sbSelected[3]);
-	//
-	////STRINGHERE=("JON PUT A STRING HERE");
-	//DrawMap(string("Grave Circumstance"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
-	//
-	////STRINGHERE=("JON PUT A STRING HERE");
-	//DrawMap(string("Twin River"),ROW2,COL1,m_vMap3,m_sbSelected[2]);
-	
-	//}
+		////STRINGHERE=("JON PUT A STRING HERE");	
+		DrawMap(string("Frozen Throne"),ROW2 + 25,COL2,m_vMap4,m_sbSelected[3]);
+		//
+		////STRINGHERE=("JON PUT A STRING HERE");
+		DrawMap(string("Grave Circumstance"),ROW1 + 25,COL2,m_vMap2,m_sbSelected[1]);
+		//
+		////STRINGHERE=("JON PUT A STRING HERE");
+		DrawMap(string("Twin River"),ROW2 + 25,COL1,m_vMap3,m_sbSelected[2]);
+	}
 
 }
 void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, vector<vector<TILE_TYPE>> m_vMap_, bool selected)
 {
+	CBitmapFont pBitmapFont;
+
 	int nMiniMapOffsetX = rowoffset;
 	int nMiniMapOffsetY = coloffset;
 	
@@ -413,7 +396,7 @@ void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, 
 	}
 	ostringstream woss;
 	woss<<StringTable::GetInstance()->GetString(sLevelname);
-	tempfont.Print(woss.str().c_str(), nMiniMapOffsetX+2, nMiniMapOffsetY+10, 0.3f, D3DXCOLOR(255,255,255,255));
+	pBitmapFont.Print(woss.str().c_str(), nMiniMapOffsetX+2, nMiniMapOffsetY+10, 0.3f, D3DXCOLOR(255,255,255,255));
 	//CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 }
 

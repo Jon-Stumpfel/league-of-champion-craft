@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="0" APCost="8" Cooldown="2" Target="0" SpellName="Healing Burst" Attack="1" Facing="0" Phase="1" LuaPath="healburst.lua" ParticlePath="healcross.xml" IconPath="healnova.png" SoundPath="thunder2.wav">
+<Ability Range="0" APCost="8" Cooldown="2" Target="0" SpellName="Healing Burst" Attack="1" Facing="0" Phase="1" LuaPath="healburst.lua" ParticlePath="healcross.xml" IconPath="healnova.png" SoundPath="heal.wav">
   <Tile PosX="-1" PosY="1" />
   <Tile PosX="-1" PosY="0" />
   <Tile PosX="-1" PosY="-1" />

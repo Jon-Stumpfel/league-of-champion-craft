@@ -92,6 +92,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CoinToss.cpp" />
     <ClCompile Include="FloatingText.cpp" />
+    <ClCompile Include="GameModeState.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="IMessage.cpp" />
     <ClCompile Include="Castle.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CoinToss.h" />
     <ClInclude Include="FloatingText.h" />
+    <ClInclude Include="GameModeState.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="BitmapFont.h" />

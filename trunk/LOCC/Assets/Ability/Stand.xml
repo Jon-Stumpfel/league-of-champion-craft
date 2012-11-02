@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="0" APCost="2" Cooldown="0" Target="0" SpellName="Stand Ground" Attack="0" Facing="0" Phase="0" LuaPath="Stand.lua" ParticlePath="Stand.xml" IconPath="Stand.png" SoundPath="zombiehurt2.ogg.wav">
+<Ability Range="0" APCost="2" Cooldown="0" Target="0" SpellName="Stand Ground" Attack="0" Facing="0" Phase="0" LuaPath="Stand.lua" ParticlePath="Stand.xml" IconPath="Stand.png" SoundPath="shield.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>

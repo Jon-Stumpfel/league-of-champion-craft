@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Ability Range="1" APCost="10" Cooldown="4" Target="1" SpellName="Assassinate" Attack="1" Facing="0" Phase="0" LuaPath="Assassinate.lua" ParticlePath="blood.xml" IconPath="Kill.png" SoundPath="thunder2.wav">
+<Ability Range="1" APCost="10" Cooldown="4" Target="1" SpellName="Assassinate" Attack="1" Facing="0" Phase="0" LuaPath="Assassinate.lua" ParticlePath="blood.xml" IconPath="Kill.png" SoundPath="swordspin.wav">
   <Tile PosX="0" PosY="0" />
 </Ability>
