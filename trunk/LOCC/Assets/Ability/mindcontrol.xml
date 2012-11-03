@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="2" APCost="8" Cooldown="6" Target="1" SpellName="Mind Control" Attack="0" Facing="0" Phase="1" LuaPath="mindcontrol.lua" ParticlePath="mindcontrol.xml" IconPath="mindcontrol.png" SoundPath="mindcontrol.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>
