@@ -901,6 +901,18 @@ int CUnit::Rally(lua_State* L)
 	return 0;
 }
 
+int CUnit::Teleport( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	Vec2D tele = CGameplayState::GetInstance()->GetSelectionPos();
+	CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetIfOccupied(false);
+	pUnit->SetPos(tele);
+	CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetIfOccupied(true);
+	CParticleManager::GetInstance()->LoadParticles(PT_RAISEDEAD, TranslateToPixel(pUnit->GetPos()));
+	return 0;
+}
+
 int CUnit::MindControl( lua_State* L )
 {
 	int nUniqueID = (int)lua_tonumber(L, 1);
