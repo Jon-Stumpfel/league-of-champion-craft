@@ -294,6 +294,8 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "Teleport", CUnit::Teleport);
 	lua_register(L, "Sacrifice", CUnit::Sacrifice);
 	lua_register(L, "GetAbilityPattern", CAbility::GetAbilityPattern);
+	lua_register(L, "Vamp", CUnit::Vamp);
+
 	// new AI functions
 	lua_register(L, "IssueOrder", CAIManager::IssueOrder);
 	lua_register(L, "FindNearest", CAIManager::FindNearest);

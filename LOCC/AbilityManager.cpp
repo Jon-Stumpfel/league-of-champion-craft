@@ -322,6 +322,13 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_VAMP:
+				{
+					if( doc.LoadFile( "Assets/Ability/vampirism.xml" ) == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -979,6 +986,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_MASSRAISE;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_VAMP:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_VAMP);
+					ab->SetParticleType(PT_MIND);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion turns his allies into vampires for a turn letting them leach half thier basic attack damage back in health."));
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_VAMP;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

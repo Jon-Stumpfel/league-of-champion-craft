@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="0" APCost="7" Cooldown="5" Target="0" SpellName="Vampirism" Attack="0" Facing="0" Phase="1" LuaPath="vampirism.lua" ParticlePath="mindcontrol.xml" IconPath="vamp.png" SoundPath="mindcontrol.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>

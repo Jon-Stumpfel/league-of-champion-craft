@@ -50,23 +50,33 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 			if( m_bTreeSelect )
 			{
 				if( m_nSelected == 0 )
-					m_nSelected = 2;
+					m_nSelected = 3;
 				else
 					m_nSelected--;
 			}
 			else
 			{
-				if( m_nSelectedAbility < 6 )
+				if( m_nSelected != 3 )
 				{
-					if( m_nSelectedAbility == 0 )
-						m_nSelectedAbility = 5;
+					if( m_nSelectedAbility < 6 )
+					{
+						if( m_nSelectedAbility == 0 )
+							m_nSelectedAbility = 5;
+						else
+							m_nSelectedAbility--;
+					}
 					else
-						m_nSelectedAbility--;
+					{
+						if( m_nSelectedAbility == 6 )
+							m_nSelectedAbility = 10;
+						else
+							m_nSelectedAbility--;
+					}
 				}
 				else
 				{
-					if( m_nSelectedAbility == 6 )
-						m_nSelectedAbility = 9;
+					if( m_nSelectedAbility == 0 )
+						m_nSelectedAbility = 4;
 					else
 						m_nSelectedAbility--;
 				}
@@ -79,24 +89,34 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if( m_bTreeSelect )
 			{
-				if( m_nSelected == 2 )
+				if( m_nSelected == 3 )
 					m_nSelected = 0;
 				else
 					m_nSelected++;
 			}
 			else
 			{
-				if( m_nSelectedAbility < 6 )
+				if( m_nSelected != 3 )
 				{
-					if( m_nSelectedAbility == 5 )
-						m_nSelectedAbility = 0;
+					if( m_nSelectedAbility < 6 )
+					{
+						if( m_nSelectedAbility == 5 )
+							m_nSelectedAbility = 0;
+						else
+							m_nSelectedAbility++;
+					}
 					else
-						m_nSelectedAbility++;
+					{
+						if( m_nSelectedAbility == 10 )
+							m_nSelectedAbility = 6;
+						else
+							m_nSelectedAbility++;
+					}
 				}
 				else
 				{
-					if( m_nSelectedAbility == 9 )
-						m_nSelectedAbility = 6;
+					if( m_nSelectedAbility == 4 )
+						m_nSelectedAbility = 0;
 					else
 						m_nSelectedAbility++;
 				}
@@ -107,20 +127,26 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 	case INPUT_RIGHT:
 		{
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
-			if( m_nSelectedAbility < 6 )
-				m_nSelectedAbility = 6;
-			else
-				m_nSelectedAbility = 0;
+			if( m_nSelected != 3 )
+			{
+				if( m_nSelectedAbility < 6 )
+					m_nSelectedAbility = 6;
+				else
+					m_nSelectedAbility = 0;
+			}
 		}
 		break;
 
 	case INPUT_LEFT:
 		{
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
-			if( m_nSelectedAbility < 6 )
-				m_nSelectedAbility = 6;
-			else
-				m_nSelectedAbility = 0;
+			if( m_nSelected != 3 )
+			{
+				if( m_nSelectedAbility < 6 )
+					m_nSelectedAbility = 6;
+				else
+					m_nSelectedAbility = 0;
+			}
 		}
 		break;
 
@@ -140,32 +166,62 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 					bought = m_pCustomer->IfBought(m_vElemental[m_nSelectedAbility]);
 				else if( m_nSelected == 1 )
 					bought = m_pCustomer->IfBought(m_vPhysical[m_nSelectedAbility]);
-				else
+				else if( m_nSelected == 2 )
 					bought = m_pCustomer->IfBought(m_vSupport[m_nSelectedAbility]);
+				else
+					bought = m_pCustomer->IfBought(m_vEpic[m_nSelectedAbility]);
 
 				if( bought == false )
 				{
 					if( m_nSelectedAbility < 3 )
 					{
-						if( m_nExp < 100 )
+						if( m_nSelected != 3 )
 						{
-							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
-							return;
+							if( m_nExp < 100 )
+							{
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
+								return;
+							}
+						
+							CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 100);
+							CFloatingText::GetInstance()->AddScreenText("-100", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
 						}
-
-						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 100);
-						CFloatingText::GetInstance()->AddScreenText("-100", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+						else
+						{
+							if( m_nExp < 500 )
+							{
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
+								return;
+							}
+						
+							CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 500);
+							CFloatingText::GetInstance()->AddScreenText("-500", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+						}
 					}
 					else if( m_nSelectedAbility < 6 )
 					{
-						if( m_nExp < 200 )
+						if( m_nSelected != 3 )
 						{
-							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
-							return;
-						}
+							if( m_nExp < 200 )
+							{
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
+								return;
+							}
 
-						CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 200);
-						CFloatingText::GetInstance()->AddScreenText("-200", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+							CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 200);
+							CFloatingText::GetInstance()->AddScreenText("-200", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+						}
+						else
+						{
+							if( m_nExp < 500 )
+							{
+								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
+								return;
+							}
+
+							CGameManager::GetInstance()->GetCurrentPlayer()->SetExp(m_nExp - 500);
+							CFloatingText::GetInstance()->AddScreenText("-500", Vec2Df(340, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+						}
 					}
 					else if( m_nSelectedAbility < 9 )
 					{
@@ -208,9 +264,17 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 							return;
 						}
 					}
-					else
+					else if( m_nSelected == 2 )
 					{
 						if( m_pCustomer->SearchSpells(m_vSupport[m_nSelectedAbility]) )
+						{
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
+							return;
+						}
+					}
+					else
+					{
+						if( m_pCustomer->SearchSpells(m_vEpic[m_nSelectedAbility]) )
 						{
 							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("NO")), false, false);
 							return;
@@ -232,11 +296,17 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 					m_pCustomer->SpellBought(m_vPhysical[m_nSelectedAbility]);
 					m_pCustomer->SetCooldown(m_nSwap, m_vPhysical[m_nSelectedAbility]->GetCoolDown());
 				}
-				else
+				else if( m_nSelected == 2 )
 				{
 					m_pCustomer->SwapSpell(m_vSupport[m_nSelectedAbility], m_nSwap);
 					m_pCustomer->SpellBought(m_vSupport[m_nSelectedAbility]);
 					m_pCustomer->SetCooldown(m_nSwap, m_vSupport[m_nSelectedAbility]->GetCoolDown());
+				}
+				else
+				{
+					m_pCustomer->SwapSpell(m_vEpic[m_nSelectedAbility], m_nSwap);
+					m_pCustomer->SpellBought(m_vEpic[m_nSelectedAbility]);
+					m_pCustomer->SetCooldown(m_nSwap, m_vEpic[m_nSelectedAbility]->GetCoolDown());
 				}
 
 				CStateStack::GetInstance()->Pop();
@@ -334,8 +404,10 @@ void CSpellScrollState::Render(void)
 				selected = m_vElemental[m_nSelectedAbility];
 			else if( m_nSelected == 1 )
 				selected = m_vPhysical[m_nSelectedAbility];
-			else
+			else if( m_nSelected == 2 )
 				selected = m_vSupport[m_nSelectedAbility];
+			else 
+				selected = m_vEpic[m_nSelectedAbility];
 
 
 			if( selected->GetIfAttack() )
@@ -412,6 +484,9 @@ void CSpellScrollState::Render(void)
 			oss.str("");
 			oss << "Support";
 			pBF->Print(oss.str().c_str(), 450, 350 - 60, .7f, m_nSelected == 2 ? D3DCOLOR_ARGB(255, 0, 255, 0) :  D3DCOLOR_ARGB(255, 255, 255, 255));
+			oss.str("");
+			oss << "Epic";
+			pBF->Print(oss.str().c_str(), 450, 425 - 60, .7f, m_nSelected == 3 ? D3DCOLOR_ARGB(255, 204, 153, 51) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 		}
 		else
 		{
@@ -421,8 +496,10 @@ void CSpellScrollState::Render(void)
 				vSelected = m_vElemental;
 			else if( m_nSelected == 1 )
 				vSelected = m_vPhysical;
-			else
+			else if( m_nSelected == 2)
 				vSelected = m_vSupport;
+			else
+				vSelected = m_vEpic;
 			
 			bool bought = false;
 			for( unsigned int i = 0; i < vSelected.size(); i++ )
@@ -432,8 +509,10 @@ void CSpellScrollState::Render(void)
 					bought = m_pCustomer->IfBought(m_vElemental[i]);
 				else if( m_nSelected == 1 )
 					bought = m_pCustomer->IfBought(m_vPhysical[i]);
-				else
+				else if( m_nSelected == 2 )
 					bought = m_pCustomer->IfBought(m_vSupport[i]);
+				else
+					bought = m_pCustomer->IfBought(m_vEpic[i]);
 
 				if( i < 6 )
 				{
@@ -445,8 +524,10 @@ void CSpellScrollState::Render(void)
 								pBF->Print("Cost: 100", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
 							else if( m_nSelected == 1 )	    
 								pBF->Print("Cost: 100", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
-							else						   
+							else if( m_nSelected == 2 )				   
 								pBF->Print("Cost: 100", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+							else
+								pBF->Print("Cost: 500", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
 						}
 						else if( i < 6 )
 						{
@@ -454,8 +535,10 @@ void CSpellScrollState::Render(void)
 								pBF->Print("Cost: 200", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
 							else if( m_nSelected == 1 )
 								pBF->Print("Cost: 200", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
-							else
+							else if( m_nSelected == 2 )
 								pBF->Print("Cost: 200", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+							else
+								pBF->Print("Cost: 500", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
 						}
 					}
 					else
@@ -464,8 +547,10 @@ void CSpellScrollState::Render(void)
 							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
 							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
-						else
+						else if( m_nSelected == 2 )
 							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+						else
+							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
 					}
 
 					if( i == m_nSelectedAbility )
@@ -474,8 +559,10 @@ void CSpellScrollState::Render(void)
 							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
 						else if( m_nSelected == 1 )
 							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
-						else
+						else if( m_nSelected == 2 )
 							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
+						else
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 204, 153, 51));
 					}
 
 					pTM->Draw(vSelected[i]->GetIconID(), 200 + 15, 150 - 90 + (55 * i), .7f, .7f);
@@ -518,33 +605,33 @@ void CSpellScrollState::Render(void)
 					if( bought == false )
 					{
 						if( m_nSelected == 0 )
-							pBF->Print("Cost: 400", 500 + 15, 430 - 90, .3f, D3DCOLOR_ARGB(255,255,0,255));
+							pBF->Print("Cost: 400", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
-							pBF->Print("Cost: 400", 500 + 15, 430 - 90, .3f, D3DCOLOR_ARGB(255,255,100,100));
+							pBF->Print("Cost: 400", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,100,100));
 						else
-							pBF->Print("Cost: 400", 500 + 15, 430 - 90, .3f, D3DCOLOR_ARGB(255,100,255,100));
+							pBF->Print("Cost: 400", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,100,255,100));
 					}
 					else
 					{
 						if( m_nSelected == 0 )
-							pBF->Print("Purchased", 500 + 15, 430 - 90, .3f, D3DCOLOR_ARGB(255,255,0,255));
+							pBF->Print("Purchased", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
-							pBF->Print("Purchased", 500 + 15, 430 - 90, .3f, D3DCOLOR_ARGB(255,255,100,100));
+							pBF->Print("Purchased", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,100,100));
 						else
-							pBF->Print("Purchased", 500 + 15, 430 - 90, .3f, D3DCOLOR_ARGB(255,100,255,100));
+							pBF->Print("Purchased", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,100,255,100));
 					}
 				
 					if( i == m_nSelectedAbility )
 					{
 						if( m_nSelected == 0 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 525 + 12, 370 - 90 - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 370 - 90 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
 						else if( m_nSelected == 1 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 525 + 12, 370 - 90 - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 370 - 90 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
 						else
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 525 + 12, 370 - 90 - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 370 - 90 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
 					}
 
-					pTM->Draw(vSelected[i]->GetIconID(), 525 + 15, 370 - 90, .7f, .7f);
+					pTM->Draw(vSelected[i]->GetIconID(), 450 + 15, 370 - 90 + (55 * (i-9)), .7f, .7f);
 				}
 			}
 		}
@@ -570,6 +657,7 @@ void CSpellScrollState::Initialize( void )
 	m_vElemental.push_back(pAM->GetAbility(SP_ICEAGE));
 	m_vElemental.push_back(pAM->GetAbility(SP_LIGHTCHAIN));
 	m_vElemental.push_back(pAM->GetAbility(SP_FIRENOVA));
+	m_vElemental.push_back(pAM->GetAbility(SP_BLANK));
 
 	m_vPhysical.push_back(pAM->GetAbility(SP_HEAVYBLOW));
 	m_vPhysical.push_back(pAM->GetAbility(SP_RUSH));
@@ -581,6 +669,7 @@ void CSpellScrollState::Initialize( void )
 	m_vPhysical.push_back(pAM->GetAbility(SP_WHIRLWIND));
 	m_vPhysical.push_back(pAM->GetAbility(SP_PSHOT));
 	m_vPhysical.push_back(pAM->GetAbility(SP_KILL));
+	m_vPhysical.push_back(pAM->GetAbility(SP_DEATH));
 
 	m_vSupport.push_back(pAM->GetAbility(SP_CARTOGRAPHY));
 	m_vSupport.push_back(pAM->GetAbility(SP_HEAL));
@@ -592,6 +681,14 @@ void CSpellScrollState::Initialize( void )
 	m_vSupport.push_back(pAM->GetAbility(SP_RAISEDEAD));
 	m_vSupport.push_back(pAM->GetAbility(SP_SHIELD));
 	m_vSupport.push_back(pAM->GetAbility(SP_RAISEMOUNTAIN));
+	m_vSupport.push_back(pAM->GetAbility(SP_FORT));
+
+	m_vEpic.push_back(pAM->GetAbility(SP_MIND));
+	m_vEpic.push_back(pAM->GetAbility(SP_TELE));
+	m_vEpic.push_back(pAM->GetAbility(SP_MASSRAISE));
+	m_vEpic.push_back(pAM->GetAbility(SP_VAMP));
+	m_vEpic.push_back(pAM->GetAbility(SP_SAC));
+
 
 	flipping = false;
 	page = 1;
