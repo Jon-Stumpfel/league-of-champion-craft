@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="0" APCost="9" Cooldown="1" Target="2" SpellName="Teleport" Attack="0" Facing="0" Phase="1" LuaPath="teleport.lua" ParticlePath="raisedead.xml" IconPath="teleport.png" SoundPath="teleport.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>

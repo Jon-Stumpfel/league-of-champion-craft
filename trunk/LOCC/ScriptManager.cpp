@@ -290,6 +290,7 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "FindTeam", CUnit::FindTeam);
 	lua_register(L, "Death", CUnit::Death);
 	lua_register(L, "MindControl", CUnit::MindControl);
+	lua_register(L, "Teleport", CUnit::Teleport);
 	// new AI functions
 	lua_register(L, "IssueOrder", CAIManager::IssueOrder);
 	lua_register(L, "FindNearest", CAIManager::FindNearest);

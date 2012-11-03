@@ -76,6 +76,7 @@ private:
 	bool m_bLerpingX;
 	void LerpCamera(float fElapsedTime);
 
+	CUnit* m_p2Target;
 
 	RECT rCamRect;
 	Vec2D m_MouseOffset;

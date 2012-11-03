@@ -649,7 +649,60 @@ void CGameplayState::UseAbility(CAbility* ability)
 	}
 	else
 	{
-		if (ability->m_nNumTargets == 1)
+		if (ability->m_nNumTargets == 2)
+		{
+			if( m_bIsFacing == false && ability->GetIfFacing() == true )
+			{
+				m_bIsFacing = true;
+				return;
+			}
+
+			if ( m_pTargetedTile == nullptr && m_bIsTargeting == false)
+			{
+				m_bIsTargeting = true;
+				return;
+			}
+			else if (m_bIsTargeting == true && m_pTargetedTile == nullptr)
+			{
+				return;
+			}
+			else if (m_bIsTargeting == true && m_pTargetedTile != nullptr)
+			{
+				if( m_p2Target == nullptr )
+				{
+					m_p2Target = CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition());
+					return;
+				}
+				else
+				{
+					if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
+						return;
+					CParticleManager::GetInstance()->LoadParticles(PT_RAISEDEAD, TranslateToPixel(m_p2Target->GetPos()));
+					CAbilityManager::GetInstance()->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_p2Target->GetPos().nPosX, m_p2Target->GetPos().nPosY), m_pSelectedUnit);
+
+					dynamic_cast< CHero* >(m_pSelectedUnit)->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
+					int ap = CGameManager::GetInstance()->GetCurrentPlayer()->GetAP();
+
+					if(  ap == 0 )
+						return; 
+					else
+						CGameManager::GetInstance()->GetCurrentPlayer()->SetAP(ap - ability->GetApCost());
+
+					std::ostringstream aposs;
+					aposs << "-" << ability->GetApCost();
+					CFloatingText::GetInstance()->AddScreenText(aposs.str(), Vec2Df(450, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+								// STATS SAVING
+					CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
+
+					m_p2Target = nullptr;
+					m_pTargetedTile = nullptr;
+					m_pSelectedUnit = nullptr;
+					m_bIsTargeting = false;
+					m_bIsFacing = false;
+				}
+			}
+		}
+		else if (ability->m_nNumTargets == 1)
 		{
 			if( m_bIsFacing == false && ability->GetIfFacing() == true )
 			{

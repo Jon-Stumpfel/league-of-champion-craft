@@ -301,6 +301,13 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_TELE:
+				{
+					if( doc.LoadFile( "Assets/Ability/teleport.xml" ) == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -913,6 +920,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_MIND;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_TELE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_TELE);
+					ab->SetParticleType(PT_RAISEDEAD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_TELE;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
