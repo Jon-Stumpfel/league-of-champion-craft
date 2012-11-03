@@ -981,6 +981,9 @@ int CUnit::RaiseDead(lua_State* L)
 
 	CTile* pTile = CTileManager::GetInstance()->GetTile(posX, posY);
 	CPlayer* pPlayer = CGameManager::GetInstance()->GetCurrentPlayer();
+	if( pTile == nullptr )
+		return 0;
+
 	if (pTile->GetIfOccupied() != true)
 	{
 		if (pTile->GetIfDeadTile() == true)

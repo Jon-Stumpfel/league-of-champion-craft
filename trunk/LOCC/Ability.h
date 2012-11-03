@@ -70,5 +70,8 @@ public:
 	void SetDescription( std::string desc ) { m_strDescription = desc; }
 	void SetIconID( int id ) { m_nIconID = id; }
 	void SetIfFacing( bool face ) { m_bFacing = face; }
+
+	static int GetAbilityPattern( lua_State* L );
+
 };
 
