@@ -315,6 +315,13 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_MASSRAISE:
+				{
+					if( doc.LoadFile( "Assets/Ability/massraise.xml" ) == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -961,6 +968,21 @@ void CAbilityManager::LoadAbilities( void )
 				m_vAbilities.push_back(tmp);
 			}
 			break;
+
+			case SP_MASSRAISE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_MASSRAISE);
+					ab->SetParticleType(PT_RAISEDEAD);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion raise all dead around him."));
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_MASSRAISE;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
 		}
 	}
 

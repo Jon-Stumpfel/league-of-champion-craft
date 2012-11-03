@@ -24,7 +24,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 
 	GiveSpell(SP_SAC);
-	GiveSpell(SP_DEATH);
+	GiveSpell(SP_MASSRAISE);
 	GiveSpell(SP_MIND);
 	GiveSpell(SP_TELE);
 
