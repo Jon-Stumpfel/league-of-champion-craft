@@ -69,6 +69,8 @@ public:
 
 	unsigned int GetRandomSeed(void) { return m_unrandomSeed;}
 	void SetRandomSeed(unsigned int un) { m_unrandomSeed = un;}
+	void SetExtraTurn( bool b ) { m_bExtraTurn = b; }
+
 private:
 
 	CGameManager(void);
@@ -97,7 +99,7 @@ private:
 	int m_nPhaseCount;
 
 	bool m_bNewGame;
-
+	bool m_bExtraTurn;
 	bool m_bNetworkedGame;
 
 	unsigned int m_unrandomSeed;

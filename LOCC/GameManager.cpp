@@ -33,6 +33,7 @@ CGameManager::CGameManager(void)
 	m_pCurrentPlayer = nullptr;
 	m_pNextPlayer = nullptr;
 	m_bNetworkedGame = false;
+	m_bExtraTurn = false;
 }
 
 
@@ -59,10 +60,18 @@ void CGameManager::NextPhase(void)
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
 	{
-		CPlayer* pTemp = m_pCurrentPlayer;
-		m_nCurrentPhase = GP_MOVE;
-		m_pCurrentPlayer = m_pNextPlayer;
-		m_pNextPlayer = pTemp;
+		if( m_bExtraTurn == false )
+		{
+			CPlayer* pTemp = m_pCurrentPlayer;
+			m_nCurrentPhase = GP_MOVE;
+			m_pCurrentPlayer = m_pNextPlayer;
+			m_pNextPlayer = pTemp;
+		}
+		else
+		{
+			m_nCurrentPhase = GP_MOVE;
+			m_bExtraTurn = false;
+		}
 
 		//Look At That, TileManager Takeing care of business! This added resoruces based on the owned tiles -DG
 		m_pCurrentPlayer->SetAP(nStartingAP);

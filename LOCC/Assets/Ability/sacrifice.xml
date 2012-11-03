@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="4" APCost="9" Cooldown="7" Target="1" SpellName="Delay the Enevitable" Attack="0" Facing="0" Phase="1" LuaPath="sacrifice.lua" ParticlePath="blood.xml" IconPath="sacrifice.png" SoundPath="Splat.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>

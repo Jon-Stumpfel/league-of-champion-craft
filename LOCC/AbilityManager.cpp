@@ -308,6 +308,13 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_SAC:
+				{
+					if( doc.LoadFile( "Assets/Ability/sacrifice.xml" ) == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -934,11 +941,26 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
-					tmp.first = SP_TELE;
+					tmp.first = SP_SAC;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
+			case SP_SAC:
+			{
+				ab->SetIsMove(false);
+				ab->SetType(SP_TELE);
+				ab->SetParticleType(PT_BLOOD);
+				ab->m_szInterfaceIcon = name;
+				ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
+				ab->SetDamage(0);
+				std::pair<SPELL_TYPE, CAbility*> tmp;
+				tmp.first = SP_TELE;
+				tmp.second = ab;
+				m_vAbilities.push_back(tmp);
+			}
+			break;
 		}
 	}
 

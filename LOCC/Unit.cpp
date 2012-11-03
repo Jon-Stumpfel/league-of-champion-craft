@@ -913,6 +913,15 @@ int CUnit::Teleport( lua_State* L )
 	return 0;
 }
 
+int CUnit::Sacrifice( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	pUnit->SetHP(0);
+	CGameManager::GetInstance()->SetExtraTurn(true);
+	return 0;
+}
+
 int CUnit::MindControl( lua_State* L )
 {
 	int nUniqueID = (int)lua_tonumber(L, 1);
