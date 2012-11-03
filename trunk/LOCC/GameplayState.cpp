@@ -888,9 +888,51 @@ void CGameplayState::UseAbility(CAbility* ability)
 										}
 
 										if( pUnit->GetEffect(SP_FORT) == false )
+										{
 											pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+
+											if( m_pSelectedUnit->GetEffect(SP_VAMP) == true )
+											{
+												if( m_pSelectedUnit->GetHP() < m_pSelectedUnit->GetMaxHP() )
+												{
+													m_pSelectedUnit->SetHP(m_pSelectedUnit->GetHP() + m_pSelectedUnit->GetAttack() / 2);
+													Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+													std::ostringstream oss;
+													oss << m_pSelectedUnit->GetAttack() / 2;
+													CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+															Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+												}
+												else
+												{
+													Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+													CFloatingText::GetInstance()->AddText("0", Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+															Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+												}
+											}
+										}
 										else
+										{
 											pUnit->SetHP(int(pUnit->GetHP() - (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f))));
+
+											if( m_pSelectedUnit->GetEffect(SP_VAMP) == true )
+											{
+												if( m_pSelectedUnit->GetHP() < m_pSelectedUnit->GetMaxHP() )
+												{
+													m_pSelectedUnit->SetHP(m_pSelectedUnit->GetHP() + int(m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f)) / 2);
+													Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+													std::ostringstream oss;
+													oss << (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f)) / 2;
+													CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+															Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+												}
+												else
+												{
+													Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+													CFloatingText::GetInstance()->AddText("0", Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+															Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+												}
+											}
+										}
 
 										if(pUnit->GetHP() > 0)
 											pSM->Play(pSM->GetID(_T("hurt")), false, false);
@@ -948,9 +990,51 @@ void CGameplayState::UseAbility(CAbility* ability)
 										}
 
 									if( pUnit->GetEffect(SP_FORT) == false )
+									{
 										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+
+										if( m_pSelectedUnit->GetEffect(SP_VAMP) == true )
+										{
+											if( m_pSelectedUnit->GetHP() < m_pSelectedUnit->GetMaxHP() )
+											{
+												m_pSelectedUnit->SetHP(m_pSelectedUnit->GetHP() + m_pSelectedUnit->GetAttack() / 2);
+												Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+												std::ostringstream oss;
+												oss << m_pSelectedUnit->GetAttack() / 2;
+												CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+														Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+											}
+											else
+											{
+												Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+												CFloatingText::GetInstance()->AddText("0", Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+														Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+											}
+										}
+									}
 									else
+									{
 										pUnit->SetHP(int(pUnit->GetHP() - (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f))));
+
+										if( m_pSelectedUnit->GetEffect(SP_VAMP) == true )
+										{
+											if( m_pSelectedUnit->GetHP() < m_pSelectedUnit->GetMaxHP() )
+											{
+												m_pSelectedUnit->SetHP(m_pSelectedUnit->GetHP() + int(m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f)) / 2);
+												Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+												std::ostringstream oss;
+												oss << (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f)) / 2;
+												CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+														Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+											}
+											else
+											{
+												Vec2D pixelPos = TranslateToPixel(m_pSelectedUnit->GetPos());
+												CFloatingText::GetInstance()->AddText("0", Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
+														Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(0, 255, 0));
+											}
+										}
+									}
 
 									if(pUnit->GetHP() > 0)
 										pSM->Play(pSM->GetID(_T("hurt")), false, false);
@@ -1159,7 +1243,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 				}
 			}
-			else if( ability->GetType() != SP_FORT )
+			else if( ability->GetType() != SP_FORT && ability->GetType() != SP_VAMP )
 			{
 				std::vector<Vec2D> vec = ability->GetPattern();
 				for( unsigned int i = 0; i < vec.size(); i++ )

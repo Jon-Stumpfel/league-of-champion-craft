@@ -62,7 +62,7 @@ public:
 	static int MindControl( lua_State* L );
 	static int Teleport( lua_State* L );
 	static int Sacrifice( lua_State* L );
-
+	static int Vamp( lua_State* L );
 	// new AI lua function
 	static int GetUnitPosition(lua_State* L);
 	static int GetFleeing(lua_State* L);

@@ -928,10 +928,13 @@ int CUnit::MindControl( lua_State* L )
 	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
 	if (pUnit != nullptr && pUnit->GetType() != UT_HERO)
 	{
-		if( pUnit->GetPlayerID() == 0 )
-			pUnit->SetPlayerID(1);
-		else
-			pUnit->SetPlayerID(0);
+		if( pUnit->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() )
+		{
+			if( pUnit->GetPlayerID() == 0 )
+				pUnit->SetPlayerID(1);
+			else
+				pUnit->SetPlayerID(0);
+		}
 
 		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_MIND), INT_MAX);
 	}
@@ -971,6 +974,19 @@ int CUnit::StandGround(lua_State* L)
 		if( pUnit->GetPlayerID() == CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())
 			pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_STAND), 2);
 	}
+	return 0;
+}
+
+int CUnit::Vamp( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_VAMP), 1);
+	}
+
+	CParticleManager::GetInstance()->LoadParticles(PT_MIND, TranslateToPixel(pUnit->GetPos()), pUnit);
 	return 0;
 }
 

@@ -34,6 +34,7 @@ private:
 	std::vector< CAbility* > m_vElemental;
 	std::vector< CAbility* > m_vPhysical;
 	std::vector< CAbility* > m_vSupport;
+	std::vector< CAbility* > m_vEpic;
 
 	bool flipping;
 	bool unflipping;
