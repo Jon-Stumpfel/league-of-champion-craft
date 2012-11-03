@@ -16,8 +16,9 @@ public:
 
 	static CObjectManager* GetInstance( void );
 	static void DeleteInstance( void );
-
 	CGameObject* CreateObject(UNIT_TYPE type, int nPlayerID);
+	std::vector< CGameObject* > GetList( void );
+
 private:
 
 	CObjectManager(void);

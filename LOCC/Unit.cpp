@@ -15,6 +15,9 @@
 #include "SoundManager.h"
 #include "AIManager.h"
 #include "SGD Wrappers\CSGD_XAudio2.h"
+#include "ObjectManager.h"
+#include "FloatingText.h"
+
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_bPlayAttackAnim = false;
@@ -485,6 +488,19 @@ void CUnit::Update(float fElapsedTime)
 						CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Footstep")) );
 				}
 
+				if( GetEffect(SP_DEATH) == true )
+				{
+					if( m_eType != UT_HERO )
+						m_nHP = 0;
+					else
+					{
+						Vec2Df tmp;
+						tmp.fVecX = (float)m_sWorldPos.nPosX;
+						tmp.fVecY = (float)m_sWorldPos.nPosY;
+						CFloatingText::GetInstance()->AddText("-10", tmp, Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_ARGB(255, 255, 20, 20));
+						m_nHP -= 10;
+					}
+				}
 			}
 		}
 	}
@@ -551,6 +567,11 @@ void CUnit::UpdateEffects(void)
 				CParticleManager::GetInstance()->StopLoop(PT_FIREWEP);
 			}
 
+			if( m_vEffects[i].second->GetType() == SP_FORT )
+			{
+				CParticleManager::GetInstance()->StopLoop(PT_FORT);
+			}
+
 			m_vEffects.erase(m_vEffects.begin() + i--);
 		}
 	}
@@ -599,6 +620,64 @@ int CUnit::Volley( lua_State* L )
 	CUnit* arch = CGameplayState::GetInstance()->GetSelectedUnit();
 	lua_pushnumber(L, arch->GetAttack() * 2);
 	return 1;
+}
+
+int CUnit::FindTeam( lua_State* L )
+{
+	int ID = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
+	vector< CGameObject* > objects = CObjectManager::GetInstance()->GetList();
+	lua_newtable(L);
+	int nCount = 0;
+	for( unsigned int i = 0; i < objects.size(); i++ )
+	{
+		CUnit* tmp = dynamic_cast< CUnit* >(objects[i]);
+
+		if( tmp->GetPlayerID() != ID )
+			continue;
+
+		lua_newtable(L);
+		lua_pushstring(L, "posX");
+		lua_pushnumber(L, tmp->GetPos().nPosX);
+		lua_settable(L, -3);
+		lua_pushstring(L, "posY");
+		lua_pushnumber(L, tmp->GetPos().nPosY);
+		lua_settable(L, -3);
+		lua_pushstring(L, "uniqueID");
+		lua_pushnumber(L, tmp->GetUniqueID());
+		lua_settable(L, -3);
+		lua_pushnumber(L, nCount+1);
+		nCount++;
+		lua_insert(L, -2);
+		lua_settable(L, -3);
+	}
+
+	lua_setglobal(L, "tAffected");
+
+	return nCount+1;
+}
+
+int CUnit::Death( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_DEATH), 4);
+	}
+	return 0;
+}
+
+int CUnit::Fortify( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr)
+	{
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_FORT), 2);
+	}
+
+	CParticleManager::GetInstance()->LoadParticles(PT_FORT, TranslateToPixel(pUnit->GetPos()), pUnit);
+	return 0;
 }
 
 int CUnit::Chain(lua_State* L)
@@ -762,11 +841,20 @@ int CUnit::DoDamage(lua_State* L)
 	if (pUnit != nullptr)
 	{
 		int damage = (int)lua_tonumber(L, 2);
+		
 		if( pUnit->GetEffect(SP_STAND) == true )
+		{
 			damage = damage / 2;
+			pUnit->RemoveEffect(SP_STAND);
+		}
+
+		if( pUnit->GetEffect(SP_FORT) == true )
+		{
+			damage = damage - (int)(damage * .75f);
+			pUnit->RemoveEffect(SP_FORT);
+		}
 
 		pUnit->SetHP(pUnit->GetHP() - damage);
-
 		// STATS RECORDING
 		CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(pUnit->GetPlayerID());
 		switch (pUnit->GetType())
@@ -791,7 +879,6 @@ int CUnit::DoDamage(lua_State* L)
 			break;
 
 		}
-		pUnit->RemoveEffect(SP_STAND);
 		
 		if (pUnit->GetHP() > pUnit->GetMaxHP())
 		{

@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="0" APCost="10" Cooldown="6" Target="0" SpellName="Fortifiy" Attack="0" Facing="0" Phase="1" LuaPath="fortify.lua" ParticlePath="fortify.xml" IconPath="fortify.png" SoundPath="fortify.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>

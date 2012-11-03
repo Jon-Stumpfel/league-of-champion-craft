@@ -834,12 +834,21 @@ void CGameplayState::UseAbility(CAbility* ability)
 											break;
 										}
 
-										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+										if( pUnit->GetEffect(SP_FORT) == false )
+											pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+										else
+											pUnit->SetHP(int(pUnit->GetHP() - (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f))));
+
 										if(pUnit->GetHP() > 0)
 											pSM->Play(pSM->GetID(_T("hurt")), false, false);
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
-										oss << m_pSelectedUnit->GetAttack();
+										
+										if( pUnit->GetEffect(SP_FORT) == false )
+											oss << m_pSelectedUnit->GetAttack();
+										else
+											oss << (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f));
+
 										CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
 											Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
 									}
@@ -884,12 +893,22 @@ void CGameplayState::UseAbility(CAbility* ability)
 										pSavePlayer->GetStats()->nChampionDamageDone+=m_pSelectedUnit->GetAttack();
 										break;
 										}
-									pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
-									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
-									std::ostringstream oss;
-									oss << m_pSelectedUnit->GetAttack();
+
+									if( pUnit->GetEffect(SP_FORT) == false )
+										pUnit->SetHP(pUnit->GetHP() - m_pSelectedUnit->GetAttack());
+									else
+										pUnit->SetHP(int(pUnit->GetHP() - (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f))));
+
 									if(pUnit->GetHP() > 0)
 										pSM->Play(pSM->GetID(_T("hurt")), false, false);
+									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
+									std::ostringstream oss;
+										
+									if( pUnit->GetEffect(SP_FORT) == false )
+										oss << m_pSelectedUnit->GetAttack();
+									else
+										oss << (m_pSelectedUnit->GetAttack() - (m_pSelectedUnit->GetAttack() * .75f));
+
 									CFloatingText::GetInstance()->AddText(oss.str(), Vec2Df((float)pixelPos.nPosX + 38, (float)pixelPos.nPosY), 
 										Vec2Df(0.0f, -50.0f), 1.0f, 0.4f, D3DCOLOR_XRGB(255, 0, 0));
 								}
@@ -1087,7 +1106,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 				}
 			}
-			else
+			else if( ability->GetType() != SP_FORT )
 			{
 				std::vector<Vec2D> vec = ability->GetPattern();
 				for( unsigned int i = 0; i < vec.size(); i++ )

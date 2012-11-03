@@ -263,6 +263,30 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos, CGameObject* track )
 				m_sSource.bottom = 64;
 			}
 		break;
+
+		case PT_FORT:
+			{
+				if( doc.LoadFile( "Assets/Particles/fortify.xml" ) == false )
+				return;
+
+				m_sSource.left = 0;
+				m_sSource.top = 0;
+				m_sSource.right = 32;
+				m_sSource.bottom = 32;
+			}
+			break;
+
+		case PT_DEATH:
+			{
+				if( doc.LoadFile( "Assets/Particles/death.xml" ) == false )
+				return;
+
+				m_sSource.left = 0;
+				m_sSource.top = 0;
+				m_sSource.right = 64;
+				m_sSource.bottom = 64;
+			}
+			break;
 	};
 
 	m_sEmitPos = sPos;

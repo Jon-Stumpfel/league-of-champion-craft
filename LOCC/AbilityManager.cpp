@@ -279,6 +279,21 @@ void CAbilityManager::LoadAbilities( void )
 						return;
 				}
 				break;
+
+			case SP_FORT:
+				{
+					if( doc.LoadFile( "Assets/Ability/fortify.xml") == false )
+						return;
+				}
+				break;
+
+			case SP_DEATH:
+				{
+					if( doc.LoadFile( "Assets/Ability/death.xml" ) == false )
+						return;
+				}	
+				break;
+
 		default:
 			continue;
 		}
@@ -846,6 +861,36 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(9);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_KILL;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_FORT:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_FORT);
+					ab->SetParticleType(PT_FORT);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his allies decreasing thier damage taken by 70% for 2 turns."));
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_FORT;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_DEATH:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_DEATH);
+					ab->SetParticleType(PT_DEATH);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move, Champion units take 10 damage."));
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_DEATH;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

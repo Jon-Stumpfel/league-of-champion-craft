@@ -140,3 +140,12 @@ void CObjectManager::DeleteInstance( void )
 
 	s_Instance = nullptr;
 }
+
+std::vector< CGameObject* > CObjectManager::GetList( void )
+{
+	std::vector< CGameObject* > tmp;
+	for (OListIterator iter = m_pObjectList.begin(); iter != m_pObjectList.end(); ++iter)
+		tmp.push_back((*iter));
+
+	return tmp;
+}
