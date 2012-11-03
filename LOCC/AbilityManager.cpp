@@ -294,6 +294,13 @@ void CAbilityManager::LoadAbilities( void )
 				}	
 				break;
 
+			case SP_MIND:
+				{
+					if( doc.LoadFile( "Assets/Ability/mindcontrol.xml" ) == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -891,6 +898,21 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_DEATH;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
+
+			case SP_MIND:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_MIND);
+					ab->SetParticleType(PT_MIND);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion steals the mind of one of his enemies doesn't work on Champion units."));
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_MIND;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
 				}

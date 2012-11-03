@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Particle Image="Death.png" ColorStartA="255" ColorStartR="255" ColorStartG="255" ColorStartB="255" ColorEndA="165" ColorEndR="0" ColorEndG="0" ColorEndB="0" ScaleStart="0.9" ScaleEnd="0.9" RotStart="0" RotEnd="20" Shape="0" Looping="1" Radius="0" Height="50" Width="50" PointX="250" PointY="250" Point2X="300" Point2Y="300" NumParticles="10" SpawnMax="0.05" SpawnMin="0.05" LifeMax="0.6" LifeMin="0.5" VelStartMaxX="0" VelStartMaxY="0" VelStartMinX="0" VelStartMinY="0" VelEndMaxX="0" VelEndMaxY="0" VelEndMinX="0" VelEndMinY="0" />

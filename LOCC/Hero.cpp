@@ -25,7 +25,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 
 	GiveSpell(SP_FORT);
 	GiveSpell(SP_DEATH);
-	GiveSpell(SP_BLANK);
+	GiveSpell(SP_MIND);
 	GiveSpell(SP_BLANK);
 
 	for (int i=0; i<4;++i)

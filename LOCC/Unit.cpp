@@ -901,6 +901,23 @@ int CUnit::Rally(lua_State* L)
 	return 0;
 }
 
+int CUnit::MindControl( lua_State* L )
+{
+	int nUniqueID = (int)lua_tonumber(L, 1);
+	CUnit* pUnit = CGameManager::GetInstance()->GetUnitByID(nUniqueID);
+	if (pUnit != nullptr && pUnit->GetType() != UT_HERO)
+	{
+		if( pUnit->GetPlayerID() == 0 )
+			pUnit->SetPlayerID(1);
+		else
+			pUnit->SetPlayerID(0);
+
+		pUnit->PushEffect(CAbilityManager::GetInstance()->GetAbility(SP_MIND), INT_MAX);
+	}
+
+	return 0;
+}
+
 int CUnit::Pathfind(lua_State* L)
 {
 	int nUniqueID = (int)lua_tonumber(L, 1);
