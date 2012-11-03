@@ -286,6 +286,9 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "IceAge", CUnit::IceAge);
 	lua_register(L, "Chain", CUnit::Chain);
 	lua_register(L, "Whirlwind", CUnit::Whirlwind);
+	lua_register(L, "Fortify", CUnit::Fortify);
+	lua_register(L, "FindTeam", CUnit::FindTeam);
+	lua_register(L, "Death", CUnit::Death);
 	// new AI functions
 	lua_register(L, "IssueOrder", CAIManager::IssueOrder);
 	lua_register(L, "FindNearest", CAIManager::FindNearest);

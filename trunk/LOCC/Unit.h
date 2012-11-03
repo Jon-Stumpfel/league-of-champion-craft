@@ -56,6 +56,9 @@ public:
 	static int Chain( lua_State* L );
 	static int Whirlwind( lua_State* L );
 	static int Volley( lua_State* L );
+	static int FindTeam( lua_State* L );
+	static int Fortify( lua_State* L );
+	static int Death( lua_State* L );
 
 	// new AI lua function
 	static int GetUnitPosition(lua_State* L);

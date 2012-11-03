@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Ability Range="1" APCost="7" Cooldown="5" Target="1" SpellName="Exploding Heart Technique" Attack="1" Facing="0" Phase="0" LuaPath="death.lua" ParticlePath="death.xml" IconPath="death.png" SoundPath="Rush.wav">
+  <Tile PosX="0" PosY="0" />
+</Ability>
