@@ -624,7 +624,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_RAISEDEAD);
 					ab->SetParticleType(PT_RAISEDEAD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("Brings any unit back to life as a skeleton. It can only be cast on a tile with a tombstone."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses the dead to bolster his army, only works on tombstone tiles."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RAISEDEAD;

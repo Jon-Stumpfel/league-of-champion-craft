@@ -86,8 +86,8 @@ private:
 	bool m_bIsFacing;
 
 	int m_nCardOffsetX;
-	int m_nTooltipOffsetX;
-	int m_nTooltipOffsetMaxX;
+	int m_nTooltipOffsetY;
+	int m_nTooltipOffsetMaxY;
 	int m_nCardOffsetMaxX;
 	float m_fCardOffsetLerp;
 	bool m_bShowingCard;
