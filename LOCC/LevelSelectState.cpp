@@ -96,7 +96,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0) //map 1,1
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
 				{
 					char buffer[80];
@@ -114,13 +114,13 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				else
 					CGameManager::GetInstance()->NewGame("level1", 1);	//SINGLE PLAYER
 
-				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
+
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(m_2Dselected.nPosX ==1  && m_2Dselected.nPosY==0)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
 				{
 					char buffer[80];
@@ -138,13 +138,13 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				else
 					CGameManager::GetInstance()->NewGame("level2", 2);	//SINGLE PLAYER
 
-				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
+
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==1)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
 				{
 					char buffer[80];
@@ -162,13 +162,13 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				else
 					CGameManager::GetInstance()->NewGame("level3", 3);	//SINGLE PLAYER
 					
-				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
+
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(m_2Dselected.nPosX ==1  && m_2Dselected.nPosY==1)
 			{
 				CTileManager* pTM=CTileManager::GetInstance();
-
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				if (CMultiplayerState::GetInstance()->GetNetworkSetup())
 				{
 					char buffer[80];
@@ -186,7 +186,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					CGameManager::GetInstance()->NewGame("level8", 8);		//MULTIPLAYER
 				else
 					CGameManager::GetInstance()->NewGame("level4", 4);	//SINGLE PLAYER
-				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
+
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			if (!bNetworkedGame)

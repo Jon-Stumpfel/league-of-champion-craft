@@ -148,7 +148,7 @@ void CCoinToss::Update(float fElapsedTime)
 				CGameManager::GetInstance()->SetCurrentPlayer(0);
 				CGameManager::GetInstance()->SetNextPlayer(1);
 				CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
-			CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos());
+			CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos(), true);
 			}
 			if (m_nChosenplayer==7)
 			{
@@ -156,7 +156,7 @@ void CCoinToss::Update(float fElapsedTime)
 				CGameManager::GetInstance()->SetNextPlayer(0); 
 				CAIManager::GetInstance()->BeginMovement();
 				CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
-				CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(1)->GetPos());
+				CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(1)->GetPos(), true);
 
 			}
 			if (m_fSecondTimer<=0.0f)
