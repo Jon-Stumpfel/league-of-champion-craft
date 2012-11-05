@@ -1709,7 +1709,7 @@ void CGameplayState::Update(float fElapsedTime)
 			Option = Option->NextSiblingElement("Option");
 		}
 	}
-	else if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
 		GetInstance()->GetID(_T("AttackPhaseMusic"))) 
 		&& CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
 	{
