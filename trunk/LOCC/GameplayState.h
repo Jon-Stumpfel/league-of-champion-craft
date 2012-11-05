@@ -23,7 +23,7 @@ public:
 	void SetMouseOffset(Vec2D v) { m_MouseOffset = v;}
 
 
-	void SnapToPosition(Vec2D pPos);
+	void SnapToPosition(Vec2D pPos, bool noSound = false);
 
 	void ClearSelections(void);
 
@@ -56,7 +56,7 @@ private:
 	CGameplayState& operator=(const CGameplayState&);
 
 	void MoveCamera(int dX, int dY);
-	void MoveCursor(int dX, int dY, bool lock = true);
+	void MoveCursor(int dX, int dY, bool lock = true, bool noSound = false);
 	void MoveToTile(Vec2D nTilePosition);
 
 

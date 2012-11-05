@@ -82,7 +82,7 @@ void CGameManager::NextPhase(void)
 		CGameplayState::GetInstance()->ClearSelections();
 		if (GetChampion(m_pCurrentPlayer->GetPlayerID()) != nullptr)
 		{
-			CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos());
+			CGameplayState::GetInstance()->SnapToPosition(GetChampion(m_pCurrentPlayer->GetPlayerID())->GetPos(), true);
 		}
 
 		CAIManager::GetInstance()->BeginMovement();

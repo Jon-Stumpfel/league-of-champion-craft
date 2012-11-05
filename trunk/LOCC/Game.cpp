@@ -124,6 +124,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Red).png",L"ArcherR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\archer(Blue).png",L"ArcherB",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\RedBlueCoin.png",L"Coin",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\HUD\\skybox.png",L"skybox",D3DCOLOR_ARGB(255,255,255,255));
+
 
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/zombiehurt2.ogg.wav"), _T("hurt"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/BowandArrow.wav"), _T("ArcherBasicAttack"),false);
@@ -138,6 +140,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/deletesave.wav"), _T("deletesave"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/teleport.wav"), _T("teleport"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/ice.wav"), _T("ice"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/selectionmove.wav"), _T("selectionmove"), false);
+
 
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\main_menu_bg.png"), _T("mainmenubg"),D3DXCOLOR(0,0,0,255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_blue.png"), _T("warriorblue"),D3DXCOLOR(0,0,0,255));

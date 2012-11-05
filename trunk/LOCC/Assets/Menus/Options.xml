@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Options>
-    <Option SoundVolume="40" MusicVolume="30" Fullscreen="1" IsModern="1" />
+    <Option SoundVolume="40" MusicVolume="0" Fullscreen="1" IsModern="1" />
 </Options>

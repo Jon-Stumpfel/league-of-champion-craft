@@ -119,12 +119,13 @@ void CGameplayState::Exit(void)
 
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
 // but could be used for anything. Just pass a pUnit in and the camera and selection cursor shifts to that unit.
-void CGameplayState::SnapToPosition(Vec2D pPos)
+void CGameplayState::SnapToPosition(Vec2D pPos, bool noSound)
 {
 	int nSelX = pPos.nPosX - m_SelectionPos.nPosX;
 	int nSelY = pPos.nPosY - m_SelectionPos.nPosY;
 
-	MoveCursor(nSelX, nSelY, false);
+
+	MoveCursor(nSelX, nSelY, false, noSound);
 
 	//m_oldCamPixelPos = m_currCamPixelPos;
 	int x = (nFakeTileWidth / 2 * m_SelectionPos.nPosX) - (nFakeTileHeight / 2 * m_SelectionPos.nPosY);
@@ -143,10 +144,15 @@ void CGameplayState::SnapToPosition(Vec2D pPos)
 
 // Moves the selection cursor by deltaX and deltaY values. Lock when true locks the camera from moving, otherwise
 // the camera will stick with the cursor should it go off screen. Lock defaults to true
-void CGameplayState::MoveCursor(int dX, int dY, bool lock)
+void CGameplayState::MoveCursor(int dX, int dY, bool lock, bool noSound)
 {
 	m_SelectionPos.nPosX += dX;
 	m_SelectionPos.nPosY += dY;
+
+	if (!noSound)
+	{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("selectionmove")), false, false);
+	}
 	//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 	if (CGameManager::GetInstance()->FindUnit(m_SelectionPos))
 	{
@@ -1804,6 +1810,7 @@ void CGameplayState::Render(void)
 	CHUD* pHud = CHUD::GetInstance();
 	RECT hudRECT;
 	CSGD_Direct3D::GetInstance()->Clear(0, 0, 0);
+	//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("skybox")), 0, 0);
 	CTileManager::GetInstance()->Render();
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
