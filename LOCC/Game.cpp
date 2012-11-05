@@ -21,6 +21,8 @@
 #include "SpellScrollState.h"
 #include "StringTable.h"
 #include "PauseState.h"
+
+
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;

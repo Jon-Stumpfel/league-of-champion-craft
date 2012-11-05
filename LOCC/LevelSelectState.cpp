@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "LevelSelectState.h"
 #include "CoinToss.h"
+#include "SoundManager.h"
 #include "MultiplayerState.h"
 #include "SocketServer.h"
 #include "StringTable.h"
@@ -112,7 +113,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					CGameManager::GetInstance()->NewGame("level5", 5);		//MULTIPLAYER
 				else
 					CGameManager::GetInstance()->NewGame("level1", 1);	//SINGLE PLAYER
-				
+
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(m_2Dselected.nPosX ==1  && m_2Dselected.nPosY==0)
@@ -136,6 +138,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				else
 					CGameManager::GetInstance()->NewGame("level2", 2);	//SINGLE PLAYER
 
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==1)
@@ -159,7 +162,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 				else
 					CGameManager::GetInstance()->NewGame("level3", 3);	//SINGLE PLAYER
 					
-
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			else if(m_2Dselected.nPosX ==1  && m_2Dselected.nPosY==1)
@@ -183,7 +186,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					CGameManager::GetInstance()->NewGame("level8", 8);		//MULTIPLAYER
 				else
 					CGameManager::GetInstance()->NewGame("level4", 4);	//SINGLE PLAYER
-
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			if (!bNetworkedGame)
@@ -193,9 +196,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 		}
 	case INPUT_LEFT:
 		{
-			std::wostringstream oss;
-			oss << "LevelState: INPUT_LEFT @ " << GetTickCount() << '\n';
-			OutputDebugString((LPCWSTR)oss.str().c_str());
+CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if(m_2Dselected.nPosY >= 1)
 				m_2Dselected.nPosY--;
 			else
@@ -204,9 +205,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 		}
 	case INPUT_RIGHT:
 		{
-			std::wostringstream oss;
-			oss << "LevelState: INPUT_RIGHT @ " << GetTickCount() << '\n';
-			OutputDebugString((LPCWSTR)oss.str().c_str());
+CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if(m_2Dselected.nPosY <= 0)
 				m_2Dselected.nPosY++;
 			else
@@ -215,9 +214,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 		}
 	case INPUT_UP:
 		{
-			std::wostringstream oss;
-			oss << "LevelState: INPUT_LEFT @ " << GetTickCount() << '\n';
-			OutputDebugString((LPCWSTR)oss.str().c_str());
+CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if(m_2Dselected.nPosX >= 1)
 				m_2Dselected.nPosX--;
 			else
@@ -226,9 +223,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 		}
 	case INPUT_DOWN:
 		{
-			std::wostringstream oss;
-			oss << "LevelState: INPUT_RIGHT @ " << GetTickCount() << '\n';
-			OutputDebugString((LPCWSTR)oss.str().c_str());
+CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			if(m_2Dselected.nPosX <= 0)
 				m_2Dselected.nPosX++;
 			else
@@ -237,8 +232,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 		}
 	case INPUT_CANCEL:
 		{
+CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			CStateStack::GetInstance()->Pop();
 		}
+		break;
 	}
 }
 

@@ -260,8 +260,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 {
 	switch (input)
 	{
+	case INPUT_PAUSE:
+		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+			CStateStack::GetInstance()->Push(CPauseState::GetInstance());
+		}
+		break;
 	case INPUT_BUMPERRIGHT:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			nStoredUnitIndex++;
 				if ((unsigned int)nStoredUnitIndex > CGameManager::GetInstance()->GetUnits().size() - 1)
 					nStoredUnitIndex = 0;
@@ -280,6 +287,8 @@ void CGameplayState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_BUMPERLEFT:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 			nStoredUnitIndex--;
 				if (nStoredUnitIndex < 0)
 					nStoredUnitIndex = CGameManager::GetInstance()->GetUnits().size() - 1;
@@ -333,10 +342,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 				if ( m_bIsFacing )
 				{
 					m_pSelectedUnit->SetFacing(3);
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				}
 				else if (m_bSelectChampionAbility)
 				{
 					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					m_nSelectedSpell--;
 					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 					if (m_nSelectedSpell < 0)
@@ -352,6 +363,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 					// Champion ability is not pulled up, so just move the cursor on the main panel
 					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 					m_nSelectedAbility--;
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					if (m_nSelectedAbility < 0)
 						m_nSelectedAbility = 2;
 				}
@@ -378,10 +390,12 @@ void CGameplayState::Input(INPUT_ENUM input)
 					
 				if ( m_bIsFacing )
 				{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					m_pSelectedUnit->SetFacing(1);
 				}
 				else if (m_bSelectChampionAbility)
 				{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					m_nSelectedSpell++;
 					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
@@ -391,6 +405,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 				else
 				{
 					// Champion ability is not pulled up, so just move the cursor on the main panel
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					m_nSelectedAbility++;
 					//PUT_SOUND_HERE("Whatever, make it the tick tick tick sound when you move cursors")
 					CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
@@ -411,6 +426,7 @@ void CGameplayState::Input(INPUT_ENUM input)
 				
 				if ( m_bIsFacing )
 				{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					m_pSelectedUnit->SetFacing(2);
 				}
 			}
@@ -424,6 +440,8 @@ void CGameplayState::Input(INPUT_ENUM input)
 			if (m_pSelectedUnit == nullptr)
 			{
 				// Stop them from selecting a unit that is not theirs
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				m_pSelectedUnit = CGameManager::GetInstance()->FindUnit(m_SelectionPos);
 				if (m_pSelectedUnit != nullptr)
 				{
@@ -442,6 +460,8 @@ void CGameplayState::Input(INPUT_ENUM input)
 				if (m_bIsMoving)
 				{
 					//PUT_SOUND_HERE("Some kind of accept sound");
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 					MoveToTile(m_SelectionPos);
 				}
 				else if (m_bIsTargeting)
@@ -449,6 +469,8 @@ void CGameplayState::Input(INPUT_ENUM input)
 					if (m_bSelectChampionAbility)
 					{
 						//PUT_SOUND_HERE("Some kind of accept sound");
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 						m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
 						CHero* pHero = dynamic_cast<CHero*>(m_pSelectedUnit);
 						UseAbility(pHero->GetSpell(m_nSelectedSpell));
@@ -456,6 +478,8 @@ void CGameplayState::Input(INPUT_ENUM input)
 					else
 					{
 						//PUT_SOUND_HERE("Some kind of accept sound");
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 						m_pTargetedTile = CTileManager::GetInstance()->GetTile(m_SelectionPos.nPosX, m_SelectionPos.nPosY);
 						if (m_pTargetedTile != nullptr)
 							UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
@@ -470,12 +494,16 @@ void CGameplayState::Input(INPUT_ENUM input)
 						if (pHero->GetCooldown(m_nSelectedSpell)==0)
 						{
 							//PUT_SOUND_HERE("Some kind of accept sound");
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 							UseAbility(pHero->GetSpell(m_nSelectedSpell));							
 						}
 					}
 					else
 					{
 						//PUT_SOUND_HERE("Some kind of accept sound");
+
+
 						UseAbility(m_pSelectedUnit->GetAbility(m_nSelectedAbility));
 					}
 				}
@@ -493,12 +521,16 @@ void CGameplayState::Input(INPUT_ENUM input)
 					m_bIsMoving = false;
 					m_vWaypoints.clear();
 					SnapToPosition(m_pSelectedUnit->GetPos());
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else if (m_bIsTargeting)
 				{
 					m_bIsTargeting = false;
 					SnapToPosition(m_pSelectedUnit->GetPos());
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else if (m_bSelectChampionAbility)
@@ -506,11 +538,15 @@ void CGameplayState::Input(INPUT_ENUM input)
 					m_bSelectChampionAbility = false;
 					m_bShowSpellPanel = false;
 					m_nSelectedSpell = 0;
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else if ( m_bIsFacing )
 				{
 					m_bIsFacing = false;
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else
@@ -588,6 +624,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 		return;
 	if (ability->m_nNumTargets == -1) // champion spell panel
 	{
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 		m_bSelectChampionAbility = true;
 		return;
 	}
@@ -653,12 +690,14 @@ void CGameplayState::UseAbility(CAbility* ability)
 		{
 			if( m_bIsFacing == false && ability->GetIfFacing() == true )
 			{
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_bIsFacing = true;
 				return;
 			}
 
 			if ( m_pTargetedTile == nullptr && m_bIsTargeting == false)
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_bIsTargeting = true;
 				return;
 			}
@@ -670,6 +709,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 			{
 				if( m_p2Target == nullptr )
 				{
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					m_p2Target = CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition());
 					return;
 				}
@@ -706,6 +746,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 		{
 			if( m_bIsFacing == false && ability->GetIfFacing() == true )
 			{
+						CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_bIsFacing = true;
 				return;
 			}
@@ -713,7 +754,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 			if ( m_pTargetedTile == nullptr && m_bIsTargeting == false)
 			{
 				m_bIsTargeting = true;
-				
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);	
 				return;
 			}
 			else if (m_bIsTargeting == true && m_pTargetedTile == nullptr)
@@ -742,6 +783,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 				{
 					Champ = dynamic_cast<CHero*>(m_pSelectedUnit);
 					//CoolDown Check here
+					pSM->Play(pSM->GetID(_T("NO")),false,false);
 					if (Champ->GetCooldown(m_nSelectedSpell)<0)
 						return;
 				}
@@ -1207,6 +1249,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 		{
 			if( m_bIsFacing == false && ability->GetIfFacing() == true )
 			{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_bIsFacing = true;
 				return;
 			}

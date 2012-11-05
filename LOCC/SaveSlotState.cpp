@@ -31,6 +31,10 @@ void CSaveSlotState::Enter(void)
 	m_nConfirmChoice = 0;
 	m_nHighlightedSlot = 1;
 
+	m_bGoodSlot[0] = false;
+	m_bGoodSlot[1] = false;
+	m_bGoodSlot[2] = false;
+	m_bGoodSlot[3] = false;
 
 	if (CStateStack::GetInstance()->FindState(CMainMenuState::GetInstance()))
 	{
@@ -61,6 +65,7 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 		{
 			if (!m_bShowMenu)
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_nHighlightedSlot++;
 				if (m_nHighlightedSlot > 3)
 					m_nHighlightedSlot = 1;
@@ -69,6 +74,8 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 			{
 				if (m_bConfirm)
 				{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 					m_nConfirmChoice++;
 					if (m_nConfirmChoice > 1)
 						m_nConfirmChoice = 1;
@@ -81,6 +88,8 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 		{
 			if (!m_bShowMenu)
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				m_nHighlightedSlot--;
 				if (m_nHighlightedSlot < 1)
 					m_nHighlightedSlot = 3;
@@ -89,6 +98,8 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 			{
 				if (m_bConfirm)
 				{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 					m_nConfirmChoice--;
 					if (m_nConfirmChoice < 0)
 						m_nConfirmChoice = 0;
@@ -100,6 +111,8 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 		{
 			if (m_bShowMenu)
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				m_nMenuChoice--;
 				if (m_bFromMainMenu)
 				{
@@ -118,6 +131,8 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 		{
 			if (m_bShowMenu)
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				m_nMenuChoice++;
 				if (m_bFromMainMenu)
 				{
@@ -136,6 +151,7 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 		{
 			if (!m_bShowMenu)
 			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_bShowMenu = true;
 				break;
 			}
@@ -150,10 +166,14 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 						{
 						case 1: // Load
 							{
-								CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
-								CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
-								m_nConfirmChoice = 0;
-								return;
+								if (m_bGoodSlot[m_nHighlightedSlot])
+								{
+									CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+									CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
+									CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+									m_nConfirmChoice = 0;
+									return;
+								}
 							}
 							break;
 						case 0: // Save!
@@ -181,12 +201,18 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 					}
 					else
 					{
+						CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 						m_bConfirm = false;
 						break;
 					}
 				}
 				else
+				{
 					m_bConfirm = true;
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
+				}
 			}
 		}
 		break;
@@ -196,12 +222,16 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 			{
 				if (m_bConfirm)
 				{
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					m_bConfirm = false;
 					break;
 				}
 				m_bShowMenu = false;
+						CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				break;
 			}
+							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 
 			CStateStack::GetInstance()->Pop();
 		}
@@ -465,6 +495,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 
 		woss.str((""));
 
+		m_bGoodSlot[nSlot] = true;
 
 	}
 	else
@@ -472,6 +503,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 		std::ostringstream woss;
 		woss << StringTable::GetInstance()->GetString("NO SAVE");
 		m_pBitmapFont.Print(woss.str().c_str(), 140 + xOffset, 330, 0.3f, drawColor);
+		m_bGoodSlot[nSlot] = false;
 
 	}
 

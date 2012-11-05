@@ -4,6 +4,7 @@
 #include "MainMenuState.h"
 #include "StringTable.h"
 #include "SGD Wrappers\CSGD_TextureManager.h"
+#include "SoundManager.h"
 //CCreditsState* CCreditsState::s_Instance = nullptr;
 
 CCreditsState::CCreditsState(void)
@@ -28,8 +29,11 @@ void CCreditsState::Input(INPUT_ENUM input)
 {
 	switch (input)
 	{
+	case INPUT_CANCEL:
 	case INPUT_ACCEPT:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 			CStateStack::GetInstance()->Pop();
 		}
 	}
