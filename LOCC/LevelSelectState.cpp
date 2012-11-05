@@ -78,7 +78,6 @@ void LevelSelectState::Enter(void)
 
 void LevelSelectState::Exit(void)
 {
-
 	m_vMap1.clear();
 	m_vMap2.clear();
 	m_vMap3.clear();
@@ -261,7 +260,6 @@ void LevelSelectState::Update(float fElapsedTime)
 
 void LevelSelectState::Render(void)
 {
-
 	//CSGD_TextureManager::GetInstance()->Draw(blueguyid,0,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	//CSGD_TextureManager::GetInstance()->Draw(redguyid,290,90,0.5f,0.5f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	
@@ -270,7 +268,6 @@ void LevelSelectState::Render(void)
 	//PUT THESE IN TO RENDER THE SINGLE PLAYER MAPS
 	if (m_nType == 1)
 	{
-	
 		//STRINGHERE=("JON PUT A STRING HERE");
 		DrawMap(string("Trample Hill"),ROW1 + 25,COL1,m_vMap1,m_sbSelected[0]);
 	
@@ -307,7 +304,7 @@ void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, 
 	int nMiniMapOffsetX = rowoffset;
 	int nMiniMapOffsetY = coloffset;
 	
-	float fMapWidth		=MAPWIDTH;
+	float fMapWidth		= MAPWIDTH;
 	float fMapHeight	= MAPHEIGHT;
 	int rows= m_vMap_.size();
 	int	cols= m_vMap_.size();

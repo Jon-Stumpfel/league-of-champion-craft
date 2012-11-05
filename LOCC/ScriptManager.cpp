@@ -295,6 +295,7 @@ void CScriptManager::Initialize( void )
 	lua_register(L, "Sacrifice", CUnit::Sacrifice);
 	lua_register(L, "GetAbilityPattern", CAbility::GetAbilityPattern);
 	lua_register(L, "Vamp", CUnit::Vamp);
+	lua_register(L, "Encase", CUnit::Encase);
 
 	// new AI functions
 	lua_register(L, "IssueOrder", CAIManager::IssueOrder);

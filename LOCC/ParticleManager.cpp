@@ -42,10 +42,8 @@ void CParticleManager::StopLoop( PRTCL_TYPE eType )
 	{
 		if( m_vEmitters[i]->GetType() == eType )
 		{
-			m_vEmitters[i]->Clear();
-			delete m_vEmitters[i];
-			m_vEmitters.erase( m_vEmitters.begin() + i );
-			return;
+			m_vEmitters[i]->SetNumParticles(m_vEmitters[i]->GetNumSpawned()-1);
+			m_vEmitters[i]->SetLoop( false );
 		}
 	}
 }

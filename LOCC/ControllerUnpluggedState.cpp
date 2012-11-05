@@ -53,7 +53,7 @@ void CControllerUnpluggedState::Render(void)
 	//	30, 326, 735.0f, 120.0f);
 
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 850, 315, 0.3f, 1.7f,
-		(RECT*)0, 0.0f, 0.0f, 90 * 3.1415928/180);
+		(RECT*)0, 0.0f, 0.0f, 90 * (float)3.1415928/180);
 
 
 	bitmapFont.Print("Controller Unplugged", 40, 336, 1.2f, D3DCOLOR_XRGB(255, 255, 255));

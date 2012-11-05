@@ -729,6 +729,10 @@ void CGameplayState::UseAbility(CAbility* ability)
 				{
 					if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
 						return;
+
+					if( m_pTargetedTile->GetTileType() == TT_WATER )
+						return;
+
 					CParticleManager::GetInstance()->LoadParticles(PT_RAISEDEAD, TranslateToPixel(m_p2Target->GetPos()));
 					CAbilityManager::GetInstance()->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_p2Target->GetPos().nPosX, m_p2Target->GetPos().nPosY), m_pSelectedUnit);
 
@@ -758,7 +762,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 		{
 			if( m_bIsFacing == false && ability->GetIfFacing() == true )
 			{
-						CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_bIsFacing = true;
 				return;
 			}
@@ -766,7 +770,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 			if ( m_pTargetedTile == nullptr && m_bIsTargeting == false)
 			{
 				m_bIsTargeting = true;
-							CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);	
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);	
 				return;
 			}
 			else if (m_bIsTargeting == true && m_pTargetedTile == nullptr)
@@ -1160,13 +1164,15 @@ void CGameplayState::UseAbility(CAbility* ability)
 				}
 				else
 				{
-					
 					if( ability->GetType() == SP_VOLLEY )
 						ability->m_nRange = m_pSelectedUnit->GetRange();
 
 					if( ability->GetType() == SP_CHARGE || ability->GetType() == SP_RUSH )
 					{
 						if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
+							return;
+
+						if( m_pTargetedTile->GetTileType() == TT_WATER )
 							return;
 
 						std::vector<Vec2D> vec = CAbilityManager::GetInstance()->GetProperFacing( m_pSelectedUnit->GetFacing(), ability, m_pTargetedTile );
@@ -1201,6 +1207,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 						m_bIsMoving = true;
 						m_pSelectedUnit->AddWaypoint(m_pTargetedTile);
 						pAM->UseAbility(ability, pTM->GetTile( m_pSelectedUnit->GetPos().nPosX, m_pSelectedUnit->GetPos().nPosY) , m_pSelectedUnit, m_pTargetedTile);
+						CParticleManager::GetInstance()->LoadParticles(PT_MOVE, m_pSelectedUnit->GetPos(), m_pSelectedUnit);
 					}
 					else
 						pAM->UseAbility(ability, m_pTargetedTile, m_pSelectedUnit);
@@ -1211,13 +1218,16 @@ void CGameplayState::UseAbility(CAbility* ability)
 						std::ostringstream aposs;
 						aposs << "-" << ability->GetApCost();
 						CFloatingText::GetInstance()->AddScreenText(aposs.str(), Vec2Df(450, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
-					if (ability->m_bIsAttack)
+					
+					if (ability->m_bIsAttack && ability->GetType() != SP_CHARGE && ability->GetType() != SP_RUSH )
 						m_pSelectedUnit->SetHasAttacked(true);
+					else if ( ability->GetType() == SP_CHARGE || ability->GetType() == SP_RUSH )
+						m_pSelectedUnit->SetCharging(true);
 
-					if( Champ != nullptr )
+					if( Champ != nullptr && ability->GetType() != SP_CHARGE && ability->GetType() != SP_RUSH )
 						Champ->SetCooldown(m_nSelectedSpell, ability->GetCoolDown());
 
-					if( ability->GetIfFacing() )
+					if( ability->GetIfFacing() && ability->GetType() != SP_CHARGE && ability->GetType() != SP_RUSH )
 					{
 						std::vector<Vec2D> vec = CAbilityManager::GetInstance()->GetProperFacing( m_pSelectedUnit->GetFacing(), ability, m_pTargetedTile );
 						int size = (int)vec.size()-1;
@@ -1235,7 +1245,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 								break;
 						}
 					}
-					else
+					else if( ability->GetType() != SP_CHARGE && ability->GetType() != SP_RUSH )
 					{
 						std::vector<Vec2D> vec = ability->GetPattern();
 						for( unsigned int i = 0; i < vec.size(); i++ )
@@ -1301,7 +1311,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 					CParticleManager::GetInstance()->LoadParticles(ability->GetParticleType(), tmp);
 				}
 			}
-			else if( ability->GetType() != SP_FORT && ability->GetType() != SP_VAMP )
+			else if( ability->GetType() != SP_FORT && ability->GetType() != SP_VAMP && ability->GetType() != SP_ENCASE )
 			{
 				std::vector<Vec2D> vec = ability->GetPattern();
 				for( unsigned int i = 0; i < vec.size(); i++ )
@@ -1406,6 +1416,8 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Gallop")), true, false);
 	else
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Footstep")), true, false);
+	
+	CParticleManager::GetInstance()->LoadParticles(PT_MOVE, m_pSelectedUnit->GetPos(), m_pSelectedUnit);
 
 	m_bIsMoving = false;
 	m_pSelectedUnit = nullptr;
@@ -1823,114 +1835,9 @@ void CGameplayState::Render(void)
 	CTileManager::GetInstance()->Render();
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tooltip")), 200, m_nTooltipOffsetY, 1.2f, 1.2f);
-
 	// render the waypoints?
 	if (m_pSelectedUnit != nullptr)
 	{	
-		CHero* pHero = dynamic_cast< CHero* >(m_pSelectedUnit);
-		if( pHero != nullptr )
-		{
-			if( m_bSelectChampionAbility == true )
-			{
-				std::ostringstream tt;
-				CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
-				CGraphicsManager* pGM = CGraphicsManager::GetInstance();
-				CAbility* pA = pHero->GetSpell(m_nSelectedSpell);
-				if (pA != nullptr)
-				{
-					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
-
-					if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
-					{
-						tt.str("");
-						tt << m_pSelectedUnit->GetAttack();
-					}
-
-					if( pA->GetType() == SP_VOLLEY )
-					{
-						tt.str("");
-						tt << m_pSelectedUnit->GetAttack() * 2;
-					}
-
-					m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
-					tt.str("");
-					tt << m_pSelectedUnit->GetAttack();
-
-					tt.str("");
-					tt << pA->GetRange();
-
-					if( pA->GetType() == SP_MOVE )
-					{
-						tt.str("");
-						tt << m_pSelectedUnit->GetSpeed();
-					}
-
-					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
-					tt.str("");
-
-					tt << pA->GetCoolDown();
-					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.3f, D3DCOLOR_XRGB(255,255,255));
-					tt.str("");
-
-					tt << pA->GetApCost();
-					m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
-					tt.str("");
-
-					m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 120);
-				}
-			}
-			else if( m_bSelectChampionAbility == false )
-			{
-				std::ostringstream tt;
-				CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
-				CGraphicsManager* pGM = CGraphicsManager::GetInstance();
-				CAbility* pA = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
-				if (pA != nullptr)
-				{
-					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
-
-					if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
-					{
-						tt.str("");
-						tt << m_pSelectedUnit->GetAttack();
-					}
-
-					if( pA->GetType() == SP_VOLLEY )
-					{
-						tt.str("");
-						tt << m_pSelectedUnit->GetAttack() * 2;
-					}
-
-					m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
-					tt.str("");
-					tt << m_pSelectedUnit->GetAttack();
-
-					tt.str("");
-					tt << pA->GetRange();
-
-					if( pA->GetType() == SP_MOVE )
-					{
-						tt.str("");
-						tt << m_pSelectedUnit->GetSpeed();
-					}
-
-					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
-					tt.str("");
-
-					tt << pA->GetCoolDown();
-					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.3f, D3DCOLOR_XRGB(255,255,255));
-					tt.str("");
-
-					tt << pA->GetApCost();
-					m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
-					tt.str("");
-
-					m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 120);
-				}
-			}
-		}
-
 		int nTilesCanMove = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
 		int nAPCost = 0;
 		int r = 0;
@@ -2161,7 +2068,113 @@ void CGameplayState::Render(void)
 			break;
 		}
 	}
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tooltip")), 200, m_nTooltipOffsetY, 1.2f, 1.2f);
 
+	if( m_pSelectedUnit != nullptr )
+	{
+		if( m_bSelectChampionAbility == true )
+		{	
+			CHero* pHero = dynamic_cast< CHero* >(m_pSelectedUnit);
+			if( pHero != nullptr )
+			{
+				std::ostringstream tt;
+				CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
+				CGraphicsManager* pGM = CGraphicsManager::GetInstance();
+				CAbility* pA = pHero->GetSpell(m_nSelectedSpell);
+				if (pA != nullptr)
+				{
+					tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
+
+					if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+					{
+						tt.str("");
+						tt << m_pSelectedUnit->GetAttack();
+					}
+
+					if( pA->GetType() == SP_VOLLEY )
+					{
+						tt.str("");
+						tt << m_pSelectedUnit->GetAttack() * 2;
+					}
+
+					m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
+					tt.str("");
+					tt << m_pSelectedUnit->GetAttack();
+
+					tt.str("");
+					tt << pA->GetRange();
+
+					if( pA->GetType() == SP_MOVE )
+					{
+						tt.str("");
+						tt << m_pSelectedUnit->GetSpeed();
+					}
+
+					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					tt << pA->GetCoolDown();
+					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					tt << pA->GetApCost();
+					m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					tt.str("");
+
+					m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 120);
+				}
+			}
+		}
+		else if( m_bSelectChampionAbility == false )
+		{
+			std::ostringstream tt;
+			CSGD_TextureManager* pTM = CSGD_TextureManager::GetInstance();
+			CGraphicsManager* pGM = CGraphicsManager::GetInstance();
+			CAbility* pA = m_pSelectedUnit->GetAbility(m_nSelectedAbility);
+			if (pA != nullptr)
+			{
+				tt << pA->GetDamage() < 0 ? abs(pA->GetDamage()) : pA->GetDamage();
+
+				if( pA->GetType() == SP_MELEEATTACK || pA->GetType() == SP_ARCHERRANGEDATTACK )
+				{
+					tt.str("");
+					tt << m_pSelectedUnit->GetAttack();
+				}
+
+				if( pA->GetType() == SP_VOLLEY )
+				{
+					tt.str("");
+					tt << m_pSelectedUnit->GetAttack() * 2;
+				}
+
+				m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
+				tt.str("");
+				tt << m_pSelectedUnit->GetAttack();
+
+				tt.str("");
+				tt << pA->GetRange();
+
+				if( pA->GetType() == SP_MOVE )
+				{
+					tt.str("");
+					tt << m_pSelectedUnit->GetSpeed();
+				}
+
+				m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+				tt.str("");
+
+				tt << pA->GetCoolDown();
+				m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.3f, D3DCOLOR_XRGB(255,255,255));
+				tt.str("");
+
+				tt << pA->GetApCost();
+				m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+				tt.str("");
+
+				m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 120);
+			}
+		}
+	}
 	//if (m_bIsMoving)
 	//	CGraphicsManager::GetInstance()->DrawWireframeRect(selectRect, 0, 255, 0);
 	//else
@@ -2505,7 +2518,7 @@ void CGameplayState::Render(void)
 			}
 		}
 	}
-
+	
 		// UNIT CARD STUFF HOORAY
 		if (m_pSelectedUnit != nullptr)
 		{

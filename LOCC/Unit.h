@@ -24,6 +24,7 @@ class CUnit : public CGameObject
 	bool m_bIsMoving;
 	bool m_bIsFleeing;
 	bool m_bFreeMove;
+	bool m_bCharging;
 
 	float m_fDodgeChance;
 
@@ -63,6 +64,8 @@ public:
 	static int Teleport( lua_State* L );
 	static int Sacrifice( lua_State* L );
 	static int Vamp( lua_State* L );
+	static int Encase( lua_State* L );
+
 	// new AI lua function
 	static int GetUnitPosition(lua_State* L);
 	static int GetFleeing(lua_State* L);
@@ -79,6 +82,7 @@ public:
 	float GetDodgeChance(void) { return m_fDodgeChance;}
 	int GetNumWaypoints(void) { return m_vWaypoints.size();};
 	Vec2D GetLastWaypoint(void) { return m_vWaypoints.front()->GetPosition();};
+	void SetCharging( bool b ) { m_bCharging = b; }
 
 	int GetPortraitID(void);
 
