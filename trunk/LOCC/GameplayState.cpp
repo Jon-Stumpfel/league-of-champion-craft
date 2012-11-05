@@ -2256,7 +2256,10 @@ void CGameplayState::Render(void)
 				//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("Map")),
 			//	tileRect.left, tileRect.top, nMiniTileWidth/(nFakeTileWidth - 27), nMiniTileHeight/(nFakeTileHeight - 27), &rSrc);
 
-			//CSGD_Direct3D::GetInstance()->DrawRect(tileRect, r, g, b);
+			if (i == m_SelectionPos.nPosX && j == m_SelectionPos.nPosY)
+			{
+				CGraphicsManager::GetInstance()->DrawWireframeRect(tileRect, 255, 255, 255, true);
+			}
 
 			r = 255 * !(pTile->GetPlayerID());
 			b = 255 * (pTile->GetPlayerID());
