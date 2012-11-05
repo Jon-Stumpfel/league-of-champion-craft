@@ -364,12 +364,12 @@ void CUnit::Update(float fElapsedTime)
 		}
 		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 4
 			&& m_sAnimStruct->unitType == UT_SKELETON && CAnimationManager::GetInstance()->GetAnimation(UT_SKELETON,AT_DEATH)->GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.5f)
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.01f)
 		{
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
-		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 5
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 1
 			&& m_sAnimStruct->unitType == UT_HERO && CAnimationManager::GetInstance()->GetAnimation(UT_HERO,AT_DEATH)->GetElapsedTime() >= 
 			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.5f)
 		{
@@ -388,7 +388,13 @@ void CUnit::Update(float fElapsedTime)
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
-			//CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 0
+			&& m_sAnimStruct->unitType == UT_ICEBLOCK && CAnimationManager::GetInstance()->GetAnimation(UT_ICEBLOCK,AT_DEATH)->GetElapsedTime() >=
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.5f)
+		{
+			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
+			CMessageSystem::GetInstance()->SendMessageW(pMsg);
+		}
 	}
 
 	if (m_vWaypoints.size() != 0)
