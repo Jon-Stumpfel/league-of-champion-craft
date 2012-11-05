@@ -93,11 +93,11 @@ void CHelpMenuState::Render(void)
 	tiletxt ="A Tile giving";
 	m_pBitmapfont->Print(tiletxt.c_str(),180,260,.25f,D3DCOLOR_XRGB(255,255,255));
 	tiletxt ="a dodge chance";
-	m_pBitmapfont->Print(tiletxt.c_str(),180,270,.25f,D3DCOLOR_XRGB(255,255,255));
+	m_pBitmapfont->Print(tiletxt.c_str(),180,272,.25f,D3DCOLOR_XRGB(255,255,255));
 	tiletxt ="costing 2 AP ";
-	m_pBitmapfont->Print(tiletxt.c_str(),180,280,.25f,D3DCOLOR_XRGB(255,255,255));
+	m_pBitmapfont->Print(tiletxt.c_str(),180,285,.25f,D3DCOLOR_XRGB(255,255,255));
 	tiletxt ="to move across";
-	m_pBitmapfont->Print(tiletxt.c_str(),180,290,.25f,D3DCOLOR_XRGB(255,255,255));
+	m_pBitmapfont->Print(tiletxt.c_str(),180,295,.25f,D3DCOLOR_XRGB(255,255,255));
 
 	tiletxt ="-Mountains-";
 	m_pBitmapfont->Print(tiletxt.c_str(),180,330,.25f,D3DCOLOR_XRGB(255,255,255));
@@ -239,8 +239,8 @@ void CHelpMenuState::Render(void)
 		m_pBitmapfont->Print(tiletxt.c_str(),265,315,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt ="units in one cardial Direction ";
 		m_pBitmapfont->Print(tiletxt.c_str(),265,330,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="-LAST CHARGED MUST BE OPEN";
-		m_pBitmapfont->Print(tiletxt.c_str(),265,345,.24f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="-TILE CHARGED TO MUST BE OPEN";
+		m_pBitmapfont->Print(tiletxt.c_str(),265,345,.23f,D3DCOLOR_XRGB(255,255,255));
 
 		tiletxt ="-Archer-";
 		m_pBitmapfont->Print(tiletxt.c_str(),125,370,.3f,D3DCOLOR_XRGB(255,255,255));
@@ -269,7 +269,7 @@ void CHelpMenuState::Render(void)
 		tiletxt ="-Castle Base-";
 		m_pBitmapfont->Print(tiletxt.c_str(),550,150,.3f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt ="Support Unit";
-		m_pBitmapfont->Print(tiletxt.c_str(),610,190,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),610,180,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt ="Special ability: Spawn Unit";
 		m_pBitmapfont->Print(tiletxt.c_str(),610,195,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt ="The Base can Spawn ";
@@ -304,11 +304,70 @@ void CHelpMenuState::Render(void)
 		CSGD_TextureManager::GetInstance()->Draw(m_nGameplayHelpID,0,0,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 			
 		string TileTitle ("Gameplay Information");
-		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-200;
+		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-220;
 		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
 		
 		TileTitle="-Phases-";
-		m_pBitmapfont->Print(TileTitle.c_str(),100,120,.4f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(TileTitle.c_str(),120,120,.4f,D3DCOLOR_XRGB(255,255,255));
+
+		string tiletxt ("-Movement-");
+		m_pBitmapfont->Print(tiletxt.c_str(),125,150,.3f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="During movement, players move";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,170,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="their champions and other units, ";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,190,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="as well as cast any champion ";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,210,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="spells that can be cast during ";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,230,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="the movement phase ";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,250,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="Unit has access to ";
+		//m_pBitmapfont->Print(tiletxt.c_str(),265,225,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="customizible Spell trees";
+		//m_pBitmapfont->Print(tiletxt.c_str(),265,240,.25f,D3DCOLOR_XRGB(255,255,255));
+
+		tiletxt ="-Attack-";
+		m_pBitmapfont->Print(tiletxt.c_str(),125,340,.3f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="During the attack phase, ";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,360,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Champions and other units "; 
+		m_pBitmapfont->Print(tiletxt.c_str(),200,380,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="can can do basic attacks";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,400,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="within range, or perform ";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,420,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="thier special Abilities ";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,440,.25f,D3DCOLOR_XRGB(255,255,255));
+
+		tiletxt ="-Action Points-";
+		m_pBitmapfont->Print(tiletxt.c_str(),500,150,.3f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Action Point, or AP,";
+		m_pBitmapfont->Print(tiletxt.c_str(),550,170,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="is you centeral focus";
+		m_pBitmapfont->Print(tiletxt.c_str(),550,190,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="for how to move and ";
+		m_pBitmapfont->Print(tiletxt.c_str(),550,210,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="what to attack. ";
+		m_pBitmapfont->Print(tiletxt.c_str(),550,230,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Every action cost AP" ;
+		m_pBitmapfont->Print(tiletxt.c_str(),550,250,.25f,D3DCOLOR_XRGB(255,255,255));
+
+		
+		tiletxt ="-Losing/Winning the Game-";
+		m_pBitmapfont->Print(tiletxt.c_str(),500,340,.3f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Player can Win or";		   
+		m_pBitmapfont->Print(tiletxt.c_str(),610,360,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="lose the game by";		   
+		m_pBitmapfont->Print(tiletxt.c_str(),610,380,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Defeating the ";		   
+		m_pBitmapfont->Print(tiletxt.c_str(),610,400,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="enemy Champion or ";			   
+		m_pBitmapfont->Print(tiletxt.c_str(),610,420,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Destorying the";	   
+		m_pBitmapfont->Print(tiletxt.c_str(),610,440,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="enemy base ";
+		m_pBitmapfont->Print(tiletxt.c_str(),610,460,.3f,D3DCOLOR_XRGB(255,255,255));
 	}
 }
 
