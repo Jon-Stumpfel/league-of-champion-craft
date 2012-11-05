@@ -68,7 +68,10 @@ void CObjectManager::AddObject( CGameObject* pObject )
 	
 	CUnit* pUnit = dynamic_cast<CUnit*>(pObject);
 	CPlayer* pGetPlayer = CGameManager::GetInstance()->GetPlayer(pUnit->GetPlayerID());
-	pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()+1);
+	if (pUnit->GetType() != UT_ICEBLOCK && pUnit->GetType() != UT_CASTLE)
+	{
+		pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()+1);
+	}
 	pObject->AddRef();
 }
 

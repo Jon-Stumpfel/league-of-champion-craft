@@ -47,11 +47,13 @@ void CMainMenuState::Enter(void)
 		Option->Attribute("SoundVolume", &soundvolume);
 		Option->Attribute("MusicVolume", &musicvolume);
 		int temp = 0;
+
 		Option->Attribute("Fullscreen", &temp);
 		if(temp == 0)
 			windowed = false;
 		else
 			windowed = true;
+
 		temp = 0;
 		Option->Attribute("IsModern", &temp);
 		if(temp == 0)
@@ -60,6 +62,9 @@ void CMainMenuState::Enter(void)
 			IsModern = true;
 		Option = Option->NextSiblingElement("Option");
 	}
+#ifdef ARCADE_BUILD
+	windowed = false;
+#endif
 	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume*0.01f));
 	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume*0.01f));
 	CGame::GetInstance()->SetIsWindowed(windowed);
