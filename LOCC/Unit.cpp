@@ -357,7 +357,7 @@ void CUnit::Update(float fElapsedTime)
 		}
 		else if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 1
 			&& m_sAnimStruct->unitType == UT_CAVALRY && CAnimationManager::GetInstance()->GetAnimation(UT_CAVALRY,AT_DEATH)->GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.5f)
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.01f)
 		{
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
