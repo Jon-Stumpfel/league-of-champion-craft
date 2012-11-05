@@ -48,6 +48,7 @@ void CPauseState::Input(INPUT_ENUM input)
 	{
 	case INPUT_DOWN:
 		{
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			m_nVerticalChoice++;
 			if (m_nVerticalChoice > 3)
 				m_nVerticalChoice = 0;
@@ -55,6 +56,7 @@ void CPauseState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_UP:
 		{
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			m_nVerticalChoice--;
 			if (m_nVerticalChoice < 0)
 				m_nVerticalChoice = 3;
@@ -65,17 +67,21 @@ void CPauseState::Input(INPUT_ENUM input)
 			switch (m_nVerticalChoice)
 			{
 			case 0:
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				CStateStack::GetInstance()->Pop();
 				break;
 			case 1:
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				CStateStack::GetInstance()->Push(COptionsMenuState::GetInstance());
 				break;
 			case 2:
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				CStateStack::GetInstance()->Push(CSaveSlotState::GetInstance());
 				break;
 			case 3:
 				{
 					// shutdown the socket
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 					bool m_bQuit = true;
 					if (CGameManager::GetInstance()->GetNetworkGame())
 					{
@@ -107,6 +113,7 @@ void CPauseState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_CANCEL:
 		{
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			CStateStack::GetInstance()->Pop();
 			break;
 		}
