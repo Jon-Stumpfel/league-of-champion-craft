@@ -266,6 +266,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 	{
 	case INPUT_CANCEL:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 		CStateStack::GetInstance()->Pop();
 		}
 		break;
@@ -275,6 +276,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				selected++;
 			else
 				selected = 0;
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_UP:
@@ -283,6 +285,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				selected--;
 			else
 				selected = 4;
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_LEFT:
@@ -299,6 +302,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				float temp = musicvolume*0.01f;
 				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(temp);
 			}
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_RIGHT:
@@ -315,6 +319,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				float temp = musicvolume*0.01f;
 				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(temp);
 			}
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_ACCEPT:
@@ -325,6 +330,8 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 					windowed = true;
 				else
 					windowed = false;
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				CGame::GetInstance()->SetIsWindowed(windowed);
 			}
 			else if(selected == 3)
@@ -333,10 +340,16 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 					IsModern = true;
 				else
 					IsModern = false;
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				StringTable::GetInstance()->SetLanguage(IsModern);
 			}
 			else if(selected == 4)
+			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 				CStateStack::GetInstance()->Pop();
+			}
 			break;
 		}
 	}

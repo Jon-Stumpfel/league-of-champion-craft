@@ -118,6 +118,7 @@ void CMainMenuState::Input(INPUT_ENUM input)
 				CInputManager::GetInstance()->SetRunning(false);
 				CStateStack::GetInstance()->Pop();
 			}
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_UP:
@@ -126,6 +127,8 @@ void CMainMenuState::Input(INPUT_ENUM input)
 				selected--;
 			else
 				selected = 5;
+
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_DOWN:
@@ -134,6 +137,8 @@ void CMainMenuState::Input(INPUT_ENUM input)
 				selected++;
 			else
 				selected = 0;
+
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	}

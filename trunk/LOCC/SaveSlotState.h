@@ -15,7 +15,7 @@ public:
 	static CSaveSlotState* GetInstance();
 
 private:
-
+	bool m_bGoodSlot[4];
 	int m_nHighlightedSlot;
 	int m_nMenuChoice;
 	int m_nConfirmChoice;

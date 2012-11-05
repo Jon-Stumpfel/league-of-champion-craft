@@ -3,6 +3,7 @@
 #include "StateStack.h"
 #include "MainMenuState.h"
 #include "Game.h"
+#include "SoundManager.h"
 //CHelpMenuState* CHelpMenuState::s_Instance = nullptr;
 const int MENUMAX =3;
 CHelpMenuState::CHelpMenuState(void)
@@ -35,10 +36,14 @@ void CHelpMenuState::Input(INPUT_ENUM input)
 	{
 	case INPUT_CANCEL:
 		{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+
 			CStateStack::GetInstance()->Pop();
 		}
+		break;
 	case INPUT_LEFT:
 		{
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("flip")), false, false);
 			m_nswitchscreen--;
 				if (m_nswitchscreen==0)
 				{
@@ -48,6 +53,7 @@ void CHelpMenuState::Input(INPUT_ENUM input)
 		break;
 	case INPUT_RIGHT:
 		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("flip")), false, false);
 			m_nswitchscreen++;
 				if (m_nswitchscreen>MENUMAX)
 				{
