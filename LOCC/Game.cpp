@@ -20,6 +20,7 @@
 #include <ctime>
 #include "SpellScrollState.h"
 #include "StringTable.h"
+#include "PauseState.h"
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -219,6 +220,19 @@ bool CGame::Input(void)
 			CSGD_Direct3D::GetInstance()->ChangeDisplayParam(m_nWidth, m_nHeight, !m_bIsWindowed);
 			m_bIsWindowed = !m_bIsWindowed;
 			return true;
+		}
+
+		if (pDI->KeyDown(DIK_TAB))
+		{
+			if (CStateStack::GetInstance()->GetTop() == CGameplayState::GetInstance())
+			{
+				CStateStack::GetInstance()->Push(CPauseState::GetInstance());
+			}
+		}
+
+		if (pDI->KeyDown(DIK_F4))
+		{
+			return false;
 		}
 	}
 
