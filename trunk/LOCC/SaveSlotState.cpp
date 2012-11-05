@@ -310,7 +310,8 @@ void CSaveSlotState::Render(void)
 			CGraphicsManager::GetInstance()->DrawArrow(310, 510 + (m_nMenuChoice * 20), 255, 255, 255);
 		}
 	}
-
+	
+	m_pBitmapFont.Print("Press cancel to return...", 20, 510, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
 }
 
 struct SlotDataStruct

@@ -519,7 +519,10 @@ void CGameplayState::Input(INPUT_ENUM input)
 	case INPUT_CANCEL:
 		{
 			if (m_pSelectedUnit == nullptr)
+			{
+				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				CStateStack::GetInstance()->Push(CPauseState::GetInstance());
+			}
 			else if (m_pSelectedUnit != nullptr)
 			{
 				if (m_bIsMoving)
@@ -556,7 +559,10 @@ void CGameplayState::Input(INPUT_ENUM input)
 					//PUT_SOUND_HERE("Some kind of accept sound");
 				}
 				else
+				{
 					ClearSelections();
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+				}
 			}
 
 
