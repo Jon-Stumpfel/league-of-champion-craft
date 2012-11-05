@@ -329,6 +329,13 @@ void CAbilityManager::LoadAbilities( void )
 				}
 				break;
 
+			case SP_ENCASE:
+				{
+					if( doc.LoadFile( "Assets/Ability/encase.xml" ) == false )
+						return;
+				}
+				break;
+
 		default:
 			continue;
 		}
@@ -489,7 +496,6 @@ void CAbilityManager::LoadAbilities( void )
 				{
 					ab->SetIsMove(false);
 					ab->SetType(SP_CHARGE);
-					ab->SetParticleType(TEST);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(6);
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for evey unit hit in a line."));
@@ -1005,6 +1011,21 @@ void CAbilityManager::LoadAbilities( void )
 					m_vAbilities.push_back(tmp);
 				}
 				break;
+
+			case SP_ENCASE:
+				{
+					ab->SetIsMove(false);
+					ab->SetType(SP_ENCASE);
+					ab->SetParticleType(PT_ICEBOLT);
+					ab->m_szInterfaceIcon = name;
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sends a wall of ice down from the sky damaging enemies they hit."));
+					ab->SetDamage(0);
+					std::pair<SPELL_TYPE, CAbility*> tmp;
+					tmp.first = SP_ENCASE;
+					tmp.second = ab;
+					m_vAbilities.push_back(tmp);
+				}
+				break;
 		}
 	}
 
@@ -1022,7 +1043,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("meleeattackicon"));
 	pAbility->SetType(SP_MELEEATTACK);
-	pAbility->SetParticleType(TEST);
+	pAbility->SetParticleType(PT_BLOOD);
 	pAbility->SetDescription(StringTable::GetInstance()->GetString("This unit attacks with a melee weapon."));
 	int zz = CGraphicsManager::GetInstance()->GetID(_T("meleeattackicon"));
 	pAbility->SetIconID(zz);
@@ -1042,7 +1063,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_nDamage = 1;
 	pAbility->m_nCooldown = 0;
 	pAbility->m_strName = StringTable::GetInstance()->GetString("Range Attack");
-	pAbility->SetParticleType(TEST);
+	pAbility->SetParticleType(PT_BLOOD);
 	pAbility->m_vPattern.push_back(Vec2D(0, 0));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("rangeattackicon"));
 	pAbility->SetType(SP_ARCHERRANGEDATTACK);

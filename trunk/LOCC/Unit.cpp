@@ -17,10 +17,14 @@
 #include "SGD Wrappers\CSGD_XAudio2.h"
 #include "ObjectManager.h"
 #include "FloatingText.h"
+#include "MessageSystem.h"
+#include "SpawnUnitMessage.h"
+
 
 CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 {
 	m_bPlayAttackAnim = false;
+	m_bCharging = false;
 	m_nTilesMoved = 0;
 	CAbilityManager * pAM = CAbilityManager::GetInstance();
 
@@ -494,6 +498,10 @@ void CUnit::Update(float fElapsedTime)
 						CSGD_XAudio2::GetInstance()->SFXStopSound( CSoundManager::GetInstance()->GetID(_T("Footstep")) );
 				}
 
+				CParticleManager::GetInstance()->StopLoop(PT_MOVE);
+				if( m_bCharging == true )
+					m_bHasAttacked = true;
+
 				if( GetEffect(SP_DEATH) == true )
 				{
 					if( m_eType != UT_HERO )
@@ -536,10 +544,12 @@ void CUnit::SetPos(int posX, int posY)
 	if (pTile != nullptr)
 		pTile->SetIfOccupied(true);
 }
+
 void CUnit::SetPos(Vec2D pos)
 {
 	SetPos(pos.nPosX, pos.nPosY);
 }
+
 void CUnit::RemoveEffect(SPELL_TYPE spType)
 {
 	for (unsigned int i = 0; i < m_vEffects.size(); ++i)
@@ -893,6 +903,38 @@ int CUnit::DoDamage(lua_State* L)
 		lua_pushnumber(L, damage);
 	}
 	return 1;
+}
+
+int CUnit::Encase( lua_State* L )
+{
+	int ID = CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID();
+	int posX = (int)lua_tonumber(L, 1);
+	int posY = (int)lua_tonumber(L, 2);
+	
+	IMessage* msg;
+	CUnit* target;
+	target = CGameManager::GetInstance()->FindUnit(Vec2D(posX, posY));
+
+	if( target == nullptr )
+	{
+		if( ID == 0 )
+			msg = new CSpawnUnitMessage(Vec2D(posX, posY), ID, UT_ICEBLOCK, 2, false, 22);
+		else
+			msg = new CSpawnUnitMessage(Vec2D(posX, posY), ID, UT_ICEBLOCK, 0, false, 22);
+
+		CMessageSystem::GetInstance()->SendMessageW(msg);
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("ice")), false, false);
+		CParticleManager::GetInstance()->LoadParticles(PT_ICEBOLT, Vec2D(posX, posY));
+	}
+	else
+	{
+		Vec2Df tmp;
+		tmp.fVecX = (float)TranslateToPixel(target->GetPos()).nPosX;
+		tmp.fVecY = (float)TranslateToPixel(target->GetPos()).nPosY;
+		target->SetHP(target->GetHP() - 10);
+		CFloatingText::GetInstance()->AddText("-10", tmp, Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));	
+	}
+	return 0;
 }
 
 int CUnit::Rally(lua_State* L)

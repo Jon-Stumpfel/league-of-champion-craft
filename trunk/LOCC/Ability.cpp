@@ -17,7 +17,13 @@ int CAbility::GetAbilityPattern( lua_State* L )
 {
 	lua_newtable(L);
 	int nCount = 0;
-	vector< Vec2D > pat = CAbilityManager::GetInstance()->GetAbility(SP_MASSRAISE)->GetPattern();
+	int spell = (int)lua_tonumber(L, 1);
+	vector< Vec2D > pat;
+	if( spell == 1 )
+		pat = CAbilityManager::GetInstance()->GetAbility(SP_MASSRAISE)->GetPattern();
+	else if (spell == 2 )
+		pat = CAbilityManager::GetInstance()->GetAbility(SP_ENCASE)->GetPattern();
+
 	CUnit* tmp = CGameplayState::GetInstance()->GetSelectedUnit();
 	for( unsigned int i = 0; i < pat.size(); i++ )
 	{

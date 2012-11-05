@@ -25,6 +25,10 @@ public:
 
 	PRTCL_TYPE GetType( void ) const { return m_ptType; }
 
+	int GetNumSpawned( void ) { return m_nNumSpawned; }
+	void SetNumParticles( int n ) { m_nNumParticles = n; }
+	void SetLoop( bool b ) { m_bLooping = b; }
+
 private:
 
 	void Loop( void );
