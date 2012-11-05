@@ -2141,7 +2141,6 @@ void CGameplayState::Render(void)
 
 	// Render the tiles. Only using colored blocks for now
 	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
-	{
 		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
 		{
 			RECT tileRect = { (LONG)(i * nMiniTileWidth + nMiniMapOffsetX),
@@ -2224,7 +2223,6 @@ void CGameplayState::Render(void)
 				fX, fY, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_XRGB(r, g, b));
 		}
 		CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-	}
 
 	if (m_bShowingCard)
 	{
