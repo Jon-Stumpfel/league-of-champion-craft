@@ -101,6 +101,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/scrollvert.png"), _T("scrollvert"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/singleplayer.png"), _T("singleplayer"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/multiplayer.png"), _T("multiplayer"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/blackpixel.png"), _T("blackpixel"), 0UL);
 	
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page1.png"), _T("Page1"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page2.png"), _T("Page2"), 0UL);

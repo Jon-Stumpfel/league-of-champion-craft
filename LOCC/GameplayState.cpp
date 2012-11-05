@@ -789,9 +789,12 @@ void CGameplayState::UseAbility(CAbility* ability)
 				{
 					Champ = dynamic_cast<CHero*>(m_pSelectedUnit);
 					//CoolDown Check here
-					pSM->Play(pSM->GetID(_T("NO")),false,false);
+
 					if (Champ->GetCooldown(m_nSelectedSpell)<0)
+					{
+						pSM->Play(pSM->GetID(_T("NO")),false,false);
 						return;
+					}
 				}
 
 				// cast the spell!

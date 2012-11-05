@@ -87,6 +87,7 @@ bool CInputManager::Input(void)
 		{
 			if (CStateStack::GetInstance()->FindState(CControllerUnpluggedState::GetInstance()) == false)
 			{
+				CStateStack::GetInstance()->SetRenderTopOnly(false);
 				CStateStack::GetInstance()->Push(CControllerUnpluggedState::GetInstance());
 				CControllerUnpluggedState::GetInstance()->SetJoyToPlug(1);
 
@@ -119,6 +120,7 @@ bool CInputManager::Input(void)
 		{
 			if (CStateStack::GetInstance()->FindState(CControllerUnpluggedState::GetInstance()) == false)
 			{
+				CStateStack::GetInstance()->SetRenderTopOnly(false);
 				CStateStack::GetInstance()->Push(CControllerUnpluggedState::GetInstance());
 				CControllerUnpluggedState::GetInstance()->SetJoyToPlug(2);
 
