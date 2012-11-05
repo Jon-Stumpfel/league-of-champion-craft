@@ -402,6 +402,10 @@ void COptionsMenuState::Render(void)
 		toprect->right = 377;
 		pTM->Draw(jcs_nImageID,480,305,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	}
+	else
+	{
+
+	}
 	if(IsModern)
 	{
 		toprect->top = 336;
@@ -409,6 +413,10 @@ void COptionsMenuState::Render(void)
 		toprect->bottom = 385;
 		toprect->right = 377;
 		pTM->Draw(jcs_nImageID,480,360,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	}
+	else
+	{
+
 	}
 	delete toprect;
 	toprect = nullptr;
