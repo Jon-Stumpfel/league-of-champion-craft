@@ -4,7 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>	//	Needed for Windows Applications.
 #include <tchar.h>
-#include <vld.h>
+
 #include "Game.h"
 #include "SGD Wrappers\CSGD_Direct3D.h"
 #include "SGD Wrappers\CSGD_DirectInput.h"
@@ -33,7 +33,7 @@ using std::ostringstream;
 using std::vector;
 using std::string;
 
-//#define ARCADE_BUILD
+#define ARCADE_BUILD
 
 	enum ANIM_TYPE { AT_IDLE, AT_WALK_N, AT_WALK_S, AT_WALK_E, AT_WALK_W, AT_ATTACK_N, 
 		AT_ATTACK_S, AT_ATTACK_E, AT_ATTACK_W, AT_ABILITY_N, AT_ABILITY_S, AT_ABILITY_E, AT_ABILITY_W, AT_DEATH };
@@ -130,3 +130,5 @@ using std::string;
 {
 	return (n != 0);
 }
+
+#include <vld.h>

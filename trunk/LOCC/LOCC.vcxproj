@@ -214,6 +214,7 @@
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="PauseState.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SaveSlotState.h" />
     <ClInclude Include="ScriptManager.h" />
     <ClInclude Include="SGD Wrappers\CSGD_Direct3D.h" />
@@ -237,6 +238,12 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="Unit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LOCC.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Menus\gameicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

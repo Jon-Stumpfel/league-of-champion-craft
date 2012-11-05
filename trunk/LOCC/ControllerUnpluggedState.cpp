@@ -45,9 +45,16 @@ void CControllerUnpluggedState::Update(float fElapsedTime)
 }
 void CControllerUnpluggedState::Render(void)
 {
+
 	CBitmapFont bitmapFont;
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("360pad")),
 		188, 46, 1.0f, 1.0f);
+	//CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("blackpixel")),
+	//	30, 326, 735.0f, 120.0f);
+
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 850, 315, 0.3f, 1.7f,
+		(RECT*)0, 0.0f, 0.0f, 90 * 3.1415928/180);
+
 
 	bitmapFont.Print("Controller Unplugged", 40, 336, 1.2f, D3DCOLOR_XRGB(255, 255, 255));
 	std::ostringstream oss;
