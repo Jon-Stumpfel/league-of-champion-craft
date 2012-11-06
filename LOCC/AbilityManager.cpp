@@ -437,7 +437,7 @@ void CAbilityManager::LoadAbilities( void )
 				{
 					ab->SetIsMove(false);
 					ab->SetType(SP_HEAL);
-					ab->SetParticleType(TEST);
+					ab->SetParticleType(PT_HEALCROSS);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(-8);
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion closes the wounds of a selected unit."));
@@ -452,7 +452,7 @@ void CAbilityManager::LoadAbilities( void )
 				{
 					ab->SetIsMove(false);
 					ab->SetType(SP_SHIELD);
-					ab->SetParticleType(TEST);
+					ab->SetParticleType(PT_SHIELD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(0);
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his target, preventing damage for a turn."));
@@ -466,7 +466,7 @@ void CAbilityManager::LoadAbilities( void )
 				{
 					ab->SetIsMove(false);
 					ab->SetType(SP_SPEED);
-					ab->SetParticleType(TEST);
+					ab->SetParticleType(PT_SPEED);
 					ab->SetDamage(0);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion increases the speed of a selected unit for a turn."));
@@ -1191,6 +1191,7 @@ void CAbilityManager::LoadAbilities( void )
 	tmp.second = pAbility;
 	m_vAbilities.push_back(tmp);
 
+	// Blank scroll
 	pAbility = new CAbility();
 	pAbility->m_nAPCost = 0;
 	pAbility->m_nNumTargets = -2;

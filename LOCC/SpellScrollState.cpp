@@ -282,31 +282,49 @@ void CSpellScrollState::Input(INPUT_ENUM input)
 					}
 				}
 
-				
+				CAbility* ability = m_pCustomer->GetSpell(m_nSwap);
 				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 				if( m_nSelected == 0 )
 				{
+					if( ability->GetType() != SP_BLANK)
+					{
+						m_pCustomer->SetCooldown(m_nSwap, m_vElemental[m_nSelectedAbility]->GetCoolDown());
+					}
+					
+
 					m_pCustomer->SwapSpell(m_vElemental[m_nSelectedAbility], m_nSwap);
 					m_pCustomer->SpellBought(m_vElemental[m_nSelectedAbility]);
-					m_pCustomer->SetCooldown(m_nSwap, m_vElemental[m_nSelectedAbility]->GetCoolDown());
 				}
 				else if( m_nSelected == 1 )
 				{
+					if( ability->GetType() != SP_BLANK)
+					{
+						m_pCustomer->SetCooldown(m_nSwap, m_vPhysical[m_nSelectedAbility]->GetCoolDown());
+					}
+
 					m_pCustomer->SwapSpell(m_vPhysical[m_nSelectedAbility], m_nSwap);
 					m_pCustomer->SpellBought(m_vPhysical[m_nSelectedAbility]);
-					m_pCustomer->SetCooldown(m_nSwap, m_vPhysical[m_nSelectedAbility]->GetCoolDown());
 				}
 				else if( m_nSelected == 2 )
 				{
+					
+					if( ability->GetType() != SP_BLANK)
+					{
+						m_pCustomer->SetCooldown(m_nSwap, m_vSupport[m_nSelectedAbility]->GetCoolDown());
+					}
+
 					m_pCustomer->SwapSpell(m_vSupport[m_nSelectedAbility], m_nSwap);
 					m_pCustomer->SpellBought(m_vSupport[m_nSelectedAbility]);
-					m_pCustomer->SetCooldown(m_nSwap, m_vSupport[m_nSelectedAbility]->GetCoolDown());
 				}
 				else
 				{
+					if( ability->GetType() != SP_BLANK)
+					{
+						m_pCustomer->SetCooldown(m_nSwap, m_vEpic[m_nSelectedAbility]->GetCoolDown());
+					}
+
 					m_pCustomer->SwapSpell(m_vEpic[m_nSelectedAbility], m_nSwap);
 					m_pCustomer->SpellBought(m_vEpic[m_nSelectedAbility]);
-					m_pCustomer->SetCooldown(m_nSwap, m_vEpic[m_nSelectedAbility]->GetCoolDown());
 				}
 
 				CStateStack::GetInstance()->Pop();
@@ -371,32 +389,32 @@ void CSpellScrollState::Render(void)
 	CBitmapFont* pBF = new CBitmapFont();
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	pTM->Draw(pGM->GetID(_T("ssbackground")), 0, 0);
+	//pTM->Draw(pGM->GetID(_T("ssbackground")), 0, 0);
 
 	if( page == 1 )
-		pTM->Draw(pGM->GetID(_T("Page1")), 175, -30, .5f, .5f);
+		pTM->Draw(pGM->GetID(_T("Page1")), 175 - 40, -30 + 25, .5f, .5f);
 	else if( page == 2 )
-		pTM->Draw(pGM->GetID(_T("Page2")), 175, -30, .5f, .5f);
+		pTM->Draw(pGM->GetID(_T("Page2")), 175 - 40, -30 + 25, .5f, .5f);
 	else if( page == 3 )
-		pTM->Draw(pGM->GetID(_T("Page3")), 175, -30, .5f, .5f);
+		pTM->Draw(pGM->GetID(_T("Page3")), 175 - 40, -30 + 25, .5f, .5f);
 	else if( page == 4 )
-		pTM->Draw(pGM->GetID(_T("Page4")), 175, -30, .5f, .5f);
+		pTM->Draw(pGM->GetID(_T("Page4")), 175 - 40, -30 + 25, .5f, .5f);
 	else if( page == 5 )
-		pTM->Draw(pGM->GetID(_T("Page5")), 175, -30, .5f, .5f);
+		pTM->Draw(pGM->GetID(_T("Page5")), 175 - 40, -30 + 25, .5f, .5f);
 	else if( page == 6 )
-		pTM->Draw(pGM->GetID(_T("Page6")), 175, -30, .5f, .5f);
+		pTM->Draw(pGM->GetID(_T("Page6")), 175 - 40, -30 + 25, .5f, .5f);
 	else if( page == 7 )
-		pTM->Draw(pGM->GetID(_T("Page7")), 175, -30, .5f, .5f);
+		pTM->Draw(pGM->GetID(_T("Page7")), 175 - 40, -30 + 25, .5f, .5f);
 
 	ostringstream xp;
 	xp << "Exp: " << m_nExp;
-	pBF->Print(xp.str().c_str(), 10, 20, .5f, D3DCOLOR_ARGB(255, 255, 255, 255));
+	pBF->Print(xp.str().c_str(), 10, 20, .4f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	if( flipping == false && unflipping == false )
 	{
 		if( m_bTreeSelect == false )
 		{
-			pTM->Draw(pGM->GetID(_T("spelldesc")), 145, 475, .9f, .9f);
+			pTM->Draw(pGM->GetID(_T("spelldesc")), 145 - 65, 475, .9f, .9f);
 			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 		
 			CAbility* selected;
@@ -411,11 +429,11 @@ void CSpellScrollState::Render(void)
 
 
 			if( selected->GetIfAttack() )
-			pTM->Draw(pGM->GetID(_T("check")), 240 - 50, 485, .5f, .5f);
+			pTM->Draw(pGM->GetID(_T("check")), 240 - 50 - 65, 485, .5f, .5f);
 
 			ostringstream tt;
 			tt  << selected->GetApCost();
-			pBF->Print(tt.str().c_str(), 299 - 50, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 299 - 50 - 65, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 
@@ -424,30 +442,30 @@ void CSpellScrollState::Render(void)
 			else
 				tt << "Attack";
 
-			pBF->Print(tt.str().c_str(), 278 - 50, 525, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 278 - 50 - 65, 525, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 
 			tt << selected->GetRange();
-			pBF->Print(tt.str().c_str(), 373 - 50, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 373 - 50 - 65, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 			tt << selected->GetCoolDown();
-			pBF->Print(tt.str().c_str(), 373 - 50, 523, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 373 - 50 - 65, 523, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 			tt << selected->GetDamage();
-			pBF->Print(tt.str().c_str(), 373 - 50, 555, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));	
+			pBF->Print(tt.str().c_str(), 373 - 50 - 65, 555, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));	
 
 			tt.str("");
 			tt << selected->GetName();
-			pBF->Print(tt.str().c_str(), 210 - 50, 556, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(tt.str().c_str(), 210 - 50 - 65, 556, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 			tt.str("");
 			tt << selected->GetDescription();
-			pBF->Print(tt.str().c_str(), 427 - 50, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
+			pBF->Print(tt.str().c_str(), 427 - 50 - 65, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
 
-			int x = 680, y = 525;
+			int x = 680 - 65, y = 525;
 			std::vector< Vec2D > pat = selected->GetPattern();
 			std::vector< Vec2D > drawn;
 
@@ -474,19 +492,19 @@ void CSpellScrollState::Render(void)
 		{
 			ostringstream oss;
 			oss << "Ye Olde Table of Contents";
-			pBF->Print(oss.str().c_str(), 440, 50, .6f, D3DCOLOR_ARGB(255, 255, 255, 255), 240);	
+			pBF->Print(oss.str().c_str(), 440 - 40, 50 + 25, .6f, D3DCOLOR_ARGB(255, 255, 255, 255), 240);	
 			oss.str("");
 			oss << "Elemental";
-			pBF->Print(oss.str().c_str(), 450, 200 - 60, .7f, m_nSelected == 0 ? D3DCOLOR_ARGB(255, 255, 0, 255) :  D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(oss.str().c_str(), 450 - 40, 200 - 60 + 25, .7f, m_nSelected == 0 ? D3DCOLOR_ARGB(255, 255, 0, 255) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 			oss.str("");
 			oss << "Physical";
-			pBF->Print(oss.str().c_str(), 450, 275 - 60, .7f, m_nSelected == 1 ? D3DCOLOR_ARGB(255, 255, 0, 0) :  D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(oss.str().c_str(), 450 - 40, 275 - 60 + 25, .7f, m_nSelected == 1 ? D3DCOLOR_ARGB(255, 255, 0, 0) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 			oss.str("");
 			oss << "Support";
-			pBF->Print(oss.str().c_str(), 450, 350 - 60, .7f, m_nSelected == 2 ? D3DCOLOR_ARGB(255, 0, 255, 0) :  D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(oss.str().c_str(), 450 - 40, 350 - 60 + 25, .7f, m_nSelected == 2 ? D3DCOLOR_ARGB(255, 0, 255, 0) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 			oss.str("");
 			oss << "Epic";
-			pBF->Print(oss.str().c_str(), 450, 425 - 60, .7f, m_nSelected == 3 ? D3DCOLOR_ARGB(255, 204, 153, 51) :  D3DCOLOR_ARGB(255, 255, 255, 255));
+			pBF->Print(oss.str().c_str(), 450 - 40, 425 - 60 + 25, .7f, m_nSelected == 3 ? D3DCOLOR_ARGB(255, 204, 153, 51) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 		}
 		else
 		{
@@ -521,117 +539,117 @@ void CSpellScrollState::Render(void)
 						if( i < 3 )
 						{
 							if( m_nSelected == 0 )
-								pBF->Print("Cost: 100", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
+								pBF->Print("Cost: 100", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
 							else if( m_nSelected == 1 )	    
-								pBF->Print("Cost: 100", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
+								pBF->Print("Cost: 100", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
 							else if( m_nSelected == 2 )				   
-								pBF->Print("Cost: 100", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+								pBF->Print("Cost: 100", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
 							else
-								pBF->Print("Cost: 500", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
+								pBF->Print("Cost: 500", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
 						}
 						else if( i < 6 )
 						{
 							if( m_nSelected == 0 )
-								pBF->Print("Cost: 200", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
+								pBF->Print("Cost: 200", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
 							else if( m_nSelected == 1 )
-								pBF->Print("Cost: 200", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
+								pBF->Print("Cost: 200", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
 							else if( m_nSelected == 2 )
-								pBF->Print("Cost: 200", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+								pBF->Print("Cost: 200", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
 							else
-								pBF->Print("Cost: 500", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
+								pBF->Print("Cost: 500", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
 						}
 					}
 					else
 					{
 						if( m_nSelected == 0 )
-							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
+							pBF->Print("Purchased", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
-							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
+							pBF->Print("Purchased", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,255,100,100));
 						else if( m_nSelected == 2 )
-							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
+							pBF->Print("Purchased", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,100,255,100));
 						else
-							pBF->Print("Purchased", 260 + 15, 160 - 90 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
+							pBF->Print("Purchased", 260 + 15 - 40, 160 - 90 + 25 + (55 * i), .3f, D3DCOLOR_ARGB(255,204, 153, 51));
 					}
 
 					if( i == m_nSelectedAbility )
 					{
 						if( m_nSelected == 0 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12 - 40, 150 - 90 + 25 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
 						else if( m_nSelected == 1 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12 - 40, 150 - 90 + 25 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
 						else if( m_nSelected == 2 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12 - 40, 150 - 90 + 25 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
 						else
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12, 150 - 90 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 204, 153, 51));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 200 + 12 - 40, 150 - 90 + 25 + (55 * i) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 204, 153, 51));
 					}
 
-					pTM->Draw(vSelected[i]->GetIconID(), 200 + 15, 150 - 90 + (55 * i), .7f, .7f);
+					pTM->Draw(vSelected[i]->GetIconID(), 200 + 15 - 40, 150 - 90 + 25 + (55 * i), .7f, .7f);
 				}
 				else if( i < 9 )
 				{
 					if( bought == false )
 					{
 						if( m_nSelected == 0 )
-							pBF->Print("Cost: 300", 510 + 15, 210 - 90 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,0,255));
+							pBF->Print("Cost: 300", 510 + 15 - 40, 210 - 90 + 25 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
-							pBF->Print("Cost: 300", 510 + 15, 210 - 90 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,100,100));
+							pBF->Print("Cost: 300", 510 + 15 - 40, 210 - 90 + 25 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,100,100));
 						else
-							pBF->Print("Cost: 300", 510 + 15, 210 - 90 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,100,255,100));
+							pBF->Print("Cost: 300", 510 + 15 - 40, 210 - 90 + 25 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,100,255,100));
 					}
 					else
 					{
 						if( m_nSelected == 0 )
-							pBF->Print("Purchased", 510 + 15, 210 - 90 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,0,255));
+							pBF->Print("Purchased", 510 + 15 - 40, 210 - 90 + 25 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
-							pBF->Print("Purchased", 510 + 15, 210 - 90 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,100,100));
+							pBF->Print("Purchased", 510 + 15 - 40, 210 - 90 + 25 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,255,100,100));
 						else
-							pBF->Print("Purchased", 510 + 15, 210 - 90 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,100,255,100));
+							pBF->Print("Purchased", 510 + 15 - 40, 210 - 90 + 25 + (55 * (i-6)), .3f, D3DCOLOR_ARGB(255,100,255,100));
 					}
 
 					if( i == m_nSelectedAbility )
 					{
 						if( m_nSelected == 0 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 200 - 90 + (55 * (i-6)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12 - 40, 200 - 90 + 25 + (55 * (i-6)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
 						else if( m_nSelected == 1 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 200 - 90 + (55 * (i-6)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12 - 40, 200 - 90 + 25 + (55 * (i-6)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
 						else
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 200 - 90 + (55 * (i-6)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12 - 40, 200 - 90 + 25 + (55 * (i-6)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
 					}
 
-					pTM->Draw(vSelected[i]->GetIconID(), 450 + 15, 200 - 90 + (55 * (i-6)), .7f, .7f);
+					pTM->Draw(vSelected[i]->GetIconID(), 450 + 15 - 40, 200 - 90 + 25 + (55 * (i-6)), .7f, .7f);
 				}
 				else
 				{
 					if( bought == false )
 					{
 						if( m_nSelected == 0 )
-							pBF->Print("Cost: 400", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,0,255));
+							pBF->Print("Cost: 400", 510 + 15 - 40, 380 - 90 + 25 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
-							pBF->Print("Cost: 400", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,100,100));
+							pBF->Print("Cost: 400", 510 + 15 - 40, 380 - 90 + 25 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,100,100));
 						else
-							pBF->Print("Cost: 400", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,100,255,100));
+							pBF->Print("Cost: 400", 510 + 15 - 40, 380 - 90 + 25 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,100,255,100));
 					}
 					else
 					{
 						if( m_nSelected == 0 )
-							pBF->Print("Purchased", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,0,255));
+							pBF->Print("Purchased", 510 + 15 - 40, 380 - 90 + 25 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,0,255));
 						else if( m_nSelected == 1 )
-							pBF->Print("Purchased", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,100,100));
+							pBF->Print("Purchased", 510 + 15 - 40, 380 - 90 + 25 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,255,100,100));
 						else
-							pBF->Print("Purchased", 510 + 15, 380 - 90 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,100,255,100));
+							pBF->Print("Purchased", 510 + 15 - 40, 380 - 90 + 25 + (55 * (i-9)), .3f, D3DCOLOR_ARGB(255,100,255,100));
 					}
 				
 					if( i == m_nSelectedAbility )
 					{
 						if( m_nSelected == 0 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 370 - 90 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12 - 40, 370 - 90 + 25 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 255));
 						else if( m_nSelected == 1 )
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 370 - 90 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12 - 40, 370 - 90 + 25 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 0, 0));
 						else
-							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12, 370 - 90 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
+							pTM->Draw(pGM->GetID(_T("scrollselect")), 450 + 12 - 40, 370 - 90 + 25 + (55 * (i-9)) - 3, .7f, .7f, nullptr, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 0, 255, 0));
 					}
 
-					pTM->Draw(vSelected[i]->GetIconID(), 450 + 15, 370 - 90 + (55 * (i-9)), .7f, .7f);
+					pTM->Draw(vSelected[i]->GetIconID(), 450 + 15 - 40, 370 - 90 + 25 + (55 * (i-9)), .7f, .7f);
 				}
 			}
 		}

@@ -6,6 +6,7 @@
 #include "SocketServer.h"
 #include "StringTable.h"
 #include "AIManager.h"
+#include "ParticleManager.h"
 
 const float MAPWIDTH=180.0f;
 const float MAPHEIGHT=180.0f;
@@ -101,9 +102,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			if(m_nType==2)
 			{
 					CGameManager::GetInstance()->NewGame("level0", 1);		//tutorial
-
-					CAIManager::GetInstance()->SetActionSpeed(.5f);			//slow down AI
-					
+					CAIManager::GetInstance()->SetActionSpeed(.5f);			//slow down AI	
 					CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
 			// if your not in tutorial, reset action speed to what kyle had it set to
@@ -125,10 +124,10 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					bNetworkedGame = true;
 				}
 //STOP//		//SAME DEAL
-				if (m_nType == 0)
+				if( m_nType == 0 )
 					CGameManager::GetInstance()->NewGame("level5", 5);		//MULTIPLAYER
 				else
-					CGameManager::GetInstance()->NewGame("level1", 1);	//SINGLE PLAYER
+					CGameManager::GetInstance()->NewGame("level1", 1);	    //SINGLE PLAYER
 
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
@@ -199,7 +198,9 @@ void LevelSelectState::Input(INPUT_ENUM input)
 
 //STOP//		//SAME DEAL
 				if (m_nType == 0)
+				{
 					CGameManager::GetInstance()->NewGame("level8", 8);		//MULTIPLAYER
+				}
 				else
 					CGameManager::GetInstance()->NewGame("level4", 4);	//SINGLE PLAYER
 

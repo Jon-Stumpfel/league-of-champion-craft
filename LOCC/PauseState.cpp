@@ -10,6 +10,8 @@
 #include "Player.h"
 #include "StringTable.h"
 #include "SoundManager.h"
+#include "HelpMenuState.h"
+
 CPauseState::CPauseState(void)
 {
 }
@@ -50,7 +52,7 @@ void CPauseState::Input(INPUT_ENUM input)
 		{
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			m_nVerticalChoice++;
-			if (m_nVerticalChoice > 3)
+			if (m_nVerticalChoice > 4)
 				m_nVerticalChoice = 0;
 		}
 		break;
@@ -59,7 +61,7 @@ void CPauseState::Input(INPUT_ENUM input)
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			m_nVerticalChoice--;
 			if (m_nVerticalChoice < 0)
-				m_nVerticalChoice = 3;
+				m_nVerticalChoice = 4;
 		}
 		break;
 	case INPUT_ACCEPT:
@@ -78,7 +80,15 @@ void CPauseState::Input(INPUT_ENUM input)
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				CStateStack::GetInstance()->Push(CSaveSlotState::GetInstance());
 				break;
+
 			case 3:
+				{
+					CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+					CStateStack::GetInstance()->Push(CHelpMenuState::GetInstance());
+				}
+				break;
+
+			case 4:
 				{
 					// shutdown the socket
 				CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
@@ -124,7 +134,8 @@ void CPauseState::Update(float fElapsedTime)
 }
 void CPauseState::Render(void)
 {
-
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 290, 100, 0.55f, .5f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 255, 255));
+	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	// lol rainbow text just for the time being
 	std::ostringstream woss;
 	woss << StringTable::GetInstance()->GetString("GAME PAUSED");
@@ -157,9 +168,12 @@ void CPauseState::Render(void)
 	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Save/Load")
 		.c_str(), 350, 240, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
+	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Help")
+		.c_str(), 350, 270, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+
 	//CSGD_Direct3D::GetInstance()->DrawTextW(_T("Exit to Menu"), 350, 270, 255, 255, 255);
 	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Exit to Menu")
-		.c_str(), 350, 270, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
+		.c_str(), 350, 300, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
 	CGraphicsManager::GetInstance()->DrawArrow(330, 190 + m_nVerticalChoice * 30, 255, 255, 255);
 }

@@ -500,7 +500,10 @@ void CUnit::Update(float fElapsedTime)
 
 				CParticleManager::GetInstance()->StopLoop(PT_MOVE);
 				if( m_bCharging == true )
+				{
 					m_bHasAttacked = true;
+					m_bCharging = false;
+				}
 
 				if( GetEffect(SP_DEATH) == true )
 				{
@@ -569,24 +572,19 @@ void CUnit::UpdateEffects(void)
 		if (m_vEffects[i].first <= 0)
 		{
 			if( m_vEffects[i].second->GetType() == SP_STAND )
-			{
 				CParticleManager::GetInstance()->StopLoop(PT_STAND);
-			}
 
 			if( m_vEffects[i].second->GetType() == SP_ICEBOLT )
-			{
 				CParticleManager::GetInstance()->StopLoop(PT_ICEBOLT);
-			}
 
 			if( m_vEffects[i].second->GetType() == SP_FIREWEP )
-			{
 				CParticleManager::GetInstance()->StopLoop(PT_FIREWEP);
-			}
 
 			if( m_vEffects[i].second->GetType() == SP_FORT )
-			{
 				CParticleManager::GetInstance()->StopLoop(PT_FORT);
-			}
+			
+			if( m_vEffects[i].second->GetType() == SP_SPEED )
+				CParticleManager::GetInstance()->StopLoop(PT_SPEED);
 
 			m_vEffects.erase(m_vEffects.begin() + i--);
 		}
