@@ -44,14 +44,38 @@ void CGameModeState::Input(INPUT_ENUM input)
 				m_nSelected = 1;
 			else
 				m_nSelected = 0;
+
 		}
 		break;
 
 	case INPUT_RIGHT:
 		{
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
-			if( m_nSelected == 0 )
+			
+			if( m_nSelected == 1 )
+				m_nSelected = 0;
+			else
 				m_nSelected = 1;
+		}
+		break;
+
+	case INPUT_UP:
+		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+			if( m_nSelected >= 2 )
+				m_nSelected = 0;
+			else
+				m_nSelected = 2;
+
+		}
+		break;
+
+	case INPUT_DOWN:
+		{
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+			
+			if( m_nSelected == 0 || m_nSelected == 1 )
+				m_nSelected = 2;
 			else
 				m_nSelected = 0;
 		}
@@ -86,10 +110,17 @@ void CGameModeState::Render(void)
 
 	pBitmapFont.Print("Multi Player", 180, 150, 0.6f, m_nSelected == 0 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
 	pBitmapFont.Print("Single Player", 440, 150, 0.6f, m_nSelected == 1 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
+	pBitmapFont.Print("Tutorial", 330, 200, 0.6f, m_nSelected == 2 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	if( m_nSelected == 0 )
 		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("multiplayer")), 290, 275, 1.0f, 1.0f);
-	else
-		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("singleplayer")), 290, 275, 1.0f, 1.0f);
+	if( m_nSelected == 1 )
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("singleplayer")), 290, 275, 1.0f, 1.0f);	
+	if( m_nSelected == 2 )
+	{
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("multiplayer")), 290, 275, 1.0f, 1.0f);
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tutorial")), 290, 275, 1.0f, 1.0f);
+	}
+
 	pBitmapFont.Print("Press cancel to return...", 150, 530, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
 }

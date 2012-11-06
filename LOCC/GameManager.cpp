@@ -222,7 +222,7 @@ void CGameManager::LoadMap(int nLevelNum)
 	std::ostringstream oss;
 	oss << "Assets\\Tiles\\Level" << nLevelNum << ".xml";
 	//string filename= "Assets\\Tiles\\TestMap2.xml";
-	pTM->LoadSave(oss.str());
+	bool result =pTM->LoadSave(oss.str());
 	m_nCurrentLevel = nLevelNum;
 	// Attempting to load fake level 1 script
 }
@@ -798,7 +798,6 @@ void CGameManager::NewGame(string levelstring, int mapint)
 		pHero->SwapSpell(CAbilityManager::GetInstance()->GetAbility(SP_RALLY), 1);
 		pHero->SwapSpell(CAbilityManager::GetInstance()->GetAbility(SP_MAGIC), 2);
 		pHero->SwapSpell(CAbilityManager::GetInstance()->GetAbility(SP_CLEAVE), 3);
-
 	}
 
 	CAIManager::GetInstance()->BeginMovement();

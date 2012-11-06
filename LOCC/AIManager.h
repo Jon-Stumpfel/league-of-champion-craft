@@ -26,7 +26,11 @@ public:
 
 	Vec2D NearestOpen(Vec2D pTargetUnit, Vec2D pSelectedUnit);
 
+	void SetActionSpeed(float speed)		{m_fActionSpeed=speed;};
+	float  GetActionSpeed(float speed)		{return m_fActionSpeed;};
+
 private:
+	float m_fActionSpeed;
 
 	CAIManager(void);
 	~CAIManager(void);
