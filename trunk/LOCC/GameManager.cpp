@@ -780,7 +780,7 @@ void CGameManager::NewGame(string levelstring, int mapint)
 	
 	CTileManager::GetInstance()->ShutDown();
 	Reset();
-	LoadLevel(levelstring);
+	LoadLevel(levelstring);	
 
 	LoadMap(mapint);
 	
@@ -806,6 +806,24 @@ void CGameManager::NewGame(string levelstring, int mapint)
 		BeginNetworkGame(CSocketClient::GetInstance()->m_nNetworkPlayerID);
 	}
 	m_nCurrentPhase = GP_MOVE;
+	
+	if( levelstring == "level5" )
+	{
+		for( int x = 0; x < CTileManager::GetInstance()->GetNumRows(); x++ )
+		{
+			for( int y = 0; y < CTileManager::GetInstance()->GetNumColumns(); y++ )
+			{
+				int zzzzzzzzzzzz = rand() % 3 + 1;
+				if( zzzzzzzzzzzz == 1 )
+				{
+					Vec2D tmp;
+					tmp.nPosX = x;
+					tmp.nPosY = y;
+					CParticleManager::GetInstance()->LoadParticles(PT_ICEBOLT, TranslateToPixel(tmp));
+				}
+			}
+		}
+	}	
 }
 
 int CGameManager::GetCurrentTurn(void)

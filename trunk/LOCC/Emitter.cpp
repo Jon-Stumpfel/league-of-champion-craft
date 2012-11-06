@@ -310,6 +310,42 @@ void CEmitter::LoadParticles( PRTCL_TYPE eType, Vec2D sPos, CGameObject* track )
 				m_sSource.bottom = 128;
 			}
 			break;
+
+			case PT_SHIELD:
+			{
+				if( doc.LoadFile( "Assets/Particles/shield.xml" ) == false )
+				return;
+
+				m_sSource.left = 0;
+				m_sSource.top = 0;
+				m_sSource.right = 32;
+				m_sSource.bottom = 32;
+			}
+			break;
+			
+			case PT_SPEED:
+			{
+				if( doc.LoadFile( "Assets/Particles/speed.xml" ) == false )
+				return;
+
+				m_sSource.left = 0;
+				m_sSource.top = 0;
+				m_sSource.right = 128;
+				m_sSource.bottom = 128;
+			}
+			break;
+
+			case PT_SPAWN:
+			{
+				if( doc.LoadFile( "Assets/Particles/spawn.xml" ) == false )
+				return;
+
+				m_sSource.left = 0;
+				m_sSource.top = 0;
+				m_sSource.right = 128;
+				m_sSource.bottom = 128;
+			}
+
 	};
 
 	m_sEmitPos = sPos;

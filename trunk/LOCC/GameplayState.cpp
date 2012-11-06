@@ -27,6 +27,7 @@
 #include "CoinToss.h"
 #include "SpellScrollState.h"
 #include "SoundManager.h"
+#include "BitmapFont.h"
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -663,7 +664,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 	if( ability->GetType() == SP_SPAWNCALV )
 	{
-		if( pGM->GetCurrentPlayer()->GetPopCap() > pGM->GetCurrentPlayer()->GetMaxPopCap() || pGM->GetCurrentPlayer()->GetMetal() < 10 || pGM->GetCurrentPlayer()->GetWood() < 10 )
+		if( pGM->GetCurrentPlayer()->GetPopCap() > pGM->GetCurrentPlayer()->GetMaxPopCap() || pGM->GetCurrentPlayer()->GetMetal() < 20 || pGM->GetCurrentPlayer()->GetWood() < 20 )
 		{
 			return;
 		}
@@ -864,13 +865,13 @@ void CGameplayState::UseAbility(CAbility* ability)
 						case SP_SPAWNCALV:
 							{
 								//pGM->GetCurrentPlayer()->SetPopCap(pGM->GetCurrentPlayer()->GetPopCap()+1);
-								pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 10 );
-								pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 10 );
-								CFloatingText::GetInstance()->AddScreenText("-10", Vec2Df(650, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
-								CFloatingText::GetInstance()->AddScreenText("-10", Vec2Df(724, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+								pGM->GetCurrentPlayer()->SetMetal(pGM->GetCurrentPlayer()->GetMetal() - 20 );
+								pGM->GetCurrentPlayer()->SetWood(pGM->GetCurrentPlayer()->GetWood() - 20 );
+								CFloatingText::GetInstance()->AddScreenText("-20", Vec2Df(650, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
+								CFloatingText::GetInstance()->AddScreenText("-20", Vec2Df(724, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
 								// Stats saving!
-								pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=10;
-								pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=10;
+								pGM->GetCurrentPlayer()->GetStats()->nPlayerMetalSpent+=20;
+								pGM->GetCurrentPlayer()->GetStats()->nPlayerWoodSpent+=20;
 									
 								if( cur == 0 )
 									msg = new CSpawnUnitMessage(m_pTargetedTile->GetPosition(), cur, UT_CAVALRY, 2, false, 22);
@@ -904,6 +905,11 @@ void CGameplayState::UseAbility(CAbility* ability)
 						CFloatingText::GetInstance()->AddScreenText(aposs.str(), Vec2Df(450, 546), Vec2Df(0, -40), 2.0f, 0.4f, D3DCOLOR_XRGB(255, 20, 20));
 									// STATS SAVING
 						CGameManager::GetInstance()->GetCurrentPlayer()->GetStats()->nPlayerAPSpent+=ability->m_nAPCost;
+						Vec2D t;
+						t.nPosX = m_pTargetedTile->GetPosition().nPosX;
+						t.nPosY = m_pTargetedTile->GetPosition().nPosY;
+						CParticleManager::GetInstance()->LoadParticles(PT_SPAWN, TranslateToPixel(t));
+
 						m_pTargetedTile = nullptr;
 						m_pSelectedUnit = nullptr;
 						m_bIsTargeting = false;
@@ -912,6 +918,9 @@ void CGameplayState::UseAbility(CAbility* ability)
 				}
 				else if (ability->GetType() == SP_MELEEATTACK || ability->GetType() == SP_ARCHERRANGEDATTACK)
 				{
+					if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition().nPosX, m_pTargetedTile->GetPosition().nPosY) == m_pSelectedUnit )
+						return;
+
 					if( ability->GetType() == SP_MELEEATTACK )
 						CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Sword")), false, false);
 					else
@@ -1011,6 +1020,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 									else
 									{
 										pUnit->RemoveEffect(SP_SHIELD);
+										CParticleManager::GetInstance()->StopLoop(PT_SHIELD);
 										Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 										std::ostringstream oss;
 										oss << "Shielded!";
@@ -1113,6 +1123,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 								else
 								{
 									pUnit->RemoveEffect(SP_SHIELD);
+									CParticleManager::GetInstance()->StopLoop(PT_SHIELD);
 									//	pUnit->SetShielded(0);
 									Vec2D pixelPos = TranslateToPixel(pUnit->GetPos());
 									std::ostringstream oss;
@@ -1164,6 +1175,12 @@ void CGameplayState::UseAbility(CAbility* ability)
 				}
 				else
 				{
+					if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition().nPosX, m_pTargetedTile->GetPosition().nPosY) == m_pSelectedUnit )
+					{
+						if( ability->GetDamage() > 0 )
+							return;
+					}
+
 					if( ability->GetType() == SP_VOLLEY )
 						ability->m_nRange = m_pSelectedUnit->GetRange();
 
@@ -2467,6 +2484,7 @@ void CGameplayState::Render(void)
 			{
 				drawColor = D3DCOLOR_XRGB(120, 120, 120);
 			}
+
 			if (pAbility->GetType() == SP_VOLLEY)
 			{
 				if (m_pSelectedUnit->GetTilesMoved() > 0)
@@ -2474,6 +2492,7 @@ void CGameplayState::Render(void)
 					drawColor = D3DCOLOR_XRGB(120, 120, 120);
 				}
 			}
+
 			if (pAbility->GetType() == SP_CHAMPSPELL)
 					drawColor = D3DCOLOR_XRGB(255, 255, 255);
 
@@ -2498,17 +2517,28 @@ void CGameplayState::Render(void)
 			{
 				for (unsigned int i = 0; i < pHero->GetNumSpells(); ++i)
 				{
-					if (pHero->GetCooldown(i)==0)
+					if (pHero->GetCooldown(i) == 0)
 					{
-						CSGD_TextureManager::GetInstance()->Draw(
-							CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
-							233 +( i * 86), m_nSpellPanelOffsetY + 23);
+						if( pHero->GetSpell(i)->GetPhase() == CGameManager::GetInstance()->GetCurrentPhase() || pHero->GetSpell(i)->GetType() == SP_BLANK )
+						{
+							CSGD_TextureManager::GetInstance()->Draw(
+								CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
+								233 +( i * 86), m_nSpellPanelOffsetY + 23);
+						}
+						else
+						{
+							CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
+									233 +( i * 86), m_nSpellPanelOffsetY + 23,1.0f,1.0f,(RECT*)0,0.0f,0.0f,0.0f,D3DCOLOR_XRGB(100,100,100));
+						}
 					}
 					else
 					{
-					CSGD_TextureManager::GetInstance()->Draw(
-						CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
-						233 +( i * 86), m_nSpellPanelOffsetY + 23,1.0f,1.0f,(RECT*)0,0.0f,0.0f,0.0f,D3DCOLOR_XRGB(100,100,100));
+						CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(pHero->GetSpell(i)->m_szInterfaceIcon),
+									233 +( i * 86), m_nSpellPanelOffsetY + 23,1.0f,1.0f,(RECT*)0,0.0f,0.0f,0.0f,D3DCOLOR_XRGB(100,100,100));
+						CBitmapFont bitmap;
+						ostringstream oss;
+						oss << pHero->GetCooldown(i);
+						bitmap.Print(oss.str().c_str(), 254 + (i * 86), m_nSpellPanelOffsetY + 42, 0.6f, D3DCOLOR_XRGB(255, 255, 255));
 					}
 					if (m_nSelectedSpell == i)
 					{
