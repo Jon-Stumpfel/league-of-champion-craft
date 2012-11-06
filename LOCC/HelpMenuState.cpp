@@ -6,7 +6,7 @@
 #include "SoundManager.h"
 #include "StringTable.h"
 //CHelpMenuState* CHelpMenuState::s_Instance = nullptr;
-const int MENUMAX =3;
+const int MENUMAX =6;
 CHelpMenuState::CHelpMenuState(void)
 {
 }
@@ -22,6 +22,9 @@ void CHelpMenuState::Enter(void)
 	m_nTileHelpID		= CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets/Menus/TileHelp.png"),D3DXCOLOR(255,255,255,255));
 	m_nUnitHelpID		= CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets/Menus/UnitHelp.png"),D3DXCOLOR(255,255,255,255));
 	m_nGameplayHelpID	= CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets/Menus/GameplayHelp.png"),D3DXCOLOR(255,255,255,255));
+	m_nArcadeHelpID		= CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets/Menus/ArcadeHelp.png"),D3DXCOLOR(0,0,0,0));
+	m_nKeyBoardHelpID	= CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets/Menus/KeyboardHelp.png"),D3DXCOLOR(255,255,255,255));
+	m_nXboxHelpID		= CSGD_TextureManager::GetInstance()->LoadTexture(_T("Assets/Menus/XboxHelp.png"),D3DXCOLOR(255,255,255,255));
 	m_pBitmapfont= new CBitmapFont();
 	m_nswitchscreen=1;
 }
@@ -33,6 +36,9 @@ void CHelpMenuState::Exit(void)
 	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nTileHelpID);
 	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nUnitHelpID);
 	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nGameplayHelpID);
+	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nArcadeHelpID);
+	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nKeyBoardHelpID);
+	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nXboxHelpID);
 }
 
 void CHelpMenuState::Input(INPUT_ENUM input)
@@ -80,7 +86,7 @@ void CHelpMenuState::Render(void)
 	//CSGD_TextureManager::GetInstance()->Draw(m_nTileHelpID,0,0,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	
 	
-	if (m_nswitchscreen==1)// it the tile help screen
+	if (m_nswitchscreen==1)// It's the tile help screen
 	{
 	CSGD_TextureManager::GetInstance()->Draw(m_nTileHelpID,0,0,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 
@@ -216,7 +222,7 @@ void CHelpMenuState::Render(void)
 	tiletxt =StringTable::GetInstance()->GetString("be Reanimated");						  
 	m_pBitmapfont->Print(tiletxt.c_str(),630,460,.25f,D3DCOLOR_XRGB(255,255,255));
 	}
-	else if ( m_nswitchscreen==2)
+	else if ( m_nswitchscreen==2) // It's the Unit info help screen
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nUnitHelpID,0,50,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 			
@@ -310,7 +316,7 @@ void CHelpMenuState::Render(void)
 		tiletxt =StringTable::GetInstance()->GetString("for his summoner");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,430,.25f,D3DCOLOR_XRGB(255,255,255));
 	}
-	else if ( m_nswitchscreen==3)				 
+	else if ( m_nswitchscreen==3) // It's the Gamplay help screen				 
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nGameplayHelpID,0,0,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 			
@@ -333,10 +339,6 @@ void CHelpMenuState::Render(void)
 		m_pBitmapfont->Print(tiletxt.c_str(),200,230,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("the movement phase ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,250,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="Unit has access to ";
-		//m_pBitmapfont->Print(tiletxt.c_str(),265,225,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="customizible Spell trees";
-		//m_pBitmapfont->Print(tiletxt.c_str(),265,240,.25f,D3DCOLOR_XRGB(255,255,255));
 
 		tiletxt =StringTable::GetInstance()->GetString("-Attack-");
 		m_pBitmapfont->Print(tiletxt.c_str(),125,340,.3f,D3DCOLOR_XRGB(255,255,255));
@@ -379,6 +381,66 @@ void CHelpMenuState::Render(void)
 		m_pBitmapfont->Print(tiletxt.c_str(),610,440,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("enemy base ");
 		m_pBitmapfont->Print(tiletxt.c_str(),610,460,.3f,D3DCOLOR_XRGB(255,255,255));
+	}
+	else if (m_nswitchscreen==4) // It's the Xbox Controller help screen 
+	{
+		CSGD_TextureManager::GetInstance()->Draw(m_nXboxHelpID,200,70,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+		
+		string TileTitle ("Xbox Controls");
+		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-150;
+		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
+
+	}
+
+	else if (m_nswitchscreen==5) // It's the Arcade help screen 
+	{
+		CSGD_TextureManager::GetInstance()->Draw(m_nArcadeHelpID,200,70,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+		string TileTitle ("Arcade Controls");
+		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-150;
+		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
+
+		string tiletxt ("Accept");
+		m_pBitmapfont->Print(tiletxt.c_str(),195,360,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Cancel/Deselect";
+		m_pBitmapfont->Print(tiletxt.c_str(),300,190,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="End Phase/Turn";
+		m_pBitmapfont->Print(tiletxt.c_str(),170,420,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Pause Menu";
+		m_pBitmapfont->Print(tiletxt.c_str(),200,220,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Champions Only: Get/Change spell";
+		m_pBitmapfont->Print(tiletxt.c_str(),390,220,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Move Cursor";
+		m_pBitmapfont->Print(tiletxt.c_str(),170,275,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Move camera ";
+		m_pBitmapfont->Print(tiletxt.c_str(),400,430,.25f,D3DCOLOR_XRGB(255,255,255));
+		tiletxt ="Cycle through  Units ";
+		m_pBitmapfont->Print(tiletxt.c_str(),250,450,.25f,D3DCOLOR_XRGB(255,255,255));
+	}
+	
+	else if (m_nswitchscreen==6) // It's the keyboard help screen 
+	{
+		CSGD_TextureManager::GetInstance()->Draw(m_nKeyBoardHelpID,200,70,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+		string TileTitle ("Keyboard Controls");
+		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-150;
+		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
+
+		string tiletxt ("Accept");
+		m_pBitmapfont->Print(tiletxt.c_str(),450,450,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="Cancel/Deselect";
+		//m_pBitmapfont->Print(tiletxt.c_str(),300,190,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="End Phase/Turn";
+		//m_pBitmapfont->Print(tiletxt.c_str(),170,420,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="Pause Menu";
+		//m_pBitmapfont->Print(tiletxt.c_str(),200,220,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="Champions Only: Get/Change spell";
+		//m_pBitmapfont->Print(tiletxt.c_str(),390,220,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="Move Cursor";
+		//m_pBitmapfont->Print(tiletxt.c_str(),170,275,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="Move camera ";
+		//m_pBitmapfont->Print(tiletxt.c_str(),400,430,.25f,D3DCOLOR_XRGB(255,255,255));
+		//tiletxt ="Cycle through  Units ";
+		//m_pBitmapfont->Print(tiletxt.c_str(),250,450,.25f,D3DCOLOR_XRGB(255,255,255));
+
 	}
 }
 
