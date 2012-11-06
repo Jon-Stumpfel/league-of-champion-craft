@@ -284,11 +284,11 @@ bool CInputManager::Input(void)
 		}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_ACCEPT);
 	}
-	if (pDI->KeyPressed(DIK_L) || pDI->JoystickButtonPressed(4, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_LSHIFT) || pDI->JoystickButtonPressed(4, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_BUMPERLEFT);
 	}
-	if (pDI->KeyPressed(DIK_R) || pDI->JoystickButtonPressed(5, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_RSHIFT) || pDI->JoystickButtonPressed(5, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_BUMPERRIGHT);
 	}

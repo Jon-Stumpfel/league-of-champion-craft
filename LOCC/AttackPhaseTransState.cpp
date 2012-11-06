@@ -27,6 +27,7 @@ void CAttackPhaseTransState::Enter(void)
 	m_fTimer = 1.5f;
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	CGameplayState::GetInstance()->SetMusicIncrease(0.0f);
+	CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("swordsheathe")), false, false);
 }
 
 void CAttackPhaseTransState::Exit(void)
