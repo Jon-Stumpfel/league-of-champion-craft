@@ -117,8 +117,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\skeleton(Blue).png",L"SkeletonB",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\skeleton(Red).png",L"SkeletonR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\iceblock.png",L"IceBlock",D3DCOLOR_ARGB(255,255,255,255));
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/champion(Red).png",L"ChampionR",D3DCOLOR_ARGB(255,255,255,255));
-	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/champion(Blue).png",L"ChampionB",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/newchampred.png",L"ChampionR",D3DCOLOR_ARGB(255,255,255,255));
+	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/newchampblue.png",L"ChampionB",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\calvary(Red).png",L"CavalryR",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets\\Animations\\calvary(Blue).png",L"CavalryB",D3DCOLOR_ARGB(255,255,255,255));
 	CGraphicsManager::GetInstance()->LoadImageW(L"Assets/Animations/castle(Red).png",L"CastleR",D3DCOLOR_ARGB(255,255,255,255));
