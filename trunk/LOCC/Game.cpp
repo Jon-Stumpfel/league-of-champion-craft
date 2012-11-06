@@ -135,6 +135,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/errorclip.wav"),_T("NO"),false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Sword.wav"), _T("Sword"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/flippingpages.wav"), _T("flip"), false);
+	//CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/errorclip.wav"), _T("click"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/click.wav"), _T("click"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Footsteps.wav"), _T("Footstep"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/Gallop.wav"), _T("Gallop"), false);
@@ -143,6 +144,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/teleport.wav"), _T("teleport"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/ice.wav"), _T("ice"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/selectionmove.wav"), _T("selectionmove"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/swordsheathe.wav"), _T("swordsheathe"), false);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/rockfall.wav"), _T("rockfall"), false);
 
 
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\main_menu_bg.png"), _T("mainmenubg"),D3DXCOLOR(0,0,0,255));

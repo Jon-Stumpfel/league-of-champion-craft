@@ -26,6 +26,7 @@ void CMovetPhaseTransState::Enter(void)
 	m_MovingUp=CGame::GetInstance()->GetWindowHeight();
 	m_fTimer = 1.5f;
 	CGameplayState::GetInstance()->SetMusicIncrease(0.0f);
+	CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("rockfall")), false, false);
 }
 
 void CMovetPhaseTransState::Exit(void)
