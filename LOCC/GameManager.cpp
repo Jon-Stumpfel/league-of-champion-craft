@@ -54,9 +54,7 @@ void CGameManager::NextPhase(void)
 		m_nCurrentPhase = GP_ATTACK;
 		//Attack!!!(Attack Phase Transition)-DG
 		CStateStack::GetInstance()->Push(CAttackPhaseTransState::GetInstance());
-		//Chilling the cooldown: this function does the cooldowndown each turn  -DG
-		CHero* Hero =  dynamic_cast <CHero*>(GetChampion(m_pCurrentPlayer->GetPlayerID()));
-		Hero->ChillCooldown();
+
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
 	{
@@ -73,7 +71,9 @@ void CGameManager::NextPhase(void)
 			m_bExtraTurn = false;
 		}
 
-		//Look At That, TileManager Takeing care of business! This added resoruces based on the owned tiles -DG
+		//Chilling the cooldown: this function does the cooldowndown each turn  -DG
+		CHero* Hero =  dynamic_cast <CHero*>(GetChampion(m_pCurrentPlayer->GetPlayerID()));
+		Hero->ChillCooldown();		//Look At That, TileManager Takeing care of business! This added resoruces based on the owned tiles -DG
 		m_pCurrentPlayer->SetAP(nStartingAP);
 		m_pCurrentPlayer->SetMaxPopCap(STARTING_CAP_PER_TURN);
 
