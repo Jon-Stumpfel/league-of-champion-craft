@@ -442,6 +442,32 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Getaning se");
 	modernenglish.push_back("enemy base ");
 	yeoldeanglish.push_back("feond syll");
+	modernenglish.push_back("Xbox Controls");
+	yeoldeanglish.push_back("Xboxe Gewealds");
+	modernenglish.push_back("Arcade Controls");
+	yeoldeanglish.push_back("Arceade Gewealds");
+	modernenglish.push_back("Accept");
+	yeoldeanglish.push_back("Clyppan");
+	modernenglish.push_back("Cancel/Deselect");
+	yeoldeanglish.push_back("Unde/Deaceosan");
+	modernenglish.push_back("End Phase/Turn");
+	yeoldeanglish.push_back("Ende Tacnung/Cierr");
+	modernenglish.push_back("Pause Menu");
+	yeoldeanglish.push_back("Stand Menue");
+	modernenglish.push_back("Champions Only:");
+	yeoldeanglish.push_back("Cempans Anga:");
+	modernenglish.push_back("Get/Change spell");
+	yeoldeanglish.push_back("Onfon/Wrixlan galdru");
+	modernenglish.push_back("Champions Only: Get/Change spell");
+	yeoldeanglish.push_back("Cempans Anga: Onfon/Wrixlan galdru");
+	modernenglish.push_back("Move Cursor");
+	yeoldeanglish.push_back("Faer Cursore");
+	modernenglish.push_back("Move camera ");
+	yeoldeanglish.push_back("Faer camerae");
+	modernenglish.push_back("Cycle through  Units ");
+	yeoldeanglish.push_back("Hring pugh  Herenics ");
+	modernenglish.push_back("Keyboard Controls");
+	yeoldeanglish.push_back("Keyboarde Gewealds");
 }
 StringTable::~StringTable(void)
 {

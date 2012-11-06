@@ -386,7 +386,7 @@ void CHelpMenuState::Render(void)
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nXboxHelpID,200,70,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 		
-		string TileTitle ("Xbox Controls");
+		string TileTitle (StringTable::GetInstance()->GetString("Xbox Controls"));
 		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-150;
 		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
 
@@ -395,50 +395,50 @@ void CHelpMenuState::Render(void)
 	else if (m_nswitchscreen==5) // It's the Arcade help screen 
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nArcadeHelpID,200,70,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
-		string TileTitle ("Arcade Controls");
+		string TileTitle (StringTable::GetInstance()->GetString("Arcade Controls"));
 		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-150;
 		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
 
-		string tiletxt ("Accept");
+		string tiletxt (StringTable::GetInstance()->GetString("Accept"));
 		m_pBitmapfont->Print(tiletxt.c_str(),195,360,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Cancel/Deselect";
+		tiletxt =StringTable::GetInstance()->GetString("Cancel/Deselect");
 		m_pBitmapfont->Print(tiletxt.c_str(),300,190,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="End Phase/Turn";
+		tiletxt =StringTable::GetInstance()->GetString("End Phase/Turn");
 		m_pBitmapfont->Print(tiletxt.c_str(),170,420,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Pause Menu";
+		tiletxt =StringTable::GetInstance()->GetString("Pause Menu");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,220,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Champions Only: Get/Change spell";
+		tiletxt =StringTable::GetInstance()->GetString("Champions Only: Get/Change spell");
 		m_pBitmapfont->Print(tiletxt.c_str(),390,220,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Move Cursor";
+		tiletxt =StringTable::GetInstance()->GetString("Move Cursor");
 		m_pBitmapfont->Print(tiletxt.c_str(),170,275,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Move camera ";
+		tiletxt =StringTable::GetInstance()->GetString("Move camera ");
 		m_pBitmapfont->Print(tiletxt.c_str(),400,430,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Cycle through  Units ";
+		tiletxt =StringTable::GetInstance()->GetString("Cycle through  Units ");
 		m_pBitmapfont->Print(tiletxt.c_str(),250,450,.25f,D3DCOLOR_XRGB(255,255,255));
 	}
 	
 	else if (m_nswitchscreen==6) // It's the keyboard help screen 
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nKeyBoardHelpID,200,70,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
-		string TileTitle ("Keyboard Controls");
+		string TileTitle (StringTable::GetInstance()->GetString("Keyboard Controls"));
 		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-150;
 		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
 
-		string tiletxt ("Accept");
+		string tiletxt (StringTable::GetInstance()->GetString("Accept"));
 		m_pBitmapfont->Print(tiletxt.c_str(),450,450,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="Cancel/Deselect";
+		//tiletxt =StringTable::GetInstance()->GetString("Cancel/Deselect");
 		//m_pBitmapfont->Print(tiletxt.c_str(),300,190,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="End Phase/Turn";
+		//tiletxt =StringTable::GetInstance()->GetString("End Phase/Turn");
 		//m_pBitmapfont->Print(tiletxt.c_str(),170,420,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="Pause Menu";
+		//tiletxt =StringTable::GetInstance()->GetString("Pause Menu");
 		//m_pBitmapfont->Print(tiletxt.c_str(),200,220,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="Champions Only: Get/Change spell";
+		//tiletxt =StringTable::GetInstance()->GetString("Champions Only: Get/Change spell");
 		//m_pBitmapfont->Print(tiletxt.c_str(),390,220,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="Move Cursor";
+		//tiletxt =StringTable::GetInstance()->GetString("Move Cursor");
 		//m_pBitmapfont->Print(tiletxt.c_str(),170,275,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="Move camera ";
+		//tiletxt =StringTable::GetInstance()->GetString("Move camera ");
 		//m_pBitmapfont->Print(tiletxt.c_str(),400,430,.25f,D3DCOLOR_XRGB(255,255,255));
-		//tiletxt ="Cycle through  Units ";
+		//tiletxt =StringTable::GetInstance()->GetString("Cycle through  Units ");
 		//m_pBitmapfont->Print(tiletxt.c_str(),250,450,.25f,D3DCOLOR_XRGB(255,255,255));
 
 	}
