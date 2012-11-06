@@ -266,118 +266,118 @@ void CHelpMenuState::Render(void)
 		tiletxt =StringTable::GetInstance()->GetString("-CANNOT MOVE BEFORE ATTACK");
 		m_pBitmapfont->Print(tiletxt.c_str(),265,445,.24f,D3DCOLOR_XRGB(255,255,255));
 
-		tiletxt ="-Swordsman-";
+		tiletxt =StringTable::GetInstance()->GetString("-Swordsman-");
 		m_pBitmapfont->Print(tiletxt.c_str(),125,460,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Melee Unit";
+		tiletxt =StringTable::GetInstance()->GetString("Melee Unit");
 		m_pBitmapfont->Print(tiletxt.c_str(),260,480,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Special ability: Stand Ground";
+		tiletxt =StringTable::GetInstance()->GetString("Special ability: Stand Ground");
 		m_pBitmapfont->Print(tiletxt.c_str(),265,500,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Braces for impact";
+		tiletxt =StringTable::GetInstance()->GetString("Braces for impact");
 		m_pBitmapfont->Print(tiletxt.c_str(),265,515,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="reducing dmg taken next turn";
+		tiletxt =StringTable::GetInstance()->GetString("reducing dmg taken next turn");
 		m_pBitmapfont->Print(tiletxt.c_str(),265,530,.25f,D3DCOLOR_XRGB(255,255,255));
 		
-		tiletxt ="-Castle Base-";
+		tiletxt =StringTable::GetInstance()->GetString("-Castle Base-");
 		m_pBitmapfont->Print(tiletxt.c_str(),550,150,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Support Unit";
+		tiletxt =StringTable::GetInstance()->GetString("Support Unit");
 		m_pBitmapfont->Print(tiletxt.c_str(),610,180,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Special ability: Spawn Unit";
+		tiletxt =StringTable::GetInstance()->GetString("Special ability: Spawn Unit");
 		m_pBitmapfont->Print(tiletxt.c_str(),610,195,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="The Base can Spawn ";
+		tiletxt =StringTable::GetInstance()->GetString("The Base can Spawn ");
 		m_pBitmapfont->Print(tiletxt.c_str(),610,210,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="other Units";
+		tiletxt =StringTable::GetInstance()->GetString("other Units");
 		m_pBitmapfont->Print(tiletxt.c_str(),610,225,.25f,D3DCOLOR_XRGB(255,255,255));
 		
-		tiletxt ="-Ice Block-";
+		tiletxt =StringTable::GetInstance()->GetString("-Ice Block-");
 		m_pBitmapfont->Print(tiletxt.c_str(),540,260,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Netural Unit";
+		tiletxt =StringTable::GetInstance()->GetString("Netural Unit");
 		m_pBitmapfont->Print(tiletxt.c_str(),580,285,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="It's name says it ";		
+		tiletxt =StringTable::GetInstance()->GetString("It's name says it ");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,300,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="all a Block That";		
+		tiletxt =StringTable::GetInstance()->GetString("all a Block that");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,315,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Blocks Most Movement";	 
+		tiletxt =StringTable::GetInstance()->GetString("blocks most movement");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,330,.25f,D3DCOLOR_XRGB(255,255,255));
 
-		tiletxt ="-Skeleton-";
+		tiletxt =StringTable::GetInstance()->GetString("-Skeleton-");
 		m_pBitmapfont->Print(tiletxt.c_str(),540,370,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Dead Melee Unit";
+		tiletxt =StringTable::GetInstance()->GetString("Dead Melee Unit");
 		m_pBitmapfont->Print(tiletxt.c_str(),570,385,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Poor reainmated  ";		
+		tiletxt =StringTable::GetInstance()->GetString("Poor reainmated  ");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,400,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="soul That fights";		
+		tiletxt =StringTable::GetInstance()->GetString("soul that fights");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,415,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="for his summoner";	 
+		tiletxt =StringTable::GetInstance()->GetString("for his summoner");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,430,.25f,D3DCOLOR_XRGB(255,255,255));
 	}
 	else if ( m_nswitchscreen==3)				 
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nGameplayHelpID,0,0,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 			
-		string TileTitle ("Gameplay Information");
+		string TileTitle (StringTable::GetInstance()->GetString("Gameplay Information"));
 		int widthstart=CGame::GetInstance()->GetWindowWidth()/2-220;
 		m_pBitmapfont->Print(TileTitle.c_str(),widthstart,50,.9f,D3DCOLOR_XRGB(255,255,255));
 		
-		TileTitle="-Phases-";
+		TileTitle=StringTable::GetInstance()->GetString("-Phases-");
 		m_pBitmapfont->Print(TileTitle.c_str(),120,120,.4f,D3DCOLOR_XRGB(255,255,255));
 
-		string tiletxt ("-Movement-");
+		string tiletxt (StringTable::GetInstance()->GetString("-Movement-"));
 		m_pBitmapfont->Print(tiletxt.c_str(),125,150,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="During movement, players move";
+		tiletxt =StringTable::GetInstance()->GetString("During movement, players move");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,170,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="their champions and other units, ";
+		tiletxt =StringTable::GetInstance()->GetString("their champions and other units, ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,190,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="as well as cast any champion ";
+		tiletxt =StringTable::GetInstance()->GetString("as well as cast any champion ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,210,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="spells that can be cast during ";
+		tiletxt =StringTable::GetInstance()->GetString("spells that can be cast during ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,230,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="the movement phase ";
+		tiletxt =StringTable::GetInstance()->GetString("the movement phase ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,250,.25f,D3DCOLOR_XRGB(255,255,255));
 		//tiletxt ="Unit has access to ";
 		//m_pBitmapfont->Print(tiletxt.c_str(),265,225,.25f,D3DCOLOR_XRGB(255,255,255));
 		//tiletxt ="customizible Spell trees";
 		//m_pBitmapfont->Print(tiletxt.c_str(),265,240,.25f,D3DCOLOR_XRGB(255,255,255));
 
-		tiletxt ="-Attack-";
+		tiletxt =StringTable::GetInstance()->GetString("-Attack-");
 		m_pBitmapfont->Print(tiletxt.c_str(),125,340,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="During the attack phase, ";
+		tiletxt =StringTable::GetInstance()->GetString("During the attack phase, ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,360,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Champions and other units "; 
+		tiletxt =StringTable::GetInstance()->GetString("Champions and other units "); 
 		m_pBitmapfont->Print(tiletxt.c_str(),200,380,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="can can do basic attacks";
+		tiletxt =StringTable::GetInstance()->GetString("can do basic attacks");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,400,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="within range, or perform ";
+		tiletxt =StringTable::GetInstance()->GetString("within range, or perform ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,420,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="thier special Abilities ";
+		tiletxt =StringTable::GetInstance()->GetString("their special Abilities ");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,440,.25f,D3DCOLOR_XRGB(255,255,255));
 
-		tiletxt ="-Action Points-";
+		tiletxt =StringTable::GetInstance()->GetString("-Action Points-");
 		m_pBitmapfont->Print(tiletxt.c_str(),500,150,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Action Point, or AP,";
+		tiletxt =StringTable::GetInstance()->GetString("Action Point, or AP,");
 		m_pBitmapfont->Print(tiletxt.c_str(),550,170,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="is you centeral focus";
+		tiletxt =StringTable::GetInstance()->GetString("is your central focus");
 		m_pBitmapfont->Print(tiletxt.c_str(),550,190,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="for how to move and ";
+		tiletxt =StringTable::GetInstance()->GetString("for how to move and ");
 		m_pBitmapfont->Print(tiletxt.c_str(),550,210,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="what to attack. ";
+		tiletxt =StringTable::GetInstance()->GetString("what to attack. ");
 		m_pBitmapfont->Print(tiletxt.c_str(),550,230,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Every action cost AP" ;
+		tiletxt =StringTable::GetInstance()->GetString("Every action costs AP");
 		m_pBitmapfont->Print(tiletxt.c_str(),550,250,.25f,D3DCOLOR_XRGB(255,255,255));
 
 		
-		tiletxt ="-Losing/Winning the Game-";
+		tiletxt =StringTable::GetInstance()->GetString("-Losing/Winning the Game-");
 		m_pBitmapfont->Print(tiletxt.c_str(),500,340,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Player can Win or";		   
+		tiletxt =StringTable::GetInstance()->GetString("Player can Win or");		   
 		m_pBitmapfont->Print(tiletxt.c_str(),610,360,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="lose the game by";		   
+		tiletxt =StringTable::GetInstance()->GetString("lose the game by");		   
 		m_pBitmapfont->Print(tiletxt.c_str(),610,380,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Defeating the ";		   
+		tiletxt =StringTable::GetInstance()->GetString("Defeating the ");	   
 		m_pBitmapfont->Print(tiletxt.c_str(),610,400,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="enemy Champion or ";			   
+		tiletxt =StringTable::GetInstance()->GetString("enemy Champion or ");			   
 		m_pBitmapfont->Print(tiletxt.c_str(),610,420,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="Destorying the";	   
+		tiletxt =StringTable::GetInstance()->GetString("Destroying the"); 
 		m_pBitmapfont->Print(tiletxt.c_str(),610,440,.25f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt ="enemy base ";
+		tiletxt =StringTable::GetInstance()->GetString("enemy base ");
 		m_pBitmapfont->Print(tiletxt.c_str(),610,460,.3f,D3DCOLOR_XRGB(255,255,255));
 	}
 }
