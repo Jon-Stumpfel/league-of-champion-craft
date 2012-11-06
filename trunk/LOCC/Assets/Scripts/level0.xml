@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
- <Script AIEnemy="1">
+ <Script AIEnemy="2">
   <Messages numMessages="0">
     <Message czText="" DisplayOnTurn=""/>
   </Messages>
@@ -12,8 +12,9 @@
  
      <UnitSpawn unitType="1" facing="3" posX="17" posY="10" playerID="0" TurnToSpawn="1"/>
      <UnitSpawn unitType="0" facing="3" posX="18" posY="10" playerID="0" TurnToSpawn="1"/>
-     <UnitSpawn unitType="4" facing="3" posX="16" posY="9" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="2" facing="3" posX="16" posY="9" playerID="0" TurnToSpawn="1"/>
      <UnitSpawn unitType="4" facing="3" posX="16" posY="10" playerID="0" TurnToSpawn="1"/>
-     <UnitSpawn unitType="4" facing="3" posX="16" posY="11" playerID="0" TurnToSpawn="1"/>
+     <UnitSpawn unitType="3" facing="3" posX="16" posY="11" playerID="0" TurnToSpawn="1"/>
+ 
    </UnitSpawns>
 </Script>

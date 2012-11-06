@@ -67,9 +67,15 @@ void CScriptManager::LoadScript( std::string szFilename, SCRIPT_TYPE eScript )
 			int nAIPlayer;
 			pRoot->QueryIntAttribute("AIEnemy", &nAIPlayer);
 
-			if (IntToBool(nAIPlayer))
+			if (nAIPlayer==1)
 			{
 				CGameManager::GetInstance()->SetPlayerAsAI(1);
+			}
+
+			if (nAIPlayer==2)
+			{
+				CGameManager::GetInstance()->SetPlayerAsAI(1);
+				CGameManager::GetInstance()->SetPlayerAsAI(0);
 			}
 			TiXmlElement* pSpawns = pRoot->FirstChildElement("UnitSpawns");
 			int nNumSpawns;

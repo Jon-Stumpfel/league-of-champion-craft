@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "SoundManager.h"
 #include "GameplayState.h"
+
 CMovetPhaseTransState::CMovetPhaseTransState(void)
 {
 	m_MovingUp=0;
@@ -39,8 +40,8 @@ CMovetPhaseTransState* CMovetPhaseTransState::GetInstance(void)
 
 void CMovetPhaseTransState::Render(void)
 {	
-	RECT swordrect= {0,0,512,256};
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("MoveCastle")),0,m_MovingUp,1.6f,1.5f,&swordrect);
+	RECT swordrect= {0,0,1024,1024};
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("MoveCastle")),0,m_MovingUp,1.0f,1.0f,&swordrect);
 	
 	if (m_fTimer<=1.0f && m_fTimer>=0.0f)
 	{
@@ -62,7 +63,7 @@ void CMovetPhaseTransState::Render(void)
 
 void CMovetPhaseTransState::Update(float fElapsedTime)
 {
-	if (m_MovingUp>=250)
+	if (m_MovingUp>=150)
 		m_MovingUp-=20;
 	CSoundManager::GetInstance()->Stop(CSoundManager::
 		GetInstance()->GetID(_T("MainMenuMusic")),true);

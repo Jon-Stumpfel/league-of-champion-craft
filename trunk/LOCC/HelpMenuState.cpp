@@ -29,6 +29,10 @@ void CHelpMenuState::Enter(void)
 void CHelpMenuState::Exit(void)
 {
 	delete m_pBitmapfont;
+	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nScrollID);
+	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nTileHelpID);
+	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nUnitHelpID);
+	CSGD_TextureManager::GetInstance()->UnloadTexture(m_nGameplayHelpID);
 }
 
 void CHelpMenuState::Input(INPUT_ENUM input)

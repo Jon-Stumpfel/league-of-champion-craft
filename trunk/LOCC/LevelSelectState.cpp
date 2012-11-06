@@ -5,6 +5,7 @@
 #include "MultiplayerState.h"
 #include "SocketServer.h"
 #include "StringTable.h"
+#include "AIManager.h"
 
 const float MAPWIDTH=180.0f;
 const float MAPHEIGHT=180.0f;
@@ -57,7 +58,7 @@ void LevelSelectState::Enter(void)
 		string filename4= "Assets/Tiles/Level4.xml";
 		m_vMap4= pTM->JonsLoad(filename4);
 	}
-	else
+	if( m_nType == 0 )
 	{
 		//COMMENT THESE IN IF YOU WANT MULTIYPLAYER MAP
 		string filename1= "Assets/Tiles/Level5.xml";
@@ -71,6 +72,12 @@ void LevelSelectState::Enter(void)
 
 		string filename4= "Assets/Tiles/Level8.xml";
 		m_vMap4= pTM->JonsLoad(filename4);
+	}
+	if( m_nType == 2 )
+	{
+		//COMMENT THESE IN IF YOU WANT MULTIYPLAYER MAP
+		string filename1= "Assets/Tiles/Level1.xml";
+		m_vMap1= pTM->JonsLoad(filename1);
 	}
 
 	/////*REGUARDLESS OF WHICH GO DOWN TO INPUT*/////
@@ -91,6 +98,16 @@ void LevelSelectState::Input(INPUT_ENUM input)
 	{
 	case INPUT_ACCEPT: //which map you select
 		{
+			if(m_nType==2)
+			{
+					CGameManager::GetInstance()->NewGame("level0", 1);		//tutorial
+
+					CAIManager::GetInstance()->SetActionSpeed(.5f);			//slow down AI
+					
+					CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+			}
+			// if your not in tutorial, reset action speed to what kyle had it set to
+			CAIManager::GetInstance()->SetActionSpeed(.2f);		
 
 			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0) //map 1,1
 			{
@@ -188,6 +205,8 @@ void LevelSelectState::Input(INPUT_ENUM input)
 
 				CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
+
+
 			if (!bNetworkedGame)
 				CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
 
@@ -279,7 +298,7 @@ void LevelSelectState::Render(void)
 		//STRINGHERE=("JON PUT A STRING HERE");
 		DrawMap(string("Close Quarters"),ROW2 + 25,COL2,m_vMap4,m_sbSelected[3]);
 	}
-	else
+	else if (m_nType==0)
 	{
 		//COMMENT THESE IN FOR MULTIPLAYERMAP
 
@@ -294,6 +313,10 @@ void LevelSelectState::Render(void)
 		//
 		////STRINGHERE=("JON PUT A STRING HERE");
 		DrawMap(string("Twin River"),ROW2 + 25,COL1,m_vMap3,m_sbSelected[2]);
+	}
+	else if(m_nType==2)
+	{
+		DrawMap(string("Trample Hill"),320,200,m_vMap1,true);		
 	}
 
 }
