@@ -1708,12 +1708,6 @@ void CGameplayState::Update(float fElapsedTime)
 
 	LerpCamera(fElapsedTime);
 
-	if (pDI->KeyPressed(DIK_J))
-	{
-		CStateStack::GetInstance()->SetRenderTopOnly(false);
-		CStateStack::GetInstance()->Push(CControllerUnpluggedState::GetInstance());		
-	}
-
 	if (m_bIsHighlighting == true)
 	{
 		if (m_nCardOffsetX < m_nCardOffsetMaxX)

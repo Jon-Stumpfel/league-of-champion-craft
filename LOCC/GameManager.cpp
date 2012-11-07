@@ -253,7 +253,7 @@ void CGameManager::SaveGame(int nSlot)
 	time_t now = time(0);
 	struct tm tstruct;
 	char buf[80];
-	tstruct = *localtime(&now);
+	localtime_s(&tstruct, &now);
 
 	strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
 

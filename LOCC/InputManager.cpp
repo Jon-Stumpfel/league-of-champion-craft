@@ -239,10 +239,6 @@ bool CInputManager::Input(void)
 		sprintf_s(txtbuffer, "%c%d", NET_INPUT_LEFT, 0);
 		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
 				}
-
-		std::wostringstream oss;
-		oss << "InputManager: Left Key @ " << GetTickCount() << '\n';
-		OutputDebugString((LPCWSTR)oss.str().c_str());
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_LEFT);
 				nYValue = 0;
 		nXValue = 0;
@@ -255,9 +251,6 @@ bool CInputManager::Input(void)
 		sprintf_s(txtbuffer, "%c%d", NET_INPUT_RIGHT, 0);
 		send(CSocketClient::GetInstance()->m_sClientSocket, txtbuffer, 2, 0);
 			}
-		std::wostringstream oss;
-		oss << "InputManager: Right Key @ " << GetTickCount() << '\n';
-		OutputDebugString((LPCWSTR)oss.str().c_str());
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_RIGHT);
 				nYValue = 0;
 		nXValue = 0;
