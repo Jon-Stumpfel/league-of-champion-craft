@@ -24,6 +24,7 @@ private:
 	int m_nArcadeHelpID;
 	int m_nXboxHelpID;
 	int m_nKeyBoardHelpID;
+	int m_nArrowID;
 	CHelpMenuState(void);
 	virtual ~CHelpMenuState(void);
 	CHelpMenuState(const CHelpMenuState&);

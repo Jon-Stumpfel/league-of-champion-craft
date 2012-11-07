@@ -464,8 +464,8 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Faer Cursore");
 	modernenglish.push_back("Move camera ");
 	yeoldeanglish.push_back("Faer camerae");
-	modernenglish.push_back("Cycle through  Units ");
-	yeoldeanglish.push_back("Hring pugh  Herenics ");
+	modernenglish.push_back("Cycle through Units ");
+	yeoldeanglish.push_back("Hring pugh Herenics ");
 	modernenglish.push_back("Keyboard Controls");
 	yeoldeanglish.push_back("Keyboarde Gewealds");
 }
