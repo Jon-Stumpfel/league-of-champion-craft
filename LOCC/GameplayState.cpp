@@ -1442,6 +1442,16 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Footstep")), true, false);
 	
 	CParticleManager::GetInstance()->LoadParticles(PT_MOVE, m_pSelectedUnit->GetPos(), m_pSelectedUnit);
+
+	int numMoves = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
+		if (m_vWaypoints.size() >= numMoves)
+		{
+			m_vWaypoints[numMoves-1]->SetIfOccupied(true);
+		}
+		if (m_vWaypoints.size() < numMoves)
+		{
+			m_vWaypoints.front()->SetIfOccupied(true);
+		}
 	}
 	m_bIsMoving = false;
 	m_pSelectedUnit = nullptr;
