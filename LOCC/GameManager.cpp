@@ -118,6 +118,7 @@ CUnit* CGameManager::GetChampion(int nPlayerID)
 	{
 		if (m_vUnits[i]->GetPlayerID() != nPlayerID)
 			continue;
+
 		if (m_vUnits[i]->GetType() == UT_HERO)
 			return m_vUnits[i];
 	}

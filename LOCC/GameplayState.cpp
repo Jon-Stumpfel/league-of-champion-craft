@@ -945,7 +945,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 									{
 										// STATS SAVING
 										CPlayer* pSavePlayer = CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID());
-										switch (pUnit->GetType())
+										switch (m_pSelectedUnit->GetType())
 										{
 										case UT_ARCHER:
 											pSavePlayer->GetStats()->nArcherDamageDone+=m_pSelectedUnit->GetAttack();
@@ -1048,7 +1048,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 								{
 										// STATS SAVING
 									CPlayer* pSavePlayer = CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID());
-									switch (pUnit->GetType())
+									switch (m_pSelectedUnit->GetType())
 									{
 									case UT_ARCHER:
 										pSavePlayer->GetStats()->nArcherDamageDone+=m_pSelectedUnit->GetAttack();
