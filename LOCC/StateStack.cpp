@@ -7,9 +7,7 @@ CStateStack* CStateStack::s_Instance = nullptr;
 CStateStack::CStateStack(void)
 {
 	m_bRenderTopOnly = false;
-	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/MainMenuMusic.xwm"),_T("MainMenuMusic"),true);
-	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/AttackPhaseMusic.xwm"),_T("AttackPhaseMusic"),true);
-	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/MovementPhaseMusic.xwm"),_T("MovementPhaseMusic"),true);
+
 }
 
 CStateStack::~CStateStack(void)

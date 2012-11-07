@@ -132,5 +132,3 @@ using std::string;
 {
 	return (n != 0);
 }
-
-#include <vld.h>
