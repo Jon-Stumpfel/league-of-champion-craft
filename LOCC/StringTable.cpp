@@ -498,7 +498,12 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Hring pugh Herenics ");
 	modernenglish.push_back("Keyboard Controls");
 	yeoldeanglish.push_back("Keyboarde Gewealds");
-
+	modernenglish.push_back("There's few resource points here. Use what you have wisely.");
+	yeoldeanglish.push_back("Paer's fea resource bronds hider. Neotan hwaet ge ag wisly.");
+	modernenglish.push_back("Looks like the enemy's castle will be hard to get to...");
+	yeoldeanglish.push_back("Beseons gelic an feond's castel willa beon heard od onfon od...");
+	modernenglish.push_back("Well-fortified placement, lots of resource tiles... what more could you ask for? I mean, except for the enemy's head.");
+	yeoldeanglish.push_back("Wel-landgeweorc stedement, monegum of resource sceards... hwaet ma coulde ge axian for? Ic hneaw, buton for an feond's heafod.");
 }
 StringTable::~StringTable(void)
 {

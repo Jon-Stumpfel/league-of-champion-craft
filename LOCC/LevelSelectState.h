@@ -38,6 +38,6 @@ private:
 	vector<vector<TILE_TYPE>> m_vMap3;
 	vector<vector<TILE_TYPE>> m_vMap4;
 	bool m_sbSelected[4];
-
+	CBitmapFont pBitmapFont;
 };
 

@@ -21,8 +21,6 @@
 #include "SpellScrollState.h"
 #include "StringTable.h"
 #include "PauseState.h"
-
-
 CGame* CGame::GetInstance(void)
 {	
 	static CGame s_Instance;
@@ -235,6 +233,27 @@ bool CGame::Input(void)
 		{
 			CSGD_Direct3D::GetInstance()->ChangeDisplayParam(m_nWidth, m_nHeight, !m_bIsWindowed);
 			m_bIsWindowed = !m_bIsWindowed;
+			TiXmlDocument doc;
+			TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "utf-8", "" );  
+			doc.LinkEndChild( decl );  
+
+			TiXmlElement * root = new TiXmlElement( "Options" );  
+			doc.LinkEndChild( root );  
+			TiXmlElement* Options = new TiXmlElement("Option");
+			root->LinkEndChild(Options);
+			float tempS = CSGD_XAudio2::GetInstance()->SFXGetMasterVolume()*100;
+			float tempM = CSGD_XAudio2::GetInstance()->MusicGetMasterVolume()*100;
+			Options->SetAttribute("SoundVolume", (int)tempS);
+			Options->SetAttribute("MusicVolume", (int)tempM);
+			if(m_bIsWindowed == false)
+				Options->SetAttribute("Fullscreen", 0);
+			else
+				Options->SetAttribute("Fullscreen", 1);
+			if(StringTable::GetInstance()->GetIsItModern() == false)
+				Options->SetAttribute("IsModern", 0);
+			else
+				Options->SetAttribute("IsModern", 1);
+			doc.SaveFile("Assets\\Menus\\Options.xml");
 			return true;
 		}
 
