@@ -285,7 +285,11 @@ bool CInputManager::Input(void)
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_BUMPERRIGHT);
 	}
-	if (pDI->KeyPressed(DIK_Z) || pDI->KeyPressed(DIK_ESCAPE) || pDI->JoystickButtonPressed(1, nCurrentPlayerID))
+	if (pDI->JoystickButtonPressed(7, nCurrentPlayerID))
+	{
+	CStateStack::GetInstance()->GetTop()->Input(INPUT_PAUSE);
+	}
+	if (pDI->KeyPressed(DIK_Z) || pDI->KeyPressed(DIK_ESCAPE) ||  pDI->JoystickButtonPressed(1, nCurrentPlayerID))
 	{
 		if (CGameManager::GetInstance()->GetNetworkGame())
 		{
@@ -295,7 +299,7 @@ bool CInputManager::Input(void)
 		}
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
 	}
-	if (pDI->KeyPressed(DIK_BACKSPACE) || pDI->JoystickButtonPressed(7, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_BACKSPACE) || pDI->JoystickButtonPressed(6, nCurrentPlayerID))
 	{
 		if (CGameManager::GetInstance()->GetNetworkGame())
 		{

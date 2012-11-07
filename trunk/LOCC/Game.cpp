@@ -284,6 +284,9 @@ bool CGame::Input(void)
 }
 void CGame::Update(void)
 {
+
+	CSGD_XAudio2::GetInstance()->Update();
+
 	DWORD	dwNow =  GetTickCount();
 	float fElapsedTime = (dwNow - m_dwCurrTime) * 0.001f;
 

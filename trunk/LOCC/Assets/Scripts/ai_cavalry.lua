@@ -56,7 +56,7 @@ function Attack()
 
 	totdistance = distancex + distancey;
 
-	doCharge = true;
+	doCharge = false;
 	chargeDirection = -1;
 	-- Check if it is appropriate to charge, I.E we can hit 2 people
 	-- Not checking if we are charging friendlies...oh well! BERSERKER
@@ -92,7 +92,7 @@ function Attack()
 		if (doCharge == true) then
 			Charge();
 		else
-			AttackNearest()
+			AttackNearest();
 		end
 	end
 end

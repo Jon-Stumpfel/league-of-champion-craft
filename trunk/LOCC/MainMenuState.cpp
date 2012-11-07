@@ -26,6 +26,9 @@ CMainMenuState::~CMainMenuState(void)
 
 void CMainMenuState::Enter(void)
 {
+	int* myInt = new int();
+
+
 	selected = 0;
 	CStateStack::GetInstance()->SetRenderTopOnly(true);
 	swordid = CGraphicsManager::GetInstance()->GetID(_T("mainmenubg"));
@@ -70,16 +73,16 @@ void CMainMenuState::Enter(void)
 	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume*0.01f));
 	CGame::GetInstance()->SetIsWindowed(windowed);
 	StringTable::GetInstance()->SetLanguage(IsModern);
-	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
-		GetInstance()->GetID(_T("MainMenuMusic"))))
-	{
-		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
-			GetID(_T("AttackPhaseMusic")));
-		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
-			GetID(_T("MovementPhaseMusic")));
-		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->
-			GetID(_T("MainMenuMusic")),true,true);
-	}
+	//if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+	//	GetInstance()->GetID(_T("MainMenuMusic"))))
+	//{
+	//	CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+	//		GetID(_T("AttackPhaseMusic")));
+	//	CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+	//		GetID(_T("MovementPhaseMusic")));
+	//	CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->
+	//		GetID(_T("MainMenuMusic")),true,true);
+	//}
 	int temp = NUMSPELLS;
 	for(int i = 0; i < temp; i++)
 	{

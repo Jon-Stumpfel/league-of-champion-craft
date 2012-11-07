@@ -12,6 +12,18 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
+
+
+//include at top of winmain.cpp
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+
+//in winmain before you allocate game*
+/////////////////////////////////////////////
+
+
+#include <vld.h>
+
 #include "SocketServer.h"
 #include "StateStack.h"
 #include "GameManager.h"
@@ -379,7 +391,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	MSG		msg;	//	Generic message.
 	HWND	hWnd;	//	Main Window Handle.
 
-
+	// Do any program wide Initialization here
+	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//	if in release mode set the exception filter to write out a dump file
 #ifndef _DEBUG
 	SetUnhandledExceptionFilter(Handler);

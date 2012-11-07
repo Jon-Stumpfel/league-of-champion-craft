@@ -105,7 +105,7 @@ void CSoundManager::Play( int ID, bool isLooping, bool isMusic )
 	{
 		if( pXA->MusicIsSongPlaying(ID) )
 			pXA->MusicStopSong(ID);
-		pXA->MusicPlaySong(ID, isLooping);
+		pXA->MusicPlaySong(ID,isLooping);
 	}
 	else
 	{
