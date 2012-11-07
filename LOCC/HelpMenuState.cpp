@@ -301,7 +301,7 @@ void CHelpMenuState::Render(void)
 		
 		tiletxt =StringTable::GetInstance()->GetString("-Ice Block-");
 		m_pBitmapfont->Print(tiletxt.c_str(),540,260,.3f,D3DCOLOR_XRGB(255,255,255));
-		tiletxt =StringTable::GetInstance()->GetString("Netural Unit");
+		tiletxt =StringTable::GetInstance()->GetString("Neutral Unit");
 		m_pBitmapfont->Print(tiletxt.c_str(),580,285,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("It's name says it ");
 		m_pBitmapfont->Print(tiletxt.c_str(),590,300,.25f,D3DCOLOR_XRGB(255,255,255));

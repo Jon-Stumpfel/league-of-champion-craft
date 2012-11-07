@@ -400,7 +400,7 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("oder Herenics");
 	modernenglish.push_back("-Ice Block-");
 	yeoldeanglish.push_back("-Gicel Mearr-");
-	modernenglish.push_back("Netural Unit");
+	modernenglish.push_back("Neutral Unit");
 	yeoldeanglish.push_back("Neutrael Herenic");
 	modernenglish.push_back("It's name says it ");
 	yeoldeanglish.push_back("Hit's nama cwepap hit");

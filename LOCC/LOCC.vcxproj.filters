@@ -228,6 +228,9 @@
     <ClCompile Include="ControllerUnpluggedState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="TutorialTextState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -436,6 +439,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialTextState.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
