@@ -498,7 +498,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_CHARGE);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDamage(6);
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for evey unit hit in a line."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for every unit hit in a line."));
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CHARGE;
 					tmp.second = ab;
@@ -913,7 +913,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_FORT);
 					ab->SetParticleType(PT_FORT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his allies decreasing thier damage taken by 70% for 2 turns."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his allies, decreasing their damage taken by 70% for 2 turns."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_FORT;
@@ -928,7 +928,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_DEATH);
 					ab->SetParticleType(PT_DEATH);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move, Champion units take 10 damage."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move. Champion units take 10 damage."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_DEATH;
@@ -943,7 +943,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_MIND);
 					ab->SetParticleType(PT_MIND);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion steals the mind of one of his enemies doesn't work on Champion units."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion steals the mind of one of his enemies. Doesn't work on Champion units."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_MIND;
@@ -988,7 +988,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_MASSRAISE);
 					ab->SetParticleType(PT_RAISEDEAD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion raise all dead around him."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion raises all dead around him."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_MASSRAISE;
@@ -1003,7 +1003,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_VAMP);
 					ab->SetParticleType(PT_MIND);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion turns his allies into vampires for a turn letting them leach half thier basic attack damage back in health."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion turns his allies into vampires for a turn, letting them heal half thier basic attack damage back when they attack."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_VAMP;
@@ -1018,7 +1018,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_ENCASE);
 					ab->SetParticleType(PT_ICEBOLT);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sends a wall of ice down from the sky damaging enemies they hit."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sends a wall of ice down from the sky, damaging enemies they hit."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_ENCASE;

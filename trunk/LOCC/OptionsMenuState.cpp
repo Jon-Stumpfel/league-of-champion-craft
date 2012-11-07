@@ -102,7 +102,7 @@ void COptionsMenuState::Exit(void)
 
 			case SP_CHARGE:
 				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for evey unit hit in a line."));
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for every unit hit in a line."));
 				}
 				break;
 			case SP_CARTOGRAPHY:
@@ -141,7 +141,7 @@ void COptionsMenuState::Exit(void)
 					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Swordsman gives up movement for a turn to reduce his damage by half."));
 				}
 				break;
-				case SP_VOLLEY:
+			case SP_VOLLEY:
 				{
 					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("If the Archer hasn't moved, he can prepare a shot that deals double his damage."));
 				}
@@ -165,7 +165,7 @@ void COptionsMenuState::Exit(void)
 				{
 					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The hero calls a bolt of lightning down on a targeted tile."));
 				}
-			break;
+				break;
 			case SP_FIREWEP:
 				{
 					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sets a targets weapon ablaze, increasing thier damage by 2."));
@@ -240,6 +240,53 @@ void COptionsMenuState::Exit(void)
 			case SP_KILL:
 				{
 					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion does massive damage to an enemy near him."));
+				}
+				break;
+			case SP_FORT:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his allies, decreasing their damage taken by 70% for 2 turns."));
+				}
+				break;
+
+			case SP_DEATH:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move. Champion units take 10 damage."));
+				}
+				break;
+
+			case SP_MIND:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion steals the mind of one of his enemies. Doesn't work on Champion units."));
+				}
+				break;
+
+			case SP_TELE:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
+				}
+				break;
+
+			case SP_SAC:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
+				}
+				break;
+
+			case SP_MASSRAISE:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion raises all dead around him."));
+				}
+				break;
+
+			case SP_VAMP:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion turns his allies into vampires for a turn, letting them heal half thier basic attack damage back when they attack."));
+				}
+				break;
+
+			case SP_ENCASE:
+				{
+					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sends a wall of ice down from the sky, damaging enemies they hit."));
 				}
 				break;
 		}
