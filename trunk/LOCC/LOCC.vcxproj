@@ -165,6 +165,7 @@
     <ClCompile Include="Swordsman.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileManager.cpp" />
+    <ClCompile Include="TutorialTextState.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
@@ -237,6 +238,7 @@
     <ClInclude Include="Swordsman.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileManager.h" />
+    <ClInclude Include="TutorialTextState.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
