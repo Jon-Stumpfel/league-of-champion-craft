@@ -1,10 +1,7 @@
 #pragma once
 
 #include "IGameState.h"
-#include <d3d9.h>
-#include <d3dx9.h>
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
+
 class CGame
 {
 
@@ -31,13 +28,6 @@ private:
 	CGame(const CGame&);
 	CGame& operator=(const CGame&);
 
-	ID3DXEffect* texEffect;
-	ID3DXMesh* teapotMesh;
-	D3DXMATRIX teapotMatrix;
-	D3DXVECTOR4 teapotColor;
-	IDirect3DTexture9	*reflectTexture;
-	D3DXMATRIX cam;
-	D3DXMATRIX proj;
 	// 3 actions for each frame:
 		bool Input(void);
 		void Update(void);
