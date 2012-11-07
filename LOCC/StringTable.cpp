@@ -504,6 +504,16 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Beseons gelic an feond's castel willa beon heard od onfon od...");
 	modernenglish.push_back("Well-fortified placement, lots of resource tiles... what more could you ask for? I mean, except for the enemy's head.");
 	yeoldeanglish.push_back("Wel-landgeweorc stedement, monegum of resource sceards... hwaet ma coulde ge axian for? Ic hneaw, buton for an feond's heafod.");
+	modernenglish.push_back("Good luck...");
+	yeoldeanglish.push_back("Sel wigbled...");
+	modernenglish.push_back("Looks kinda cold here...");
+	yeoldeanglish.push_back("");
+	modernenglish.push_back("Looks like both sides have some losses... Maybe you can turn those into gains.");
+	yeoldeanglish.push_back("");
+	modernenglish.push_back("Hmm... I wonder if you can get to those islands...");
+	yeoldeanglish.push_back("");
+	modernenglish.push_back("Woah, this place is a-maze-ing.");
+	yeoldeanglish.push_back("");
 }
 StringTable::~StringTable(void)
 {

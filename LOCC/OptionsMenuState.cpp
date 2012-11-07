@@ -337,13 +337,13 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 		}
 	case INPUT_LEFT:
 		{
-			if(selected == 0 && soundvolume != 0)
+			if(selected == 0 && soundvolume >= 0)
 			{
 				soundvolume-=5;
 				float temp = soundvolume*0.01f;
 				CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(temp);
 			}
-			else if(selected == 1 && musicvolume != 0)
+			else if(selected == 1 && musicvolume >= 0)
 			{
 				musicvolume-=5;
 				float temp = musicvolume*0.01f;
@@ -354,13 +354,13 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 		}
 	case INPUT_RIGHT:
 		{
-			if(selected == 0 && soundvolume != 100)
+			if(selected == 0 && soundvolume <= 100)
 			{
 				soundvolume+=5;
 				float temp = soundvolume*0.01f;
 				CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(temp);
 			}
-			else if(selected == 1 && musicvolume != 100)
+			else if(selected == 1 && musicvolume <= 100)
 			{
 				musicvolume+=5;
 				float temp = musicvolume*0.01f;

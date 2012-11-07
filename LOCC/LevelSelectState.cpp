@@ -297,6 +297,8 @@ void LevelSelectState::Render(void)
 			pBitmapFont.Print(StringTable::GetInstance()->GetString("Looks like the enemy's castle will be hard to get to...").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
 		else if(m_sbSelected[2])
 			pBitmapFont.Print(StringTable::GetInstance()->GetString("Well-fortified placement, lots of resource tiles... what more could you ask for? I mean, except for the enemy's head.").c_str(),ROW2+80,COL1+32,0.35f,D3DXCOLOR(255,255,255,255),135);
+		else
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("Good luck...").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
 	}
 	else if (m_nType==0)
 	{
@@ -304,6 +306,14 @@ void LevelSelectState::Render(void)
 		DrawMap(string("Frozen Throne"),ROW2 - 110,COL2+40,m_vMap4,m_sbSelected[3]);
 		DrawMap(string("Grave Circumstance"),ROW1,COL2+40,m_vMap2,m_sbSelected[1]);
 		DrawMap(string("Twin Wiver"),ROW2 - 110,COL1+50,m_vMap3,m_sbSelected[2]);
+		if(m_sbSelected[0])
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("Looks kinda cold here...").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
+		else if(m_sbSelected[1])
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("Looks like both sides have some losses... Maybe you can turn those into gains.").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
+		else if(m_sbSelected[2])
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("Hmm... I wonder if you can get to those islands...").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
+		else
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("Woah, this place is a-maze-ing.").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
 	}
 	else if(m_nType==2)
 	{
