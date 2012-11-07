@@ -48,6 +48,14 @@ void CGameManager::NextPhase(void)
 	int numrows= CTileManager::GetInstance()->GetNumRows();
 
 	m_nPhaseCount++;
+	if (m_nCurrentLevel != 5)
+	{
+		if (GetCurrentTurn() % 2 == 0)
+			CGameplayState::GetInstance()->SetVignette(_T("vignette_night"));
+		else
+			CGameplayState::GetInstance()->SetVignette(_T("vignette"));
+	}
+
 	if (m_nCurrentPhase == GP_MOVE)
 	{
 		CAIManager::GetInstance()->BeginAttack();
@@ -242,6 +250,18 @@ void CGameManager::SaveGame(int nSlot)
 	pRoot->SetAttribute("phase", m_nCurrentPhase);
 	pRoot->SetAttribute("currPlayer", m_pCurrentPlayer->GetPlayerID());
 
+	time_t now = time(0);
+	struct tm tstruct;
+	char buf[80];
+	tstruct = *localtime(&now);
+
+	strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+
+	std::string time = buf;
+
+	pRoot->SetAttribute("date", time.c_str());
+
+
 	TiXmlElement* pMapMods = new TiXmlElement("MapModifications");
 	pMapMods->SetAttribute("numModifications", m_vMapMods.size());
 	pRoot->LinkEndChild(pMapMods);
@@ -268,7 +288,7 @@ void CGameManager::SaveGame(int nSlot)
 		pPlayer->SetAttribute("AP", m_vPlayers[i]->GetAP());
 		pPlayer->SetAttribute("wood", m_vPlayers[i]->GetWood());
 		pPlayer->SetAttribute("metal", m_vPlayers[i]->GetMetal());
-
+	
 		// Game Stats!
 
 		TiXmlElement* pStats = new TiXmlElement("Stats");
@@ -823,7 +843,12 @@ void CGameManager::NewGame(string levelstring, int mapint)
 				}
 			}
 		}
+		CGameplayState::GetInstance()->SetVignette(_T("vignette_snow"));
 	}	
+	else
+	{
+		CGameplayState::GetInstance()->SetVignette(_T("vignette"));
+	}
 }
 
 int CGameManager::GetCurrentTurn(void)

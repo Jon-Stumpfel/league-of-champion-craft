@@ -1994,13 +1994,23 @@ void CGameplayState::Render(void)
 	y-=18;
 	RECT diamondRect = {x- GetCamOffsetX(), y -GetCamOffsetY(), nFakeTileWidth, nFakeTileHeight };
 
+
 	if (m_bIsMoving)
 		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 0, 255, 0);
 	else if (m_bIsTargeting)
 		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 0, 0);
 	else
-		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 255, 255);
+	{
+		if (CGameManager::GetInstance()->GetCurrentLevel() != 5)
+		{
+		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 255, 255, 255 );
+		}
+		else
+		{
+		CGraphicsManager::GetInstance()->DrawWireframeDiag(diamondRect, 20, 20, 20 );
 
+		}
+	}
 	CObjectManager::GetInstance()->RenderAllObjects();
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
@@ -2085,6 +2095,12 @@ void CGameplayState::Render(void)
 			break;
 		}
 	}
+
+ /// BEGINNING OF INTERFACE RENDER
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(m_szChosenVignette), 0, 0, 1.0f, 1.0f);
+
+
+
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tooltip")), 200, m_nTooltipOffsetY, 1.2f, 1.2f);
 
 	if( m_pSelectedUnit != nullptr )

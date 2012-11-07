@@ -175,5 +175,7 @@ void CPauseState::Render(void)
 	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Exit to Menu")
 		.c_str(), 350, 300, 0.4f, D3DCOLOR_XRGB(255, 255, 255));
 
-	CGraphicsManager::GetInstance()->DrawArrow(330, 190 + m_nVerticalChoice * 30, 255, 255, 255);
+	CGraphicsManager::GetInstance()->DrawArrow(330, 190 + m_nVerticalChoice * 30, 0, 0, 0);
+	CGraphicsManager::GetInstance()->DrawArrow(328, 188 + m_nVerticalChoice * 30, 255, 255, 255);
+
 }
