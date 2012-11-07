@@ -51,9 +51,10 @@ void CGameManager::NextPhase(void)
 	if (m_nCurrentLevel != 5)
 	{
 		if (GetCurrentTurn() % 2 == 0)
-			CGameplayState::GetInstance()->SetVignette(_T("vignette_night"));
+			CGameplayState::GetInstance()->SetDayTime(false);
 		else
-			CGameplayState::GetInstance()->SetVignette(_T("vignette"));
+			CGameplayState::GetInstance()->SetDayTime(true);
+
 	}
 
 	if (m_nCurrentPhase == GP_MOVE)
