@@ -318,6 +318,8 @@ struct SlotDataStruct
 {
 	int nMapID, nCurrPlayer, nPhaseCount, nCurrPhase;
 
+	std::string datetime;
+
 	struct PlayerData
 	{
 		int nAIControlled;
@@ -370,6 +372,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 		pRoot->QueryIntAttribute("phaseNumber", &s.nPhaseCount);
 		pRoot->QueryIntAttribute("phase", &s.nCurrPhase);
 
+		s.datetime = pRoot->Attribute("date");
 		TiXmlElement* pPlayers = pRoot->FirstChildElement("Players");
 		TiXmlElement* pPlayer = pPlayers->FirstChildElement("Player");
 
@@ -404,7 +407,12 @@ void CSaveSlotState::ReadSlot(int nSlot)
 		std::ostringstream woss;
 		woss << StringTable::GetInstance()->GetString("Slot ") << nSlot;
 		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 150 + xOffset , 80);
-		m_pBitmapFont.Print(woss.str().c_str(), 140 + xOffset, 80, 0.3f, drawColor);
+		m_pBitmapFont.Print(woss.str().c_str(), 150 + xOffset, 45, 0.3f, drawColor);
+
+		woss.str((""));
+		woss << s.datetime;
+		//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 150 + xOffset , 80);
+		m_pBitmapFont.Print(woss.str().c_str(), 95 + xOffset, 80, 0.3f, drawColor);
 
 		woss.str((""));
 		woss << StringTable::GetInstance()->GetString("Map ID: ")<< s.nMapID;

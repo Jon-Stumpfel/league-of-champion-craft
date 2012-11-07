@@ -62,7 +62,7 @@ using std::string;
 
 	enum CAPFLAG {F_RED_CAPTURED,F_BLUE_CAPTURED,F_RED_CAPTURING,F_BLUE_CAPTURING};
 	// resource amounts
-	const int POP_PER_FARM = 6;
+	const int POP_PER_FARM = 4;
 	const int METAL_PER_MINE = 10;
 	const int WOOD_PER_MILL = 10;
 	const int AP_PER_CAPTURE = 2;

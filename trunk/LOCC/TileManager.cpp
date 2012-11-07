@@ -181,7 +181,7 @@ void CTileManager::Render( void )
             int y = (TWidth / 2 * i) + (THeight  / 2 * j);
 
 			// Tile culling
-			if (x > camX + 790)
+			if (x > camX + 810)
 				continue;
 			if (x < camX - 90)
 				continue;

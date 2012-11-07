@@ -71,6 +71,7 @@ public:
 	void SetRandomSeed(unsigned int un) { m_unrandomSeed = un;}
 	void SetExtraTurn( bool b ) { m_bExtraTurn = b; }
 
+	int GetCurrentLevel(void) { return m_nCurrentLevel;}
 private:
 
 	CGameManager(void);

@@ -36,6 +36,9 @@ public:
 
 	int GetSelectedSpell( void ) { return m_nSelectedSpell; }
 	void SetMusicIncrease(float temp) {MusicIncrease = temp;}
+
+	void SetVignette(TSTRING vignette) { m_szChosenVignette = vignette;}
+	TSTRING GetVignette(void) { return m_szChosenVignette;}
 private:
 
 	class ASNode
@@ -49,6 +52,7 @@ private:
 		int nG;
 	};
 
+	TSTRING m_szChosenVignette;
 	int nStoredUnitIndex;
 	CGameplayState(void);
 	~CGameplayState(void);

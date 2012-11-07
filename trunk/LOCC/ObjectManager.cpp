@@ -70,7 +70,11 @@ void CObjectManager::AddObject( CGameObject* pObject )
 	CPlayer* pGetPlayer = CGameManager::GetInstance()->GetPlayer(pUnit->GetPlayerID());
 	if (pUnit->GetType() != UT_ICEBLOCK && pUnit->GetType() != UT_CASTLE)
 	{
-		pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()+1);
+		if (pUnit->GetType() == UT_CAVALRY)
+			pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()+2);
+		else
+			pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()+1);
+
 	}
 	pObject->AddRef();
 }
@@ -89,7 +93,14 @@ void CObjectManager::RemoveObject( CGameObject* pObject )
 		{
 			CPlayer* pGetPlayer = CGameManager::GetInstance()->GetPlayer((dynamic_cast<CUnit*>((*iter)))->GetPlayerID());
 
-			pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()- 1);
+			CUnit* pUnit = dynamic_cast<CUnit*>(pObject);
+			if (pUnit->GetType() != UT_ICEBLOCK && pUnit->GetType() != UT_CASTLE)
+			{
+				if (pUnit->GetType() == UT_CAVALRY)
+					pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()-2);
+				else
+					pGetPlayer->SetPopCap(pGetPlayer->GetPopCap()-1);
+			}
 			m_pObjectList.erase(iter);
 
 			pObject->Release();

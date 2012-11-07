@@ -103,6 +103,10 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/multiplayer.png"), _T("multiplayer"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/blackpixel.png"), _T("blackpixel"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/tutorial.png"), _T("tutorial"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette.png"), _T("vignette"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette_night.png"), _T("vignette_night"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette_snow.png"), _T("vignette_snow"), 0UL);
+	
 	
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page1.png"), _T("Page1"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page2.png"), _T("Page2"), 0UL);
