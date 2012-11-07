@@ -392,15 +392,7 @@ void CMainMenuState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
-	if (pDI->KeyPressed(DIK_G))
-	{
-		CSocketClient::GetInstance()->Initialize();
-	}
-	else if (pDI->KeyPressed(DIK_H))
-	{
-		CSocketClient::GetInstance()->Shutdown();
-	}
-	else if (pDI->KeyPressed(DIK_M))
+	if (pDI->KeyPressed(DIK_M) && pDI->KeyDown(DIK_LCONTROL) && pDI->KeyDown(DIK_LSHIFT))
 	{
 		CStateStack::GetInstance()->Push(CMultiplayerState::GetInstance());
 	}

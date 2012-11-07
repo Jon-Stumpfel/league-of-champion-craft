@@ -40,6 +40,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	rand();
 
 	m_bDieThreadIHateYou = false;
+	m_bShowFramerate = false;
 
 	m_nWidth = nScreenWidth;
 	m_nHeight = nScreenHeight;
@@ -250,6 +251,10 @@ bool CGame::Input(void)
 			return false;
 		}
 	}
+	if (CSGD_DirectInput::GetInstance()->KeyPressed(DIK_F2))
+	{
+		m_bShowFramerate = !m_bShowFramerate;
+	}
 
 	// Working intercepting INputManager imeplenetation so that input is done here until then
 
@@ -301,7 +306,8 @@ void CGame::Render(void)
 		woss << "FPS: " << (int)m_fFrameElapsed;
 		m_bUpdateFps = false;
 	}
-	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 10, 40, 255, 0, 0);
+	if (m_bShowFramerate)
+		CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)woss.str().c_str(), 10, 40, 255, 0, 0);
 	CSGD_Direct3D::GetInstance()->SpriteEnd();
 	CSGD_Direct3D::GetInstance()->DeviceEnd();
 	CSGD_Direct3D::GetInstance()->Present();
