@@ -417,7 +417,7 @@ void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, 
 	pBitmapFont.Print(woss.str().c_str(), nMiniMapOffsetX+2, nMiniMapOffsetY+10, 0.3f, D3DXCOLOR(255,255,255,255));
 	//CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
-	pBitmapFont.Print("Press cancel to return...", 150, 530, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
+	pBitmapFont.Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 150, 530, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
 }
 
 LevelSelectState* LevelSelectState::GetInstance()
