@@ -39,8 +39,10 @@ public:
 
 	void SetVignette(TSTRING vignette) { m_szChosenVignette = vignette;}
 	TSTRING GetVignette(void) { return m_szChosenVignette;}
-private:
 
+	bool GetDayTime(void) { return m_bDayTime;}
+	void SetDayTime(bool b) { m_bDayTime = b;}
+	private:
 	class ASNode
 	{
 	public:
@@ -51,6 +53,11 @@ private:
 		int nH;
 		int nG;
 	};
+
+
+	bool m_bDayTime;
+	int m_nDayAlphaScale;
+	int m_nNightAlphaScale;
 
 	TSTRING m_szChosenVignette;
 	int nStoredUnitIndex;

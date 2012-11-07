@@ -85,6 +85,10 @@ void CGameplayState::Enter(void)
 	m_nTooltipOffsetMaxY = 340;
 	pGM;
 	nStoredUnitIndex = 0;
+
+	m_bDayTime = true;
+	m_nDayAlphaScale = 255;
+	m_nNightAlphaScale = 0;
 }
 
 int CGameplayState::GetCamOffsetX(void)
@@ -1422,6 +1426,7 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetStats()->nPlayerAPSpent += nTotalAPCost;
 
 	// Add the tile waypoints to the unit so that he can slide along them neatly
+
 	for (unsigned int i = 0; i < m_vWaypoints.size(); ++i)
 	{
 		m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
@@ -1429,13 +1434,15 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	// After we hit enter we want to cancel and clear, either we're moving or we're not.
 	//m_pSelectedUnit->SetIsMoving(true);
 
+	if (m_vWaypoints.size() != 0)
+	{
 	if( m_pSelectedUnit->GetType() == UT_CAVALRY )
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Gallop")), true, false);
 	else
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Footstep")), true, false);
 	
 	CParticleManager::GetInstance()->LoadParticles(PT_MOVE, m_pSelectedUnit->GetPos(), m_pSelectedUnit);
-
+	}
 	m_bIsMoving = false;
 	m_pSelectedUnit = nullptr;
 	m_vWaypoints.clear();
@@ -1445,6 +1452,7 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 // Uses A* pathfinding algorithm to find a cheap route from startTile to targetTile
 bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vector<CTile*>& m_vVector)
 {
+
 	// If either of the tiles are null or we can't move into the last tile, don't calculate anything.
 	if (startTile == nullptr || targetTile == nullptr || targetTile->GetIfOccupied() || targetTile->GetIfImpassable())
 		return false;
@@ -1464,6 +1472,8 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 	openList.remove(n);
 
 	int nEstimatedTileCost = 3;
+
+	int nNumTilesFound = 0;
 
 	while (true && (safeCheck < 1000))
 	{
@@ -1498,8 +1508,13 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					int testCost = n->nCost;
+					if (testCost < (*iter)->nCost)
+					{
+						(*iter)->parent = n;
+						(*iter)->nCost = testCost;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					}
 				}
 				else // it's not.
 				{
@@ -1513,7 +1528,8 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
 					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
 					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+					newNode->nH = (abs(xDist) + abs(yDist)) * nEstimatedTileCost;
+					//newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
 					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
 					openList.push_back(newNode);
 				}
@@ -1535,8 +1551,13 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					int testCost = n->nCost;
+					if (testCost < (*iter)->nCost)
+					{
+						(*iter)->parent = n;
+						(*iter)->nCost = testCost;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					}
 				}
 				else // it's not.
 				{
@@ -1550,7 +1571,8 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
 					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
 					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+					newNode->nH = (abs(xDist) + abs(yDist)) * nEstimatedTileCost;
+					//newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
 					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
 					openList.push_back(newNode);
 				}
@@ -1572,8 +1594,13 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					int testCost = n->nCost;
+					if (testCost < (*iter)->nCost)
+					{
+						(*iter)->parent = n;
+						(*iter)->nCost = testCost;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					}
 				}
 				else // it's not.
 				{
@@ -1587,7 +1614,8 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
 					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
 					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+					newNode->nH = (abs(xDist) + abs(yDist)) * nEstimatedTileCost;
+					//newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
 					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
 					openList.push_back(newNode);
 				}
@@ -1609,8 +1637,13 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					(*iter)->parent = n;
-					(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					int testCost = n->nCost;
+					if (testCost < (*iter)->nCost)
+					{
+						(*iter)->parent = n;
+						(*iter)->nCost = testCost;
+						(*iter)->nF = pTestTile->GetAPCost() + n->nH;
+					}
 				}
 				else // it's not.
 				{
@@ -1624,7 +1657,8 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 					newNode->nCost = newNode->parent->nCost + newNode->pTile->GetAPCost();
 					int xDist = targetTile->GetPosition().nPosX - newNode->pTile->GetPosition().nPosX;
 					int yDist = targetTile->GetPosition().nPosY - newNode->pTile->GetPosition().nPosY;
-					newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
+					newNode->nH = (abs(xDist) + abs(yDist)) * nEstimatedTileCost;
+					//newNode->nH = (int)(sqrt(double(xDist * xDist) + double(yDist * yDist) * nEstimatedTileCost));
 					newNode->nF = newNode->pTile->GetAPCost() + newNode->nH;
 					openList.push_back(newNode);
 				}
@@ -1656,6 +1690,10 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 		}
 		n = lowestF;
 		safeCheck++;
+
+		nNumTilesFound = closedList.size();
+		if (nNumTilesFound >= 20)
+			break;
 	}
 
 	// if we didnt find anything, get out of here
@@ -1667,12 +1705,18 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 	// Go through the list of found tiles and add them to our waypoints of our path
 	ASNode* nNode = closedList.back();
 	safeCheck = 0;
-	while (nNode->parent != nullptr && (safeCheck < 5000))
-	{
-		m_vVector.push_back(nNode->pTile);
-		nNode = nNode->parent;
+		if (nNode->pTile != targetTile)
+		{
+			m_vVector.clear();
+		}
+		else
+		{
+		while (nNode->parent != nullptr && (safeCheck < 5000))
+		{
+			m_vVector.push_back(nNode->pTile);
+			nNode = nNode->parent;
+		}
 	}
-
 	// CLEANUP. delete all memory we made
 	std::list<ASNode*>::iterator listIter;
 	for (listIter = openList.begin(); listIter != openList.end(); ++listIter)
@@ -1708,6 +1752,29 @@ void CGameplayState::Update(float fElapsedTime)
 
 	LerpCamera(fElapsedTime);
 
+	if (pDI->KeyPressed(DIK_V))
+	{
+		m_bDayTime = !m_bDayTime;
+	}
+	if (m_bDayTime)
+	{
+		m_nDayAlphaScale += 10;
+		if (m_nDayAlphaScale >= 255)
+			m_nDayAlphaScale = 255;
+		m_nNightAlphaScale -= 10;
+		if (m_nNightAlphaScale <= 0)
+			m_nNightAlphaScale = 0;
+	}
+	else
+	{
+		m_nDayAlphaScale -= 10;
+		if (m_nDayAlphaScale <= 0)
+			m_nDayAlphaScale = 0;
+		m_nNightAlphaScale += 10;
+		if (m_nNightAlphaScale >= 255)
+			m_nNightAlphaScale = 255;
+
+	}
 	if (m_bIsHighlighting == true)
 	{
 		if (m_nCardOffsetX < m_nCardOffsetMaxX)
@@ -2090,10 +2157,19 @@ void CGameplayState::Render(void)
 		}
 	}
 
+	// DAY/NIGHT
  /// BEGINNING OF INTERFACE RENDER
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(m_szChosenVignette), 0, 0, 1.0f, 1.0f);
-
-
+	if (CGameManager::GetInstance()->GetCurrentLevel() != 5)
+	{
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette_night")), 0, 0, 1.0f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(m_nNightAlphaScale, 255, 255, 255));
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette")), 0, 0, 1.0f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(m_nDayAlphaScale, 255, 255, 255));
+	}
+	else
+	{
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette_snow")), 0, 0, 1.0f, 1.0f);
+	}
 
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tooltip")), 200, m_nTooltipOffsetY, 1.2f, 1.2f);
 
