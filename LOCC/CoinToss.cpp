@@ -22,6 +22,7 @@ CCoinToss::~CCoinToss(void)
 
 void CCoinToss::Enter(void)
 {
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	m_UAnonsense= new UnitAnimation();
 	m_UAnonsense->animationType=AT_ATTACK_N;
 	m_UAnonsense->unitType=UT_CASTLE;

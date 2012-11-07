@@ -105,7 +105,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 					CAIManager::GetInstance()->SetActionSpeed(.5f);			//slow down AI	
 					CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
 			}
-			// if your not in tutorial, reset action speed to what kyle had it set to
+			// if you're not in tutorial, reset action speed to what kyle had it set to
 			CAIManager::GetInstance()->SetActionSpeed(.2f);		
 
 			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0) //map 1,1
@@ -285,34 +285,18 @@ void LevelSelectState::Render(void)
 	
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 80, -10, 1.3f, 1.2f);
 
-	//PUT THESE IN TO RENDER THE SINGLE PLAYER MAPS
 	if (m_nType == 1)
 	{
-		//STRINGHERE=("JON PUT A STRING HERE");
-		DrawMap(string("Trample Hill"),ROW1 + 25,COL1,m_vMap1,m_sbSelected[0]);
-	
-		//STRINGHERE=("JON PUT A STRING HERE");
-		DrawMap(string("Forest Siege"),ROW1 + 25,COL2,m_vMap2,m_sbSelected[1]);
-	
-		DrawMap(string("Siege on the Mountain"),ROW2 + 25,COL1,m_vMap3,m_sbSelected[2]);
-	
-		//STRINGHERE=("JON PUT A STRING HERE");
-		DrawMap(string("Close Quarters"),ROW2 + 25,COL2,m_vMap4,m_sbSelected[3]);
+		DrawMap(string("Trample Hill"),ROW1,COL1,m_vMap1,m_sbSelected[0]);
+		DrawMap(string("Forest Siege"),ROW1,COL2,m_vMap2,m_sbSelected[1]);
+		DrawMap(string("Siege on the Mountain"),ROW2-100,COL1,m_vMap3,m_sbSelected[2]);
+		DrawMap(string("Close Quarters"),ROW2-100,COL2,m_vMap4,m_sbSelected[3]);
 	}
 	else if (m_nType==0)
 	{
-		//COMMENT THESE IN FOR MULTIPLAYERMAP
-
-		////STRINGHERE=("JON PUT A STRING HERE");
 		DrawMap(string("A Bridge runs Through It"),ROW1 + 25,COL1,m_vMap1,m_sbSelected[0]);
-	
-		////STRINGHERE=("JON PUT A STRING HERE");	
 		DrawMap(string("Frozen Throne"),ROW2 + 25,COL2,m_vMap4,m_sbSelected[3]);
-		//
-		////STRINGHERE=("JON PUT A STRING HERE");
 		DrawMap(string("Grave Circumstance"),ROW1 + 25,COL2,m_vMap2,m_sbSelected[1]);
-		//
-		////STRINGHERE=("JON PUT A STRING HERE");
 		DrawMap(string("Twin Wiver"),ROW2 + 25,COL1,m_vMap3,m_sbSelected[2]);
 	}
 	else if(m_nType==2)
@@ -414,7 +398,7 @@ void LevelSelectState::DrawMap(string sLevelname, int rowoffset, int coloffset, 
 	}
 	ostringstream woss;
 	woss<<StringTable::GetInstance()->GetString(sLevelname);
-	pBitmapFont.Print(woss.str().c_str(), nMiniMapOffsetX+2, nMiniMapOffsetY+10, 0.3f, D3DXCOLOR(255,255,255,255));
+	pBitmapFont.Print(woss.str().c_str(), nMiniMapOffsetX+2, nMiniMapOffsetY+10, 0.3f, D3DXCOLOR(255,255,255,255),150);
 	//CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 
 	pBitmapFont.Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 150, 530, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
