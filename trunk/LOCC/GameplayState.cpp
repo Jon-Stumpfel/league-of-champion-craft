@@ -120,6 +120,8 @@ void CGameplayState::Exit(void)
 		CSGD_XAudio2::GetInstance()->MusicStopSong(CSoundManager::
 		GetInstance()->GetID(_T("MovementPhaseMusic")));
 	}
+
+	CTileManager::GetInstance()->ShutDown();
 }
 
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
@@ -2171,14 +2173,14 @@ void CGameplayState::Render(void)
  /// BEGINNING OF INTERFACE RENDER
 	if (CGameManager::GetInstance()->GetCurrentLevel() != 5)
 	{
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette_night")), 0, 0, 1.0f, 1.0f,
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette_night")), 0, -50, 1.0f, 1.0f,
 		(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(m_nNightAlphaScale, 255, 255, 255));
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette")), 0, 0, 1.0f, 1.0f,
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette")), 0, -50, 1.0f, 1.0f,
 		(RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(m_nDayAlphaScale, 255, 255, 255));
 	}
 	else
 	{
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette_snow")), 0, 0, 1.0f, 1.0f);
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("vignette_snow")), 0, -50, 1.0f, 1.0f);
 	}
 
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tooltip")), 200, m_nTooltipOffsetY, 1.2f, 1.2f);
