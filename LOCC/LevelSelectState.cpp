@@ -313,7 +313,7 @@ void LevelSelectState::Render(void)
 		DrawMap(string("Grave Circumstance"),ROW1 + 25,COL2,m_vMap2,m_sbSelected[1]);
 		//
 		////STRINGHERE=("JON PUT A STRING HERE");
-		DrawMap(string("Twin River"),ROW2 + 25,COL1,m_vMap3,m_sbSelected[2]);
+		DrawMap(string("Twin Wiver"),ROW2 + 25,COL1,m_vMap3,m_sbSelected[2]);
 	}
 	else if(m_nType==2)
 	{

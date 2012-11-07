@@ -106,7 +106,7 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Forstlic Gifstol");
 	modernenglish.push_back("Grave Circumstance");
 	yeoldeanglish.push_back("Byrgen Circumsteance");
-	modernenglish.push_back("Twin River");
+	modernenglish.push_back("Twin Wiver");
 	yeoldeanglish.push_back("Getwisa Ea");
 	modernenglish.push_back("Press cancel to return...");
 	yeoldeanglish.push_back("Preat unde to wendan...");
@@ -117,7 +117,7 @@ StringTable::StringTable(void)
 	modernenglish.push_back("The Champion closes the wounds of a selected unit.");
 	yeoldeanglish.push_back("Dy Cempan lucan dy benns of ever aceosan cempestran.");
 	modernenglish.push_back("The Champion shields his target, preventing damage for a turn.");
-	yeoldeanglish.push_back("Dy Cempan scyld his targete, forsceotaning aewerdla for ever cierr.");
+	yeoldeanglish.push_back("Dy Cempan scylds his targete, forsceotaning aewerdla for ever cierr.");
 	modernenglish.push_back("The Champion increases the speed of a selected unit for a turn.");
 	yeoldeanglish.push_back("Dy Cempan eacnians dy ofost of ever aceosan cempestran for ever cierr.");
 	modernenglish.push_back("Test spell for testing");
@@ -178,6 +178,22 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Dy Cempan reses on in ever gestihtung, fordaeing 2 extrea aewerdla for aelc cempestran abeat.");
 	modernenglish.push_back("The Champion does massive damage to an enemy near him.");
 	yeoldeanglish.push_back("Dy Cempan dons great aewerdla to evern feond neah him.");
+	modernenglish.push_back("The Champion shields his allies, decreasing their damage taken by 70% for 2 turns.");
+	yeoldeanglish.push_back("Dy Cempan scylds his gefylceaps, wanunging hira aewerdla niman purh 70% for 2 cierrs.");
+	modernenglish.push_back("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move. Champion units take 10 damage.");
+	yeoldeanglish.push_back("Dy Cempan neotans his run technique to gestillan ever targete in hits lasts and deapcwielmende eall herenics gif agon lacan. Cempan herenics nima 10 aewerdla.");
+	modernenglish.push_back("The Champion steals the mind of one of his enemies. Doesn't work on Champion units.");
+	yeoldeanglish.push_back("Dy Cempan stelans dy hyge aetforan mon aetforan his feonds. Donsn't weorc on Cempan herenics.");
+	modernenglish.push_back("The Champion moves a unit from one place to another.");
+	yeoldeanglish.push_back("Dy Cempan lacans ever herenic fram mon stede to gewrixlung.");
+	modernenglish.push_back("The Champion sacrifices a unit to gain an extra turn.");
+	yeoldeanglish.push_back("Dy Cempan blotans ever herenic to earnian evern extrea cierr.");
+	modernenglish.push_back("The Champion raises all dead around him.");
+	yeoldeanglish.push_back("Dy Cempan hebbans eall cwild tyrning him.");
+	modernenglish.push_back("The Champion turns his allies into vampires for a turn, letting them heal half thier basic attack damage back when they attack.");
+	yeoldeanglish.push_back("Dy Cempan cierrs his gefylceaps in vamypres for ever cierr, letting agom haelans healf hira felcsop forsecan aewerdla baec ponne agon felscop.");
+	modernenglish.push_back("The Champion sends a wall of ice down from the sky, damaging enemies they hit.");
+	yeoldeanglish.push_back("Dy Cempan sendans ever waeg aetforan is forscutan fram dy lyft, aewerdlaing feonds agon abeat.");
 	modernenglish.push_back("Melee Attack");
 	yeoldeanglish.push_back("Melee Forsecan");
 	modernenglish.push_back("This unit attacks with a melee weapon.");
@@ -311,7 +327,7 @@ StringTable::StringTable(void)
 	modernenglish.push_back("Capture it if they");
 	yeoldeanglish.push_back("Forfang hit gif agon");
 	modernenglish.push_back("are not killed or ");
-	yeoldeanglish.push_back("aien ne deapcwielmende sam");
+	yeoldeanglish.push_back("aien ne deapcwielmended sam");
 	modernenglish.push_back("move off it");
 	yeoldeanglish.push_back("onstyrian uferian hit");
 	modernenglish.push_back("-Dead-");
@@ -482,6 +498,7 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Hring pugh Herenics ");
 	modernenglish.push_back("Keyboard Controls");
 	yeoldeanglish.push_back("Keyboarde Gewealds");
+
 }
 StringTable::~StringTable(void)
 {
