@@ -97,6 +97,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/tooltip.png"), _T("tooltip"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/check.png"), _T("check"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spelldesc.png"), _T("spelldesc"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/damage.png"), _T("damage"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/heal.png"), _T("healicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/scrollvert.png"), _T("scrollvert"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/singleplayer.png"), _T("singleplayer"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/multiplayer.png"), _T("multiplayer"), 0UL);
