@@ -500,20 +500,20 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Keyboarde Gewealds");
 	modernenglish.push_back("There's few resource points here. Use what you have wisely.");
 	yeoldeanglish.push_back("Paer's fea resource bronds hider. Neotan hwaet ge ag wisly.");
-	modernenglish.push_back("Looks like the enemy's castle will be hard to get to...");
-	yeoldeanglish.push_back("Beseons gelic an feond's castel willa beon heard od onfon od...");
+	modernenglish.push_back("Looks like the enemy's castle will be hard to get to.");
+	yeoldeanglish.push_back("Beseons gelic an feond's castel willa beon heard od onfon od.");
 	modernenglish.push_back("Well-fortified placement, lots of resource tiles... what more could you ask for? I mean, except for the enemy's head.");
 	yeoldeanglish.push_back("Wel-landgeweorc stedement, monegum of resource sceards... hwaet ma coulde ge axian for? Ic hneaw, buton for an feond's heafod.");
-	modernenglish.push_back("Good luck...");
-	yeoldeanglish.push_back("Sel wigbled...");
-	modernenglish.push_back("Looks kinda cold here...");
-	yeoldeanglish.push_back("");
-	modernenglish.push_back("Looks like both sides have some losses... Maybe you can turn those into gains.");
-	yeoldeanglish.push_back("");
-	modernenglish.push_back("Hmm... I wonder if you can get to those islands...");
-	yeoldeanglish.push_back("");
-	modernenglish.push_back("Woah, this place is a-maze-ing.");
-	yeoldeanglish.push_back("");
+	modernenglish.push_back("Good luck.");
+	yeoldeanglish.push_back("Sel wigbled.");
+	modernenglish.push_back("Looks kinda cold here.");
+	yeoldeanglish.push_back("Beseons cynna cald hider.");
+	modernenglish.push_back("Looks like both sides have some losses. Maybe you can turn those into gains.");
+	yeoldeanglish.push_back("Beseons gelic begen healfs ag sum lyres. Acumendlic ge con cierr pa in earnians.");
+	modernenglish.push_back("Hmm... I wonder if you can get to those islands.");
+	yeoldeanglish.push_back("Hmm... Ic wundur gif ge con onfon od pa ealands.");
+	modernenglish.push_back("Be careful, there's not a lot of space to fight here.");
+	yeoldeanglish.push_back("Beon behogod, paer's ne ever monegum of hwil to winnan hider.");
 }
 StringTable::~StringTable(void)
 {
