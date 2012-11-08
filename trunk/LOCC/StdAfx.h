@@ -33,7 +33,7 @@ using std::ostringstream;
 using std::vector;
 using std::string;
 
-//#define ARCADE_BUILD
+#define ARCADE_BUILD
 
 	enum ANIM_TYPE { AT_IDLE, AT_WALK_N, AT_WALK_S, AT_WALK_E, AT_WALK_W, AT_ATTACK_N, 
 		AT_ATTACK_S, AT_ATTACK_E, AT_ATTACK_W, AT_ABILITY_N, AT_ABILITY_S, AT_ABILITY_E, AT_ABILITY_W, AT_DEATH };
