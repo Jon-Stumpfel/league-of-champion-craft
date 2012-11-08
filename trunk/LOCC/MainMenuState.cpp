@@ -73,16 +73,16 @@ void CMainMenuState::Enter(void)
 	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume*0.01f));
 	CGame::GetInstance()->SetIsWindowed(windowed);
 	StringTable::GetInstance()->SetLanguage(IsModern);
-	//if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
-	//	GetInstance()->GetID(_T("MainMenuMusic"))))
-	//{
-	//	CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
-	//		GetID(_T("AttackPhaseMusic")));
-	//	CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
-	//		GetID(_T("MovementPhaseMusic")));
-	//	CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->
-	//		GetID(_T("MainMenuMusic")),true,true);
-	//}
+	if(!CSGD_XAudio2::GetInstance()->MusicIsSongPlaying(CSoundManager::
+		GetInstance()->GetID(_T("MainMenuMusic"))))
+	{
+		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+			GetID(_T("AttackPhaseMusic")));
+		CSoundManager::GetInstance()->Stop(CSoundManager::GetInstance()->
+			GetID(_T("MovementPhaseMusic")));
+		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->
+			GetID(_T("MainMenuMusic")),true,true);
+	}
 	int temp = NUMSPELLS;
 	for(int i = 0; i < temp; i++)
 	{
@@ -349,7 +349,7 @@ void CMainMenuState::Input(INPUT_ENUM input)
 			else if(selected == 2)
 			{
 				CStateStack::GetInstance()->Push(COptionsMenuState::GetInstance());
-				CStateStack::GetInstance()->SetRenderTopOnly(true);
+				CStateStack::GetInstance()->SetRenderTopOnly(false);
 			}
 			else if(selected == 3)
 			{
@@ -410,63 +410,159 @@ void CMainMenuState::Render(void)
 	CSGD_TextureManager::GetInstance()->Draw(swordid,15,-5,0.7f,0.7f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	if(selected == 0)
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Start").c_str(),360,200,0.7f,D3DXCOLOR(150,150,0,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Start").c_str(),360,200,0.7f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Start").c_str(),335,200,0.7f,D3DXCOLOR(150,150,0,255));
+		}
 	}
 	else
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Start").c_str(),360,200,0.7f,D3DXCOLOR(255,255,255,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Start").c_str(),360,200,0.7f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Start").c_str(),335,200,0.7f,D3DXCOLOR(255,255,255,255));
+		}
 	}
 	if(selected == 1)
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Load").c_str(),364,250,0.7f,D3DXCOLOR(150,150,0,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Load").c_str(),364,250,0.7f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Load").c_str(),335,250,0.7f,D3DXCOLOR(150,150,0,255));
+		}
 	}
 	else
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Load").c_str(),364,250,0.7f,D3DXCOLOR(255,255,255,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Load").c_str(),364,250,0.7f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Load").c_str(),335,250,0.7f,D3DXCOLOR(255,255,255,255));
+		}
 	}
 	if(selected == 2)
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Options").c_str(),343,300,0.7f,D3DXCOLOR(150,150,0,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Options").c_str(),343,300,0.7f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Options").c_str(),346,300,0.7f,D3DXCOLOR(150,150,0,255));
+		}
 	}
 	else
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Options").c_str(),343,300,0.7f,D3DXCOLOR(255,255,255,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Options").c_str(),343,300,0.7f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Options").c_str(),346,300,0.7f,D3DXCOLOR(255,255,255,255));
+		}
 	}
 	if(selected == 3)
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Credits").c_str(),348,350,0.7f,D3DXCOLOR(150,150,0,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Credits").c_str(),348,350,0.7f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Credits").c_str(),300,350,0.7f,D3DXCOLOR(150,150,0,255));
+		}
 	}
 	else
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Credits").c_str(),348,350,0.7f,D3DXCOLOR(255,255,255,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Credits").c_str(),348,350,0.7f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Credits").c_str(),300,350,0.7f,D3DXCOLOR(255,255,255,255));
+		}
 	}
 	if(selected == 4)
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Help").c_str(),365,400,0.7f,D3DXCOLOR(150,150,0,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Help").c_str(),365,400,0.7f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Help").c_str(),385,400,0.7f,D3DXCOLOR(150,150,0,255));
+		}
 	}
 	else
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Help").c_str(),365,400,0.7f,D3DXCOLOR(255,255,255,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Help").c_str(),365,400,0.7f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Help").c_str(),385,400,0.7f,D3DXCOLOR(255,255,255,255));
+		}
 	}
 	if(selected == 5)
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Exit").c_str(),364,450,0.7f,D3DXCOLOR(150,150,0,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Exit").c_str(),364,450,0.7f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Exit").c_str(),340,450,0.7f,D3DXCOLOR(150,150,0,255));
+		}
 	}
 	else
 	{
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Exit").c_str(),364,450,0.7f,D3DXCOLOR(255,255,255,255));
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Exit").c_str(),364,450,0.7f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Exit").c_str(),340,450,0.7f,D3DXCOLOR(255,255,255,255));
+		}
 	}
 
 }

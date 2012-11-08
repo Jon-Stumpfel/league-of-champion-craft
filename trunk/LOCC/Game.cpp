@@ -151,11 +151,12 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/selectionmove.wav"), _T("selectionmove"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/swordsheathe.wav"), _T("swordsheathe"), false);
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/rockfall.wav"), _T("rockfall"), false);
-
-
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/MovementPhaseMusic.xwm"),_T("MovementPhaseMusic"),true);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/AttackPhaseMusic.xwm"),_T("AttackPhaseMusic"),true);
+	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/MainMenuMusic.xwm"),_T("MainMenuMusic"),true);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\main_menu_bg.png"), _T("mainmenubg"),D3DXCOLOR(0,0,0,255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_blue.png"), _T("warriorblue"),D3DXCOLOR(0,0,0,255));
-	 CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_red.png"), _T("warriorred"),D3DXCOLOR(0,0,0,255));
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_red.png"), _T("warriorred"),D3DXCOLOR(0,0,0,255));
 
 
 	CAbilityManager::GetInstance()->LoadAbilities();

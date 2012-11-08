@@ -4,6 +4,7 @@
 #include "StringTable.h"
 #include "AbilityManager.h"
 #include "SoundManager.h"
+#include "GraphicsManager.h"
 COptionsMenuState::COptionsMenuState(void)
 {
 }
@@ -12,7 +13,7 @@ COptionsMenuState::~COptionsMenuState(void)
 }
 void COptionsMenuState::Enter(void)
 {
-	CStateStack::GetInstance()->SetRenderTopOnly(true);
+	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	m_pBitmapFont = new CBitmapFont();
 	pTM = CSGD_TextureManager::GetInstance();
 	jcs_nImageID = pTM->LoadTexture(_T("Assets\\Menus\\options_menu.png"), D3DXCOLOR(255,255,255,255));
@@ -44,13 +45,12 @@ void COptionsMenuState::Enter(void)
 }
 void COptionsMenuState::Exit(void)
 {
-	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	delete m_pBitmapFont;
 	m_pBitmapFont = nullptr;
 	TiXmlDocument doc;
- 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "utf-8", "" );  
+	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "utf-8", "" );  
 	doc.LinkEndChild( decl );  
- 
+
 	TiXmlElement * root = new TiXmlElement( "Options" );  
 	doc.LinkEndChild( root );  
 	TiXmlElement* Options = new TiXmlElement("Option");
@@ -71,224 +71,224 @@ void COptionsMenuState::Exit(void)
 	{
 		switch(i)
 		{
-			case SP_FIREBALL:
-				{	
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion hurls a ball of fire at a target."));
-				}
-				break;
+		case SP_FIREBALL:
+			{	
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion hurls a ball of fire at a target."));
+			}
+			break;
 
-			case SP_HEAL:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion closes the wounds of a selected unit."));
-				}
-				break;
+		case SP_HEAL:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion closes the wounds of a selected unit."));
+			}
+			break;
 
-			case SP_SHIELD:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his target, preventing damage for a turn."));
-				}
-				break;
-			case SP_SPEED:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion increases the speed of a selected unit for a turn."));
-				}
-				break;
+		case SP_SHIELD:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his target, preventing damage for a turn."));
+			}
+			break;
+		case SP_SPEED:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion increases the speed of a selected unit for a turn."));
+			}
+			break;
 
-			case SP_TEST:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Test spell for testing"));
-				}
-				break;
+		case SP_TEST:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Test spell for testing"));
+			}
+			break;
 
-			case SP_CHARGE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for every unit hit in a line."));
-				}
-				break;
-			case SP_CARTOGRAPHY:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Reduces the cost of moving to one for a target unit."));
-				}
-				break;
-			case SP_DESTROYFOREST:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion turns a target forest into a plain."));
-				}
-				break;
-			case SP_HEALBURST:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion heals the wounds of everyone around him."));
-				}
-				break;
-			case SP_RALLY:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Rally the troops, increasing thier damage by 2 for a turn."));
-				}
-				break;
+		case SP_CHARGE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Calvary rushes forward, dealing more damage for every unit hit in a line."));
+			}
+			break;
+		case SP_CARTOGRAPHY:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Reduces the cost of moving to one for a target unit."));
+			}
+			break;
+		case SP_DESTROYFOREST:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion turns a target forest into a plain."));
+			}
+			break;
+		case SP_HEALBURST:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion heals the wounds of everyone around him."));
+			}
+			break;
+		case SP_RALLY:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Rally the troops, increasing thier damage by 2 for a turn."));
+			}
+			break;
 
-			case SP_PATHFINDER:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Nearby units have the cost to move reduced to 1 until the end of the turn."));
-				}
-				break;
-			case SP_RAISEMOUNTAIN:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion creates a mountain tile from any non-resource tile."));
-				}
-				break;
-			case SP_STAND:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Swordsman gives up movement for a turn to reduce his damage by half."));
-				}
-				break;
-			case SP_VOLLEY:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("If the Archer hasn't moved, he can prepare a shot that deals double his damage."));
-				}
-				break;
-			case SP_RAISEDEAD:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Brings any unit back to life as a skeleton. It can only be cast on a tile with a tombstone."));
-				}
-				break;
-			case SP_MAGIC:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("It's a missile made of magic."));
-				}
-				break;
-			case SP_ICEBOLT:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The champion hurls a bolt of ice at a target, reducing their speed by 2 for the next turn."));
-				}
-				break;
-			case SP_LIGHTBOLT:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The hero calls a bolt of lightning down on a targeted tile."));
-				}
-				break;
-			case SP_FIREWEP:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sets a targets weapon ablaze, increasing thier damage by 2."));
-				}
-				break;
-			case SP_LIGHTSTRIKE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses a powerful lightning strike to stun the enemy for the next turn."));
-				}
-				break;
-			case SP_EXPSHOT:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses a powerful explosive arrow."));
-				}
-				break;
-			case SP_ICEAGE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion freezes all the tiles in front of him."));
-				}
-				break;
-			case SP_HEAVYBLOW:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion strikes a target with a heavy blow."));
-				}
-				break;
-			case SP_FIRENOVA:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion engulfs himself in flames and explodes into an unholy napalm bloom of death."));
-				}
-				break;
-			case SP_SKILLSHOT:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to attack a target from afar."));
-				}
-				break;
-			case SP_LIGHTCHAIN:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion pushes lightning through all conductive targets."));
-				}
-				break;
-			case SP_WHIRLWIND:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("A spinning attack so fast that the Champion's sheer velocity throws back units."));
-				}
-				break;
-			case SP_PSHOT:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to hit all targets in a line, doing 2 less damage for each target hit."));
-				}
-				break;
-			case SP_CLEAVE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion swings his sword, hitting all targets in front of him."));
-				}
-				break;
-			case SP_BLADESTORM:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion spins, hitting all targets in front of him."));
-				}
-				break;
-			case SP_SWORDDANCE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion stabs all units around him."));
-				}
-				break;
-			case SP_RUSH:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion rushes forward in a direction, dealing 2 extra damage for every unit hit."));
-				}
-				break;
+		case SP_PATHFINDER:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Nearby units have the cost to move reduced to 1 until the end of the turn."));
+			}
+			break;
+		case SP_RAISEMOUNTAIN:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion creates a mountain tile from any non-resource tile."));
+			}
+			break;
+		case SP_STAND:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Swordsman gives up movement for a turn to reduce his damage by half."));
+			}
+			break;
+		case SP_VOLLEY:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("If the Archer hasn't moved, he can prepare a shot that deals double his damage."));
+			}
+			break;
+		case SP_RAISEDEAD:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("Brings any unit back to life as a skeleton. It can only be cast on a tile with a tombstone."));
+			}
+			break;
+		case SP_MAGIC:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("It's a missile made of magic."));
+			}
+			break;
+		case SP_ICEBOLT:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The champion hurls a bolt of ice at a target, reducing their speed by 2 for the next turn."));
+			}
+			break;
+		case SP_LIGHTBOLT:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The hero calls a bolt of lightning down on a targeted tile."));
+			}
+			break;
+		case SP_FIREWEP:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sets a targets weapon ablaze, increasing thier damage by 2."));
+			}
+			break;
+		case SP_LIGHTSTRIKE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses a powerful lightning strike to stun the enemy for the next turn."));
+			}
+			break;
+		case SP_EXPSHOT:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses a powerful explosive arrow."));
+			}
+			break;
+		case SP_ICEAGE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion freezes all the tiles in front of him."));
+			}
+			break;
+		case SP_HEAVYBLOW:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion strikes a target with a heavy blow."));
+			}
+			break;
+		case SP_FIRENOVA:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion engulfs himself in flames and explodes into an unholy napalm bloom of death."));
+			}
+			break;
+		case SP_SKILLSHOT:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to attack a target from afar."));
+			}
+			break;
+		case SP_LIGHTCHAIN:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion pushes lightning through all conductive targets."));
+			}
+			break;
+		case SP_WHIRLWIND:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("A spinning attack so fast that the Champion's sheer velocity throws back units."));
+			}
+			break;
+		case SP_PSHOT:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to hit all targets in a line, doing 2 less damage for each target hit."));
+			}
+			break;
+		case SP_CLEAVE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion swings his sword, hitting all targets in front of him."));
+			}
+			break;
+		case SP_BLADESTORM:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion spins, hitting all targets in front of him."));
+			}
+			break;
+		case SP_SWORDDANCE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion stabs all units around him."));
+			}
+			break;
+		case SP_RUSH:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion rushes forward in a direction, dealing 2 extra damage for every unit hit."));
+			}
+			break;
 
-			case SP_KILL:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion does massive damage to an enemy near him."));
-				}
-				break;
-			case SP_FORT:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his allies, decreasing their damage taken by 70% for 2 turns."));
-				}
-				break;
+		case SP_KILL:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion does massive damage to an enemy near him."));
+			}
+			break;
+		case SP_FORT:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion shields his allies, decreasing their damage taken by 70% for 2 turns."));
+			}
+			break;
 
-			case SP_DEATH:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move. Champion units take 10 damage."));
-				}
-				break;
+		case SP_DEATH:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move. Champion units take 10 damage."));
+			}
+			break;
 
-			case SP_MIND:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion steals the mind of one of his enemies. Doesn't work on Champion units."));
-				}
-				break;
+		case SP_MIND:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion steals the mind of one of his enemies. Doesn't work on Champion units."));
+			}
+			break;
 
-			case SP_TELE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
-				}
-				break;
+		case SP_TELE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
+			}
+			break;
 
-			case SP_SAC:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
-				}
-				break;
+		case SP_SAC:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
+			}
+			break;
 
-			case SP_MASSRAISE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion raises all dead around him."));
-				}
-				break;
+		case SP_MASSRAISE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion raises all dead around him."));
+			}
+			break;
 
-			case SP_VAMP:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion turns his allies into vampires for a turn, letting them heal half thier basic attack damage back when they attack."));
-				}
-				break;
+		case SP_VAMP:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion turns his allies into vampires for a turn, letting them heal half thier basic attack damage back when they attack."));
+			}
+			break;
 
-			case SP_ENCASE:
-				{
-					CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sends a wall of ice down from the sky, damaging enemies they hit."));
-				}
-				break;
+		case SP_ENCASE:
+			{
+				CAbilityManager::GetInstance()->GetAbility(SPELL_TYPE(i))->SetDescription(StringTable::GetInstance()->GetString("The Champion sends a wall of ice down from the sky, damaging enemies they hit."));
+			}
+			break;
 		}
 		CAbilityManager::GetInstance()->GetAbility(SP_MELEEATTACK)->SetDescription(StringTable::GetInstance()->GetString("This unit attacks with a melee weapon."));
 		CAbilityManager::GetInstance()->GetAbility(SP_ARCHERRANGEDATTACK)->SetDescription(StringTable::GetInstance()->GetString("This unit attacks with a ranged weapon."));
@@ -304,7 +304,6 @@ void COptionsMenuState::Exit(void)
 		CAbilityManager::GetInstance()->GetAbility(SP_ICEBLOCK)->SetDescription("The hero uses his power of freezing stuff to make an ice block");
 		CAbilityManager::GetInstance()->GetAbility(SP_BLANK)->SetDescription(StringTable::GetInstance()->GetString("Blank parchment is blank"));
 		CAbilityManager::GetInstance()->GetAbility(SP_BLANK)->m_strName = StringTable::GetInstance()->GetString("Blank Scroll");
-
 	}
 }
 void COptionsMenuState::Input(INPUT_ENUM input)
@@ -314,7 +313,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 	case INPUT_CANCEL:
 		{
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
-		CStateStack::GetInstance()->Pop();
+			CStateStack::GetInstance()->Pop();
 		}
 		break;
 	case INPUT_DOWN:
@@ -323,7 +322,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				selected++;
 			else
 				selected = 0;
-		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_UP:
@@ -332,7 +331,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				selected--;
 			else
 				selected = 4;
-		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_LEFT:
@@ -349,7 +348,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				float temp = musicvolume*0.01f;
 				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(temp);
 			}
-		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_RIGHT:
@@ -366,7 +365,7 @@ void COptionsMenuState::Input(INPUT_ENUM input)
 				float temp = musicvolume*0.01f;
 				CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(temp);
 			}
-		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 			break;
 		}
 	case INPUT_ACCEPT:
@@ -406,23 +405,9 @@ void COptionsMenuState::Update(float fElapsedTime)
 }
 void COptionsMenuState::Render(void)
 {
-	CSGD_Direct3D::GetInstance()->Clear(0,0,0);
 	RECT* toprect = new RECT();
-	toprect->bottom = 392;
-	toprect->top = 198;
-	toprect->left = 15;
-	toprect->right = 537;
-	pTM->Draw(Scroll,25,100,1.44f,2.3f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	toprect->bottom = 113;
-	toprect->top = 0;
-	toprect->left = 0;
-	toprect->right = 555;
-	pTM->Draw(Scroll,0,0,1.45f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	toprect->bottom = 584;
-	toprect->top = 472;
-	toprect->left = 2;
-	toprect->right = 557;
-	pTM->Draw(Scroll,0,487,1.45f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 50, 30, 1.3f, 1.0f,
+		(RECT*)0, 0.0f, 0.0f, 0.0f, D3DXCOLOR(255,255,255,255));
 	toprect->bottom = 77;
 	toprect->top = 56;
 	toprect->left = 152;
@@ -468,35 +453,135 @@ void COptionsMenuState::Render(void)
 	delete toprect;
 	toprect = nullptr;
 	if(selected == 0)
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+	}
 	else
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(255,255,255,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+	}
 	if(selected == 1)
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(150,150,0,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+	}
 	else
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(255,255,255,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+	}
 	if(selected == 2)
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(150,150,0,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Fullscreen").c_str(),298,310,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+	}
 	else
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(255,255,255,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Fullscreen").c_str(),298,310,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+	}
 	if(selected == 3)
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(150,150,0,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Modern English?").c_str(),198,365,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+	}
 	else
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(255,255,255,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Modern English?").c_str(),198,365,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+	}
 	if(selected == 4)
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Back").c_str(),350,440,0.6f,D3DXCOLOR(150,150,0,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Back").c_str(),350,440,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Back").c_str(),350,440,0.6f,D3DXCOLOR(150,150,0,255));
+		}
+	}
 	else
-		m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-		("Back").c_str(),350,440,0.6f,D3DXCOLOR(255,255,255,255));
+	{
+		if(StringTable::GetInstance()->GetIsItModern())
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Back").c_str(),350,440,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+		else
+		{
+			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
+				("Back").c_str(),350,440,0.6f,D3DXCOLOR(255,255,255,255));
+		}
+	}
 }
 COptionsMenuState* COptionsMenuState::GetInstance()
 {
