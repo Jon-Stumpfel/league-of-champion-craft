@@ -25,7 +25,7 @@ CGameModeState* CGameModeState::GetInstance()
 void CGameModeState::Enter(void)
 {
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
-	m_nSelected = 0;
+	m_nSelected = 2;
 }
 
 void CGameModeState::Exit(void)
@@ -110,7 +110,7 @@ void CGameModeState::Render(void)
 
 	pBitmapFont.Print("Multi Player", 180, 150, 0.6f, m_nSelected == 0 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
 	pBitmapFont.Print("Single Player", 440, 150, 0.6f, m_nSelected == 1 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
-	pBitmapFont.Print("Tutorial", 330, 200, 0.6f, m_nSelected == 2 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
+	pBitmapFont.Print("Tutorial", 330, 100, 0.6f, m_nSelected == 2 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	if( m_nSelected == 0 )
 		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("multiplayer")), 290, 275, 1.0f, 1.0f);

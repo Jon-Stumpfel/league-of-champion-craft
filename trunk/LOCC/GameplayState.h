@@ -122,5 +122,6 @@ public:
 	CBitmapFont* m_pBitmapFont;
 //	static CGameplayState* s_Instance;
 
+
 };
 

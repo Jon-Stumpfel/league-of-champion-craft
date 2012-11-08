@@ -7,6 +7,7 @@
 #include "StringTable.h"
 #include "AIManager.h"
 #include "ParticleManager.h"
+#include "TutorialTextState.h"
 
 const float MAPWIDTH=180.0f;
 const float MAPHEIGHT=180.0f;
@@ -44,9 +45,9 @@ void LevelSelectState::Enter(void)
 
 	CTileManager* pTM=CTileManager::GetInstance();
 
-	if( m_nType == 1 )
+	if( m_nType == 1 )//SINGLE PLAYER MAP(AI ON)
 	{
-		//COMMENT THESE IN IF YOU WANT SINGLE PLAYER MAP(AI ON)
+		
 		string filename1= "Assets/Tiles/Level1.xml";
 		m_vMap1= pTM->JonsLoad(filename1);
 	
@@ -59,9 +60,9 @@ void LevelSelectState::Enter(void)
 		string filename4= "Assets/Tiles/Level4.xml";
 		m_vMap4= pTM->JonsLoad(filename4);
 	}
-	if( m_nType == 0 )
+	if( m_nType == 0 )//MULTIYPLAYER MAP
 	{
-		//COMMENT THESE IN IF YOU WANT MULTIYPLAYER MAP
+		
 		string filename1= "Assets/Tiles/Level5.xml";
 		m_vMap1= pTM->JonsLoad(filename1);
 	
@@ -74,9 +75,8 @@ void LevelSelectState::Enter(void)
 		string filename4= "Assets/Tiles/Level8.xml";
 		m_vMap4= pTM->JonsLoad(filename4);
 	}
-	if( m_nType == 2 )
+	if( m_nType == 2 )//TUTORIAL MAP (AI SLOWED)
 	{
-		//COMMENT THESE IN IF YOU WANT MULTIYPLAYER MAP
 		string filename1= "Assets/Tiles/Level1.xml";
 		m_vMap1= pTM->JonsLoad(filename1);
 	}
@@ -97,13 +97,20 @@ void LevelSelectState::Input(INPUT_ENUM input)
 	bool bNetworkedGame = false;
 	switch(input)
 	{
-	case INPUT_ACCEPT: //which map you select
+	case INPUT_ACCEPT: //which to map you select
 		{
 			if(m_nType==2)
 			{
 					CGameManager::GetInstance()->NewGame("level0", 1);		//tutorial
-					CAIManager::GetInstance()->SetActionSpeed(.5f);			//slow down AI	
+					CAIManager::GetInstance()->SetActionSpeed(.5f);			//slow down AI
+					CGameManager::GetInstance()->SetTutorial(true);
 					CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+					
+
+					
+					CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
+
+					break;
 			}
 			// if you're not in tutorial, reset action speed to what kyle had it set to
 			CAIManager::GetInstance()->SetActionSpeed(.2f);		
@@ -199,7 +206,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 //STOP//		//SAME DEAL
 				if (m_nType == 0)
 				{
-					CGameManager::GetInstance()->NewGame("level8", 8);		//MULTIPLAYER
+					CGameManager::GetInstance()->NewGame("level8", 8);	//MULTIPLAYER
 				}
 				else
 					CGameManager::GetInstance()->NewGame("level4", 4);	//SINGLE PLAYER
@@ -211,7 +218,7 @@ void LevelSelectState::Input(INPUT_ENUM input)
 			if (!bNetworkedGame)
 				CStateStack::GetInstance()->Push(CCoinToss::GetInstance());
 
-			break; //NOW GO TO RENDER
+			break; 
 		}
 	case INPUT_LEFT:
 		{

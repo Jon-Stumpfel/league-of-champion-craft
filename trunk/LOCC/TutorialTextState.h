@@ -1,5 +1,9 @@
 #pragma once
 #include "BitmapFont.h"
+
+enum TEXTTOUSE {TTU_INTRO,TTU_MOVEMENT, TTU_ATTACK, TTU_SPELLS, TTU_MOVETACTICS, TTU_ATTACKTACTICS};
+
+
 class CTutorialTextState: public IGameState
 {
 public:
@@ -11,6 +15,7 @@ public:
 	virtual void Render(void);
 	RECT CellAlgorithm(int id);
 	static CTutorialTextState* GetInstance();
+	void SetTexttoShow (TEXTTOUSE text) {m_nNextText= text;};
 
 private:
 	CTutorialTextState(void);

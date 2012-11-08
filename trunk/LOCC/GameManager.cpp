@@ -22,6 +22,7 @@
 #include "MovetPhaseTransState.h"
 #include "SocketServer.h"
 #include "CoinToss.h"
+#include "TutorialTextState.h"
 
 CGameManager* CGameManager::s_Instance = nullptr;
 int CGameManager::m_nUniqueUnitID = 0;
@@ -34,6 +35,7 @@ CGameManager::CGameManager(void)
 	m_pNextPlayer = nullptr;
 	m_bNetworkedGame = false;
 	m_bExtraTurn = false;
+	m_bTutorial=false;
 }
 
 
@@ -60,9 +62,28 @@ void CGameManager::NextPhase(void)
 	if (m_nCurrentPhase == GP_MOVE)
 	{
 		CAIManager::GetInstance()->BeginAttack();
-		m_nCurrentPhase = GP_ATTACK;
 		//Attack!!!(Attack Phase Transition)-DG
 		CStateStack::GetInstance()->Push(CAttackPhaseTransState::GetInstance());
+
+		m_nCurrentPhase = GP_ATTACK;
+
+		if (GetTutorial()==true && GetCurrentPlayer()->GetPlayerID()==0 && GetCurrentTurn()==1)
+		{
+			CTutorialTextState::GetInstance()->SetTexttoShow(TTU_ATTACK);
+			CStateStack::GetInstance()->Push(CTutorialTextState::GetInstance());
+		}
+
+		if (GetTutorial()==true && GetCurrentPlayer()->GetPlayerID()==0 && GetCurrentTurn()==2)
+		{
+			CTutorialTextState::GetInstance()->SetTexttoShow(TTU_SPELLS);
+			CStateStack::GetInstance()->Push(CTutorialTextState::GetInstance());
+		}
+		if (GetTutorial()==true && GetCurrentPlayer()->GetPlayerID()==0 && GetCurrentTurn()==3)
+		{
+			CTutorialTextState::GetInstance()->SetTexttoShow(TTU_ATTACKTACTICS);
+			CStateStack::GetInstance()->Push(CTutorialTextState::GetInstance());
+		}
+
 
 	}
 	else if (m_nCurrentPhase == GP_ATTACK)
@@ -82,10 +103,11 @@ void CGameManager::NextPhase(void)
 
 		//Chilling the cooldown: this function does the cooldowndown each turn  -DG
 		CHero* Hero =  dynamic_cast <CHero*>(GetChampion(m_pCurrentPlayer->GetPlayerID()));
-		Hero->ChillCooldown();		//Look At That, TileManager Takeing care of business! This added resoruces based on the owned tiles -DG
+		Hero->ChillCooldown();		
 		m_pCurrentPlayer->SetAP(nStartingAP);
 		m_pCurrentPlayer->SetMaxPopCap(STARTING_CAP_PER_TURN);
-
+		
+		//Look At That, TileManager Takeing care of business! This added resoruces based on the owned tiles -DG
 		CTileManager::GetInstance()->EvaluateResources(m_pCurrentPlayer->GetPlayerID());
 		
 		CGameplayState::GetInstance()->ClearSelections();
@@ -106,7 +128,14 @@ void CGameManager::NextPhase(void)
 			}
 		}
 		//RAISE THE CASTLE WALLS!!!(Do the movement transition)-DG
-		CStateStack::GetInstance()->Push(CMovetPhaseTransState::GetInstance());	
+		CStateStack::GetInstance()->Push(CMovetPhaseTransState::GetInstance());
+
+		if (GetTutorial()==true && GetCurrentPlayer()->GetPlayerID()==0 && GetCurrentTurn()==2)
+		{
+			CTutorialTextState::GetInstance()->SetTexttoShow(TTU_MOVETACTICS);
+			CStateStack::GetInstance()->Push(CTutorialTextState::GetInstance());
+		}
+
 	}
 }
 
