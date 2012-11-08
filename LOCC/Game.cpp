@@ -107,6 +107,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette.png"), _T("vignette"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette_night.png"), _T("vignette_night"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette_snow.png"), _T("vignette_snow"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/main_menu.png"), _T("main_menubg"), 0UL);
 	
 	
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page1.png"), _T("Page1"), 0UL);
@@ -157,6 +158,10 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\main_menu_bg.png"), _T("mainmenubg"),D3DXCOLOR(0,0,0,255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_blue.png"), _T("warriorblue"),D3DXCOLOR(0,0,0,255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_red.png"), _T("warriorred"),D3DXCOLOR(0,0,0,255));
+
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\MainMenuMusic.xwm"), _T("MainMenuMusic"), true);
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\AttackPhaseMusic.xwm"), _T("AttackPhaseMusic"), true);
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\MovementPhaseMusic.xwm"), _T("MovementPhaseMusic"), true);
 
 
 	CAbilityManager::GetInstance()->LoadAbilities();
