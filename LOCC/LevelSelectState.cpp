@@ -112,8 +112,9 @@ void LevelSelectState::Input(INPUT_ENUM input)
 
 					break;
 			}
-			// if you're not in tutorial, reset action speed to what kyle had it set to
+			// if you're not in tutorial, don't do that stuff
 			CAIManager::GetInstance()->SetActionSpeed(.2f);		
+			CGameManager::GetInstance()->SetTutorial(false);
 
 			if(m_2Dselected.nPosX ==0  && m_2Dselected.nPosY==0) //map 1,1
 			{
