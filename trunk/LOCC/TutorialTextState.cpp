@@ -81,32 +81,35 @@ void CTutorialTextState::Render()
 		}
 	case TTU_SPELLS:
 		{
-			m_cFont.Print("SPELL Panel",320,100,.4f,D3DCOLOR_XRGB(210,210,210));
-			m_cFont.Print("During the either phase, You can buy spells for your champion from the Champion Spell Panel",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("Basic attacks are done by selecting the attack icon, moving the Cursor on the unit you wish to attack, and then hit accept to attack that unit",170,190,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("All units have a special ability that can only be performed during the attack phase, each with special conditions about their use. ",170,280,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("If the range indictor is red, it means that the attack or ability is not currently available, because of special conditions, being the wrong state",170,360,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("Sometimes you won’t have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,450,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("ABILITIES",320,100,.4f,D3DCOLOR_XRGB(210,210,210));
+			m_cFont.Print("During the either phase, you can buy spells for Him from the Champion Abilities Panel.",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("To open the Abilities Panel: select your champion and select his Special Ability.",170,190,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Champion start out with four blank scroll slots, selecting one will open the Ability-Book You can choose from for four diverse spell trees: Elemental, Physical, Support and Epic. ",170,250,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Ability have an AP cost, a Turn cool-down, and a phase that the spell can be used in.",170,370,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Abilities can do damage, heal Allies, hinder enemies, and change the world around you. ",170,440,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			break;
 		}
 	case TTU_MOVETACTICS:
 		{
 			m_cFont.Print("MOVE TACTICS",320,100,.4f,D3DCOLOR_XRGB(210,210,210));
-			//m_cFont.Print("During the either phase, You can buy spells for your champion from the Champion Spell Panel",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("Basic attacks are done by selecting the attack icon, moving the Cursor on the unit you wish to attack, and then hit accept to attack that unit",170,190,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("All units have a special ability that can only be performed during the attack phase, each with special conditions about their use. ",170,280,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("If the range indictor is red, it means that the attack or ability is not currently available, because of special conditions, being the wrong state",170,360,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("Sometimes you won’t have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,450,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("You should spend movement positioning unit for an attack and Capturing buildings to add to your resources. Wood and Metal are used to make more troops.  ",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Most Abilities that buff units are done during the movement phase.",170,240,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Archer receive a range in increase on mountain tiles",170,280,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("If the range indictor is red, it means that the attack or ability is not currently available, because of special conditions, being the wrong state",170,340,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("All units get a chance to dodge on forest tiles",170,450,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			break;
 		}
 	case TTU_ATTACKTACTICS:
 		{
 			m_cFont.Print("ATTACK TACTICS",320,100,.4f,D3DCOLOR_XRGB(210,210,210));
-			//m_cFont.Print("During the either phase, You can buy spells for your champion from the Champion Spell Panel",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("Basic attacks are done by selecting the attack icon, moving the Cursor on the unit you wish to attack, and then hit accept to attack that unit",170,190,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("All units have a special ability that can only be performed during the attack phase, each with special conditions about their use. ",170,280,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("If the range indictor is red, it means that the attack or ability is not currently available, because of special conditions, being the wrong state",170,360,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Archers Volley can only be done, if the archer doesn’t move during the movement phase",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Most Abilities allow the Champion to attack outside of his basic melee range.",170,190,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Cavalry’s Charge moves the unit as well as does damage to all in his path, but the last tile moved must be open",170,280,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("All units get a chance to dodge on forest tiles",170,360,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			//m_cFont.Print("Sometimes you won’t have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,450,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			
+			
+
 			break;
 		}
 	}	
