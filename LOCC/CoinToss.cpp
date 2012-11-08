@@ -10,6 +10,8 @@
 #include "AIManager.h"
 #include "Player.h"
 #include "StringTable.h"
+#include "MovetPhaseTransState.h"
+#include "TutorialTextState.h"
 CCoinToss::CCoinToss(void)
 {
 
@@ -162,8 +164,17 @@ void CCoinToss::Update(float fElapsedTime)
 			}
 			if (m_fSecondTimer<=0.0f)
 			{
-				//CStateStack::GetInstance()->Push(CMovetPhaseTransState::GetInstance());
 				CStateStack::GetInstance()->Pop();
+				CStateStack::GetInstance()->Push(CMovetPhaseTransState::GetInstance());
+				
+				if(CGameManager::GetInstance()->GetTutorial()==true)
+				{
+					CTutorialTextState::GetInstance()->SetTexttoShow(TTU_MOVEMENT);
+					CStateStack::GetInstance()->Push(CTutorialTextState::GetInstance());
+
+					CTutorialTextState::GetInstance()->SetTexttoShow(TTU_INTRO);
+					CStateStack::GetInstance()->Push(CTutorialTextState::GetInstance());
+				}
 			}
 		}
 	}

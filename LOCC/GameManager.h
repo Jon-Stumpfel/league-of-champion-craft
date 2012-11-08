@@ -109,5 +109,10 @@ private:
 	static int m_nUniqueUnitID;
 
 	std::vector<MapModification> m_vMapMods;
+	
+	bool m_bTutorial;
+	public:
+	void SetTutorial(bool onoff) {m_bTutorial=onoff;};
+	bool GetTutorial(void) {return m_bTutorial;};
 };
 

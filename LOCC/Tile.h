@@ -70,7 +70,7 @@ private:
 	//TS_OCCUPIED		=8
 	//TS_CAPTURED		=16
 	//TS_IS_DEAD		=32
-	//TS_ISImpassable		=64
+	//TS_ISImpassable	=64
 
 	int					m_nPlayerID;
 	Vec2D				m_sPos;

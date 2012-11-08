@@ -1120,13 +1120,13 @@ void CSGD_XAudio2::SFXSetSoundVolume(int nID, float fVolume)
 
 	m_vSFXLibrary[ nID ].m_fVolume = fVolume;
 
-	//for( unsigned int i = 0; i < m_vVoices.size(); ++i )
-	//{
-	//	if( m_vVoices[i].m_bIsMusic == false && m_vVoices[i].currentSoundID == nID )
-	//	{
-	//		m_vVoices[i].m_pVoice->SetVolume(fVolume, AUDIO_ENGINE_OP_SET);
-	//	}
-	//}
+	for( unsigned int i = 0; i < m_vVoices.size(); ++i )
+	{
+		if( m_vVoices[i].m_bIsMusic == false && m_vVoices[i].currentSoundID == nID )
+		{
+			m_vVoices[i].m_pVoice->SetVolume(fVolume, AUDIO_ENGINE_OP_SET);
+		}
+	}
 }
 
 void CSGD_XAudio2::SFXSetSoundPan(int nID, float fPan)
