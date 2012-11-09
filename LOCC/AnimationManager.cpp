@@ -1737,7 +1737,7 @@ void CAnimationManager::SetAnimBool(UNIT_TYPE ut, int at, bool temp)
 	case UT_CASTLE:
 		{
 			m_vCastleBools[at]= temp;
-			for(int i = 0; i < m_vCastleAnims.size();i++)
+			for(unsigned int i = 0; i < m_vCastleAnims.size();i++)
 			{
 				if((int)m_vCastleAnims[i].GetAnimType() == at && temp == false)
 				{
@@ -1751,7 +1751,7 @@ void CAnimationManager::SetAnimBool(UNIT_TYPE ut, int at, bool temp)
 	case UT_HERO:
 		{
 			m_vChampionBools[at]= temp;
-			for(int i = 0; i < m_vChampionAnims.size();i++)
+			for(unsigned int i = 0; i < m_vChampionAnims.size();i++)
 			{
 				if((int)m_vChampionAnims[i].GetAnimType() == at && temp == false)
 				{
@@ -1765,7 +1765,7 @@ void CAnimationManager::SetAnimBool(UNIT_TYPE ut, int at, bool temp)
 	case UT_ARCHER:
 		{
 			m_vArcherBools[at]= temp;
-			for(int i = 0; i < m_vArcherAnims.size();i++)
+			for(unsigned int i = 0; i < m_vArcherAnims.size();i++)
 			{
 				if((int)m_vArcherAnims[i].GetAnimType() == at && temp == false)
 				{
@@ -1779,7 +1779,7 @@ void CAnimationManager::SetAnimBool(UNIT_TYPE ut, int at, bool temp)
 	case UT_SWORDSMAN:
 		{
 			m_vSwordsmanBools[at]= temp;
-			for(int i = 0; i < m_vSwordsmanAnims.size();i++)
+			for(unsigned int i = 0; i < m_vSwordsmanAnims.size();i++)
 			{
 				if((int)m_vSwordsmanAnims[i].GetAnimType() == at && temp == false)
 				{
@@ -1793,7 +1793,7 @@ void CAnimationManager::SetAnimBool(UNIT_TYPE ut, int at, bool temp)
 	case UT_CAVALRY:
 		{
 			m_vCalvaryBools[at]= temp;
-			for(int i = 0; i < m_vCalvaryAnims.size();i++)
+			for(unsigned int i = 0; i < m_vCalvaryAnims.size();i++)
 			{
 				if((int)m_vCalvaryAnims[i].GetAnimType() == at && temp == false)
 				{
@@ -1807,7 +1807,7 @@ void CAnimationManager::SetAnimBool(UNIT_TYPE ut, int at, bool temp)
 	case UT_SKELETON:
 		{
 			m_vSkeletonBools[at]= temp;
-			for(int i = 0; i < m_vSkeletonAnims.size();i++)
+			for(unsigned int i = 0; i < m_vSkeletonAnims.size();i++)
 			{
 				if((int)m_vSkeletonAnims[i].GetAnimType() == at && temp == false)
 				{
@@ -1821,7 +1821,7 @@ void CAnimationManager::SetAnimBool(UNIT_TYPE ut, int at, bool temp)
 	case UT_ICEBLOCK:
 		{
 			m_vIceBlockBools[at-1]= temp;
-			for(int i = 0; i < m_vIceBlockAnims.size();i++)
+			for(unsigned int i = 0; i < m_vIceBlockAnims.size();i++)
 			{
 				if((int)m_vIceBlockAnims[i].GetAnimType() == at && temp == false)
 				{

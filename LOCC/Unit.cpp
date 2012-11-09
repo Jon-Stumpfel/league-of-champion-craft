@@ -69,6 +69,7 @@ CUnit::CUnit(UNIT_TYPE type) : m_eType(type)
 	m_fDodgeChance = 0.0f;
 	m_bFreeMove = false;
 	m_bIsFleeing = false;
+	m_bHasDied = false;
 }
 
 bool CUnit::CheckDodged(void)
@@ -406,8 +407,11 @@ void CUnit::Update(float fElapsedTime)
 	}
 	if (m_nHP <= 0)
 	{
-		if(!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("ITSDEAD"))))
-			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("ITSDEAD")),false,false);
+		if(!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("ITSDEAD"))) && !m_bHasDied)
+		{
+			CSGD_XAudio2::GetInstance()->SFXPlaySound(CSoundManager::GetInstance()->GetID(_T("ITSDEAD")),false);
+			m_bHasDied = true;
+		}
 		{
 			m_sAnimStruct->animationType = AT_DEATH;
 			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
