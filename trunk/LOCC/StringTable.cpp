@@ -514,6 +514,13 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Hmm... Ic wundur gif ge con onfon od pa ealands.");
 	modernenglish.push_back("Be careful, there's not a lot of space to fight here.");
 	yeoldeanglish.push_back("Beon behogod, paer's ne ever monegum of hwil to winnan hider.");
+
+	modernenglish.push_back("Cost: Metal - 20, Wood - 0, Population - 1");
+	yeoldeanglish.push_back("Beódland: Wecg - 20, Acholt - 0, Eorðwaru - 1");
+	modernenglish.push_back("Cost: Metal - 20, Wood - 20, Population - 2");
+	yeoldeanglish.push_back("Beódland: Wecg - 20, Acholt - 20, Eorðwaru - 2");
+	modernenglish.push_back("Cost: Metal - 5, Wood - 15, Population - 1");
+	yeoldeanglish.push_back("Beódland: Wecg - 5, Acholt - 15, Eorðwaru - 1");
 }
 StringTable::~StringTable(void)
 {

@@ -1120,7 +1120,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_strName = StringTable::GetInstance()->GetString("Spawn Archer");
 	pAbility->m_nCooldown = 0;
 	pAbility->m_bFacing = false;
-	pAbility->SetDescription("");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("Cost: Metal - 5, Wood - 15, Population - 1"));
 	pAbility->m_szInterfaceIcon = TSTRING(_T("archerportrait"));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("archerportrait"));
 	pAbility->SetIconID(zz);
@@ -1142,7 +1142,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_strName = StringTable::GetInstance()->GetString("Spawn Swordsman");
 	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("swordsmanportrait"));
-	pAbility->SetDescription("");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("Cost: Metal - 20, Wood - 0, Population - 1"));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("swordsmanportrait"));
 	pAbility->SetIconID(zz);
 	pAbility->SetType(SP_SPAWNSWORD);
@@ -1163,7 +1163,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->m_strName = StringTable::GetInstance()->GetString("Spawn Calvary");
 	pAbility->m_nCooldown = 0;
 	pAbility->m_szInterfaceIcon = TSTRING(_T("cavalryportrait"));
-	pAbility->SetDescription("");
+	pAbility->SetDescription(StringTable::GetInstance()->GetString("Cost: Metal - 20, Wood - 20, Population - 2"));
 	zz = CGraphicsManager::GetInstance()->GetID(_T("cavalryportrait"));
 	pAbility->SetIconID(zz);
 	pAbility->SetType(SP_SPAWNCALV);

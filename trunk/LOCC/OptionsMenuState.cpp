@@ -303,7 +303,12 @@ void COptionsMenuState::Exit(void)
 		CAbilityManager::GetInstance()->GetAbility(SP_ICEBLOCK)->SetDescription("The hero uses his power of freezing stuff to make an ice block");
 		CAbilityManager::GetInstance()->GetAbility(SP_BLANK)->SetDescription(StringTable::GetInstance()->GetString("Blank parchment is blank"));
 		CAbilityManager::GetInstance()->GetAbility(SP_BLANK)->m_strName = StringTable::GetInstance()->GetString("Blank Scroll");
-	}
+
+		CAbilityManager::GetInstance()->GetAbility(SP_SPAWNSWORD)->SetDescription("Cost: Metal - 20, Wood - 0, Population - 1");
+		CAbilityManager::GetInstance()->GetAbility(SP_SPAWNARCHER)->SetDescription(StringTable::GetInstance()->GetString("Cost: Metal - 5, Wood - 15, Population - 1"));
+		CAbilityManager::GetInstance()->GetAbility(SP_SPAWNCALV)->m_strName = StringTable::GetInstance()->GetString("Cost: Metal - 20, Wood - 20, Population - 2");
+	
+}
 }
 void COptionsMenuState::Input(INPUT_ENUM input)
 {
