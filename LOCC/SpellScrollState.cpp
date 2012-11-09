@@ -675,7 +675,7 @@ void CSpellScrollState::Initialize( void )
 	m_vElemental.push_back(pAM->GetAbility(SP_ICEAGE));
 	m_vElemental.push_back(pAM->GetAbility(SP_LIGHTCHAIN));
 	m_vElemental.push_back(pAM->GetAbility(SP_FIRENOVA));
-	m_vElemental.push_back(pAM->GetAbility(SP_BLANK));
+	m_vElemental.push_back(pAM->GetAbility(SP_ENCASE));
 
 	m_vPhysical.push_back(pAM->GetAbility(SP_HEAVYBLOW));
 	m_vPhysical.push_back(pAM->GetAbility(SP_RUSH));

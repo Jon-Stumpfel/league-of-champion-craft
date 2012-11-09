@@ -25,7 +25,6 @@ private:
 	CSGD_TextureManager* pTM;
 	Vec2D m_sCursorPos;
 	int	jcs_nImageID;
-	int Scroll;
 	bool IsModern;
 };
 
