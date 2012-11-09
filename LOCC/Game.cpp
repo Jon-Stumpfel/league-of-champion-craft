@@ -163,7 +163,18 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\AttackPhaseMusic.xwm"), _T("AttackPhaseMusic"), true);
 	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\MovementPhaseMusic.xwm"), _T("MovementPhaseMusic"), true);
 
+	//Tutorial audio clips
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\Intro.wav"),_T("Intro"),false);
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\Movement.wav"),_T("Move"),false); 
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\Attack.wav"),_T("Attack"),false);
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\AttackTactics.wav"),_T("ATactics"),false);
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\MoveTactics.wav"),_T("MTactics"),false);
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\Abilities.wav"),_T("Spell"),false);
 
+	 //coin flip noise
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\coin_flip.wav"),_T("CoinFlip"),false);
+	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\coin_hit.wav"),_T("CoinHit"),false);
+	
 	CAbilityManager::GetInstance()->LoadAbilities();
 	CSpellScrollState::GetInstance()->Initialize();
 	m_dwCurrTime = GetTickCount();
