@@ -406,6 +406,10 @@ void CSpellScrollState::Render(void)
 	else if( page == 7 )
 		pTM->Draw(pGM->GetID(_T("Page7")), 175 - 40, -30 + 25, .5f, .5f);
 
+	if( flipping == false && unflipping == false )
+		pBF->Print("Press Cancel to return", 185, 435, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 175); 
+		
+
 	ostringstream xp;
 	xp << "Exp: " << m_nExp;
 	pBF->Print(xp.str().c_str(), 10, 20, .4f, D3DCOLOR_ARGB(255, 255, 255, 255));
@@ -416,7 +420,6 @@ void CSpellScrollState::Render(void)
 		{
 			pTM->Draw(pGM->GetID(_T("spelldesc")), 145 - 65, 475, .9f, .9f);
 			CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
-		
 			CAbility* selected;
 			if( m_nSelected == 0 )
 				selected = m_vElemental[m_nSelectedAbility];

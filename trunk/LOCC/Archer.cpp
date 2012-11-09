@@ -3,8 +3,8 @@
 #include "GameplayState.h"
 CArcher::CArcher(void) : CUnit(UT_ARCHER)
 {
-	SetHP(12);
-	SetMaxHP(12);
+	SetHP(15);
+	SetMaxHP(15);
 	SetAttack(6);
 	SetSpeed(4);
 	SetRange(3);

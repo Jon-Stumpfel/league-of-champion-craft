@@ -5,8 +5,8 @@
 
 CCavalry::CCavalry(void) : CUnit(UT_CAVALRY)
 {
-	SetHP(22);
-	SetMaxHP(22);
+	SetHP(20);
+	SetMaxHP(20);
 	SetAttack(6);
 	SetSpeed(5);
 	SetRange(1);
