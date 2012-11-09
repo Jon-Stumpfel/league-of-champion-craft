@@ -108,7 +108,8 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette_night.png"), _T("vignette_night"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/vignette_snow.png"), _T("vignette_snow"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/main_menu.png"), _T("main_menubg"), 0UL);
-	
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/scrolltop.png"), _T("scrolltop"), 0UL);
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/Menus/scrollbottom.png"), _T("scrollbottom"), 0UL);
 	
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page1.png"), _T("Page1"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Page2.png"), _T("Page2"), 0UL);
@@ -157,7 +158,7 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CSoundManager::GetInstance()->LoadSound(_T("Assets/Sounds/MainMenuMusic.xwm"),_T("MainMenuMusic"),true);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\main_menu_bg.png"), _T("mainmenubg"),D3DXCOLOR(0,0,0,255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_blue.png"), _T("warriorblue"),D3DXCOLOR(0,0,0,255));
-	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_red.png"), _T("warriorred"),D3DXCOLOR(0,0,0,255));
+	 CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_red.png"), _T("warriorred"),D3DXCOLOR(0,0,0,255));
 
 
 	//Tutorial audio clips

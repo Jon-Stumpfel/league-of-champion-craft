@@ -406,8 +406,6 @@ void CUnit::Update(float fElapsedTime)
 		// Set the tile we are moving off of's occupied to false.
 		CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX, m_sGamePos.nPosY)->SetIfOccupied(false);
 
-
-
 		int xDistance = m_sGamePos.nPosX - m_vWaypoints.back()->GetPosition().nPosX;
 		int yDistance = m_sGamePos.nPosY - m_vWaypoints.back()->GetPosition().nPosY;
 		if (yDistance == 1)
@@ -472,18 +470,22 @@ void CUnit::Update(float fElapsedTime)
 				{
 					if (!CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetIfCapturing())
 					{
-						if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetPlayerID() != -1)
+						if( CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetPlayerID() != CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() )
 						{
-							CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetPlayerID());
-							if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_MILL)
-								pPlayer->SetMillsOwned(pPlayer->GetMillsOwned() - 1);
-							else if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_MINE)
-								pPlayer->SetMinesOwned(pPlayer->GetMinesOwned() - 1);
-							else if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_FARM)
-								pPlayer->SetFarmsOwned(pPlayer->GetFarmsOwned() - 1);
+							if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetPlayerID() != -1 )
+							{
+								CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetPlayerID());
+								if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_MILL)
+									pPlayer->SetMillsOwned(pPlayer->GetMillsOwned() - 1);
+								else if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_MINE)
+									pPlayer->SetMinesOwned(pPlayer->GetMinesOwned() - 1);
+								else if (CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->GetTileType() == TT_FARM)
+									pPlayer->SetFarmsOwned(pPlayer->GetFarmsOwned() - 1);
+							}
+
+							CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetIfCapturing(true);
+							CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetPlayerID( GetPlayerID());
 						}
-						CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetIfCapturing(true);
-						CTileManager::GetInstance()->GetTile(m_sGamePos.nPosX,m_sGamePos.nPosY)->SetPlayerID( GetPlayerID());
 					}
 				}
 
@@ -871,7 +873,7 @@ int CUnit::DoDamage(lua_State* L)
 		pUnit->SetHP(pUnit->GetHP() - damage);
 		// STATS RECORDING
 		CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(pUnit->GetPlayerID());
-		switch (pUnit->GetType())
+		switch (CGameplayState::GetInstance()->GetSelectedUnit()->GetType())
 		{
 		case UT_SWORDSMAN:
 			pPlayer->GetStats()->nSwordsmanDamageDone+=damage;

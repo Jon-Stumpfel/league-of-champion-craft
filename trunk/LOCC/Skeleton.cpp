@@ -9,7 +9,7 @@ CSkeleton::CSkeleton(void) : CUnit(UT_SKELETON)
 	SetAttack(4);
 	SetSpeed(2);
 	SetRange(1);
-	SetEXPValue(10);
+	SetEXPValue(50);
 
 	SetHasAttacked(false);
 	SetShielded(false);
