@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "SoundManager.h"
 #include "FloatingText.h"
+#include "StringTable.h"
 //CSpellScrollState* CSpellScrollState::s_Instance = nullptr;
 
 CSpellScrollState::CSpellScrollState(void)
@@ -407,7 +408,9 @@ void CSpellScrollState::Render(void)
 		pTM->Draw(pGM->GetID(_T("Page7")), 175 - 40, -30 + 25, .5f, .5f);
 
 	if( flipping == false && unflipping == false )
-		pBF->Print("Press Cancel to return", 185, 435, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 175); 
+		pBF->Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(),
+				185, 435, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 150);
+
 		
 
 	ostringstream xp;
@@ -460,13 +463,22 @@ void CSpellScrollState::Render(void)
 			tt << selected->GetDamage();
 			pBF->Print(tt.str().c_str(), 373 - 50 - 65, 555, .3f, D3DCOLOR_ARGB(255, 255, 255, 255));	
 
-			tt.str("");
-			tt << selected->GetName();
-			pBF->Print(tt.str().c_str(), 210 - 50 - 65, 556, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			if( selected->GetType() != SP_MASSRAISE && selected->GetType() != SP_VAMP && selected->GetType() != SP_DEATH )
+			{
+				tt.str("");
+				tt << selected->GetName();
+				pBF->Print(tt.str().c_str(), 210 - 50 - 65, 556, .2f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			}
+			else
+			{
+				tt.str("");
+				tt << selected->GetName();
+				pBF->Print(tt.str().c_str(), 210 - 50 - 65, 556, .175f, D3DCOLOR_ARGB(255, 255, 255, 255));
+			}
 
 			tt.str("");
 			tt << selected->GetDescription();
-			pBF->Print(tt.str().c_str(), 427 - 50 - 65, 493, .3f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
+			pBF->Print(tt.str().c_str(), 427 - 50 - 65, 493, .25f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
 
 			int x = 680 - 65, y = 525;
 			std::vector< Vec2D > pat = selected->GetPattern();

@@ -640,6 +640,7 @@ void CGameplayState::UseAbility(CAbility* ability)
 
 	if (ability == nullptr)
 		return;
+
 	if (ability->m_nNumTargets == -1) // champion spell panel
 	{
 		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
@@ -692,9 +693,10 @@ void CGameplayState::UseAbility(CAbility* ability)
 		pSM->Play(pSM->GetID(_T("NO")),false,false);
 		return;
 	}
+
 	if (ability->GetType() == SP_MOVE)
 	{
-		if( m_pSelectedUnit->GetEffect(SP_STAND) == false || m_pSelectedUnit->GetEffect(SP_LIGHTSTRIKE) == false )
+		if( m_pSelectedUnit->GetEffect(SP_STAND) == false && m_pSelectedUnit->GetEffect(SP_LIGHTSTRIKE) == false )
 		{
 			m_bIsMoving = true;
 			return;
@@ -2232,7 +2234,7 @@ void CGameplayState::Render(void)
 						tt << m_pSelectedUnit->GetAttack() * 2;
 					}
 
-					m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
+					m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.25f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 					tt.str("");
 					tt << m_pSelectedUnit->GetAttack();
 
@@ -2245,15 +2247,15 @@ void CGameplayState::Render(void)
 						tt << m_pSelectedUnit->GetSpeed();
 					}
 
-					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.25f, D3DCOLOR_XRGB(255,255,255));
 					tt.str("");
 
 					tt << pA->GetCoolDown();
-					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.25f, D3DCOLOR_XRGB(255,255,255));
 					tt.str("");
 
 					tt << pA->GetApCost();
-					m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+					m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.25f, D3DCOLOR_XRGB(255,255,255));
 					tt.str("");
 
 					m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 120);
@@ -2282,7 +2284,7 @@ void CGameplayState::Render(void)
 					tt << m_pSelectedUnit->GetAttack() * 2;
 				}
 
-				m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.3f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
+				m_pBitmapFont->Print(tt.str().c_str(), 380, m_nTooltipOffsetY + 45, 0.25f, pA->GetDamage() < 0 ? D3DCOLOR_XRGB(0,255,0) : D3DCOLOR_XRGB(255,0,0));
 				tt.str("");
 				tt << m_pSelectedUnit->GetAttack();
 
@@ -2295,15 +2297,15 @@ void CGameplayState::Render(void)
 					tt << m_pSelectedUnit->GetSpeed();
 				}
 
-				m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+				m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 12, 0.25f, D3DCOLOR_XRGB(255,255,255));
 				tt.str("");
 
 				tt << pA->GetCoolDown();
-				m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.3f, D3DCOLOR_XRGB(255,255,255));
+				m_pBitmapFont->Print(tt.str().c_str(), 276, m_nTooltipOffsetY + 45, 0.25f, D3DCOLOR_XRGB(255,255,255));
 				tt.str("");
 
 				tt << pA->GetApCost();
-				m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.3f, D3DCOLOR_XRGB(255,255,255));
+				m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.25f, D3DCOLOR_XRGB(255,255,255));
 				tt.str("");
 
 				m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 120);
@@ -2615,7 +2617,7 @@ void CGameplayState::Render(void)
 					drawColor = D3DCOLOR_XRGB(255, 255, 255);
 
 			CSGD_TextureManager::GetInstance()->Draw(
-				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 450, 446,1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f,
+				CGraphicsManager::GetInstance()->GetID(pAbility->m_szInterfaceIcon), 450, 446, 1.0f, 1.0f, (RECT*)0, 0.0f, 0.0f,
 				0.0f, drawColor);
 		}
 

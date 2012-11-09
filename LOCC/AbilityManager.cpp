@@ -958,7 +958,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_TELE);
 					ab->SetParticleType(PT_RAISEDEAD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SAC;
@@ -973,7 +973,7 @@ void CAbilityManager::LoadAbilities( void )
 				ab->SetType(SP_TELE);
 				ab->SetParticleType(PT_BLOOD);
 				ab->m_szInterfaceIcon = name;
-				ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
+				ab->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
 				ab->SetDamage(0);
 				std::pair<SPELL_TYPE, CAbility*> tmp;
 				tmp.first = SP_TELE;
