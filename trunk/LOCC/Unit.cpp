@@ -913,6 +913,9 @@ int CUnit::Encase( lua_State* L )
 	CUnit* target;
 	target = CGameManager::GetInstance()->FindUnit(Vec2D(posX, posY));
 
+	if( CTileManager::GetInstance()->GetTile(posX, posY) == nullptr )
+		return 0;
+
 	if( target == nullptr )
 	{
 		if( ID == 0 )

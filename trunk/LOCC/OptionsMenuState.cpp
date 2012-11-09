@@ -17,7 +17,6 @@ void COptionsMenuState::Enter(void)
 	m_pBitmapFont = new CBitmapFont();
 	pTM = CSGD_TextureManager::GetInstance();
 	jcs_nImageID = pTM->LoadTexture(_T("Assets\\Menus\\options_menu.png"), D3DXCOLOR(255,255,255,255));
-	Scroll = pTM->LoadTexture(_T("Assets\\Menus\\scroll.png"), D3DXCOLOR(255,255,255,255));
 	TiXmlDocument doc;
 	doc.LoadFile("Assets\\Menus\\Options.xml");
 	TiXmlElement* pRoot = doc.RootElement();
@@ -406,33 +405,33 @@ void COptionsMenuState::Update(float fElapsedTime)
 void COptionsMenuState::Render(void)
 {
 	RECT* toprect = new RECT();
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 50, 30, 1.3f, 1.0f,
-		(RECT*)0, 0.0f, 0.0f, 0.0f, D3DXCOLOR(255,255,255,255));
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 105, 15, 1.2f, 1.1f);
+
 	toprect->bottom = 77;
 	toprect->top = 56;
 	toprect->left = 152;
 	toprect->right = 402;
-	pTM->Draw(jcs_nImageID,275,170,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	pTM->Draw(jcs_nImageID,275,270,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,275 + 20,170 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,275 + 20,270 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	toprect->top = 89;
 	toprect->bottom = 108;
 	toprect->left = 184;
 	toprect->right = 188;
-	pTM->Draw(jcs_nImageID,303+int(1.86f*soundvolume),170,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	pTM->Draw(jcs_nImageID,303+int(1.86f*musicvolume),270,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,303+int(1.86f*soundvolume) + 20,170 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,303+int(1.86f*musicvolume) + 20,270 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	toprect->top = 345;
 	toprect->left = 254;
 	toprect->bottom = 386;
 	toprect->right = 295;
-	pTM->Draw(jcs_nImageID,480,305,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
-	pTM->Draw(jcs_nImageID,480,360,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,480 + 20,305 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+	pTM->Draw(jcs_nImageID,480 + 20,360 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	if(windowed == false)
 	{
 		toprect->top = 336;
 		toprect->left = 324;
 		toprect->bottom = 385;
 		toprect->right = 377;
-		pTM->Draw(jcs_nImageID,480,305,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+		pTM->Draw(jcs_nImageID,480 + 20,305 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	}
 	else
 	{
@@ -444,7 +443,7 @@ void COptionsMenuState::Render(void)
 		toprect->left = 324;
 		toprect->bottom = 385;
 		toprect->right = 377;
-		pTM->Draw(jcs_nImageID,480,360,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
+		pTM->Draw(jcs_nImageID,480 + 20,360 + 25,1.0f,1.0f,toprect,0,0,0,D3DXCOLOR(255,255,255,255));
 	}
 	else
 	{
@@ -457,12 +456,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+				("Sound Volume").c_str(),275 + 20,110 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+				("Sound Volume").c_str(),275 + 20,110 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 	}
 	else
@@ -470,12 +469,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(255,255,255,255));
+				("Sound Volume").c_str(),275 + 20,110 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Sound Volume").c_str(),275,110,0.6f,D3DXCOLOR(150,150,0,255));
+				("Sound Volume").c_str(),275 + 20,110 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 	}
 	if(selected == 1)
@@ -483,12 +482,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(150,150,0,255));
+				("Music Volume").c_str(),278 + 20,210 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(150,150,0,255));
+				("Music Volume").c_str(),278 + 20,210 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 	}
 	else
@@ -496,12 +495,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(255,255,255,255));
+				("Music Volume").c_str(),278 + 20,210 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Music Volume").c_str(),278,210,0.6f,D3DXCOLOR(255,255,255,255));
+				("Music Volume").c_str(),278 + 20,210 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 	}
 	if(selected == 2)
@@ -509,12 +508,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(150,150,0,255));
+				("Fullscreen").c_str(),278 + 20,310 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Fullscreen").c_str(),298,310,0.6f,D3DXCOLOR(150,150,0,255));
+				("Fullscreen").c_str(),298 + 20,310 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 	}
 	else
@@ -522,12 +521,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Fullscreen").c_str(),278,310,0.6f,D3DXCOLOR(255,255,255,255));
+				("Fullscreen").c_str(),278 + 20,310 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Fullscreen").c_str(),298,310,0.6f,D3DXCOLOR(255,255,255,255));
+				("Fullscreen").c_str(),298 + 20,310 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 	}
 	if(selected == 3)
@@ -535,12 +534,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(150,150,0,255));
+				("Modern English?").c_str(),178 + 20,365 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Modern English?").c_str(),198,365,0.6f,D3DXCOLOR(150,150,0,255));
+				("Modern English?").c_str(),198 + 20,365 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 	}
 	else
@@ -548,12 +547,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Modern English?").c_str(),178,365,0.6f,D3DXCOLOR(255,255,255,255));
+				("Modern English?").c_str(),178 + 20,365 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Modern English?").c_str(),198,365,0.6f,D3DXCOLOR(255,255,255,255));
+				("Modern English?").c_str(),198 + 20,365 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 	}
 	if(selected == 4)
@@ -561,12 +560,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Back").c_str(),350,440,0.6f,D3DXCOLOR(150,150,0,255));
+				("Back").c_str(),350 + 20,440 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Back").c_str(),350,440,0.6f,D3DXCOLOR(150,150,0,255));
+				("Back").c_str(),350 + 20,440 + 25,0.6f,D3DXCOLOR(150,150,0,255));
 		}
 	}
 	else
@@ -574,12 +573,12 @@ void COptionsMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Back").c_str(),350,440,0.6f,D3DXCOLOR(255,255,255,255));
+				("Back").c_str(),350 + 20,440 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Back").c_str(),350,440,0.6f,D3DXCOLOR(255,255,255,255));
+				("Back").c_str(),350 + 20,440 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 	}
 }
