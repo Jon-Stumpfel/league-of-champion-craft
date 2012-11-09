@@ -54,7 +54,9 @@ void CCreditsState::Render(void)
 
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 80, -10, 1.3f, 1.2f);
 
-	if( m_nY > 60 && m_nY < 550 )
+	pBitmapFont.Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), xPos + 85, 555, .4f, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	if( m_nY > 75 && m_nY < 530 )
 	{
 		pBitmapFont.Print(StringTable::GetInstance()->GetString
 			("Art: Maher Sagrillo").c_str(), xPos, m_nY, 0.5f, D3DXCOLOR(255,255,255,255));
