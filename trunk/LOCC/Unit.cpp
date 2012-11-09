@@ -937,7 +937,7 @@ int CUnit::DoDamage(lua_State* L)
 
 		pUnit->SetHP(pUnit->GetHP() - damage);
 		// STATS RECORDING
-		CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(pUnit->GetPlayerID());
+		CPlayer* pPlayer = CGameManager::GetInstance()->GetPlayer(CGameplayState::GetInstance()->GetSelectedUnit()->GetPlayerID());
 		switch (CGameplayState::GetInstance()->GetSelectedUnit()->GetType())
 		{
 		case UT_SWORDSMAN:
@@ -955,7 +955,6 @@ int CUnit::DoDamage(lua_State* L)
 					pPlayer->GetStats()->nChampionDamageDone+=damage;
 				else if (damage < 0)
 					pPlayer->GetStats()->nChampionHealingDone+=damage;
-
 			}
 			break;
 

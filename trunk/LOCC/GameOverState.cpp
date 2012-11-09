@@ -81,7 +81,9 @@ void CGameOverState::Render(void)
 
 	pTM->Draw(pGM->GetID(_T("scrollvert")), 20, -20, 1.5f, 1.2f);
 
+
 	tempfont.Print(temp.str().c_str(),275,85,.6f,D3DXCOLOR(255,255,255,255));
+	tempfont.Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 100, 520, .4f, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	if( m_nPage == 0 )
 		tempfont.Print("Created", 325, 160, .6f, D3DCOLOR_ARGB(255, 255, 255, 255));
@@ -101,6 +103,7 @@ void CGameOverState::Render(void)
 	int p1Archer = 0, p2Archer = 0, p1Calv = 0, p2Calv = 0, p1Sword = 0, p2Sword = 0;
 	// player 1
 	CPlayer* player = CGameManager::GetInstance()->GetPlayer(0);
+	CPlayer* player2 = CGameManager::GetInstance()->GetPlayer(1);
 	if( m_nPage == 0 )
 	{
 		p1Archer = player->GetStats()->nArcherCreated;
@@ -120,7 +123,6 @@ void CGameOverState::Render(void)
 		p1Sword = player->GetStats()->nSwordsmanKilled;
 	}
 	// player 2
-	CPlayer* player2 = CGameManager::GetInstance()->GetPlayer(1);
 	if( m_nPage == 0 )
 	{
 		p2Archer = player2->GetStats()->nArcherCreated;
