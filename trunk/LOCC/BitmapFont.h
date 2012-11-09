@@ -26,6 +26,16 @@ public:
 	{
 		switch (id)
 		{
+		case 27:
+			{
+				rSource.left = 181;
+				rSource.top = 909;
+				rSource.right = 188;
+				rSource.bottom = 951;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
 		case 33:
 			{
 				rSource.left = 68;
@@ -51,7 +61,7 @@ public:
 				rSource.left = 181;
 				rSource.top = 909;
 				rSource.right = 188;
-				rSource.bottom = 920;
+				rSource.bottom = 951;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
@@ -496,6 +506,16 @@ public:
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
 			}
+		case 96:
+			{
+				rSource.left = 181;
+				rSource.top = 909;
+				rSource.right = 188;
+				rSource.bottom = 951;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
 		case 97:
 			{
 				rSource.left = 19;
@@ -752,6 +772,26 @@ public:
 				rSource.top = 474;
 				rSource.right = 872;
 				rSource.bottom = 514;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
+		case 145:
+			{
+				rSource.left = 181;
+				rSource.top = 909;
+				rSource.right = 188;
+				rSource.bottom = 951;
+				m_nCharWidth = rSource.right - rSource.left;
+				m_nCharHeight = rSource.bottom - rSource.top;
+				break;
+			}
+		case 146:
+			{
+				rSource.left = 181;
+				rSource.top = 909;
+				rSource.right = 188;
+				rSource.bottom = 951;
 				m_nCharWidth = rSource.right - rSource.left;
 				m_nCharHeight = rSource.bottom - rSource.top;
 				break;
