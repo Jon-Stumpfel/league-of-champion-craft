@@ -28,7 +28,7 @@
     <Frame FrameNumber="3" TimeForFrameToRun="25" top="220" right="51" bottom="269" left="9" AnchorX="35" AnchorY="238" />
     <Frame FrameNumber="4" TimeForFrameToRun="25" top="295" right="49" bottom="343" left="6" AnchorX="30" AnchorY="314" />
   </Animation>
-  <Animation UnitType="2" AnimType="3" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="3" AnimationName="ArcherBlueWalkEast">
+  <Animation UnitType="2" AnimType="3" IsLooping="1" ImgName="archer(Blue).png" CurrentFrame="4" AnimationName="ArcherBlueWalkEast">
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="7" right="229" bottom="48" left="184" AnchorX="206" AnchorY="27" />
     <Frame FrameNumber="1" TimeForFrameToRun="25" top="83" right="223" bottom="122" left="182" AnchorX="205" AnchorY="104" />
     <Frame FrameNumber="2" TimeForFrameToRun="25" top="156" right="225" bottom="196" left="182" AnchorX="203" AnchorY="176" />
@@ -68,14 +68,14 @@
   <Animation UnitType="0" AnimType="1" IsLooping="1" ImgName="castle(Blue).png" CurrentFrame="0" AnimationName="CastleBlueBeingCastle">
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="0" right="138" bottom="131" left="0" AnchorX="70" AnchorY="56" />
   </Animation>
-  <Animation UnitType="1" AnimType="1" IsLooping="1" ImgName="newchampblue.png" CurrentFrame="3" AnimationName="ChampionBlueWalkNorth">
+  <Animation UnitType="1" AnimType="1" IsLooping="1" ImgName="newchampblue.png" CurrentFrame="2" AnimationName="ChampionBlueWalkNorth">
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="4" right="437" bottom="74" left="383" AnchorX="410" AnchorY="62" />
     <Frame FrameNumber="1" TimeForFrameToRun="25" top="95" right="451" bottom="169" left="376" AnchorX="398" AnchorY="146" />
     <Frame FrameNumber="2" TimeForFrameToRun="25" top="184" right="438" bottom="255" left="376" AnchorX="399" AnchorY="239" />
     <Frame FrameNumber="3" TimeForFrameToRun="25" top="270" right="439" bottom="340" left="379" AnchorX="402" AnchorY="328" />
     <Frame FrameNumber="4" TimeForFrameToRun="25" top="348" right="440" bottom="419" left="381" AnchorX="400" AnchorY="407" />
   </Animation>
-  <Animation UnitType="1" AnimType="3" IsLooping="1" ImgName="newchampblue.png" CurrentFrame="3" AnimationName="ChampionBlueWalkEast">
+  <Animation UnitType="1" AnimType="3" IsLooping="1" ImgName="newchampblue.png" CurrentFrame="1" AnimationName="ChampionBlueWalkEast">
     <Frame FrameNumber="0" TimeForFrameToRun="25" top="10" right="336" bottom="77" left="262" AnchorX="285" AnchorY="70" />
     <Frame FrameNumber="1" TimeForFrameToRun="25" top="105" right="335" bottom="183" left="254" AnchorX="283" AnchorY="167" />
     <Frame FrameNumber="2" TimeForFrameToRun="25" top="196" right="329" bottom="264" left="260" AnchorX="291" AnchorY="258" />
@@ -325,8 +325,8 @@
     <Frame FrameNumber="15" TimeForFrameToRun="5" top="220" right="93" bottom="258" left="50" AnchorX="71" AnchorY="241" />
   </Animation>
   <Animation UnitType="2" AnimType="5" IsLooping="0" ImgName="archer(Blue).png" CurrentFrame="0" AnimationName="ArcherAttackNorth">
-    <Frame FrameNumber="0" TimeForFrameToRun="300" top="370" right="111" bottom="420" left="67" AnchorX="89" AnchorY="397" />
-    <Frame FrameNumber="1" TimeForFrameToRun="300" top="445" right="111" bottom="494" left="70" AnchorX="97" AnchorY="471" />
+    <Frame FrameNumber="0" TimeForFrameToRun="20" top="370" right="111" bottom="420" left="67" AnchorX="89" AnchorY="397" />
+    <Frame FrameNumber="1" TimeForFrameToRun="20" top="445" right="111" bottom="494" left="70" AnchorX="97" AnchorY="471" />
   </Animation>
   <Animation UnitType="2" AnimType="7" IsLooping="0" ImgName="archer(Blue).png" CurrentFrame="1" AnimationName="ArcherAttackEast">
     <Frame FrameNumber="0" TimeForFrameToRun="300" top="379" right="226" bottom="418" left="186" AnchorX="203" AnchorY="397" />

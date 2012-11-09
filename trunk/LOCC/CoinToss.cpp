@@ -51,6 +51,7 @@ void CCoinToss::Enter(void)
 void CCoinToss::Exit(void)
 {
 	delete m_UAnonsense;
+	CAnimationManager::GetInstance()->SetAnimBool(UT_CASTLE,(int)AT_ATTACK_N,false);
 }
 
 CCoinToss* CCoinToss::GetInstance(void)
@@ -129,11 +130,11 @@ void CCoinToss::Update(float fElapsedTime)
 		//if (!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("CoinHit"))))
 		//	CSGD_XAudio2::GetInstance()->SFXPlaySound(CSoundManager::GetInstance()->GetID(_T("CoinHit")));
 
-		if(m_nChosenplayer == 1)
+		if(m_nChosenplayer == 0)
 		{
 			CAnimationManager::GetInstance()->SetCoinFrame(13);
 		}
-		if(m_nChosenplayer == 0)
+		if(m_nChosenplayer == 1)
 		{
 			CAnimationManager::GetInstance()->SetCoinFrame(5);
 		}
@@ -153,7 +154,6 @@ void CCoinToss::Update(float fElapsedTime)
 				CGameManager::GetInstance()->SetNextPlayer(1);
 				CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
 				CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos(), true);
-				CAnimationManager::GetInstance()->SetAnimBool(UT_CASTLE,(int)AT_ATTACK_N,true);
 			}
 			if (m_nChosenplayer==1)
 			{
@@ -162,7 +162,6 @@ void CCoinToss::Update(float fElapsedTime)
 				CAIManager::GetInstance()->BeginMovement();
 				CGameManager::GetInstance()->SetCurrentPhase(GP_MOVE);
 				CGameplayState::GetInstance()->SnapToPosition(CGameManager::GetInstance()->GetChampion(1)->GetPos(), true);
-				CAnimationManager::GetInstance()->SetAnimBool(UT_CASTLE,(int)AT_ATTACK_N,false);
 			}
 			if (m_fSecondTimer<=0.0f)
 			{
