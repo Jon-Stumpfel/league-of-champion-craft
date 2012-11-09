@@ -310,8 +310,8 @@ void LevelSelectState::Render(void)
 	}
 	else if (m_nType==0)
 	{
-		DrawMap(string("A Bridge runs Through It"),ROW1,COL1+50,m_vMap1,m_sbSelected[0]);
-		DrawMap(string("Frozen Throne"),ROW2 - 110,COL2+40,m_vMap4,m_sbSelected[3]);
+		DrawMap(string("Frozen Throne"),ROW1,COL1+50,m_vMap1,m_sbSelected[0]);
+		DrawMap(string("A Bridge runs Through It"),ROW2 - 110,COL2+40,m_vMap4,m_sbSelected[3]);
 		DrawMap(string("Grave Circumstance"),ROW1,COL2+40,m_vMap2,m_sbSelected[1]);
 		DrawMap(string("Twin Wiver"),ROW2 - 110,COL1+50,m_vMap3,m_sbSelected[2]);
 		if(m_sbSelected[0])
