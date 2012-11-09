@@ -12,7 +12,7 @@ public:
 	void Initialize(HWND hWnd, HINSTANCE hInstance,
 				int nScreenWidth, int nScreenHeight,
 				bool bIsWindowed);
-
+	bool GetIsWindowed() {return m_bIsWindowed;}
 	bool Main(void);
 	void Shutdown(void);
 	void SetIsWindowed(bool win);

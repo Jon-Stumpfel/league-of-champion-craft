@@ -40,8 +40,8 @@ void CMainMenuState::Enter(void)
 	m_pBitmapFont = new CBitmapFont();
 	int soundvolume = 0;
 	int musicvolume = 0;
-	bool windowed = false;
-	bool IsModern = true;
+	bool windowed = CGame::GetInstance()->GetIsWindowed();
+	bool IsModern = StringTable::GetInstance()->GetIsItModern();
 	TiXmlDocument doc;
 	doc.LoadFile("Assets\\Menus\\Options.xml");
 	TiXmlElement* pRoot = doc.RootElement();
