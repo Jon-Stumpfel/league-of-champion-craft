@@ -498,7 +498,7 @@ void CMainMenuState::Render(void)
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Credits").c_str(),300,350,0.7f,D3DXCOLOR(150,150,0,255));
+				("Credits").c_str(),304,350,0.7f,D3DXCOLOR(150,150,0,255));
 		}
 	}
 	else
@@ -511,7 +511,7 @@ void CMainMenuState::Render(void)
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Credits").c_str(),300,350,0.7f,D3DXCOLOR(255,255,255,255));
+				("Credits").c_str(),304,350,0.7f,D3DXCOLOR(255,255,255,255));
 		}
 	}
 	if(selected == 4)

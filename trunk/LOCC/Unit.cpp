@@ -299,13 +299,45 @@ void CUnit::Update(float fElapsedTime)
 	if(m_nHP > 0 && this->m_bPlayAttackAnim == false)
 	{
 		if (m_nFacing == 0)
+		{
 			m_sAnimStruct->animationType = AT_WALK_N; // S
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH+1; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
+		}
 		else if (m_nFacing == 1)
+		{
 			m_sAnimStruct->animationType = AT_WALK_E; // N
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH+1; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
+		}
 		else if (m_nFacing == 2)
+		{
 			m_sAnimStruct->animationType = AT_WALK_S; // E
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH+1; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
+		}
 		else if (m_nFacing == 3)
+		{
 			m_sAnimStruct->animationType = AT_WALK_W; // W
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH+1; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
+		}
 	}
 	if(m_nHP > 0 && this->m_bPlayAttackAnim == true)
 	{
@@ -319,28 +351,56 @@ void CUnit::Update(float fElapsedTime)
 		{
 			//CAnimationManager::GetInstance()->GetAnimation(m_sAnimStruct->unitType, m_sAnimStruct->animationType).SetCurrFrame(0);
 			m_sAnimStruct->animationType = AT_ATTACK_N; // S
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
 		}
 		else if (m_nFacing == 1)
 		{
 			//CAnimationManager::GetInstance()->GetAnimation(m_sAnimStruct->unitType, m_sAnimStruct->animationType).SetCurrFrame(0);
 			m_sAnimStruct->animationType = AT_ATTACK_E; // N
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
 		}
 		else if (m_nFacing == 2)
 		{
 			//CAnimationManager::GetInstance()->GetAnimation(m_sAnimStruct->unitType, m_sAnimStruct->animationType).SetCurrFrame(0);
 			m_sAnimStruct->animationType = AT_ATTACK_S; // E
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
 		}
 		else if (m_nFacing == 3)
 		{
 			//CAnimationManager::GetInstance()->GetAnimation(m_sAnimStruct->unitType, m_sAnimStruct->animationType).SetCurrFrame(0);
 			m_sAnimStruct->animationType = AT_ATTACK_W; // W
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
 		}
 		int currFrame = CAnimationManager::GetInstance()->GetAnimation(m_sAnimStruct->unitType,m_sAnimStruct->animationType)->GetCurrFrame();
 		int numFrames = currAnim->GetFrameVec().size();
 		int lastFrame = numFrames-1;
 		if(currFrame == lastFrame && CAnimationManager::GetInstance()->GetAnimation(m_sAnimStruct->unitType,m_sAnimStruct->animationType)->GetElapsedTime() >= 
-			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.5f)
+			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed())
 		{
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,(int)AT_ATTACK_N,false);
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,(int)AT_ATTACK_E,false);
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,(int)AT_ATTACK_W,false);
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,(int)AT_ATTACK_S,false);
 			m_bPlayAttackAnim = false;
 		}
 	}
@@ -348,7 +408,15 @@ void CUnit::Update(float fElapsedTime)
 	{
 		if(!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("ITSDEAD"))))
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("ITSDEAD")),false,false);
-		m_sAnimStruct->animationType = AT_DEATH;
+		{
+			m_sAnimStruct->animationType = AT_DEATH;
+			CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,m_sAnimStruct->animationType,true);
+			/*for(int i = 0; i < (int)AT_DEATH; i++)
+			{
+				if(i != m_sAnimStruct->animationType)
+					CAnimationManager::GetInstance()->SetAnimBool(m_sAnimStruct->unitType,i,false);
+			}*/
+		}
 		if(CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetFrame() == 2
 			&& m_sAnimStruct->unitType == UT_ARCHER && CAnimationManager::GetInstance()->GetAnimation(UT_ARCHER,AT_DEATH)->GetElapsedTime() >= 
 			CAnimationManager::GetInstance()->GetFrame(*m_sAnimStruct)->GetTimePlayed()-0.5f)

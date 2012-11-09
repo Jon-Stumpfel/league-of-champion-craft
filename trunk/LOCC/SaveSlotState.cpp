@@ -308,7 +308,7 @@ void CSaveSlotState::Render(void)
 		}
 	}
 	
-	m_pBitmapFont.Print("Press cancel to return...", 20, 510, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
+	m_pBitmapFont.Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 20, 510, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
 }
 
 struct SlotDataStruct

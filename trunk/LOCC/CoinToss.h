@@ -23,6 +23,8 @@ private:
 	int m_nCoinArc;
 	UnitAnimation* m_UAnonsense;
 	int m_nChosenplayer;
+	bool m_bCoinFlipPlayed;
+	bool m_bCoinHitPlayed;
 	float m_fTimer;
 	bool m_bGoDown;
 	bool m_bStop;
