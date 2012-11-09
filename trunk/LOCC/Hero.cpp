@@ -27,7 +27,6 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	GiveSpell(SP_BLANK);
 	GiveSpell(SP_BLANK);
 	GiveSpell(SP_BLANK);
-
 	for (int i=0; i<4;++i)
 		m_ncooldown[i]=0;
 }
