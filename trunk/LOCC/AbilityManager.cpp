@@ -899,7 +899,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion does massive damage to an enemy near him."));
-					ab->SetDamage(9);
+					ab->SetDamage(20);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_KILL;
 					tmp.second = ab;
