@@ -479,7 +479,7 @@ void COptionsMenuState::Render(void)
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Sound Volume").c_str(),275 + 20,110 + 25,0.6f,D3DXCOLOR(150,150,0,255));
+				("Sound Volume").c_str(),275 + 20,110 + 25,0.6f,D3DXCOLOR(255,255,255,255));
 		}
 	}
 	if(selected == 1)
