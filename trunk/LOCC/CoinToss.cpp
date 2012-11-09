@@ -96,8 +96,8 @@ void CCoinToss::Render(void)
 
 void CCoinToss::Update(float fElapsedTime)
 {	
-		if (!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("CoinFlip"))))
-			CSGD_XAudio2::GetInstance()->SFXPlaySound(CSoundManager::GetInstance()->GetID(_T("CoinFlip")), false);
+		//if (!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("CoinFlip"))))
+		//	CSGD_XAudio2::GetInstance()->SFXPlaySound(CSoundManager::GetInstance()->GetID(_T("CoinFlip")), false);
 
 	if (m_nCoinArc<=m_nPeak)
 		m_bGoDown=true;
@@ -123,17 +123,17 @@ void CCoinToss::Update(float fElapsedTime)
 	}
 	if (m_bStop)
 	{
-		if (CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("CoinFlip"))))
-			CSGD_XAudio2::GetInstance()->SFXStopSound(CSoundManager::GetInstance()->GetID(_T("CoinFlip")));
-		
-		if (CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("CoinHit"))))
-			CSGD_XAudio2::GetInstance()->SFXPlaySound(CSoundManager::GetInstance()->GetID(_T("CoinHit")));
+		//if (!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("CoinFlip"))))
+		//	CSGD_XAudio2::GetInstance()->SFXStopSound(CSoundManager::GetInstance()->GetID(_T("CoinFlip")));
+		//
+		//if (!CSGD_XAudio2::GetInstance()->SFXIsSoundPlaying(CSoundManager::GetInstance()->GetID(_T("CoinHit"))))
+		//	CSGD_XAudio2::GetInstance()->SFXPlaySound(CSoundManager::GetInstance()->GetID(_T("CoinHit")));
 
-		if(m_nChosenplayer == 0)
+		if(m_nChosenplayer == 1)
 		{
 			CAnimationManager::GetInstance()->SetCoinFrame(13);
 		}
-		if(m_nChosenplayer == 1)
+		if(m_nChosenplayer == 0)
 		{
 			CAnimationManager::GetInstance()->SetCoinFrame(5);
 		}

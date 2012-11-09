@@ -25,7 +25,7 @@ class CUnit : public CGameObject
 	bool m_bIsFleeing;
 	bool m_bFreeMove;
 	bool m_bCharging;
-
+	bool m_bHasDied;
 	float m_fDodgeChance;
 
 
