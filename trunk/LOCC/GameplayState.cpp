@@ -1786,10 +1786,6 @@ void CGameplayState::Update(float fElapsedTime)
 
 	LerpCamera(fElapsedTime);
 
-	if (pDI->KeyPressed(DIK_V))
-	{
-		m_bDayTime = !m_bDayTime;
-	}
 	if (m_bDayTime)
 	{
 		m_nDayAlphaScale += 10;
