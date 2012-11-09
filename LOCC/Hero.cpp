@@ -7,8 +7,8 @@
 
 CHero::CHero(void) : CUnit(UT_HERO)
 {
-	SetHP(50);
-	SetMaxHP(50);
+	SetHP(100);
+	SetMaxHP(100);
 	SetAttack(9);
 	SetSpeed(4);
 	SetRange(1);
@@ -27,6 +27,7 @@ CHero::CHero(void) : CUnit(UT_HERO)
 	GiveSpell(SP_BLANK);
 	GiveSpell(SP_BLANK);
 	GiveSpell(SP_BLANK);
+
 	for (int i=0; i<4;++i)
 		m_ncooldown[i]=0;
 }

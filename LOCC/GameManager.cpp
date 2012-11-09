@@ -864,7 +864,7 @@ void CGameManager::NewGame(string levelstring, int mapint)
 		{
 			for( int y = 0; y < CTileManager::GetInstance()->GetNumColumns(); y++ )
 			{
-				int zzzzzzzzzzzz = rand() % 4 + 1;
+				int zzzzzzzzzzzz = rand() % 5 + 1;
 				if( zzzzzzzzzzzz == 1 )
 				{
 					Vec2D tmp;
