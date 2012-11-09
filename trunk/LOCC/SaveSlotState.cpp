@@ -166,8 +166,11 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 								if (m_bGoodSlot[m_nHighlightedSlot])
 								{
 									CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
-									CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
-									CStateStack::GetInstance()->Switch(CGameplayState::GetInstance());
+										CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
+									CStateStack::GetInstance()->ClearStack();
+									CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
+
+
 									m_nConfirmChoice = 0;
 									return;
 								}
@@ -185,9 +188,19 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 						case 2: // Delete!
 							{
 								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("deletesave")), false, false);
-								std::ostringstream oss;
-								oss << "Assets\\Scripts\\saveslot" << m_nHighlightedSlot << ".xml";
-								std::remove(oss.str().c_str());
+								wchar_t path[MAX_PATH];
+								HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
+
+								std::wstring pathtowrite(path, path+ wcslen(path));
+	
+								pathtowrite += L"\\LeagueOfChampionCraft";
+								CreateDirectory(pathtowrite.c_str(), 0);
+
+								std::wostringstream woss;
+								woss << "\\saveslot" << m_nHighlightedSlot << ".xml";
+								pathtowrite += woss.str();
+								std::string stringpath(pathtowrite.begin(), pathtowrite.end());
+								std::remove(stringpath.c_str());
 								m_bConfirm = false;
 								m_nConfirmChoice = 0;
 
@@ -341,7 +354,22 @@ void CSaveSlotState::ReadSlot(int nSlot)
 
 	CBitmapFont m_pBitmapFont;
 	std::ostringstream oss;
-	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
+
+	wchar_t path[MAX_PATH];
+	HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
+
+	std::wstring pathtowrite(path, path+ wcslen(path));
+	
+	pathtowrite += L"\\LeagueOfChampionCraft";
+	CreateDirectory(pathtowrite.c_str(), 0);
+
+	std::wostringstream woss;
+	woss << "\\saveslot" << nSlot << ".xml";
+	pathtowrite += woss.str();
+	std::string stringpath(pathtowrite.begin(), pathtowrite.end());
+
+
+
 	TiXmlDocument doc;
 
 	SlotDataStruct s;
@@ -356,7 +384,7 @@ void CSaveSlotState::ReadSlot(int nSlot)
 
 	int xOffset = (nSlot - 1) * 260;
 	xOffset -= 40;
-	if (doc.LoadFile(oss.str().c_str()))
+	if (doc.LoadFile(stringpath.c_str()))
 	{
 		TiXmlElement* pRoot = doc.RootElement();
 

@@ -17,8 +17,26 @@ void COptionsMenuState::Enter(void)
 	m_pBitmapFont = new CBitmapFont();
 	pTM = CSGD_TextureManager::GetInstance();
 	jcs_nImageID = pTM->LoadTexture(_T("Assets\\Menus\\options_menu.png"), D3DXCOLOR(255,255,255,255));
+
+
+	wchar_t path[MAX_PATH];
+	HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
+
+	std::wstring pathtowrite(path, path+ wcslen(path));
+	
+	pathtowrite += L"\\LeagueOfChampionCraft";
+	CreateDirectory(pathtowrite.c_str(), 0);
+
+	std::wostringstream woss;
+	woss << "\\Options.xml";
+	pathtowrite += woss.str();
+	std::string stringpath(pathtowrite.begin(), pathtowrite.end());
+
+
+
 	TiXmlDocument doc;
-	doc.LoadFile("Assets\\Menus\\Options.xml");
+	if (doc.LoadFile(stringpath.c_str()))
+	{
 	TiXmlElement* pRoot = doc.RootElement();
 	TiXmlElement* Option = pRoot->FirstChildElement("Option");
 	while(Option != nullptr)
@@ -39,8 +57,16 @@ void COptionsMenuState::Enter(void)
 			IsModern = true;
 		Option = Option->NextSiblingElement("Option");
 	}
+	}
+	else
+	{
+		soundvolume = musicvolume = 100;;
+		windowed = true;
+		IsModern = true;
+	}
 	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(float(musicvolume*0.01f));
 	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(float(soundvolume*0.01f));
+	
 }
 void COptionsMenuState::Exit(void)
 {
@@ -64,7 +90,23 @@ void COptionsMenuState::Exit(void)
 		Options->SetAttribute("IsModern", 0);
 	else
 		Options->SetAttribute("IsModern", 1);
-	doc.SaveFile("Assets\\Menus\\Options.xml");
+
+	wchar_t path[MAX_PATH];
+	HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
+
+	std::wstring pathtowrite(path, path+ wcslen(path));
+	
+	pathtowrite += L"\\LeagueOfChampionCraft";
+	CreateDirectory(pathtowrite.c_str(), 0);
+
+	std::wostringstream woss;
+	woss << "\\Options.xml";
+	pathtowrite += woss.str();
+	std::string stringpath(pathtowrite.begin(), pathtowrite.end());
+
+
+
+	doc.SaveFile(stringpath.c_str());
 	int temp = NUMSPELLS;
 	for(int i = 0; i < temp; i++)
 	{

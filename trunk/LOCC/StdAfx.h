@@ -4,7 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>	//	Needed for Windows Applications.
 #include <tchar.h>
-
+#include <ShlObj.h>
 #include "Game.h"
 #include "SGD Wrappers\CSGD_Direct3D.h"
 #include "SGD Wrappers\CSGD_DirectInput.h"

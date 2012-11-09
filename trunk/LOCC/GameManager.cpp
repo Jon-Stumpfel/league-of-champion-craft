@@ -501,20 +501,46 @@ void CGameManager::SaveGame(int nSlot)
 		pUnits->SetAttribute("numUnits", nNumUnits);
 	}
 
-	std::ostringstream oss;
-	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
 
-	doc.SaveFile(oss.str().c_str());
+
+	wchar_t path[MAX_PATH];
+	HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
+
+	std::wstring pathtowrite(path, path+ wcslen(path));
+	
+	pathtowrite += L"\\LeagueOfChampionCraft";
+	CreateDirectory(pathtowrite.c_str(), 0);
+
+	std::wostringstream woss;
+	woss << "\\saveslot" << nSlot << ".xml";
+
+
+	pathtowrite += woss.str();
+	std::string stringpath(pathtowrite.begin(), pathtowrite.end());
+
+	int x = 9;
+	doc.SaveFile(stringpath.c_str());
 
 }
 void CGameManager::LoadSave(int nSlot)
 {
 	Reset();
-	std::ostringstream oss;
-	oss << "Assets\\Scripts\\saveslot" << nSlot << ".xml";
+
+	wchar_t path[MAX_PATH];
+	HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
+
+	std::wstring pathtowrite(path, path+ wcslen(path));
+	
+	pathtowrite += L"\\LeagueOfChampionCraft";
+	CreateDirectory(pathtowrite.c_str(), 0);
+
+	std::wostringstream woss;
+	woss << "\\saveslot" << nSlot << ".xml";
+	pathtowrite += woss.str();
+	std::string stringpath(pathtowrite.begin(), pathtowrite.end());
 
 	TiXmlDocument doc;
-	if (doc.LoadFile(oss.str().c_str()))
+	if (doc.LoadFile(stringpath.c_str()))
 	{
 		TiXmlElement* pRoot = doc.RootElement();
 

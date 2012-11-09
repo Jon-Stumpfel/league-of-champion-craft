@@ -121,7 +121,6 @@ void CGameplayState::Exit(void)
 		GetInstance()->GetID(_T("MovementPhaseMusic")));
 	}
 
-	CTileManager::GetInstance()->ShutDown();
 }
 
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
