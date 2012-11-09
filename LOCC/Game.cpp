@@ -159,9 +159,6 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_blue.png"), _T("warriorblue"),D3DXCOLOR(0,0,0,255));
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets\\Menus\\warrior_red.png"), _T("warriorred"),D3DXCOLOR(0,0,0,255));
 
-	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\MainMenuMusic.xwm"), _T("MainMenuMusic"), true);
-	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\AttackPhaseMusic.xwm"), _T("AttackPhaseMusic"), true);
-	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\MovementPhaseMusic.xwm"), _T("MovementPhaseMusic"), true);
 
 	//Tutorial audio clips
 	 CSoundManager::GetInstance()->LoadSound(_T("Assets\\Sounds\\Intro.wav"),_T("Intro"),false);
