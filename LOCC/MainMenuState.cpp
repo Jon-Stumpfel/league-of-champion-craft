@@ -441,7 +441,7 @@ void CMainMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Load").c_str(),364,250,0.7f,D3DXCOLOR(150,150,0,255));
+				("Load").c_str(),369,250,0.7f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
@@ -454,7 +454,7 @@ void CMainMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Load").c_str(),364,250,0.7f,D3DXCOLOR(255,255,255,255));
+				("Load").c_str(),369,250,0.7f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
@@ -519,7 +519,7 @@ void CMainMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Help").c_str(),365,400,0.7f,D3DXCOLOR(150,150,0,255));
+				("Help").c_str(),375,400,0.7f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
@@ -532,7 +532,7 @@ void CMainMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Help").c_str(),365,400,0.7f,D3DXCOLOR(255,255,255,255));
+				("Help").c_str(),375,400,0.7f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
@@ -545,7 +545,7 @@ void CMainMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Exit").c_str(),364,450,0.7f,D3DXCOLOR(150,150,0,255));
+				("Exit").c_str(),375,450,0.7f,D3DXCOLOR(150,150,0,255));
 		}
 		else
 		{
@@ -558,7 +558,7 @@ void CMainMenuState::Render(void)
 		if(StringTable::GetInstance()->GetIsItModern())
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Exit").c_str(),364,450,0.7f,D3DXCOLOR(255,255,255,255));
+				("Exit").c_str(),375,450,0.7f,D3DXCOLOR(255,255,255,255));
 		}
 		else
 		{
