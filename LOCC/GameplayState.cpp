@@ -1446,11 +1446,11 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	CParticleManager::GetInstance()->LoadParticles(PT_MOVE, m_pSelectedUnit->GetPos(), m_pSelectedUnit);
 
 	unsigned int numMoves = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
-		if (m_vWaypoints.size() >= numMoves)
+		if (m_vWaypoints.size() >=(unsigned int) numMoves)
 		{
 			m_vWaypoints[numMoves-1]->SetIfOccupied(true);
 		}
-		if (m_vWaypoints.size() < numMoves)
+		if (m_vWaypoints.size() < (unsigned int) numMoves)
 		{
 			m_vWaypoints.front()->SetIfOccupied(true);
 		}
