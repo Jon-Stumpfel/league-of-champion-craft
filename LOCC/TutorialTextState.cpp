@@ -93,11 +93,11 @@ void CTutorialTextState::Render()
 			m_cFont.Print("MOVEMENT",340,100,.4f,D3DCOLOR_XRGB(210,210,210));
 			m_cFont.Print("Movement is done by selected a unit: move the cursor over the unit you wish to move, then hit accept.",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("With the unit selected, his ability icons will show up on the HUD.",170,170,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			m_cFont.Print("Select the unit’s move icon... this will change the color of the cursor.",170,220,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Select the unit's move icon... this will change the color of the cursor.",170,220,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("Now you can move the cursor to see the path the unit will travel:",170,260,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			m_cFont.Print("Green tiles are where the unit can traverse and red tiles are outside the unit’s movement speed and can’t be moved to.",170,310,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Green tiles are where the unit can traverse and red tiles are outside the unit's movement speed and can't be moved to.",170,310,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("All units have a speed rating, which allows them to move a certain amount of tiles, regardless of how much it costs to traverse them. ",170,390,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			m_cFont.Print("Units can’t move if the player runs out of AP. Each tile’s AP cost is based on how difficult it is for a unit to navigate across the tile. ",170,470,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Units can't move if the player runs out of AP. Each tile's AP cost is based on how difficult it is for a unit to navigate across the tile. ",170,470,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			break;
 		}
 	case TTU_ATTACK:
@@ -107,7 +107,7 @@ void CTutorialTextState::Render()
 			m_cFont.Print("Basic attacks are done by selecting the attack icon, moving the cursor on the unit you wish to attack, and then pressing accept to attack that unit",170,190,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("All units have a special ability that can only be performed during the attack phase, each with special conditions about their use. ",170,280,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("If the range indictor is red, it means that the attack or ability is not currently available, because of special conditions, being the wrong state",170,360,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			m_cFont.Print("Sometimes you won’t have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,460,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Sometimes you won't have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,460,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			
 			break;
 		}
@@ -134,12 +134,12 @@ void CTutorialTextState::Render()
 	case TTU_ATTACKTACTICS:
 		{
 			m_cFont.Print("ATTACK TACTICS",320,100,.4f,D3DCOLOR_XRGB(210,210,210));
-			m_cFont.Print("Archer’s Volley can only be done if the archer doesn’t move during the movement phase.",170,150,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Archer's Volley can only be done if the archer doesn't move during the movement phase.",170,150,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("Most Champion Spells allow the Champion to attack outside of his basic melee range.",170,230,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			m_cFont.Print("Cavalry’s Charge moves the unit as well as does damage to all in his path, but the last tile moved must be open.",170,300,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Cavalry's Charge moves the unit as well as does damage to all in his path, but the last tile moved must be open.",170,300,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("Champion Spell can be replaced for other spells from the book by pressing the swap spell button",170,380,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("Owned spells will start in cool-down if they are swap out for another spell. ",170,460,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			//m_cFont.Print("Sometimes you won’t have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,450,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			//m_cFont.Print("Sometimes you won't have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,450,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			
 			
 
