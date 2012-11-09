@@ -10,7 +10,7 @@ CCavalry::CCavalry(void) : CUnit(UT_CAVALRY)
 	SetAttack(6);
 	SetSpeed(5);
 	SetRange(1);
-	SetEXPValue(15);
+	SetEXPValue(100);
 
 	SetHasAttacked(false);
 	SetShielded(false);

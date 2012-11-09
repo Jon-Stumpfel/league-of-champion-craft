@@ -8,7 +8,7 @@ CArcher::CArcher(void) : CUnit(UT_ARCHER)
 	SetAttack(6);
 	SetSpeed(4);
 	SetRange(3);
-	SetEXPValue(10);
+	SetEXPValue(75);
 
 	SetHasAttacked(false);
 	SetShielded(false);

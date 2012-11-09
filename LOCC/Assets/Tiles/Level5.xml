@@ -36,7 +36,7 @@
     <Tile PosX="2" PosY="4" PixWidth="64" PixHeight="64"  Status="1" PlayerID="-1" TType="0" />
     <Tile PosX="2" PosY="5" PixWidth="64" PixHeight="64"  Status="1" PlayerID="-1" TType="0" />
     <Tile PosX="2" PosY="6" PixWidth="64" PixHeight="64"  Status="1" PlayerID="-1" TType="0" />
-    <Tile PosX="2" PosY="7" PixWidth="64" PixHeight="64"  Status="1" PlayerID="-1" TType="4" />
+    <Tile PosX="2" PosY="7" PixWidth="64" PixHeight="64"  Status="3" PlayerID="-1" TType="4" />
     <Tile PosX="2" PosY="8" PixWidth="64" PixHeight="64"  Status="1" PlayerID="-1" TType="0" />
     <Tile PosX="2" PosY="9" PixWidth="64" PixHeight="64"  Status="1" PlayerID="-1" TType="0" />
     <Tile PosX="2" PosY="10" PixWidth="64" PixHeight="64" Status="1" PlayerID="-1" TType="0" />

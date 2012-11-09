@@ -9,7 +9,7 @@ CSwordsman::CSwordsman(void) : CUnit(UT_SWORDSMAN)
 	SetAttack(8);
 	SetSpeed(3);
 	SetRange(1);
-	SetEXPValue(10);
+	SetEXPValue(75);
 
 	SetHasAttacked(false);
 	SetShielded(false);
