@@ -501,8 +501,13 @@ void CGameManager::SaveGame(int nSlot)
 		pUnits->SetAttribute("numUnits", nNumUnits);
 	}
 
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-018
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
 
-
+	// Updated to use appdata instead of relative pathing to avoid administrative rights issues
 	wchar_t path[MAX_PATH];
 	HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
 
@@ -518,8 +523,12 @@ void CGameManager::SaveGame(int nSlot)
 	pathtowrite += woss.str();
 	std::string stringpath(pathtowrite.begin(), pathtowrite.end());
 
-	int x = 9;
 	doc.SaveFile(stringpath.c_str());
+
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-018
+	/////////////////////////////////////////////////////////////////
 
 }
 void CGameManager::LoadSave(int nSlot)

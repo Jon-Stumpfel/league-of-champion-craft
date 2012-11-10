@@ -103,6 +103,7 @@ int CGameplayState::GetCamOffsetY(void)
 }
 void CGameplayState::Exit(void)
 {
+	CTileManager::GetInstance()->ShutDown();
 	CMessageSystem::GetInstance()->ProcessMessages();
 	CAnimationManager::GetInstance()->Shutdown();
 	delete m_pBitmapFont;
@@ -123,6 +124,21 @@ void CGameplayState::Exit(void)
 
 }
 
+
+void CGameplayState::SnapCameraToPosition(Vec2D pPos)
+{
+	int x = (nFakeTileWidth / 2 * pPos.nPosX) - (nFakeTileHeight / 2 * pPos.nPosY);
+	int y = (nFakeTileWidth / 2 * pPos.nPosX) + (nFakeTileHeight  / 2 * pPos.nPosY);
+	//m_newCamPixelPos.nPosX = x;
+	//m_newCamPixelPos.nPosY = y;
+	//m_bLerpingX = true;
+
+
+	m_oldCamPixelPos = m_currCamPixelPos;
+	m_newCamPixelPos = Vec2D(x, y);
+	m_fLerpPercent = 1.0f;
+	m_bLerpingX = true;
+}
 // Snaps the camera to the passed in Vec2D. This is used for moving the camera to the player's hero at turn start
 // but could be used for anything. Just pass a pUnit in and the camera and selection cursor shifts to that unit.
 void CGameplayState::SnapToPosition(Vec2D pPos, bool noSound)
@@ -183,14 +199,14 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock, bool noSound)
 	{
 		if (m_CameraPos.nPosX < m_SelectionPos.nPosX)
 		{
-			SnapToPosition(m_SelectionPos);
+			SnapCameraToPosition(m_SelectionPos);
 			//int n = m_CameraPos.nPosX + (CGame::GetInstance()->GetWindowWidth() / nFakeTileWidth);
 			//int nDistance = m_SelectionPos.nPosX - n;
 			//MoveCamera(nDistance, 0);
 		}
 		if (m_CameraPos.nPosX > m_SelectionPos.nPosX)
 		{
-			SnapToPosition(m_SelectionPos);
+			SnapCameraToPosition(m_SelectionPos);
 
 			//int n = m_CameraPos.nPosX;
 			//int nDistance = m_SelectionPos.nPosX - n;
@@ -198,7 +214,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock, bool noSound)
 		}
 		if (m_CameraPos.nPosY < m_SelectionPos.nPosY)
 		{
-			SnapToPosition(m_SelectionPos);
+			SnapCameraToPosition(m_SelectionPos);
 
 			//int n = m_CameraPos.nPosY + int(((CGame::GetInstance()->GetWindowHeight() * 0.8f)) / nFakeTileHeight);
 			//int nDistance = m_SelectionPos.nPosY - n;
@@ -206,7 +222,7 @@ void CGameplayState::MoveCursor(int dX, int dY, bool lock, bool noSound)
 		}
 		if (m_CameraPos.nPosY > m_SelectionPos.nPosY)
 		{
-			SnapToPosition(m_SelectionPos);
+			SnapCameraToPosition(m_SelectionPos);
 
 			//int n = m_CameraPos.nPosY;
 			//int nDistance = m_SelectionPos.nPosY - n;
@@ -1432,12 +1448,49 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		}
 	}
 
+	std::vector<CTile*> vWaypsToAdd;
 	// If the total AP cost of the move is more than we have, return out. We can't afford to move
+
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-029
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+
+	// Updated this so that instead of just returning if totalcost of move is greater than
+	// total player AP, it spends what it can to move as far as it can on the final cost.
+
 	if (nTotalAPCost > CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP())
 	{
-		// play error sound?
-		return;
+		// Lets only add the waypoints we can afford
+		int nTestAP = CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP();
+		int nCount = 0;
+		int nAPSpent = 0;
+		while (nTestAP > 0)
+		{
+			int nTileAP = m_vWaypoints[nCount]->GetAPCost();
+			if (nTileAP > nTestAP)
+				break;
+			if (nTileAP <= nTestAP)
+			{
+				vWaypsToAdd.insert(vWaypsToAdd.begin(), m_vWaypoints.back());
+				m_vWaypoints.pop_back();
+				nCount++;
+				nTestAP -= nTileAP;
+				nAPSpent += nTileAP;
+			}
+		}
+		nTotalAPCost = nAPSpent;
 	}
+	else
+	{
+		vWaypsToAdd = m_vWaypoints;
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-029
+	/////////////////////////////////////////////////////////////////
 
 	std::ostringstream oss;
 	oss << "-" << nTotalAPCost;
@@ -1451,30 +1504,30 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 
 	// Add the tile waypoints to the unit so that he can slide along them neatly
 
-	for (unsigned int i = 0; i < m_vWaypoints.size(); ++i)
+	for (unsigned int i = 0; i < vWaypsToAdd.size(); ++i)
 	{
-		m_pSelectedUnit->AddWaypoint(m_vWaypoints[i]);
+		m_pSelectedUnit->AddWaypoint(vWaypsToAdd[i]);
 	}
 	// After we hit enter we want to cancel and clear, either we're moving or we're not.
 	//m_pSelectedUnit->SetIsMoving(true);
 
-	if (m_vWaypoints.size() != 0)
+	if (vWaypsToAdd.size() != 0)
 	{
-	if( m_pSelectedUnit->GetType() == UT_CAVALRY )
-		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Gallop")), true, false);
-	else
-		CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Footstep")), true, false);
-	
-	CParticleManager::GetInstance()->LoadParticles(PT_MOVE, m_pSelectedUnit->GetPos(), m_pSelectedUnit);
+		if( m_pSelectedUnit->GetType() == UT_CAVALRY )
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Gallop")), true, false);
+		else
+			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("Footstep")), true, false);
 
-	unsigned int numMoves = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
-		if (m_vWaypoints.size() >=(unsigned int) numMoves)
+		CParticleManager::GetInstance()->LoadParticles(PT_MOVE, m_pSelectedUnit->GetPos(), m_pSelectedUnit);
+
+		unsigned int numMoves = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
+		if (vWaypsToAdd.size() >=(unsigned int) numMoves)
 		{
-			m_vWaypoints[numMoves-1]->SetIfOccupied(true);
+			vWaypsToAdd[numMoves-1]->SetIfOccupied(true);
 		}
-		if (m_vWaypoints.size() < (unsigned int) numMoves)
+		if (vWaypsToAdd.size() < (unsigned int) numMoves)
 		{
-			m_vWaypoints.front()->SetIfOccupied(true);
+			vWaypsToAdd.front()->SetIfOccupied(true);
 		}
 	}
 	m_bIsMoving = false;
@@ -1542,7 +1595,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					int testCost = n->nCost;
+					int testCost = n->nCost + pTestTile->GetAPCost();
 					if (testCost < (*iter)->nCost)
 					{
 						(*iter)->parent = n;
@@ -1585,7 +1638,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					int testCost = n->nCost;
+					int testCost = n->nCost + pTestTile->GetAPCost();
 					if (testCost < (*iter)->nCost)
 					{
 						(*iter)->parent = n;
@@ -1628,7 +1681,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					int testCost = n->nCost;
+					int testCost = n->nCost + pTestTile->GetAPCost();
 					if (testCost < (*iter)->nCost)
 					{
 						(*iter)->parent = n;
@@ -1671,7 +1724,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 				});
 				if (iter != openList.end()) // it is in the open list, so check if it's cheaper to go that way
 				{
-					int testCost = n->nCost;
+					int testCost = n->nCost + pTestTile->GetAPCost();
 					if (testCost < (*iter)->nCost)
 					{
 						(*iter)->parent = n;
@@ -1726,7 +1779,7 @@ bool CGameplayState::CalculateMove(CTile* startTile, CTile* targetTile, std::vec
 		safeCheck++;
 
 		nNumTilesFound = closedList.size();
-		if (nNumTilesFound >= 20)
+		if (nNumTilesFound >= 200)
 			break;
 	}
 
@@ -1785,6 +1838,18 @@ void CGameplayState::Update(float fElapsedTime)
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
 	LerpCamera(fElapsedTime);
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-024	
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+
+	// I took out the code that was doing it :\
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-001
+	/////////////////////////////////////////////////////////////////
 
 	if (m_bDayTime)
 	{

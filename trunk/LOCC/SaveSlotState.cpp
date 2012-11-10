@@ -188,6 +188,15 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 						case 2: // Delete!
 							{
 								CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("deletesave")), false, false);
+
+								/////////////////////////////////////////////////////////////////
+								// BUG FIX
+								// Reference Bug # BB-011
+								// BUG FIX START
+								/////////////////////////////////////////////////////////////////
+
+
+								// Updated to use appdata folder instead of relative pathing
 								wchar_t path[MAX_PATH];
 								HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
 
@@ -201,6 +210,13 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 								pathtowrite += woss.str();
 								std::string stringpath(pathtowrite.begin(), pathtowrite.end());
 								std::remove(stringpath.c_str());
+
+								/////////////////////////////////////////////////////////////////
+								// BUG FIX END  Reference # BB-011
+								/////////////////////////////////////////////////////////////////
+
+
+
 								m_bConfirm = false;
 								m_nConfirmChoice = 0;
 

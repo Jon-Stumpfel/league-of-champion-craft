@@ -19,6 +19,17 @@ void COptionsMenuState::Enter(void)
 	jcs_nImageID = pTM->LoadTexture(_T("Assets\\Menus\\options_menu.png"), D3DXCOLOR(255,255,255,255));
 
 
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-002
+	// Reference Bug # BB-003
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+
+	// Just updated this to use appdata saving path instead of standard relative
+	// to resolve issues with administrator rights to save files
+
 	wchar_t path[MAX_PATH];
 	HRESULT hr = SHGetFolderPathW(0, CSIDL_APPDATA, 0, SHGFP_TYPE_CURRENT, path);
 
@@ -32,6 +43,11 @@ void COptionsMenuState::Enter(void)
 	pathtowrite += woss.str();
 	std::string stringpath(pathtowrite.begin(), pathtowrite.end());
 
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  
+	// Reference # BB-002
+	// Reference # BB-003
+	/////////////////////////////////////////////////////////////////
 
 
 	TiXmlDocument doc;
