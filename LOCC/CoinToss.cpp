@@ -28,13 +28,22 @@ void CCoinToss::Enter(void)
 {
 	CStateStack::GetInstance()->SetRenderTopOnly(false);
 	m_UAnonsense= new UnitAnimation();
-	int k = rand() % 10000;
-	for(int i = 0; i < k; i++)
-		m_nChosenplayer=rand()%101+1;
-	if(m_nChosenplayer < 50)
+
+	// if your in tutorial, player one goes first.
+	if (CGameManager::GetInstance()->GetTutorial()==true) 
 		m_nChosenplayer = 0;
-	else
-		m_nChosenplayer = 1;
+	else //else randomly pick someone
+	{
+
+		int k = rand() % 10000;
+		for(int i = 0; i < k; i++)
+			m_nChosenplayer=rand()%101+1;
+		if(m_nChosenplayer < 50)
+			m_nChosenplayer = 0;
+		else
+			m_nChosenplayer = 1;
+
+	}
 	m_bCoinFlipPlayed = false;
 	m_bCoinHitPlayed = false;
 	m_UAnonsense->animationType=AT_ATTACK_N;
@@ -68,7 +77,7 @@ void CCoinToss::Render(void)
 	tempoffset.nPosY= CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect().top-temparchor.nPosY;
 	RECT temprect = CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect();
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(L"Coin"),
-		CGame::GetInstance()->GetWindowWidth()/2 - tempoffset.nPosX, m_nCoinArc - tempoffset.nPosY,
+		CGame::GetInstance()->GetWindowWidth()/2 - tempoffset.nPosX-80, m_nCoinArc - tempoffset.nPosY,
 		2.0f, 2.0f, &CAnimationManager::GetInstance()->GetFrame(*m_UAnonsense)->GetRect(),0,
 		0,0,D3DCOLOR_XRGB(255,255,255));
 
@@ -81,7 +90,7 @@ void CCoinToss::Render(void)
 			oss<<StringTable::GetInstance()->GetString("Player ")
 				<< ++Playernum<<StringTable::GetInstance()->
 				GetString(" wins the coin toss");
-			bmf.Print(oss.str().c_str(),280,300,.5f, D3DCOLOR_XRGB(0,0,255));
+			bmf.Print(oss.str().c_str(),200,300,.5f, D3DCOLOR_XRGB(0,0,255));
 		}
 		if(m_nChosenplayer == 1)
 		{
@@ -90,7 +99,7 @@ void CCoinToss::Render(void)
 			oss<<StringTable::GetInstance()->GetString("Player ")
 				<< ++Playernum<<StringTable::GetInstance()->
 				GetString(" wins the coin toss");
-			bmf.Print(oss.str().c_str(),280,300,.5f, D3DCOLOR_XRGB(255,0,0));
+			bmf.Print(oss.str().c_str(),200,300,.5f, D3DCOLOR_XRGB(255,0,0));
 		}
 	}
 }
