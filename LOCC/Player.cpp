@@ -40,7 +40,12 @@ CPlayer::~CPlayer(void)
 {
 }
 
-
+	void CPlayer::SetAP(int AP)
+	{
+		m_nAP = AP;
+		if (m_nAP < 0)
+			m_nAP = 0;
+	}
 int CPlayer::GetMillsOwned(lua_State* L)
 {
 	int nUnitID = lua_tointeger(L, 1);

@@ -1667,7 +1667,11 @@ void CAIManager::UpdateAI(float fElapsedTime)
 		if (CheckOrderQueue(fElapsedTime))
 			return;
 
-		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() <= 0)
+		if (CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() <= 0 && CGameManager::GetInstance()->GetCurrentPhase() == GP_ATTACK)
+		{
+			m_vInputQueue.push_back(INPUT_START);
+		}
+		else if (CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() <= 10 && CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
 		{
 			m_vInputQueue.push_back(INPUT_START);
 		}

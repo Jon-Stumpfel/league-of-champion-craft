@@ -147,8 +147,25 @@ bool CInputManager::Input(void)
 	else
 		nCurrentPlayerID = 1;
 	if (m_bInMenu)
-
 		nCurrentPlayerID = 0;
+
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-019
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+
+	// Added a check to make sure it's not the AI's turn. If it is, ignore input
+	CPlayer* testPlayer = CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID);
+	if (testPlayer != nullptr)
+	{
+	if (CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID)->GetAI() == true)
+		return true;
+	}
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-019
+	/////////////////////////////////////////////////////////////////
 	int nRAmount = pDI->JoystickGetRStickYAmount(0);
 	if (CGameManager::GetInstance()->GetNetworkGame())
 	{
@@ -319,8 +336,17 @@ bool CInputManager::Input(void)
 	else
 		nCurrentPlayerID = 1;
 	if (m_bInMenu)
-
 		nCurrentPlayerID = 0;
+
+
+	CPlayer* testPlayer = CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID);
+	if (testPlayer != nullptr)
+	{
+	if (CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID)->GetAI() == true)
+		return true;
+	}
+
+
 	int nRAmount = pDI->JoystickGetRStickYAmount(0);
 	if (CGameManager::GetInstance()->GetNetworkGame())
 	{

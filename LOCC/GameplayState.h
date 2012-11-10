@@ -24,7 +24,7 @@ public:
 
 
 	void SnapToPosition(Vec2D pPos, bool noSound = false);
-
+	void SnapCameraToPosition(Vec2D pPos);
 	void ClearSelections(void);
 
 	CUnit* GetSelectedUnit(void) { return m_pSelectedUnit; }

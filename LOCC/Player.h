@@ -63,7 +63,7 @@ public:
 	void SetAI(bool b) { m_bAI = b;}
 
 	int GetAP(void) { return m_nAP;}
-	void SetAP(int AP){m_nAP = AP;}
+	void SetAP(int AP);
 
 	int GetMetal(void) { return m_nMetal;}
 	void SetMetal(int m) { m_nMetal = m;}
