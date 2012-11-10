@@ -23,8 +23,9 @@ CTutorialTextState* CTutorialTextState::GetInstance()
 
 void CTutorialTextState::Enter()
 {
-	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(.20f);
-
+	//turn the music down while I'm talking,
+	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(0.0f);
+	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(0.6f);
 }
 
 void CTutorialTextState::Exit()
@@ -34,7 +35,11 @@ void CTutorialTextState::Exit()
 
 void CTutorialTextState::Input(INPUT_ENUM input)
 {
-	if( input== INPUT_ACCEPT)
+	switch(input)
+	{
+	default:
+		break;
+	case INPUT_ACCEPT:
 	{
 		switch (m_nNextText)
 		{
@@ -64,7 +69,7 @@ void CTutorialTextState::Input(INPUT_ENUM input)
 			break;
 
 		}
-
+	}
 		CStateStack::GetInstance()->Pop();
 	}
 }
@@ -80,10 +85,10 @@ void CTutorialTextState::Render()
 	case TTU_INTRO:
 		{
 			m_cFont.Print("WELCOME CHAMPIONS TO THE LEAGUE",180,100,.4f,D3DCOLOR_XRGB(210,210,210));
-			m_cFont.Print("League of champion craft is a turned based battle arena, where the objective is to defeat the enemy champion or destroy his base.",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("League of champion craft is a turn based battle arena, where the objective is to defeat the enemy champion or destroy his base.",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("The game is broken up into two phases: Movement and Attack.",170,200,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("During each phase, You will use action points, or AP, to make decisions on which units to move and which units to attack with. ",170,250,.4f,D3DCOLOR_XRGB(210,210,210),440);
-			m_cFont.Print("Each Player starts with 30 AP. Action Points are deducted for every action the he or she makes during his or her turn.",170,330,.4f,D3DCOLOR_XRGB(210,210,210),440);
+			m_cFont.Print("Each Player starts with 30 AP. Action Points are deducted for every action that he or she makes during his or her turn.",170,330,.4f,D3DCOLOR_XRGB(210,210,210),440);
 			m_cFont.Print("All units are in the phase together: all units will always move first, then after the movement, they will attack. ",170,410,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("All battles start with a coin toss to see who goes first...",170,500,.4f,D3DCOLOR_XRGB(210,210,210),430);	
 			break;
@@ -91,7 +96,7 @@ void CTutorialTextState::Render()
 	case TTU_MOVEMENT:
 		{
 			m_cFont.Print("MOVEMENT",340,100,.4f,D3DCOLOR_XRGB(210,210,210));
-			m_cFont.Print("Movement is done by selected a unit: move the cursor over the unit you wish to move, then hit accept.",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			m_cFont.Print("Movement is done by selecting a unit: move the cursor over the unit you wish to move, then hit accept.",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("With the unit selected, his ability icons will show up on the HUD.",170,170,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("Select the unit's move icon... this will change the color of the cursor.",170,220,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("Now you can move the cursor to see the path the unit will travel:",170,260,.4f,D3DCOLOR_XRGB(210,210,210),430);
