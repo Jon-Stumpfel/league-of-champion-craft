@@ -1508,6 +1508,8 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		int nAPSpent = 0;
 		while (nTestAP > 0)
 		{
+			if (nCount > m_vWaypoints.size() -1)
+				break;
 			int nTileAP = m_vWaypoints[nCount]->GetAPCost();
 			if (nTileAP > nTestAP)
 				break;
@@ -1562,7 +1564,9 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		unsigned int numMoves = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
 		if (vWaypsToAdd.size() >=(unsigned int) numMoves)
 		{
-			vWaypsToAdd[numMoves-1]->SetIfOccupied(true);
+			int index = vWaypsToAdd.size() -1;
+			index -= (numMoves -1);
+			vWaypsToAdd[index]->SetIfOccupied(true);
 		}
 		if (vWaypsToAdd.size() < (unsigned int) numMoves)
 		{
