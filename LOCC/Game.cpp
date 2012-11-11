@@ -88,7 +88,15 @@ void CGame::Initialize(HWND hWnd, HINSTANCE hInstance,
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/shieldspellicon.png"), _T("shieldspellicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/healspellicon.png"), _T("healspellicon"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/facingarrow.png"), _T("facingarrow"), 0UL);
-	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Sword.png"), _T("AttackSword"), 0UL);
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-035
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Sword.png"), _T("AttackSword"), 0UL); // Went into GIMP and erased the artifact lines.
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-035
+	/////////////////////////////////////////////////////////////////
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/Castle.png"), _T("MoveCastle"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellbook.png"), _T("spellbook"), 0UL);
 	CGraphicsManager::GetInstance()->LoadImageW(_T("Assets/HUD/spellscrollbackground.png"), _T("ssbackground"), 0UL);
