@@ -1504,20 +1504,17 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 	{
 		// Lets only add the waypoints we can afford
 		int nTestAP = CGameManager::GetInstance()->GetPlayer(m_pSelectedUnit->GetPlayerID())->GetAP();
-		int nCount = 0;
 		int nAPSpent = 0;
 		while (nTestAP > 0)
 		{
-			if (nCount > m_vWaypoints.size() -1)
-				break;
-			int nTileAP = m_vWaypoints[nCount]->GetAPCost();
+			int nTileAP = m_vWaypoints.back()->GetAPCost();
 			if (nTileAP > nTestAP)
 				break;
 			if (nTileAP <= nTestAP)
 			{
 				vWaypsToAdd.insert(vWaypsToAdd.begin(), m_vWaypoints.back());
 				m_vWaypoints.pop_back();
-				nCount++;
+				//nCount++;
 				nTestAP -= nTileAP;
 				nAPSpent += nTileAP;
 			}
