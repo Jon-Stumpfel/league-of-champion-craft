@@ -72,6 +72,8 @@ public:
 	void SetExtraTurn( bool b ) { m_bExtraTurn = b; }
 
 	int GetCurrentLevel(void) { return m_nCurrentLevel;}
+
+	bool GetLoadingFromSave(void) { return m_bLoadingFromSave;}
 private:
 
 	CGameManager(void);
@@ -102,7 +104,7 @@ private:
 	bool m_bNewGame;
 	bool m_bExtraTurn;
 	bool m_bNetworkedGame;
-
+	bool m_bLoadingFromSave;
 	unsigned int m_unrandomSeed;
 	int m_nNewPlayerID;
 

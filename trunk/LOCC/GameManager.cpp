@@ -803,6 +803,8 @@ void CGameManager::LoadSave(int nSlot)
 		SetPhaseCount(nPhaseCount);
 		SetCurrentPhase((GAME_PHASE)nCurrPhase);
 		CMessageSystem::GetInstance()->ProcessMessages();
+
+		m_bLoadingFromSave = true;
 	}
 }
 
@@ -862,6 +864,7 @@ void CGameManager::NewGame(string levelstring, int mapint)
 {	
 	//LoadLevel(levelstring);
 
+	m_bLoadingFromSave = false;
 	CParticleManager::GetInstance()->Clear();
 	
 	CTileManager::GetInstance()->ShutDown();

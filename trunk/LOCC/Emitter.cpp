@@ -546,6 +546,9 @@ void CEmitter::Update( float fElapsedTime )
 	m_fSpawnTimer += fElapsedTime;
 
 	// loops through the spawned particles 
+
+
+	// RYAN, hangs here!
 	for( unsigned int i = 0; i < m_vAliveParticles.size(); i++ )
 	{
 		// calls the particles update

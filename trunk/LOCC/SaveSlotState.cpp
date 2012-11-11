@@ -166,7 +166,9 @@ void CSaveSlotState::Input(INPUT_ENUM input)
 								if (m_bGoodSlot[m_nHighlightedSlot])
 								{
 									CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
-										CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
+
+
+									CGameManager::GetInstance()->LoadSave(m_nHighlightedSlot);
 									CStateStack::GetInstance()->ClearStack();
 									CStateStack::GetInstance()->Push(CGameplayState::GetInstance());
 
