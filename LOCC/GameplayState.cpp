@@ -1564,8 +1564,21 @@ void CGameplayState::MoveToTile(Vec2D nTilePosition)
 		unsigned int numMoves = m_pSelectedUnit->GetSpeed() - m_pSelectedUnit->GetTilesMoved();
 		if (vWaypsToAdd.size() >=(unsigned int) numMoves)
 		{
+			/////////////////////////////////////////////////////////////////
+			// BUG FIX
+			// Reference Bug # BB-014
+			// BUG FIX START
+			/////////////////////////////////////////////////////////////////
+
+			// Was running down the waypoint list backwards last time, resulting in random tiles being flagged
+			// occupied incorrectly, resulting in pathfinding later on in the game thinking that tile is occupied
 			int index = vWaypsToAdd.size() -1;
 			index -= (numMoves -1);
+
+			/////////////////////////////////////////////////////////////////
+			// BUG FIX END  Reference # BB-014
+			/////////////////////////////////////////////////////////////////
+
 			vWaypsToAdd[index]->SetIfOccupied(true);
 		}
 		if (vWaypsToAdd.size() < (unsigned int) numMoves)
