@@ -300,13 +300,21 @@ void LevelSelectState::Render(void)
 		DrawMap(string("Siege on the Mountain"),ROW2-110,COL1+50,m_vMap3,m_sbSelected[2]);
 		DrawMap(string("Close Quarters"),ROW2-110,COL2+40,m_vMap4,m_sbSelected[3]);
 		if(m_sbSelected[0])
-			pBitmapFont.Print(StringTable::GetInstance()->GetString("There's few resource points here. Use what you have wisely.").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
+/////////////////////////////////////////////////////////////////
+// BUG FIX
+// Reference Bug # BB-031
+// BUG FIX START
+/////////////////////////////////////////////////////////////////
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("20x20: Take your calvary and crush your enemies").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),145);
+/////////////////////////////////////////////////////////////////
+// BUG FIX END  Reference # BB-031
+/////////////////////////////////////////////////////////////////			
 		else if(m_sbSelected[1])
-			pBitmapFont.Print(StringTable::GetInstance()->GetString("Looks like the enemy's castle will be hard to get to.").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("20x20: Infiltrate the enemy's castle and destory it").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
 		else if(m_sbSelected[2])
-			pBitmapFont.Print(StringTable::GetInstance()->GetString("Well-fortified placement, lots of resource tiles... what more could you ask for? I mean, except for the enemy's head.").c_str(),ROW2+80,COL1+32,0.35f,D3DXCOLOR(255,255,255,255),135);
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("30x30: Defend  aganist an onslaught of enemies").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
 		else
-			pBitmapFont.Print(StringTable::GetInstance()->GetString("Good luck.").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
+			pBitmapFont.Print(StringTable::GetInstance()->GetString("10x10: Fight for Ownership of tiny island").c_str(),ROW2+80,COL1+45,0.35f,D3DXCOLOR(255,255,255,255),135);
 	}
 	else if (m_nType==0)
 	{

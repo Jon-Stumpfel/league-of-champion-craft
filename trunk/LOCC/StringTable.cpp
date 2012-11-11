@@ -456,6 +456,7 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Getaning se");
 	modernenglish.push_back("enemy base ");
 	yeoldeanglish.push_back("feond syll");
+	//how-to controls
 	modernenglish.push_back("Xbox Controls");
 	yeoldeanglish.push_back("Xboxe Gewealds");
 	modernenglish.push_back("Arcade Controls");
@@ -482,14 +483,15 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Hring pugh Herenics ");
 	modernenglish.push_back("Keyboard Controls");
 	yeoldeanglish.push_back("Keyboarde Gewealds");
-	modernenglish.push_back("There's few resource points here. Use what you have wisely.");
-	yeoldeanglish.push_back("Paer's fea resource bronds hider. Neotan hwaet ge ag wisly.");
-	modernenglish.push_back("Looks like the enemy's castle will be hard to get to.");
-	yeoldeanglish.push_back("Beseons gelic an feond's castel willa beon heard od onfon od.");
-	modernenglish.push_back("Well-fortified placement, lots of resource tiles... what more could you ask for? I mean, except for the enemy's head.");
-	yeoldeanglish.push_back("Wel-landgeweorc stedement, monegum of resource sceards... hwaet ma coulde ge axian for? Ic hneaw, buton for an feond's heafod.");
-	modernenglish.push_back("Good luck.");
-	yeoldeanglish.push_back("Sel wigbled.");
+	//level descriptions
+	modernenglish.push_back("20x20: Take your calvary and crush your enemies");
+	yeoldeanglish.push_back("20x20: Niman eower Eored and brytan feond");
+	modernenglish.push_back("20x20: Infiltrate the enemy's castle and destory it");
+	yeoldeanglish.push_back("20x20: Snican an feond's castel and abreodan hit");
+	modernenglish.push_back("30x30: Defend  aganist an onslaught of enemies");
+	yeoldeanglish.push_back("30x30: Amundian fram ever gudraes sylfum feond");
+	modernenglish.push_back("10x10: Fight for Ownership of tiny island");
+	yeoldeanglish.push_back("10x10: aetfeohtan for agnung sylfum smael aeg");
 	modernenglish.push_back("Looks kinda cold here.");
 	yeoldeanglish.push_back("Beseons cynna cald hider.");
 	modernenglish.push_back("Looks like both sides have some losses. Maybe you can turn those into gains.");

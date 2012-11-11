@@ -94,7 +94,8 @@ void CTutorialTextState::Render()
 											     // fixed  ^ That
 /////////////////////////////////////////////////////////////////
 // BUG FIX END  Reference # BB-007
-/////////////////////////////////////////////////////////////////m_cFont.Print("The game is broken up into two phases: Movement and Attack.",170,200,.4f,D3DCOLOR_XRGB(210,210,210),430);
+/////////////////////////////////////////////////////////////////
+			m_cFont.Print("The game is broken up into two phases: Movement and Attack.",170,200,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("During each phase, You will use action points, or AP, to make decisions on which units to move and which units to attack with. ",170,250,.4f,D3DCOLOR_XRGB(210,210,210),440);
 
 /////////////////////////////////////////////////////////////////
@@ -174,8 +175,6 @@ void CTutorialTextState::Render()
 			m_cFont.Print("Owned spells will start in cool-down if they are swap out for another spell. ",170,460,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			//m_cFont.Print("Sometimes you won't have any units in range of the enemy, causing you to skip over the attack phase, like now ...",170,450,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			
-			
-
 			break;
 		}
 	}	
