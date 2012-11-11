@@ -28,9 +28,10 @@ void CTutorialTextState::Enter()
 	// Reference Bug # BB-034
 	// BUG FIX START
 	/////////////////////////////////////////////////////////////////
-	//turn the music down while I'm talking,
+	//turn the music down while I'm talking, and turned my voice up, just in case...
 	CSGD_XAudio2::GetInstance()->MusicSetMasterVolume(0.0f);
 	CSGD_XAudio2::GetInstance()->SFXSetMasterVolume(0.6f);
+
 	/////////////////////////////////////////////////////////////////
 	// BUG FIX END  Reference # BB-034
 	/////////////////////////////////////////////////////////////////
