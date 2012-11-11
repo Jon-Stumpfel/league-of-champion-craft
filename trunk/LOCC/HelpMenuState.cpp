@@ -90,7 +90,13 @@ void CHelpMenuState::Render(void)
 
 	string TileTitle (StringTable::GetInstance()->GetString("Tile Information"));
 	m_pBitmapfont->Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 550, 560, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
-
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-008
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+	// I had to readjust almost every line for every screen, so I think it's easier for me to type up a summary here:
+	// I repositioned a lot of strings, making the words that have overlapped or gone off-screen go to a new line or a new position.
 	if (m_nswitchscreen==1)// It's the tile help screen
 	{
 		CSGD_TextureManager::GetInstance()->Draw(m_nTileHelpID,0,0,1.0f,1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
@@ -195,29 +201,13 @@ void CHelpMenuState::Render(void)
 
 			tiletxt =StringTable::GetInstance()->GetString("-Captured-");
 			m_pBitmapfont->Print(tiletxt.c_str(),630,240,.3f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("When Tile is ");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,260,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("Captured it adds ");		
-			m_pBitmapfont->Print(tiletxt.c_str(),630,270,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("the benefit to");			
-			m_pBitmapfont->Print(tiletxt.c_str(),630,280,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("it's owner");				
-			m_pBitmapfont->Print(tiletxt.c_str(),630,290,.25f,D3DCOLOR_XRGB(255,255,255));
-
+			tiletxt =StringTable::GetInstance()->GetString("When Tile is Captured it adds the benefit to it's owner");
+			m_pBitmapfont->Print(tiletxt.c_str(),630,260,.25f,D3DCOLOR_XRGB(255,255,255),150);
+			
 			tiletxt =StringTable::GetInstance()->GetString("-Capturing-");
 			m_pBitmapfont->Print(tiletxt.c_str(),630,330,.3f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("When Unit moves");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,350,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("onto a resource ");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,360,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("tile, they will");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,370,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("Capture it if they");	
-			m_pBitmapfont->Print(tiletxt.c_str(),630,380,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("are not killed or ");	
-			m_pBitmapfont->Print(tiletxt.c_str(),630,390,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("move off it");	
-			m_pBitmapfont->Print(tiletxt.c_str(),630,400,.25f,D3DCOLOR_XRGB(255,255,255));
+			tiletxt =StringTable::GetInstance()->GetString("When Unit moves onto a resource tile, they will Capture it if they are not killed or move off it");
+			m_pBitmapfont->Print(tiletxt.c_str(),630,350,.25f,D3DCOLOR_XRGB(255,255,255),150);
 
 			tiletxt =StringTable::GetInstance()->GetString("-Dead-");						 
 			m_pBitmapfont->Print(tiletxt.c_str(),630,420,.3f,D3DCOLOR_XRGB(255,255,255));
@@ -330,30 +320,14 @@ void CHelpMenuState::Render(void)
 			m_pBitmapfont->Print(tiletxt.c_str(),630,200,.25f,D3DCOLOR_XRGB(255,255,255));
 
 			tiletxt =StringTable::GetInstance()->GetString("-Captured-");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,240,.3f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("When Tile is ");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,260,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("Captured it adds ");		
-			m_pBitmapfont->Print(tiletxt.c_str(),630,270,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("the benefit to");			
-			m_pBitmapfont->Print(tiletxt.c_str(),630,280,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("it's owner");				
-			m_pBitmapfont->Print(tiletxt.c_str(),630,290,.25f,D3DCOLOR_XRGB(255,255,255));
+			m_pBitmapfont->Print(tiletxt.c_str(),630,225,.3f,D3DCOLOR_XRGB(255,255,255));
+			tiletxt =StringTable::GetInstance()->GetString("When Tile is Captured it adds the benefit to it's owner");
+			m_pBitmapfont->Print(tiletxt.c_str(),630,245,.25f,D3DCOLOR_XRGB(255,255,255),150);
 
 			tiletxt =StringTable::GetInstance()->GetString("-Capturing-");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,330,.3f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("When Unit moves");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,350,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("onto a resource ");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,360,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("tile, they will");
-			m_pBitmapfont->Print(tiletxt.c_str(),630,370,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("Capture it if they");	
-			m_pBitmapfont->Print(tiletxt.c_str(),630,380,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("are not killed or ");	
-			m_pBitmapfont->Print(tiletxt.c_str(),630,390,.25f,D3DCOLOR_XRGB(255,255,255));
-			tiletxt =StringTable::GetInstance()->GetString("move off it");	
-			m_pBitmapfont->Print(tiletxt.c_str(),630,400,.25f,D3DCOLOR_XRGB(255,255,255));
+			m_pBitmapfont->Print(tiletxt.c_str(),630,300,.3f,D3DCOLOR_XRGB(255,255,255));
+			tiletxt =StringTable::GetInstance()->GetString("When Unit moves onto a resource tile, they will Capture it if they are not killed or move off it");
+			m_pBitmapfont->Print(tiletxt.c_str(),630,315,.25f,D3DCOLOR_XRGB(255,255,255),150);
 
 			tiletxt =StringTable::GetInstance()->GetString("-Dead-");						 
 			m_pBitmapfont->Print(tiletxt.c_str(),630,420,.3f,D3DCOLOR_XRGB(255,255,255));
@@ -379,15 +353,15 @@ void CHelpMenuState::Render(void)
 		string tiletxt (StringTable::GetInstance()->GetString("-Champion-"));
 		m_pBitmapfont->Print(tiletxt.c_str(),125,150,.3f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Commanding Unit. If he dies, ");
-		m_pBitmapfont->Print(tiletxt.c_str(),260,180,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),260,170,.25f,D3DCOLOR_XRGB(255,255,255), 200);
 		tiletxt =StringTable::GetInstance()->GetString("the game is over");
 		m_pBitmapfont->Print(tiletxt.c_str(),260,195,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Special ability: Spell Tree");
-		m_pBitmapfont->Print(tiletxt.c_str(),265,210,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),260,210,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Unit has access to ");
-		m_pBitmapfont->Print(tiletxt.c_str(),265,225,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),260,225,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("customizible Spell trees");
-		m_pBitmapfont->Print(tiletxt.c_str(),265,240,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),260,240,.25f,D3DCOLOR_XRGB(255,255,255));
 
 		tiletxt =StringTable::GetInstance()->GetString("-Calvary-");
 		m_pBitmapfont->Print(tiletxt.c_str(),125,270,.3f,D3DCOLOR_XRGB(255,255,255));
@@ -405,15 +379,15 @@ void CHelpMenuState::Render(void)
 		tiletxt =StringTable::GetInstance()->GetString("-Archer-");
 		m_pBitmapfont->Print(tiletxt.c_str(),125,370,.3f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Ranged Unit");
-		m_pBitmapfont->Print(tiletxt.c_str(),260,385,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),260,370,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Special ability: Volley");
-		m_pBitmapfont->Print(tiletxt.c_str(),265,400,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),265,385,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Fires mulitple Arrows at ");
-		m_pBitmapfont->Print(tiletxt.c_str(),265,415,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),265,400,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("a target unit in range");
-		m_pBitmapfont->Print(tiletxt.c_str(),265,430,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),265,415,.25f,D3DCOLOR_XRGB(255,255,255), 200);
 		tiletxt =StringTable::GetInstance()->GetString("-CANNOT MOVE BEFORE ATTACK");
-		m_pBitmapfont->Print(tiletxt.c_str(),265,445,.24f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),265,440,.24f,D3DCOLOR_XRGB(255,255,255), 200);
 
 		tiletxt =StringTable::GetInstance()->GetString("-Swordsman-");
 		m_pBitmapfont->Print(tiletxt.c_str(),125,460,.3f,D3DCOLOR_XRGB(255,255,255));
@@ -429,9 +403,9 @@ void CHelpMenuState::Render(void)
 		tiletxt =StringTable::GetInstance()->GetString("-Castle Base-");
 		m_pBitmapfont->Print(tiletxt.c_str(),550,150,.3f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Support Unit");
-		m_pBitmapfont->Print(tiletxt.c_str(),610,180,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),610,170,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Special ability: Spawn Unit");
-		m_pBitmapfont->Print(tiletxt.c_str(),610,195,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),610,185,.25f,D3DCOLOR_XRGB(255,255,255),150);
 		tiletxt =StringTable::GetInstance()->GetString("The Base can Spawn ");
 		m_pBitmapfont->Print(tiletxt.c_str(),610,210,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("other Units");
@@ -473,15 +447,15 @@ void CHelpMenuState::Render(void)
 		string tiletxt (StringTable::GetInstance()->GetString("-Movement-"));
 		m_pBitmapfont->Print(tiletxt.c_str(),125,150,.3f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("During movement, players move");
-		m_pBitmapfont->Print(tiletxt.c_str(),200,170,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),200,170,.25f,D3DCOLOR_XRGB(255,255,255),250);
 		tiletxt =StringTable::GetInstance()->GetString("their champions and other units, ");
-		m_pBitmapfont->Print(tiletxt.c_str(),200,190,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),200,190,.25f,D3DCOLOR_XRGB(255,255,255),250);
 		tiletxt =StringTable::GetInstance()->GetString("as well as cast any champion ");
-		m_pBitmapfont->Print(tiletxt.c_str(),200,210,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),200,210,.25f,D3DCOLOR_XRGB(255,255,255),250);
 		tiletxt =StringTable::GetInstance()->GetString("spells that can be cast during ");
-		m_pBitmapfont->Print(tiletxt.c_str(),200,230,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),200,235,.25f,D3DCOLOR_XRGB(255,255,255),250);
 		tiletxt =StringTable::GetInstance()->GetString("the movement phase ");
-		m_pBitmapfont->Print(tiletxt.c_str(),200,250,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),200,260,.25f,D3DCOLOR_XRGB(255,255,255),250);
 
 		tiletxt =StringTable::GetInstance()->GetString("-Attack-");
 		m_pBitmapfont->Print(tiletxt.c_str(),125,340,.3f,D3DCOLOR_XRGB(255,255,255));
@@ -511,11 +485,11 @@ void CHelpMenuState::Render(void)
 
 		
 		tiletxt =StringTable::GetInstance()->GetString("-Losing/Winning the Game-");
-		m_pBitmapfont->Print(tiletxt.c_str(),500,340,.3f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),470,340,.3f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Player can Win or");		   
 		m_pBitmapfont->Print(tiletxt.c_str(),610,360,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("lose the game by");		   
-		m_pBitmapfont->Print(tiletxt.c_str(),610,380,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),610,377,.25f,D3DCOLOR_XRGB(255,255,255),150);
 		tiletxt =StringTable::GetInstance()->GetString("Defeating the ");	   
 		m_pBitmapfont->Print(tiletxt.c_str(),610,400,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("enemy Champion or ");			   
@@ -608,6 +582,9 @@ void CHelpMenuState::Render(void)
 		m_pBitmapfont->Print(tiletxt.c_str(),300,210,.25f,D3DCOLOR_XRGB(255,255,255));
 
 	}
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-008
+	/////////////////////////////////////////////////////////////////
 }
 
 CHelpMenuState* CHelpMenuState::GetInstance()

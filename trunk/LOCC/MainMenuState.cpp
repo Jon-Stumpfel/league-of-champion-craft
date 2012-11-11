@@ -514,6 +514,11 @@ void CMainMenuState::Render(void)
 				("Options").c_str(),346,300,0.7f,D3DXCOLOR(255,255,255,255));
 		}
 	}
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-021
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
 	if(selected == 3)
 	{
 		if(StringTable::GetInstance()->GetIsItModern())
@@ -524,7 +529,7 @@ void CMainMenuState::Render(void)
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Credits").c_str(),304,350,0.7f,D3DXCOLOR(150,150,0,255));
+				("Credits").c_str(),325,350,0.6f,D3DXCOLOR(150,150,0,255)); // Readjusted scale and position here...
 		}
 	}
 	else
@@ -537,9 +542,12 @@ void CMainMenuState::Render(void)
 		else
 		{
 			m_pBitmapFont->Print(StringTable::GetInstance()->GetString
-				("Credits").c_str(),304,350,0.7f,D3DXCOLOR(255,255,255,255));
+				("Credits").c_str(),325,350,0.6f,D3DXCOLOR(255,255,255,255)); // ...and here.
 		}
 	}
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-021
+	/////////////////////////////////////////////////////////////////
 	if(selected == 4)
 	{
 		if(StringTable::GetInstance()->GetIsItModern())
