@@ -85,10 +85,30 @@ void CTutorialTextState::Render()
 	case TTU_INTRO:
 		{
 			m_cFont.Print("WELCOME CHAMPIONS TO THE LEAGUE",180,100,.4f,D3DCOLOR_XRGB(210,210,210));
+/////////////////////////////////////////////////////////////////
+// BUG FIX
+// Reference Bug # BB-007
+// BUG FIX START
+/////////////////////////////////////////////////////////////////
 			m_cFont.Print("League of champion craft is a turn based battle arena, where the objective is to defeat the enemy champion or destroy his base.",170,120,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			m_cFont.Print("The game is broken up into two phases: Movement and Attack.",170,200,.4f,D3DCOLOR_XRGB(210,210,210),430);
+											     // fixed  ^ That
+/////////////////////////////////////////////////////////////////
+// BUG FIX END  Reference # BB-007
+/////////////////////////////////////////////////////////////////m_cFont.Print("The game is broken up into two phases: Movement and Attack.",170,200,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("During each phase, You will use action points, or AP, to make decisions on which units to move and which units to attack with. ",170,250,.4f,D3DCOLOR_XRGB(210,210,210),440);
+
+/////////////////////////////////////////////////////////////////
+// BUG FIX
+// Reference Bug # BB-010
+// BUG FIX START
+/////////////////////////////////////////////////////////////////			
 			m_cFont.Print("Each Player starts with 30 AP. Action Points are deducted for every action that he or she makes during his or her turn.",170,330,.4f,D3DCOLOR_XRGB(210,210,210),440);
+																								//fixed ^ this
+/////////////////////////////////////////////////////////////////
+// BUG FIX END  Reference # BB-010
+/////////////////////////////////////////////////////////////////
+			m_cFont.Print("The game is broken up into two phases: Movement and Attack.",170,200,.4f,D3DCOLOR_XRGB(210,210,210),430);
+			
 			m_cFont.Print("All units are in the phase together: all units will always move first, then after the movement, they will attack. ",170,410,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("All battles start with a coin toss to see who goes first...",170,500,.4f,D3DCOLOR_XRGB(210,210,210),430);	
 			break;
@@ -121,7 +141,15 @@ void CTutorialTextState::Render()
 			m_cFont.Print("ABILITIES",320,100,.4f,D3DCOLOR_XRGB(210,210,210));
 			m_cFont.Print("During the either phase, you can buy spells for him from the Champion Abilities Panel.",170,130,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("To open the Abilities Panel: select your champion and select his Special Ability.",170,190,.4f,D3DCOLOR_XRGB(210,210,210),430);
-			m_cFont.Print("Champion start out with four blank scroll slots, selecting one will open the Ability-Book You can choose from for four diverse spell trees: Elemental, Physical, Support and Epic. ",170,250,.4f,D3DCOLOR_XRGB(210,210,210),430);
+
+/////////////////////////////////////////////////////////////////
+// BUG FIX END  Reference # BB-030
+/////////////////////////////////////////////////////////////////			
+			m_cFont.Print("Champion start out with four blank scroll slots, selecting one will open the Ability-Book You can choose from four diverse spell trees: Elemental, Physical, Support and Epic. ",170,250,.4f,D3DCOLOR_XRGB(210,210,210),430);
+																													//deleted word  ^ here
+/////////////////////////////////////////////////////////////////
+// BUG FIX END  Reference # BB-030
+/////////////////////////////////////////////////////////////////			
 			m_cFont.Print("Ability have an AP cost, a cool-down, and a phase that the spell can be used in.",170,370,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			m_cFont.Print("Abilities can do damage, heal Allies, hinder enemies, and change the world around you. ",170,440,.4f,D3DCOLOR_XRGB(210,210,210),430);
 			break;
