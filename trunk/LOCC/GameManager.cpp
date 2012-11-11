@@ -980,9 +980,12 @@ void CGameManager::MessageProc(IMessage* pMsg)
 					pUnit->SetPos(pSMSG->GetPos());
 					pUnit->AddWaypoint(CTileManager::GetInstance()->GetTile(newpos.nPosX, newpos.nPosY));
 				}
-
 			}
-
+			if (CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->GetIfResourceTile()==true)
+			{
+				CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetStatus(TS_CAPTURING,true);
+				CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetPlayerID(pUnit->GetPlayerID());
+			}
 			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());
 
