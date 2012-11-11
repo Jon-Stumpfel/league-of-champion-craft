@@ -521,6 +521,16 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Beódland: Wecg - 20, Acholt - 20, Eorðwaru - 2");
 	modernenglish.push_back("Cost: Metal - 5, Wood - 15, Population - 1");
 	yeoldeanglish.push_back("Beódland: Wecg - 5, Acholt - 15, Eorðwaru - 1");
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-036
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+	modernenglish.push_back("Defeated"); // added this string...
+	yeoldeanglish.push_back("Sigeled"); // ...and this string to the string tables
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-036
+	/////////////////////////////////////////////////////////////////
 }
 StringTable::~StringTable(void)
 {

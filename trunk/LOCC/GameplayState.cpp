@@ -28,6 +28,7 @@
 #include "SpellScrollState.h"
 #include "SoundManager.h"
 #include "BitmapFont.h"
+#include "StringTable.h"
 //CGameplayState* CGameplayState::s_Instance = nullptr;
 
 CGameplayState::CGameplayState(void)
@@ -2930,18 +2931,26 @@ void CGameplayState::Render(void)
 			m_pBitmapFont->Print(woss.str().c_str(),340,546,0.33f,D3DXCOLOR(255,255,255,255));
 			///	CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 258, 486, 255, 255, 255);
 			oss.str((""));
+			/////////////////////////////////////////////////////////////////
+			// BUG FIX
+			// Reference Bug # BB-004
+			// BUG FIX START
+			/////////////////////////////////////////////////////////////////
 			if (CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID() == 0)
-				oss << "PLAYER 1 ";
+				oss << StringTable::GetInstance()->GetString("Player ") << "1 "; // Put Stringtable's GetString function here...
 			else 
-				oss << "PLAYER 2 ";
+				oss << StringTable::GetInstance()->GetString("Player ") << "2 "; // ...here...
 			m_pBitmapFont->Print(oss.str().c_str(), 49, 546, 0.33f, D3DCOLOR_XRGB(255, 255, 255));
 			oss.str("");
 			if (CGameManager::GetInstance()->GetCurrentPhase() == GP_MOVE)
 			{
-				oss << "MOVEMENT";
+				oss << StringTable::GetInstance()->GetString("Movement"); // ...here...
 			}
 			else
-				oss << "ATTACK";
+				oss << StringTable::GetInstance()->GetString("Attack"); // ...and here. This will now retrieve Anglo-Saxon English for these lines.
+			/////////////////////////////////////////////////////////////////
+			// BUG FIX END  Reference # BB-004
+			/////////////////////////////////////////////////////////////////
 			m_pBitmapFont->Print(oss.str().c_str(), 160, 546, 0.33f, D3DCOLOR_XRGB(255, 255, 255));
 			//CSGD_Direct3D::GetInstance()->DrawTextW((TCHAR*)oss.str().c_str(), 600, 0, 255, 255, 255);
 			//oss.str((""));
