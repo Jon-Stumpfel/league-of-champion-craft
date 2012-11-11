@@ -51,10 +51,14 @@ void CCreditsState::Render(void)
 	int offset = 40;
 	int xPos = 180;
 	CBitmapFont pBitmapFont;
-
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-006
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 80, -10, 1.3f, 1.2f);
 
-	if( m_nY > 75 && m_nY < 530 )
+	if( m_nY > 60 && m_nY < 550 )
 	{
 		pBitmapFont.Print(StringTable::GetInstance()->GetString
 			("Lead Producer: John O'Leske").c_str(), xPos, m_nY, 0.5f, D3DXCOLOR(255,255,255,255));
@@ -95,6 +99,10 @@ void CCreditsState::Render(void)
 		pBitmapFont.Print(StringTable::GetInstance()->GetString
 			("Art: Maher Sagrillo").c_str(), xPos, m_nY + offset * 6, 0.5f, D3DXCOLOR(255,255,255,255));
 	}
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-006
+	/////////////////////////////////////////////////////////////////
 
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrolltop")), 103, 32, 1.3f, 1.2f);
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollbottom")), 130, 545, 1.3f, 1.2f);

@@ -119,7 +119,7 @@ void CGameModeState::Render(void)
 	if( m_nSelected == 2 )
 	{
 		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("multiplayer")), 290, 275, 1.0f, 1.0f);
-		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tutorial")), 290, 275, 1.0f, 1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
+		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tutorial")), 288, 275, 1.0f, 1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	}
 
 	pBitmapFont.Print("Press cancel to return...", 150, 530, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
