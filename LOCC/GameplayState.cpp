@@ -89,6 +89,12 @@ void CGameplayState::Enter(void)
 	m_bDayTime = true;
 	m_nDayAlphaScale = 255;
 	m_nNightAlphaScale = 0;
+
+	if (CGameManager::GetInstance()->GetLoadingFromSave())
+	{
+		SnapToPosition(CGameManager::GetInstance()->GetChampion(
+			CGameManager::GetInstance()->GetCurrentPlayer()->GetPlayerID())->GetPos(), true);
+	}
 }
 
 int CGameplayState::GetCamOffsetX(void)
@@ -103,7 +109,39 @@ int CGameplayState::GetCamOffsetY(void)
 }
 void CGameplayState::Exit(void)
 {
-	CTileManager::GetInstance()->ShutDown();
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-033
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+
+	// Stopped tile manager shutting down when switching from in-game to a new map. Would try to 
+	// shutdown after being shutdown and crash
+
+	if (!CGameManager::GetInstance()->GetLoadingFromSave())
+		CTileManager::GetInstance()->ShutDown();
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-033
+	/////////////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-017
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+
+	// Cleaned up particles on gameplay state exit. I believe the crash was caused by
+	// looping particles being perpetually looping...it would delete them then in the emitter loop spawn
+	// a new one, then delete that then spawn a new one. This seems to do the job, just nuke the
+	// entire list of emitters (we are exiting the game anyway, don't need them!
+	CParticleManager::GetInstance()->Clear();
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-017
+	/////////////////////////////////////////////////////////////////
+
 	CMessageSystem::GetInstance()->ProcessMessages();
 	CAnimationManager::GetInstance()->Shutdown();
 	delete m_pBitmapFont;
@@ -1829,13 +1867,16 @@ void CGameplayState::ClearSelections(void)
 	m_pSelectedUnit = nullptr;
 	m_nSelectedAbility =0;
 	m_pHighlightedUnit = nullptr;
-	m_bIsHighlighting = false;
+	m_bIsHighlighting = false;	
 	m_bShowSpellPanel = false;
 	m_vWaypoints.clear();
 }
 void CGameplayState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
+
+	
+
 
 	LerpCamera(fElapsedTime);
 
@@ -1848,7 +1889,7 @@ void CGameplayState::Update(float fElapsedTime)
 	// I took out the code that was doing it :\
 
 	/////////////////////////////////////////////////////////////////
-	// BUG FIX END  Reference # BB-001
+	// BUG FIX END  Reference # BB-024
 	/////////////////////////////////////////////////////////////////
 
 	if (m_bDayTime)
