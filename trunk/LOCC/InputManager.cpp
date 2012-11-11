@@ -160,7 +160,8 @@ bool CInputManager::Input(void)
 	CPlayer* testPlayer = CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID);
 	if (testPlayer != nullptr)
 	{
-	if (CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID)->GetAI() == true)
+	if (CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID)->GetAI() == true &&
+		CStateStack::GetInstance()->GetTop() == CGameplayState::GetInstance())
 		return true;
 	}
 	/////////////////////////////////////////////////////////////////
