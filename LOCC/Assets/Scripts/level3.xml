@@ -3,26 +3,44 @@
   <Messages numMessages="0">
     <Message czText="" DisplayOnTurn=""/>
   </Messages>
-  <UnitSpawns numSpawns="24">
-    <UnitSpawn unitType="0" facing="1" posX="15" posY="0" playerID="1" TurnToSpawn="1"/> 
-    <UnitSpawn unitType="1" facing="1" posX="14" posY="0" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="2" facing="1" posX="22" posY="10" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="2" facing="1" posX="22" posY="9" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="2" facing="1" posX="23" posY="10" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="2" facing="1" posX="23" posY="9" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="3" facing="1" posX="6" posY="8" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="3" facing="1" posX="6" posY="10" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="3" facing="1" posX="7" posY="8" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="3" facing="1" posX="7" posY="10" playerID="1" TurnToSpawn="1"/>
-    <UnitSpawn unitType="3" facing="1" posX="7" posY="9" playerID="1" TurnToSpawn="1"/>
+  <UnitSpawns numSpawns="39">
+    <UnitSpawn unitType="0" facing="2" posX="15" posY="0" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="1" facing="2" posX="14" posY="0" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="2" posX="13" posY="1" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="2" posX="12" posY="1" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="2" facing="2" posX="17" posY="1" playerID="1" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="2" posX="16" posY="1" playerID="1" TurnToSpawn="1"/>
+   
+    <UnitSpawn unitType="2" facing="3" posX="6" posY="9" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="2" facing="3" posX="6" posY="10" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="2" facing="3" posX="7" posY="9" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="2" facing="3" posX="7" posY="10" playerID="1" TurnToSpawn="2"/>
     
-    <UnitSpawn unitType="4" facing="0" posX="15" posY="29" playerID="1" TurnToSpawn="2"/>
-    <UnitSpawn unitType="4" facing="0" posX="14" posY="29" playerID="1" TurnToSpawn="2"/>
-    <UnitSpawn unitType="4" facing="0" posX="15" posY="28" playerID="1" TurnToSpawn="2"/>
-    <UnitSpawn unitType="4" facing="0" posX="14" posY="28" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="3" facing="1" posX="22" posY="10" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="3" facing="1" posX="22" posY="9" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="3" facing="1" posX="23" posY="10" playerID="1" TurnToSpawn="2"/>
+    <UnitSpawn unitType="3" facing="1" posX="23" posY="9" playerID="1" TurnToSpawn="2"/>
+    
+    <UnitSpawn unitType="4" facing="0" posX="15" posY="29" playerID="1" TurnToSpawn="5"/>
+    <UnitSpawn unitType="4" facing="0" posX="14" posY="29" playerID="1" TurnToSpawn="5"/>
+    <UnitSpawn unitType="4" facing="0" posX="15" posY="28" playerID="1" TurnToSpawn="5"/>
+    <UnitSpawn unitType="4" facing="0" posX="14" posY="28" playerID="1" TurnToSpawn="5"/>
 
+    <UnitSpawn unitType="3" facing="0" posX="23" posY="20" playerID="1" TurnToSpawn="4"/>
+    <UnitSpawn unitType="3" facing="0" posX="23" posY="21" playerID="1" TurnToSpawn="4"/>
+    <UnitSpawn unitType="3" facing="0" posX="24" posY="20" playerID="1" TurnToSpawn="4"/>
+    <UnitSpawn unitType="3" facing="0" posX="24" posY="21" playerID="1" TurnToSpawn="4"/>
+
+    <UnitSpawn unitType="2" facing="0" posX="5" posY="20" playerID="1" TurnToSpawn="3"/>
+    <UnitSpawn unitType="2" facing="0" posX="5" posY="21" playerID="1" TurnToSpawn="3"/>
+    <UnitSpawn unitType="2" facing="0" posX="6" posY="20" playerID="1" TurnToSpawn="3"/>
+    <UnitSpawn unitType="2" facing="0" posX="6" posY="21" playerID="1" TurnToSpawn="3"/>
+                                                      
     <UnitSpawn unitType="0" facing="3" posX="15" posY="15" playerID="0" TurnToSpawn="1"/>
     <UnitSpawn unitType="1" facing="3" posX="15" posY="14" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="3" posX="14" posY="14" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="3" posX="13" posY="14" playerID="0" TurnToSpawn="1"/>
+    <UnitSpawn unitType="3" facing="3" posX="14" posY="15" playerID="0" TurnToSpawn="1"/>
     <UnitSpawn unitType="2" facing="3" posX="19" posY="15" playerID="0" TurnToSpawn="1"/>
     <UnitSpawn unitType="2" facing="3" posX="19" posY="14" playerID="0" TurnToSpawn="1"/>
     <UnitSpawn unitType="2" facing="3" posX="14" posY="19" playerID="0" TurnToSpawn="1"/>
