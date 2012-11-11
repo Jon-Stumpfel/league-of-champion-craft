@@ -70,12 +70,6 @@ void CCreditsState::Render(void)
 			("Assistant Producer: Robert Martinez").c_str(), xPos, m_nY + offset, 0.4f, D3DXCOLOR(255,255,255,255));
 	}
 
-	if( m_nY > 60 - offset * 2 && m_nY < 550 - offset * 2 )
-	{
-		pBitmapFont.Print(StringTable::GetInstance()->GetString
-			("Tile Engine: Dalton Gbur").c_str(), xPos, m_nY + offset * 2, 0.5f, D3DXCOLOR(255,255,255,255));
-	}
-
 	if( m_nY > 60 - offset * 3 && m_nY < 550 - offset * 3 )
 	{
 		pBitmapFont.Print(StringTable::GetInstance()->GetString
@@ -87,7 +81,13 @@ void CCreditsState::Render(void)
 		pBitmapFont.Print(StringTable::GetInstance()->GetString
 			("Particle Engine: Ryan Cartier").c_str(), xPos, m_nY + offset * 4, 0.5f, D3DXCOLOR(255,255,255,255));
 	}
-	
+
+	if( m_nY > 60 - offset * 2 && m_nY < 550 - offset * 2 )
+	{
+		pBitmapFont.Print(StringTable::GetInstance()->GetString
+			("Tile Engine: Dalton Gbur").c_str(), xPos, m_nY + offset * 2, 0.5f, D3DXCOLOR(255,255,255,255));
+	}
+
 	if( m_nY > 60 - offset * 5 && m_nY < 550 - offset * 5 )
 	{
 		pBitmapFont.Print(StringTable::GetInstance()->GetString
