@@ -24,6 +24,7 @@ void COptionsMenuState::Enter(void)
 	// BUG FIX
 	// Reference Bug # BB-002
 	// Reference Bug # BB-003
+	// Reference Bug # BB-005
 	// BUG FIX START
 	/////////////////////////////////////////////////////////////////
 
@@ -47,6 +48,8 @@ void COptionsMenuState::Enter(void)
 	// BUG FIX END  
 	// Reference # BB-002
 	// Reference # BB-003
+	// Reference # BB-005
+
 	/////////////////////////////////////////////////////////////////
 
 
