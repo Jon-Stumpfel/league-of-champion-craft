@@ -568,6 +568,7 @@ void CEmitter::Update( float fElapsedTime )
 				{
 					m_nNumSpawned = 1;
 					Loop();
+					break;
 				}
 			}
 
@@ -687,7 +688,4 @@ void CEmitter::Loop( void )
 
 	m_vAliveParticles.push_back( tParticle );
 
-	//int i = m_vAliveParticles.size()-1;
-
-	
 }
