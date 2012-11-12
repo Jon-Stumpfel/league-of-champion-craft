@@ -873,6 +873,24 @@ void CGameplayState::UseAbility(CAbility* ability)
 				// cast the spell!
 				if( ability->GetType() == SP_SPAWNARCHER || ability->GetType() == SP_SPAWNSWORD || ability->GetType() == SP_SPAWNCALV || ability->GetType() == SP_ICEBLOCK )
 				{
+					/////////////////////////////////////////////////////////////////
+					// BUG FIX
+					// Reference Bug # BB-058
+					// BUG FIX START
+					/////////////////////////////////////////////////////////////////
+
+					// Added a check to make sure it dosent spawn on water
+					if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition()) != nullptr )
+						return;
+
+					if( m_pTargetedTile->GetTileType() == TT_WATER )
+						return;
+
+					/////////////////////////////////////////////////////////////////
+					// BUG FIX END  Reference # BB-058
+					/////////////////////////////////////////////////////////////////
+
+
 					int nDistance = (int)(abs(double(m_pSelectedUnit->GetPos().nPosX - m_pTargetedTile->GetPosition().nPosX)) +
 						abs(double(m_pSelectedUnit->GetPos().nPosY - m_pTargetedTile->GetPosition().nPosY)));
 					if (nDistance <= ability->GetRange() && !(m_pTargetedTile->GetPosition() == m_pSelectedUnit->GetPos()))
