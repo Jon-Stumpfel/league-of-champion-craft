@@ -1026,8 +1026,19 @@ void CGameManager::MessageProc(IMessage* pMsg)
 			}
 			if (CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->GetIfResourceTile()==true)
 			{
+				if (CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->GetIfCaptured())
+				{
+					if (CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->GetPlayerID() != pUnit->GetPlayerID())
+					{
+						CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetStatus(TS_CAPTURING,true);
+				CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetPlayerID(pUnit->GetPlayerID());
+					}
+				}
+				else
+				{
 				CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetStatus(TS_CAPTURING,true);
 				CTileManager::GetInstance()->GetTile(pUnit->GetPos().nPosX, pUnit->GetPos().nPosY)->SetPlayerID(pUnit->GetPlayerID());
+				}
 			}
 			pUnit->SetFacing(pSMSG->GetFacing());
 			pUnit->SetPlayerID(pSMSG->GetPlayerID());
