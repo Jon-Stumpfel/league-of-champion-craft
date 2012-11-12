@@ -5,6 +5,8 @@
 #include "StateStack.h"
 #include "Player.h"
 #include "SocketServer.h"
+#include "PauseState.h"
+
 
 
 
@@ -149,6 +151,15 @@ bool CInputManager::Input(void)
 	if (m_bInMenu)
 		nCurrentPlayerID = 0;
 
+
+	if (pDI->KeyPressed(DIK_ESCAPE))
+	{
+		if (CStateStack::GetInstance()->GetTop() == CGameplayState::GetInstance())
+		{
+			CStateStack::GetInstance()->Push(CPauseState::GetInstance());
+			return true;
+		}
+	}
 
 	/////////////////////////////////////////////////////////////////
 	// BUG FIX
@@ -307,7 +318,7 @@ bool CInputManager::Input(void)
 	{
 	CStateStack::GetInstance()->GetTop()->Input(INPUT_PAUSE);
 	}
-	if (pDI->KeyPressed(DIK_Z) || pDI->KeyPressed(DIK_ESCAPE) ||  pDI->JoystickButtonPressed(1, nCurrentPlayerID))
+	if (pDI->KeyPressed(DIK_Z) || pDI->KeyPressed(DIK_ESCAPE) || pDI->JoystickButtonPressed(1, nCurrentPlayerID))
 	{
 		if (CGameManager::GetInstance()->GetNetworkGame())
 		{
@@ -338,6 +349,13 @@ bool CInputManager::Input(void)
 		nCurrentPlayerID = 1;
 	if (m_bInMenu)
 		nCurrentPlayerID = 0;
+
+
+	if (pDI->MouseButtonPressed(MOUSE_LEFT))
+	{
+		CStateStack::GetInstance()->GetTop()->Input(INPUT_PAUSE);
+	}
+
 
 
 	CPlayer* testPlayer = CGameManager::GetInstance()->GetPlayer(nCurrentPlayerID);
@@ -464,11 +482,7 @@ bool CInputManager::Input(void)
 
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_CANCEL);
 	}
-	if (pDI->MouseButtonPressed(MOUSE_LEFT))
-	{
-		CStateStack::GetInstance()->GetTop()->Input(INPUT_PAUSE);
 
-	}
 	if (pDI->KeyPressed(DIK_BACKSPACE) || pDI->JoystickButtonPressed(3, nCurrentPlayerID))
 	{
 		CStateStack::GetInstance()->GetTop()->Input(INPUT_START);

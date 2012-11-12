@@ -36,7 +36,19 @@ function MoveToNearestEnemy()
 end
 
 function Attack()
-	AttackNearest()
+	localX, localY = GetUnitPosition(unitID);
+	pixelX, pixelY = TranslateToPixel(localX, localY);	
+
+	nearestID = FindNearest(unitID);
+	targetX, targetY = GetUnitPosition(nearestID);
+	localX, localY = GetUnitPosition(unitID);
+	distancex = math.abs((targetX - localX));
+	distancey = math.abs((targetY - localY));
+	totdistance = distancex + distancey;
+	
+	if (totdistance == 1) then
+		AttackNearest();
+	end
 end
 
 function AttackNearest()
