@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Options>
-<<<<<<< .mine
-    <Option SoundVolume="70" MusicVolume="20" Fullscreen="1" IsModern="1" />
-=======
-    <Option SoundVolume="15" MusicVolume="20" Fullscreen="1" IsModern="1" />
->>>>>>> .r483
+    <Option SoundVolume="95" MusicVolume="9" Fullscreen="0" IsModern="1" />
 </Options>

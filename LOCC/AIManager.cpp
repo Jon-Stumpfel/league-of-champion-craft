@@ -83,6 +83,8 @@ void CAIManager::Initialize(void)
 	lua_register(AIL, "RegisterMeCapturingResource", CAIManager::RegisterMeCapturingResource);
 	lua_register(AIL, "GetWood", CPlayer::GetWood);
 	lua_register(AIL, "GetMetal", CPlayer::GetMetal);
+
+	m_fActionSpeed = 0.2f;
 }
 void CAIManager::Shutdown(void)
 {
