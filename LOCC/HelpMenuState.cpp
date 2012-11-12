@@ -512,7 +512,7 @@ void CHelpMenuState::Render(void)
 		tiletxt =StringTable::GetInstance()->GetString("Cancel/Deselect");
 		m_pBitmapfont->Print(tiletxt.c_str(),620,305,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("End Phase/Turn");
-		m_pBitmapfont->Print(tiletxt.c_str(),400,420,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),360,430,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Pause Menu");
 		m_pBitmapfont->Print(tiletxt.c_str(),200,400,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Champions Only:");
@@ -522,7 +522,7 @@ void CHelpMenuState::Render(void)
 		tiletxt =StringTable::GetInstance()->GetString("Move Cursor");
 		m_pBitmapfont->Print(tiletxt.c_str(),170,300,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Move camera ");
-		m_pBitmapfont->Print(tiletxt.c_str(),570,400,.25f,D3DCOLOR_XRGB(255,255,255));
+		m_pBitmapfont->Print(tiletxt.c_str(),520,440,.25f,D3DCOLOR_XRGB(255,255,255));
 		tiletxt =StringTable::GetInstance()->GetString("Cycle through Units ");
 		m_pBitmapfont->Print(tiletxt.c_str(),350,200,.25f,D3DCOLOR_XRGB(255,255,255));
 
