@@ -292,10 +292,42 @@ void CGameManager::SaveGame(int nSlot)
 
 	pRoot->SetAttribute("date", time.c_str());
 
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-069
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+
+
+	// Added tile resource data to save system
+	for (int i = 0; i < CTileManager::GetInstance()->GetNumRows(); ++i)
+	{
+		for (int j = 0; j < CTileManager::GetInstance()->GetNumColumns(); ++j)
+		{
+			CTile* pTile = CTileManager::GetInstance()->GetTile(i, j);
+			if (!pTile->GetIfResourceTile())
+				continue;
+
+			if (pTile->GetIfCaptured())
+			{
+				MapModification mapMod;
+				mapMod.modType = SP_FAKEMAPMOD;
+				mapMod.posX = i;
+				mapMod.posY = j;
+				mapMod.otherData = pTile->GetPlayerID();
+				m_vMapMods.push_back(mapMod);
+			}
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-069
+	/////////////////////////////////////////////////////////////////
 
 	TiXmlElement* pMapMods = new TiXmlElement("MapModifications");
 	pMapMods->SetAttribute("numModifications", m_vMapMods.size());
 	pRoot->LinkEndChild(pMapMods);
+
 
 
 	for (unsigned int i = 0; i < m_vMapMods.size(); ++i)
@@ -304,6 +336,7 @@ void CGameManager::SaveGame(int nSlot)
 		pMapMod->SetAttribute("modType", m_vMapMods[i].modType);
 		pMapMod->SetAttribute("modPosX", m_vMapMods[i].posX);
 		pMapMod->SetAttribute("modPosY", m_vMapMods[i].posY);
+		pMapMod->SetAttribute("modOtherData", m_vMapMods[i].otherData);
 		pMapMods->LinkEndChild(pMapMod);
 	}
 
@@ -579,9 +612,19 @@ void CGameManager::LoadSave(int nSlot)
 			mod.modType = (SPELL_TYPE)nType;
 			pMapModification->QueryIntAttribute("modPosX", &mod.posX);
 			pMapModification->QueryIntAttribute("modPosY", &mod.posY);
-
+			pMapModification->QueryIntAttribute("modOtherData", &mod.otherData);
 			switch (mod.modType)
 			{
+			case SP_FAKEMAPMOD:
+				{
+					CTile* selectedTile = CTileManager::GetInstance()->GetTile(mod.posX, mod.posY);
+					if (selectedTile != nullptr)
+					{
+						selectedTile->SetPlayerID(mod.otherData);
+						selectedTile->SetIfCaptured(true);
+					}
+				}
+				break;
 			case SP_RAISEMOUNTAIN:
 				{
 					CTile* selectedTile = CTileManager::GetInstance()->GetTile(mod.posX, mod.posY);

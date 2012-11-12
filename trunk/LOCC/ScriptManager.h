@@ -24,6 +24,7 @@ struct MapModification
 	int posX;
 	int posY;
 	SPELL_TYPE modType;
+	int otherData;
 };
 typedef std::pair<int, ScriptSpawnData> ScriptedSpawn;
 typedef std::pair<int, ScriptMessageData> ScriptedMessage;
