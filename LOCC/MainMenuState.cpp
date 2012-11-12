@@ -421,10 +421,10 @@ void CMainMenuState::Update(float fElapsedTime)
 {
 	CSGD_DirectInput* pDI = CSGD_DirectInput::GetInstance();
 
-	if (pDI->KeyPressed(DIK_M) && pDI->KeyDown(DIK_LCONTROL) && pDI->KeyDown(DIK_LSHIFT))
-	{
-		CStateStack::GetInstance()->Push(CMultiplayerState::GetInstance());
-	}
+	//if (pDI->KeyPressed(DIK_M) && pDI->KeyDown(DIK_LCONTROL) && pDI->KeyDown(DIK_LSHIFT))
+	//{
+	//	CStateStack::GetInstance()->Push(CMultiplayerState::GetInstance());
+	//}
 }
 
 void CMainMenuState::Render(void)

@@ -295,12 +295,10 @@ bool CGame::Input(void)
 			return false;
 		}
 	}
-	if (CSGD_DirectInput::GetInstance()->KeyPressed(DIK_F2))
-	{
-		m_bShowFramerate = !m_bShowFramerate;
-	}
-
-	// Working intercepting INputManager imeplenetation so that input is done here until then
+	//if (CSGD_DirectInput::GetInstance()->KeyPressed(DIK_F2))
+	//{
+	//	m_bShowFramerate = !m_bShowFramerate;
+	//}
 
 
 	return CInputManager::GetInstance()->Input();
