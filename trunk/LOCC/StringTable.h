@@ -2,7 +2,7 @@
 class StringTable
 {
 public:
-	std::string GetString(std::string tempstring);
+	std::string GetString(std::string tempstring, bool ability = false);
 	static StringTable* GetInstance();
 	void SetLanguage(bool IsItModernEnglish);
 	static void DeleteInstance(void);

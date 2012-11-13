@@ -966,7 +966,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_TELE);
 					ab->SetParticleType(PT_RAISEDEAD);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SAC;
@@ -981,7 +981,7 @@ void CAbilityManager::LoadAbilities( void )
 				ab->SetType(SP_TELE);
 				ab->SetParticleType(PT_BLOOD);
 				ab->m_szInterfaceIcon = name;
-				ab->SetDescription(StringTable::GetInstance()->GetString("The Champion moves a unit from one place to another."));
+				ab->SetDescription(StringTable::GetInstance()->GetString("The Champion sacrifices a unit to gain an extra turn."));
 				ab->SetDamage(0);
 				std::pair<SPELL_TYPE, CAbility*> tmp;
 				tmp.first = SP_TELE;
@@ -1011,7 +1011,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_VAMP);
 					ab->SetParticleType(PT_MIND);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion turns his allies into vampires for a turn, letting them heal half thier basic attack damage back when they attack."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("All ally units get half their damage back in health."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_VAMP;
@@ -1108,6 +1108,7 @@ void CAbilityManager::LoadAbilities( void )
 	pAbility->SetType(SP_CHAMPSPELL);
 	pAbility->SetDamage(0);
 	pAbility->m_nRange = 0;
+	pAbility->SetDescription("");
 	pAbility->m_strName = StringTable::GetInstance()->GetString("Spells");
 	pAbility->m_nCooldown = 0;
 	zz = CGraphicsManager::GetInstance()->GetID(_T("champspellicon"));
