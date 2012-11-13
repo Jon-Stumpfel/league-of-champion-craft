@@ -52,13 +52,21 @@ void CMovetPhaseTransState::Render(void)
 		
 		if (Playernum==0)
 		{
-		oss<<"Player "<< Playernum+1<<StringTable::GetInstance()->GetString("Movement Phase").c_str();
-		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(0,0,255));
+/////////////////////////////////////////////////////////////////
+// BUG FIX
+// Reference Bug # BB-043
+// BUG FIX START
+/////////////////////////////////////////////////////////////////
+		oss<<"Player "<< Playernum+1<<StringTable::GetInstance()->GetString(" Movement Phase").c_str();
+		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(0,0,255),400);
 		}
 		if (Playernum==1)
 		{
-		oss<<"Player "<< Playernum+1<<StringTable::GetInstance()->GetString("Movement Phase").c_str();
-		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(255,0,0));
+		oss<<"Player "<< Playernum+1<<StringTable::GetInstance()->GetString(" Movement Phase").c_str();
+		bmf.Print(oss.str().c_str(),200,450,.5f, D3DCOLOR_XRGB(255,0,0),400);
+/////////////////////////////////////////////////////////////////
+// BUG FIX END  Reference # BB-043
+/////////////////////////////////////////////////////////////////
 		}
 	}
 }
