@@ -4,6 +4,7 @@ StringTable* StringTable::s_Instance = nullptr;
 StringTable::StringTable(void)
 {
 	IsItModern = true;
+	//start menu
 	modernenglish.push_back("Start");
 	yeoldeanglish.push_back("Steort");
 	modernenglish.push_back("Load");
@@ -16,6 +17,7 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Ar");
 	modernenglish.push_back("Exit");
 	yeoldeanglish.push_back("Utfaer");
+	//crdits screen
 	modernenglish.push_back("Credits:");
 	yeoldeanglish.push_back("Apwyrdes:");
 	modernenglish.push_back("Art: Maher Sagrillo");
@@ -237,6 +239,8 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Gelesniss/Llaest");
 	modernenglish.push_back("Exit to Menu");
 	yeoldeanglish.push_back("Utfaer to Menue");
+	
+	//How to text
 	modernenglish.push_back("Tile Information");
 	yeoldeanglish.push_back("Sceard Ascung");
 	modernenglish.push_back("Tile Type");
@@ -398,7 +402,7 @@ StringTable::StringTable(void)
 	modernenglish.push_back("blocks most movement");
 	yeoldeanglish.push_back("mearrs swipost faer");
 	modernenglish.push_back("-Skeleton-");
-	yeoldeanglish.push_back("-Skeletone-");
+	yeoldeanglish.push_back("-Grima-");
 	modernenglish.push_back("Dead Melee Unit");
 	yeoldeanglish.push_back("Cwild Melee Herenic");
 	modernenglish.push_back("Poor reainmated  ");
@@ -509,9 +513,25 @@ StringTable::StringTable(void)
 	modernenglish.push_back("Cost: Metal - 20, Wood - 0, Population - 1");
 	yeoldeanglish.push_back("Beódland: Wecg - 20, Acholt - 0, Eorðwaru - 1");
 	modernenglish.push_back("Cost: Metal - 20, Wood - 20, Population - 2");
-	yeoldeanglish.push_back("Beódland: Wecg - 20, Acholt - 20, Eorðwaru - 2");
+	yeoldeanglish.push_back("Beódland: Wecg - 20, Acholt - 20, Eorowaru - 2");
 	modernenglish.push_back("Cost: Metal - 5, Wood - 15, Population - 1");
-	yeoldeanglish.push_back("Beódland: Wecg - 5, Acholt - 15, Eorðwaru - 1");
+	yeoldeanglish.push_back("Beodland: Wecg - 5, Acholt - 15, Eorowaru - 1");
+	
+	//game mode
+	modernenglish.push_back("Tutorial");
+	yeoldeanglish.push_back("Fosteraeder");
+
+	modernenglish.push_back("Multi Player");
+	yeoldeanglish.push_back("Monegum  Onspillend");
+
+	modernenglish.push_back("Single Player");
+	yeoldeanglish.push_back("Anfeald Onspillend");
+
+	//movement phase
+	//
+	modernenglish.push_back("Movement Phase");
+	yeoldeanglish.push_back("Onstyrenes Tacnungs");
+	// 
 	/////////////////////////////////////////////////////////////////
 	// BUG FIX
 	// Reference Bug # BB-036
