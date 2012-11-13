@@ -1390,12 +1390,20 @@ void CGameplayState::UseAbility(CAbility* ability)
 		}
 		else if (ability->m_nNumTargets == 0) // AOE spell
 		{
+			
+			if( CGameManager::GetInstance()->GetCurrentPlayer()->GetAP() < ability->m_nAPCost )
+				return;
+
 			if( m_bIsFacing == false && ability->GetIfFacing() == true )
 			{
 			CSoundManager::GetInstance()->Play(CSoundManager::GetInstance()->GetID(_T("click")), false, false);
 				m_bIsFacing = true;
 				return;
 			}
+
+		/*	bool already = false;
+			if( CGameManager::GetInstance()->FindUnit(m_pTargetedTile->GetPosition())->GetEffect(SP_STAND) )
+				already = true;*/
 
 			CAbilityManager* pAM = CAbilityManager::GetInstance();
 			pAM->UseAbility(ability, CTileManager::GetInstance()->GetTile(m_pSelectedUnit->GetPos().nPosX, 
@@ -2443,7 +2451,10 @@ void CGameplayState::Render(void)
 				m_pBitmapFont->Print(tt.str().c_str(),  376, m_nTooltipOffsetY + 12, 0.25f, D3DCOLOR_XRGB(255,255,255));
 				tt.str("");
 
-				m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 120);
+				if( pA->GetType() != SP_VAMP )
+					m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.2f, D3DCOLOR_XRGB(255,255,255), 110);
+				else
+					m_pBitmapFont->Print(pA->GetDescription().c_str(), 438, m_nTooltipOffsetY + 12, 0.17f, D3DCOLOR_XRGB(255,255,255), 110);
 			}
 		}
 	}

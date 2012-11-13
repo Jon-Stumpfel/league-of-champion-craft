@@ -190,8 +190,13 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Dy Cempan blotans ever herenic to earnian evern extrea cierr.");
 	modernenglish.push_back("The Champion raises all dead around him.");
 	yeoldeanglish.push_back("Dy Cempan hebbans eall cwild tyrning him.");
-	modernenglish.push_back("The Champion turns his allies into vampires for a turn, letting them heal half thier basic attack damage back when they attack.");
-	yeoldeanglish.push_back("Dy Cempan cierrs his gefylceaps in vamypres for ever cierr, letting agom haelans healf hira felcsop forsecan aewerdla baec ponne agon felscop.");
+
+	modernenglish.push_back("");
+	yeoldeanglish.push_back("");
+	
+	modernenglish.push_back("All ally units get half their damage back in health.");
+	yeoldeanglish.push_back("Eall gefylceap rim socn ceren hiera angilde hrycg beinnan eftbot.");
+
 	modernenglish.push_back("The Champion sends a wall of ice down from the sky, damaging enemies they hit.");
 	yeoldeanglish.push_back("Dy Cempan sendans ever waeg aetforan is forscutan fram dy lyft, aewerdlaing feonds agon abeat.");
 	modernenglish.push_back("Melee Attack");
@@ -563,18 +568,33 @@ void StringTable::SetLanguage(bool IsItModernEnglish)
 		IsItModern = false;
 	}
 }
-std::string StringTable::GetString(std::string tempstring)
+std::string StringTable::GetString(std::string tempstring, bool ability)
 {
-	for(std::vector<int>::size_type i = 0; i != modernenglish.size(); i++)
+	if(IsItModern)
 	{
-		if(modernenglish[i] == tempstring)
+		for(std::vector<int>::size_type i = 0; i != yeoldeanglish.size(); i++)
 		{
-			if(IsItModern)
+			if(yeoldeanglish[i] == tempstring)
+			{
 				return modernenglish[i];
-			else
+			}
+			else if( modernenglish[i] == tempstring )
+				return modernenglish[i];
+		}
+	}
+	else
+	{
+		for(std::vector<int>::size_type i = 0; i != modernenglish.size(); i++)
+		{
+			if(modernenglish[i] == tempstring)
+			{
+				return yeoldeanglish[i];
+			}
+			else if( yeoldeanglish[i] == tempstring )
 				return yeoldeanglish[i];
 		}
 	}
+
 	return "String not found!";
 }
 void StringTable::DeleteInstance(void)
