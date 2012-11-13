@@ -6,6 +6,7 @@
 #include "BitmapFont.h"
 #include "LevelSelectState.h"
 #include "SoundManager.h"
+#include "StringTable.h"
 
 CGameModeState::CGameModeState(void)
 {
@@ -107,10 +108,10 @@ void CGameModeState::Render(void)
 {
 	CBitmapFont pBitmapFont;
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 80, -10, 1.3f, 1.2f);
-
-	pBitmapFont.Print("Multi Player", 180, 150, 0.6f, m_nSelected == 0 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
-	pBitmapFont.Print("Single Player", 440, 150, 0.6f, m_nSelected == 1 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
-	pBitmapFont.Print("Tutorial", 330, 100, 0.6f, m_nSelected == 2 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
+	//m_pBitmapfont->Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 550, 560, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);/
+	pBitmapFont.Print(StringTable::GetInstance()->GetString("Multi Player").c_str(), 180, 150, 0.6f, m_nSelected == 0 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255),200);
+	pBitmapFont.Print(StringTable::GetInstance()->GetString("Single Player").c_str(), 440, 150, 0.6f, m_nSelected == 1 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255),220);
+	pBitmapFont.Print(StringTable::GetInstance()->GetString("Tutorial").c_str(), 330, 100, 0.6f, m_nSelected == 2 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	if( m_nSelected == 0 )
 		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("multiplayer")), 290, 275, 1.0f, 1.0f);
@@ -122,5 +123,5 @@ void CGameModeState::Render(void)
 		CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("tutorial")), 288, 275, 1.0f, 1.0f,0,0,0,0,D3DXCOLOR(255,255,255,255));
 	}
 
-	pBitmapFont.Print("Press cancel to return...", 150, 530, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
+	pBitmapFont.Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 150, 530, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);
 }
