@@ -936,7 +936,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_DEATH);
 					ab->SetParticleType(PT_DEATH);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move. Champion units take 10 damage."));
+					ab->SetDescription(StringTable::GetInstance()->GetString("Applies a debuff, Champion's take 10 damage while all other units die."));
 					ab->SetDamage(0);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_DEATH;
@@ -962,6 +962,11 @@ void CAbilityManager::LoadAbilities( void )
 
 			case SP_TELE:
 				{
+					/////////////////////////////////////////////////////////////////
+					// BUG FIX
+					// Reference Bug # BB-059
+					// BUG FIX START
+					/////////////////////////////////////////////////////////////////
 					ab->SetIsMove(false);
 					ab->SetType(SP_TELE);
 					ab->SetParticleType(PT_RAISEDEAD);
@@ -972,6 +977,9 @@ void CAbilityManager::LoadAbilities( void )
 					tmp.first = SP_SAC;
 					tmp.second = ab;
 					m_vAbilities.push_back(tmp);
+					/////////////////////////////////////////////////////////////////
+					// BUG FIX END  Reference # BB-059
+					/////////////////////////////////////////////////////////////////
 				}
 				break;
 

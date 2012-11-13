@@ -568,7 +568,7 @@ void CEmitter::Update( float fElapsedTime )
 				{
 					m_nNumSpawned = 1;
 					Loop();
-					break;
+					//break;
 				}
 			}
 

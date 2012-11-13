@@ -156,6 +156,10 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Dy Cempan neotans ever ellenorf liget dynt to stunne dy feond for dy niehsta cierr.");
 	modernenglish.push_back("The Champion uses a powerful explosive arrow.");
 	yeoldeanglish.push_back("Dy Cempan neotans ever ellenrof beorcive arwan.");
+
+	modernenglish.push_back("The Champion uses the dead to bolster his army, only works on tombstone tiles.");
+	yeoldeanglish.push_back("Dy Cempan neotans se blod be bolster cerdic here ealdor geneat on tombstone scirdenWeak.");
+
 	modernenglish.push_back("The Champion freezes all the tiles in front of him.");
 	yeoldeanglish.push_back("Dy Cempan frieses eall dy sceards foran of him.");
 	modernenglish.push_back("The Champion strikes a target with a heavy blow.");
@@ -182,8 +186,10 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Dy Cempan dons great aewerdla to evern feond neah him.");
 	modernenglish.push_back("The Champion shields his allies, decreasing their damage taken by 70% for 2 turns.");
 	yeoldeanglish.push_back("Dy Cempan scylds his gefylceaps, wanunging hira aewerdla niman purh 70% for 2 cierrs.");
-	modernenglish.push_back("The Champion uses his secret technique to stop a target in its tracks and kills all units if they move. Champion units take 10 damage.");
-	yeoldeanglish.push_back("Dy Cempan neotans his run technique to gestillan ever targete in hits lasts and deapcwielmende eall herenics gif agon lacan. Cempan herenics nima 10 aewerdla.");
+
+	modernenglish.push_back("Applies a debuff, Champion's take 10 damage while all other units die.");
+	yeoldeanglish.push_back("Druncen sum debuff bealdor gemot 10 angilde hwi a obres rim feorh.");
+
 	modernenglish.push_back("The Champion steals the mind of one of his enemies. Doesn't work on Champion units.");
 	yeoldeanglish.push_back("Dy Cempan stelans dy hyge aetforan mon aetforan his feonds. Donsn't weorc on Cempan herenics.");
 	modernenglish.push_back("The Champion moves a unit from one place to another.");
@@ -516,7 +522,27 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Beódland: Wecg - 20, Acholt - 20, Eorowaru - 2");
 	modernenglish.push_back("Cost: Metal - 5, Wood - 15, Population - 1");
 	yeoldeanglish.push_back("Beodland: Wecg - 5, Acholt - 15, Eorowaru - 1");
-	
+
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX
+	// Reference Bug # BB-056
+	// BUG FIX START
+	/////////////////////////////////////////////////////////////////
+	modernenglish.push_back("Elemental");
+	yeoldeanglish.push_back("Andefn ");
+
+	modernenglish.push_back("Physical");
+	yeoldeanglish.push_back("Nearunes ");
+
+	modernenglish.push_back("Support");
+	yeoldeanglish.push_back("Andwist");
+
+	modernenglish.push_back("Epic");
+	yeoldeanglish.push_back("Epic");
+	/////////////////////////////////////////////////////////////////
+	// BUG FIX END  Reference # BB-056
+	/////////////////////////////////////////////////////////////////
+
 	//game mode
 	modernenglish.push_back("Tutorial");
 	yeoldeanglish.push_back("Fosteraeder");
