@@ -529,8 +529,8 @@ StringTable::StringTable(void)
 
 	//movement phase
 	//
-	modernenglish.push_back("Movement Phase");
-	yeoldeanglish.push_back("Onstyrenes Tacnungs");
+	modernenglish.push_back(" Movement Phase");
+	yeoldeanglish.push_back(" Onstyrenes Tacnungs");
 	// 
 	/////////////////////////////////////////////////////////////////
 	// BUG FIX

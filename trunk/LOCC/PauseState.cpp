@@ -134,7 +134,15 @@ void CPauseState::Update(float fElapsedTime)
 }
 void CPauseState::Render(void)
 {
-	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 290, 100, 0.55f, .5f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 255, 255));
+/////////////////////////////////////////////////////////////////
+// BUG FIX
+// Reference Bug # BB-042
+// BUG FIX START
+/////////////////////////////////////////////////////////////////
+	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 290, 100, 0.65f, .5f, (RECT*)0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB(255, 255, 255, 255));
+/////////////////////////////////////////////////////////////////
+// BUG FIX END  Reference # BB-042
+/////////////////////////////////////////////////////////////////
 	CSGD_Direct3D::GetInstance()->GetSprite()->Flush();
 	// lol rainbow text just for the time being
 	std::ostringstream woss;

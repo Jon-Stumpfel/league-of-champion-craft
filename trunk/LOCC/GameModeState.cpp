@@ -108,7 +108,8 @@ void CGameModeState::Render(void)
 {
 	CBitmapFont pBitmapFont;
 	CSGD_TextureManager::GetInstance()->Draw(CGraphicsManager::GetInstance()->GetID(_T("scrollvert")), 80, -10, 1.3f, 1.2f);
-	//m_pBitmapfont->Print(StringTable::GetInstance()->GetString("Press cancel to return...").c_str(), 550, 560, 0.28f, D3DCOLOR_XRGB(255, 255, 255), 250);/
+
+	//Added words to sting table
 	pBitmapFont.Print(StringTable::GetInstance()->GetString("Multi Player").c_str(), 180, 150, 0.6f, m_nSelected == 0 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255),200);
 	pBitmapFont.Print(StringTable::GetInstance()->GetString("Single Player").c_str(), 440, 150, 0.6f, m_nSelected == 1 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255),220);
 	pBitmapFont.Print(StringTable::GetInstance()->GetString("Tutorial").c_str(), 330, 100, 0.6f, m_nSelected == 2 ? D3DCOLOR_ARGB(255,  204, 153, 51) : D3DCOLOR_ARGB(255, 255, 255, 255));
