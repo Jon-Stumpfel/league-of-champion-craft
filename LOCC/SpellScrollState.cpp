@@ -511,12 +511,25 @@ void CSpellScrollState::Render(void)
 			/////////////////////////////////////////////////////////////////
 			tt.str("");
 			tt << selected->GetDescription();
-			pBF->Print(tt.str().c_str(), 427 - 50 - 65, 493, .25f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
+			pBF->Print(tt.str().c_str(), 427 - 50 - 65, 493, .20f, D3DCOLOR_ARGB(255, 255, 255, 255), 170);
 			/////////////////////////////////////////////////////////////////
 			// BUG FIX END  Reference # BB-023
 			/////////////////////////////////////////////////////////////////
 
-			int x = 680 - 65, y = 525;
+			/////////////////////////////////////////////////////////////////
+			// BUG FIX
+			// Reference Bug # BB-037
+			// BUG FIX START
+			/////////////////////////////////////////////////////////////////
+			int x,y;
+			if( selected->GetType() != SP_RUSH )
+				x = 680 - 65, y = 525;
+			else
+				x = 680 - 65, y = 500;
+			/////////////////////////////////////////////////////////////////
+			// BUG FIX END  Reference # BB-037
+			/////////////////////////////////////////////////////////////////
+
 			std::vector< Vec2D > pat = selected->GetPattern();
 			std::vector< Vec2D > drawn;
 
@@ -545,16 +558,16 @@ void CSpellScrollState::Render(void)
 			oss << "Ye Olde Table of Contents";
 			pBF->Print(oss.str().c_str(), 440 - 40, 50 + 25, .6f, D3DCOLOR_ARGB(255, 255, 255, 255), 240);	
 			oss.str("");
-			oss << "Elemental";
+			oss << StringTable::GetInstance()->GetString("Elemental");
 			pBF->Print(oss.str().c_str(), 450 - 40, 200 - 60 + 25, .7f, m_nSelected == 0 ? D3DCOLOR_ARGB(255, 255, 0, 255) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 			oss.str("");
-			oss << "Physical";
+			oss << StringTable::GetInstance()->GetString("Physical");
 			pBF->Print(oss.str().c_str(), 450 - 40, 275 - 60 + 25, .7f, m_nSelected == 1 ? D3DCOLOR_ARGB(255, 255, 0, 0) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 			oss.str("");
-			oss << "Support";
+			oss << StringTable::GetInstance()->GetString("Support");
 			pBF->Print(oss.str().c_str(), 450 - 40, 350 - 60 + 25, .7f, m_nSelected == 2 ? D3DCOLOR_ARGB(255, 0, 255, 0) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 			oss.str("");
-			oss << "Epic";
+			oss << StringTable::GetInstance()->GetString("Epic");
 			pBF->Print(oss.str().c_str(), 450 - 40, 425 - 60 + 25, .7f, m_nSelected == 3 ? D3DCOLOR_ARGB(255, 204, 153, 51) :  D3DCOLOR_ARGB(255, 255, 255, 255));
 		}
 		else
