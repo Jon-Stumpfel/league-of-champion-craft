@@ -170,7 +170,7 @@ StringTable::StringTable(void)
 	yeoldeanglish.push_back("Dy Cempan neotans his boga to forsecan ever targete feorran.");
 	modernenglish.push_back("The Champion pushes lightning through all conductive targets.");
 	yeoldeanglish.push_back("Dy Cempan scufanes liget pugh eall conductaive targetes.");
-	modernenglish.push_back("A spinning attack so fast that the Champion's sheer velocity throws back units.");
+	modernenglish.push_back("A spinning attack so fast that the Champion's sheer velocity damages all foes around them");
 	yeoldeanglish.push_back("Ever aspinne forsecan swa faestan se dy Cempan's sheere velocity weorpans baec cempestrans.");
 	modernenglish.push_back("The Champion uses his bow to hit all targets in a line, doing 2 less damage for each target hit.");
 	yeoldeanglish.push_back("Dy Cempan neotans his boga to abeat eall targetes in ever sceaftriht, doning 2 laessa aewerdla for aelc targete abeat.");

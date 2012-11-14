@@ -1133,10 +1133,43 @@ int CUnit::Whirlwind(lua_State* L)
 	//LUA Lovin' : get the guy effect
 	int ntheguy = lua_tointeger(L, 1);
 	CUnit* guyontile = CGameManager::GetInstance()->GetUnitByID(ntheguy);
+	Vec2D selectpos= CGameplayState::GetInstance()->GetSelectedUnit()->GetPos();
+	if (guyontile!=nullptr)
+	if(guyontile->GetType()!=UT_CASTLE)
+	{
+		
+		Vec2D nextopen= Vec2D(0,0);
+		int difX = selectpos.nPosX-guyontile->GetPos().nPosX;
+		int difY = selectpos.nPosY-guyontile->GetPos().nPosY;
 
-	Vec2D nextopen = CAIManager::GetInstance()->NearestOpen(CGameplayState::GetInstance()->GetSelectedUnit()->GetPos(),guyontile->GetPos());
-	guyontile->AddWaypoint(CTileManager::GetInstance()->GetTile(nextopen.nPosX,nextopen.nPosY));
+		if(difX<0) //it's negtive and west so push them west
+			nextopen.nPosX=selectpos.nPosX-difX;
+		if(difX>0) //it's positive and east so push them east
+			nextopen.nPosX=selectpos.nPosX+difX;
+		if(difY>0) //it's Negitve and north so push them north
+			nextopen.nPosX=selectpos.nPosX-difY;
+		if(difY<0) //it's positive and south so push them south
+			nextopen.nPosX=selectpos.nPosX+difY;
 
+		CTile* pTile=CTileManager::GetInstance()->GetTile(nextopen.nPosX,nextopen.nPosY);
+		
+		if (pTile==nullptr)
+			return 0;
+
+		while (pTile->GetIfOccupied()==true || pTile->GetIfImpassable()==true)
+		{
+				nextopen = Vec2D(guyontile->GetPos().nPosX+difX,guyontile->GetPos().nPosY+difY);
+				pTile=CTileManager::GetInstance()->GetTile(nextopen.nPosX,nextopen.nPosY);
+				if (pTile==nullptr)
+					break;
+				if (pTile->GetIfOccupied()==false)
+				{
+					guyontile->AddWaypoint(pTile);
+					break;
+				}
+		}
+	
+	}
 	return 0;
 }
 

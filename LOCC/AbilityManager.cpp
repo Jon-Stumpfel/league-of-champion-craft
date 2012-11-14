@@ -729,7 +729,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_EXPLODE);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses a powerful explosive arrow."));
-					ab->SetDamage(8);
+					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_EXPSHOT;
 					tmp.second = ab;
@@ -789,7 +789,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_OBLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to attack a target from afar."));
-					ab->SetDamage(10);
+					ab->SetDamage(8);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SKILLSHOT;
 					tmp.second = ab;
@@ -817,8 +817,8 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetType(SP_WHIRLWIND);
 					ab->SetParticleType(PT_WHIRLWIND);
 					ab->m_szInterfaceIcon = name;
-					ab->SetDescription(StringTable::GetInstance()->GetString("A spinning attack so fast that the Champion's sheer velocity throws back units."));
-					ab->SetDamage(9);
+					ab->SetDescription(StringTable::GetInstance()->GetString("A spinning attack so fast that the Champion's sheer velocity damages all foes around them"));
+					ab->SetDamage(8);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_WHIRLWIND;
 					tmp.second = ab;
@@ -832,7 +832,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion uses his bow to hit all targets in a line, doing 2 less damage for each target hit."));
-					ab->SetDamage(9);
+					ab->SetDamage(12);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_PSHOT;
 					tmp.second = ab;
@@ -847,7 +847,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion swings his sword, hitting all targets in front of him."));
-					ab->SetDamage(9);
+					ab->SetDamage(8);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_CLEAVE;
 					tmp.second = ab;
@@ -861,7 +861,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion spins, hitting all targets in front of him."));
-					ab->SetDamage(9);
+					ab->SetDamage(6);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_BLADESTORM;
 					tmp.second = ab;
@@ -876,7 +876,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion stabs all units around him."));
-					ab->SetDamage(9);
+					ab->SetDamage(10);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_SWORDDANCE;
 					tmp.second = ab;
@@ -892,7 +892,7 @@ void CAbilityManager::LoadAbilities( void )
 					ab->SetParticleType(PT_BLOOD);
 					ab->m_szInterfaceIcon = name;
 					ab->SetDescription(StringTable::GetInstance()->GetString("The Champion rushes forward in a direction, dealing 2 extra damage for every unit hit."));
-					ab->SetDamage(9);
+					ab->SetDamage(8);
 					std::pair<SPELL_TYPE, CAbility*> tmp;
 					tmp.first = SP_RUSH;
 					tmp.second = ab;
