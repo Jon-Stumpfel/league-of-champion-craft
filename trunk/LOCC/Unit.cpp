@@ -454,7 +454,7 @@ void CUnit::Update(float fElapsedTime)
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);
 		}
-		else if(currFrame == lastFrame && m_sAnimStruct->unitType == UT_CASTLE)
+		else if(m_sAnimStruct->unitType == UT_CASTLE)
 		{
 			CDespawnUnitMessage* pMsg = new CDespawnUnitMessage(this);
 			CMessageSystem::GetInstance()->SendMessageW(pMsg);

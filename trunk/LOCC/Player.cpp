@@ -10,7 +10,7 @@ CPlayer::CPlayer(int nPlayerID)
 	SetWood(20);
 	SetPopCap(0);
 	SetMaxPopCap(12);
-	SetExp(3000);
+	SetExp(500);
 
 	m_nMillsOwned = 0;
 	m_nMinesOwned = 0;
